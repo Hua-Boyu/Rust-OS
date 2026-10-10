@@ -8,7 +8,7 @@ struct GdtTable {
 
 #[allow(dead_code)]
 #[repr(u8)]
-enum AccessByte {
+pub enum AccessByte {
     Accessed = 1,
     ReadWrite = 2,
     Direction = 4,
@@ -21,11 +21,11 @@ enum AccessByte {
     Privilege3 = 96,
 }
 
-struct GdtSegment {
-    access_byte: u8,
-    flag: u8, // higher nibble is used
-    base: u32,
-    limit: u32,
+pub struct GdtSegment {
+    pub access_byte: u8,
+    pub flag: u8, // higher nibble is used
+    pub base: u32,
+    pub limit: u32,
 }
 
 // allow dead code because there's a lot of variants that we explicitly do not
@@ -36,7 +36,7 @@ struct GdtSegment {
 // and the set_long_mode method.
 #[allow(dead_code)]
 impl GdtSegment {
-    fn new(base: u32, limit: u32) -> Self {
+    pub fn new(base: u32, limit: u32) -> Self {
         Self {
             access_byte: 0,
             flag: 0,
@@ -61,8 +61,10 @@ impl GdtSegment {
         desc
     }
 
-    fn with_access_byte(mut self, item: AccessByte) -> Self {
-        self.access_byte ^= item as u8;
+    pub fn with_access_byte(mut self, item: AccessByte) -> Self {
+        // OR, not XOR: XOR would toggle off a bit that is already set
+        // (e.g. ReadWrite=2 vs Accessed=1 collide when combined).
+        self.access_byte |= item as u8;
         self
     }
 
@@ -121,7 +123,7 @@ impl GdtSegment {
     }
 }
 
-fn create_gdt_entries() -> [u64; 3] {
+pub fn create_gdt_entries() -> [u64; 3] {
     let code = GdtSegment::new(0, 0xffff_ffff)
         .with_access_byte(AccessByte::Present)
         .with_access_byte(AccessByte::NotSystemDescriptor)
@@ -148,10 +150,12 @@ fn create_gdt_entries() -> [u64; 3] {
 pub fn init_gdt() {
     let entries = create_gdt_entries().to_vec().leak();
     let ptr = entries.as_ptr();
-    let size = entries.len() * core::mem::size_of::<GdtSegment>();
+    // each GDT descriptor is 8 bytes on the wire, not size_of::<GdtSegment>()
+    let size = entries.len() * 8;
 
     let gdt: GdtTable = GdtTable {
-        limit: size as u16,
+        // lgdt expects limit = size - 1
+        limit: (size - 1) as u16,
         base: ptr as u32,
     };
 
@@ -164,6 +168,7 @@ pub fn init_gdt() {
     }
 
     // reload segments
+    #[cfg(not(test))]
     unsafe {
         asm!(r#"
             jmp $0x08, $1f

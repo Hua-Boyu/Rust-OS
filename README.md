@@ -3,7 +3,9 @@
 ## todo:  
 - [x] gdt loading  
 - [x] interrupts  
-- [?] keyboard input?  
+- [x] keyboard input (verified live: scancode received via IDT from ISO boot path)  
+- [x] deterministic QEMU boot test (scripts/boot_test.py, 10/10 verified)  
+- [x] Proxmox-ready ISO (dist/rosti.iso, GRUB multiboot, boot-verified in QEMU) — see PROXMOX.md  
 - [ ] USE TYPES PROPERLY AND MAKE THINGS ACTUALLY WORK!!! <<<<  
 - [ ] debug/test harness  
 - [ ] paging  

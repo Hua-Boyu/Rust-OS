@@ -1,0 +1,65 @@
+{
+  "timestamp_utc": "2026-10-10T15:44:10Z",
+  "vmid": 103,
+  "iso_local": "C:\\Users\\iamsv\\Documents\\rosti\\dist\\rosti.iso",
+  "iso_local_sha256": "bbfa45f92211cef0a8aa587cc69adf3ba35342b05582db46e35e62d0d0afa8d5",
+  "rollback_iso": "C:\\Users\\iamsv\\Documents\\rosti\\dist\\rosti_rollback.iso",
+  "gates": [
+    {
+      "gate": "build kernel",
+      "status": "PASS",
+      "detail": "note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`"
+    },
+    {
+      "gate": "host tests",
+      "status": "PASS",
+      "detail": "27 passed"
+    },
+    {
+      "gate": "qemu boot verification",
+      "status": "PASS",
+      "detail": "1/1 passed. Results: C:\\Users\\iamsv\\Documents\\rosti\\test_results\\boot_results.csv"
+    },
+    {
+      "gate": "keyboard integration",
+      "status": "PASS",
+      "detail": "PASS: keyboard integration (all stages)"
+    },
+    {
+      "gate": "build grub iso",
+      "status": "PASS",
+      "detail": "ISO boot test: PASS"
+    },
+    {
+      "gate": "local iso sha256",
+      "status": "PASS",
+      "detail": "bbfa45f92211cef0a8aa587cc69adf3ba35342b05582db46e35e62d0d0afa8d5"
+    },
+    {
+      "gate": "upload versioned iso",
+      "status": "PASS",
+      "detail": "rosti_20261010T154256Z.iso"
+    },
+    {
+      "gate": "remote sha256 verified",
+      "status": "PASS",
+      "detail": "bbfa45f92211cef0a8aa587cc69adf3ba35342b05582db46e35e62d0d0afa8d5"
+    },
+    {
+      "gate": "attach iso to VM 103",
+      "status": "PASS",
+      "detail": "local:iso/rosti_20261010T154256Z.iso,media=cdrom,size=8420K"
+    },
+    {
+      "gate": "boot VM 103",
+      "status": "PASS",
+      "detail": "running"
+    },
+    {
+      "gate": "guest boot + shell interaction",
+      "status": "PASS",
+      "detail": "markers + shell commands verified over serial"
+    }
+  ],
+  "overall": "PASS"
+}

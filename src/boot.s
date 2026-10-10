@@ -6,7 +6,10 @@
 .set MB_CHECKSUM, -(MB_MAGIC + MB_FLAGS)
 
 // Multiboot header
-.section .multiboot
+// "aw" flags make the section SHF_ALLOC so lld places it at the start of the
+// image (within the first 8192 bytes the bootloader scans) and inside the
+// PT_LOAD segment.
+.section .multiboot, "aw"
 .align 4
 .long MB_MAGIC
 .long MB_FLAGS

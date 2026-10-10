@@ -133,6 +133,10 @@ pub fn init_writer() {
     guard.clear();
 }
 
+pub fn clear_console() {
+    WRITER.lock().clear();
+}
+
 #[doc(hidden)]
 pub fn print_(args: core::fmt::Arguments) {
     use core::fmt::Write;

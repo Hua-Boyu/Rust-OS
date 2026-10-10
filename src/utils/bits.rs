@@ -10,7 +10,14 @@ macro_rules! impl_bit_manipulation {
         impl CanManipulateBits for $t {
             #[inline]
             fn create_mask(shift_left: Self, len: Self) -> Self {
-                ((1 << len) - 1) << shift_left
+                // (1 << len) overflows when len == bit width; handle the
+                // full-width case explicitly.
+                let mask = if len == (core::mem::size_of::<Self>() * 8) as Self {
+                    !0 as Self
+                } else {
+                    (1 << len) - 1
+                };
+                mask << shift_left
             }
 
             #[inline]

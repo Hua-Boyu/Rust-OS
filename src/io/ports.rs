@@ -30,7 +30,7 @@ impl PortAllocator {
 }
 
 pub struct Port {
-    addr: u16,
+    pub addr: u16,
     parent_allocator: *mut PortAllocator,
 }
 
@@ -57,14 +57,34 @@ impl Drop for Port {
 }
 
 pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
-    let mut ret;
-    unsafe {
-        asm!("in %dx, %al", in("dx") port_in, out("al") ret, options(att_syntax));
+    #[cfg(test)]
+    return 0; // host tests cannot execute privileged `in` instructions
+    #[allow(unreachable_code)]
+    {
+        let mut ret;
+        unsafe {
+            asm!("in %dx, %al", in("dx") port_in, out("al") ret, options(att_syntax));
+        }
+        ret
     }
-    ret
+}
+
+/// Short I/O delay (~1 microsecond) via an unused ISA port. Needed after PIC
+/// commands and the reboot command, where the hardware requires a delay
+/// between writes.
+pub unsafe fn io_wait() {
+    #[cfg(test)]
+    return;
+    #[allow(unreachable_code)]
+    unsafe {
+        asm!("out %al, %dx", in("dx") 0x80u16, in("al") 0u8, options(att_syntax, nomem));
+    }
 }
 
 pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    #[cfg(test)]
+    return; // host tests cannot execute privileged `out` instructions
+    #[allow(unreachable_code)]
     unsafe {
         asm!("out %al, %dx", in("dx") port_out, in("al") val, options(att_syntax));
     }

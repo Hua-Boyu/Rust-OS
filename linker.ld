@@ -1,63 +1,55 @@
-
-/* From OSDev Bare Bones tutorial.
+/* From OSDev Bare Bones tutorial, adapted for ld.lld.
    The bootloader will look at this image and start execution at the symbol
    designated as the entry point. */
 ENTRY(_start)
+
+/* QEMU's multiboot loader requires program headers (or a PVH note).
+   rust-lld emits none by default for the `none` target, so declare one
+   PT_LOAD segment covering the whole kernel image. */
+OUTPUT_FORMAT(elf32-i386)
+
+/* One PT_LOAD segment covering the whole kernel image. rust-lld emits no
+   program headers for the `none` target without an explicit PHDRS block, and
+   QEMU's multiboot ELF loader requires them. */
+PHDRS
+{
+    kernel PT_LOAD FLAGS(7);
+}
+
+MEMORY
+{
+    kernel (RWX) : ORIGIN = 0x200000, LENGTH = 4M
+}
 
 /* Tell where the various sections of the object files will be put in the final
    kernel image. */
 SECTIONS
 {
-	/* It used to be universally recommended to use 1M as a start offset,
-	   as it was effectively guaranteed to be available under BIOS systems.
-	   However, UEFI has made things more complicated, and experimental data
-	   strongly suggests that 2M is a safer place to load. In 2016, a new
-	   feature was introduced to the multiboot2 spec to inform bootloaders
-	   that a kernel can be loaded anywhere within a range of addresses and
-	   will be able to relocate itself to run from such a loader-selected
-	   address, in order to give the loader freedom in selecting a span of
-	   memory which is verified to be available by the firmware, in order to
-	   work around this issue. This does not use that feature, so 2M was
-	   chosen as a safer option than the traditional 1M. */
-	. = 2M;
+    /* 2M load address (safer than the traditional 1M under UEFI-era firmware).
+       This kernel does not use the multiboot2 relocation feature, so the load
+       address is fixed. */
 
-	KERNEL_START = .;
+    . = 0x200000;
+    KERNEL_START = .;
 
-	/* First put the multiboot header, as it is required to be put very early
-	   in the image or the bootloader won't recognize the file format.
-	   Next we'll put the .text section. */
-	.text BLOCK(4K) : ALIGN(4K)
-	{
-		*(.multiboot)
-		*(.text)
-	}
+    /* The multiboot header must be its own explicit output section with KEEP:
+       it contains no symbols, so --gc-sections would otherwise discard it, and
+       it must land within the first 8192 bytes of the file the bootloader scans. */
+    .multiboot ALIGN(4K) : { KEEP(*(.multiboot)) } >kernel
 
-	/* Read-only data. */
-	.rodata BLOCK(4K) : ALIGN(4K)
-	{
-		*(.rodata)
-	}
+    .text ALIGN(4K) : { *(.text*) } >kernel
 
-	/* Read-write data (initialized) */
-	.data BLOCK(4K) : ALIGN(4K)
-	{
-		*(.data)
-	}
+    /* Read-only data. */
+    .rodata ALIGN(4K) : { *(.rodata*) } >kernel
 
-	/* Read-write data (uninitialized) and stack */
-	.bss BLOCK(4K) : ALIGN(4K)
-	{
-		*(COMMON)
-		*(.bss)
-	}
+    /* Read-write data (initialized) */
+    .data ALIGN(4K) : { *(.data*) } >kernel
 
-	/* avoid collision with .bss */
-	.phony : {
+    /* Read-write data (uninitialized) and stack */
+    .bss ALIGN(4K) : { *(COMMON) *(.bss*) } >kernel
 
-	}
+    KERNEL_END = .;
 
-	KERNEL_END = .;
-
-	/* The compiler may produce other sections, by default it will put them in
-	   a segment with the same name. Simply add stuff here as needed. */
+    /* The compiler may produce other sections, by default it will put them in
+       a segment with the same name. Simply add stuff here as needed. */
 }

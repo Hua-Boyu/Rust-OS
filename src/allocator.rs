@@ -1,24 +1,36 @@
-use crate::{multiboot::BootInfo, println, utils::mutex::SpinMutex};
+use crate::{
+    multiboot::{BootInfo, find_usable_block},
+    println,
+    utils::mutex::SpinMutex,
+};
 use core::alloc::{GlobalAlloc, Layout};
 use core::ptr::null_mut;
 
 unsafe extern "C" {
+    #[cfg(not(test))]
     static KERNEL_START: u32;
+    #[cfg(not(test))]
     static KERNEL_END: u32;
 }
+
+// Host tests can't link against linker.ld symbols, so provide dummies.
+#[cfg(test)]
+static KERNEL_START: u32 = 0;
+#[cfg(test)]
+static KERNEL_END: u32 = 0;
 
 /// Align a given address upward to the `align` boundary
 ///
 /// `align` must be a power of 2.
-fn align_up(addr: usize, align: usize) -> usize {
+pub fn align_up(addr: usize, align: usize) -> usize {
     (addr + align - 1) & !(align - 1)
 }
 
 pub struct BumpAlloc {
-    start: usize,
-    end: usize,
-    next: usize,
-    allocs: usize,
+    pub start: usize,
+    pub end: usize,
+    pub next: usize,
+    pub allocs: usize,
 }
 
 impl BumpAlloc {
@@ -37,11 +49,14 @@ impl BumpAlloc {
         let kend;
 
         unsafe {
-            block = (*info)
-                .get_mmap_entries()
-                .iter()
-                .find(|b| b.type_ == 1 && b.base_addr != 0x0)
-                .expect("Usable memory required");
+            // Use the allocation-free parser: we are inside the global
+            // allocator's own init, so allocating a Vec here would deadlock
+            // the SpinMutex<BumpAlloc>.
+            let bytes = core::slice::from_raw_parts(
+                (*info).mmap_addr as *const u8,
+                (*info).mmap_length as usize,
+            );
+            block = find_usable_block(bytes).expect("Usable memory required");
 
             kstart = &KERNEL_START as *const u32;
             kend = &KERNEL_END as *const u32;

@@ -1,0 +1,10 @@
+[package]
+name = "tests_kernel"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+
+[lib]
+test = true
+doctest = false

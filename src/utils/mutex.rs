@@ -32,7 +32,7 @@ impl<T> SpinMutex<T> {
         self.lock.load(Ordering::Relaxed)
     }
 
-    pub fn lock(&self) -> SpinMutexGuard<T> {
+    pub fn lock(&self) -> SpinMutexGuard<'_, T> {
         while self
             .lock
             .compare_exchange(false, true, Ordering::Acquire, Ordering::Relaxed)
