@@ -138,4 +138,4 @@ Dependency-aware roadmap:
 
 ## L. Git checkpoint
 
-See the commit recorded in `NEXT_SESSION_PROMPT.md` §2 (hash `TBD_FILL` — replaced at commit time with the actual hash; tag `v0.1.0`).
+Branch `main`, commit `1f560d904dd785350f7712097dc1bf51119be1c0` — `feat(rosti): establish v0.1.0 interactive kernel baseline`. Annotated local tag: `v0.1.0`.

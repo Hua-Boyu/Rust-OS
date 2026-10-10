@@ -11,7 +11,7 @@ You are continuing development of Rosti OS. This prompt is standalone — no pri
 ## 2. Last committed checkpoint
 
 - Branch: `main`
-- Commit: `TBD_HASH` — `feat(rosti): establish v0.1.0 interactive kernel baseline`
+- Commit: `1f560d904dd785350f7712097dc1bf51119be1c0` — `feat(rosti): establish v0.1.0 interactive kernel baseline`
 - Tag: `v0.1.0` (annotated, local)
 
 ## 3. Verified functionality (do not re-litigate; re-run tests to confirm regressions)
