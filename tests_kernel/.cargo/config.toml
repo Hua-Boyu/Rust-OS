@@ -1,0 +1,8 @@
+# Override the workspace-root .cargo/config.toml: host tests must build on the
+# host target with the toolchain's own core, not the custom bare-metal target
+# spec (which causes duplicate lang-item errors).
+[build]
+target = "x86_64-pc-windows-msvc"
+
+[unstable]
+build-std = []
