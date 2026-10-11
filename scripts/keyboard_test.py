@@ -18,9 +18,10 @@ import sys
 import time
 from pathlib import Path
 
+PROJECT = Path(__file__).resolve().parent.parent
 QEMU = r"C:\Program Files\qemu\qemu-system-i386.exe"
-KERNEL = r"C:\Users\iamsv\Documents\rosti\target\target\debug\kernel"
-RUN = Path(r"C:\Users\iamsv\Documents\rosti\test_results\keyboard")
+KERNEL = str(PROJECT / "target" / "target" / "debug" / "kernel")
+RUN = PROJECT / "test_results" / "keyboard"
 RUN.mkdir(parents=True, exist_ok=True)
 STAMP = time.strftime("%Y%m%d_%H%M%S")
 OUT = RUN / f"serial_{STAMP}.txt"

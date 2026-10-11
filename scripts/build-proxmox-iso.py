@@ -18,10 +18,12 @@ import subprocess
 import sys
 from pathlib import Path
 
-PROJECT = Path(r"C:\Users\iamsv\Documents\rosti")
+PROJECT = Path(__file__).resolve().parent.parent
+# grub-mkrescue runs in WSL; the project is reachable there via /mnt/<drive>.
+WSL_PROJECT = (Path("/mnt") / PROJECT.drive[0].lower() / str(PROJECT).split(":", 1)[1].lstrip("\\/")).as_posix()
 KERNEL = PROJECT / "target" / "target" / "debug" / "kernel"
 DIST = PROJECT / "dist"
-STAGE = Path("/mnt/c/Users/iamsv/Documents/rosti/dist/stage")
+STAGE = f"{WSL_PROJECT}/dist/stage"
 ISO = DIST / "rosti.iso"
 QEMU = r"C:\Program Files\qemu\qemu-system-i386.exe"
 MARKER_ENTER = "ROSTI: entered kernel_main"
@@ -70,8 +72,8 @@ def build_iso() -> bool:
 
     r = subprocess.run(
         ["wsl", "bash", "-c",
-         "grub-mkrescue -o /mnt/c/Users/iamsv/Documents/rosti/dist/rosti.iso "
-         "/mnt/c/Users/iamsv/Documents/rosti/dist/stage 2>&1"],
+         f"grub-mkrescue -o {WSL_PROJECT}/dist/rosti.iso "
+         f"{WSL_PROJECT}/dist/stage 2>&1"],
         capture_output=True, text=True, timeout=180)
     print(r.stdout.strip())
     if r.returncode != 0 or not ISO.exists():

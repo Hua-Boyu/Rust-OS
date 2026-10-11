@@ -35,7 +35,9 @@ from pathlib import Path
 
 import requests
 
-PROJECT = Path(r"C:\Users\iamsv\Documents\rosti")
+PROJECT = Path(__file__).resolve().parent.parent
+# grub-mkrescue/scp run in WSL; the project is reachable there via /mnt/<drive>.
+WSL_PROJECT = (Path("/mnt") / PROJECT.drive[0].lower() / str(PROJECT).split(":", 1)[1].lstrip("\\/")).as_posix()
 DIST = PROJECT / "dist"
 REPORT_DIR = PROJECT / "test_results" / "proxmox"
 QEMU_MARKERS = ["ROSTI: entered kernel_main", "ROSTI: boot complete"]
@@ -141,7 +143,7 @@ def main():
         r = subprocess.run(
             ["wsl", "bash", "-c",
              f"sshpass -p '{ROOT_PW}' scp -o StrictHostKeyChecking=accept-new "
-             f"/mnt/c/Users/iamsv/Documents/rosti/dist/rosti.iso "
+             f"{WSL_PROJECT}/dist/rosti.iso "
              f"root@192.168.50.205:/var/lib/vz/template/iso/{remote_name}"],
             capture_output=True, text=True, timeout=180)
         if r.returncode != 0:

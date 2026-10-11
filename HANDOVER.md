@@ -8,7 +8,7 @@ Rosti is a hobby/learning bare-metal operating system kernel written in Rust, ta
 
 - Language: Rust (nightly), `no_std`/`no_main` for kernel code, custom JSON target.
 - Target platform: i686 bare metal, SeaBIOS + GRUB (Multiboot v1). UEFI/OVMF unsupported.
-- Repo: `C:\Users\iamsv\Documents\rosti`, branch `main`.
+- Repo: `C:\Users\iamsv\Documents\Rust-OS` (canonical since 2026-10-11 migration; formerly `C:\Users\iamsv\Documents\rosti`, preserved as rollback source), branch `main`.
 
 ## B. Development environment
 
@@ -16,7 +16,7 @@ Rosti is a hobby/learning bare-metal operating system kernel written in Rust, ta
 - Rust nightly toolchain pinned in `rust-toolchain.toml`; host tests use `cargo +nightly`.
 - Custom target `target.json` (i686-unknown-linux-gnu-style bare-metal ELF, PIC disabled, single PT_LOAD); `.cargo/config.toml` forces `build-std` for core/alloc.
 - QEMU: `C:\Program Files\qemu\qemu-system-i386.exe`, invoked headless (`-display none -no-reboot -serial file:... -D ...`).
-- WSL dependency: `grub-mkrescue` lives in WSL; ISO staging tree is shared via `/mnt/c/Users/iamsv/Documents/rosti/dist/stage`.
+- WSL dependency: `grub-mkrescue` lives in WSL; ISO staging tree is shared via the project's `dist/stage` (reachable from WSL as `/mnt/c/Users/iamsv/Documents/Rust-OS/dist/stage`).
 - Host tests must run from OUTSIDE the project directory (the kernel's `.cargo/config.toml` breaks the host test harness — see `scripts/run_tests.sh`).
 
 ## C. Repository architecture

@@ -4,9 +4,10 @@ Boots the kernel headless, sends candidate keys, prints raw monitor responses.""
 import re, socket, subprocess, sys, time
 from pathlib import Path
 
+PROJECT = Path(__file__).resolve().parent.parent
 QEMU = r"C:\Program Files\qemu\qemu-system-i386.exe"
-KERNEL = r"C:\Users\iamsv\Documents\rosti\target\target\debug\kernel"
-OUT = Path(r"C:\Users\iamsv\Documents\rosti\test_results\keyboard\probe_serial.txt")
+KERNEL = str(PROJECT / "target" / "target" / "debug" / "kernel")
+OUT = PROJECT / "test_results" / "keyboard" / "probe_serial.txt"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
 srv = socket.socket(); srv.bind(("127.0.0.1", 0)); PORT = srv.getsockname()[1]; srv.close()

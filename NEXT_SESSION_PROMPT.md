@@ -4,7 +4,8 @@ You are continuing development of Rosti OS. This prompt is standalone — no pri
 
 ## 1. Project identity
 
-- Repo: `C:\Users\iamsv\Documents\rosti` (Windows 11 host, git-bash shell).
+- Repo: `C:\Users\iamsv\Documents\Rust-OS` (canonical project root; Windows 11 host, git-bash shell).
+- Uncommitted Phase-4 WIP is preserved in the working tree: `src/memory/` (frame allocator + paging), modified `src/interrupt.rs`, `src/main.rs`, `src/shell.rs`, `tests_kernel/src/lib.rs`. It currently FAILS host compilation (`io::serial` not exposed to the host-test harness) — fix that first; the committed v0.1.0 baseline is fully green.
 - Rosti is a bare-metal i686 Rust kernel (nightly, custom JSON target, `no_std`, only core/alloc), booted via GRUB Multiboot v1 under SeaBIOS, with VGA + COM1 serial consoles, PS/2 keyboard, PIT timer, and a minimal shell.
 - Read `HANDOVER.md` first — it is the authoritative handover (architecture, boot sequence, test commands, Proxmox state, limitations, safety boundaries).
 

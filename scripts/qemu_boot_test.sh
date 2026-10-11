@@ -12,8 +12,10 @@
 # - nonzero exit code on any failure
 set -u
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT="$(dirname "$SCRIPT_DIR")"
 QEMU="/c/Program Files/qemu/qemu-system-i386.exe"
-KERNEL="C:/Users/iamsv/Documents/rosti/target/target/debug/kernel"
+KERNEL="$PROJECT/target/target/debug/kernel"
 OUT="$LOCALAPPDATA/Temp/rosti_serial.txt"
 LOG="$LOCALAPPDATA/Temp/rosti_qemu_log.txt"
 rm -f "$OUT"

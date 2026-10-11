@@ -7,5 +7,7 @@
 # harness with duplicate lang-item errors (E0152). Running from $HOME avoids
 # picking up that config.
 set -u
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -W)"
+PROJECT="$(dirname "$SCRIPT_DIR")"
 cd "$HOME"
-cargo +nightly test --manifest-path "C:/Users/iamsv/Documents/rosti/tests_kernel/Cargo.toml"
+cargo +nightly test --manifest-path "$PROJECT/tests_kernel/Cargo.toml"

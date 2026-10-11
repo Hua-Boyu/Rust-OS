@@ -31,8 +31,9 @@ import sys
 import time
 from pathlib import Path
 
+PROJECT = Path(__file__).resolve().parent.parent
 QEMU = r"C:\Program Files\qemu\qemu-system-i386.exe"
-DEFAULT_KERNEL = r"C:\Users\iamsv\Documents\rosti\target\target\debug\kernel"
+DEFAULT_KERNEL = str(PROJECT / "target" / "target" / "debug" / "kernel")
 MARKER_ENTER = "ROSTI: entered kernel_main"
 MARKER_DONE = "ROSTI: boot complete"
 FAULT_PATTERNS = [
@@ -41,7 +42,7 @@ FAULT_PATTERNS = [
     ("shutdown on triple", "triple fault"),
 ]
 
-RESULTS_DIR = Path(r"C:\Users\iamsv\Documents\rosti\test_results")
+RESULTS_DIR = PROJECT / "test_results"
 
 
 def run_once(kernel: Path, run_id: str, timeout: int) -> dict:
