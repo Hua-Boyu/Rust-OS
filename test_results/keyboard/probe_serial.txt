@@ -1,0 +1,13 @@
+ROSTI: entered kernel_main
+ROSTI: boot complete
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>AHa- 
+rosti>

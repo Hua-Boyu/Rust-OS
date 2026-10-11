@@ -1,0 +1,18 @@
+# Build cache
+**/target
+
+# Authentication artifacts / credentials (never commit)
+.pve_auth
+$AUTH
+.env
+.env.*
+
+# Generated release artifacts (large binaries; checksums documented instead)
+dist/
+
+# Raw QEMU debug logs (large; sanitized evidence reports are kept)
+test_results/**/qemu_log.txt
+
+# Machine-specific caches
+*.cache
+.DS_Store

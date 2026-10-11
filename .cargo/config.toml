@@ -1,0 +1,10 @@
+[build]
+target = "target.json"
+
+[unstable]
+json-target-spec = true
+build-std = ["core", "compiler_builtins", "alloc"]
+build-std-features = ["compiler-builtins-mem"]
+
+[target.'cfg(target_os = "none")']
+runner = "qemu-system-x86_64 -no-reboot -no-shutdown -d mmu,unimp,int,guest_errors -kernel"

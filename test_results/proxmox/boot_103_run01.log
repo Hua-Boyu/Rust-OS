@@ -1,0 +1,7 @@
+Proxmox VM 103 (rosti-dev) serial console capture — 2026-10-10
+Method: unix socket /var/run/qemu-server/103.serial0 on pve; VM reset via qm reset 103.
+Markers observed:
+  ROSTI: entered kernel_main
+  keyboard input / kb scancode: 97   (PS/2 interrupt received)
+  ROSTI: boot complete
+No triple fault, no reboot loop, no unexpected shutdown.
