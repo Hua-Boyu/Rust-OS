@@ -41,6 +41,23 @@ qm start 900
 
 ## Verified status
 
+### Backspace build ready; deployment pending (2026-10-12)
+
+`dist/rosti.iso` contains the visual Backspace fix, the pending frame/paging
+work, and the memory-statistics boot-deadlock fix. The ISO boots and passes
+13 actual VGA/serial editing checks in QEMU at the VM's 512 MiB setting.
+VM 103 remains attached to its older ISO; this build has NOT been deployed
+or live-verified on Proxmox. SSH to `root@192.168.50.205` is denied and
+`PVE_TOKEN_ID`, `PVE_TOKEN_SECRET`, `PVE_ROOT_PASSWORD` are unset. Supply an
+authenticated SSH path before upload/attach/reset; do not place secrets here.
+
+Local ISO SHA256:
+`7ce870322780fa639319b8734582310566553c1faeafc91388e3ae6e685589d8`.
+
+The initial paging implementation currently falls back to paging disabled
+at 512 MiB because its managed window is capped at 256 MiB. Shell editing
+still passes; this is not a claim of complete memory-subsystem validation.
+
 - ISO is bootable under QEMU SeaBIOS+GRUB (verified 2026-10-09 via
   `scripts/build-proxmox-iso.py` boot test: both markers captured from the ISO
   path, plus a live interrupt reaching the IDT).

@@ -144,7 +144,7 @@ counts = {
     "commands: help": 1,
     "Rosti kernel v0.1.0": 1,
     "echo rosti-test": 1,     # typed line echoed once
-    "echo okx": 1,            # typed line echoed once (backspace edits buffer only)
+    "echo okx\x08 \x08": 1,  # typed line plus terminal erase sequence
     "echo H": 1,              # typed line echoed once
     "\nH\n": 1,               # shift echo dispatch output
     "\nok\n": 1,              # backspace-corrected dispatch output

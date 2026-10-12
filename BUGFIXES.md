@@ -58,12 +58,30 @@ Confirmed defects, evidence, and fixes (this session unless noted).
   0x8E, present bit. Coverage: `idt_entry_encoding`,
   `idt_invalid_entry_is_zero`.
 
-## Still open / not yet implemented
+## Shell Backspace and memory-init boot hang (2026-10-12)
 
-- Exception handlers with CPU-pushed error codes: only slot 13 is registered;
-  error-code exceptions (8, 10–14, 16) need dedicated ISRs.
+- Backspace previously decremented `LINE_LEN` without erasing the VGA echo.
+  It now blanks the previous cell and rewinds the writer, including across
+  wrapped input. Serial output emits `BS SPACE BS`. Empty input cannot erase
+  the prompt, and whitespace-only commands now reset the input length.
+- Memory initialization attempted three `FRAME_ALLOC.lock()` calls inside
+  one `println!`; temporary guards survived to the end of the call, causing
+  a non-reentrant deadlock. Statistics are copied under one scoped guard.
+- Regression observed failing on the original display behavior, then passing
+  after the fix: `scripts/backspace_test.py` reads actual VGA cells via QMP.
+  Final ELF and ISO runs passed 13 checks each at 512 MiB. Host tests: 38/38;
+  independent boot stability: 10/10. Evidence is under `test_results/backspace/`.
+
+## Remaining limitations
+
+- Exception handlers with CPU-pushed error codes need further work. Slots
+  13 and 14 have dedicated registrations; vector-14 delivery is not verified.
 - PS/2 command/data handling is a minimal enable stub (no timeout handling on
   command writes, no ACK byte checking).
 - Spinlocks are not interrupt-safe (no reentrancy guard); acceptable while
   ISRs avoid mutex-backed writers, but should be hardened.
-- Paging, RTC, allocator beyond bump — not implemented.
+- RTC and a general-purpose allocator beyond bump are not implemented.
+- Initial frame allocator and identity paging are present but incomplete:
+  the managed window is capped at 256 MiB, and the 512 MiB VM-sized test
+  boots with paging disabled after required-region validation fails.
+  Dedicated page-fault delivery has not been live-tested.

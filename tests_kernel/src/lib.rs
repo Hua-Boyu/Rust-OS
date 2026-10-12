@@ -26,6 +26,9 @@ pub mod io {
 #[path = "../../src/multiboot.rs"]
 pub mod multiboot;
 
+#[path = "../../src/memory/mod.rs"]
+pub mod memory;
+
 #[path = "../../src/allocator.rs"]
 pub mod allocator;
 
@@ -422,4 +425,189 @@ fn cpuid_vendor_string_order() {
         u32::from_le_bytes(*b"cAMD"),
     );
     assert_eq!(amd, "AuthenticAMD");
+}
+
+// ---- Physical frame allocator tests ----
+
+fn mmap_entry(base: u64, length: u64, type_: u32) -> multiboot::MmapEntry {
+    multiboot::MmapEntry {
+        size: 20,
+        base_addr: base,
+        length,
+        type_,
+    }
+}
+
+#[test]
+fn frame_of_alignment() {
+    assert_eq!(memory::frame::FrameAllocator::frame_of(0), Some(0));
+    assert_eq!(memory::frame::FrameAllocator::frame_of(4095), Some(0));
+    assert_eq!(memory::frame::FrameAllocator::frame_of(4096), Some(1));
+    assert_eq!(memory::frame::FrameAllocator::frame_of(4097), Some(1));
+    assert_eq!(memory::frame::FrameAllocator::frame_of(0xB8000), Some(184));
+    // above the managed window
+    assert_eq!(memory::frame::FrameAllocator::frame_of(256 * 1024 * 1024), None);
+}
+
+#[test]
+fn frame_allocator_reserves_vga_bootinfo_and_bump() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    // Usable range 0x10000..0x14000 (4 frames), plus a range covering VGA.
+    let entries = [
+        mmap_entry(0x10000, 0x4000, 1),
+        mmap_entry(0xB8000, 0x4000, 1), // frames 46..47: VGA overlaps frame 46
+    ];
+    // bootinfo at 0x11000 (frame 17), bump segment 0x12000..0x13000 (frame 18).
+    fa.init(&entries, 0x11000, 0x12000, 0x13000);
+    assert!(fa.is_initialized());
+    // frames 16..19 (range 1) + 184..187 (range 2) = 8
+    assert_eq!(fa.stats().total_frames, 8);
+    // reserved: frame 17 (bootinfo), 18 (bump), 184..187 (all overlap VGA) = 6
+    assert_eq!(fa.stats().reserved_frames, 6);
+    assert_eq!(fa.stats().free_frames, 2);
+    // reserved frames must never be handed out
+    assert!(!fa.is_free(0x11000));
+    assert!(!fa.is_free(0x12000));
+    assert!(!fa.is_free(0xB8000));
+    // free frames are allocatable, in ascending frame order
+    assert_eq!(fa.allocate(), Some(0x10000)); // frame 16
+    assert_eq!(fa.allocate(), Some(0x13000)); // frame 19
+    assert_eq!(fa.allocate(), None); // exhausted, no wraparound
+}
+
+#[test]
+fn frame_allocator_overlapping_ranges_dedup() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    let entries = [
+        mmap_entry(0x10000, 0x4000, 1),
+        mmap_entry(0x11000, 0x4000, 1), // overlaps frames 17..19
+    ];
+    fa.init(&entries, 0x200000, 0x300000, 0x31000);
+    // union = frames 16..20 = 5, not 8
+    assert_eq!(fa.stats().total_frames, 5);
+    assert_eq!(fa.stats().free_frames, 5);
+}
+
+#[test]
+fn frame_allocator_non_usable_never_free() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    let entries = [
+        mmap_entry(0x10000, 0x2000, 1), // frames 16,17 usable
+        mmap_entry(0x12000, 0x2000, 2), // ACPI reclaim: reserved
+    ];
+    fa.init(&entries, 0x200000, 0x300000, 0x31000);
+    assert_eq!(fa.stats().total_frames, 2);
+    // type-2 frames (18,19) are outside usable coverage but counted reserved
+    assert_eq!(fa.stats().reserved_frames, 2);
+    assert_eq!(fa.stats().free_frames, 2);
+    assert!(!fa.is_free(0x12000));
+    assert_eq!(fa.allocate(), Some(0x10000));
+    assert_eq!(fa.allocate(), Some(0x11000));
+    assert_eq!(fa.allocate(), None);
+}
+
+#[test]
+fn frame_allocator_alloc_free_cycle_and_rejects() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    let entries = [mmap_entry(0x10000, 0x2000, 1)];
+    fa.init(&entries, 0x200000, 0x300000, 0x31000);
+
+    let f = fa.allocate().unwrap();
+    assert_eq!(f, 0x10000);
+    assert_eq!(fa.stats().allocated_frames, 1);
+
+    // double free rejected
+    assert!(fa.free(f));
+    assert_eq!(fa.stats().allocated_frames, 0);
+    assert!(!fa.free(f));
+    assert_eq!(fa.stats().double_frees, 1);
+
+    // freeing a reserved frame rejected
+    assert!(!fa.free(0x12000)); // never covered by any usable range
+    assert_eq!(fa.stats().invalid_frees, 1);
+
+    // reallocation returns the lowest free frame
+    assert_eq!(fa.allocate(), Some(0x10000));
+    assert!(fa.free(0x10000));
+
+    // repeated cycles keep stats consistent
+    for _ in 0..10 {
+        let a = fa.allocate().unwrap();
+        assert!(fa.free(a));
+    }
+    assert_eq!(fa.stats().free_frames, 2);
+    assert_eq!(fa.stats().allocated_frames, 0);
+}
+
+#[test]
+fn frame_allocator_exhaustion() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    let entries = [mmap_entry(0x10000, 0x2000, 1)];
+    fa.init(&entries, 0x200000, 0x300000, 0x31000);
+    assert_eq!(fa.allocate(), Some(0x10000));
+    assert_eq!(fa.allocate(), Some(0x11000));
+    assert_eq!(fa.allocate(), None);
+    assert_eq!(fa.stats().free_frames, 0);
+    // freeing restores capacity
+    assert!(fa.free(0x10000));
+    assert_eq!(fa.allocate(), Some(0x10000));
+}
+
+// ---- Paging tests ----
+
+#[test]
+fn paging_entry_encoding() {
+    let e = memory::paging::entry_value(0x200000);
+    assert_eq!(e, 0x200000 | 0x3); // present + writable
+    assert_eq!(memory::paging::page_dir_index(0x200000), 0);
+    assert_eq!(memory::paging::page_dir_index(4 << 22), 4);
+    assert_eq!(memory::paging::page_table_index(0x201000), 513); // 0x201 & 0x3FF
+}
+
+#[test]
+fn paging_error_code_decode() {
+    let f = memory::paging::decode_error_code(0b101);
+    assert!(f.present && !f.write && f.user);
+    let f = memory::paging::decode_error_code(0b010);
+    assert!(!f.present && f.write && !f.user);
+    let f = memory::paging::decode_error_code(0);
+    assert!(!f.present && !f.write && !f.user);
+}
+
+#[test]
+fn paging_identity_map_build_and_validate() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    // window 0xC0000 covers VGA; bootinfo inside the window
+    let entries = [mmap_entry(0x10000, 0xB0000, 1)];
+    fa.init(&entries, 0x10000, 0x11000, 0x12000);
+    let pm = memory::paging::build_identity_map(&mut fa, 0xC0000).expect("build");
+    // directory + 1 page table allocated from managed frames
+    assert_eq!(pm.stats().page_tables, 1);
+    assert_eq!(pm.stats().mapped_frames, 0xC0000 / 4096);
+    // required regions (test dummy kernel at 0, VGA, bootinfo) all mapped
+    let missing = memory::paging::validate_mapping(&pm, &memory::required_regions(&entries, 0x10000));
+    assert!(missing.is_empty());
+    assert!(pm.is_mapped(0xB8000));
+    assert!(pm.is_mapped(0x10000));
+    assert!(!pm.is_mapped(0xC0000)); // outside window
+}
+
+#[test]
+fn paging_validate_reports_missing_region() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    let entries = [mmap_entry(0x10000, 0x2000, 1)];
+    fa.init(&entries, 0x200000, 0x300000, 0x31000);
+    let pm = memory::paging::build_identity_map(&mut fa, 0x12000).expect("build");
+    let missing = memory::paging::validate_mapping(&pm, &memory::required_regions(&entries, 0x200000));
+    assert!(missing.contains(&"VGA framebuffer"));
+    assert!(!missing.contains(&"usable mmap range"));
+}
+
+#[test]
+fn paging_build_fails_on_exhaustion() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    // only one frame free: enough for the directory, not for a page table
+    let entries = [mmap_entry(0x10000, 0x1000, 1)];
+    fa.init(&entries, 0x200000, 0x300000, 0x31000);
+    assert!(memory::paging::build_identity_map(&mut fa, 0xC0000).is_none());
 }

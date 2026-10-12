@@ -87,6 +87,23 @@ impl InterruptTable {
         self.inner[entry_id] = entry;
     }
 
+    /// Entry for an ISR with a different stack-frame shape (e.g. the page
+    /// fault handler, which receives the CPU-pushed error code). The gate
+    /// encoding is identical; only the handler signature differs, so we pass
+    /// the code offset directly.
+    #[allow(clippy::fn_to_numeric_cast)]
+    fn set_interrupt_offset(&mut self, entry_id: usize, isr_offset: u32) {
+        let entry = Entry(
+            0u64.set_bits(0, 16, u64::from(isr_offset))
+                .set_bits(48, 16, u64::from(isr_offset >> 16))
+                .set_bits(16, 16, 0x08)
+                .set_bits(40, 4, u64::from(GateType::Trap32Bit as u8))
+                .set_bits(45, 2, 0)
+                .set_one_bit(47, true),
+        );
+        self.inner[entry_id] = entry;
+    }
+
     fn load(&mut self) {
         // Fill unfilled entries: CPU exception range gets the per-vector
         // exception handlers (never send PIC EOI — exceptions are not PIC
@@ -229,12 +246,63 @@ pub fn init_idt(palloc: &mut PortAllocator) {
             .expect("interrupt table is free");
 
         t.set_interrupt(13, isr_general_fault);
+        t.set_interrupt_offset(14, isr_page_fault as u32);
         t.set_interrupt(0x20, isr_timer_handler);
         t.set_interrupt(0x21, isr_keyboard_handler);
         t.load();
     }
 
     println!("new idtr: {:?}", get_idtr());
+}
+
+// Page fault (vector 14) is the one exception with a CPU-pushed error code.
+// The frame is read through a dedicated struct so the error code is decoded
+// correctly; CR2 carries the faulting linear address.
+#[derive(Debug, Clone, Copy)]
+#[repr(C, packed)]
+struct PageFaultFrame {
+    error_code: u32,
+    instruction_ptr: u32,
+    code_segment: u32,
+    cpu_flags: u32,
+}
+
+static mut LAST_PAGE_FAULT: Option<crate::memory::paging::PageFaultInfo> = None;
+static PAGE_FAULT_COUNT: core::sync::atomic::AtomicU32 = core::sync::atomic::AtomicU32::new(0);
+
+extern "x86-interrupt" fn isr_page_fault(frame: PageFaultFrame) {
+    // Lockfree serial only (ISR rule: no mutex-backed writers).
+    use core::fmt::Write;
+    unsafe {
+        // PageFaultFrame is packed; copy fields to locals before use.
+        let code = frame.error_code;
+        let rip = frame.instruction_ptr;
+        let mut info = crate::memory::paging::decode_error_code(code);
+        info.cr2 = crate::memory::paging::read_cr2();
+        LAST_PAGE_FAULT = Some(info);
+        PAGE_FAULT_COUNT.fetch_add(1, core::sync::atomic::Ordering::Relaxed);
+        let _ = writeln!(
+            io::serial::SerialWriter,
+            "page fault: code {:#06x} present={} write={} user={} cr2={:#010x} rip={:#010x}",
+            code,
+            info.present,
+            info.write,
+            info.user,
+            info.cr2,
+            rip
+        );
+        // Fatal here: no demand paging, so returning would re-execute the
+        // faulting instruction forever. Halt this context safely.
+        halt_forever();
+    }
+}
+
+pub fn page_fault_count() -> u32 {
+    PAGE_FAULT_COUNT.load(core::sync::atomic::Ordering::Relaxed)
+}
+
+pub fn last_page_fault() -> Option<crate::memory::paging::PageFaultInfo> {
+    unsafe { LAST_PAGE_FAULT }
 }
 
 fn get_idtr() -> Idtr {

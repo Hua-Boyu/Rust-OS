@@ -14,6 +14,7 @@ mod gdt;
 mod interrupt;
 mod io;
 mod kbd;
+mod memory;
 mod multiboot;
 mod reboot;
 mod shell;
@@ -59,21 +60,75 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     unsafe {
         // init the allocator BEFORE printing the mmap: print_mmap_entries
         // allocates a Vec, which requires a working global allocator.
+        io::serial::puts("DBG: alloc init\n");
         ALLOC.lock().init(info);
+        io::serial::puts("DBG: mmap print\n");
         (*info).print_mmap_entries();
+        io::serial::puts("DBG: mmap printed\n");
         // capture validated memory info for the shell's `mem` command
         let entries = (*info).get_mmap_entries();
+        io::serial::puts("DBG: mmap parsed\n");
         let total_kb: u64 = entries
             .iter()
             .filter(|e| e.type_ == 1)
             .map(|e| e.length / 1024)
             .sum();
         shell::set_mem_info(total_kb, ALLOC.lock().start as u64);
+        io::serial::puts("DBG: mem info set\n");
+
+        // Capture bump bounds once. SpinMutex is NOT reentrant: locking ALLOC
+        // again inside prepare()'s arguments while the set_mem_info guard is
+        // still alive deadlocks the boot (this was the Phase 4 hang).
+        let (bump_start, bump_end) = {
+            let bump = ALLOC.lock();
+            (bump.start as u64, bump.end as u64)
+        };
+
+        // Physical frame allocator + page tables. Paging is NOT enabled yet:
+        // the IDT must be loaded first so vector 14 can handle any fault.
+        match memory::prepare(
+            &entries,
+            info as u64,
+            bump_start,
+            bump_end,
+        ) {
+            Ok(window) => {
+                // Copy stats under one guard: multiple lock() temporaries in
+                // the same println! live until the call returns and deadlock.
+                let (total_frames, reserved_frames, free_frames) = {
+                    let fa = memory::FRAME_ALLOC.lock();
+                    let stats = fa.stats();
+                    (stats.total_frames, stats.reserved_frames, stats.free_frames)
+                };
+                println!(
+                    "frame allocator: {} frames total, {} reserved, {} free",
+                    total_frames, reserved_frames, free_frames
+                );
+                println!(
+                    "paging window: {:#010x} (page tables built, validated)",
+                    window
+                );
+            }
+            Err(missing) => {
+                io::serial::puts("paging validation FAILED, paging left disabled:\n");
+                for m in &missing {
+                    io::serial::puts(m);
+                    io::serial::putc(b'\n');
+                }
+            }
+        }
     }
     println!("hi");
 
     gdt::init_gdt();
     interrupt::init_idt(&mut PORT_MANAGER.lock());
+
+    // Enable paging only after the IDT is loaded (page faults must be
+    // handled) and the mapping was validated above.
+    if memory::page_directory().is_some() {
+        memory::enable_paging();
+        io::serial::puts("ROSTI: paging enabled (CR0.PG, identity map)\n");
+    }
 
     // stub: enable ps2 & interrupts
     let pm = &mut PORT_MANAGER.lock();

@@ -62,7 +62,33 @@ align_up, bump allocator arithmetic + boundary rejection, port allocator,
 spinlock, variable-length mmap parsing (standard/variable/truncated entries),
 usable-block selection. All 18 pass.
 
-## Known limitations
+## Shell display regression verification (2026-10-12)
+
+```
+cargo build --target target.json
+bash scripts/run_tests.sh
+python scripts/keyboard_test.py
+python scripts/backspace_test.py
+python scripts/build-proxmox-iso.py
+python scripts/backspace_test.py --iso dist/rosti.iso
+```
+
+- Build succeeds with existing compiler warnings; host tests: 38 passed.
+- Keyboard integration passes. Backspace regression: 13 VGA/serial checks
+  pass for both the ELF and GRUB ISO at 512 MiB (matching VM 103).
+- Regression checks erased cells, replacement, wrapped-line deletion,
+  prompt protection, whitespace-only dispatch, and edited command output.
+  VGA capture is validated against the real boot prompt before assertions;
+  it is not inferred from serial command output.
+- Ten independent 128 MiB boots pass, with evidence preserved separately:
+  `test_results/backspace/stability_20261012_155425/boot_results.csv`.
+- Final display evidence: `test_results/backspace/20261012_155351/report.json`.
+- Proxmox VM 103 has not been updated or live-verified: SSH authentication
+  is denied and the deployment environment credentials are unset.
+- Paging enables in the 128 MiB tests. At 512 MiB, the existing managed-window
+  limit causes required-region validation to leave paging disabled safely.
+
+## Other test limitations
 
 - QEMU must be terminated by the harness (kernel idles in `hlt` after boot);
   "PASS" means markers captured before the bounded timeout, not a clean exit.

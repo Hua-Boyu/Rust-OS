@@ -78,6 +78,14 @@ impl TermWriter {
     }
 
     fn new_line(&mut self) {
+        // Backspace can move into the preceding row of a wrapped input line.
+        // Reuse the following row rather than scrolling that input away.
+        if self.row < BUFFER_HEIGHT - 1 {
+            self.row += 1;
+            self.clear_row(self.row);
+            self.col = 0;
+            return;
+        }
         // copy lines upward
         for r in 1..=self.row {
             for c in 0..BUFFER_WIDTH {
@@ -89,6 +97,22 @@ impl TermWriter {
         }
         self.clear_row(self.row);
         self.col = 0;
+    }
+
+    fn erase_previous(&mut self) {
+        if self.col == 0 {
+            if self.row == 0 {
+                return;
+            }
+            self.row -= 1;
+            self.col = BUFFER_WIDTH;
+        }
+        self.col -= 1;
+        unsafe {
+            BUFFER_LOCATION
+                .add(get_offset(self.row, self.col))
+                .write_volatile(rec_entry(b' ', self.colour));
+        }
     }
 
     #[allow(dead_code)]
@@ -135,6 +159,12 @@ pub fn init_writer() {
 
 pub fn clear_console() {
     WRITER.lock().clear();
+}
+
+/// Erase one echoed input cell. The shell guards the start of its input so
+/// this cannot delete the prompt or previous command output.
+pub fn erase_previous() {
+    WRITER.lock().erase_previous();
 }
 
 #[doc(hidden)]

@@ -61,10 +61,13 @@ pub fn poll() -> bool {
             unsafe {
                 if LINE_LEN > 0 {
                     LINE_LEN -= 1;
+                    LINE[LINE_LEN] = 0;
+                    io::vga::erase_previous();
+                    // Terminal backspace moves left; blank and move left
+                    // again so serial consoles match the VGA edit.
+                    io::serial::puts("\x08 \x08");
                 }
             }
-            // VGA text writer has no cursor-back; the line buffer is edited
-            // but the screen echo is not rewound (documented limitation).
             return true;
         }
         KEY_ENTER => {
@@ -105,6 +108,9 @@ fn say(s: &str) {
 fn run_command() {
     let line = unsafe { (&raw mut LINE).as_mut().expect("line buffer") };
     let len = unsafe { LINE_LEN };
+    // Reset on every dispatch, including an empty/whitespace-only command.
+    // Otherwise the next Backspace can erase the freshly printed prompt.
+    unsafe { LINE_LEN = 0 };
     let line = &line[..len];
     let cmd = core::str::from_utf8(line).unwrap_or("");
     let trimmed = cmd.trim();
@@ -133,6 +139,29 @@ fn run_command() {
             } else {
                 println!("usable memory: {} KB", unsafe { MEM_TOTAL_KB });
                 println!("allocator block base: {:#08x}", unsafe { MEM_BLOCK_BASE });
+                let fa = crate::memory::FRAME_ALLOC.lock();
+                if fa.is_initialized() {
+                    let s = fa.stats();
+                    println!(
+                        "frames: total {} reserved {} free {} allocated {}",
+                        s.total_frames, s.reserved_frames, s.free_frames, s.allocated_frames
+                    );
+                    println!(
+                        "frame rejects: double frees {} invalid frees {}",
+                        s.double_frees, s.invalid_frees
+                    );
+                    println!("page size: {} bytes", crate::memory::paging::PAGE_SIZE);
+                    println!(
+                        "paging: {}",
+                        if crate::memory::paging_enabled() {
+                            "enabled"
+                        } else {
+                            "disabled"
+                        }
+                    );
+                } else {
+                    println!("frame allocator: not initialized");
+                }
             }
         }
         "cpu" => match crate::cpu::vendor() {
@@ -158,6 +187,4 @@ fn run_command() {
             println!("unknown command: {} (try 'help')", name);
         }
     }
-
-    unsafe { LINE_LEN = 0 };
 }

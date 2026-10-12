@@ -35,6 +35,15 @@ build-std core/alloc), no external crates beyond core/alloc.
 - `src/io/serial.rs` — COM1 16550 polled writer (debug channel; per-byte
   observable through QEMU `-serial file:`).
 - `src/io/vga.rs` — 80x25 text writer behind a SpinMutex (main-path only).
+  Supports erasing the previous echoed input cell across wrapped rows; the
+  shell's input length protects prompts and previous output from deletion.
+- `src/shell.rs` — keyboard-ring consumer, command input buffer, VGA and serial
+  echo. Backspace synchronizes buffer removal with both displays. Dispatch
+  resets input length even for whitespace-only commands.
+- `src/memory/` — initial bitmap frame allocator and identity page tables,
+  prepared before GDT/IDT initialization. Paging enables only after mapping
+  validation and IDT setup. The 256 MiB managed-window limit currently leaves
+  paging disabled for the VM-sized 512 MiB boot; the shell remains usable.
 - `src/utils/` — bit manipulation trait, SpinMutex.
 
 ## Test separation
