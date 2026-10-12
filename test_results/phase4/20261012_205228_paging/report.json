@@ -1,0 +1,38 @@
+{
+  "fault_build": false,
+  "results": [
+    {
+      "ram_mib": 128,
+      "iteration": 1,
+      "checks": {
+        "ordered_boot": true,
+        "paging_enabled": true,
+        "no_validation_failure": true,
+        "no_panic": true,
+        "no_triple_fault": true,
+        "guest_alive": true,
+        "shell_ready": true,
+        "production_build": true
+      },
+      "pass": true,
+      "serial": "test_results/phase4/20261012_205228_paging/ram_128_run_1/serial.txt"
+    },
+    {
+      "ram_mib": 512,
+      "iteration": 1,
+      "checks": {
+        "ordered_boot": true,
+        "paging_enabled": true,
+        "no_validation_failure": true,
+        "no_panic": true,
+        "no_triple_fault": true,
+        "guest_alive": true,
+        "shell_ready": true,
+        "production_build": true
+      },
+      "pass": true,
+      "serial": "test_results/phase4/20261012_205228_paging/ram_512_run_1/serial.txt"
+    }
+  ],
+  "overall": "PASS"
+}

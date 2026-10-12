@@ -1,2 +1,2 @@
 run,status,class,markers,exit,elapsed_s,dir
-01,FAIL,KERNEL_FAULT (never entered kernel_main),none,killed@timeout,20.0,C:\Users\iamsv\Documents\rosti\test_results\run_01
+01,FAIL,KERNEL_FAULT (init incomplete),enter-only,killed@timeout,20.0,C:\Users\iamsv\Documents\Rust-OS\test_results\run_01
