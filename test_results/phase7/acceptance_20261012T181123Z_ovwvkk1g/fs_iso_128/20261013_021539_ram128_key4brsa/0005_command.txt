@@ -1,0 +1,25 @@
+size: 20, len: 639K, addr: 0x00, typ: 1
+size: 20, len: 1K, addr: 0x9fc00, typ: 2
+size: 20, len: 64K, addr: 0xf0000, typ: 2
+size: 20, len: 129920K, addr: 0x100000, typ: 1
+size: 20, len: 128K, addr: 0x7fe0000, typ: 2
+size: 20, len: 256K, addr: 0xfffc0000, typ: 2
+total size: 130559K
+frame allocator: 32639 frames total, 2004 reserved, 30652 free
+paging window: 0x07fe0000 (page tables built, validated)
+hi
+old idtr: Idtr { limit: 0, base: 0 }
+new idtr: Idtr { limit: 2047, base: 3710976 }
+ps2 init enable
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>pwd
+/
+rosti>

@@ -1,0 +1,182 @@
+warning: unused import: `crate::println`
+ --> src\..\..\src\multiboot.rs:9:5
+  |
+9 | use crate::println;
+  |     ^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: formatting may not be suitable for sub-register argument
+   --> src\..\..\src\memory\paging.rs:495:41
+    |
+495 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+    |                                         ^^^^^                  --- for this argument
+    |
+    = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+    = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+    = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+   --> src\..\..\src\memory\paging.rs:508:41
+    |
+508 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+    |                                         ^^^^^                  --- for this argument
+    |
+    = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+    = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:59:28
+   |
+59 | pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `port_out`
+  --> src\io\..\..\..\src\io\ports.rs:84:29
+   |
+84 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+   |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+  --> src\io\..\..\..\src\io\ports.rs:84:44
+   |
+84 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+   |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `frame`
+   --> src\..\..\src\allocator.rs:272:33
+    |
+272 |                     if let Some(frame) = crate::memory::heap_grow_frame(slot) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_frame`
+
+warning: unused variable: `t0`
+   --> src\lib.rs:247:18
+    |
+247 |     let (b0, l0, t0) = (e0.base_addr, e0.length, e0.type_);
+    |                  ^^ help: if this is intentional, prefix it with an underscore: `_t0`
+
+warning: static `KERNEL_START` is never used
+  --> src\..\..\src\memory\frame.rs:44:8
+   |
+44 | static KERNEL_START: u32 = 0;
+   |        ^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: static `KERNEL_END` is never used
+  --> src\..\..\src\memory\frame.rs:46:8
+   |
+46 | static KERNEL_END: u32 = 0;
+   |        ^^^^^^^^^^
+
+warning: feature `abi_x86_interrupt` is declared but not used
+ --> src\lib.rs:5:12
+  |
+5 | #![feature(abi_x86_interrupt)]
+  |            ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_features)]` (part of `#[warn(unused)]`) on by default
+
+warning: `tests_kernel` (lib test) generated 11 warnings (run `cargo fix --lib -p tests_kernel --tests` to apply 6 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running unittests src\lib.rs (Documents\Rust-OS\tests_kernel\target\debug\build\tests_kernel/da839ccd986c50c4\out\tests_kernel-da839ccd986c50c4.exe)
+
+running 93 tests
+test bits_create_mask ... ok
+test bump_alloc_rejects_alloc_at_exact_boundary ... ok
+test bits_get_bits ... ok
+test bits_set_one_bit ... ok
+test bootstrap_heap_is_page_aligned_and_bounded ... ok
+test bits_set_bits ... ok
+test align_up ... ok
+test bump_alloc_rejects_arithmetic_overflow ... ok
+test bump_allocator_arithmetic ... ok
+test fault_decode_includes_fetch_bit ... ok
+test fd::tests::default_deny_and_type_mismatch_rules ... ok
+test fd::tests::double_close_and_invalid_descriptor_rejected ... ok
+test fd::tests::descriptor_allocation_and_slot_reuse ... ok
+test fd::tests::duplication_shares_offset_and_can_only_attenuate ... ok
+test fd::tests::generation_rejects_stale_handles_and_invalid_indexes ... ok
+test fd::tests::generation_rollover_retires_exhausted_slots ... ok
+test fd::tests::offset_overflow_is_checked ... ok
+test fd::tests::read_write_seek_eof_track_shared_offset ... ok
+test fd::tests::repeated_open_close_cycles_leak_nothing ... ok
+test fd::tests::table_exhaustion_is_clean_and_recoverable ... ok
+test cpuid_vendor_string_order ... ok
+test fd::tests::console_descriptors_are_reserved_and_default_deny ... ok
+test fd::tests::deletion_while_open_fails_cleanly_and_releases_on_close ... ok
+test frame_allocator_alloc_free_cycle_and_rejects ... ok
+test fd::tests::static_table_resource_budget ... ok
+test frame_allocator_overlapping_ranges_dedup ... ok
+test frame_of_alignment ... ok
+test frame_allocator_exhaustion ... ok
+test fs_commands::tests::command_words_accept_whitespace_and_preserve_file_data ... ok
+test frame_free_rejects_reserved_unaligned_and_out_of_bounds ... ok
+test frame_allocator_reserves_vga_bootinfo_and_bump ... ok
+test frame_allocator_non_usable_never_free ... ok
+test fs_commands::tests::directory_commands_track_cwd_and_reject_duplicates ... ok
+test fs_commands::tests::failed_shell_write_rolls_back_creation_and_preserves_existing_contents ... ok
+test fs_commands::tests::fdlist_reports_open_descriptors_and_denied_rights ... ok
+test fs_commands::tests::file_commands_write_append_list_stat_and_remove ... ok
+test frame_usable_pages_are_complete_and_reserved_entries_override ... ok
+test fs_commands::tests::pwd_outputs_root_without_allocating_filesystem_storage ... ok
+test fs_commands::tests::removing_current_nonempty_directory_reports_not_empty ... ok
+test fs_commands::tests::shell_file_commands_route_through_the_descriptor_layer ... ok
+test fs_tests::fs_binary_offsets_truncate ... ok
+test frame_reserved_range_overflow_is_conservative ... ok
+test fs_commands::tests::shell_handles_utf8_binary_empty_data_types_and_invalid_arguments ... ok
+test fs_tests::fs_canonical_path_bound_and_deep_iteration ... ok
+test fs_tests::fs_create_read ... ok
+test fs_tests::fs_error_display_is_human_readable ... ok
+test fs_tests::fs_nested_paths ... ok
+test fs_tests::fs_rejects_terminal_control_characters_in_paths ... ok
+test fs_tests::fs_reserve_failure_is_transactional ... ok
+test fs_tests::fs_stale_handles_reject_every_id_operation ... ok
+test fs_tests::keyboard_queue_overflow_discards_all_partial_commands_and_recovers ... ok
+test fs_tests::fs_reference_bytes_across_repeated_edits ... ok
+test gdt_access_byte_or_not_xor ... ok
+test gdt_code_descriptor_encoding ... ok
+test heap_alignment_and_fragmentation ... ok
+test heap_alloc_free_reuse_and_stats ... ok
+test heap_coalesces_adjacent_free_blocks ... ok
+test heap_growth_disabled_in_host_tests_and_stats_are_consistent ... ok
+test heap_oom_and_invalid_dealloc_are_safe ... ok
+test idt_entry_encoding ... ok
+test fs_tests::fs_removal_stale_ids_and_bounded_cycles ... ok
+test idt_invalid_entry_is_zero ... ok
+test kbd_decode_letters ... ok
+test kbd_modifiers ... ok
+test kbd_qwerty_rows_are_not_alphabetical ... ok
+test kbd_release_codes_not_decoded ... ok
+test mmap_find_usable_block_skips_base_zero ... ok
+test mmap_find_usable_block_skips_type2 ... ok
+test mmap_parse_standard_entries ... ok
+test mmap_parse_truncated_entry_stops ... ok
+test heap_growth_maps_one_page_on_demand ... ok
+test mmap_parse_variable_size_entries ... ok
+test mmap_usable_block_rejects_empty_and_overflowing_ranges ... ok
+test multiboot::phase4_tests::bootinfo_layout_matches_multiboot_wire_format ... ok
+test multiboot::phase4_tests::bootloader_metadata_is_reserved_by_flags ... ok
+test paging_error_code_decode ... ok
+test paging_entry_encoding ... ok
+test paging_identity_map_build_and_validate ... ok
+test paging_build_fails_on_exhaustion ... ok
+test paging_map_rejects_out_of_window_and_unaligned_translate ... ok
+test paging_null_page_is_absent ... ok
+test paging_map_unmap_translate_and_rejects ... ok
+test pit_divisor_100hz ... ok
+test paging_validate_reports_missing_region ... ok
+test ring_basic_fifo ... ok
+test port_allocator_allocate_release ... ok
+test ring_full_drops_and_wraps ... ok
+test ring_single_item_edge ... ok
+test paging_validation_checks_partial_tail_page ... ok
+test spin_mutex_basic ... ok
+test fs_tests::fs_capacity_quota_accounting ... ok
+test perf_baseline_records_latencies ... ok
+test paging_window_covers_ram_above_frame_allocator_cap ... ok
+
+test result: ok. 93 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+

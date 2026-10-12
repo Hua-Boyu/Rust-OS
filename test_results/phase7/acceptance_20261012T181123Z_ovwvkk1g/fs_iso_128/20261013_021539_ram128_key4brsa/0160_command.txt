@@ -1,0 +1,25 @@
+Growth pages: 0
+
+Page faults: 0
+rosti>mkdir docs
+ok
+rosti>cd docs
+ok
+rosti>pwd
+/docs
+rosti>touch hello.txt
+ok
+rosti>write hello.txt Hello from Rosti OS
+ok
+rosti>cat hello.txt
+Hello from Rosti OS
+rosti>append hello.txt !
+ok
+rosti>cat hello.txt
+Hello from Rosti OS!
+rosti>ls
+hello.txt
+rosti>stat hello.txt
+type: file
+size: 20 bytes
+rosti>

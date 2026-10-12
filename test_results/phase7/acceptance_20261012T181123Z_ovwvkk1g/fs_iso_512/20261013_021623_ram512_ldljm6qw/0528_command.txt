@@ -1,0 +1,25 @@
+Used: 8232 bytes
+Free: 7331800 bytes
+Failed allocations: 4
+Live allocations: 2
+Invalid deallocs: 0
+Free blocks: 3 (largest 6291456 bytes)
+Alignment waste: 0 bytes
+Growth pages: 1536
+
+Page faults: 0
+rosti>ls
+rosti>help
+commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch ca
+t write append rm rmdir stat fsstress fdlist
+rosti>version
+Rosti kernel v0.1.0 (i686, multiboot v1)
+rosti>cpu
+cpu: GenuineIntel
+rosti>uptime
+ticks: 3875, uptime: 38 s (PIT 100 Hz)
+rosti>echo fs-regression
+fs-regression
+rosti>echo edited
+edited
+rosti>

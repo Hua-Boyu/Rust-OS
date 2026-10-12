@@ -1,0 +1,231 @@
+warning: unreachable expression
+   --> src\main.rs:185:5
+    |
+178 |           panic!("page fault test unexpectedly returned");
+    |           ----------------------------------------------- any code following this expression is unreachable
+...
+185 | /     loop {
+186 | |         if !shell::poll(filesystem, descriptors, &mut cwd) {
+187 | |             unsafe {
+188 | |                 core::arch::asm!("hlt");
+...   |
+191 | |     }
+    | |_____^ unreachable expression
+    |
+    = note: `#[warn(unreachable_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: unnecessary `unsafe` block
+   --> src\interrupt.rs:442:5
+    |
+442 |     unsafe {
+    |     ^^^^^^ unnecessary `unsafe` block
+    |
+    = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> src\main.rs:164:9
+    |
+164 |     let mut cwd = fs::NodeId::ROOT;
+    |         ----^^^
+    |         |
+    |         help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `filesystem`
+   --> src\main.rs:161:9
+    |
+161 |     let filesystem = unsafe { &mut *(&raw mut FILESYSTEM) };
+    |         ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_filesystem`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `cwd`
+   --> src\main.rs:164:9
+    |
+164 |     let mut cwd = fs::NodeId::ROOT;
+    |         ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cwd`
+
+warning: associated function `new` is never used
+   --> src\allocator.rs:346:18
+    |
+345 | impl BumpAlloc {
+    | -------------- associated function in this implementation
+346 |     pub const fn new() -> Self {
+    |                  ^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: associated items `MAP` and `attenuate` are never used
+  --> src\fd.rs:44:15
+   |
+36 | impl Rights {
+   | ----------- associated items in this implementation
+...
+44 |     pub const MAP: u8 = 1 << 7; // reserved for future file-backed mappings
+   |               ^^^
+...
+54 |     pub const fn attenuate(&self, other: u8) -> Option<Self> {
+   |                  ^^^^^^^^^
+
+warning: methods `truncate` and `dup` are never used
+   --> src\fd.rs:377:12
+    |
+183 | impl FdTable {
+    | ------------ methods in this implementation
+...
+377 |     pub fn truncate(&mut self, fs: &mut impl Vfs, fd: u8, len: usize) -> Result<(), FdError> {
+    |            ^^^^^^^^
+...
+414 |     pub fn dup(&mut self, fd: u8, request: u8) -> Result<u8, FdError> {
+    |            ^^^
+
+warning: function `unexpected_irq_total` is never used
+   --> src\interrupt.rs:457:8
+    |
+457 | pub fn unexpected_irq_total() -> u32 {
+    |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `len` and `is_empty` are never used
+   --> src\kbd.rs:198:12
+    |
+150 | impl<const N: usize> RingBuffer<N> {
+    | ---------------------------------- methods in this implementation
+...
+198 |     pub fn len(&self) -> usize {
+    |            ^^^
+...
+204 |     pub fn is_empty(&self) -> bool {
+    |            ^^^^^^^^
+
+warning: field `bitmap_frames` is never read
+  --> src\memory\frame.rs:68:9
+   |
+61 | pub struct FrameStats {
+   |            ---------- field in this struct
+...
+68 |     pub bitmap_frames: usize,    // frames the bitmaps themselves occupy
+   |         ^^^^^^^^^^^^^
+   |
+   = note: `FrameStats` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: method `is_free` is never used
+   --> src\memory\frame.rs:307:12
+    |
+ 94 | impl FrameAllocator {
+    | ------------------- method in this implementation
+...
+307 |     pub fn is_free(&self, addr: u64) -> bool {
+    |            ^^^^^^^
+
+warning: fields `enabled`, `unmaps`, and `unmap_rejects` are never read
+  --> src\memory\paging.rs:86:9
+   |
+83 | pub struct PagingStats {
+   |            ----------- fields in this struct
+...
+86 |     pub enabled: bool,
+   |         ^^^^^^^
+...
+89 |     pub unmaps: usize,        // successful runtime unmap operations
+   |         ^^^^^^
+90 |     pub unmap_rejects: usize, // rejected: absent page
+   |         ^^^^^^^^^^^^^
+   |
+   = note: `PagingStats` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: methods `unmap` and `window_end` are never used
+   --> src\memory\paging.rs:221:12
+    |
+101 | impl PageMap {
+    | ------------ methods in this implementation
+...
+221 |     pub fn unmap(&mut self, linear: u64) -> bool {
+    |            ^^^^^
+...
+254 |     pub fn window_end(&self) -> u64 {
+    |            ^^^^^^^^^^
+
+warning: field `nx_supported` is never read
+   --> src\memory\paging.rs:266:9
+    |
+260 | pub struct PagePerms {
+    |            --------- field in this struct
+...
+266 |     pub nx_supported: bool,
+    |         ^^^^^^^^^^^^
+    |
+    = note: `PagePerms` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: function `is_boot_critical` is never used
+   --> src\memory\paging.rs:277:4
+    |
+277 | fn is_boot_critical(linear: u64) -> bool {
+    |    ^^^^^^^^^^^^^^^^
+
+warning: function `flush_tlb` is never used
+   --> src\memory\paging.rs:335:8
+    |
+335 | pub fn flush_tlb(page_map: &PageMap) {
+    |        ^^^^^^^^^
+
+warning: function `paging_enabled` is never used
+   --> src\memory\paging.rs:488:8
+    |
+488 | pub fn paging_enabled() -> bool {
+    |        ^^^^^^^^^^^^^^
+
+warning: direct cast of function item into an integer
+   --> src\interrupt.rs:249:51
+    |
+249 |         t.set_interrupt_offset(14, isr_page_fault as u32);
+    |                                                   ^^^^^^
+    |
+    = note: `#[warn(function_casts_as_integer)]` on by default
+help: first cast to a pointer `as *const ()`
+    |
+249 |         t.set_interrupt_offset(14, isr_page_fault as *const () as u32);
+    |                                                   ++++++++++++
+
+warning: function `isr_irq2A` should have a snake case name
+   --> src\interrupt.rs:422:17
+    |
+422 | hw_irq_handler!(isr_irq2A, 0x2A);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_a`
+    |
+    = note: `#[warn(non_snake_case)]` (part of `#[warn(nonstandard_style)]`) on by default
+
+warning: function `isr_irq2B` should have a snake case name
+   --> src\interrupt.rs:423:17
+    |
+423 | hw_irq_handler!(isr_irq2B, 0x2B);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_b`
+
+warning: function `isr_irq2C` should have a snake case name
+   --> src\interrupt.rs:424:17
+    |
+424 | hw_irq_handler!(isr_irq2C, 0x2C);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_c`
+
+warning: function `isr_irq2D` should have a snake case name
+   --> src\interrupt.rs:425:17
+    |
+425 | hw_irq_handler!(isr_irq2D, 0x2D);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_d`
+
+warning: function `isr_irq2E` should have a snake case name
+   --> src\interrupt.rs:426:17
+    |
+426 | hw_irq_handler!(isr_irq2E, 0x2E);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_e`
+
+warning: function `isr_irq2F` should have a snake case name
+   --> src\interrupt.rs:427:17
+    |
+427 | hw_irq_handler!(isr_irq2F, 0x2F);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_f`
+
+warning: `kernel` (bin "kernel") generated 25 warnings (run `cargo fix --bin "kernel" -p kernel` to apply 4 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.17s
+warning: the following packages contain code that will be rejected by a future version of Rust: core v0.0.0 (C:\Users\iamsv\.rustup\toolchains\nightly-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\core)
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`

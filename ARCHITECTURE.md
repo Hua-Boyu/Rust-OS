@@ -112,7 +112,9 @@ fixtures only; the ISO builder rejects them. See TESTING.md and HANDOVER.md.
   know RamFs internals. Output uses `fmt::Arguments` and callbacks, without
   allocating error/output strings. Failed first writes remove newly created
   empty files; failed overwrites preserve old contents. Cwd cannot be removed
-  out from under the shell. File data preserves trailing whitespace.
+  out from under the shell. File data preserves trailing whitespace. Since
+  Phase 7 every file command dispatches through the descriptor layer
+  (`Shell → Descriptor API → VFS → RAMFS`), plus `fdlist` diagnostics.
 - `kernel_main` owns one statically initialized RamFs instance (`.data`) and a cwd ID, passed
   explicitly to `shell::poll`. The large metadata table never moves onto the
   16 KiB boot stack. Other RamFs instances are possible; the VFS does not rely
@@ -123,6 +125,54 @@ fixtures only; the ISO builder rejects them. See TESTING.md and HANDOVER.md.
   with cleanup on early returns. Checks complete file data, quota rejection,
   real KernelHeap OOM rollback and every growth-window PTE. Heap growth pages
   remain mapped after deletion for reuse; physical frames are not returned.
+
+## Phase 7: capability-aware file descriptors and generational handles
+
+`src/fd.rs` is a static, allocation-free kernel object subsystem. One
+`FdTable` instance (`.data`) is owned by `kernel_main` and passed explicitly
+to `shell::poll`; the shell's file commands open, read, write, seek, stat,
+duplicate and close through it instead of calling the VFS directly.
+
+- `Handle` is an internal generational reference (slot + generation), never a
+  kernel pointer. Stale handles fail after slot reuse; exhausted generations
+  are retired, never wrapped, so no ABA aliasing is possible.
+- `OpenFile` is the open-file description: the shared offset and refcount live
+  here, so duplicated descriptors share one offset through the same handle.
+  A descriptor is a slot (handle + kind + rights), not the filesystem node.
+- `Rights` is an 8-bit default-deny capability mask (READ, WRITE, SEEK, STAT,
+  DIRECTORY_READ, CREATE, DELETE, MAP-reserved). Duplication can only
+  attenuate (`attenuate()` rejects any bit outside the source mask); every
+  operation validates rights at call time. Rights are capabilities, not
+  isolation: the kernel still shares one privileged address space.
+- `ResourceKind` covers File, Directory, ConsoleInput, ConsoleOutput; Pipe,
+  Socket and Device are reserved for later phases. No dynamic dispatch, no
+  allocation on any fd path.
+- Node bindings are generation-checked through the VFS at every operation, so
+  deleting an open file makes its descriptor fail cleanly (`StaleHandle` on
+  resolve) rather than dangle; the record is released on close.
+- Descriptors 0/1/2 are reserved for console input/output at boot with rights
+  0 (default-deny until wired to real console operations).
+- Tables are fixed: 64 descriptor slots + 64 open records. Asserted budget:
+  slot ≤ 16 bytes, record ≤ 24 bytes → ≤ 2,560 bytes fixed overhead plus
+  counters (smaller on i686). Exhaustion returns `TableFull`; it cannot
+  fragment the heap or corrupt filesystem metadata.
+- Lock order: descriptor table → VFS. No fd operation allocates, so the
+  heap → frame order is never crossed. ISRs must not touch this subsystem
+  (SpinMutex is not interrupt-safe); filesystem and descriptor work stays in
+  main context.
+- `FdStats` counters (opens, closes, denials, stale rejections, open slots,
+  open records) are printed by `mem` and provide deterministic proof that
+  dispatch went through the descriptor layer; `fdlist` lists each open
+  descriptor with fd number, resource type, rights, offset and refcount.
+- Unlink semantics are explicit: a deleted file invalidates open descriptors
+  through generation-checked node binding; open records survive until their
+  last close releases them.
+
+The descriptor layer is filesystem-independent: it depends only on the `Vfs`
+trait, so future disk filesystems (RostiFS) can back it without changes.
+Handles are designed to support later file-backed memory mappings (MAP right
+reserved). Swap, page reclamation and filesystem persistence remain separate
+responsibilities.
 
 The shell remains a single-task kernel shell. Kernel-ring overflow discards
 pending events and rejects a damaged line; recovery resets modifier state.

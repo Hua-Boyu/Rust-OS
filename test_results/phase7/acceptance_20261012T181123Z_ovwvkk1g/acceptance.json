@@ -1,0 +1,399 @@
+{
+  "phase": 7,
+  "timestamp_utc": "20261012T181123Z",
+  "overall": "PASS",
+  "gates": [
+    {
+      "gate": "kernel formatting",
+      "command": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\01_kernel_formatting.log"
+    },
+    {
+      "gate": "host formatting",
+      "command": [
+        "cargo",
+        "+nightly",
+        "fmt",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--check"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\02_host_formatting.log"
+    },
+    {
+      "gate": "host tests",
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\03_host_tests.log"
+    },
+    {
+      "gate": "build read fault fixture",
+      "command": [
+        "cargo",
+        "build",
+        "--features",
+        "paging-fault-test"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\04_build_read_fault_fixture.log"
+    },
+    {
+      "gate": "CPU read faults 128 and 512",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\paging_test.py",
+        "--fault",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\read_fault"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\05_cpu_read_faults_128_and_512.log"
+    },
+    {
+      "gate": "build write fault fixture",
+      "command": [
+        "cargo",
+        "build",
+        "--features",
+        "paging-write-fault-test"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\06_build_write_fault_fixture.log"
+    },
+    {
+      "gate": "CPU write faults 128 and 512",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\paging_test.py",
+        "--write-fault",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\write_fault"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\07_cpu_write_faults_128_and_512.log"
+    },
+    {
+      "gate": "production build",
+      "command": [
+        "cargo",
+        "build"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\08_production_build.log"
+    },
+    {
+      "gate": "ELF validation",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\validate_elf.py",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\09_elf_validation.log"
+    },
+    {
+      "gate": "ten ELF boots 128 MiB",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_test.py",
+        "--runs",
+        "10",
+        "--timeout",
+        "3",
+        "--memory",
+        "128",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\boot_128"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\10_ten_elf_boots_128_mib.log"
+    },
+    {
+      "gate": "ten ELF boots 512 MiB",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_test.py",
+        "--runs",
+        "10",
+        "--timeout",
+        "3",
+        "--memory",
+        "512",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\boot_512"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\11_ten_elf_boots_512_mib.log"
+    },
+    {
+      "gate": "paging stability twenty ELF boots",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\paging_test.py",
+        "--runs",
+        "10",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\paging"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\12_paging_stability_twenty_elf_boots.log"
+    },
+    {
+      "gate": "keyboard integration",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\keyboard_test.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\13_keyboard_integration.log"
+    },
+    {
+      "gate": "VGA backspace ELF",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\backspace_test.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\14_vga_backspace_elf.log"
+    },
+    {
+      "gate": "filesystem growth OOM ELF 128 MiB",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\fs_test.py",
+        "--ram",
+        "128",
+        "--stress",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\fs_elf_128"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\15_filesystem_growth_oom_elf_128_mib.log"
+    },
+    {
+      "gate": "filesystem growth OOM ELF 512 MiB",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\fs_test.py",
+        "--ram",
+        "512",
+        "--stress",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\fs_elf_512"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\16_filesystem_growth_oom_elf_512_mib.log"
+    },
+    {
+      "gate": "GRUB ISO build and boot",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\build-proxmox-iso.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\17_grub_iso_build_and_boot.log"
+    },
+    {
+      "gate": "ISO paging 128 and 512",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\paging_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\iso_paging"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\18_iso_paging_128_and_512.log"
+    },
+    {
+      "gate": "VGA backspace ISO",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\backspace_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\19_vga_backspace_iso.log"
+    },
+    {
+      "gate": "filesystem growth OOM ISO 128 MiB",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\fs_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+        "--ram",
+        "128",
+        "--stress",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\fs_iso_128"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\20_filesystem_growth_oom_iso_128_mib.log"
+    },
+    {
+      "gate": "filesystem growth OOM ISO 512 MiB",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\fs_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+        "--ram",
+        "512",
+        "--stress",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\fs_iso_512"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log": "test_results\\phase7\\acceptance_20261012T181123Z_ovwvkk1g\\21_filesystem_growth_oom_iso_512_mib.log"
+    }
+  ],
+  "counts": {
+    "host": {
+      "pass": 93,
+      "fail": 0
+    },
+    "elf": {
+      "pass": 8,
+      "fail": 0
+    },
+    "boot_128": {
+      "pass": 10,
+      "fail": 0
+    },
+    "boot_512": {
+      "pass": 10,
+      "fail": 0
+    },
+    "fs_elf_128\\20261013_021328_ram128_nrlgp_xl\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": 38
+    },
+    "fs_elf_512\\20261013_021410_ram512_3uvnvkg4\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": 38
+    },
+    "fs_iso_128\\20261013_021539_ram128_key4brsa\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": 38
+    },
+    "fs_iso_512\\20261013_021623_ram512_ldljm6qw\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": 38
+    },
+    "iso_paging\\20261013_021524_paging\\report.json": {
+      "pass": 2,
+      "fail": 0
+    },
+    "paging\\20261013_021232_paging\\report.json": {
+      "pass": 20,
+      "fail": 0
+    },
+    "read_fault\\20261013_021125_fault\\report.json": {
+      "pass": 2,
+      "fail": 0
+    },
+    "write_fault\\20261013_021127_fault\\report.json": {
+      "pass": 2,
+      "fail": 0
+    }
+  },
+  "source_base": "124496b6fe6bdc5a70b3c976bf0f4c60190f1af4",
+  "source_sha256": {
+    "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+    "src/cpu.rs": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+    "src/fd.rs": "d8f5d2e4a04bcb5bc2bb984e9cc33e0d2e8a2accd11994dc007adad509bc8156",
+    "src/fs_commands.rs": "f46542d32c9d8fc6aaaa79e495c2b385a1526c3e924020e67e1e8c7aac11dbc4",
+    "src/fs_stress.rs": "cc37b719bdd6abaa91459954c64aa293c3eb7e6ab496a3a1a774e0b0299b884e",
+    "src/gdt.rs": "a9406cf2e7d7f868b05fff3403b46287c4dd155797ad584e18f3d0b99af8d057",
+    "src/interrupt.rs": "611dd6424b5f865d2e69252dcf6375edf55cc7a41e1bccb8c50f94ba27b0b24b",
+    "src/kbd.rs": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+    "src/main.rs": "03e7c472559dbcf06f52a332d63fe3467824d3f8e5ce920fb70868f5d6c99385",
+    "src/multiboot.rs": "68da3dc0dc2f3b29367e6a7aedcc847b6151219d581751e9ad978374e3c8e24a",
+    "src/reboot.rs": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+    "src/shell.rs": "47c10125f3e0f6a4144dbe7e2a76f1286707dd7abb7dd00028d736f2bea661be",
+    "src/timer.rs": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+    "src/fs/mod.rs": "4c781189de9f567bb6db2fc69fac43644406862b4d49096fdfc7c1526f5d7b13",
+    "src/fs/vfs.rs": "e0287b7cba869b65f5d58ae61d98ca05edc0a19acd55dad567f1bde738b5cb35",
+    "src/io/mod.rs": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+    "src/io/ports.rs": "da09a982117766f238be0cff51a58547297cf8be3bc74a4d13e4c7192440381b",
+    "src/io/serial.rs": "095d91d330fb82fb8893db9ed39dda36fccb69becc8339090c98cafa3fcda58c",
+    "src/io/vga.rs": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+    "src/memory/frame.rs": "b7ab3e54531bbbf9265a99261d5a7ebee00b9a7f7e918c8b419351cf4a169791",
+    "src/memory/mod.rs": "1fba409e5f5c0ddfb9679f68581a0966eab37285f484de42123918d979b5ebb1",
+    "src/memory/paging.rs": "7d9419e2e4e6e14de2a29b62a73ef052d052eaf128c6822a92a7cff513b9aa1d",
+    "src/utils/bits.rs": "248e6560f6efc7c493a1ec9aa547afc9d5b133662495e837d9167eccad950ee2",
+    "src/utils/mod.rs": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+    "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+    "tests_kernel/src/fs_tests.rs": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+    "tests_kernel/src/lib.rs": "8704777db94df8cee49628e41577acdc3ba2f355815835ecaa1d128070c0d067",
+    "scripts/backspace_test.py": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+    "scripts/boot_test.py": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+    "scripts/build-proxmox-iso.py": "ed8aa14e22802dadcb3a05a735d2bf4e91d3a34e80601861a1707d53469b5848",
+    "scripts/deploy-proxmox.py": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+    "scripts/fs_test.py": "648117bf5f1f1cdf95365b531c37003d868133ac591bf5b217796e9bacdb210f",
+    "scripts/keyboard_test.py": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+    "scripts/live_phase5_check.py": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+    "scripts/mem_probe.py": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+    "scripts/paging_test.py": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+    "scripts/phase6_verify.py": "27c479b8f5762979c18d4143f03cc6b5361664d648e3d70103777580ffc35bbd",
+    "scripts/sendkey_probe.py": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+    "scripts/test_fs_harness.py": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+    "scripts/validate_elf.py": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+    "scripts/verify_proxmox_backspace.py": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+    "Cargo.toml": "0fd5568026c303318d8dac69c91cbe939aeaee27d91e30d3cd917fbe00eb2ca5",
+    "linker.ld": "3abdfc294b09724d60af7036ddd684799cbcd0bf85ef368972da736db5254735"
+  },
+  "rollback_iso": {
+    "path": "dist\\rosti_preserved_8b3a4d4dbb0f245a.iso",
+    "sha256": "8b3a4d4dbb0f245a2b969e3aed7d973cdf46a2b6e5da07f0a189da23c44472cb"
+  },
+  "iso": {
+    "name": "rosti_phase7_20261012T181123Z.iso",
+    "path": "dist\\rosti_phase7_20261012T181123Z.iso",
+    "sha256": "4c1e337d1362d827248ad0e3ee13f8c67bb29cdff3a1a460d1cd1d5e97b62bb4",
+    "bytes": 9424896,
+    "kernel_sha256": "8cd1bf6b65843062af48e8f7a2c42738527ff1322643dc7e219f6ca24c14023a"
+  },
+  "gates_passed": 21,
+  "gates_total": 21
+}

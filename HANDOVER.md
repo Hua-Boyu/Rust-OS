@@ -1,94 +1,100 @@
-# Rosti OS — Phase 6 verified handover
+# Rosti OS — Phase 7 verified handover
 
 ## Checkpoint
 
 Canonical repository: `C:\Users\iamsv\Documents\Rust-OS`, branch `main`.
-Phase 6 completion commit subject: `feat(fs): implement Phase 6 RAM filesystem and VFS`. Resolve the actual
-hash with `git log -1 --format='%h %s' --grep='feat(fs): implement Phase 6'`;
-the document cannot embed its own containing commit hash. Starting HEAD was
-`f93d7e4`; Phase 5 is `4ed27fb`. Historic tag `v0.1.0` was not moved.
-No automatic push is authorized or performed for this milestone.
+Phase 7 completion commit subject: `feat(vfs): add capability-aware file descriptors and generational handles`. Resolve the actual hash with `git log -1 --format='%h %s' --grep='feat(vfs): add capability-aware'`; the document cannot embed its own containing commit hash.
+Phase 6 is committed as `5495a3e feat(fs): implement Phase 6 RAM filesystem and VFS` (plus `124496b` sync); Phase 5 is `4ed27fb`. Historic tag `v0.1.0` was not moved. No automatic push is authorized or performed.
 
 Windows 11/Git Bash, Rust nightly, bare-metal i686 no_std/core+alloc, QEMU,
 WSL GRUB/SeaBIOS. Native program paths use `C:/...`, not MSYS `/c/...`.
 Host cargo tests run outside the kernel cargo-config tree (`scripts/run_tests.sh`).
 
-## Verified capabilities
+## Phase 6 checkpoint status
 
-Existing Multiboot boot, VGA/COM1, GDT/IDT/PIC, PS/2 queue, PIT/uptime, CPUID,
-idle hlt and hardware shell are preserved. Phase 4/5 paging, null guard,
-runtime mappings, CR0.WP, reclaiming/coalescing KernelHeap and diagnostic mem
-remain active. Physical frame tracking is still capped below 256 MiB.
+Phase 6 was recovered and confirmed committed before Phase 7 work began; its
+source, docs and evidence (`test_results/phase6/`) were left intact and its
+deployed ISO (`rosti_phase6_20261012T152259Z.iso`, SHA256
+`8b3a4d4dbb0f245a2b969e3aed7d973cdf46a2b6e5da07f0a189da23c44472cb`) was not
+redeployed — it remains the rollback media on VM 103 storage. All Phase 6
+functionality (RamFs, VFS, path rules, quotas, stress, shell commands) was
+preserved; Phase 7 only rerouted shell file commands through the descriptor
+layer and added `fdlist` plus `mem` descriptor counters.
 
-Phase 6 adds a per-instance `RamFs` implementing `Vfs`, directory hierarchy,
-generation-safe IDs, semantic path traversal, offset reads/writes, atomic
-replacement, zero-filling truncate, callback listing, metadata, deletion and
-empty-directory removal. No filesystem work or allocation occurs in an ISR.
-One static (.data) instance is exclusively owned by kernel_main, with cwd
-passed to the shell. No global FS lock or heap/frame lock inversion.
+## Phase 7 implemented and tested
 
-New commands: `pwd ls cd mkdir touch cat write append rm rmdir stat`, plus
-explicit `fsstress`. All existing commands remain. Errors distinguish missing
-files, duplicates, types, invalid paths, nonempty directories, quota and OOM.
-Shell first-write failures roll back new files; failed replacement retains old
-data. Overlong lines and kernel-ring input loss cannot execute partial commands.
-
-## Storage and path rules
-
-- 64 nodes including root; 63 UTF-8 bytes per name; 256 bytes for raw/canonical
-  paths; absolute/relative paths, repeated separators, dot and root-clamped
-  parent traversal. `file/..` and trailing separators on files fail.
-- Files: max 512 KiB logical length. Retained buffers: max 4 MiB total Vec
-  capacity. Fixed i686 metadata: 5,888 bytes, separate from heap file storage.
-  Staged growth may temporarily add 512 KiB, plus allocator overhead.
-- Shrinking nonzero files retains capacity for reuse; zero truncation and
-  deletion free it. Offset writes/extension zero-fill gaps.
-- Shell paths are single tokens without quotes/spaces. Input is at most 128
-  bytes. Write/append strip separator whitespace, preserve trailing data, and
-  do not append a newline; cat adds a display newline and escapes unsafe bytes.
-- All files disappear on reboot. No timestamps, permissions, links, rename,
-  mounted disk filesystem, user processes, syscalls or Linux/POSIX support.
+`src/fd.rs` — static, allocation-free kernel object subsystem:
+- Unix-style numeric descriptors; 0/1/2 reserved for console input/output at
+  boot with rights 0 (default-deny until wired to real console operations).
+- Generational internal handles (slot + generation), never kernel pointers.
+  Stale handles fail after slot reuse; exhausted generations retire, never
+  wrap (no ABA aliasing). Double close rejected.
+- Separate open-file descriptions: shared offset and refcount live there, so
+  duplicated descriptors share the offset. A descriptor is not the node.
+- 8-bit capability rights (READ, WRITE, SEEK, STAT, DIRECTORY_READ, CREATE,
+  DELETE, MAP reserved). Default-deny; duplication attenuates only; escalation
+  rejected; every operation validates rights at call time.
+- Reference-counted open resources; last close releases the record and bumps
+  its generation. Generation-checked node binding through the VFS: deleting an
+  open file makes its descriptor fail cleanly, never dangle.
+- ResourceKind: File, Directory, ConsoleInput, ConsoleOutput; Pipe/Socket/Device
+  reserved. No dynamic dispatch, no allocation on any fd path.
+- Fixed tables: 64 descriptor slots + 64 open records; asserted budget slot
+  ≤16 B, record ≤24 B → ≤2,560 B fixed overhead plus counters (smaller on
+  i686). Exhaustion returns `TableFull` without touching filesystem metadata.
+- Lock order: descriptor table → VFS; no fd path allocates, so the heap →
+  frame order is never crossed. ISRs must not touch this subsystem.
+- `FdStats` counters printed by `mem`; `fdlist` lists fd, type, rights,
+  offset, refs. Shell file commands dispatch Shell → Descriptor API → VFS →
+  RAMFS; existing command semantics preserved.
+- Denied writes do not advance the shared offset (defined semantics).
+- Rights are capabilities, not isolation: the kernel still shares one
+  privileged address space. No user mode, no scheduler, single main-loop
+  execution.
 
 ## Acceptance
 
-Kernel/host fmt and production build PASS; 78/78 Rust host tests; 4/4 Python
-reader tests; ELF 8/8; boot 10/10 each at 128/512 MiB; paging 20/20; CPU-fault
-fixtures 4/4; keyboard all stages; VGA editing 13/13 ELF and 13/13 ISO.
-Filesystem integration 98/98 each on ELF and ISO at both RAM configurations.
-GRUB boot and ISO paging 2/2 PASS. Local pipeline 21/21. Live hardware/VGA
-20/20, live filesystem/shell/stress 100/100 across 37 commands.
+Kernel/host fmt and production build PASS; 93/93 Rust host tests (15 new
+descriptor tests covering allocation, reuse, generation validation, stale
+handles, invalid indexes, double close, exhaustion, open/close, read/write
+offsets, seek boundaries, EOF, shared offsets, refcounts, read-only
+restrictions, attenuation, escalation rejection, deletion while open,
+directory type rules, offset overflow, OOM handling, leak-free cycles, static
+budget); 4/4 Python reader tests; ELF 8/8; boot 10/10 each at 128/512 MiB;
+paging 20/20; CPU-fault fixtures 4/4; keyboard all stages; VGA editing 13/13
+ELF and 13/13 ISO. Filesystem + descriptor integration 102/102 each on ELF
+and ISO at both RAM configurations (38 commands). GRUB boot and ISO paging
+2/2. Local pipeline 21/21 gates.
 
-Acceptance: `test_results/phase6/acceptance_20261012T152259Z_onc_58z8/acceptance.json`. Deployment/live readbacks:
-`test_results/phase6/deployment.json`, `test_results/phase6/live_vm103/`.
-A Proxmox QMP JSON-wrapper reader mismatch was fixed after kernel acceptance;
-only the Python transport reader changed. Four reader tests, another 98-check
-ISO/512 workflow and the full live suite passed afterward.
+Live VM 103: 38 commands, 104/104 checks, including descriptor dispatch proof
+(`mem` counters: opens 12, closes 12, denials 0, stale 0, records 0, open
+slots 3 = reserved console only) and `fdlist` showing fd 0 console-in,
+fd 1/2 console-out. Full stress re-verified live: 4 MiB data integrity, heap
+1,048,576 → 7,340,032 bytes, 1,536 growth pages, four intentional OOMs,
+cleanup to 8,232-byte baseline.
 
-## Heap growth: now live-verified
-
-Under QEMU and VM 103, fsstress verified 4,194,304 file bytes, quota rejection,
-and real KernelHeap failure with old bytes/metadata preserved on replace,
-write and extending truncate. It inspected all 1,536 new growth-window PTEs
-for present/writable/supervisor/identity mapping. Capacity grew from 1 MiB to
-7 MiB; four intentional allocation failures; used returned to 8,232 bytes,
-payload 0 and root-only state. Pages remain mapped for reuse, not returned to
-physical allocation. Use fsstress from a fresh boot; it asserts new growth.
+Acceptance evidence: `test_results/phase7/acceptance_20261012T181123Z_ovwvkk1g/acceptance.json` (deployed ISO run) and `test_results/phase7/acceptance_20261012T231050Z_afsptz17/acceptance.json` (final re-run against the exact committed source; comment-only delta in src/fd.rs);
+live evidence: `test_results/phase7/live_vm103/` (report.json, serial.txt).
+Two test expectations were corrected to defined semantics before code changes
+(denied-write offset; `touch` does not open a descriptor); no existing
+assertion was weakened to obtain a pass.
 
 ## VM 103 and rollback
 
 Node pve, 192.168.50.205, rosti-dev, 1 vCPU/512 MiB, SeaBIOS/i440fx, serial
-socket. Running ISO `rosti_phase6_20261012T152259Z.iso`. SHA256:
-`8b3a4d4dbb0f245a2b969e3aed7d973cdf46a2b6e5da07f0a189da23c44472cb`
+socket. Running ISO `rosti_phase7_20261012T181123Z.iso`, SHA256
+`4c1e337d1362d827248ad0e3ee13f8c67bb29cdff3a1a460d1cd1d5e97b62bb4`
+(local == remote, verified on pve). Attached to ide2 only; QMP media, final
+config and status read back; VM left running at a clean prompt. Key-auth SSH
+alias `proxmox` verified before use; no credentials read or copied.
 
-Remote and local hashes matched before attachment and after verification.
-CR0=80010011 (PG/WP), CR3=00001000; null PTE absent. VM left at a clean prompt.
-Passwordless SSH proxmox alias verified root/pve; no keys or passwords copied.
-MCP power operations and readbacks used; only ide2 was changed through SSH.
+Rollback media remains the verified Phase 6 ISO
+`local:iso/rosti_phase6_20261012T152259Z.iso` (SHA256 as above); local copy
+`dist/rosti_preserved_8b3a4d4dbb0f245a.iso`. Earlier rollback ISOs untouched.
 
-Rollback: `local:iso/rosti_20261012T125244Z.iso`, SHA256
-`5b8875f9e8b848a346ef22a93eec689688a5cf55ec0c4e765209a8f83ec9015f`.
-Local original preserved at `dist/rosti_preserved_5b8875f9e8b848a3.iso`; the older
-`dist/rosti_rollback.iso` and prior versions are untouched.
+Live media check note: the harness compares the exact QMP file leaf; pass the
+full runtime path as `--expected-iso` (bare filename fails by design; retained
+as regression fixture).
 
 ## Reproduction and safe boundaries
 
@@ -96,7 +102,7 @@ Local original preserved at `dist/rosti_preserved_5b8875f9e8b848a3.iso`; the old
 cargo fmt --check
 cargo +nightly fmt --manifest-path tests_kernel/Cargo.toml --check
 bash scripts/run_tests.sh
-python -B scripts/phase6_verify.py
+python -B scripts/phase6_verify.py   # retained filename; reports phase 7
 python -B scripts/test_fs_harness.py
 ```
 Read the acceptance runner before deployment. Do not change source while it
@@ -107,21 +113,25 @@ QMP media, capture serial before reset, verify metadata/data and paging, then
 retrieve evidence and reread checksum/config/status. Only VM 103 is authorized.
 No host reboot, packages, networking/storage changes or unrelated VMs.
 
-Historical Phase 4/5 evidence was removed by the sync commit f93d7e4; inspect
-with `git show 4ed27fb:<path>` rather than restoring it without permission.
-The existing external `.gitignore` change is preserved and not part of Phase 6.
-Task evidence was staged explicitly despite the test_results ignore rule.
+Historical Phase 4/5 evidence was removed by sync commit f93d7e4; inspect with
+`git show 4ed27fb:<path>`. The external `.gitignore` change is preserved. Task
+evidence was staged explicitly despite the test_results ignore rule.
 
 ## Remaining limits and next milestone
 
 RAM-only files; single main-loop execution; no scheduler/user mode/networking.
-Long output/stress can delay shell processing. Kernel-ring loss is detected,
-but upstream PS/2 controller loss and command ACK/timeouts remain limitations.
-VGA is byte-oriented, not Unicode glyph rendering; UTF-8 serial/data is preserved.
-General exception recovery is absent; NX unsupported in current 32-bit paging.
-SpinMutex is not interrupt-safe; ISRs must stay allocation/lock free.
+Descriptor rights are capabilities within one privileged address space, not
+isolation. Long output/stress can delay shell processing. Kernel-ring loss is
+detected, but upstream PS/2 controller loss and command ACK/timeouts remain
+limitations. VGA is byte-oriented, not Unicode glyph rendering; UTF-8
+serial/data is preserved. General exception recovery is absent; NX unsupported
+in current 32-bit paging. SpinMutex is not interrupt-safe; ISRs must stay
+allocation/lock free. The descriptor layer is filesystem-independent and ready
+to back a future disk filesystem.
 
-Next: Phase 7 persistent block storage, initially a bounded ATA/IDE PIO driver
-and test-owned virtual disk. Do not silently claim a persistent filesystem
-until a format/backend survives verified reboot. Inspect boot port-manager
-guard lifetimes before adding ATA port allocation. See NEXT_SESSION_PROMPT.md.
+Next: Phase 8 persistent block storage — a bounded ATA/IDE PIO driver behind a
+block-device abstraction, test-owned virtual disk images only, then the first
+bounded RostiFS format surviving verified reboot. The descriptor layer must not
+gain filesystem-specific assumptions; keep swap, page reclamation and
+persistence as separate responsibilities. Inspect boot port-manager guard
+lifetimes before adding ATA port allocation. See NEXT_SESSION_PROMPT.md.

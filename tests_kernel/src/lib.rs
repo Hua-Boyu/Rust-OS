@@ -47,6 +47,9 @@ pub mod cpu;
 #[path = "../../src/fs_commands.rs"]
 pub mod fs_commands;
 
+#[path = "../../src/fd.rs"]
+pub mod fd;
+
 // interrupt.rs is not included here: the x86-interrupt ABI cannot compile on
 // the host target. IDT gate encoding is tested via the mirror below.
 

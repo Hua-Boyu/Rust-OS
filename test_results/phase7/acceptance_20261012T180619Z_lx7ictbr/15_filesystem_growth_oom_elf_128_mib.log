@@ -1,0 +1,2 @@
+FAIL: filesystem integration; 13 commands, 35 checks; evidence: C:\Users\iamsv\Documents\Rust-OS\test_results\phase7\acceptance_20261012T180619Z_lx7ictbr\fs_elf_128\20261013_020827_ram128_qoax7487
+AssertionError: file commands dispatch through the descriptor layer and close cleanly

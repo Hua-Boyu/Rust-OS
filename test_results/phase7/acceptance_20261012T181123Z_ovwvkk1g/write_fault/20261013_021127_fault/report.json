@@ -1,0 +1,42 @@
+{
+  "fault_build": true,
+  "results": [
+    {
+      "ram_mib": 128,
+      "iteration": 1,
+      "checks": {
+        "ordered_boot": true,
+        "paging_enabled": true,
+        "no_validation_failure": true,
+        "no_panic": true,
+        "no_triple_fault": true,
+        "guest_alive": true,
+        "fault_triggered": true,
+        "correct_cpu_error_and_cr2": true,
+        "fault_exactly_once": true,
+        "no_other_exception": true
+      },
+      "pass": true,
+      "serial": "test_results/phase7/acceptance_20261012T181123Z_ovwvkk1g/write_fault/20261013_021127_fault/ram_128_run_1/serial.txt"
+    },
+    {
+      "ram_mib": 512,
+      "iteration": 1,
+      "checks": {
+        "ordered_boot": true,
+        "paging_enabled": true,
+        "no_validation_failure": true,
+        "no_panic": true,
+        "no_triple_fault": true,
+        "guest_alive": true,
+        "fault_triggered": true,
+        "correct_cpu_error_and_cr2": true,
+        "fault_exactly_once": true,
+        "no_other_exception": true
+      },
+      "pass": true,
+      "serial": "test_results/phase7/acceptance_20261012T181123Z_ovwvkk1g/write_fault/20261013_021127_fault/ram_512_run_1/serial.txt"
+    }
+  ],
+  "overall": "PASS"
+}

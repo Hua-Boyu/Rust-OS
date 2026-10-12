@@ -177,3 +177,30 @@ Confirmed defects, evidence, and fixes (this session unless noted).
 Remaining limits: RAM-only storage; PS/2 command/ACK limitations and exception
 handler limitations are unchanged. File reads and diagnostics execute
 serially in the main loop; there is no scheduler or concurrent filesystem I/O.
+
+## Phase 7 descriptor safeguards
+
+- Descriptor slots and open records carry generations. A released slot's
+  generation is bumped on close, so a handle captured before close fails as
+  `StaleHandle` even after the slot is reused (no ABA aliasing). Generation
+  exhaustion retires the slot instead of wrapping.
+- Rights are validated on every operation, not at open time only. Duplication
+  uses `attenuate()`: any requested bit outside the source mask is rejected,
+  so a read-only descriptor can never become writable. Default-deny applies to
+  console descriptors until they are wired to real console operations.
+- The shared offset lives in the open-file description, not the descriptor
+  slot; duplication shares it. A denied write does not advance the offset —
+  the initial test expectation (offset moved on denied write) was corrected to
+  the defined semantics before any code change.
+- Double close is rejected (`InvalidDescriptor` after release); refcounted
+  records release only on the last close. Node bindings are generation-checked
+  through the VFS, so deleting an open file fails cleanly instead of dangling.
+- Directories cannot be read/written as regular files (resource type
+  mismatch); offset arithmetic is checked (`OffsetOverflow`).
+- Table exhaustion returns `TableFull` without touching filesystem metadata;
+  no fd path allocates, so heap fragmentation and lock inversion are
+  impossible by construction.
+- Live media check: the harness compares the exact QMP file leaf; the live run
+  must pass the full runtime path (`/var/lib/vz/template/iso/...`) as
+  `--expected-iso`, not a bare filename. This was a harness usage error, not a
+  kernel defect; the assertion was not weakened.

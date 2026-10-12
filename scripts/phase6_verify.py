@@ -30,10 +30,10 @@ def main():
     parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    parent = (args.output_dir or PROJECT / "test_results" / "phase6").resolve()
+    parent = (args.output_dir or PROJECT / "test_results" / "phase7").resolve()
     parent.mkdir(parents=True, exist_ok=True)
     run = Path(tempfile.mkdtemp(prefix=f"acceptance_{stamp}_", dir=parent))
-    report = {"phase": 6, "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
+    report = {"phase": 7, "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
     features_active = False
 
     def gate(name, command, timeout=180, cwd=PROJECT):
@@ -108,7 +108,7 @@ def main():
         gate("VGA backspace ISO", script("backspace_test.py", "--iso", current_iso), timeout=150)
         for memory in (128, 512):
             gate(f"filesystem growth OOM ISO {memory} MiB", script("fs_test.py", "--iso", current_iso, "--ram", memory, "--stress", "--output-dir", run / f"fs_iso_{memory}"), timeout=210)
-        versioned = PROJECT / "dist" / f"rosti_phase6_{stamp}.iso"
+        versioned = PROJECT / "dist" / f"rosti_phase7_{stamp}.iso"
         if versioned.exists():
             raise RuntimeError("refusing to overwrite versioned ISO")
         shutil.copy2(current_iso, versioned)

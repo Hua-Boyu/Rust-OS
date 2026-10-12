@@ -57,6 +57,12 @@ def counters(text):
         match = re.search(pattern, text, re.IGNORECASE)
         if match:
             result[name] = int(match.group(1))
+    match = re.search(
+        r"Descriptors: open (\d+) records (\d+) opens (\d+) closes (\d+) denials (\d+) stale (\d+)",
+        text, re.IGNORECASE)
+    if match:
+        result["fd_open_slots"], result["fd_open_records"], result["fd_opens"], \
+            result["fd_closes"], result["fd_denials"], result["fd_stale"] = map(int, match.groups())
     return result
 
 
@@ -320,6 +326,15 @@ class Harness:
                    bool(re.search(r"(?m)^size: 20 bytes$", stat)), "stat file type and exact 20-byte size")
         live = self.memory("live_file")
         self.check(live["used"] > before["used"], "filesystem uses real heap storage")
+        self.check(all(k in live for k in ("fd_open_slots", "fd_opens", "fd_closes")),
+                   "mem exposes descriptor counters")
+        self.check(live["fd_opens"] >= 1 and live["fd_closes"] == live["fd_opens"] and
+                   live["fd_open_records"] == 0 and live["fd_open_slots"] == 3,
+                   "file commands dispatch through the descriptor layer, close cleanly, "
+                   "and leave only the reserved console descriptors open")
+        out = self.command("fdlist")
+        self.check("fd 0 console-in" in out and "fd 1 console-out" in out and
+                   "fd 2 console-out" in out, "fdlist shows reserved console descriptors")
         out = self.command("rmdir /docs")
         self.check(bool(re.search(r"(?im)^fs:.*(?:not empty|non.?empty)", out)), "rmdir refuses nonempty directory")
         self.exact("cat hello.txt", "Hello from Rosti OS!")

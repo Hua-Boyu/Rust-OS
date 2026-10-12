@@ -7,7 +7,7 @@
 - [x] deterministic QEMU boot test (scripts/boot_test.py, 10/10 verified)  
 - [x] Proxmox-ready ISO (dist/rosti.iso, GRUB multiboot, boot-verified in QEMU) — see PROXMOX.md  
 - [ ] USE TYPES PROPERLY AND MAKE THINGS ACTUALLY WORK!!! <<<<  
-- [x] regression/deployment harness (49 host tests; 25 deployment gates)
+- [x] regression/deployment harness (93 host tests; 21 acceptance gates)
 - [x] physical frames and identity paging (active on 512 MiB VM 103; null guard and CPU faults verified)
 - [x] shell Backspace visually erases characters, including wrapped input
   (QEMU ELF/ISO and live Proxmox VM 103 display regression verified)
@@ -46,3 +46,18 @@ added by `write` or `append`. `cat` adds a display newline.
 
 Local acceptance: `python -B scripts/phase6_verify.py`. See `TESTING.md`,
 `PROXMOX.md` and `HANDOVER.md` for measured results, ISO identity and limitations.
+
+## Phase 7: file descriptors and capability handles
+
+Phase 7 adds `src/fd.rs`: a static, allocation-free descriptor subsystem that
+all shell file commands now dispatch through (`Shell → Descriptor API → VFS →
+RAMFS`). It provides Unix-style numeric descriptors (0/1/2 reserved for
+console), generation-checked internal handles, explicit capability rights
+(default-deny, attenuation-only duplication), separate open-file descriptions
+with shared offsets, and reference-counted open resources. `fdlist` shows open
+descriptors with type, rights, offset and refcount; `mem` reports descriptor
+counters. Tables are fixed at 64 slots + 64 records (≤2,560 bytes asserted
+overhead, no heap allocation on any fd path). Stale handles, double closes,
+escalation, type mismatches and exhaustion are rejected with typed errors.
+Rights are capabilities, not isolation: the kernel still shares one privileged
+address space.

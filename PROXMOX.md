@@ -1,34 +1,41 @@
 # PROXMOX DEPLOYMENT
 
-## Current Phase 6 deployment
+## Current Phase 7 deployment
 
-VM 103 (`rosti-dev`) on pve is running the new SeaBIOS/i440fx build. Only its
-CD-ROM and power state were changed; 1 vCPU, 512 MiB and serial socket are
+VM 103 (`rosti-dev`) on pve is running the Phase 7 build. Only its CD-ROM and
+power state were changed; 1 vCPU, 512 MiB, SeaBIOS and serial socket are
 unchanged. No host reboot, other guest, storage layout or authentication
-implementation was changed. MCP stop/start tasks completed; SSH attached ide2
-because the available MCP update schema does not expose that field.
+implementation was changed. Deployment used the existing key-auth SSH alias
+(`ssh proxmox` / `proxmox` wrapper), verified before use.
 
-- ISO: `rosti_phase6_20261012T152259Z.iso`
-- SHA256: `8b3a4d4dbb0f245a2b969e3aed7d973cdf46a2b6e5da07f0a189da23c44472cb`
-- Runtime QMP media, final config/status and remote/local checksums verified.
-- Hardware/VGA checks 20/20; file/shell/stress checks 100/100, 37 commands.
-- CR0 `80010011` (PG + WP), CR3 `00001000`; null PTE absent.
-- Real live heap growth: 1,536 pages, 4 MiB file integrity, safe OOM and cleanup.
-- VM left running at a clean prompt; owned remote test directory removed.
-- Rollback media remains `local:iso/rosti_20261012T125244Z.iso`, SHA256
-  `5b8875f9e8b848a346ef22a93eec689688a5cf55ec0c4e765209a8f83ec9015f`.
-  Local copy: `dist/rosti_preserved_5b8875f9e8b848a3.iso`; older rollback ISO kept.
+- ISO: `rosti_phase7_20261012T181123Z.iso`
+- SHA256: `4c1e337d1362d827248ad0e3ee13f8c67bb29cdff3a1a460d1cd1d5e97b62bb4`
+  (local == remote, verified with `sha256sum` on pve)
+- Attached to VM 103 ide2 only; runtime QMP media, final config and status
+  read back and verified.
+- Live integration: 38 commands, 104/104 checks, including descriptor-layer
+  dispatch proof (`mem` counters, `fdlist` reserved console descriptors) and
+  full stress (4 MiB integrity, heap growth 1,048,576 -> 7,340,032 bytes,
+  1,536 growth pages, four intentional OOMs, cleanup to 8,232-byte baseline).
+- Descriptor counters live: opens 12, closes 12, denials 0, stale 0, open
+  records 0, open slots 3 (reserved console descriptors only).
+- VM left running at a clean prompt; remote evidence preserved under
+  `/root/live_evidence_phase7/` and copied to `test_results/phase7/live_vm103/`.
+- Rollback media remains the verified Phase 6 ISO
+  `local:iso/rosti_phase6_20261012T152259Z.iso`, SHA256
+  `8b3a4d4dbb0f245a2b969e3aed7d973cdf46a2b6e5da07f0a189da23c44472cb`;
+  local copy `dist/rosti_preserved_8b3a4d4dbb0f245a.iso`. Earlier rollback ISOs
+  are kept; nothing was deleted.
 
-Evidence: `test_results/phase6/deployment.json`, `live_vm103/report.json`,
-`live_vm103/hardware_vga.json`, serial and final config/status readbacks.
-The initial exact-media reader failure is retained as a regression fixture;
-the fixed reader handles Proxmox JSON block-driver wrappers without weakening
-path identity. Passwordless key-auth SSH used the existing proxmox alias.
+Evidence: `test_results/phase7/live_vm103/report.json` and `serial.txt`.
+The live media check compares the exact QMP file leaf; pass the full runtime
+path as `--expected-iso` (the bare-filename form fails by design — that failure
+is retained as a regression fixture, not weakened).
 
 Repeat live checks ON pve using copied scripts and a unique temporary directory:
 ```bash
-python3 verify_proxmox_backspace.py --require-paging --expected-iso rosti_phase6_20261012T152259Z.iso
-python3 fs_test.py --live 103 --ram 512 --stress --expected-iso /var/lib/vz/template/iso/rosti_phase6_20261012T152259Z.iso --output-dir <owned-temporary-directory>
+python3 verify_proxmox_backspace.py --require-paging --expected-iso rosti_phase7_20261012T181123Z.iso
+python3 fs_test.py --live 103 --ram 512 --stress --expected-iso /var/lib/vz/template/iso/rosti_phase7_20261012T181123Z.iso --output-dir <owned-temporary-directory>
 ```
 These reset VM 103 and erase its volatile files; run only with deployment/test
 authorization. Preserve the previous ISO and collect reports before cleanup.

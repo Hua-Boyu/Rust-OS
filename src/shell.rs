@@ -56,7 +56,11 @@ fn print_prompt() {
 }
 
 /// Process one pending keyboard event. Returns true if work was done.
-pub fn poll(fs: &mut impl crate::fs::Vfs, cwd: &mut crate::fs::NodeId) -> bool {
+pub fn poll(
+    fs: &mut impl crate::fs::Vfs,
+    table: &mut crate::fd::FdTable,
+    cwd: &mut crate::fs::NodeId,
+) -> bool {
     if kbd::RING.recover_overflow() {
         unsafe {
             LINE_OVERFLOW = true;
@@ -93,7 +97,7 @@ pub fn poll(fs: &mut impl crate::fs::Vfs, cwd: &mut crate::fs::NodeId) -> bool {
             // Mirror the line-ending to serial so echoed input and command
             // output have consistent line boundaries on the serial console.
             io::serial::putc(b'\n');
-            run_command(fs, cwd);
+            run_command(fs, table, cwd);
             print_prompt();
             return true;
         }
@@ -126,7 +130,11 @@ fn say(s: &str) {
     io::serial::puts("\n");
 }
 
-fn run_command(fs: &mut impl crate::fs::Vfs, cwd: &mut crate::fs::NodeId) {
+fn run_command(
+    fs: &mut impl crate::fs::Vfs,
+    table: &mut crate::fd::FdTable,
+    cwd: &mut crate::fs::NodeId,
+) {
     let line = unsafe { (&raw mut LINE).as_mut().expect("line buffer") };
     let len = unsafe { LINE_LEN };
     // Reset on every dispatch, including an empty/whitespace-only command.
@@ -150,7 +158,7 @@ fn run_command(fs: &mut impl crate::fs::Vfs, cwd: &mut crate::fs::NodeId) {
     if name.is_empty() {
         return;
     }
-    if crate::fs_commands::run(fs, cwd, name, rest, &mut |args| {
+    if crate::fs_commands::run(fs, table, cwd, name, rest, &mut |args| {
         use core::fmt::Write;
         io::vga::print_(args);
         let _ = io::serial::SerialWriter.write_fmt(args);
@@ -161,7 +169,7 @@ fn run_command(fs: &mut impl crate::fs::Vfs, cwd: &mut crate::fs::NodeId) {
     match name {
         "help" => {
             say(
-                "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch cat write append rm rmdir stat fsstress",
+                "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch cat write append rm rmdir stat fsstress fdlist",
             );
         }
         "clear" => {
@@ -193,6 +201,16 @@ fn run_command(fs: &mut impl crate::fs::Vfs, cwd: &mut crate::fs::NodeId) {
                 report!("FS storage: {} bytes", fs_stats.allocated_bytes);
                 report!("FS logical bytes: {}", fs_stats.logical_bytes);
                 report!("FS metadata: {} bytes (fixed)", fs_stats.metadata_bytes);
+                let fd_stats = table.stats();
+                report!(
+                    "Descriptors: open {} records {} opens {} closes {} denials {} stale {}",
+                    fd_stats.open_slots,
+                    fd_stats.open_records,
+                    fd_stats.opens,
+                    fd_stats.closes,
+                    fd_stats.denials,
+                    fd_stats.stale_rejections
+                );
                 report!("Physical memory:");
                 if let Some(s) = fa_stats {
                     report!("Total frames: {}", s.total_frames);
