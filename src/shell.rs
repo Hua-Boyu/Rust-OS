@@ -1,15 +1,26 @@
 //! Minimal interactive text console. Consumes raw scan codes from the
 //! keyboard ring buffer (filled by the ISR), decodes them, echoes, and runs
-//! fixed-size-line commands. No allocation, no locks — main-path only.
+//! fixed-size-line commands. Filesystem allocations are main-context only.
 
 use crate::io;
 use crate::kbd::{self, KEY_BACKSPACE, KEY_ENTER, Modifiers};
 use crate::{print, println};
 
+// Main-context, allocation-free dual console output. Never used in an ISR.
+macro_rules! report {
+    ($($arg:tt)*) => {{
+        use core::fmt::Write;
+        println!($($arg)*);
+        let _ = writeln!(io::serial::SerialWriter, $($arg)*);
+    }};
+}
+
 const LINE_MAX: usize = 128;
 
 static mut LINE: [u8; LINE_MAX] = [0; LINE_MAX];
 static mut LINE_LEN: usize = 0;
+static mut LINE_OVERFLOW: bool = false;
+static mut INPUT_LOST: bool = false;
 static mut MODS: Modifiers = Modifiers::new();
 
 // Set by kernel_main from the multiboot mmap (validated memory info).
@@ -45,7 +56,14 @@ fn print_prompt() {
 }
 
 /// Process one pending keyboard event. Returns true if work was done.
-pub fn poll() -> bool {
+pub fn poll(fs: &mut impl crate::fs::Vfs, cwd: &mut crate::fs::NodeId) -> bool {
+    if kbd::RING.recover_overflow() {
+        unsafe {
+            LINE_OVERFLOW = true;
+            INPUT_LOST = true;
+            MODS = Modifiers::new(); // lost key releases must not stick Shift
+        }
+    }
     let Some(sc) = kbd::RING.pop() else {
         return false;
     };
@@ -75,7 +93,7 @@ pub fn poll() -> bool {
             // Mirror the line-ending to serial so echoed input and command
             // output have consistent line boundaries on the serial console.
             io::serial::putc(b'\n');
-            run_command();
+            run_command(fs, cwd);
             print_prompt();
             return true;
         }
@@ -91,8 +109,11 @@ pub fn poll() -> bool {
                 // Mirror the echo to serial so the harness can observe the
                 // decode stage (VGA writes are not visible on the serial log).
                 io::serial::putc(ch as u8);
+            } else {
+                // Latch until Enter: never execute a truncated destructive
+                // command, even if the user backspaces after overflow.
+                LINE_OVERFLOW = true;
             }
-            // overflow: silently drop further input on this line
         }
         return true;
     }
@@ -105,27 +126,43 @@ fn say(s: &str) {
     io::serial::puts("\n");
 }
 
-fn run_command() {
+fn run_command(fs: &mut impl crate::fs::Vfs, cwd: &mut crate::fs::NodeId) {
     let line = unsafe { (&raw mut LINE).as_mut().expect("line buffer") };
     let len = unsafe { LINE_LEN };
     // Reset on every dispatch, including an empty/whitespace-only command.
     // Otherwise the next Backspace can erase the freshly printed prompt.
-    unsafe { LINE_LEN = 0 };
+    let overflow = unsafe {
+        LINE_LEN = 0;
+        core::mem::replace(&mut *(&raw mut LINE_OVERFLOW), false)
+    };
+    let input_lost = unsafe { core::mem::replace(&mut *(&raw mut INPUT_LOST), false) };
+    if overflow {
+        say(if input_lost {
+            "shell: keyboard input lost; command not executed"
+        } else {
+            "shell: line too long; command not executed"
+        });
+        return;
+    }
     let line = &line[..len];
     let cmd = core::str::from_utf8(line).unwrap_or("");
-    let trimmed = cmd.trim();
-    if trimmed.is_empty() {
+    let (name, rest) = crate::fs_commands::split_word(cmd);
+    if name.is_empty() {
+        return;
+    }
+    if crate::fs_commands::run(fs, cwd, name, rest, &mut |args| {
+        use core::fmt::Write;
+        io::vga::print_(args);
+        let _ = io::serial::SerialWriter.write_fmt(args);
+    }) {
         return;
     }
 
-    let (name, rest) = match trimmed.find(' ') {
-        Some(i) => (&trimmed[..i], trimmed[i + 1..].trim()),
-        None => (trimmed, ""),
-    };
-
     match name {
         "help" => {
-            say("commands: help clear version mem cpu uptime echo reboot");
+            say(
+                "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch cat write append rm rmdir stat fsstress",
+            );
         }
         "clear" => {
             crate::io::vga::clear_console();
@@ -135,10 +172,10 @@ fn run_command() {
         }
         "mem" => {
             if unsafe { MEM_TOTAL_KB } == 0 {
-                println!("no validated memory map captured");
+                report!("no validated memory map captured");
             } else {
-                println!("usable memory: {} KB", unsafe { MEM_TOTAL_KB });
-                println!("allocator block base: {:#08x}", unsafe { MEM_BLOCK_BASE });
+                report!("usable memory: {} KB", unsafe { MEM_TOTAL_KB });
+                report!("allocator block base: {:#08x}", unsafe { MEM_BLOCK_BASE });
 
                 // Copy frame stats under one guard, then release before the
                 // heap guard: nested locks on the same mutex deadlock, and
@@ -151,23 +188,29 @@ fn run_command() {
                         None
                     }
                 };
-                println!("Physical memory:");
+                let fs_stats = fs.stats();
+                report!("FS nodes: {}", fs_stats.nodes);
+                report!("FS storage: {} bytes", fs_stats.allocated_bytes);
+                report!("FS logical bytes: {}", fs_stats.logical_bytes);
+                report!("FS metadata: {} bytes (fixed)", fs_stats.metadata_bytes);
+                report!("Physical memory:");
                 if let Some(s) = fa_stats {
-                    println!("Total frames: {}", s.total_frames);
-                    println!("Free frames: {}", s.free_frames);
-                    println!("Allocated frames: {}", s.allocated_frames);
-                    println!("Reserved frames: {}", s.reserved_frames);
-                    println!(
+                    report!("Total frames: {}", s.total_frames);
+                    report!("Free frames: {}", s.free_frames);
+                    report!("Allocated frames: {}", s.allocated_frames);
+                    report!("Reserved frames: {}", s.reserved_frames);
+                    report!(
                         "Frame rejects: double frees {} invalid frees {}",
-                        s.double_frees, s.invalid_frees
+                        s.double_frees,
+                        s.invalid_frees
                     );
                 } else {
-                    println!("frame allocator: not initialized");
+                    report!("frame allocator: not initialized");
                 }
 
-                println!();
-                println!("Virtual memory:");
-                println!(
+                report!();
+                report!("Virtual memory:");
+                report!(
                     "Paging: {}",
                     if crate::memory::paging_enabled() {
                         "enabled"
@@ -175,35 +218,40 @@ fn run_command() {
                         "disabled"
                     }
                 );
-                println!(
+                report!(
                     "Page directory: {:#010x}",
                     crate::memory::page_directory().unwrap_or(0)
                 );
-                println!("Mapped pages: {}", crate::memory::mapped_pages());
-                println!("Page size: {} bytes", crate::memory::paging::PAGE_SIZE);
+                report!("Mapped pages: {}", crate::memory::mapped_pages());
+                report!("Page size: {} bytes", crate::memory::paging::PAGE_SIZE);
 
-                println!();
-                println!("Kernel heap:");
+                report!();
+                report!("Kernel heap:");
                 let hs = crate::allocator::heap_stats();
-                println!("Current capacity: {} bytes", hs.capacity);
-                println!("Used: {} bytes", hs.used);
-                println!("Free: {} bytes", hs.free);
-                println!("Failed allocations: {}", hs.failed_allocs);
-                println!("Live allocations: {}", hs.live_allocs);
-                println!("Invalid deallocs: {}", hs.invalid_deallocs);
-                println!(
+                report!("Current capacity: {} bytes", hs.capacity);
+                report!("Used: {} bytes", hs.used);
+                report!("Free: {} bytes", hs.free);
+                report!("Failed allocations: {}", hs.failed_allocs);
+                report!("Live allocations: {}", hs.live_allocs);
+                report!("Invalid deallocs: {}", hs.invalid_deallocs);
+                report!(
                     "Free blocks: {} (largest {} bytes)",
-                    hs.free_blocks, hs.largest_free
+                    hs.free_blocks,
+                    hs.largest_free
                 );
-                println!("Alignment waste: {} bytes", hs.waste);
-                println!("Growth pages: {}", hs.growth_pages);
+                report!("Alignment waste: {} bytes", hs.waste);
+                report!("Growth pages: {}", hs.growth_pages);
 
-                println!();
-                println!("Page faults: {}", crate::interrupt::page_fault_count());
+                report!();
+                report!("Page faults: {}", crate::interrupt::page_fault_count());
                 if let Some(f) = crate::interrupt::last_page_fault() {
-                    println!(
+                    report!(
                         "Last fault: cr2={:#010x} present={} write={} user={} fetch={}",
-                        f.cr2, f.present, f.write, f.user, f.fetch
+                        f.cr2,
+                        f.present,
+                        f.write,
+                        f.user,
+                        f.fetch
                     );
                 }
             }
@@ -222,6 +270,17 @@ fn run_command() {
         }
         "echo" => {
             say(rest);
+        }
+        "fsstress" => {
+            if rest.trim().is_empty() {
+                crate::fs_stress::run(fs, &mut |args| {
+                    use core::fmt::Write;
+                    io::vga::print_(args);
+                    let _ = io::serial::SerialWriter.write_fmt(args);
+                });
+            } else {
+                say("fs: invalid path");
+            }
         }
         "reboot" => {
             println!("rebooting...");

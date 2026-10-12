@@ -3,7 +3,7 @@
 //! host test harness (tests_kernel/) can include this module via #[path].
 
 use core::cell::UnsafeCell;
-use core::sync::atomic::{AtomicUsize, Ordering};
+use core::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 
 // Set 1 key codes used by the shell (press codes; release = press + 0x80).
 pub const KEY_BACKSPACE: u8 = 0x0E;
@@ -138,6 +138,7 @@ pub struct RingBuffer<const N: usize> {
     data: UnsafeCell<[u8; N]>,
     head: AtomicUsize,
     tail: AtomicUsize,
+    lost: AtomicBool,
 }
 
 unsafe impl<const N: usize> Sync for RingBuffer<N> {}
@@ -152,6 +153,7 @@ impl<const N: usize> RingBuffer<N> {
             data: UnsafeCell::new([0u8; N]),
             head: AtomicUsize::new(0),
             tail: AtomicUsize::new(0),
+            lost: AtomicBool::new(false),
         }
     }
 
@@ -160,8 +162,9 @@ impl<const N: usize> RingBuffer<N> {
     pub fn push(&self, b: u8) -> bool {
         let h = self.head.load(Ordering::Relaxed);
         let next = (h + 1) % N;
-        if next == self.tail.load(Ordering::Relaxed) {
-            return false; // full: drop, keep the ISR short
+        if next == self.tail.load(Ordering::Acquire) {
+            self.lost.store(true, Ordering::Release);
+            return false; // full: latch loss, keep the ISR short
         }
         unsafe { (*self.data.get())[h] = b };
         self.head.store(next, Ordering::Release);
@@ -177,6 +180,19 @@ impl<const N: usize> RingBuffer<N> {
         let b = unsafe { (*self.data.get())[t] };
         self.tail.store((t + 1) % N, Ordering::Release);
         Some(b)
+    }
+
+    /// Consumer only. Discard ALL pending events after any loss, including
+    /// earlier Enter events: accepting an earlier Enter could otherwise clear
+    /// rejection before a later damaged command. New producer events remain
+    /// queued after this snapshot. No allocation, lock, or interrupt masking.
+    pub fn recover_overflow(&self) -> bool {
+        if !self.lost.swap(false, Ordering::AcqRel) {
+            return false;
+        }
+        self.tail
+            .store(self.head.load(Ordering::Acquire), Ordering::Release);
+        true
     }
 
     pub fn len(&self) -> usize {

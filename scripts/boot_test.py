@@ -45,7 +45,7 @@ FAULT_PATTERNS = [
 RESULTS_DIR = PROJECT / "test_results"
 
 
-def run_once(kernel: Path, run_id: str, timeout: int) -> dict:
+def run_once(kernel: Path, run_id: str, timeout: int, memory: int = 128) -> dict:
     run_dir = RESULTS_DIR / f"run_{run_id}"
     run_dir.mkdir(parents=True, exist_ok=True)
     serial_path = run_dir / "serial.txt"
@@ -57,7 +57,7 @@ def run_once(kernel: Path, run_id: str, timeout: int) -> dict:
         "-display", "none",
         "-no-reboot",
         "-no-shutdown",
-        "-m", "128",
+        "-m", str(memory),
         "-serial", f"file:{serial_path}",
         "-monitor", "none",
         "-d", "int,guest_errors",
@@ -151,6 +151,7 @@ def main():
     ap.add_argument("--runs", type=int, default=1)
     ap.add_argument("--timeout", type=int, default=20)
     ap.add_argument("--kernel", default=DEFAULT_KERNEL)
+    ap.add_argument("--memory", type=int, choices=(128, 512), default=128)
     ap.add_argument("--output-dir", type=Path, help="Preserve prior runs by using a separate evidence directory")
     args = ap.parse_args()
     if args.output_dir:
@@ -164,7 +165,7 @@ def main():
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     rows = []
     for i in range(1, args.runs + 1):
-        r = run_once(kernel, f"{i:02d}", args.timeout)
+        r = run_once(kernel, f"{i:02d}", args.timeout, args.memory)
         rows.append(r)
         print(f"run {r['run']}: {r['status']} {r['class']} "
               f"markers={r['markers']} exit={r['exit']} t={r['elapsed_s']}s")

@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+"""Fail-closed Phase 6 local acceptance. Never deploys or changes authentication.
+
+Run from the canonical repository with the existing Rust/QEMU/WSL tools.
+Evidence lives beneath test_results/phase6; logs and counts are real subprocess
+results. Preserve the currently built ISO before packaging the replacement.
+"""
+import argparse
+import csv
+import datetime
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+
+PROJECT = Path(__file__).resolve().parent.parent
+
+
+def sha256(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", type=Path)
+    args = parser.parse_args()
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    parent = (args.output_dir or PROJECT / "test_results" / "phase6").resolve()
+    parent.mkdir(parents=True, exist_ok=True)
+    run = Path(tempfile.mkdtemp(prefix=f"acceptance_{stamp}_", dir=parent))
+    report = {"phase": 6, "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
+    features_active = False
+
+    def gate(name, command, timeout=180, cwd=PROJECT):
+        log = run / (f"{len(report['gates']) + 1:02d}_" + re.sub(r"[^a-z0-9]+", "_", name.lower()) + ".log")
+        with log.open("wb") as output:
+            try:
+                result = subprocess.run(command, cwd=cwd, stdout=output, stderr=subprocess.STDOUT,
+                                        timeout=timeout, env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
+                code = result.returncode
+            except (OSError, subprocess.TimeoutExpired) as error:
+                output.write((f"\nHARNESS_FAIL: {error}\n").encode())
+                code = -1
+        text = log.read_text(errors="replace")
+        report["gates"].append({"gate": name, "command": command, "exit_code": code,
+                                "status": "PASS" if code == 0 else "FAIL", "log": str(log.relative_to(PROJECT))})
+        (run / "acceptance.json").write_text(json.dumps(report, indent=2) + "\n")
+        print(f"{'PASS' if code == 0 else 'FAIL'}: {name}", flush=True)
+        if code != 0:
+            print(text[-6000:], flush=True)
+            raise RuntimeError(name)
+        return text
+
+    py = sys.executable
+    def script(name, *args):
+        return [py, str(PROJECT / "scripts" / name), *map(str, args)]
+
+    try:
+        report["source_base"] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=PROJECT, text=True).strip()
+        source_paths = (list((PROJECT / "src").rglob("*.rs"))
+                        + list((PROJECT / "tests_kernel/src").rglob("*.rs"))
+                        + list((PROJECT / "scripts").glob("*.py"))
+                        + [PROJECT / "Cargo.toml", PROJECT / "linker.ld"])
+        report["source_sha256"] = {p.relative_to(PROJECT).as_posix(): sha256(p) for p in source_paths}
+        gate("kernel formatting", ["cargo", "fmt", "--check"])
+        gate("host formatting", ["cargo", "+nightly", "fmt", "--manifest-path", str(PROJECT / "tests_kernel/Cargo.toml"), "--check"])
+        text = gate("host tests", ["cargo", "+nightly", "test", "--manifest-path", str(PROJECT / "tests_kernel/Cargo.toml")], cwd=Path.home())
+        match = re.search(r"test result: ok\. (\d+) passed; (\d+) failed", text)
+        if not match:
+            raise RuntimeError("host test totals not found")
+        report["counts"]["host"] = {"pass": int(match[1]), "fail": int(match[2])}
+        features_active = True
+        gate("build read fault fixture", ["cargo", "build", "--features", "paging-fault-test"])
+        gate("CPU read faults 128 and 512", script("paging_test.py", "--fault", "--output-dir", run / "read_fault"))
+        gate("build write fault fixture", ["cargo", "build", "--features", "paging-write-fault-test"])
+        gate("CPU write faults 128 and 512", script("paging_test.py", "--write-fault", "--output-dir", run / "write_fault"))
+        gate("production build", ["cargo", "build"])
+        features_active = False
+        text = gate("ELF validation", script("validate_elf.py", PROJECT / "target/target/debug/kernel"))
+        report["counts"]["elf"] = {"pass": len(re.findall(r"^PASS:", text, re.M)), "fail": len(re.findall(r"^FAIL:", text, re.M))}
+        for memory in (128, 512):
+            output = run / f"boot_{memory}"
+            gate(f"ten ELF boots {memory} MiB", script("boot_test.py", "--runs", 10, "--timeout", 3, "--memory", memory, "--output-dir", output), timeout=90)
+            with (output / "boot_results.csv").open(newline="") as capture:
+                rows = list(csv.DictReader(capture))
+            report["counts"][f"boot_{memory}"] = {"pass": sum(r["status"] == "PASS" for r in rows), "fail": sum(r["status"] != "PASS" for r in rows)}
+        gate("paging stability twenty ELF boots", script("paging_test.py", "--runs", 10, "--output-dir", run / "paging"), timeout=180)
+        gate("keyboard integration", script("keyboard_test.py"), timeout=150)
+        gate("VGA backspace ELF", script("backspace_test.py"), timeout=150)
+        for memory in (128, 512):
+            gate(f"filesystem growth OOM ELF {memory} MiB", script("fs_test.py", "--ram", memory, "--stress", "--output-dir", run / f"fs_elf_{memory}"), timeout=210)
+        current_iso = PROJECT / "dist/rosti.iso"
+        if current_iso.exists():
+            digest = sha256(current_iso)
+            backup = PROJECT / "dist" / f"rosti_preserved_{digest[:16]}.iso"
+            if backup.exists() and sha256(backup) != digest:
+                raise RuntimeError("rollback ISO name collision")
+            if not backup.exists():
+                shutil.copy2(current_iso, backup)
+            report["rollback_iso"] = {"path": str(backup.relative_to(PROJECT)), "sha256": sha256(backup)}
+        gate("GRUB ISO build and boot", script("build-proxmox-iso.py"), timeout=240)
+        gate("ISO paging 128 and 512", script("paging_test.py", "--iso", current_iso, "--output-dir", run / "iso_paging"), timeout=90)
+        gate("VGA backspace ISO", script("backspace_test.py", "--iso", current_iso), timeout=150)
+        for memory in (128, 512):
+            gate(f"filesystem growth OOM ISO {memory} MiB", script("fs_test.py", "--iso", current_iso, "--ram", memory, "--stress", "--output-dir", run / f"fs_iso_{memory}"), timeout=210)
+        versioned = PROJECT / "dist" / f"rosti_phase6_{stamp}.iso"
+        if versioned.exists():
+            raise RuntimeError("refusing to overwrite versioned ISO")
+        shutil.copy2(current_iso, versioned)
+        report["iso"] = {"name": versioned.name, "path": str(versioned.relative_to(PROJECT)), "sha256": sha256(versioned), "bytes": versioned.stat().st_size,
+                          "kernel_sha256": sha256(PROJECT / "target/target/debug/kernel")}
+        for p in run.rglob("report.json"):
+            evidence = json.loads(p.read_text())
+            key = str(p.relative_to(run))
+            if "checks" in evidence:
+                checks = evidence["checks"]
+                report["counts"][key] = {"pass": sum(c["pass"] for c in checks), "fail": sum(not c["pass"] for c in checks), "commands": evidence.get("command_count")}
+            elif "results" in evidence:
+                rows = evidence["results"]
+                report["counts"][key] = {"pass": sum(r["pass"] for r in rows), "fail": sum(not r["pass"] for r in rows)}
+        final_hashes = {p.relative_to(PROJECT).as_posix(): sha256(p) for p in source_paths}
+        if final_hashes != report["source_sha256"]:
+            raise RuntimeError("source changed during acceptance; rerun against stable source")
+        report["overall"] = "PASS"
+    except Exception as error:
+        report["overall"] = "FAIL"
+        report["error"] = str(error)
+    finally:
+        if features_active:
+            with (run / "restore_production.log").open("wb") as output:
+                restored = subprocess.run(["cargo", "build"], cwd=PROJECT, stdout=output, stderr=subprocess.STDOUT, timeout=180)
+            report["production_restored"] = restored.returncode == 0
+        report["gates_passed"] = sum(g["status"] == "PASS" for g in report["gates"])
+        report["gates_total"] = len(report["gates"])
+        (run / "acceptance.json").write_text(json.dumps(report, indent=2) + "\n")
+    print(f"{report['overall']}: {report['gates_passed']}/{report['gates_total']} gates; {run / 'acceptance.json'}", flush=True)
+    if "error" in report:
+        print(report["error"], flush=True)
+    return 0 if report["overall"] == "PASS" else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

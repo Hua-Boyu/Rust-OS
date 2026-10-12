@@ -44,10 +44,18 @@ pub mod timer;
 #[path = "../../src/cpu.rs"]
 pub mod cpu;
 
+#[path = "../../src/fs_commands.rs"]
+pub mod fs_commands;
+
 // interrupt.rs is not included here: the x86-interrupt ABI cannot compile on
 // the host target. IDT gate encoding is tested via the mirror below.
 
 extern crate alloc;
+
+#[path = "../../src/fs/mod.rs"]
+pub mod fs;
+#[cfg(test)]
+mod fs_tests;
 
 use alloc::vec::Vec;
 use core::alloc::{GlobalAlloc, Layout};
@@ -1050,7 +1058,10 @@ fn perf_baseline_records_latencies() {
     let frag = heap.lock().stats;
     // 250 isolated freed blocks (each separated by a live neighbour) plus the
     // large tail remainder = 251 free blocks.
-    assert_eq!(frag.free_blocks, 251, "checkerboard leaves 250 isolated + tail");
+    assert_eq!(
+        frag.free_blocks, 251,
+        "checkerboard leaves 250 isolated + tail"
+    );
 
     std::println!(
         "PERF BASELINE ns/op: frame_alloc {:.1} frame_free {:.1} map {:.1} unmap {:.1}          heap_alloc {:.1} heap_free {:.1}; checkerboard: {} free blocks, waste {} bytes",

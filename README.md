@@ -16,4 +16,33 @@
 ## Project goals  
 Learn more about operating systems and attempt to reimplement (nearly) 
 everything without working with external libraries, minus the Rust core and 
-alloc libraries. 
+alloc libraries.
+
+## Phase 6: RAM filesystem and VFS
+
+Rosti now has a heap-backed, hierarchical RAM filesystem behind a small `Vfs`
+trait. **Files are volatile and disappear on reboot.** This is kernel-shell
+functionality, not user-space execution or a persistent disk filesystem.
+
+| Command | Behavior |
+|---|---|
+| `pwd`, `cd PATH` | Inspect/change the current directory |
+| `ls [PATH]` | List a directory; directory names end in `/` |
+| `mkdir PATH`, `rmdir PATH` | Create/remove an empty directory |
+| `touch PATH` | Create an empty file; existing files are unchanged |
+| `write PATH [TEXT]` | Create/atomically overwrite a file; omitted text empties it |
+| `append PATH [TEXT]` | Append to an existing file |
+| `cat PATH` | Display UTF-8/text; unsafe control and invalid bytes are escaped |
+| `rm PATH`, `stat PATH` | Delete a file / show type and byte size |
+| `fsstress` | Explicit fresh-boot growth/OOM diagnostic; never runs automatically |
+
+Existing hardware/shell commands are preserved. Absolute and relative paths,
+repeated `/`, `.` and root-clamped `..` work. Paths are limited to 256 UTF-8
+bytes, names to 63 bytes, file contents to 512 KiB, and retained file buffers to
+4 MiB across 64 nodes (including root). Shell paths are single tokens, without
+quoting or spaces; the PS/2 input line limit remains 128 bytes. Overlong input
+is rejected entirely. File text keeps trailing spaces, with no automatic newline
+added by `write` or `append`. `cat` adds a display newline.
+
+Local acceptance: `python -B scripts/phase6_verify.py`. See `TESTING.md`,
+`PROXMOX.md` and `HANDOVER.md` for measured results, ISO identity and limitations.

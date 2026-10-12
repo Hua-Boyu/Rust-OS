@@ -1,0 +1,220 @@
+ROSTI: entered kernel_main
+DBG: alloc init
+DBG: mmap print
+DBG: mmap printed
+DBG: mmap parsed
+DBG: mem info set
+DBG: frame init start
+DBG: frame lock acquired
+DBG: init entered
+DBG: frame init passes done
+DBG: frame init done
+DBG: page tables built
+ROSTI: paging enabled (CR0.PG, identity map)
+ROSTI: boot complete
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>pwd
+/
+rosti>mem
+usable memory: 130559 KB
+allocator block base: 0x283000
+FS nodes: 1
+FS storage: 0 bytes
+FS logical bytes: 0
+FS metadata: 5888 bytes (fixed)
+Physical memory:
+Total frames: 32639
+Free frames: 30657
+Allocated frames: 33
+Reserved frames: 1998
+Frame rejects: double frees 0 invalid frees 0
+
+Virtual memory:
+Paging: enabled
+Page directory: 0x00001000
+Mapped pages: 31199
+Page size: 4096 bytes
+
+Kernel heap:
+Current capacity: 1048576 bytes
+Used: 8232 bytes
+Free: 1040344 bytes
+Failed allocations: 0
+Live allocations: 2
+Invalid deallocs: 0
+Free blocks: 2 (largest 1039680 bytes)
+Alignment waste: 0 bytes
+Growth pages: 0
+
+Page faults: 0
+rosti>mkdir docs
+ok
+rosti>cd docs
+ok
+rosti>pwd
+/docs
+rosti>touch hello.txt
+ok
+rosti>write hello.txt Hello from Rosti OS
+ok
+rosti>cat hello.txt
+Hello from Rosti OS
+rosti>append hello.txt !
+ok
+rosti>cat hello.txt
+Hello from Rosti OS!
+rosti>ls
+hello.txt
+rosti>stat hello.txt
+type: file
+size: 20 bytes
+rosti>mem
+usable memory: 130559 KB
+allocator block base: 0x283000
+FS nodes: 3
+FS storage: 20 bytes
+FS logical bytes: 20
+FS metadata: 5888 bytes (fixed)
+Physical memory:
+Total frames: 32639
+Free frames: 30657
+Allocated frames: 33
+Reserved frames: 1998
+Frame rejects: double frees 0 invalid frees 0
+
+Virtual memory:
+Paging: enabled
+Page directory: 0x00001000
+Mapped pages: 31199
+Page size: 4096 bytes
+
+Kernel heap:
+Current capacity: 1048576 bytes
+Used: 8260 bytes
+Free: 1040316 bytes
+Failed allocations: 0
+Live allocations: 3
+Invalid deallocs: 0
+Free blocks: 3 (largest 1039680 bytes)
+Alignment waste: 0 bytes
+Growth pages: 0
+
+Page faults: 0
+rosti>rmdir /docs
+fs: directory not empty
+rosti>cat hello.txt
+Hello from Rosti OS!
+rosti>rm hello.txt
+ok
+rosti>stat hello.txt
+fs: not found
+rosti>cd ..
+ok
+rosti>rmdir docs
+ok
+rosti>pwd
+/
+rosti>ls
+rosti>write guard safe
+ok
+rosti>write guard xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+shell: line too long; command not executed
+rosti>cat guard
+safe
+rosti>rm guard
+ok
+rosti>mem
+usable memory: 130559 KB
+allocator block base: 0x283000
+FS nodes: 1
+FS storage: 0 bytes
+FS logical bytes: 0
+FS metadata: 5888 bytes (fixed)
+Physical memory:
+Total frames: 32639
+Free frames: 30657
+Allocated frames: 33
+Reserved frames: 1998
+Frame rejects: double frees 0 invalid frees 0
+
+Virtual memory:
+Paging: enabled
+Page directory: 0x00001000
+Mapped pages: 31199
+Page size: 4096 bytes
+
+Kernel heap:
+Current capacity: 1048576 bytes
+Used: 8232 bytes
+Free: 1040344 bytes
+Failed allocations: 0
+Live allocations: 2
+Invalid deallocs: 0
+Free blocks: 2 (largest 1039680 bytes)
+Alignment waste: 0 bytes
+Growth pages: 0
+
+Page faults: 0
+rosti>fsstress
+fsstress: 4194304 data bytes verified
+fsstress: quota and real heap OOM preserve metadata/data
+fsstress: 1536 growth pages present writable supervisor identity-mapped
+fsstress: heap used 8232 -> 8232, growth 0 -> 1536, failed 0 -> 4
+fsstress: mapped pages 31199 -> 32735, FS storage 0 -> 0, nodes 1 -> 1
+fsstress: PASS
+rosti>mem
+usable memory: 130559 KB
+allocator block base: 0x283000
+FS nodes: 1
+FS storage: 0 bytes
+FS logical bytes: 0
+FS metadata: 5888 bytes (fixed)
+Physical memory:
+Total frames: 32639
+Free frames: 30657
+Allocated frames: 1569
+Reserved frames: 462
+Frame rejects: double frees 0 invalid frees 0
+
+Virtual memory:
+Paging: enabled
+Page directory: 0x00001000
+Mapped pages: 32735
+Page size: 4096 bytes
+
+Kernel heap:
+Current capacity: 7340032 bytes
+Used: 8232 bytes
+Free: 7331800 bytes
+Failed allocations: 4
+Live allocations: 2
+Invalid deallocs: 0
+Free blocks: 3 (largest 6291456 bytes)
+Alignment waste: 0 bytes
+Growth pages: 1536
+
+Page faults: 0
+rosti>ls
+rosti>help
+commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch cat write append rm rmdir stat fsstress
+rosti>version
+Rosti kernel v0.1.0 (i686, multiboot v1)
+rosti>cpu
+rosti>uptime
+ticks: 3851, uptime: 38 s (PIT 100 Hz)
+rosti>echo fs-regression
+fs-regression
+rosti>echo editedx 
+edited
+rosti>clear
+rosti>pwd
+/
+rosti>

@@ -21,9 +21,10 @@ def main():
     parser.add_argument("--write-fault", action="store_true", help="With paging-write-fault-test build")
     parser.add_argument("--runs", type=int, default=1)
     parser.add_argument("--iso", type=Path)
+    parser.add_argument("--output-dir", type=Path, help="Evidence parent (unique run folder beneath it)")
     args = parser.parse_args()
     args.fault = args.fault or args.write_fault
-    root = PROJECT / "test_results" / "phase4" / (time.strftime("%Y%m%d_%H%M%S") + ("_fault" if args.fault else "_paging"))
+    root = (args.output_dir or PROJECT / "test_results" / "phase4") / (time.strftime("%Y%m%d_%H%M%S") + ("_fault" if args.fault else "_paging"))
     root.mkdir(parents=True, exist_ok=True)
     results = []
     for memory in (128, 512):

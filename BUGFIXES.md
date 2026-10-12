@@ -142,3 +142,38 @@ Confirmed defects, evidence, and fixes (this session unless noted).
   CR0.WP is set so read-only pages fault on supervisor writes. The 256 MiB
   frame-tracking cap remains: lifting it requires a larger bitmap and verified
   checked arithmetic; deferred until a task requires it.
+
+## Phase 6 filesystem and shell safeguards
+
+- Path reduction must not bypass type checks: traversal checks each current
+  node before processing `.` or `..`; `file/..` is an error, not root access.
+- Length-only storage accounting would undercount retained capacity after
+  truncate. Quotas now use Vec capacity; `stat` reports logical length.
+- Infallible Vec growth could panic on filesystem allocation failure. Growth
+  is staged with `try_reserve_exact`; failed replace/write/truncate leave the
+  original contents and accounting intact. The new shell also rolls back
+  creation if its first write fails.
+- Slots have generation IDs and cannot resurrect stale file handles. Slots
+  retire on generation exhaustion rather than wrap. Directory removal never
+  recursively frees descendants; nonempty directories and root are protected.
+- Control characters in filenames could inject false console evidence; path
+  validation rejects them. The host regression was observed RED, then GREEN.
+- Overlong shell lines previously silently dropped bytes, allowing a partial
+  file overwrite. A QEMU keyboard test reproduced this. Overflow is now
+  latched until Enter and rejects the whole command, including after editing.
+- Cwd deletion protection initially obscured a nonempty-directory error as
+  `invalid path`. QEMU and a host regression caught it: the shell now reports
+  `directory not empty` first, while still protecting an empty cwd.
+- Keyboard queue overflow now latches a lock-free loss flag. The consumer
+  discards all pending scancodes (including earlier Enter events), resets
+  modifiers and rejects the affected line until a new Enter. A host RED/GREEN
+  test covers discarding an earlier Enter plus a later damaged command. ISR
+  work remains bounded and allocation-free. This does not claim detection of
+  loss upstream in the PS/2 controller.
+- `mem` previously printed heap/paging details only on VGA. Its main-context
+  output now mirrors to serial via allocation-free formatting, with scalar
+  snapshots copied after releasing allocator guards. No ISR writer changed.
+
+Remaining limits: RAM-only storage; PS/2 command/ACK limitations and exception
+handler limitations are unchanged. File reads and diagnostics execute
+serially in the main loop; there is no scheduler or concurrent filesystem I/O.

@@ -1,6 +1,64 @@
 # TESTING
 
-## Current Phase 5 acceptance (2026-10-12)
+## Current Phase 6 acceptance
+
+Evidence: `test_results/phase6/acceptance_20261012T152259Z_onc_58z8/acceptance.json`, `test_results/phase6/deployment.json`, and
+`test_results/phase6/live_vm103/`. Earlier sections below describe historical checkpoints.
+
+| Gate | Final result |
+|---|---|
+| Kernel/host formatting, production build | PASS |
+| Rust host tests | 78 PASS / 0 FAIL |
+| Python QMP-reader regressions | 4 PASS / 0 FAIL |
+| ELF contract | 8 PASS / 0 FAIL |
+| Independent ELF boots | 10/10 at 128 MiB + 10/10 at 512 MiB |
+| Paging stability | 20/20 (10 at each RAM size) |
+| CPU read/null-write fault fixtures | 4/4 (both RAM sizes) |
+| Keyboard integration | PASS, all stages |
+| Actual VGA editing | 13/13 ELF + 13/13 ISO at 512 MiB |
+| Filesystem/growth/OOM integration | 98/98 each: ELF 128/512 and ISO 128/512 MiB |
+| GRUB ISO build/boot + ISO paging | PASS; paging 2/2 RAM configurations |
+| Local acceptance pipeline | 21/21 gates |
+| VM 103 hardware/VGA | 20/20 |
+| VM 103 filesystem/shell/stress | 100/100 across 37 dispatched commands |
+
+`python -B scripts/phase6_verify.py` is the fail-closed local runner. It snapshots
+source hashes and refuses changed source during acceptance, restores production
+after fault fixtures, preserves the old ISO, and creates a versioned artifact.
+
+A live-verifier compatibility failure was reproduced from the actual QMP report:
+Proxmox wraps its media filename in a throttle/raw/file JSON descriptor. The
+reader now checks the exact file leaf on ide2, not a substring. Kernel source and
+the ISO did not change for that fix. Additional validation after the fix: four
+Python reader tests, another ISO/512 MiB 98-check workflow, then all 100 live
+checks. The original kernel acceptance hashes and this sole script change are
+recorded separately in deployment.json. No failed gate is called passed.
+
+Reproduce individual filesystem checks:
+```bash
+python -B scripts/fs_test.py --ram 128 --stress
+python -B scripts/fs_test.py --ram 512 --stress
+python -B scripts/fs_test.py --iso dist/rosti_phase6_20261012T152259Z.iso --ram 128 --stress
+python -B scripts/fs_test.py --iso dist/rosti_phase6_20261012T152259Z.iso --ram 512 --stress
+python -B scripts/test_fs_harness.py
+```
+The harness requires completed next-prompt boundaries, rejects echo-only file
+read/stat evidence, captures VGA cells, compares exact heap use before/after
+deletion, and exercises quota plus actual global-allocator OOM. It verifies
+legacy help/version/CPU/timer/echo/clear/Backspace and overlong-write rejection.
+
+Live growth is now verified, not merely host-tested: 4,194,304 file bytes read
+back; 1,536 writable supervisor growth pages inspected; heap capacity
+1,048,576 -> 7,340,032 bytes; four intentional allocation failures; heap used
+8,232 -> 8,232 bytes after cleanup, payload 0 and root-only metadata. The
+fixture runs once from a fresh boot for a new-growth assertion. Growth pages
+stay mapped. Ring-overflow recovery is host-tested; upstream controller loss
+is not claimed detectable.
+
+ISO: `rosti_phase6_20261012T152259Z.iso`; SHA256 `8b3a4d4dbb0f245a2b969e3aed7d973cdf46a2b6e5da07f0a189da23c44472cb` (remote == local).
+
+
+## Historical Phase 5 acceptance (2026-10-12)
 
 - Kernel and host formatting PASS; production build PASS with warnings only.
 - Host tests: **59/59** (`bash scripts/run_tests.sh`), including the Phase 5

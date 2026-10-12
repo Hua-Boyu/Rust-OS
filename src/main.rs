@@ -10,6 +10,9 @@ extern crate alloc;
 
 mod allocator;
 mod cpu;
+mod fs;
+mod fs_commands;
+mod fs_stress;
 mod gdt;
 mod interrupt;
 mod io;
@@ -150,6 +153,12 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
 
     shell::banner();
 
+    // Filesystem metadata lives in static storage, not the 16 KiB boot stack.
+    // Exactly one main-loop owner; IRQ handlers never access this instance.
+    static mut FILESYSTEM: fs::RamFs = fs::RamFs::new();
+    let filesystem = unsafe { &mut *(&raw mut FILESYSTEM) };
+    let mut cwd = fs::NodeId::ROOT;
+
     #[cfg(feature = "paging-fault-test")]
     unsafe {
         #[cfg(not(feature = "paging-write-fault-test"))]
@@ -170,7 +179,7 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     // keyboard/timer events wake the loop; hlt itself cannot be executed with
     // interrupts disabled (it would halt forever), so we never cli here.
     loop {
-        if !shell::poll() {
+        if !shell::poll(filesystem, &mut cwd) {
             unsafe {
                 core::arch::asm!("hlt");
             }

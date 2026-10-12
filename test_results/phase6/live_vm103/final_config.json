@@ -1,0 +1,18 @@
+{
+  "agent": "0",
+  "bios": "seabios",
+  "boot": "order=ide2",
+  "cores": 1,
+  "description": "Rosti OS dev VM",
+  "digest": "6076d261cdca32ccef746619a19154d4b947e191",
+  "ide2": "local:iso/rosti_phase6_20261012T152259Z.iso,media=cdrom,size=9096K",
+  "machine": "pc",
+  "memory": "512",
+  "meta": "creation-qemu=11.0.0,ctime=1791563163",
+  "name": "rosti-dev",
+  "onboot": 0,
+  "ostype": "other",
+  "serial0": "socket",
+  "smbios1": "uuid=617b7ae9-b6a9-42df-b4df-544da9158776",
+  "vmgenid": "e54bd228-6797-494c-99ec-2ce9dbe657d3"
+}

@@ -1,0 +1,90 @@
+{
+  "ram_mib": 512,
+  "stress": true,
+  "checks": [
+    {
+      "check": "QMP greeting",
+      "pass": true
+    },
+    {
+      "check": "live runtime media matches expected ISO",
+      "pass": false
+    }
+  ],
+  "commands": [],
+  "memory": {},
+  "overall": "FAIL",
+  "live_vmid": 103,
+  "live_block_checks": [
+    [
+      {
+        "io-status": "ok",
+        "device": "",
+        "locked": false,
+        "removable": true,
+        "inserted": {
+          "iops_rd": 0,
+          "detect_zeroes": "off",
+          "active": true,
+          "image": {
+            "backing-image": {
+              "limits": {
+                "request-alignment": 1,
+                "min-mem-alignment": 1,
+                "opt-mem-alignment": 4096,
+                "max-iov": 1024
+              },
+              "virtual-size": 9314304,
+              "filename": "/var/lib/vz/template/iso/rosti_phase6_20261012T152259Z.iso",
+              "format": "raw",
+              "actual-size": 9314304,
+              "dirty-flag": false
+            },
+            "limits": {
+              "request-alignment": 1,
+              "min-mem-alignment": 1,
+              "opt-mem-alignment": 4096,
+              "max-iov": 1024
+            },
+            "virtual-size": 9314304,
+            "filename": "json:{\"throttle-group\": \"throttle-drive-ide2\", \"driver\": \"throttle\", \"file\": {\"driver\": \"raw\", \"file\": {\"driver\": \"file\", \"filename\": \"/var/lib/vz/template/iso/rosti_phase6_20261012T152259Z.iso\"}}}",
+            "format": "throttle",
+            "actual-size": 9314304,
+            "dirty-flag": false
+          },
+          "iops_wr": 0,
+          "ro": true,
+          "children": [
+            {
+              "node-name": "fbe8951ec2918a034e4a60e1e413a6e",
+              "child": "file"
+            }
+          ],
+          "node-name": "drive-ide2",
+          "backing_file_depth": 1,
+          "drv": "throttle",
+          "iops": 0,
+          "bps_wr": 0,
+          "write_threshold": 0,
+          "encrypted": false,
+          "bps": 0,
+          "bps_rd": 0,
+          "cache": {
+            "no-flush": false,
+            "direct": false,
+            "writeback": true
+          },
+          "file": "json:{\"throttle-group\": \"throttle-drive-ide2\", \"driver\": \"throttle\", \"file\": {\"driver\": \"raw\", \"file\": {\"driver\": \"file\", \"filename\": \"/var/lib/vz/template/iso/rosti_phase6_20261012T152259Z.iso\"}}}"
+        },
+        "qdev": "ide2",
+        "tray_open": false,
+        "type": "unknown"
+      }
+    ]
+  ],
+  "error": "AssertionError: live runtime media matches expected ISO",
+  "owned_qemu_exited": true,
+  "elapsed_s": 0.002,
+  "command_count": 0,
+  "check_count": 2
+}

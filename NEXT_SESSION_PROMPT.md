@@ -1,92 +1,115 @@
-# Rosti OS — Next Session Prompt (Phase 5 verified; Phase 6 not started)
+# Rosti OS — standalone Phase 7 continuation prompt
 
-You are continuing development of Rosti OS. This prompt is standalone — no prior chat history is assumed.
+You are an autonomous Rust bare-metal kernel engineer continuing Rosti OS.
+Canonical repo: `C:\Users\iamsv\Documents\Rust-OS`, branch main, Windows 11
+Git Bash, Rust nightly, i686 no_std/core+alloc, QEMU and WSL GRUB/SeaBIOS.
 
-## 1. Project identity
+## 1. Recover the verified checkpoint
 
-- Repo: `C:\Users\iamsv\Documents\Rust-OS` (canonical project root; Windows 11 host, git-bash shell).
-- Phase 5 is implemented and verified: runtime page mapping (map/unmap/translate/permissions, conflict and alignment rejection, per-page TLB invalidation), the virtual growth window [0x800000, 0xE00000) mapped on demand, the dynamic reclaiming `KernelHeap` global allocator (coalescing free list, alignment-waste tracking, OOM-safe), extended page-fault diagnostics including the instruction-fetch bit, and shell `mem` diagnostics. Do not re-litigate the Phase 4/5 investigations; re-run tests to confirm regressions. Inspect `git status` before editing; preserve unrelated logs.
-- Rosti is a bare-metal i686 Rust kernel (nightly, custom JSON target, `no_std`, only core/alloc), booted via GRUB Multiboot v1 under SeaBIOS, with VGA + COM1 serial consoles, PS/2 keyboard, PIT timer, and a minimal shell.
-- Read `HANDOVER.md` first — it is the authoritative handover (architecture, boot sequence, test commands, Proxmox state, limitations, safety boundaries).
+Read HANDOVER.md, NEXT_SESSION_PROMPT.md, ARCHITECTURE.md, TESTING.md, BUGFIXES.md,
+PROXMOX.md and MIGRATION_REPORT.md if present. Verify git status, branch, log -5
+and fsck --full. Locate Phase 6 by commit subject `feat(fs): implement Phase 6 RAM filesystem and VFS`; verify current
+HEAD rather than assuming a hash. Starting Phase 6 base was f93d7e4; Phase 5
+was 4ed27fb. Do not reset the historical v0.1.0 tag. Preserve unrelated changes,
+including external .gitignore edits, deleted archives and generated evidence.
+Do not automatically push.
 
-## 2. Checkpoint lookup
+Verify installed skills and load rosti-kernel-development, systematic-debugging,
+test-driven-development, bare-metal-kernel-qemu-testing, proxmox-ve-mcp and
+remote-linux-administration. Discover them through the local skills catalog
+or installed registry, not an assumed tool list.
 
-- Branch: `main`
-- Phase 5 commit message: `feat(memory): implement Phase 5 virtual memory and dynamic kernel heap`. Resolve the actual hash with `git log -1 --oneline`; this document does not embed its own commit hash. Phase 4 baseline: `46af27e`.
-- Tag: `v0.1.0` remains the historical annotated local baseline, not the current release.
+## 2. Current system: do not reimplement Phases 4–6
 
-## 3. Verified functionality (do not re-litigate; re-run tests to confirm regressions)
+Multiboot i686 kernel, VGA/COM1, GDT/IDT/PIC, PS/2 ring, PIT/uptime, CPUID,
+hlt idle and kernel shell. Paging/null guard/CR0.WP, runtime mappings, physical
+frames below 256 MiB and reclaiming KernelHeap are implemented. Initial heap
+1 MiB; growth window [0x800000,0xE00000), maximum capacity 7 MiB.
 
-- Build + `cargo fmt --check`: PASS (warnings only).
-- Host tests: 59/59 PASS (`bash scripts/run_tests.sh`; run from `$HOME`, not the project dir).
-- QEMU boot harness: 10/10 PASS (`python scripts/boot_test.py --runs 10`); PASS = markers `ROSTI: entered kernel_main` then `ROSTI: boot complete`.
-- Paging stability: 10 runs each at 128 and 512 MiB; CPU unmapped-read/null-write fault fixtures pass at both sizes with the extended `fetch=` diagnostics. Production builds contain no deliberate fault trigger.
-- Keyboard integration PASS; VGA editing 13 checks on ELF and 13 on ISO.
-- ELF/multiboot validation: 8/8 PASS (`python scripts/validate_elf.py target/target/debug/kernel`).
-- Proxmox: 25/25 deployment gates; 20/20 pipeline live checks; Phase 5 shell verification 13/13 (`scripts/live_phase5_check.py`): `help`, `version`, `uptime`, `mem` (frames, paging, page directory, heap stats, failed allocations, page-fault count) and keyboard editing. Live registers: CR0 = `80010011` (PG + WP), CR3 = `00001000`, null PTE absent. VM 103 running at a clean prompt.
-- Performance baseline recorded in `test_results/phase5/perf_baseline.json` (frame alloc ~2.4–2.6 µs, map ~275–300 ns, unmap ~260–290 ns, heap alloc ~1.9–2.0 µs, heap free ~1.5–1.7 µs, checkerboard fragmentation 251 blocks). No optimization applied yet.
+Phase 6: src/fs/mod.rs RamFs implements src/fs/vfs.rs Vfs. Hierarchical files/
+directories, scoped generation-safe IDs, bounded paths/names, offset read/write,
+atomic replace, truncate, listing, metadata and deletion. 64 nodes including
+root, names 63 UTF-8 bytes, paths 256 bytes, files 512 KiB, retained payload
+4 MiB. Metadata 5,888 i686 bytes; staged growth can add 512 KiB.
 
-## 4. Exact test commands
+Shell: help clear version mem cpu uptime echo reboot plus pwd ls cd mkdir touch
+cat write append rm rmdir stat and explicit fresh-boot fsstress. No persistence,
+user programs, POSIX permissions, links, rename or mounted disk backend.
+Overlong lines and kernel-ring loss reject partial input; upstream controller
+loss remains a limitation. VGA has no Unicode glyph support; UTF-8 bytes/serial
+are preserved. Shell input remains 128 bytes with unquoted path tokens.
 
-```bash
-cargo fmt --check
-cargo +nightly fmt --manifest-path tests_kernel/Cargo.toml --check
-bash scripts/run_tests.sh            # from $HOME, not the project dir
-cargo build --target target.json
-python scripts/validate_elf.py target/target/debug/kernel
-python scripts/boot_test.py --runs 10 --timeout 3
-python scripts/paging_test.py --runs 10
-python scripts/paging_test.py --fault          # with --features paging-fault-test build
-python scripts/paging_test.py --write-fault    # with --features paging-write-fault-test build
-python scripts/keyboard_test.py
-python scripts/backspace_test.py
-python scripts/build-proxmox-iso.py
-python scripts/paging_test.py --iso dist/rosti.iso
-python scripts/backspace_test.py --iso dist/rosti.iso
-python scripts/live_phase5_check.py   # run on the Proxmox host via SSH
-```
+## 3. Last verified release
 
-## 5. Proxmox VM 103 (preserve it)
+ISO `rosti_phase6_20261012T152259Z.iso`
+SHA256 `8b3a4d4dbb0f245a2b969e3aed7d973cdf46a2b6e5da07f0a189da23c44472cb`
 
-- Node `pve`, VM 103 `rosti-dev`: i440fx, SeaBIOS, 1 core, 512 MiB, `serial0: socket`, boot IDE CD-ROM.
-- Deployed ISO: `rosti_20261012T125244Z.iso` (SHA256 `5b8875f9e8b848a346ef22a93eec689688a5cf55ec0c4e765209a8f83ec9015f`); rollback ISO and earlier remote versions retained.
-- Serial console: `/var/run/qemu-server/103.serial0`; input via `qm sendkey 103 <key>` (space is `spc` on this monitor build).
-- Passwordless root SSH key auth is installed on `pve` from both native Windows (`~/.ssh/asus_client`) and WSL (`~/.ssh/id_ed25519`); `proxmox <cmd>` runs as root on pve (see the remote-linux-administration skill). `deploy-proxmox.py` still reads `PVE_ROOT_PASSWORD` from the environment for its gates; never commit credentials.
-- Deploy only to VM 103 via `scripts/deploy-proxmox.py` (25 gates).
+Local pipeline 21/21; Rust host 78/78; Python media-reader regressions 4/4; ELF
+8/8; boot 10/10 each at 128/512 MiB; paging 20/20; CPU fault fixtures 4/4;
+keyboard PASS; VGA editing 13/13 on ELF and ISO; filesystem 98/98 on each
+ELF/ISO and RAM-size combination. GRUB boot and ISO paging 2/2 PASS.
+VM 103 hardware/VGA 20/20; filesystem/shell/stress 100/100 across 37 commands.
+Live 4 MiB data verified, safe real OOM, 1,536 growth PTEs checked, capacity
+1 -> 7 MiB, used 8,232 bytes after cleanup, payload 0/root only. Expanded pages
+remain mapped. Evidence: `test_results/phase6/acceptance_20261012T152259Z_onc_58z8/acceptance.json`, test_results/phase6/deployment.json
+and test_results/phase6/live_vm103/. Revalidate relevant baselines first.
 
-## 6. Phase 5 completion and next objective
+## 4. Phase 7 objective and implementation boundaries
 
-Completed and verified in Phase 5:
-1. Runtime `PageMap` operations: map, unmap, translate, permissions, conflict/alignment/range rejection, TLB invalidation counters.
-2. Growth-window on-demand mapping with growth-frame claims; page tables can never live in the growth window.
-3. `KernelHeap` dynamic global allocator: alloc/free, reuse, alignment, growth, OOM-safe stats; `BumpAlloc` retained for early boot.
-4. Extended page-fault diagnostics (error-code bits including fetch, CR2, RIP) and shell `mem` reporting.
-5. Full regression suite green, performance baseline recorded, gated VM 103 deployment, live shell verification.
+Implement the smallest testable persistent block-storage foundation, initially
+ATA/IDE PIO for the SeaBIOS/i440fx platform. Inspect actual PCI/IDE topology and
+port ownership; do not invent devices, symbols, imports or target disks. Scope
+boot port-manager guards so new allocation cannot relock an existing guard.
 
-Next proposed milestone is Phase 6 (RAM filesystem + basic VFS), but it has NOT been implemented. Confirm the next task with the user; do not implement filesystem, scheduling or networking merely because this handover mentions them. If the user instead requests the deferred optimization pass, use `test_results/phase5/perf_baseline.json` as the before-measurement and keep correctness tests green as the acceptance gate.
+Build a small block-device abstraction with sector size/capacity, bounded
+sector read/write, checked LBA/count arithmetic and explicit errors. Use a
+host-memory/test backend to drive RED/GREEN tests before privileged code.
+ATA IDENTIFY and PIO polling must have finite timeouts and distinguish missing
+devices, busy/error/DRQ states and unsupported addressing. Start with a stated
+LBA/sector limit; do not claim LBA48, DMA or interrupt-driven I/O unless built
+and tested. Never allocate or use FS/VGA locks from an ISR. Preserve heap ->
+frame lock order and avoid filesystem activity under allocator guards.
 
-Do NOT implement multitasking, user mode, or networking in this phase. Avoid architecture rewrites; extend the existing modules.
+Use only newly created, explicitly test-owned virtual disk images under the
+canonical repo dist/ tree for writes. NEVER target Windows/WSL host disks, the
+Proxmox host root disk, existing guest data disks or unrelated VMs. No partition
+or storage-layout changes. Add a data disk to VM 103 only after inventory and
+explicit disk-creation/attachment authorization; current authorization does not
+permit guessing its disk destination or overwriting existing data.
 
-## 7. Known limitations to respect
+Do not build a complete Linux VFS/filesystem. Extend the existing Vfs with a
+minimal disk-backed format/backend only if the persistence scope is clearly
+chosen and its bounded allocation/format/recovery rules are documented. Never
+call RAM files persistent because an ATA sector test passes.
 
-- No filesystem, no scheduler, no user mode, no syscall interface, no ELF loader, no networking, no USB.
-- Vector 14 fatal diagnostics are CPU-tested; other error-code exception handlers still need hardening. Faults halt, not recover.
-- Physical frame allocation below 256 MiB; identity paging covers the VM's full RAM. Heap growth verified in host tests only (live VM workload stayed under 1 MiB). NX is not supported in 32-bit single-directory paging and must not be claimed.
-- SpinMutex is not interrupt-safe; harden or avoid it in new interrupt-adjacent code. Lock order: heap → frame allocator; never allocate while holding the frame lock.
-- PS/2 enable is a stub (no ACK/timeout handling).
-- Heap unsafe code invariants (header layout, block ownership, coalescing bounds) are documented in `src/allocator.rs` and regression-tested; keep them tested when extending.
+## 5. Verification and deployment gates
 
-## 8. Safety boundaries
+Run formatting, build, all host tests, ELF, ten boots at both RAM sizes, paging
+and CPU faults, keyboard/VGA, all Phase 6 filesystem/growth/OOM tests and GRUB
+ISO boot. Add isolated disk tests for identify/capacity, bounds, failed polling,
+sector read/write integrity and data readback after guest reset/reboot. Prove
+any claimed file persistence across reboot on the test disk. Keep fault/crash
+fixtures out of production ISOs. Existing runner: python -B scripts/phase6_verify.py.
+Host cargo tests run outside the kernel .cargo config tree. Keep evidence under
+test_results/ and avoid concurrent QEMU beside the global orphan checker.
 
-- Preserve VM 103; never create duplicate VMs; never touch unrelated VMs or services.
-- Preserve rollback ISOs and test evidence; keep everything reproducible.
-- Never expose or commit credentials.
-- Do not commit large ISO binaries; keep checksums + reproduction steps in docs.
+Only deploy after local gates pass. Proxmox: node pve, 192.168.50.205, VM 103
+rosti-dev, 1 vCPU/512 MiB, SeaBIOS/i440fx, serial socket. Verify passwordless
+proxmox SSH alias and authenticated root/pve identity; never read/copy keys or
+print credentials. Prefer structured MCP for supported operations. Key-auth
+scp/SSH is available; deploy-proxmox.py's password path remains unchanged.
+QMP may wrap media paths in JSON throttle/raw/file descriptors: check the exact
+ide2 file leaf, not a substring. Capture serial before reset. Preserve rollback
+ISO rosti_20261012T125244Z.iso (SHA256
+5b8875f9e8b848a346ef22a93eec689688a5cf55ec0c4e765209a8f83ec9015f).
+Verify full remote/local SHA256, config, running media, live commands and final
+status. Never reboot/reconfigure pve or touch unrelated guests/services.
 
-## 9. Phase 5 deliverables — completed within the limits above
+## 6. Finish and hand over
 
-- Runtime virtual-memory subsystem + dynamic reclaiming heap, 59 passing host tests including fault-diagnostic and fragmentation regressions.
-- Full regression suite green (fmt, build, host tests, QEMU boot, keyboard, ELF, paging, ISO/VGA checks).
-- Sanitized acceptance and live evidence under `test_results/phase5/` and `test_results/proxmox/`.
-- Phase 5 completion commit and updated `HANDOVER.md`.
-- VM 103 deployment completed after all local gates passed; final checksum/config/status read back; live shell checks 13/13.
+Update README, ARCHITECTURE, TESTING, BUGFIXES, PROXMOX, HANDOVER and this prompt.
+Report exact PASS/FAIL counts, ISO name/full SHA256, VM 103 results, persistence
+proof and remaining bounds/risks. Review staged task-owned changes and scan for
+secrets. Commit only after stated gates pass; do not push or rewrite tags.
+Print a complete standalone Phase 8 continuation prompt. If blocked, report the
+failed gate and verified subset honestly instead of inventing results.

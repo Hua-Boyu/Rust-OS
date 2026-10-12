@@ -76,3 +76,60 @@ the project dir) cover pure algorithms only; privileged asm is cfg-gated out.
 Privileged execution is verified through local QEMU boot/paging/fault tests
 and the live Proxmox QMP/serial verifier. Fatal-fault Cargo features are test
 fixtures only; the ISO builder rejects them. See TESTING.md and HANDOVER.md.
+
+## Phase 6: minimal VFS and RAM filesystem
+
+- `src/fs/vfs.rs`: backend-independent `Vfs` trait, `NodeId`, `NodeKind`,
+  `Metadata`, `FsStats` and typed `FsError` with human-readable diagnostics.
+  Interface: lookup, create file/directory, offset read/write, atomic replace,
+  truncate, callback listing, metadata, canonical path and removal. No mount
+  table, permissions, POSIX inode model or disk backend is claimed.
+- `src/fs/mod.rs`: `RamFs`, a fixed 64-slot metadata table. Each occupied node
+  stores its parent ID, inline UTF-8 name, type and a `Vec<u8>` file buffer.
+  IDs combine a slot and generation; stale IDs fail and generation-exhausted
+  slots retire rather than wrap. IDs are scoped to their filesystem instance.
+- Paths are traversed component-by-component, iteratively, not blindly reduced
+  lexically: `file/..`, `file/.` and `file/` fail as non-directories. Absolute
+  paths start at root; relative paths start at cwd; excess parent traversal
+  stays at root. Raw and canonical paths are at most 256 bytes; components are
+  at most 63 bytes. Empty paths, controls/NUL and invalid creation leaves
+  (`.`, `..`, root) are rejected. Trailing separators require a directory.
+- Every growing buffer first uses `try_reserve_exact`, before changing bytes
+  or metadata. A staged replacement preserves the old file on allocation
+  failure. Offset writes zero-fill gaps; extending truncate zero-fills; shrinking
+  retains capacity for reuse except truncate/replace to zero, which frees it.
+  File deletion frees its buffer and reuses the metadata slot. Directories
+  must be empty to remove; root is protected.
+- Accounting: `logical_bytes` sums file lengths; `allocated_bytes` sums retained
+  Vec capacities, capped at 4 MiB. Metadata is the fixed `size_of::<RamFs>()`,
+  separate from payload and independent of occupied node count (5,888 bytes
+  in the i686 kernel). Heap allocator headers/fragmentation are reported by
+  `mem`, not misclassified as filesystem payload. Transactional staging can
+  temporarily add at most one file-sized buffer (512 KiB), so the filesystem
+  backing bound is 4.5 MiB plus fixed metadata and allocator overhead. The
+  stress fixture's scratch/heap-fill buffers are separate diagnostic memory.
+- `src/fs_commands.rs`: host-testable generic VFS shell adapter; it does not
+  know RamFs internals. Output uses `fmt::Arguments` and callbacks, without
+  allocating error/output strings. Failed first writes remove newly created
+  empty files; failed overwrites preserve old contents. Cwd cannot be removed
+  out from under the shell. File data preserves trailing whitespace.
+- `kernel_main` owns one statically initialized RamFs instance (`.data`) and a cwd ID, passed
+  explicitly to `shell::poll`. The large metadata table never moves onto the
+  16 KiB boot stack. Other RamFs instances are possible; the VFS does not rely
+  on a global mutable singleton. Filesystem work runs only in main context,
+  with interrupts enabled, outside VGA/heap/frame lock guards. There is no FS
+  lock to invert the heap -> frame lock order; IRQs only enqueue/increment.
+- `src/fs_stress.rs`: explicitly invoked, bounded fixture under `/__fsstress`,
+  with cleanup on early returns. Checks complete file data, quota rejection,
+  real KernelHeap OOM rollback and every growth-window PTE. Heap growth pages
+  remain mapped after deletion for reuse; physical frames are not returned.
+
+The shell remains a single-task kernel shell. Kernel-ring overflow discards
+pending events and rejects a damaged line; recovery resets modifier state.
+Loss upstream in the PS/2 controller is not detected by this ring flag. UTF-8
+file bytes are preserved and serial output is UTF-8, but VGA remains a
+byte-oriented text console without Unicode glyph rendering.
+
+No persistence, users, processes,
+symlinks, hardlinks, rename, timestamp metadata, disk mounts or Linux/POSIX
+compatibility are implemented. The 256 MiB physical-frame tracking cap remains.
