@@ -71,6 +71,9 @@ pub struct PageMap {
 impl PageMap {
     /// Entry for a linear address, if its page table exists.
     pub fn entry(&self, linear: u64) -> Option<u32> {
+        if linear >= (1u64 << 32) {
+            return None;
+        }
         let base = self.tables[page_dir_index(linear)];
         if base == 0 {
             return None;
@@ -120,7 +123,11 @@ thread_local! {
 /// Build an identity map over [0, window_end) using frames from `fa`.
 /// Returns None if the allocator is exhausted mid-build.
 pub fn build_identity_map(fa: &mut FrameAllocator, window_end: u64) -> Option<PageMap> {
+    if window_end == 0 || window_end > (1u64 << 32) {
+        return None;
+    }
     let directory = fa.allocate()?;
+    zero_table(directory);
     let mut tables = vec![0u64; PAGE_DIR_ENTRIES];
     let mut stats = PagingStats {
         page_tables: 0,
@@ -133,7 +140,19 @@ pub fn build_identity_map(fa: &mut FrameAllocator, window_end: u64) -> Option<Pa
         if region_start >= window_end {
             break;
         }
-        let table = fa.allocate()?;
+        let table = match fa.allocate() {
+            Some(table) => table,
+            None => {
+                for &frame in &tables {
+                    if frame != 0 {
+                        fa.free(frame);
+                    }
+                }
+                fa.free(directory);
+                return None;
+            }
+        };
+        zero_table(table);
         tables[dir] = table;
         stats.page_tables += 1;
 
@@ -141,6 +160,11 @@ pub fn build_identity_map(fa: &mut FrameAllocator, window_end: u64) -> Option<Pa
             let frame = region_start + (idx as u64) * PAGE_SIZE as u64;
             if frame >= window_end {
                 break;
+            }
+            // A reserved physical null frame is not enough: leave its
+            // virtual mapping absent too, so null accesses fault.
+            if frame == 0 {
+                continue;
             }
             let entry = entry_value(frame);
             #[cfg(not(test))]
@@ -176,6 +200,17 @@ pub fn build_identity_map(fa: &mut FrameAllocator, window_end: u64) -> Option<Pa
     })
 }
 
+fn zero_table(frame: u64) {
+    #[cfg(not(test))]
+    unsafe {
+        core::ptr::write_bytes(frame as *mut u8, 0, PAGE_SIZE);
+    }
+    #[cfg(test)]
+    MIRROR.with(|m| {
+        m.borrow_mut().insert(frame, vec![0; PAGE_TABLE_ENTRIES]);
+    });
+}
+
 /// Validate that every required region has present entries before enabling
 /// paging. Returns the names of missing regions (empty = safe to enable).
 pub fn validate_mapping(
@@ -184,7 +219,10 @@ pub fn validate_mapping(
 ) -> Vec<&'static str> {
     let mut missing = Vec::new();
     for &(start, end, name) in required {
-        let mut addr = start;
+        if start >= end {
+            continue;
+        }
+        let mut addr = start & !(PAGE_SIZE as u64 - 1);
         while addr < end {
             if !page_map.is_mapped(addr) {
                 missing.push(name);

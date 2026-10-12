@@ -1,5 +1,22 @@
 # TESTING
 
+## Current Phase 4 acceptance (2026-10-12)
+
+- Kernel/host formatting PASS; production build PASS with compiler warnings.
+- Host tests: 49/49; ELF validation: 8/8; standard boot runner: 10/10.
+- Paging stability: 10 runs each at 128 and 512 MiB, all with paging active.
+- CPU fault fixtures: unmapped read (code 0, CR2 `0xfffff000`) and null write
+  (code 2, CR2 zero) at both RAM sizes; correct diagnostics and fatal halt.
+- Keyboard integration PASS; VGA editing: 13 checks each on ELF and ISO.
+- ISO boot and paging at both RAM sizes PASS. Fault-test binaries are rejected
+  by the ISO builder; production is rebuilt without features before packaging.
+- Deployment: 25/25 gates; VM 103 live checks: 20/20, including CR0.PG,
+  CR3, absent null PTE, `mem` output and Backspace. Remote/local hashes match.
+- Acceptance: `test_results/phase4/acceptance.json`; complete gate log:
+  `test_results/phase4/deployment_pipeline.log`; live details:
+  `test_results/proxmox/phase4_live_report.json`.
+- Exact reproduction commands and remaining limits are in HANDOVER.md.
+
 ## Deterministic QEMU boot test
 
 `scripts/boot_test.py` is the single boot-test runner (the old bash probe is a
@@ -53,7 +70,7 @@ dummy handler!
 (The `dummy handler!` line is a real interrupt reaching the IDT through GRUB's
 multiboot handoff — proof the interrupt path works from the ISO boot path.)
 
-## Host unit tests
+## Historical host unit tests
 
 `bash scripts/run_tests.sh` — 18 tests (must run from outside the project dir;
 the kernel's `.cargo/config.toml` forces build-std which breaks the host test
@@ -62,7 +79,7 @@ align_up, bump allocator arithmetic + boundary rejection, port allocator,
 spinlock, variable-length mmap parsing (standard/variable/truncated entries),
 usable-block selection. All 18 pass.
 
-## Shell display regression verification (2026-10-12)
+## Earlier Backspace-only verification (2026-10-12)
 
 ```
 cargo build --target target.json
@@ -87,8 +104,8 @@ python scripts/backspace_test.py --iso dist/rosti.iso
   passed using `scripts/verify_proxmox_backspace.py` on the Proxmox host.
   Evidence: `test_results/proxmox/backspace_verified.json`. The VM is running
   the checksum-verified ISO and was left at a clean shell prompt.
-- Paging enables in the 128 MiB tests. At 512 MiB, the existing managed-window
-  limit causes required-region validation to leave paging disabled safely.
+- At this earlier checkpoint, paging enabled only at 128 MiB. Phase 4 fixes
+  now enable it at 512 MiB as well; see current acceptance above.
 
 ## Other test limitations
 

@@ -7,6 +7,7 @@ and emits a JSON evidence report. Leaves a clean shell prompt afterward.
 """
 import argparse
 import json
+import re
 import socket
 import tempfile
 import time
@@ -16,6 +17,7 @@ from pathlib import Path
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--expected-iso", required=True)
+    parser.add_argument("--require-paging", action="store_true")
     args = parser.parse_args()
     report = {"vmid": 103, "expected_iso": args.expected_iso, "checks": [], "screens": {}}
     serial_bytes = bytearray()
@@ -85,6 +87,21 @@ def main():
                     drain()
                 expect(0 <= serial_bytes.find(b"ROSTI: entered kernel_main") < serial_bytes.find(b"ROSTI: boot complete"), "boot markers captured in order")
                 expect(screen("boot")[-1].startswith("rosti>"), "VGA capture contains real shell prompt")
+                if args.require_paging:
+                    expect(b"ROSTI: paging enabled" in serial_bytes and b"paging validation FAILED" not in serial_bytes,
+                           "paging enabled without validation failure")
+                    registers = command("human-monitor-command", **{"command-line": "info registers"})
+                    report["registers"] = registers
+                    cr0 = re.search(r"CR0=([0-9a-fA-F]+)", registers)
+                    cr3 = re.search(r"CR3=([0-9a-fA-F]+)", registers)
+                    expect(cr0 and cr3 and int(cr0.group(1), 16) & (1 << 31) and int(cr3.group(1), 16) != 0,
+                           "hardware CR0.PG set and CR3 loaded")
+                    directory = int(cr3.group(1), 16) & ~0xFFF
+                    path = Path(scratch) / "null_entry.bin"
+                    command("pmemsave", val=directory, size=4, filename=str(path))
+                    table = int.from_bytes(path.read_bytes(), "little") & ~0xFFF
+                    command("pmemsave", val=table, size=4, filename=str(path))
+                    expect(int.from_bytes(path.read_bytes(), "little") & 1 == 0, "hardware null-page PTE absent")
                 type_text("echo okx")
                 expect(screen("typed")[-1].startswith("rosti>echo okx"), "typed characters visible")
                 key("backspace")
@@ -122,6 +139,16 @@ def main():
                 expect(screen("final")[-2].strip() == "final", "new command after wrapped deletion executes")
                 drain()
                 expect(b"echo okx\x08 \x08z\nokz\n" in serial_bytes, "serial mirror erases deleted character")
+                if args.require_paging:
+                    type_text("mem")
+                    key("ret")
+                    # mem prints several VGA-only lines. Wait for dispatch
+                    # completion, not an arbitrary key-delay screenshot.
+                    end = min(deadline, time.monotonic() + 5)
+                    while not serial_bytes.endswith(b"rosti>") and time.monotonic() < end:
+                        time.sleep(0.1)
+                        drain()
+                    expect("paging: enabled" in "\n".join(screen("mem")), "shell mem reports paging enabled")
                 type_text("clear")
                 key("ret")
                 type_text("echo backspace-okx")

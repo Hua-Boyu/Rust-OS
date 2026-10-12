@@ -1,6 +1,6 @@
-# Rosti OS — Technical Handover (v0.1.0 checkpoint)
+# Rosti OS — Technical Handover (Phase 4 verified checkpoint)
 
-Date: 2026-10-10. Author: autonomous release session. Status: verified against the live repository, not from prior-session claims alone.
+Date: 2026-10-12. Status: Phase 4 physical memory management and identity paging verified locally and on Proxmox VM 103. Evidence: `test_results/phase4/acceptance.json`.
 
 ## A. Project overview
 
@@ -21,12 +21,14 @@ Rosti is a hobby/learning bare-metal operating system kernel written in Rust, ta
 
 ## C. Repository architecture
 
-- `src/main.rs` — entry + panic handler; init sequence: serial → VGA → allocator → memory-map print/shell mem info → GDT → IDT → PS/2 enable → shell loop (idle via `hlt`).
+- `src/main.rs` — entry + panic handler; serial → VGA → bounded bootstrap heap → mmap/boot-region capture → frame allocator/page-table validation → GDT/IDT → paging enable → PS/2/PIT → shell (`hlt` idle).
 - `src/boot.s` — `_start`: 16 KiB stack, pushes multiboot magic + info pointer, calls `kernel_main`.
 - `src/multiboot.rs` — BootInfo layout; bounds-checked, variable-entry-size mmap parser; allocation-free `find_usable_block`.
-- `src/allocator.rs` — `SpinMutex<BumpAlloc>` global allocator; reserves the kernel image region; dealloc resets when no live allocations.
+- `src/allocator.rs` — `SpinMutex<BumpAlloc>` over a page-aligned 1 MiB bootstrap heap inside the kernel's BSS; checked alignment/size arithmetic; resets when no live allocations remain. It no longer claims all remaining RAM or stretches a selected mmap segment across holes.
+- `src/memory/frame.rs` — static bitmap allocator below 256 MiB; complete usable pages only, reserved/ACPI entries override usable overlaps, kernel/heap/VGA/boot metadata protected, unaligned/unallocated/reserved/double frees rejected, exhaustion returns None.
+- `src/memory/paging.rs` — zero-initialized 4 KiB page tables, identity mapping independent of the frame-allocation cap, null page absent, required-region validation including partial tail pages, rollback of frames on build exhaustion. CR3 loaded then CR0.PG enabled only after IDT setup.
 - `src/gdt.rs` — null/code/data descriptors (OR-based access byte, correct lgdt limit, segment reload).
-- `src/interrupt.rs` — 256-entry IDT, PIC remap to 0x20/0x28, fully unmasked; keyboard ISR; hardware-IRQ dummy handlers send EOI. **Rule: ISRs use only the lockfree serial writer** (VGA writer is behind a non-reentrant SpinMutex → deadlock, fixed and regression-tested).
+- `src/interrupt.rs` — 256-entry IDT, PIC remap to 0x20/0x28, IRQ0/IRQ1 unmasked; keyboard/PIT ISRs and fatal page-fault diagnostics. Hardware-IRQ dummy handlers send EOI. **ISRs use only the lockfree serial writer**, never mutex-backed VGA output.
 - `src/kbd.rs` — PS/2 scan-code set 1 decoder, QWERTY layout table, interrupt-safe ring-buffer event queue.
 - `src/timer.rs` — PIT at 100 Hz, tick counter, uptime.
 - `src/io/ports.rs` — 64 KiB port allocator with RAII `Port`; lockfree in/out for ISR context.
@@ -36,14 +38,14 @@ Rosti is a hobby/learning bare-metal operating system kernel written in Rust, ta
 - `src/cpu.rs` — CPUID vendor/family/model identification.
 - `src/reboot.rs` — keyboard-controller reboot triple-fault mechanism.
 - `src/utils/` — bit-manipulation trait, SpinMutex.
-- `scripts/` — `run_tests.sh` (host tests), `boot_test.py` (deterministic QEMU boot harness), `keyboard_test.py` (keyboard integration stages), `validate_elf.py` (multiboot ELF contract), `build-proxmox-iso.py` (ISO build + boot verify), `deploy-proxmox.py` (11-gate deployment pipeline, env-var credentials only), `sendkey_probe.py`, `stability_probe.sh`, `qemu_boot_test.sh`.
+- `scripts/` — host/boot/keyboard/ELF/ISO runners plus `paging_test.py` (RAM-size matrix and fatal CPU-fault fixtures), `backspace_test.py` (actual VGA cells), `verify_proxmox_backspace.py --require-paging` (live registers, PTE and shell checks), and the 25-gate `deploy-proxmox.py` pipeline. SSH credentials come from environment only and use binary stdin, not argv.
 - `tests_kernel/` — host-side unit tests for pure algorithms only (privileged asm cfg-gated out).
 - `test_results/` — sanitized evidence: `boot_results.csv`, per-run serial captures, `proxmox/deploy_report.json`, `proxmox/boot_103_run01.log`. Raw QEMU debug logs are gitignored.
 - `dist/` — ISO artifacts (gitignored, kept locally): `rosti.iso` (current release), `rosti_rollback.iso` (rollback), `dist/stage/` (grub staging tree).
 
 ## D. Boot architecture
 
-BIOS (SeaBIOS) → GRUB (i386-pc, from ISO) or QEMU ELF loader → Multiboot v1 handoff (`magic == 0x2BADB002`, info pointer in `%ebx`) → `boot.s::_start` → `kernel_main` → serial init → VGA → allocator init → GDT → IDT → PIC remap/unmask → PS/2 enable → shell.
+BIOS → GRUB or QEMU ELF loader → Multiboot v1 → `boot.s::_start` → serial/VGA → bootstrap heap → memory map and boot reservations → physical frames/page tables → mapping validation → GDT/IDT/PIC → CR3 and CR0.PG → PS/2/PIT → shell.
 
 Boot markers (harness PASS criteria, in order):
 ```
@@ -69,8 +71,11 @@ Live ISO-path evidence of a real interrupt reaching the IDT: `keyboard input` / 
 | CPU identification (CPUID) | Implemented, present in shell `cpu` command |
 | Reboot mechanism | Implemented (not exercised destructively on VM 103) |
 | Idle via `hlt` | Implemented, verified |
+| Physical frame allocator | Implemented; reservation, release/bounds, overlap and exhaustion regressions pass |
+| Identity paging / null guard | Active at 128 and 512 MiB, including VM 103; CR0.PG/CR3 and absent null PTE inspected live |
+| Fatal page-fault diagnostics | CPU unmapped-read and null-write faults verified locally at both RAM sizes; error code/CR2 checked |
 
-Shell commands (all live-verified on VM 103 unless noted): `help`, `clear`, `version`, `mem`, `cpu`, `uptime`, `echo`, `reboot`. Live-tested on VM 103: `help`, `version`, `echo` (incl. Backspace edit), `uptime`.
+Available shell commands: `help`, `clear`, `version`, `mem`, `cpu`, `uptime`, `echo`, `reboot`. The Phase 4 live verifier exercises `mem`, `clear`, `echo` and Backspace; earlier verification also covered `help`, `version` and `uptime`. Reboot is not destructively tested on VM 103.
 
 ## F. Testing — exact commands and latest results
 
@@ -84,7 +89,28 @@ python scripts/keyboard_test.py                              # PASS (all stages)
 python scripts/build-proxmox-iso.py                          # builds dist/rosti.iso + boots it in QEMU; PASS
 ```
 
-Latest re-verification (2026-10-10, this checkpoint): fmt PASS, build PASS, 27/27 host tests, QEMU boot 1/1 PASS, keyboard integration PASS, ELF validation 8/8 PASS, GRUB ISO boot PASS. The current `dist/rosti.iso` SHA256 still matches the deployed release — no rebuild was needed.
+The commands and counts above describe the historical v0.1.0 checkpoint. Current Phase 4 results (2026-10-12): kernel and host fmt PASS; production build PASS with compiler warnings; 49/49 host tests; ELF 8/8; standard boot harness 10/10; paging stability 10 runs each at 128/512 MiB; four CPU-fault cases; keyboard PASS; ELF and ISO VGA editing 13 checks each; ISO paging at both RAM sizes PASS; full deployment 25/25 gates and live VM checks 20/20 PASS.
+
+Current reproduction:
+```
+cargo fmt --check
+cargo +nightly fmt --manifest-path tests_kernel/Cargo.toml --check
+bash scripts/run_tests.sh
+cargo build --target target.json --features paging-fault-test
+python scripts/paging_test.py --fault
+cargo build --target target.json --features paging-write-fault-test
+python scripts/paging_test.py --write-fault
+cargo build --target target.json
+python scripts/validate_elf.py target/target/debug/kernel
+python scripts/boot_test.py --runs 10 --timeout 3 --output-dir test_results/phase4/new_boot_run
+python scripts/paging_test.py --runs 10
+python scripts/keyboard_test.py
+python scripts/backspace_test.py
+python scripts/build-proxmox-iso.py
+python scripts/paging_test.py --iso dist/rosti.iso
+python scripts/backspace_test.py --iso dist/rosti.iso
+```
+Fault-test features deliberately halt the guest. NEVER deploy those builds; the ISO builder refuses them. Rebuild without features before creating an ISO. Deployment reruns all gates: `python scripts/deploy-proxmox.py` with `PVE_ROOT_PASSWORD` supplied privately in the process environment.
 
 Evidence paths: `test_results/boot_results.csv`, `test_results/iso_boot/serial.txt`, `test_results/keyboard/`, `test_results/proxmox/deploy_report.json`, `test_results/proxmox/boot_103_run01.log`.
 
@@ -92,35 +118,35 @@ Evidence paths: `test_results/boot_results.csv`, `test_results/iso_boot/serial.t
 
 - Node `pve`, VM **103** (`rosti-dev`) — preserve it; do not create duplicates.
 - Config: i440fx, SeaBIOS, 1 core, 512 MiB, `serial0: socket`, boot from IDE CD-ROM.
-- Deployed ISO: `rosti_20261010T154256Z.iso`, SHA256 `bbfa45f92211cef0a8aa587cc69adf3ba35342b05582db46e35e62d0d0afa8d5` (remote == local, verified).
+- Deployed ISO: `rosti_20261012T091633Z.iso`, SHA256 `6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94` (remote == local, checked before attachment and after live verification). Prior versioned ISOs remain available.
 - Rollback ISO retained locally: `dist/rosti_rollback.iso` (SHA256 `0fffc984895e74739b51c98c2d209a6d7b2f6499fb0e2b4b7524d022d241e0d0`).
 - Serial console verified via `/var/run/qemu-server/103.serial0`; interactive input via `qm sendkey 103 <key>`.
-- Pipeline: `scripts/deploy-proxmox.py` — 11 gates, stops on any failure, touches only VM 103. Credentials come ONLY from environment variables (`PVE_TOKEN_ID`, `PVE_TOKEN_SECRET`, `PVE_ROOT_PASSWORD`); never hardcode them. Auth artifacts (`.pve_auth`, `$AUTH`) are gitignored.
+- Pipeline: `scripts/deploy-proxmox.py` — 25 gates, stops on failure, VM 103 only. `PVE_ROOT_PASSWORD` enables SSH/scp/pvesh; an API token is not needed for that path. Secrets use binary stdin and are never committed. Current evidence: `test_results/proxmox/deploy_report.json` and `phase4_live_report.json`. VM is running, CR0=`80000011`, CR3=`00001000`, null PTE absent, shell `mem` reports paging enabled, Backspace works.
 - Rollback strategy: keep the previous verified ISO; if a new ISO fails, reattach the rollback ISO to VM 103.
 
 ## H. Resource requirements
 
 - VM 103 allocation: 512 MiB RAM, 1 core — this is allocation, NOT kernel consumption.
-- ISO size: ~8.6 MB (8,622,080 bytes), mostly GRUB/GRUB-image overhead; kernel ELF ~3.5 MB debug build.
-- Actual kernel memory footprint: bump allocator reserves the kernel image region within a usable mmap block; no measured runtime RSS figure exists yet. QEMU boot tests run with `-m 128` and succeed, so ≤128 MiB is demonstrated sufficient for boot; 512 MiB allocation is comfortable headroom, not a requirement.
+- ISO includes GRUB and the debug kernel; sizes change across builds, so inspect the current artifact rather than using historical size numbers.
+- Bootstrap heap is 1 MiB inside the kernel's BSS; no runtime RSS figure is claimed. Paging and boot tests pass with both 128 and 512 MiB guest RAM.
 - Idle CPU: kernel idles in `hlt` after boot (near-zero, not independently metered on VM 103).
 
 ## I. Known bugs and limitations
 
 Confirmed open issues (from BUGFIXES.md and source audit):
-- Exception handlers with CPU-pushed error codes: only slot 13 registered; slots 8, 10–14, 16 need dedicated ISRs.
+- Vector 14 has verified fatal diagnostics; other error-code exception handlers still need hardening. This is not a general exception recovery subsystem.
 - PS/2 handling is a minimal enable stub: no command-write timeout handling, no ACK byte checking.
 - SpinMutex is not interrupt-safe (no reentrancy guard); safe only because ISRs avoid mutex-backed writers — must be hardened before general use.
-- `~9 unsafe blocks` across modules; acceptable for a kernel but each needs review as subsystems grow.
+- Hardware-facing unsafe code needs continuing review as subsystems grow; no current block-count claim is made.
 - QEMU "PASS" means markers captured before harness timeout (kernel never exits cleanly from `hlt` idle).
-- `dealloc` resets the bump allocator when no live allocations remain — no fragmentation handling, no real page management.
+- The 1 MiB bootstrap bump heap is not a general-purpose reclaiming heap. Physical frame allocation is capped at 256 MiB; identity mappings can cover RAM above that cap. No user address spaces, demand paging, swapping or user isolation; mappings are supervisor/writable except the absent null page. Boot strings/config buffers conservatively reserve 4 KiB; arbitrarily long boot strings are outside current support.
 
-Missing OS subsystems (not implemented, do not claim otherwise): filesystem, persistent disk storage, physical memory manager/paging, virtual memory, scheduler/multitasking, user-mode processes, syscall interface, ELF executable loader, networking, package management, USB stack, security isolation for user programs.
+Missing OS subsystems: filesystem, persistent block storage, process virtual-memory management, scheduler/multitasking, user-mode processes, syscall interface, ELF executable loader, networking, package management, USB and user-program security isolation.
 
 ## J. Development priorities (proposed, not completed)
 
 Dependency-aware roadmap:
-1. **Phase 4 — Physical memory management and paging**: audit multiboot mmap boundaries, reserve kernel/bootloader/MMIO regions, physical frame allocator, identity-mapped paging for boot-critical regions, host tests for allocation bounds.
+1. **Phase 4 — completed within the documented initial-kernel limits**: frame allocator, boot reservations, identity paging, fatal fault tests, regression/deployment evidence. Extend memory limits or exception recovery only when the next task requires it.
 2. Phase 5 — RAM filesystem + basic VFS (depends on Phase 4).
 3. Phase 6 — Persistent block storage (ATA/IDE driver).
 4. Phase 7 — Task scheduling and context switching (depends on paging).
@@ -138,4 +164,4 @@ Dependency-aware roadmap:
 
 ## L. Git checkpoint
 
-Branch `main`, commit `1f560d904dd785350f7712097dc1bf51119be1c0` — `feat(rosti): establish v0.1.0 interactive kernel baseline`. Annotated local tag: `v0.1.0`.
+Branch `main`. The Phase 4 completion commit is titled `feat(memory): complete Phase 4 paging and gated VM verification`; resolve its hash with `git log -1 --oneline` rather than relying on a self-referential hash in this document. Historical local tag `v0.1.0` remains the older baseline.

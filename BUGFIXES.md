@@ -72,16 +72,37 @@ Confirmed defects, evidence, and fixes (this session unless noted).
   Final ELF and ISO runs passed 13 checks each at 512 MiB. Host tests: 38/38;
   independent boot stability: 10/10. Evidence is under `test_results/backspace/`.
 
-## Remaining limitations
+## Phase 4 memory protections and active paging (2026-10-12)
 
-- Exception handlers with CPU-pushed error codes need further work. Slots
-  13 and 14 have dedicated registrations; vector-14 delivery is not verified.
+- Freeing a reserved frame inside a usable mmap range could underflow stats
+  and make it allocatable. Release now requires aligned in-bounds addresses
+  and evidence that the allocator actually handed the frame out.
+- Partial usable frames and overlapping ACPI/reserved entries were unsafe.
+  Only fully usable frames are admitted; reserved coverage takes precedence.
+  Range arithmetic rejects overflowing usable ranges and conservatively clips
+  overflowing reserved ranges.
+- The mapping window incorrectly discarded RAM ranges ending above the frame
+  cap. Identity coverage now uses the addressable RAM window independently of
+  the 256 MiB physical-allocation cap; paging is active on the 512 MiB VM.
+- Bump initialization could extend across mmap gaps and claimed all high RAM.
+  Bootstrap allocations now use a bounded 1 MiB heap inside kernel BSS. Boot
+  metadata/map buffers and module payloads are separately protected.
+- Page tables are explicitly zeroed, null is unmapped, partial tail pages are
+  validated, and failed table builds return allocated frames.
+- Multiboot VBE/framebuffer field widths were wrong; wire-layout tests now
+  verify offsets and the header size. Allocation/parser arithmetic is checked.
+- Evidence: 49 host tests, four real CPU-fault cases, 20 paging-stability boots,
+  25 deployment gates and 20 live checks pass. See `test_results/phase4/acceptance.json`.
+
+## Current remaining limitations
+
+- Vector 14 fatal diagnostics are CPU-tested (unmapped read and null write);
+  other error-code exception handlers and recoverable faults remain future work.
 - PS/2 command/data handling is a minimal enable stub (no timeout handling on
   command writes, no ACK byte checking).
 - Spinlocks are not interrupt-safe (no reentrancy guard); acceptable while
   ISRs avoid mutex-backed writers, but should be hardened.
 - RTC and a general-purpose allocator beyond bump are not implemented.
-- Initial frame allocator and identity paging are present but incomplete:
-  the managed window is capped at 256 MiB, and the 512 MiB VM-sized test
-  boots with paging disabled after required-region validation fails.
-  Dedicated page-fault delivery has not been live-tested.
+- Physical allocation below 256 MiB; mapping extends above it. Bootstrap heap
+  is fixed at 1 MiB; no demand paging, swapping, user isolation or general
+  reclaiming heap. Boot string/config buffers conservatively reserve 4 KiB.

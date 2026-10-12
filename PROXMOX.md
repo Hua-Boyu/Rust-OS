@@ -41,9 +41,25 @@ qm start 900
 
 ## Verified status
 
-### Backspace deployed and live-verified (2026-10-12)
+### Current Phase 4 release (2026-10-12)
 
-`dist/rosti.iso` contains the visual Backspace fix, the pending frame/paging
+VM 103 runs `rosti_20261012T091633Z.iso`, SHA256
+`6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94`.
+All 25 deployment gates passed before/through upload, attachment, boot and
+final readback. Local and remote checksums match. All 20 live checks passed:
+CR0.PG set (`CR0=80000011`), CR3 loaded (`00001000`), null PTE absent,
+`mem` reports paging enabled, and visual Backspace still works. VM is running
+at a clean prompt; old versioned ISOs and local rollback remain available.
+
+Evidence: `test_results/proxmox/deploy_report.json`,
+`test_results/proxmox/phase4_live_report.json`, `test_results/phase4/acceptance.json`.
+The pipeline supports SSH/scp/pvesh with `PVE_ROOT_PASSWORD` from environment;
+no API token is required on that path. Password uses binary stdin, not argv.
+The live verifier adds hardware paging assertions with `--require-paging`.
+
+### Earlier Backspace release (2026-10-12)
+
+That earlier ISO contained the visual Backspace fix, the pending frame/paging
 work, and the memory-statistics boot-deadlock fix. The ISO boots and passes
 13 actual VGA/serial editing checks in QEMU at the VM's 512 MiB setting.
 Authenticated SSH uploaded `rosti_20261012T081528Z.iso` and attached it to
@@ -62,9 +78,9 @@ It resets only VM 103 and never accepts or stores credentials.
 Local ISO SHA256:
 `7ce870322780fa639319b8734582310566553c1faeafc91388e3ae6e685589d8`.
 
-The initial paging implementation currently falls back to paging disabled
-at 512 MiB because its managed window is capped at 256 MiB. Shell editing
-still passes; this is not a claim of complete memory-subsystem validation.
+At that earlier checkpoint, paging fell back to disabled at 512 MiB. The
+current Phase 4 release fixes mapping coverage independently of the physical
+frame cap. Physical allocation remains below 256 MiB; paging is now active.
 
 - ISO is bootable under QEMU SeaBIOS+GRUB (verified 2026-10-09 via
   `scripts/build-proxmox-iso.py` boot test: both markers captured from the ISO
@@ -75,7 +91,7 @@ still passes; this is not a claim of complete memory-subsystem validation.
 - Full deployment verified 2026-10-10 on VM 103 (`rosti-dev`, i440fx, SeaBIOS,
   `serial0: socket`): versioned ISO `rosti_20261010T154256Z.iso` uploaded,
   remote SHA256 matched local (`bbfa45f92211cef0a8aa587cc69adf3ba35342b05582db46e35e62d0d0afa8d5`), attached to ide2, booted, and both markers plus shell interaction (`help`, `version`, `echo abc`→`abc`, Backspace `echo abc`→`ab`, `uptime` timer progression) captured over the serial socket `/var/run/qemu-server/103.serial0` with input via `qm sendkey`. Machine-readable report: `test_results/proxmox/deploy_report.json`.
-- Repeatable gated pipeline: `scripts/deploy-proxmox.py` (11 gates, stops on
+- Repeatable gated pipeline: `scripts/deploy-proxmox.py` (25 gates, stops on
   any failure, only touches VM 103, preserves `dist/rosti_rollback.iso`).
   Credentials come from environment variables only.
 - Historical size mismatch explained: the earlier remote listing (8,622,187 B)

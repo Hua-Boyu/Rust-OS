@@ -66,7 +66,18 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
         (*info).print_mmap_entries();
         io::serial::puts("DBG: mmap printed\n");
         // capture validated memory info for the shell's `mem` command
-        let entries = (*info).get_mmap_entries();
+        let mut entries = (*info).get_mmap_entries();
+        // Reserved entries override usable coverage in the frame allocator.
+        // Include the actual mmap buffer, boot modules and optional metadata,
+        // not just one page surrounding the BootInfo header.
+        for (start, end) in (*info).reserved_ranges() {
+            entries.push(multiboot::MmapEntry {
+                size: 20,
+                base_addr: start,
+                length: end - start,
+                type_: 2,
+            });
+        }
         io::serial::puts("DBG: mmap parsed\n");
         let total_kb: u64 = entries
             .iter()
@@ -86,12 +97,7 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
 
         // Physical frame allocator + page tables. Paging is NOT enabled yet:
         // the IDT must be loaded first so vector 14 can handle any fault.
-        match memory::prepare(
-            &entries,
-            info as u64,
-            bump_start,
-            bump_end,
-        ) {
+        match memory::prepare(&entries, info as u64, bump_start, bump_end) {
             Ok(window) => {
                 // Copy stats under one guard: multiple lock() temporaries in
                 // the same println! live until the call returns and deadlock.
@@ -147,6 +153,21 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     io::serial::puts("ROSTI: boot complete\n");
 
     shell::banner();
+
+    #[cfg(feature = "paging-fault-test")]
+    unsafe {
+        #[cfg(not(feature = "paging-write-fault-test"))]
+        {
+            io::serial::puts("ROSTI: fault test trigger (unmapped read)\n");
+            core::arch::asm!("mov eax, dword ptr [0xfffff000]", out("eax") _);
+        }
+        #[cfg(feature = "paging-write-fault-test")]
+        {
+            io::serial::puts("ROSTI: fault test trigger (null write)\n");
+            core::arch::asm!("mov dword ptr [0], 1");
+        }
+        panic!("page fault test unexpectedly returned");
+    }
 
     // Idle properly: hlt parks the CPU until the next interrupt instead of
     // burning power in an uncontrolled busy loop. Interrupts stay enabled, so

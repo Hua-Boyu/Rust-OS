@@ -1,0 +1,53 @@
+[gate 1] authenticated VM 103 prerequisites
+PASS: authenticated VM 103 prerequisites: status: running
+[gate 2] kernel formatting
+PASS: kernel formatting: ok
+[gate 3] host formatting
+PASS: host formatting: ok
+[gate 4] host tests
+PASS: host tests: 49 passed
+[gate 5] build read-fault test
+PASS: build read-fault test: note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+[gate 6] CPU read-fault test
+PASS: CPU read-fault test: Evidence: C:\Users\iamsv\Documents\Rust-OS\test_results\phase4\20261012_171411_fault
+[gate 7] build write-fault test
+PASS: build write-fault test: note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+[gate 8] CPU null-write fault test
+PASS: CPU null-write fault test: Evidence: C:\Users\iamsv\Documents\Rust-OS\test_results\phase4\20261012_171414_fault
+[gate 9] build kernel
+PASS: build kernel: note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+[gate 10] ELF multiboot validation
+PASS: ELF multiboot validation: PASS: BSS section at 0x265000 size 1137865 covered by PT_LOAD memsz
+[gate 11] qemu boot verification
+PASS: qemu boot verification: 10/10 passed. Results: C:\Users\iamsv\Documents\Rust-OS\test_results\phase4\boot_20261012_171416\boot_results.csv
+[gate 12] paging boot stability
+PASS: paging boot stability: Evidence: C:\Users\iamsv\Documents\Rust-OS\test_results\phase4\20261012_171448_paging
+[gate 13] keyboard integration
+PASS: keyboard integration: PASS: keyboard integration (all stages)
+[gate 14] VGA editing integration
+PASS: VGA editing integration: PASS: VGA backspace regression (13 checks); evidence: C:\Users\iamsv\Documents\Rust-OS\test_results\backspace\20261012_171532
+[gate 15] build grub iso
+PASS: build grub iso: ISO boot test: PASS
+[gate 16] ISO paging verification
+PASS: ISO paging verification: Evidence: C:\Users\iamsv\Documents\Rust-OS\test_results\phase4\20261012_171617_paging
+[gate 17] ISO VGA editing integration
+PASS: ISO VGA editing integration: PASS: VGA backspace regression (13 checks); evidence: C:\Users\iamsv\Documents\Rust-OS\test_results\backspace\20261012_171621
+[gate 18] local iso sha256
+PASS: local iso sha256: 6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94
+[gate 19] upload versioned iso
+PASS: upload versioned iso: rosti_20261012T091633Z.iso
+[gate 20] remote sha256 verified
+PASS: remote sha256 verified: 6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94
+[gate 21] attach iso to VM 103
+PASS: attach iso to VM 103: local:iso/rosti_20261012T091633Z.iso,media=cdrom,size=8678K
+[gate 22] boot VM 103
+PASS: boot VM 103: running
+[gate 23] guest boot + shell interaction
+PASS: guest boot + shell interaction: 20 VGA/serial/hardware-paging checks passed
+[gate 24] final remote checksum readback
+PASS: final remote checksum readback: 6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94
+[gate 25] final VM 103 state readback
+PASS: final VM 103 state readback: {'ide2': 'local:iso/rosti_20261012T091633Z.iso,media=cdrom,size=8678K', 'status': 'running'}
+report: C:\Users\iamsv\Documents\Rust-OS\test_results\proxmox\deploy_report.json
+
+DEPLOYMENT PASS

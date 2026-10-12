@@ -1,23 +1,23 @@
-use crate::{
-    multiboot::{BootInfo, find_usable_block},
-    println,
-    utils::mutex::SpinMutex,
-};
+use crate::{multiboot::BootInfo, println, utils::mutex::SpinMutex};
 use core::alloc::{GlobalAlloc, Layout};
 use core::ptr::null_mut;
 
-unsafe extern "C" {
-    #[cfg(not(test))]
-    static KERNEL_START: u32;
-    #[cfg(not(test))]
-    static KERNEL_END: u32;
+// A bounded bootstrap heap inside the kernel's .bss. Reserving the kernel
+// image therefore reserves this heap too; it cannot consume a boot module,
+// stretch across a mmap hole, or reserve all RAM from the frame allocator.
+const BOOT_HEAP_SIZE: usize = 1024 * 1024;
+#[repr(align(4096))]
+struct BootHeap {
+    _bytes: [u8; BOOT_HEAP_SIZE],
 }
+static mut BOOT_HEAP: BootHeap = BootHeap {
+    _bytes: [0; BOOT_HEAP_SIZE],
+};
 
-// Host tests can't link against linker.ld symbols, so provide dummies.
-#[cfg(test)]
-static KERNEL_START: u32 = 0;
-#[cfg(test)]
-static KERNEL_END: u32 = 0;
+pub fn bootstrap_heap_bounds() -> (usize, usize) {
+    let start = (&raw mut BOOT_HEAP) as usize;
+    (start, start + BOOT_HEAP_SIZE)
+}
 
 /// Align a given address upward to the `align` boundary
 ///
@@ -43,51 +43,16 @@ impl BumpAlloc {
         }
     }
 
-    pub unsafe fn init(&mut self, info: *const BootInfo) {
-        let block;
-        let kstart;
-        let kend;
-
-        unsafe {
-            // Use the allocation-free parser: we are inside the global
-            // allocator's own init, so allocating a Vec here would deadlock
-            // the SpinMutex<BumpAlloc>.
-            let bytes = core::slice::from_raw_parts(
-                (*info).mmap_addr as *const u8,
-                (*info).mmap_length as usize,
-            );
-            block = find_usable_block(bytes).expect("Usable memory required");
-
-            kstart = &KERNEL_START as *const u32;
-            kend = &KERNEL_END as *const u32;
-        }
-
-        let mut end = block.base_addr + block.length;
-        let mut start = block.base_addr;
-
-        if block.base_addr == 0 {
-            start = kend as u64 + 4;
-            end = start + block.length;
-        } else {
-            if end < kstart as u64 {
-                end = kstart as u64 - 4;
-            }
-
-            if start < kend as u64 {
-                start = kend as u64 + 4;
-            }
-
-            assert!(end >= start, "Bad! No memory other than kernel memory.");
-        }
-
+    pub unsafe fn init(&mut self, _info: *const BootInfo) {
+        let (start, end) = bootstrap_heap_bounds();
         println!(
             "bumpalloc start segment: {:#4x}, end segment: {:#4x}",
             start, end
         );
 
-        self.start = usize::try_from(start).expect("fit within u64");
-        self.end = usize::try_from(end).expect("fit within u64");
-        self.next = usize::try_from(start).expect("fit within u64");
+        self.start = start;
+        self.end = end;
+        self.next = start;
         self.allocs = 0;
     }
 }
@@ -96,8 +61,13 @@ unsafe impl GlobalAlloc for SpinMutex<BumpAlloc> {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         let mut bump = self.lock();
 
-        let alloc_start = align_up(bump.next, layout.align());
-        let alloc_end = alloc_start + layout.size();
+        let Some(aligned) = bump.next.checked_add(layout.align() - 1) else {
+            return null_mut();
+        };
+        let alloc_start = aligned & !(layout.align() - 1);
+        let Some(alloc_end) = alloc_start.checked_add(layout.size()) else {
+            return null_mut();
+        };
 
         if alloc_end > bump.end {
             println!(

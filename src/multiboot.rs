@@ -39,16 +39,16 @@ pub struct BootInfo {
 
     vbe_control_info: u32,
     vbe_mode_info: u32,
-    vbe_mode: u32,
+    vbe_mode: u16,
     vbe_interface_seg: u16,
     vbe_interface_off: u16,
     vbe_interface_len: u16,
 
     framebuffer_addr: u64,
-    framebuffer_pitch: u64,
+    framebuffer_pitch: u32,
     framebuffer_width: u32,
     framebuffer_height: u32,
-    framebuffer_bpp: u32,
+    framebuffer_bpp: u8,
     framebuffer_type: u8,
     color_info: [u8; 6],
 }
@@ -63,12 +63,81 @@ pub struct MmapEntry {
 }
 
 impl BootInfo {
+    /// Bootloader-owned regions, copied before page tables can reuse frames.
+    /// # Safety
+    /// This must be a valid Multiboot structure, including any module table.
+    pub unsafe fn reserved_ranges(&self) -> Vec<(u64, u64)> {
+        let mut ranges = Vec::new();
+        let mut add = |start: u64, length: u64| {
+            if length != 0 {
+                let end = start.checked_add(length).expect("boot region overflow");
+                ranges.push((start, end));
+            }
+        };
+        add(
+            self as *const Self as u64,
+            core::mem::size_of::<Self>() as u64,
+        );
+        let flags = self.flags;
+        if flags & (1 << 6) != 0 {
+            add(self.mmap_addr as u64, self.mmap_length as u64);
+        }
+        // Conservatively keep one maximum supported string buffer (4 KiB).
+        if flags & (1 << 2) != 0 && self.cmdline != 0 {
+            add(self.cmdline as u64, 4096);
+        }
+        if flags & (1 << 9) != 0 && self.boot_loader_name != 0 {
+            add(self.boot_loader_name as u64, 4096);
+        }
+        if flags & (1 << 3) != 0 {
+            let count = self.mods_count;
+            assert!(count <= 1024, "too many boot modules");
+            add(self.mods_addr as u64, count as u64 * 16);
+            for i in 0..count {
+                let addr = (self.mods_addr as u64 + i as u64 * 16) as *const [u32; 4];
+                let module = unsafe { addr.read_unaligned() };
+                assert!(module[1] >= module[0], "invalid boot module range");
+                add(module[0] as u64, (module[1] - module[0]) as u64);
+                if module[2] != 0 {
+                    add(module[2] as u64, 4096);
+                }
+            }
+        }
+        let syms = self.syms;
+        if flags & (1 << 4) != 0 {
+            add(syms[2] as u64, syms[0] as u64 + syms[1] as u64);
+        } else if flags & (1 << 5) != 0 {
+            add(syms[2] as u64, syms[0] as u64 * syms[1] as u64);
+        }
+        if flags & (1 << 7) != 0 {
+            add(self.drives_addr as u64, self.drives_length as u64);
+        }
+        if flags & (1 << 8) != 0 {
+            add(self.config_table as u64, 4096);
+        }
+        if flags & (1 << 10) != 0 {
+            add(self.apm_table as u64, 20);
+        }
+        if flags & (1 << 11) != 0 {
+            add(self.vbe_control_info as u64, 512);
+            add(self.vbe_mode_info as u64, 256);
+        }
+        if flags & (1 << 12) != 0 {
+            add(
+                self.framebuffer_addr,
+                self.framebuffer_pitch as u64 * self.framebuffer_height as u64,
+            );
+        }
+        ranges
+    }
+
     /// Parse the memory map per the multiboot spec: entries are
     /// variable-length. Each entry's `size` field counts everything AFTER
     /// itself, so a full entry occupies `size + 4` bytes. Dividing
     /// `mmap_length` by a fixed struct size is wrong for non-standard
     /// entry sizes (and for trailing partial entries).
     pub unsafe fn get_mmap_entries(&self) -> Vec<MmapEntry> {
+        assert!(self.flags & (1 << 6) != 0, "Multiboot memory map required");
         unsafe {
             parse_mmap(core::slice::from_raw_parts(
                 self.mmap_addr as *const u8,
@@ -107,7 +176,7 @@ pub fn parse_mmap(bytes: &[u8]) -> Vec<MmapEntry> {
     while off + 4 <= bytes.len() {
         let size = u32::from_le_bytes(bytes[off..off + 4].try_into().unwrap()) as usize;
         // spec minimum: base(8) + length(8) + type(4) = 20 bytes after size
-        if size < 20 || off + 4 + size > bytes.len() {
+        if size < 20 || size > bytes.len() - off - 4 {
             break; // malformed or truncated entry: stop, don't read OOB
         }
         let base_addr = u64::from_le_bytes(bytes[off + 4..off + 12].try_into().unwrap());
@@ -132,13 +201,13 @@ pub fn find_usable_block(bytes: &[u8]) -> Option<MmapEntry> {
     let mut off = 0usize;
     while off + 4 <= bytes.len() {
         let size = u32::from_le_bytes(bytes[off..off + 4].try_into().unwrap()) as usize;
-        if size < 20 || off + 4 + size > bytes.len() {
+        if size < 20 || size > bytes.len() - off - 4 {
             break;
         }
         let base_addr = u64::from_le_bytes(bytes[off + 4..off + 12].try_into().unwrap());
         let length = u64::from_le_bytes(bytes[off + 12..off + 20].try_into().unwrap());
         let type_ = u32::from_le_bytes(bytes[off + 20..off + 24].try_into().unwrap());
-        if type_ == 1 && base_addr != 0 {
+        if type_ == 1 && base_addr != 0 && length != 0 && base_addr.checked_add(length).is_some() {
             return Some(MmapEntry {
                 size: size as u32,
                 base_addr,
@@ -149,4 +218,34 @@ pub fn find_usable_block(bytes: &[u8]) -> Option<MmapEntry> {
         off += 4 + size;
     }
     None
+}
+
+#[cfg(test)]
+mod phase4_tests {
+    use super::*;
+
+    #[test]
+    fn bootinfo_layout_matches_multiboot_wire_format() {
+        assert_eq!(core::mem::size_of::<BootInfo>(), 116);
+        assert_eq!(core::mem::offset_of!(BootInfo, framebuffer_pitch), 96);
+        assert_eq!(core::mem::offset_of!(BootInfo, framebuffer_bpp), 108);
+    }
+
+    #[test]
+    fn bootloader_metadata_is_reserved_by_flags() {
+        let mut info: BootInfo = unsafe { core::mem::zeroed() };
+        info.flags = (1 << 6) | (1 << 2) | (1 << 9);
+        info.mmap_addr = 0x10000;
+        info.mmap_length = 5000;
+        info.cmdline = 0x20000;
+        info.boot_loader_name = 0x30000;
+        let ranges = unsafe { info.reserved_ranges() };
+        assert!(ranges.contains(&(0x10000, 0x10000 + 5000)));
+        assert!(ranges.contains(&(0x20000, 0x21000)));
+        assert!(ranges.contains(&(0x30000, 0x31000)));
+        assert!(ranges.contains(&(
+            (&info as *const BootInfo as u64),
+            (&info as *const BootInfo as u64) + 116
+        )));
+    }
 }

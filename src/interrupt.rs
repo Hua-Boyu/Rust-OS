@@ -255,7 +255,7 @@ pub fn init_idt(palloc: &mut PortAllocator) {
     println!("new idtr: {:?}", get_idtr());
 }
 
-// Page fault (vector 14) is the one exception with a CPU-pushed error code.
+// Page fault (vector 14) receives a CPU-pushed error code.
 // The frame is read through a dedicated struct so the error code is decoded
 // correctly; CR2 carries the faulting linear address.
 #[derive(Debug, Clone, Copy)]

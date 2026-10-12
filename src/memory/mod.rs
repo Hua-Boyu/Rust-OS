@@ -36,8 +36,9 @@ pub fn managed_window_end(entries: &[MmapEntry]) -> u64 {
     let mmap_end = entries
         .iter()
         .filter(|e| e.type_ == 1)
-        .map(|e| e.base_addr + e.length)
-        .filter(|&end| end <= frame::MAX_FRAME_ADDR)
+        .filter(|e| e.base_addr < (1u64 << 32))
+        .filter_map(|e| e.base_addr.checked_add(e.length))
+        .map(|end| end.min(1u64 << 32))
         .max()
         .unwrap_or(0);
     let (_, kend) = frame::kernel_bounds();
@@ -66,7 +67,7 @@ pub fn required_regions(
         ));
     }
     #[cfg(test)]
-    regions.push((0, 4096, "kernel image (test dummy)"));
+    regions.push((4096, 8192, "kernel image (test dummy)"));
 
     regions.push((0xB8000, 0xBC000, "VGA framebuffer"));
     regions.push((bootinfo_addr, bootinfo_addr + 4096, "multiboot info struct"));
@@ -74,8 +75,14 @@ pub fn required_regions(
     // Every usable mmap range inside the window must be mapped (the bump
     // allocator and the page tables live there).
     for e in entries {
-        if e.type_ == 1 && e.base_addr < frame::MAX_FRAME_ADDR {
-            regions.push((e.base_addr, e.base_addr + e.length, "usable mmap range"));
+        if e.type_ == 1 && e.base_addr < (1u64 << 32) {
+            if let Some(end) = e.base_addr.checked_add(e.length) {
+                regions.push((
+                    e.base_addr.max(paging::PAGE_SIZE as u64),
+                    end.min(1u64 << 32),
+                    "usable mmap range",
+                ));
+            }
         }
     }
 

@@ -129,7 +129,7 @@ fn gdt_code_descriptor_encoding() {
     // low 32 bits: limit[15:0] | base[23:16]
     assert_eq!(code & 0xFFFF, 0xFFFF);
     assert_eq!((code >> 16) & 0xFF, 0); // base 0
-                                        // high 32 bits: base[31:24] | access byte | limit[19:16] | flags nibble
+    // high 32 bits: base[31:24] | access byte | limit[19:16] | flags nibble
     assert_eq!((code >> 32) & 0xFF, 0); // base high
     assert_eq!((code >> 40) & 0xFF, 0b1001_1001); // access: present|NSD|code|accessed
     assert_eq!((code >> 48) & 0xF, 0xF); // limit high nibble
@@ -351,7 +351,7 @@ fn kbd_modifiers() {
     assert!(m.apply(0x3A)); // caps press
     assert!(m.caps);
     assert!(!m.apply(0x1E)); // 'a' is not a modifier
-                             // caps toggle: second press turns it off
+    // caps toggle: second press turns it off
     assert!(m.apply(0x3A));
     assert!(!m.caps);
 }
@@ -446,7 +446,10 @@ fn frame_of_alignment() {
     assert_eq!(memory::frame::FrameAllocator::frame_of(4097), Some(1));
     assert_eq!(memory::frame::FrameAllocator::frame_of(0xB8000), Some(184));
     // above the managed window
-    assert_eq!(memory::frame::FrameAllocator::frame_of(256 * 1024 * 1024), None);
+    assert_eq!(
+        memory::frame::FrameAllocator::frame_of(256 * 1024 * 1024),
+        None
+    );
 }
 
 #[test]
@@ -556,6 +559,23 @@ fn frame_allocator_exhaustion() {
 // ---- Paging tests ----
 
 #[test]
+fn frame_free_rejects_reserved_unaligned_and_out_of_bounds() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    fa.init(&[mmap_entry(0x10000, 0x4000, 1)], 0x11000, 0x12000, 0x13000);
+    assert!(!fa.free(0x11000), "bootloader frame must remain reserved");
+    assert!(!fa.free(0x12000), "heap frame must remain reserved");
+    let allocated = fa.allocate().unwrap();
+    assert!(
+        !fa.free(allocated + 1),
+        "unaligned free must not release a frame"
+    );
+    assert!(!fa.free(memory::frame::MAX_FRAME_ADDR));
+    assert!(!fa.is_free(allocated));
+    assert_eq!(fa.stats().allocated_frames, 1);
+    assert_eq!(fa.stats().invalid_frees, 4);
+}
+
+#[test]
 fn paging_entry_encoding() {
     let e = memory::paging::entry_value(0x200000);
     assert_eq!(e, 0x200000 | 0x3); // present + writable
@@ -583,9 +603,10 @@ fn paging_identity_map_build_and_validate() {
     let pm = memory::paging::build_identity_map(&mut fa, 0xC0000).expect("build");
     // directory + 1 page table allocated from managed frames
     assert_eq!(pm.stats().page_tables, 1);
-    assert_eq!(pm.stats().mapped_frames, 0xC0000 / 4096);
+    assert_eq!(pm.stats().mapped_frames, 0xC0000 / 4096 - 1); // null page absent
     // required regions (test dummy kernel at 0, VGA, bootinfo) all mapped
-    let missing = memory::paging::validate_mapping(&pm, &memory::required_regions(&entries, 0x10000));
+    let missing =
+        memory::paging::validate_mapping(&pm, &memory::required_regions(&entries, 0x10000));
     assert!(missing.is_empty());
     assert!(pm.is_mapped(0xB8000));
     assert!(pm.is_mapped(0x10000));
@@ -598,7 +619,8 @@ fn paging_validate_reports_missing_region() {
     let entries = [mmap_entry(0x10000, 0x2000, 1)];
     fa.init(&entries, 0x200000, 0x300000, 0x31000);
     let pm = memory::paging::build_identity_map(&mut fa, 0x12000).expect("build");
-    let missing = memory::paging::validate_mapping(&pm, &memory::required_regions(&entries, 0x200000));
+    let missing =
+        memory::paging::validate_mapping(&pm, &memory::required_regions(&entries, 0x200000));
     assert!(missing.contains(&"VGA framebuffer"));
     assert!(!missing.contains(&"usable mmap range"));
 }
@@ -610,4 +632,121 @@ fn paging_build_fails_on_exhaustion() {
     let entries = [mmap_entry(0x10000, 0x1000, 1)];
     fa.init(&entries, 0x200000, 0x300000, 0x31000);
     assert!(memory::paging::build_identity_map(&mut fa, 0xC0000).is_none());
+    assert_eq!(
+        fa.stats().free_frames,
+        1,
+        "failed page-table build must return its frames"
+    );
+}
+
+#[test]
+fn frame_usable_pages_are_complete_and_reserved_entries_override() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    let entries = [
+        mmap_entry(0x10001, 0x4FFE, 1),
+        mmap_entry(0x12010, 1, 2),
+        mmap_entry(0x13000, 0x1000, 3),
+        mmap_entry(u64::MAX - 8, 32, 1),
+    ];
+    fa.init(&entries, 0x200000, 0x300000, 0x310000);
+    assert!(!fa.is_free(0x10000), "partial starting page");
+    assert!(!fa.is_free(0x14000), "partial ending page");
+    assert!(
+        !fa.is_free(0x12000),
+        "reserved entry overrides usable overlap"
+    );
+    assert!(!fa.is_free(0x13000), "ACPI entry overrides usable overlap");
+    assert_eq!(fa.allocate(), Some(0x11000));
+    assert_eq!(fa.allocate(), None);
+}
+
+#[test]
+fn paging_window_covers_ram_above_frame_allocator_cap() {
+    let entries = [mmap_entry(0x100000, 511 * 1024 * 1024, 1)];
+    assert_eq!(memory::managed_window_end(&entries), 512 * 1024 * 1024);
+    let mut fa = memory::frame::FrameAllocator::new();
+    fa.init(&entries, 0x10000, 0x100000, 0x200000);
+    let pm =
+        memory::paging::build_identity_map(&mut fa, memory::managed_window_end(&entries)).unwrap();
+    assert!(pm.is_mapped(511 * 1024 * 1024));
+    assert!(
+        memory::paging::validate_mapping(&pm, &memory::required_regions(&entries, 0x10000))
+            .is_empty()
+    );
+}
+
+#[test]
+fn mmap_usable_block_rejects_empty_and_overflowing_ranges() {
+    let mut bytes = Vec::new();
+    for entry in [
+        mmap_entry(0x10000, 0, 1),
+        mmap_entry(0x10000, u64::MAX, 1),
+        mmap_entry(0x200000, 0x400000, 1),
+    ] {
+        bytes.extend_from_slice(&20u32.to_le_bytes());
+        bytes.extend_from_slice(&entry.base_addr.to_le_bytes());
+        bytes.extend_from_slice(&entry.length.to_le_bytes());
+        bytes.extend_from_slice(&entry.type_.to_le_bytes());
+    }
+    assert_eq!(
+        { multiboot::find_usable_block(&bytes).unwrap().base_addr },
+        0x200000
+    );
+}
+
+#[test]
+fn bump_alloc_rejects_arithmetic_overflow() {
+    let allocator = utils::mutex::SpinMutex::new(allocator::BumpAlloc {
+        start: 0x1000,
+        end: usize::MAX,
+        next: usize::MAX - 8,
+        allocs: 0,
+    });
+    assert!(unsafe { allocator.alloc(Layout::from_size_align(16, 16).unwrap()) }.is_null());
+    assert_eq!(allocator.lock().allocs, 0);
+}
+
+#[test]
+fn bootstrap_heap_is_page_aligned_and_bounded() {
+    let (start, end) = allocator::bootstrap_heap_bounds();
+    assert_eq!(start % 4096, 0);
+    assert_eq!(end - start, 1024 * 1024);
+}
+
+#[test]
+fn paging_null_page_is_absent() {
+    let entries = [mmap_entry(0x10000, 0x10000, 1)];
+    let mut fa = memory::frame::FrameAllocator::new();
+    fa.init(&entries, 0x30000, 0x40000, 0x50000);
+    let pm = memory::paging::build_identity_map(&mut fa, 0x20000).unwrap();
+    assert!(!pm.is_mapped(0));
+    assert!(pm.is_mapped(0x1000));
+}
+
+#[test]
+fn paging_validation_checks_partial_tail_page() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    fa.init(&[mmap_entry(0x10000, 0x2000, 1)], 0x20000, 0x30000, 0x40000);
+    let pm = memory::paging::build_identity_map(&mut fa, 0x2000).unwrap();
+    assert_eq!(
+        memory::paging::validate_mapping(&pm, &[(0x1FFF, 0x2001, "tail")]),
+        ["tail"]
+    );
+    assert!(!pm.is_mapped(1u64 << 32));
+}
+
+#[test]
+fn frame_reserved_range_overflow_is_conservative() {
+    let mut fa = memory::frame::FrameAllocator::new();
+    fa.init(
+        &[
+            mmap_entry(0x10000, 0x2000, 1),
+            mmap_entry(0x11000, u64::MAX, 2),
+        ],
+        0x200000,
+        0x300000,
+        0x400000,
+    );
+    assert_eq!(fa.allocate(), Some(0x10000));
+    assert_eq!(fa.allocate(), None);
 }

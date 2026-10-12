@@ -147,11 +147,16 @@ impl FrameAllocator {
             if e.type_ != 1 || e.length == 0 {
                 continue;
             }
-            let Some(first) = Self::frame_of(e.base_addr) else {
+            let Some(end) = e.base_addr.checked_add(e.length) else {
                 continue;
             };
-            let last = Self::frame_of(e.base_addr + e.length - 1).unwrap_or(MAX_FRAMES - 1);
-            for f in first..=last {
+            // Only complete frames inside a usable range are allocatable.
+            let first = e
+                .base_addr
+                .div_ceil(FRAME_SIZE as u64)
+                .min(MAX_FRAMES as u64) as usize;
+            let last = (end.min(MAX_FRAME_ADDR) / FRAME_SIZE as u64) as usize;
+            for f in first..last {
                 set_bit(&mut self.covered, f, true);
             }
         }
@@ -190,8 +195,16 @@ impl FrameAllocator {
             let Some(first) = Self::frame_of(e.base_addr) else {
                 continue;
             };
-            let last = Self::frame_of(e.base_addr + e.length - 1).unwrap_or(MAX_FRAMES - 1);
+            let last =
+                Self::frame_of(e.base_addr.saturating_add(e.length - 1)).unwrap_or(MAX_FRAMES - 1);
             for f in first..=last {
+                // Reserved/ACPI/MMIO ranges take precedence over usable
+                // ranges, including when only one byte overlaps a frame.
+                if bit(&self.free, f) {
+                    set_bit(&mut self.free, f, false);
+                    self.stats.free_frames -= 1;
+                    self.stats.reserved_frames += 1;
+                }
                 if !bit(&self.covered, f) && !bit(&self.ncov, f) {
                     set_bit(&mut self.ncov, f, true);
                     self.stats.reserved_frames += 1;
@@ -226,11 +239,17 @@ impl FrameAllocator {
         if !self.initialized {
             return false;
         }
+        if addr % FRAME_SIZE as u64 != 0 {
+            self.stats.invalid_frees += 1;
+            return false;
+        }
         let Some(frame) = Self::frame_of(addr) else {
+            self.stats.invalid_frees += 1;
             return false;
         };
-        if !bit(&self.covered, frame) {
-            // Not inside any usable range: reserved, can never be freed.
+        if !bit(&self.covered, frame) || !bit(&self.ever, frame) {
+            // A frame is releasable only if this allocator handed it out.
+            // Usable-map coverage alone also includes our reserved frames.
             self.stats.invalid_frees += 1;
             return false;
         }

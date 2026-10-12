@@ -119,6 +119,9 @@ def main():
     if not KERNEL.exists():
         print(f"FAIL: kernel binary not found: {KERNEL}")
         sys.exit(1)
+    if b"ROSTI: fault test trigger" in KERNEL.read_bytes():
+        print("FAIL: refusing to package a deliberate page-fault test build; rebuild without features")
+        sys.exit(1)
     if not validate_elf(KERNEL):
         sys.exit(1)
     if not build_iso():

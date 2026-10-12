@@ -146,18 +146,22 @@ def run_once(kernel: Path, run_id: str, timeout: int) -> dict:
 
 
 def main():
+    global RESULTS_DIR
     ap = argparse.ArgumentParser()
     ap.add_argument("--runs", type=int, default=1)
     ap.add_argument("--timeout", type=int, default=20)
     ap.add_argument("--kernel", default=DEFAULT_KERNEL)
+    ap.add_argument("--output-dir", type=Path, help="Preserve prior runs by using a separate evidence directory")
     args = ap.parse_args()
+    if args.output_dir:
+        RESULTS_DIR = args.output_dir.resolve()
 
     kernel = Path(args.kernel)
     if not kernel.exists():
         print(f"HARNESS_FAIL: kernel binary not found: {kernel}")
         sys.exit(1)
 
-    RESULTS_DIR.mkdir(exist_ok=True)
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     rows = []
     for i in range(1, args.runs + 1):
         r = run_once(kernel, f"{i:02d}", args.timeout)

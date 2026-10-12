@@ -1,25 +1,17 @@
 #!/usr/bin/env python3
 """Rosti Proxmox deployment pipeline — gated, machine-readable, VM 103 only.
 
-Gates (stop on any failure):
-  1  build kernel
-  2  host tests            (scripts/run_tests.sh)
-  3  QEMU boot verification (scripts/boot_test.py, 1 run)
-  4  keyboard integration   (scripts/keyboard_test.py)
-  5  build GRUB ISO          (scripts/build-proxmox-iso.py, includes its own boot gate)
-  6  ISO boots under QEMU    (enforced inside build-proxmox-iso.py)
-  7  local ISO SHA256
-  8  upload uniquely named ISO to Proxmox 'local' storage (API)
-  9  remote SHA256 verified on the Proxmox host (SSH; reported as unverified if SSH unavailable)
-  10 attach ISO to VM 103 only
-  11 boot VM 103
-  12 guest markers + shell interaction over the serial console
-  13 machine-readable report: test_results/proxmox/deploy_report.json
+25 gates stop on any failure: authenticated VM prerequisites; kernel/host fmt;
+host tests; CPU read/null-write fault fixtures; production rebuild; ELF checks;
+10 normal boots and 20 paging-stability boots; keyboard/VGA checks; ISO build,
+boot/paging/VGA checks; local/remote SHA256; versioned upload; VM 103 attach,
+boot, live VGA/serial/CR0/CR3/null-PTE checks; final checksum/config/status.
+Evidence: test_results/proxmox/deploy_report.json and phase4_live_report.json.
 
-Credentials come from environment only (never hardcoded):
-  PVE_TOKEN_ID, PVE_TOKEN_SECRET, PVE_ROOT_PASSWORD (for the read-only
-  checksum/serial-console SSH path). TLS verification is NOT disabled globally;
-  it follows the existing per-connection setting for the self-signed cert.
+Credentials come from environment only (never hardcoded). PVE_ROOT_PASSWORD
+enables SSH/scp/pvesh deployment without an API token; sshpass reads binary
+stdin, never a password argument or file. API helpers optionally support
+PVE_TOKEN_ID/PVE_TOKEN_SECRET. No token files are loaded by this script.
 
 Safety: only VM 103 is ever modified. ISOs are never deleted; the rollback ISO
 (dist/rosti_rollback.iso) is preserved. Uploads use versioned filenames.
@@ -28,12 +20,11 @@ import hashlib
 import json
 import os
 import re
+import shlex
 import subprocess
 import sys
 import time
 from pathlib import Path
-
-import requests
 
 PROJECT = Path(__file__).resolve().parent.parent
 # grub-mkrescue/scp run in WSL; the project is reachable there via /mnt/<drive>.
@@ -54,8 +45,19 @@ GATES = []
 
 
 def api(path, method="GET", body=None):
+    if ROOT_PW:
+        # Host SSH is sufficient; token files are not read or required.
+        verb = "get" if method == "GET" else "set" if path.endswith("/config") else "create"
+        cmd = ["pvesh", verb, path, "--output-format", "json"]
+        for key, value in (body or {}).items():
+            cmd.extend(["--" + key, str(value)])
+        out = ssh_remote(shlex.join(cmd))
+        # pvesh writes can print a plain "update VM ..." status line even
+        # with --output-format json. Verify writes with the following GET.
+        return json.loads(out) if method == "GET" and out else out or None
     if not TOKEN_ID or not TOKEN_SECRET:
         raise RuntimeError("PVE_TOKEN_ID/PVE_TOKEN_SECRET not set in environment")
+    import requests  # Optional: SSH deployment uses only the Python stdlib.
     # Self-signed cert: verification disabled for THIS connection only, matching
     # the existing MCP configuration — not a global change.
     r = requests.request(method, PVE + "/api2/json" + path,
@@ -80,8 +82,8 @@ def gate(name, fn):
     return result
 
 
-def run_shell(cmd, timeout=300):
-    r = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout)
+def run_shell(cmd, timeout=300, cwd=None):
+    r = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout, cwd=cwd)
     if r.returncode != 0:
         raise RuntimeError(f"command failed (exit {r.returncode}): {r.stderr[-300:] or r.stdout[-300:]}")
     return r.stdout + r.stderr
@@ -96,16 +98,17 @@ def sha256_file(p):
 
 
 def ssh_remote(cmd, timeout=90):
-    """Read-only SSH to the Proxmox host via WSL (sshpass). Raises if unavailable."""
+    """Authorized host SSH; password uses binary stdin, never argv or files."""
     if not ROOT_PW:
         raise RuntimeError("PVE_ROOT_PASSWORD not set; remote verification unavailable")
     r = subprocess.run(
         ["wsl", "bash", "-c",
-         f"sshpass -p '{ROOT_PW}' ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 root@192.168.50.205 {cmd!r}"],
-        capture_output=True, text=True, timeout=timeout)
+         "sshpass -d 0 ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 "
+         "root@192.168.50.205 " + shlex.quote(cmd)],
+        input=ROOT_PW.encode() + b"\n", capture_output=True, timeout=timeout)
     if r.returncode != 0:
-        raise RuntimeError(f"ssh failed: {r.stderr.strip()[:200]}")
-    return r.stdout.strip()
+        raise RuntimeError("ssh failed: " + r.stderr.decode(errors="replace").replace(ROOT_PW, "[redacted]")[:200])
+    return r.stdout.decode(errors="replace").strip()
 
 
 def write_report():
@@ -125,12 +128,29 @@ def write_report():
 
 
 def main():
+    gate("authenticated VM 103 prerequisites", lambda: ssh_remote("qm status 103"))
+    gate("kernel formatting", lambda: run_shell("cargo fmt --check").strip() or "ok")
+    gate("host formatting", lambda: run_shell("cargo +nightly fmt --manifest-path tests_kernel/Cargo.toml --check").strip() or "ok")
+    # Native subprocesses may resolve bash to WSL rather than git-bash.
+    # Run the same host-test command directly, outside kernel cargo config.
+    host_manifest = PROJECT / "tests_kernel" / "Cargo.toml"
+    gate("host tests", lambda: re.search(r"(\d+) passed", run_shell(
+        f'cargo +nightly test --manifest-path "{host_manifest}"', cwd=Path.home())).group(1) + " passed")
+    gate("build read-fault test", lambda: run_shell("cargo build --target target.json --features paging-fault-test").strip().splitlines()[-1])
+    gate("CPU read-fault test", lambda: run_shell("python scripts/paging_test.py --fault").strip().splitlines()[-1])
+    gate("build write-fault test", lambda: run_shell("cargo build --target target.json --features paging-write-fault-test").strip().splitlines()[-1])
+    gate("CPU null-write fault test", lambda: run_shell("python scripts/paging_test.py --write-fault").strip().splitlines()[-1])
     gate("build kernel", lambda: (lambda o: o.strip().splitlines()[-1] if o.strip() else "ok")(
         run_shell("cargo build --target target.json", timeout=300)))
-    gate("host tests", lambda: re.search(r"(\d+) passed", run_shell("bash scripts/run_tests.sh")).group(1) + " passed")
-    gate("qemu boot verification", lambda: run_shell("python scripts/boot_test.py --runs 1").strip().splitlines()[-1])
+    boot_dir = "test_results/phase4/boot_" + time.strftime("%Y%m%d_%H%M%S")
+    gate("ELF multiboot validation", lambda: run_shell("python scripts/validate_elf.py target/target/debug/kernel").strip().splitlines()[-1])
+    gate("qemu boot verification", lambda: run_shell(f"python scripts/boot_test.py --runs 10 --timeout 3 --output-dir {boot_dir}").strip().splitlines()[-1])
+    gate("paging boot stability", lambda: run_shell("python scripts/paging_test.py --runs 10").strip().splitlines()[-1])
     gate("keyboard integration", lambda: run_shell("python scripts/keyboard_test.py").strip().splitlines()[-1])
+    gate("VGA editing integration", lambda: run_shell("python scripts/backspace_test.py").strip().splitlines()[-1])
     gate("build grub iso", lambda: run_shell("python scripts/build-proxmox-iso.py").strip().splitlines()[-1])
+    gate("ISO paging verification", lambda: run_shell("python scripts/paging_test.py --iso dist/rosti.iso").strip().splitlines()[-1])
+    gate("ISO VGA editing integration", lambda: run_shell("python scripts/backspace_test.py --iso dist/rosti.iso").strip().splitlines()[-1])
 
     iso = DIST / "rosti.iso"
     local_sha = gate("local iso sha256", lambda: sha256_file(iso))
@@ -142,12 +162,12 @@ def main():
         # the authorized SSH path, then confirm via the storage listing.
         r = subprocess.run(
             ["wsl", "bash", "-c",
-             f"sshpass -p '{ROOT_PW}' scp -o StrictHostKeyChecking=accept-new "
+             "sshpass -d 0 scp -o StrictHostKeyChecking=accept-new "
              f"{WSL_PROJECT}/dist/rosti.iso "
              f"root@192.168.50.205:/var/lib/vz/template/iso/{remote_name}"],
-            capture_output=True, text=True, timeout=180)
+            input=ROOT_PW.encode() + b"\n", capture_output=True, timeout=180)
         if r.returncode != 0:
-            raise RuntimeError(f"upload failed: {r.stderr.strip()[:200]}")
+            raise RuntimeError("upload failed: " + r.stderr.decode(errors="replace").replace(ROOT_PW, "[redacted]")[:200])
         listing = api(f"/nodes/{NODE}/storage/{STORAGE}/content", "GET")
         entry = [e for e in listing if e["volid"] == f"local:iso/{remote_name}"]
         if not entry:
@@ -184,14 +204,7 @@ def main():
     def boot():
         st = api(f"/nodes/{NODE}/qemu/{VMID}/status/current")
         if st["status"] != "running":
-            upid = api(f"/nodes/{NODE}/qemu/{VMID}/start", "POST")
-            for _ in range(30):
-                t = api(f"/nodes/{NODE}/tasks/{upid}")
-                if t.get("status") == "stopped":
-                    if t.get("exitstatus") != "OK":
-                        raise RuntimeError(f"task failed: exitstatus={t.get('exitstatus')}")
-                    break
-                time.sleep(1)
+            ssh_remote(f"qm start {VMID}", timeout=60)
         else:
             # REST 'reboot' is an ACPI event the bare kernel ignores; 'qm reset'
             # (via the authorized SSH path) is the hard reset that works.
@@ -205,53 +218,32 @@ def main():
     gate("boot VM 103", boot)
 
     def guest_verify():
-        # Start the serial listener BEFORE the reset so boot markers are captured,
-        # then interact with the shell over the documented serial socket.
-        script = r'''
-import socket, subprocess, time
-s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-s.connect("/var/run/qemu-server/103.serial0")
-s.settimeout(4)
-subprocess.run(["qm","reset","103"], capture_output=True)
-def drain(t=3.0):
-    time.sleep(t); out=b""
-    while True:
-        try:
-            d=s.recv(4096)
-            if not d: break
-            out+=d
-        except socket.timeout: break
-    return out.decode(errors="replace")
-def sendkey(k):
-    subprocess.run(["qm","sendkey","103",k], capture_output=True)
-    time.sleep(0.15)
-boot = drain(6)
-print("BOOT:" + boot.replace("\n","|"))
-for cmd in ["help","version","echo rosti-test","uptime"]:
-    for ch in cmd:
-        if ch == " ": key = "spc"
-        elif ch == "-": key = "minus"
-        elif ch.isupper(): key = "shift-" + ch.lower()
-        else: key = ch
-        sendkey(key)
-    sendkey("ret")
-    print(drain(3))
-s.close()
-'''
         import base64
-        b64 = base64.b64encode(script.encode()).decode()
-        out = ssh_remote(f"echo {b64} | base64 -d | python3 -", timeout=120)
-        if "rosti>" not in out:
-            raise RuntimeError(f"no shell prompt in serial output: {out[:200]}")
-        for marker in QEMU_MARKERS:
-            if marker not in out:
-                raise RuntimeError(f"marker missing: {marker}")
-        for probe in ["commands: help", "v0.1.0", "rosti-test", "uptime:"]:
-            if probe not in out:
-                raise RuntimeError(f"shell probe failed: {probe}")
-        return "markers + shell commands verified over serial"
+        script = (PROJECT / "scripts" / "verify_proxmox_backspace.py").read_bytes()
+        b64 = base64.b64encode(script).decode()
+        code = "import base64; exec(compile(base64.b64decode(" + repr(b64) + "), 'live_verify', 'exec'))"
+        cmd = "python3 -c " + shlex.quote(code) + " --expected-iso " + shlex.quote(remote_name) + " --require-paging"
+        # The verifier prints structured failure evidence before exiting 1.
+        # Preserve and parse that report instead of losing stdout in SSH errors.
+        out = ssh_remote(cmd + " || true", timeout=180)
+        live = json.loads(out)
+        live["iso_sha256"] = local_sha
+        REPORT_DIR.mkdir(parents=True, exist_ok=True)
+        (REPORT_DIR / "phase4_live_report.json").write_text(json.dumps(live, indent=2) + "\n")
+        if live.get("overall") != "PASS" or not all(c["pass"] for c in live["checks"]):
+            raise RuntimeError("live verification failed: " + live.get("error", "check failed"))
+        return f"{len(live['checks'])} VGA/serial/hardware-paging checks passed"
     if ROOT_PW:
         gate("guest boot + shell interaction", guest_verify)
+
+    gate("final remote checksum readback", remote_sha)
+    def final_readback():
+        cfg = api(f"/nodes/{NODE}/qemu/{VMID}/config")
+        status = api(f"/nodes/{NODE}/qemu/{VMID}/status/current")["status"]
+        if remote_name not in cfg.get("ide2", "") or status != "running":
+            raise RuntimeError("final VM state does not match deployment")
+        return {"ide2": cfg["ide2"], "status": status}
+    gate("final VM 103 state readback", final_readback)
 
     write_report()
     print("\nDEPLOYMENT " + ("PASS" if all(g["status"] in ("PASS", "SKIP") for g in GATES) else "FAIL"))

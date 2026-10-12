@@ -1,0 +1,16 @@
+{
+  "overall": "PASS",
+  "host_tests_passed": 49,
+  "deployment_gates_passed": 25,
+  "live_checks_passed": 20,
+  "boot_runs_passed": 10,
+  "paging_runs_passed": 20,
+  "fault_reports": [
+    "test_results/phase4/20261012_171411_fault/report.json",
+    "test_results/phase4/20261012_171414_fault/report.json"
+  ],
+  "iso_sha256": "6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94",
+  "remote_iso": "rosti_20261012T091633Z.iso",
+  "deployment_report": "test_results/proxmox/deploy_report.json",
+  "live_report": "test_results/proxmox/phase4_live_report.json"
+}

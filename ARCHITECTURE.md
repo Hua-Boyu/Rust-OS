@@ -17,13 +17,14 @@ build-std core/alloc), no external crates beyond core/alloc.
 ## Modules
 
 - `src/main.rs` — entry, panic handler (serial + VGA), init sequence:
-  serial → allocator → mmap print → GDT → IDT → PS/2 enable → `hlt` idle loop.
+  serial/VGA → bootstrap heap → mmap/boot reservations → frames/page tables →
+  GDT/IDT → validated paging → PS/2/PIT → shell and `hlt` idle loop.
 - `src/multiboot.rs` — BootInfo layout per spec; pure host-testable mmap
   parser honoring variable entry sizes with bounds checks; allocation-free
-  `find_usable_block` (the allocator's own init cannot allocate).
-- `src/allocator.rs` — `SpinMutex<BumpAlloc>` global allocator; reserves the
-  kernel image region from the usable memory block; align-up arithmetic;
-  dealloc resets when no live allocations remain.
+  `find_usable_block`; boot-owned buffers/module payloads reserved by flags.
+- `src/allocator.rs` — `SpinMutex<BumpAlloc>` over a page-aligned 1 MiB heap
+  inside kernel BSS, with checked allocation arithmetic. It cannot cross mmap
+  gaps or overlap bootloader payloads; dealloc resets when no live allocations remain.
 - `src/gdt.rs` — null/code/data descriptors, correct access-byte OR semantics,
   lgdt limit = wire size − 1, segment reload.
 - `src/interrupt.rs` — 256-entry IDT, PIC remap to 0x20/0x28, IRQ1 unmasked;
@@ -42,13 +43,16 @@ build-std core/alloc), no external crates beyond core/alloc.
   resets input length even for whitespace-only commands.
 - `src/memory/` — initial bitmap frame allocator and identity page tables,
   prepared before GDT/IDT initialization. Paging enables only after mapping
-  validation and IDT setup. The 256 MiB managed-window limit currently leaves
-  paging disabled for the VM-sized 512 MiB boot; the shell remains usable.
+  validation and IDT setup. Physical frame allocation remains capped at 256 MiB,
+  independently of identity-mapping coverage. Paging is active at 128/512 MiB
+  and on VM 103. Tables are zeroed; the null page is absent; allocation failure
+  returns table frames; validation checks every intersecting page.
 - `src/utils/` — bit manipulation trait, SpinMutex.
 
 ## Test separation
 
 Host unit tests (`tests_kernel/`, run via `scripts/run_tests.sh` from outside
 the project dir) cover pure algorithms only; privileged asm is cfg-gated out.
-Privileged execution is verified only through the QEMU boot harness
-(`scripts/boot_test.py` — see TESTING.md).
+Privileged execution is verified through local QEMU boot/paging/fault tests
+and the live Proxmox QMP/serial verifier. Fatal-fault Cargo features are test
+fixtures only; the ISO builder rejects them. See TESTING.md and HANDOVER.md.

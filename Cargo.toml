@@ -8,6 +8,12 @@ name = "kernel"
 version = "0.1.0"
 edition = "2024"
 
+[features]
+default = []
+# Deliberate fatal fault for local QEMU verification only; never deploy this build.
+paging-fault-test = []
+paging-write-fault-test = ["paging-fault-test"]
+
 [[bin]]
 name = "kernel"
 test = false
