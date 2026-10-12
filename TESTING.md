@@ -83,8 +83,10 @@ python scripts/backspace_test.py --iso dist/rosti.iso
 - Ten independent 128 MiB boots pass, with evidence preserved separately:
   `test_results/backspace/stability_20261012_155425/boot_results.csv`.
 - Final display evidence: `test_results/backspace/20261012_155351/report.json`.
-- Proxmox VM 103 has not been updated or live-verified: SSH authentication
-  is denied and the deployment environment credentials are unset.
+- Proxmox VM 103 was updated and live-verified: all 16 VGA/serial/boot checks
+  passed using `scripts/verify_proxmox_backspace.py` on the Proxmox host.
+  Evidence: `test_results/proxmox/backspace_verified.json`. The VM is running
+  the checksum-verified ISO and was left at a clean shell prompt.
 - Paging enables in the 128 MiB tests. At 512 MiB, the existing managed-window
   limit causes required-region validation to leave paging disabled safely.
 

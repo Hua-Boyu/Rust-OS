@@ -10,7 +10,7 @@
 - [ ] debug/test harness  
 - [ ] paging  
 - [x] shell Backspace visually erases characters, including wrapped input
-  (QEMU ELF and ISO display regression verified; VM deployment pending)
+  (QEMU ELF/ISO and live Proxmox VM 103 display regression verified)
 - [ ] rtc?  
 
 ## Project goals  

@@ -41,15 +41,23 @@ qm start 900
 
 ## Verified status
 
-### Backspace build ready; deployment pending (2026-10-12)
+### Backspace deployed and live-verified (2026-10-12)
 
 `dist/rosti.iso` contains the visual Backspace fix, the pending frame/paging
 work, and the memory-statistics boot-deadlock fix. The ISO boots and passes
 13 actual VGA/serial editing checks in QEMU at the VM's 512 MiB setting.
-VM 103 remains attached to its older ISO; this build has NOT been deployed
-or live-verified on Proxmox. SSH to `root@192.168.50.205` is denied and
-`PVE_TOKEN_ID`, `PVE_TOKEN_SECRET`, `PVE_ROOT_PASSWORD` are unset. Supply an
-authenticated SSH path before upload/attach/reset; do not place secrets here.
+Authenticated SSH uploaded `rosti_20261012T081528Z.iso` and attached it to
+VM 103 (`rosti-dev`) only. Remote SHA256 matched local before attachment and
+again after verification. The running QEMU CD-ROM was checked before reset.
+Live verification passed all 16 checks: ordered boot markers, actual VGA
+deletion/replacement, wrapped editing, prompt protection, whitespace-only
+dispatch, and serial erase sequences. VM 103 is running at a clean `rosti>`
+prompt with `backspace-ok` displayed. The previous ISO remains available.
+
+Evidence: `test_results/proxmox/backspace_verified.json` (source `ff48a62`).
+Repeatable live verifier: `scripts/verify_proxmox_backspace.py`; run it on the
+Proxmox host through authenticated SSH with `--expected-iso <ISO filename>`.
+It resets only VM 103 and never accepts or stores credentials.
 
 Local ISO SHA256:
 `7ce870322780fa639319b8734582310566553c1faeafc91388e3ae6e685589d8`.
