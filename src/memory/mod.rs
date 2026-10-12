@@ -8,6 +8,8 @@
 pub mod frame;
 pub mod paging;
 
+pub use paging::{GROWTH_END, GROWTH_START};
+
 extern crate alloc;
 use alloc::vec::Vec;
 
@@ -73,15 +75,17 @@ pub fn required_regions(
     regions.push((bootinfo_addr, bootinfo_addr + 4096, "multiboot info struct"));
 
     // Every usable mmap range inside the window must be mapped (the bump
-    // allocator and the page tables live there).
+    // allocator and the page tables live there), except the heap growth
+    // window, which is mapped on demand by design.
     for e in entries {
         if e.type_ == 1 && e.base_addr < (1u64 << 32) {
             if let Some(end) = e.base_addr.checked_add(e.length) {
-                regions.push((
-                    e.base_addr.max(paging::PAGE_SIZE as u64),
-                    end.min(1u64 << 32),
-                    "usable mmap range",
-                ));
+                let start = e.base_addr.max(paging::PAGE_SIZE as u64);
+                let end = end.min(1u64 << 32);
+                if paging::in_growth_window(start) && start < paging::GROWTH_END as u64 {
+                    continue;
+                }
+                regions.push((start, end, "usable mmap range"));
             }
         }
     }
@@ -99,18 +103,25 @@ pub fn prepare(
     bump_end: u64,
 ) -> Result<u64, Vec<&'static str>> {
     dbg("DBG: frame init start\n");
-    let fa = &mut FRAME_ALLOC.lock();
-    dbg("DBG: frame lock acquired\n");
-    fa.init(entries, bootinfo_addr, bump_start, bump_end);
-    dbg("DBG: frame init done\n");
+    // Pre-allocate the table vector BEFORE taking the frame lock: heap
+    // allocation must never happen while the frame lock is held (the heap
+    // growth path takes heap -> frame; this would invert the order).
+    let tables = alloc::vec![0u64; paging::PAGE_DIR_ENTRIES];
 
-    let window = managed_window_end(entries);
-    let pm = match paging::build_identity_map(fa, window) {
-        Some(pm) => pm,
-        None => return Err(alloc::vec!["frame exhaustion during page table build"]),
-    };
+    let (window, pm) = {
+        let fa = &mut FRAME_ALLOC.lock();
+        dbg("DBG: frame lock acquired\n");
+        fa.init(entries, bootinfo_addr, bump_start, bump_end);
+        dbg("DBG: frame init done\n");
+        let window = managed_window_end(entries);
+        match paging::build_identity_map(fa, window, tables) {
+            Some(pm) => (window, pm),
+            None => return Err(alloc::vec!["frame exhaustion during page table build"]),
+        }
+    }; // frame lock released here
     dbg("DBG: page tables built\n");
 
+    // Validate after the frame lock is released: validate_mapping allocates.
     let missing = paging::validate_mapping(&pm, &required_regions(entries, bootinfo_addr));
     if missing.is_empty() {
         unsafe {
@@ -142,5 +153,35 @@ pub fn page_directory() -> Option<u64> {
             .as_ref()
             .and_then(|o| o.as_ref())
             .map(|pm| pm.directory())
+    }
+}
+
+/// Shared access to the built page map (host tests + shell diagnostics).
+pub fn page_map_ref() -> Option<&'static paging::PageMap> {
+    unsafe { (&raw const PAGE_MAP).as_ref()?.as_ref() }
+}
+
+/// Present-entry count for the shell's `mem` command (copied, no lock held
+/// while printing).
+pub fn mapped_pages() -> usize {
+    match page_map_ref() {
+        Some(pm) => pm.stats().mapped_frames,
+        None => 0,
+    }
+}
+
+/// Map one heap growth page: claim the identity frame at the growth slot and
+/// map it. Called from the heap growth path (heap lock held, then frame lock
+/// — the frame allocator never re-enters the heap, so the lock order is
+/// safe). Growth pages are identity-mapped (virtual == physical), which keeps
+/// heap free-list pointers valid and page-table entry writes safe.
+pub fn heap_grow_frame(slot: usize) -> Option<u64> {
+    let fa = &mut FRAME_ALLOC.lock();
+    let frame = fa.claim_growth_frame(slot as u64)?;
+    let pm = unsafe { (&raw mut PAGE_MAP).as_mut()?.as_mut()? };
+    if pm.map(fa, slot as u64, frame, &paging::KERNEL_PERMS) {
+        Some(frame)
+    } else {
+        None
     }
 }

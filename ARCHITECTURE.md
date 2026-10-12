@@ -41,12 +41,32 @@ build-std core/alloc), no external crates beyond core/alloc.
 - `src/shell.rs` — keyboard-ring consumer, command input buffer, VGA and serial
   echo. Backspace synchronizes buffer removal with both displays. Dispatch
   resets input length even for whitespace-only commands.
-- `src/memory/` — initial bitmap frame allocator and identity page tables,
+- `src/memory/` — bitmap frame allocator (checked arithmetic, reservation
+  precedence, double-alloc/double-free rejection, exhaustion returns None;
+  physical allocation capped at 256 MiB) and i686 4 KiB identity page tables,
   prepared before GDT/IDT initialization. Paging enables only after mapping
-  validation and IDT setup. Physical frame allocation remains capped at 256 MiB,
-  independently of identity-mapping coverage. Paging is active at 128/512 MiB
-  and on VM 103. Tables are zeroed; the null page is absent; allocation failure
-  returns table frames; validation checks every intersecting page.
+  validation and IDT setup. Identity coverage spans the addressable RAM window
+  independently of the 256 MiB allocation cap. Tables are zeroed; the null page
+  is absent; allocation failure returns table frames; validation checks every
+  intersecting page.
+  Phase 5: `PageMap` supports runtime `map`/`unmap`/`translate`/`permissions`
+  with conflict rejection, alignment checks, per-page TLB invalidation, and
+  explicit `PagePerms` (present/writable/user; NX is NOT claimed —
+  `nx_supported=false` for the current single-level 4 KiB mode). A reserved
+  virtual growth window [0x800000, 0xE00000) is excluded from the boot identity
+  map and mapped one page at a time on demand; growth-window frames are
+  reserved for the heap and claimed via `claim_growth_frame`, so page tables
+  never live in the window (entry writes assume identity mapping).
+- `src/allocator.rs` — `SpinMutex<BumpAlloc>` over a page-aligned 1 MiB heap
+  inside kernel BSS, with checked allocation arithmetic. It cannot cross mmap
+  gaps or overlap bootloader payloads; dealloc resets when no live allocations
+  remain. Phase 5: `KernelHeap` (first-fit reclaiming free list, address-sorted,
+  coalescing on free, 8-byte headers, alignment-waste tracking, OOM returns null
+  and counts `failed_allocs`, invalid deallocs rejected) is the global
+  allocator; its initial region is the 1 MiB bootstrap heap and it grows one
+  growth-window page at a time. Lock order is heap → frame allocator (growth
+  path only); the frame allocator never re-enters the heap. `BumpAlloc` remains
+  available for early boot and regression tests.
 - `src/utils/` — bit manipulation trait, SpinMutex.
 
 ## Test separation

@@ -57,8 +57,8 @@ def main():
                 }
                 if args.fault:
                     checks["fault_triggered"] = "fault test trigger" in text
-                    expected = (r"page fault: code 0x0002 present=false write=true user=false cr2=0x00000000 rip=0x[0-9a-f]+"
-                                if args.write_fault else r"page fault: code 0x0000 present=false write=false user=false cr2=0xfffff000 rip=0x[0-9a-f]+")
+                    expected = (r"page fault: code 0x0002 present=false write=true user=false fetch=false cr2=0x00000000 rip=0x[0-9a-f]+"
+                                if args.write_fault else r"page fault: code 0x0000 present=false write=false user=false fetch=false cr2=0xfffff000 rip=0x[0-9a-f]+")
                     checks["correct_cpu_error_and_cr2"] = bool(re.search(expected, text))
                     checks["fault_exactly_once"] = text.count("page fault:") == 1
                     checks["no_other_exception"] = "CPU exception" not in text

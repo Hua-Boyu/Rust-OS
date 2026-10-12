@@ -41,18 +41,22 @@ qm start 900
 
 ## Verified status
 
-### Current Phase 4 release (2026-10-12)
+### Current Phase 5 release (2026-10-12)
 
-VM 103 runs `rosti_20261012T091633Z.iso`, SHA256
-`6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94`.
-All 25 deployment gates passed before/through upload, attachment, boot and
-final readback. Local and remote checksums match. All 20 live checks passed:
-CR0.PG set (`CR0=80000011`), CR3 loaded (`00001000`), null PTE absent,
-`mem` reports paging enabled, and visual Backspace still works. VM is running
-at a clean prompt; old versioned ISOs and local rollback remain available.
+VM 103 runs `rosti_20261012T125244Z.iso`, SHA256
+`5b8875f9e8b848a346ef22a93eec689688a5cf55ec0c4e765209a8f83ec9015f`
+(local == remote, verified before attachment and again after live checks).
+All 25 deployment gates passed. Live checks: 20/20 pipeline checks plus the
+Phase 5 shell verification (`scripts/live_phase5_check.py`, 13/13): `help`,
+`version`, `uptime`, `mem` (frame stats, paging, page directory, heap stats,
+failed allocations, page-fault count) and a keyboard-edit round trip. Hardware
+registers read back live via QMP: CR0 = `80010011` (PG + WP), CR3 =
+`00001000`, null PTE absent. VM left running at a clean prompt. Rollback ISO
+and prior versioned ISOs remain available.
 
 Evidence: `test_results/proxmox/deploy_report.json`,
-`test_results/proxmox/phase4_live_report.json`, `test_results/phase4/acceptance.json`.
+`test_results/proxmox/phase4_live_report.json`,
+`test_results/phase5/live_vm103_report.json`.
 The pipeline supports SSH/scp/pvesh with `PVE_ROOT_PASSWORD` from environment;
 no API token is required on that path. Password uses binary stdin, not argv.
 The live verifier adds hardware paging assertions with `--require-paging`.

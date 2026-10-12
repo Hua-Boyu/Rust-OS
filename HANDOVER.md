@@ -1,6 +1,6 @@
-# Rosti OS — Technical Handover (Phase 4 verified checkpoint)
+# Rosti OS — Technical Handover (Phase 5 verified checkpoint)
 
-Date: 2026-10-12. Status: Phase 4 physical memory management and identity paging verified locally and on Proxmox VM 103. Evidence: `test_results/phase4/acceptance.json`.
+Date: 2026-10-12. Status: Phase 5 virtual memory management, dynamic kernel heap and memory-safety diagnostics verified locally and on Proxmox VM 103. Evidence: `test_results/phase5/live_vm103_report.json`, `test_results/proxmox/deploy_report.json`, `test_results/phase5/perf_baseline.json`.
 
 ## A. Project overview
 
@@ -71,9 +71,13 @@ Live ISO-path evidence of a real interrupt reaching the IDT: `keyboard input` / 
 | CPU identification (CPUID) | Implemented, present in shell `cpu` command |
 | Reboot mechanism | Implemented (not exercised destructively on VM 103) |
 | Idle via `hlt` | Implemented, verified |
-| Physical frame allocator | Implemented; reservation, release/bounds, overlap and exhaustion regressions pass |
+| Physical frame allocator | Implemented; reservation, release/bounds, overlap and exhaustion regressions pass; Phase 5 adds growth-window frame claims with consistent reserved→allocated accounting |
 | Identity paging / null guard | Active at 128 and 512 MiB, including VM 103; CR0.PG/CR3 and absent null PTE inspected live |
-| Fatal page-fault diagnostics | CPU unmapped-read and null-write faults verified locally at both RAM sizes; error code/CR2 checked |
+| Fatal page-fault diagnostics | CPU unmapped-read and null-write faults verified locally at both RAM sizes; error code/CR2 checked; extended to report the instruction-fetch bit; last-fault record exposed via shell `mem` |
+| Runtime page mapping (Phase 5) | map/unmap/translate/permissions with conflict, alignment and range rejection; per-page TLB invalidation counters; host-tested |
+| Explicit page permissions (Phase 5) | present/writable/user per entry; CR0.WP set live (`CR0=80010011`) so read-only pages fault supervisor writes; NX NOT claimed (unsupported in 32-bit single-directory paging) |
+| Dynamic kernel heap (Phase 5) | `KernelHeap` first-fit reclaiming free list with coalescing, alignment-waste tracking, OOM counted without panic, invalid-dealloc rejection; initial region = 1 MiB bootstrap heap, grows one growth-window page at a time; host-tested, live `mem` reports heap stats |
+| Shell `mem` diagnostics (Phase 5) | frame stats, paging state, page directory, mapped pages, heap capacity/used/free/failed/live/invalid/blocks/waste/growth, page-fault count and last fault; verified live on VM 103 |
 
 Available shell commands: `help`, `clear`, `version`, `mem`, `cpu`, `uptime`, `echo`, `reboot`. The Phase 4 live verifier exercises `mem`, `clear`, `echo` and Backspace; earlier verification also covered `help`, `version` and `uptime`. Reboot is not destructively tested on VM 103.
 
@@ -102,14 +106,16 @@ cargo build --target target.json --features paging-write-fault-test
 python scripts/paging_test.py --write-fault
 cargo build --target target.json
 python scripts/validate_elf.py target/target/debug/kernel
-python scripts/boot_test.py --runs 10 --timeout 3 --output-dir test_results/phase4/new_boot_run
+python scripts/boot_test.py --runs 10 --timeout 3 --output-dir test_results/phase5/new_boot_run
 python scripts/paging_test.py --runs 10
 python scripts/keyboard_test.py
 python scripts/backspace_test.py
 python scripts/build-proxmox-iso.py
 python scripts/paging_test.py --iso dist/rosti.iso
 python scripts/backspace_test.py --iso dist/rosti.iso
+python scripts/live_phase5_check.py   # run on the Proxmox host via SSH
 ```
+Phase 5 results (2026-10-12): fmt PASS; production build PASS (warnings only); host tests 59/59; ELF 8/8; boot harness 10/10; paging stability 10 runs each at 128/512 MiB; read-fault and null-write fault fixtures pass at both sizes with the extended `fetch=` diagnostics; keyboard PASS; VGA editing 13 checks ELF + 13 ISO; ISO boot PASS; deployment 25/25 gates; live VM 103 20/20 pipeline checks + 13/13 Phase 5 shell checks (`scripts/live_phase5_check.py`). Performance baseline recorded in `test_results/phase5/perf_baseline.json`.
 Fault-test features deliberately halt the guest. NEVER deploy those builds; the ISO builder refuses them. Rebuild without features before creating an ISO. Deployment reruns all gates: `python scripts/deploy-proxmox.py` with `PVE_ROOT_PASSWORD` supplied privately in the process environment.
 
 Evidence paths: `test_results/boot_results.csv`, `test_results/iso_boot/serial.txt`, `test_results/keyboard/`, `test_results/proxmox/deploy_report.json`, `test_results/proxmox/boot_103_run01.log`.
@@ -118,10 +124,10 @@ Evidence paths: `test_results/boot_results.csv`, `test_results/iso_boot/serial.t
 
 - Node `pve`, VM **103** (`rosti-dev`) — preserve it; do not create duplicates.
 - Config: i440fx, SeaBIOS, 1 core, 512 MiB, `serial0: socket`, boot from IDE CD-ROM.
-- Deployed ISO: `rosti_20261012T091633Z.iso`, SHA256 `6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94` (remote == local, checked before attachment and after live verification). Prior versioned ISOs remain available.
+- Deployed ISO: `rosti_20261012T125244Z.iso`, SHA256 `5b8875f9e8b848a346ef22a93eec689688a5cf55ec0c4e765209a8f83ec9015f` (remote == local, checked before attachment and after live verification). Prior versioned ISOs remain available.
 - Rollback ISO retained locally: `dist/rosti_rollback.iso` (SHA256 `0fffc984895e74739b51c98c2d209a6d7b2f6499fb0e2b4b7524d022d241e0d0`).
 - Serial console verified via `/var/run/qemu-server/103.serial0`; interactive input via `qm sendkey 103 <key>`.
-- Pipeline: `scripts/deploy-proxmox.py` — 25 gates, stops on failure, VM 103 only. `PVE_ROOT_PASSWORD` enables SSH/scp/pvesh; an API token is not needed for that path. Secrets use binary stdin and are never committed. Current evidence: `test_results/proxmox/deploy_report.json` and `phase4_live_report.json`. VM is running, CR0=`80000011`, CR3=`00001000`, null PTE absent, shell `mem` reports paging enabled, Backspace works.
+- Pipeline: `scripts/deploy-proxmox.py` — 25 gates, stops on failure, VM 103 only. `PVE_ROOT_PASSWORD` enables SSH/scp/pvesh; an API token is not needed for that path. Secrets use binary stdin and are never committed. Current evidence: `test_results/proxmox/deploy_report.json`, `phase4_live_report.json`, `test_results/phase5/live_vm103_report.json`. VM is running, CR0=`80010011` (PG+WP), CR3=`00001000`, null PTE absent, shell `mem` reports paging enabled, heap stats and fault count, Backspace works.
 - Rollback strategy: keep the previous verified ISO; if a new ISO fails, reattach the rollback ISO to VM 103.
 
 ## H. Resource requirements
@@ -139,20 +145,22 @@ Confirmed open issues (from BUGFIXES.md and source audit):
 - SpinMutex is not interrupt-safe (no reentrancy guard); safe only because ISRs avoid mutex-backed writers — must be hardened before general use.
 - Hardware-facing unsafe code needs continuing review as subsystems grow; no current block-count claim is made.
 - QEMU "PASS" means markers captured before harness timeout (kernel never exits cleanly from `hlt` idle).
-- The 1 MiB bootstrap bump heap is not a general-purpose reclaiming heap. Physical frame allocation is capped at 256 MiB; identity mappings can cover RAM above that cap. No user address spaces, demand paging, swapping or user isolation; mappings are supervisor/writable except the absent null page. Boot strings/config buffers conservatively reserve 4 KiB; arbitrarily long boot strings are outside current support.
+- Physical frame allocation is capped at 256 MiB; identity mappings can cover RAM above that cap. No user address spaces, demand paging, swapping or user isolation; boot mappings are supervisor/writable, runtime `PagePerms` support read-only and user bits, and CR0.WP is set so read-only pages fault supervisor writes. Boot strings/config buffers conservatively reserve 4 KiB; arbitrarily long boot strings are outside current support.
+- Phase 5 heap: `KernelHeap` is the global allocator (reclaiming, coalescing, OOM-safe); `BumpAlloc` remains for early boot. Heap growth is verified in host tests but was not exercised on VM 103 (live workload stayed under the initial 1 MiB region). NX is not supported in 32-bit single-directory paging and is not claimed.
 
 Missing OS subsystems: filesystem, persistent block storage, process virtual-memory management, scheduler/multitasking, user-mode processes, syscall interface, ELF executable loader, networking, package management, USB and user-program security isolation.
 
 ## J. Development priorities (proposed, not completed)
 
 Dependency-aware roadmap:
-1. **Phase 4 — completed within the documented initial-kernel limits**: frame allocator, boot reservations, identity paging, fatal fault tests, regression/deployment evidence. Extend memory limits or exception recovery only when the next task requires it.
-2. Phase 5 — RAM filesystem + basic VFS (depends on Phase 4).
-3. Phase 6 — Persistent block storage (ATA/IDE driver).
-4. Phase 7 — Task scheduling and context switching (depends on paging).
-5. Phase 8 — User-mode execution (ring 3) + syscall interface.
-6. Phase 9 — ELF executable loading.
-7. Phase 10 — Networking and expanded device support.
+1. **Phase 4 — completed**: frame allocator, boot reservations, identity paging, fatal fault tests, regression/deployment evidence.
+2. **Phase 5 — completed (2026-10-12)**: runtime page map/unmap/translate with permissions and TLB invalidation, growth-window on-demand mapping, dynamic reclaiming `KernelHeap`, extended page-fault diagnostics, shell `mem` diagnostics, performance baseline recorded for a later optimization pass.
+3. Phase 6 — RAM filesystem + basic VFS (depends on the Phase 5 heap and paging).
+4. Phase 7 — Persistent block storage (ATA/IDE driver).
+5. Phase 8 — Task scheduling and context switching (depends on paging).
+6. Phase 9 — User-mode execution (ring 3) + syscall interface (depends on per-process address spaces, which the Phase 5 runtime mapping API makes possible).
+7. Phase 10 — ELF executable loading.
+8. Phase 11 — Networking and expanded device support.
 
 ## K. Safe operating boundaries
 
@@ -164,4 +172,4 @@ Dependency-aware roadmap:
 
 ## L. Git checkpoint
 
-Branch `main`. The Phase 4 completion commit is titled `feat(memory): complete Phase 4 paging and gated VM verification`; resolve its hash with `git log -1 --oneline` rather than relying on a self-referential hash in this document. Historical local tag `v0.1.0` remains the older baseline.
+Branch `main`. The Phase 5 completion commit is titled `feat(memory): implement Phase 5 virtual memory and dynamic kernel heap`; resolve its hash with `git log -1 --oneline` rather than relying on a self-referential hash in this document. The Phase 4 baseline commit is `46af27e`. Historical local tag `v0.1.0` remains the older baseline.

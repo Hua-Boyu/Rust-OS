@@ -1,6 +1,36 @@
 # TESTING
 
-## Current Phase 4 acceptance (2026-10-12)
+## Current Phase 5 acceptance (2026-10-12)
+
+- Kernel and host formatting PASS; production build PASS with warnings only.
+- Host tests: **59/59** (`bash scripts/run_tests.sh`), including the Phase 5
+  additions: runtime map/unmap/translate, duplicate-mapping and unaligned
+  rejection, permission inspection, TLB-invalidation counters, heap
+  alloc/free/reuse, alignment and fragmentation accounting, block coalescing,
+  out-of-memory behaviour, invalid-dealloc rejection, growth-window claim and
+  on-demand mapping, plus a recorded performance baseline.
+- QEMU: boot harness 10/10; paging stability 10 runs each at 128 and 512 MiB;
+  CPU read-fault and null-write fault fixtures pass at both RAM sizes with the
+  extended diagnostics (`fetch=` field now part of the expected fault line).
+- Keyboard integration PASS; VGA editing 13 checks on ELF and 13 on ISO.
+- ISO built, boots, SHA256 `5b8875f9e8b848a346ef22a93eec689688a5cf55ec0c4e765209a8f83ec9015f`;
+  deployment 25/25 gates; live VM 103 20/20 pipeline checks.
+- Phase 5 live shell verification (`scripts/live_phase5_check.py`, run on the
+  Proxmox host): **13/13 PASS** — `help`, `version`, `uptime`, `mem` frame/
+  paging/heap/fault diagnostics, and a keyboard-edit round trip. Hardware
+  registers read back live: CR0 = `80010011` (PG and WP set), CR3 = `00001000`,
+  null PTE absent. Evidence: `test_results/phase5/live_vm103_report.json`.
+- Performance baseline (host, isolated instances, two runs): frame alloc
+  ~2.4-2.6 µs/op, frame free ~10 ns, map ~275-300 ns, unmap ~260-290 ns, heap
+  alloc ~1.9-2.0 µs, heap free ~1.5-1.7 µs; checkerboard fragmentation 251 free
+  blocks. Recorded in `test_results/phase5/perf_baseline.json`; no optimization
+  applied.
+
+Phase 5 growth path is verified in host tests; the live VM reported
+`Growth pages: 0` because the workload never exceeded the initial 1 MiB region,
+so live heap growth was not exercised on VM 103.
+
+## Phase 4 acceptance (2026-10-12)
 
 - Kernel/host formatting PASS; production build PASS with compiler warnings.
 - Host tests: 49/49; ELF validation: 8/8; standard boot runner: 10/10.

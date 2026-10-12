@@ -283,11 +283,12 @@ extern "x86-interrupt" fn isr_page_fault(frame: PageFaultFrame) {
         PAGE_FAULT_COUNT.fetch_add(1, core::sync::atomic::Ordering::Relaxed);
         let _ = writeln!(
             io::serial::SerialWriter,
-            "page fault: code {:#06x} present={} write={} user={} cr2={:#010x} rip={:#010x}",
+            "page fault: code {:#06x} present={} write={} user={} fetch={} cr2={:#010x} rip={:#010x}",
             code,
             info.present,
             info.write,
             info.user,
+            info.fetch,
             info.cr2,
             rip
         );

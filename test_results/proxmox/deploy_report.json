@@ -1,8 +1,8 @@
 {
-  "timestamp_utc": "2026-10-12T09:17:10Z",
+  "timestamp_utc": "2026-10-12T12:53:20Z",
   "vmid": 103,
   "iso_local": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
-  "iso_local_sha256": "6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94",
+  "iso_local_sha256": "5b8875f9e8b848a346ef22a93eec689688a5cf55ec0c4e765209a8f83ec9015f",
   "rollback_iso": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti_rollback.iso",
   "gates": [
     {
@@ -23,7 +23,7 @@
     {
       "gate": "host tests",
       "status": "PASS",
-      "detail": "49 passed"
+      "detail": "58 passed"
     },
     {
       "gate": "build read-fault test",
@@ -33,7 +33,7 @@
     {
       "gate": "CPU read-fault test",
       "status": "PASS",
-      "detail": "Evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase4\\20261012_171411_fault"
+      "detail": "Evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase4\\20261012_205022_fault"
     },
     {
       "gate": "build write-fault test",
@@ -43,7 +43,7 @@
     {
       "gate": "CPU null-write fault test",
       "status": "PASS",
-      "detail": "Evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase4\\20261012_171414_fault"
+      "detail": "Evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase4\\20261012_205025_fault"
     },
     {
       "gate": "build kernel",
@@ -53,17 +53,17 @@
     {
       "gate": "ELF multiboot validation",
       "status": "PASS",
-      "detail": "PASS: BSS section at 0x265000 size 1137865 covered by PT_LOAD memsz"
+      "detail": "PASS: BSS section at 0x269000 size 1137842 covered by PT_LOAD memsz"
     },
     {
       "gate": "qemu boot verification",
       "status": "PASS",
-      "detail": "10/10 passed. Results: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase4\\boot_20261012_171416\\boot_results.csv"
+      "detail": "10/10 passed. Results: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase4\\boot_20261012_205027\\boot_results.csv"
     },
     {
       "gate": "paging boot stability",
       "status": "PASS",
-      "detail": "Evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase4\\20261012_171448_paging"
+      "detail": "Evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase4\\20261012_205059_paging"
     },
     {
       "gate": "keyboard integration",
@@ -73,7 +73,7 @@
     {
       "gate": "VGA editing integration",
       "status": "PASS",
-      "detail": "PASS: VGA backspace regression (13 checks); evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\backspace\\20261012_171532"
+      "detail": "PASS: VGA backspace regression (13 checks); evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\backspace\\20261012_205144"
     },
     {
       "gate": "build grub iso",
@@ -83,32 +83,32 @@
     {
       "gate": "ISO paging verification",
       "status": "PASS",
-      "detail": "Evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase4\\20261012_171617_paging"
+      "detail": "Evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase4\\20261012_205228_paging"
     },
     {
       "gate": "ISO VGA editing integration",
       "status": "PASS",
-      "detail": "PASS: VGA backspace regression (13 checks); evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\backspace\\20261012_171621"
+      "detail": "PASS: VGA backspace regression (13 checks); evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\backspace\\20261012_205231"
     },
     {
       "gate": "local iso sha256",
       "status": "PASS",
-      "detail": "6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94"
+      "detail": "5b8875f9e8b848a346ef22a93eec689688a5cf55ec0c4e765209a8f83ec9015f"
     },
     {
       "gate": "upload versioned iso",
       "status": "PASS",
-      "detail": "rosti_20261012T091633Z.iso"
+      "detail": "rosti_20261012T125244Z.iso"
     },
     {
       "gate": "remote sha256 verified",
       "status": "PASS",
-      "detail": "6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94"
+      "detail": "5b8875f9e8b848a346ef22a93eec689688a5cf55ec0c4e765209a8f83ec9015f"
     },
     {
       "gate": "attach iso to VM 103",
       "status": "PASS",
-      "detail": "local:iso/rosti_20261012T091633Z.iso,media=cdrom,size=8678K"
+      "detail": "local:iso/rosti_20261012T125244Z.iso,media=cdrom,size=8712K"
     },
     {
       "gate": "boot VM 103",
@@ -123,13 +123,13 @@
     {
       "gate": "final remote checksum readback",
       "status": "PASS",
-      "detail": "6a679af55b5b76988b1b6a4f464517d6aba22a3f09d4633e802c7776f49adc94"
+      "detail": "5b8875f9e8b848a346ef22a93eec689688a5cf55ec0c4e765209a8f83ec9015f"
     },
     {
       "gate": "final VM 103 state readback",
       "status": "PASS",
       "detail": {
-        "ide2": "local:iso/rosti_20261012T091633Z.iso,media=cdrom,size=8678K",
+        "ide2": "local:iso/rosti_20261012T125244Z.iso,media=cdrom,size=8712K",
         "status": "running"
       }
     }

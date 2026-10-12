@@ -25,11 +25,6 @@ mod utils;
 global_asm!(include_str!("boot.s"), options(att_syntax));
 
 #[cfg(not(test))]
-#[global_allocator]
-static ALLOC: utils::mutex::SpinMutex<allocator::BumpAlloc> =
-    utils::mutex::SpinMutex::new(allocator::BumpAlloc::new());
-
-#[cfg(not(test))]
 #[panic_handler]
 fn panic_handler(info: &PanicInfo) -> ! {
     use core::fmt::Write;
@@ -61,7 +56,7 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
         // init the allocator BEFORE printing the mmap: print_mmap_entries
         // allocates a Vec, which requires a working global allocator.
         io::serial::puts("DBG: alloc init\n");
-        ALLOC.lock().init(info);
+        allocator::ALLOC.lock().init(info);
         io::serial::puts("DBG: mmap print\n");
         (*info).print_mmap_entries();
         io::serial::puts("DBG: mmap printed\n");
@@ -84,15 +79,16 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
             .filter(|e| e.type_ == 1)
             .map(|e| e.length / 1024)
             .sum();
-        shell::set_mem_info(total_kb, ALLOC.lock().start as u64);
+        shell::set_mem_info(total_kb, allocator::bootstrap_heap_bounds().0 as u64);
         io::serial::puts("DBG: mem info set\n");
 
         // Capture bump bounds once. SpinMutex is NOT reentrant: locking ALLOC
         // again inside prepare()'s arguments while the set_mem_info guard is
         // still alive deadlocks the boot (this was the Phase 4 hang).
         let (bump_start, bump_end) = {
-            let bump = ALLOC.lock();
-            (bump.start as u64, bump.end as u64)
+            let _bump = allocator::ALLOC.lock();
+            let (s, e) = allocator::bootstrap_heap_bounds();
+            (s as u64, e as u64)
         };
 
         // Physical frame allocator + page tables. Paging is NOT enabled yet:

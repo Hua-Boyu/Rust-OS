@@ -139,28 +139,72 @@ fn run_command() {
             } else {
                 println!("usable memory: {} KB", unsafe { MEM_TOTAL_KB });
                 println!("allocator block base: {:#08x}", unsafe { MEM_BLOCK_BASE });
-                let fa = crate::memory::FRAME_ALLOC.lock();
-                if fa.is_initialized() {
-                    let s = fa.stats();
+
+                // Copy frame stats under one guard, then release before the
+                // heap guard: nested locks on the same mutex deadlock, and
+                // heap allocation during printing could re-enter the heap.
+                let fa_stats = {
+                    let fa = crate::memory::FRAME_ALLOC.lock();
+                    if fa.is_initialized() {
+                        Some(*fa.stats())
+                    } else {
+                        None
+                    }
+                };
+                println!("Physical memory:");
+                if let Some(s) = fa_stats {
+                    println!("Total frames: {}", s.total_frames);
+                    println!("Free frames: {}", s.free_frames);
+                    println!("Allocated frames: {}", s.allocated_frames);
+                    println!("Reserved frames: {}", s.reserved_frames);
                     println!(
-                        "frames: total {} reserved {} free {} allocated {}",
-                        s.total_frames, s.reserved_frames, s.free_frames, s.allocated_frames
-                    );
-                    println!(
-                        "frame rejects: double frees {} invalid frees {}",
+                        "Frame rejects: double frees {} invalid frees {}",
                         s.double_frees, s.invalid_frees
-                    );
-                    println!("page size: {} bytes", crate::memory::paging::PAGE_SIZE);
-                    println!(
-                        "paging: {}",
-                        if crate::memory::paging_enabled() {
-                            "enabled"
-                        } else {
-                            "disabled"
-                        }
                     );
                 } else {
                     println!("frame allocator: not initialized");
+                }
+
+                println!();
+                println!("Virtual memory:");
+                println!(
+                    "Paging: {}",
+                    if crate::memory::paging_enabled() {
+                        "enabled"
+                    } else {
+                        "disabled"
+                    }
+                );
+                println!(
+                    "Page directory: {:#010x}",
+                    crate::memory::page_directory().unwrap_or(0)
+                );
+                println!("Mapped pages: {}", crate::memory::mapped_pages());
+                println!("Page size: {} bytes", crate::memory::paging::PAGE_SIZE);
+
+                println!();
+                println!("Kernel heap:");
+                let hs = crate::allocator::heap_stats();
+                println!("Current capacity: {} bytes", hs.capacity);
+                println!("Used: {} bytes", hs.used);
+                println!("Free: {} bytes", hs.free);
+                println!("Failed allocations: {}", hs.failed_allocs);
+                println!("Live allocations: {}", hs.live_allocs);
+                println!("Invalid deallocs: {}", hs.invalid_deallocs);
+                println!(
+                    "Free blocks: {} (largest {} bytes)",
+                    hs.free_blocks, hs.largest_free
+                );
+                println!("Alignment waste: {} bytes", hs.waste);
+                println!("Growth pages: {}", hs.growth_pages);
+
+                println!();
+                println!("Page faults: {}", crate::interrupt::page_fault_count());
+                if let Some(f) = crate::interrupt::last_page_fault() {
+                    println!(
+                        "Last fault: cr2={:#010x} present={} write={} user={} fetch={}",
+                        f.cr2, f.present, f.write, f.user, f.fetch
+                    );
                 }
             }
         }

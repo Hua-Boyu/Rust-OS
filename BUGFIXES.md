@@ -94,6 +94,34 @@ Confirmed defects, evidence, and fixes (this session unless noted).
 - Evidence: 49 host tests, four real CPU-fault cases, 20 paging-stability boots,
   25 deployment gates and 20 live checks pass. See `test_results/phase4/acceptance.json`.
 
+## Phase 5 defects found and fixed (2026-10-12)
+
+- `KernelHeap.alloc_inner` returned the header pointer instead of the payload
+  pointer (off-by-HEADER_SIZE). Fixed; regression test asserts payload address.
+- Alignment waste was double-counted when the payload was aligned past the
+  block start. Fixed to count the prefix once.
+- `PageMap.unmap` rejected growth-window addresses (window_end bound only),
+  so heap growth pages could never be unmapped. Fixed to allow the growth
+  window while still rejecting out-of-managed-space addresses.
+- OOM on an uninitialized heap returned null without counting `failed_allocs`;
+  the shell now reports accurate failure counts.
+- `add_region` did not mark the heap initialized, so host tests could not
+  allocate. Fixed.
+- Real hazard: page-table frames could be allocated inside the heap growth
+  window, where virtual ≠ physical breaks `write_entry` (it assumes identity
+  mapping). Growth-window frames are now reserved for the heap and claimed
+  via `claim_growth_frame`; page tables can never live there. Regression test
+  asserts identity growth mapping and double-claim rejection.
+- `FrameStats` lacked `Copy`, breaking the shell's copy-then-print pattern
+  (E0507). Fixed with `Clone, Copy`.
+- Live verifier bug: VGA screen parsing used an 80-byte row stride instead of
+  the actual 160 bytes (char+attribute), producing garbage screens; and
+  `sendkey " "` is invalid on this QEMU monitor build (`spc` is the valid
+  name). Both fixed in `scripts/live_phase5_check.py`; the corrected run
+  passed 13/13 live checks.
+- A root password had been written into a `deploy-proxmox.py` comment; removed.
+  Credentials must come from the process environment only.
+
 ## Current remaining limitations
 
 - Vector 14 fatal diagnostics are CPU-tested (unmapped read and null write);
@@ -103,6 +131,14 @@ Confirmed defects, evidence, and fixes (this session unless noted).
 - Spinlocks are not interrupt-safe (no reentrancy guard); acceptable while
   ISRs avoid mutex-backed writers, but should be hardened.
 - RTC and a general-purpose allocator beyond bump are not implemented.
+  (Phase 5 adds the reclaiming `KernelHeap`; `BumpAlloc` remains for early boot.)
 - Physical allocation below 256 MiB; mapping extends above it. Bootstrap heap
   is fixed at 1 MiB; no demand paging, swapping, user isolation or general
   reclaiming heap. Boot string/config buffers conservatively reserve 4 KiB.
+- Phase 5 status: the dynamic heap reuses freed memory and grows one page at a
+  time inside the virtual growth window [0x800000, 0xE00000); growth is verified
+  in host tests but was not exercised on VM 103 (workload stayed under 1 MiB).
+  NX is not supported in 32-bit single-directory paging and is not claimed;
+  CR0.WP is set so read-only pages fault on supervisor writes. The 256 MiB
+  frame-tracking cap remains: lifting it requires a larger bitmap and verified
+  checked arithmetic; deferred until a task requires it.

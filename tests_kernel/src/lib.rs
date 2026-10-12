@@ -600,7 +600,8 @@ fn paging_identity_map_build_and_validate() {
     // window 0xC0000 covers VGA; bootinfo inside the window
     let entries = [mmap_entry(0x10000, 0xB0000, 1)];
     fa.init(&entries, 0x10000, 0x11000, 0x12000);
-    let pm = memory::paging::build_identity_map(&mut fa, 0xC0000).expect("build");
+    let pm = memory::paging::build_identity_map(&mut fa, 0xC0000, alloc::vec![0u64; 1024])
+        .expect("build");
     // directory + 1 page table allocated from managed frames
     assert_eq!(pm.stats().page_tables, 1);
     assert_eq!(pm.stats().mapped_frames, 0xC0000 / 4096 - 1); // null page absent
@@ -618,7 +619,8 @@ fn paging_validate_reports_missing_region() {
     let mut fa = memory::frame::FrameAllocator::new();
     let entries = [mmap_entry(0x10000, 0x2000, 1)];
     fa.init(&entries, 0x200000, 0x300000, 0x31000);
-    let pm = memory::paging::build_identity_map(&mut fa, 0x12000).expect("build");
+    let pm = memory::paging::build_identity_map(&mut fa, 0x12000, alloc::vec![0u64; 1024])
+        .expect("build");
     let missing =
         memory::paging::validate_mapping(&pm, &memory::required_regions(&entries, 0x200000));
     assert!(missing.contains(&"VGA framebuffer"));
@@ -631,7 +633,9 @@ fn paging_build_fails_on_exhaustion() {
     // only one frame free: enough for the directory, not for a page table
     let entries = [mmap_entry(0x10000, 0x1000, 1)];
     fa.init(&entries, 0x200000, 0x300000, 0x31000);
-    assert!(memory::paging::build_identity_map(&mut fa, 0xC0000).is_none());
+    assert!(
+        memory::paging::build_identity_map(&mut fa, 0xC0000, alloc::vec![0u64; 1024]).is_none()
+    );
     assert_eq!(
         fa.stats().free_frames,
         1,
@@ -666,8 +670,12 @@ fn paging_window_covers_ram_above_frame_allocator_cap() {
     assert_eq!(memory::managed_window_end(&entries), 512 * 1024 * 1024);
     let mut fa = memory::frame::FrameAllocator::new();
     fa.init(&entries, 0x10000, 0x100000, 0x200000);
-    let pm =
-        memory::paging::build_identity_map(&mut fa, memory::managed_window_end(&entries)).unwrap();
+    let pm = memory::paging::build_identity_map(
+        &mut fa,
+        memory::managed_window_end(&entries),
+        alloc::vec![0u64; 1024],
+    )
+    .unwrap();
     assert!(pm.is_mapped(511 * 1024 * 1024));
     assert!(
         memory::paging::validate_mapping(&pm, &memory::required_regions(&entries, 0x10000))
@@ -718,7 +726,7 @@ fn paging_null_page_is_absent() {
     let entries = [mmap_entry(0x10000, 0x10000, 1)];
     let mut fa = memory::frame::FrameAllocator::new();
     fa.init(&entries, 0x30000, 0x40000, 0x50000);
-    let pm = memory::paging::build_identity_map(&mut fa, 0x20000).unwrap();
+    let pm = memory::paging::build_identity_map(&mut fa, 0x20000, alloc::vec![0u64; 1024]).unwrap();
     assert!(!pm.is_mapped(0));
     assert!(pm.is_mapped(0x1000));
 }
@@ -727,7 +735,7 @@ fn paging_null_page_is_absent() {
 fn paging_validation_checks_partial_tail_page() {
     let mut fa = memory::frame::FrameAllocator::new();
     fa.init(&[mmap_entry(0x10000, 0x2000, 1)], 0x20000, 0x30000, 0x40000);
-    let pm = memory::paging::build_identity_map(&mut fa, 0x2000).unwrap();
+    let pm = memory::paging::build_identity_map(&mut fa, 0x2000, alloc::vec![0u64; 1024]).unwrap();
     assert_eq!(
         memory::paging::validate_mapping(&pm, &[(0x1FFF, 0x2001, "tail")]),
         ["tail"]
@@ -749,4 +757,310 @@ fn frame_reserved_range_overflow_is_conservative() {
     );
     assert_eq!(fa.allocate(), Some(0x10000));
     assert_eq!(fa.allocate(), None);
+}
+
+// ---- Phase 5: virtual memory map/unmap/translate tests ----
+
+#[test]
+fn paging_map_unmap_translate_and_rejects() {
+    let entries = [mmap_entry(0x10000, 0xB0000, 1)];
+    let mut fa = memory::frame::FrameAllocator::new();
+    fa.init(&entries, 0x10000, 0x11000, 0x12000);
+    let mut pm = memory::paging::build_identity_map(&mut fa, 0xC0000, alloc::vec![0u64; 1024])
+        .expect("build");
+
+    // Map a free frame into the growth window.
+    let frame = fa.allocate().unwrap();
+    let slot = memory::paging::GROWTH_START as u64;
+    assert!(pm.map(&mut fa, slot, frame, &memory::paging::KERNEL_PERMS));
+    assert!(pm.is_mapped(slot as u64));
+    assert_eq!(pm.translate(slot as u64), Some(frame));
+
+    // Duplicate mapping rejected (existing page never overwritten).
+    assert!(!pm.map(&mut fa, slot, frame, &memory::paging::KERNEL_PERMS));
+    assert_eq!(pm.stats().map_rejects, 1);
+
+    // Unaligned virtual or physical address rejected.
+    assert!(!pm.map(&mut fa, slot + 1, frame, &memory::paging::KERNEL_PERMS));
+    assert!(!pm.map(&mut fa, slot, frame + 1, &memory::paging::KERNEL_PERMS));
+    assert_eq!(pm.stats().map_rejects, 3);
+
+    // Read-only permissions are stored and reported.
+    let ro = memory::paging::PagePerms {
+        present: true,
+        writable: false,
+        user: false,
+        nx_supported: false,
+    };
+    let f2 = fa.allocate().unwrap();
+    assert!(pm.map(&mut fa, slot + 4096, f2, &ro));
+    let p = pm.permissions(slot + 4096).expect("perms");
+    assert!(p.present && !p.writable && !p.user && !p.nx_supported);
+
+    // Unmap works; unmapping an absent page is rejected.
+    assert!(pm.unmap(slot));
+    assert!(!pm.is_mapped(slot as u64));
+    assert_eq!(pm.translate(slot), None);
+    assert!(!pm.unmap(slot));
+    assert_eq!(pm.stats().unmap_rejects, 1);
+
+    // Boot-critical regions cannot be unmapped.
+    assert!(!pm.unmap(0xB8000));
+    assert_eq!(pm.stats().unmap_rejects, 2);
+
+    // TLB invalidation counted on every successful change (2 maps + 1 unmap).
+    assert_eq!(pm.stats().tlb_invalidation, 3);
+}
+
+#[test]
+fn paging_map_rejects_out_of_window_and_unaligned_translate() {
+    let entries = [mmap_entry(0x10000, 0x10000, 1)];
+    let mut fa = memory::frame::FrameAllocator::new();
+    fa.init(&entries, 0x20000, 0x30000, 0x40000);
+    let mut pm = memory::paging::build_identity_map(&mut fa, 0x20000, alloc::vec![0u64; 1024])
+        .expect("build");
+    let frame = fa.allocate().unwrap();
+    // Outside the managed window and outside the growth window: rejected.
+    assert!(!pm.map(&mut fa, 0x100000, frame, &memory::paging::KERNEL_PERMS));
+    // Physical frame above the frame cap: rejected.
+    assert!(!pm.map(
+        &mut fa,
+        memory::paging::GROWTH_START as u64,
+        memory::frame::MAX_FRAME_ADDR,
+        &memory::paging::KERNEL_PERMS
+    ));
+    assert_eq!(pm.stats().map_rejects, 2);
+    // Unaligned translate returns None.
+    assert_eq!(pm.translate(0x10001), None);
+}
+
+#[test]
+fn heap_growth_maps_one_page_on_demand() {
+    // Usable range must cover the growth window: growth maps identity frames
+    // inside it (virtual == physical).
+    let entries = [mmap_entry(0x10000, 0x800000, 1)];
+    assert!(memory::prepare(&entries, 0x20000, 0x30000, 0x40000).is_ok());
+    let slot = memory::paging::GROWTH_START;
+    let pm = memory::page_map_ref().expect("page map");
+    // Growth window pages are unmapped until growth maps them.
+    assert!(!pm.is_mapped(slot as u64));
+    let frame = memory::heap_grow_frame(slot).expect("growth frame");
+    assert_eq!(frame, slot as u64); // identity: virtual == physical
+    assert!(pm.is_mapped(slot as u64));
+    assert_eq!(pm.translate(slot as u64), Some(frame));
+    // Claiming the same frame twice is rejected.
+    assert!(
+        memory::FRAME_ALLOC
+            .lock()
+            .claim_growth_frame(slot as u64)
+            .is_none()
+    );
+    // Second growth page maps independently.
+    let f2 = memory::heap_grow_frame(slot + 4096).expect("growth frame 2");
+    assert_eq!(pm.translate((slot + 4096) as u64), Some(f2));
+}
+
+#[test]
+fn fault_decode_includes_fetch_bit() {
+    let f = memory::paging::decode_error_code(0b10000);
+    assert!(f.fetch && !f.present && !f.write && !f.user);
+    let f = memory::paging::decode_error_code(0b10011);
+    assert!(f.present && f.write && !f.user && f.fetch);
+}
+
+// ---- Phase 5: dynamic kernel heap tests ----
+
+#[test]
+fn heap_alloc_free_reuse_and_stats() {
+    let heap = utils::mutex::SpinMutex::new(allocator::KernelHeap::new());
+    heap.lock().add_region(0x100000, 0x101000); // 4 KiB region
+
+    let l1 = Layout::from_size_align(64, 8).unwrap();
+    let p1 = unsafe { heap.alloc(l1) };
+    assert!(!p1.is_null());
+    assert_eq!(p1 as usize, 0x100008); // 8-byte header before payload
+
+    let s = heap.lock().stats;
+    assert_eq!(s.capacity, 4096);
+    assert_eq!(s.used, 72);
+    assert_eq!(s.live_allocs, 1);
+    assert_eq!(s.free, 4096 - 72);
+
+    unsafe { heap.dealloc(p1, l1) };
+    let s = heap.lock().stats;
+    assert_eq!(s.used, 0);
+    assert_eq!(s.live_allocs, 0);
+    assert_eq!(s.free_blocks, 1);
+    assert_eq!(s.free, 4096);
+
+    // Freed memory is reused: same address on reallocation.
+    let p2 = unsafe { heap.alloc(l1) };
+    assert_eq!(p2 as usize, p1 as usize);
+    unsafe { heap.dealloc(p2, l1) };
+}
+
+#[test]
+fn heap_alignment_and_fragmentation() {
+    let heap = utils::mutex::SpinMutex::new(allocator::KernelHeap::new());
+    heap.lock().add_region(0x200000, 0x201000);
+
+    // Small odd-size alloc, then a 16-byte-aligned alloc: payload must be
+    // aligned to 16 even though the header sits at the region start.
+    let small = Layout::from_size_align(3, 1).unwrap();
+    let p1 = unsafe { heap.alloc(small) };
+    assert_eq!(p1 as usize, 0x200008);
+    let aligned = Layout::from_size_align(8, 16).unwrap();
+    let p2 = unsafe { heap.alloc(aligned) };
+    assert_eq!(p2 as usize % 16, 0);
+    assert_eq!(p2 as usize, 0x200020); // header at 0x200018, payload aligned
+
+    unsafe { heap.dealloc(p1, small) };
+    unsafe { heap.dealloc(p2, aligned) };
+    // p1's block (11 bytes incl. header) is fragmented separately; p2's
+    // block merges with the tail remainder.
+    let s = heap.lock().stats;
+    assert_eq!(s.live_allocs, 0);
+    assert_eq!(s.free_blocks, 2);
+    assert_eq!(s.waste, 13); // prefix before the aligned header (0x200013 -> 0x200020)
+}
+
+#[test]
+fn heap_coalesces_adjacent_free_blocks() {
+    let heap = utils::mutex::SpinMutex::new(allocator::KernelHeap::new());
+    heap.lock().add_region(0x300000, 0x300100); // 256 bytes
+
+    let a = Layout::from_size_align(64, 1).unwrap();
+    let b = Layout::from_size_align(64, 1).unwrap();
+    let p1 = unsafe { heap.alloc(a) };
+    let p2 = unsafe { heap.alloc(b) };
+    assert_eq!(p2 as usize, p1 as usize + 72); // adjacent blocks
+
+    unsafe { heap.dealloc(p2, b) };
+    unsafe { heap.dealloc(p1, a) }; // reverse order: must coalesce
+    let s = heap.lock().stats;
+    assert_eq!(s.free_blocks, 1);
+    assert_eq!(s.largest_free, 256);
+}
+
+#[test]
+fn heap_oom_and_invalid_dealloc_are_safe() {
+    let heap = utils::mutex::SpinMutex::new(allocator::KernelHeap::new());
+    heap.lock().add_region(0x400000, 0x400040); // 64 bytes: one 32-byte alloc fits
+
+    let ok = Layout::from_size_align(24, 1).unwrap();
+    let p = unsafe { heap.alloc(ok) };
+    assert!(!p.is_null());
+
+    // Exhausted: null, counted, no panic.
+    let big = Layout::from_size_align(64, 1).unwrap();
+    assert!(unsafe { heap.alloc(big) }.is_null());
+    assert_eq!(heap.lock().stats.failed_allocs, 1);
+
+    // Foreign pointer (never allocated): header garbage rejected.
+    let foreign = (0x400030) as *mut u8;
+    unsafe { heap.dealloc(foreign, ok) };
+    assert_eq!(heap.lock().stats.invalid_deallocs, 1);
+
+    // The live allocation is still valid and can be freed.
+    unsafe { heap.dealloc(p, ok) };
+    let s = heap.lock().stats;
+    assert_eq!(s.live_allocs, 0);
+}
+
+#[test]
+fn heap_growth_disabled_in_host_tests_and_stats_are_consistent() {
+    let heap = utils::mutex::SpinMutex::new(allocator::KernelHeap::new());
+    // Growth is disabled in host tests (grow_next = 0): OOM without hang.
+    let l = Layout::from_size_align(16, 1).unwrap();
+    assert!(unsafe { heap.alloc(l) }.is_null()); // no regions at all
+    let s = heap.lock().stats;
+    assert_eq!(s.failed_allocs, 1);
+    assert_eq!(s.growth_pages, 0);
+    assert_eq!(s.used + s.free, s.capacity); // accounting invariant
+}
+
+// ---- Phase 5 performance baseline (recorded, not optimized) ----
+
+#[test]
+fn perf_baseline_records_latencies() {
+    use core::alloc::Layout;
+    // Isolated instances: host tests run in parallel, so global state is unsafe here.
+    let mut fa = memory::frame::FrameAllocator::new();
+    let entries = [mmap_entry(0x10000, 0x800000, 1)];
+    fa.init(&entries, 0x10000, 0x11000, 0x12000);
+    let mut pm = memory::paging::build_identity_map(&mut fa, 0xC0000, alloc::vec![0u64; 1024])
+        .expect("build");
+
+    // Frame allocation latency: 1000 allocations.
+    let t0 = std::time::Instant::now();
+    let mut frames = Vec::new();
+    for _ in 0..1000 {
+        frames.push(fa.allocate().expect("frame"));
+    }
+    let frame_alloc_ns = t0.elapsed().as_nanos() as f64 / 1000.0;
+    let t1 = std::time::Instant::now();
+    for f in &frames {
+        fa.free(*f);
+    }
+    let frame_free_ns = t1.elapsed().as_nanos() as f64 / 1000.0;
+
+    // Map/unmap latency in the growth window (1000 ops each).
+    let t2 = std::time::Instant::now();
+    for i in 0..1000 {
+        let v = memory::paging::GROWTH_START as u64 + i * 4096;
+        assert!(pm.map(&mut fa, v, v, &memory::paging::KERNEL_PERMS));
+    }
+    let map_ns = t2.elapsed().as_nanos() as f64 / 1000.0;
+    let t3 = std::time::Instant::now();
+    for i in 0..1000 {
+        assert!(pm.unmap(memory::paging::GROWTH_START as u64 + i * 4096));
+    }
+    let unmap_ns = t3.elapsed().as_nanos() as f64 / 1000.0;
+
+    // Heap alloc/dealloc latency: 1000 mixed-size ops on an isolated heap.
+    // Region must cover the workload (~1.2 MB) so alloc never returns null.
+    let heap = utils::mutex::SpinMutex::new(allocator::KernelHeap::new());
+    heap.lock().add_region(0x1000000, 0x1000000 + 4096 * 512);
+    let sizes = [8usize, 64, 256, 1024, 4096];
+    let t4 = std::time::Instant::now();
+    let mut ptrs = Vec::new();
+    for &s in sizes.iter().cycle().take(1000) {
+        let p = unsafe { heap.alloc(Layout::from_size_align(s, 8).unwrap()) };
+        assert!(!p.is_null(), "heap must not OOM on a sized region");
+        ptrs.push(p);
+    }
+    let heap_alloc_ns = t4.elapsed().as_nanos() as f64 / 1000.0;
+    let t5 = std::time::Instant::now();
+    for (i, &p) in ptrs.iter().enumerate() {
+        unsafe { heap.dealloc(p, Layout::from_size_align(sizes[i % 5], 8).unwrap()) };
+    }
+    let heap_free_ns = t5.elapsed().as_nanos() as f64 / 1000.0;
+
+    // Fragmentation under a representative checkerboard workload:
+    // allocate 500 blocks, free every other one.
+    let mut small = Vec::new();
+    for _ in 0..500 {
+        small.push(unsafe { heap.alloc(Layout::from_size_align(48, 8).unwrap()) });
+    }
+    for (i, &p) in small.iter().enumerate() {
+        if i % 2 == 0 {
+            unsafe { heap.dealloc(p, Layout::from_size_align(48, 8).unwrap()) };
+        }
+    }
+    let frag = heap.lock().stats;
+    // 250 isolated freed blocks (each separated by a live neighbour) plus the
+    // large tail remainder = 251 free blocks.
+    assert_eq!(frag.free_blocks, 251, "checkerboard leaves 250 isolated + tail");
+
+    std::println!(
+        "PERF BASELINE ns/op: frame_alloc {:.1} frame_free {:.1} map {:.1} unmap {:.1}          heap_alloc {:.1} heap_free {:.1}; checkerboard: {} free blocks, waste {} bytes",
+        frame_alloc_ns,
+        frame_free_ns,
+        map_ns,
+        unmap_ns,
+        heap_alloc_ns,
+        heap_free_ns,
+        frag.free_blocks,
+        frag.waste
+    );
 }

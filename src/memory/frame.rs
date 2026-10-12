@@ -14,6 +14,7 @@
 //! - Exhaustion returns None; no wraparound, no panic.
 
 use crate::memory::dbg;
+use crate::memory::paging;
 use crate::multiboot::MmapEntry;
 
 pub const FRAME_SIZE: usize = 4096;
@@ -56,7 +57,7 @@ pub fn kernel_bounds() -> (u64, u64) {
     (0, 4096)
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct FrameStats {
     pub total_frames: usize,     // frames inside usable mmap ranges (deduped)
     pub reserved_frames: usize,  // frames reserved by mmap type or policy
@@ -178,7 +179,17 @@ impl FrameAllocator {
             let vga_overlap = fa < VGA_END && fe > VGA_START;
             let bootinfo_overlap = fa < (bootinfo_addr + FRAME_SIZE as u64) && fe > bootinfo_addr;
             let bump_overlap = fa < bump_end && fe > bump_start;
-            if null_page || kernel_overlap || vga_overlap || bootinfo_overlap || bump_overlap {
+            // Growth-window frames are reserved for the heap: they are mapped
+            // one page at a time on demand, and page tables must never live
+            // there (entry writes assume identity mapping).
+            let growth_window = fa >= paging::GROWTH_START as u64 && fa < paging::GROWTH_END as u64;
+            if null_page
+                || kernel_overlap
+                || vga_overlap
+                || bootinfo_overlap
+                || bump_overlap
+                || growth_window
+            {
                 self.stats.reserved_frames += 1;
             } else {
                 set_bit(&mut self.free, f, true);
@@ -265,6 +276,32 @@ impl FrameAllocator {
         self.stats.free_frames += 1;
         self.stats.allocated_frames -= 1;
         true
+    }
+
+    /// Claim a reserved growth-window frame for heap growth. Only frames
+    /// inside the growth window can be claimed; they are accounted as
+    /// allocated so stats stay consistent. None if already claimed or the
+    /// frame is not covered by a usable range.
+    pub fn claim_growth_frame(&mut self, addr: u64) -> Option<u64> {
+        if !self.initialized {
+            return None;
+        }
+        if addr % FRAME_SIZE as u64 != 0
+            || addr < paging::GROWTH_START as u64
+            || addr >= paging::GROWTH_END as u64
+        {
+            return None;
+        }
+        let frame = Self::frame_of(addr)?;
+        if !bit(&self.covered, frame) || bit(&self.ever, frame) {
+            return None;
+        }
+        set_bit(&mut self.ever, frame, true);
+        // The frame was reserved for the heap; claiming it converts reserved
+        // to allocated so the accounting stays consistent.
+        self.stats.reserved_frames -= 1;
+        self.stats.allocated_frames += 1;
+        Some(addr)
     }
 
     pub fn is_free(&self, addr: u64) -> bool {

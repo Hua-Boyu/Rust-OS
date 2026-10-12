@@ -148,7 +148,7 @@ def main():
                     while not serial_bytes.endswith(b"rosti>") and time.monotonic() < end:
                         time.sleep(0.1)
                         drain()
-                    expect("paging: enabled" in "\n".join(screen("mem")), "shell mem reports paging enabled")
+                    expect("Paging: enabled" in "\n".join(screen("mem")), "shell mem reports paging enabled")
                 type_text("clear")
                 key("ret")
                 type_text("echo backspace-okx")
