@@ -12,7 +12,7 @@ dist/
 
 # Raw QEMU debug logs (large; sanitized evidence reports are kept)
 test_results/**/qemu_log.txt
-
+test_results/*
 # Machine-specific caches
 *.cache
 .DS_Store
