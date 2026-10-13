@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Fail-closed Phase 6 local acceptance. Never deploys or changes authentication.
+"""Fail-closed local acceptance. Never deploys or changes authentication.
 
 Run from the canonical repository with the existing Rust/QEMU/WSL tools.
-Evidence lives beneath test_results/phase6; logs and counts are real subprocess
+Evidence lives beneath test_results/phase8; logs and counts are real subprocess
 results. Preserve the currently built ISO before packaging the replacement.
 """
 import argparse
@@ -25,15 +25,32 @@ def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def source_snapshot():
+    paths = set()
+    for directory, suffixes in (("src", {".rs", ".s"}),
+                                ("tests_kernel/src", {".rs"}),
+                                ("scripts", {".py", ".sh"})):
+        paths.update(p for p in (PROJECT / directory).rglob("*")
+                     if p.is_file() and p.suffix in suffixes)
+    for name in ("Cargo.toml", "Cargo.lock", "linker.ld", "target.json",
+                 "rust-toolchain.toml", ".cargo/config.toml",
+                 "tests_kernel/Cargo.toml", "tests_kernel/Cargo.lock",
+                 "tests_kernel/.cargo/config.toml"):
+        path = PROJECT / name
+        if path.is_file():
+            paths.add(path)
+    return {p.relative_to(PROJECT).as_posix(): sha256(p) for p in sorted(paths)}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    parent = (args.output_dir or PROJECT / "test_results" / "phase7").resolve()
+    parent = (args.output_dir or PROJECT / "test_results" / "phase8").resolve()
     parent.mkdir(parents=True, exist_ok=True)
     run = Path(tempfile.mkdtemp(prefix=f"acceptance_{stamp}_", dir=parent))
-    report = {"phase": 7, "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
+    report = {"phase": 8, "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
     features_active = False
 
     def gate(name, command, timeout=180, cwd=PROJECT):
@@ -62,11 +79,7 @@ def main():
 
     try:
         report["source_base"] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=PROJECT, text=True).strip()
-        source_paths = (list((PROJECT / "src").rglob("*.rs"))
-                        + list((PROJECT / "tests_kernel/src").rglob("*.rs"))
-                        + list((PROJECT / "scripts").glob("*.py"))
-                        + [PROJECT / "Cargo.toml", PROJECT / "linker.ld"])
-        report["source_sha256"] = {p.relative_to(PROJECT).as_posix(): sha256(p) for p in source_paths}
+        report["source_sha256"] = source_snapshot()
         gate("kernel formatting", ["cargo", "fmt", "--check"])
         gate("host formatting", ["cargo", "+nightly", "fmt", "--manifest-path", str(PROJECT / "tests_kernel/Cargo.toml"), "--check"])
         text = gate("host tests", ["cargo", "+nightly", "test", "--manifest-path", str(PROJECT / "tests_kernel/Cargo.toml")], cwd=Path.home())
@@ -74,6 +87,8 @@ def main():
         if not match:
             raise RuntimeError("host test totals not found")
         report["counts"]["host"] = {"pass": int(match[1]), "fail": int(match[2])}
+        gate("Python media reader regressions", script("test_fs_harness.py"))
+        gate("acceptance runner regressions", script("test_acceptance_harness.py"))
         features_active = True
         gate("build read fault fixture", ["cargo", "build", "--features", "paging-fault-test"])
         gate("CPU read faults 128 and 512", script("paging_test.py", "--fault", "--output-dir", run / "read_fault"))
@@ -94,6 +109,7 @@ def main():
         gate("VGA backspace ELF", script("backspace_test.py"), timeout=150)
         for memory in (128, 512):
             gate(f"filesystem growth OOM ELF {memory} MiB", script("fs_test.py", "--ram", memory, "--stress", "--output-dir", run / f"fs_elf_{memory}"), timeout=210)
+            gate(f"block persistence ELF {memory} MiB", script("block_test.py", "--ram", memory, "--output-dir", run / f"block_elf_{memory}"), timeout=240)
         current_iso = PROJECT / "dist/rosti.iso"
         if current_iso.exists():
             digest = sha256(current_iso)
@@ -108,24 +124,31 @@ def main():
         gate("VGA backspace ISO", script("backspace_test.py", "--iso", current_iso), timeout=150)
         for memory in (128, 512):
             gate(f"filesystem growth OOM ISO {memory} MiB", script("fs_test.py", "--iso", current_iso, "--ram", memory, "--stress", "--output-dir", run / f"fs_iso_{memory}"), timeout=210)
-        versioned = PROJECT / "dist" / f"rosti_phase7_{stamp}.iso"
+            gate(f"block persistence ISO {memory} MiB", script("block_test.py", "--iso", current_iso, "--ram", memory, "--output-dir", run / f"block_iso_{memory}"), timeout=240)
+        final_hashes = source_snapshot()
+        if final_hashes != report["source_sha256"]:
+            raise RuntimeError("source changed during acceptance; rerun against stable source")
+        for p in run.rglob("report.json"):
+            evidence = json.loads(p.read_text())
+            key = str(p.relative_to(run))
+            if not isinstance(evidence, dict) or evidence.get("overall", "PASS") != "PASS":
+                raise RuntimeError(f"failed or invalid harness report: {key}")
+            if "checks" in evidence:
+                checks = evidence["checks"]
+                if not checks or any(c.get("pass") is not True for c in checks):
+                    raise RuntimeError(f"failed or empty harness checks: {key}")
+                report["counts"][key] = {"pass": sum(c["pass"] for c in checks), "fail": sum(not c["pass"] for c in checks), "commands": evidence.get("command_count")}
+            elif "results" in evidence:
+                rows = evidence["results"]
+                if not rows or any(r.get("pass") is not True for r in rows):
+                    raise RuntimeError(f"failed or empty harness results: {key}")
+                report["counts"][key] = {"pass": sum(r["pass"] for r in rows), "fail": sum(not r["pass"] for r in rows)}
+        versioned = PROJECT / "dist" / f"rosti_phase8_{stamp}.iso"
         if versioned.exists():
             raise RuntimeError("refusing to overwrite versioned ISO")
         shutil.copy2(current_iso, versioned)
         report["iso"] = {"name": versioned.name, "path": str(versioned.relative_to(PROJECT)), "sha256": sha256(versioned), "bytes": versioned.stat().st_size,
                           "kernel_sha256": sha256(PROJECT / "target/target/debug/kernel")}
-        for p in run.rglob("report.json"):
-            evidence = json.loads(p.read_text())
-            key = str(p.relative_to(run))
-            if "checks" in evidence:
-                checks = evidence["checks"]
-                report["counts"][key] = {"pass": sum(c["pass"] for c in checks), "fail": sum(not c["pass"] for c in checks), "commands": evidence.get("command_count")}
-            elif "results" in evidence:
-                rows = evidence["results"]
-                report["counts"][key] = {"pass": sum(r["pass"] for r in rows), "fail": sum(not r["pass"] for r in rows)}
-        final_hashes = {p.relative_to(PROJECT).as_posix(): sha256(p) for p in source_paths}
-        if final_hashes != report["source_sha256"]:
-            raise RuntimeError("source changed during acceptance; rerun against stable source")
         report["overall"] = "PASS"
     except Exception as error:
         report["overall"] = "FAIL"

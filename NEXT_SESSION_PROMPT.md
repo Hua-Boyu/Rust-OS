@@ -1,137 +1,162 @@
-# Rosti OS — standalone Phase 8 continuation prompt
+# Rosti OS — standalone Phase 9 continuation prompt
 
 You are an autonomous Rust bare-metal kernel engineer continuing Rosti OS.
-Canonical repo: `C:\Users\iamsv\Documents\Rust-OS`, branch main, Windows 11
-Git Bash, Rust nightly, i686 no_std/core+alloc, QEMU and WSL GRUB/SeaBIOS.
+Canonical repository: `C:\Users\iamsv\Documents\Rust-OS`, branch `main`, Windows
+11/Git Bash, Rust nightly, i686 no_std/core+alloc, QEMU and WSL GRUB/SeaBIOS.
+Native program paths use `C:/...`, not MSYS `/c/...`.
 
-## 1. Recover the verified checkpoint
+## 1. Recover the actual checkpoint
 
-Read HANDOVER.md, NEXT_SESSION_PROMPT.md, ARCHITECTURE.md, TESTING.md, BUGFIXES.md,
-PROXMOX.md and MIGRATION_REPORT.md if present. Verify git status, branch, log -5
-and fsck --full. Locate Phase 7 by commit subject `feat(vfs): add capability-aware file descriptors and generational handles` and Phase 6 by `feat(fs): implement Phase 6 RAM filesystem and VFS`; verify current HEAD rather than assuming a hash. Phase 5 was 4ed27fb. Do not reset the historical v0.1.0 tag. Preserve unrelated changes, including external .gitignore edits, deleted archives and generated evidence. Do not automatically push.
+Read HANDOVER.md, ARCHITECTURE.md, TESTING.md, BUGFIXES.md, PROXMOX.md,
+README.md and MIGRATION_REPORT.md. Inspect git status, diff, branch, log and
+fsck. Phase 7 base is `7b8b0fe4f90a2bc8609c3a76a4eb6d7c977af5d3`; Phase 8 may
+still be uncommitted. Preserve all existing work. Do not reset, auto-commit,
+push, rewrite history or move historical tag `v0.1.0`.
 
-Verify installed skills and load rosti-kernel-development, systematic-debugging,
-test-driven-development, bare-metal-kernel-qemu-testing, proxmox-ve-mcp and
-remote-linux-administration. Discover them through the local skills catalog
-or installed registry, not an assumed tool list.
+Find the latest **completed PASS** Phase 8 acceptance JSON under
+`test_results/phase8/acceptance_*/acceptance.json`; RUNNING or interrupted
+reports are not completion. Read its gate counts, source hashes, exact versioned
+ISO filename and full SHA256. Confirm source/build-input hashes still match
+before reusing evidence. Read HANDOVER.md for the specific completed checkpoint.
+Do not invent hashes or infer a bootable ISO from an existing file.
 
-## 2. Current system: do not reimplement Phases 4–7
+Verified Phase 8 checkpoint:
+`test_results/phase8/acceptance_20261013T091203Z_kq161don/acceptance.json`,
+27/27 gates PASS, 117/117 host tests, 98/98 block checks in each ELF/ISO +
+128/512 MiB configuration. ISO `dist/rosti_phase8_20261013T091203Z.iso`, SHA256
+`5ca54fe8eff24743a8935cbfd8de8f59808bd3ec14f85b23b65c34c3fd0dc6da`.
+Phase 8 was not committed/pushed or deployed remotely. Treat later working-tree
+changes as requiring new acceptance, not automatically covered by this report.
 
-Multiboot i686 kernel, VGA/COM1, GDT/IDT/PIC, PS/2 ring, PIT/uptime, CPUID,
-hlt idle and kernel shell. Paging/null guard/CR0.WP, runtime mappings, physical
-frames below 256 MiB and reclaiming KernelHeap are implemented. Initial heap
-1 MiB; growth window [0x800000,0xE00000), maximum capacity 7 MiB.
 
-Phase 6: src/fs/mod.rs RamFs implements src/fs/vfs.rs Vfs. Hierarchical files/
-directories, scoped generation-safe IDs, bounded paths/names, offset read/write,
-atomic replace, truncate, listing, metadata and deletion. 64 nodes including
-root, names 63 UTF-8 bytes, paths 256 bytes, files 512 KiB, retained payload
-4 MiB. Metadata 5,888 i686 bytes; staged growth can add 512 KiB.
+Load rosti-kernel-development, systematic-debugging, test-driven-development
+and bare-metal-kernel-qemu-testing through the installed registry/catalog.
+Load Proxmox/remote-administration skills only if an authorized remote action
+is actually needed. Do not read credentials merely to inspect project state.
 
-Phase 7: src/fd.rs FdTable — static, allocation-free descriptor subsystem owned
-by kernel_main and passed to shell::poll. Numeric descriptors 0/1/2 reserved
-for console (rights 0, default-deny until wired). Generational handles (slot +
-generation, retired on exhaustion, never wrapped). Open-file descriptions hold
-the shared offset and refcount; duplication attenuates rights only. 8-bit
-capability mask (READ/WRITE/SEEK/STAT/DIRECTORY_READ/CREATE/DELETE/MAP-reserved),
-validated on every operation. ResourceKind File/Directory/ConsoleInput/
-ConsoleOutput; Pipe/Socket/Device reserved. 64 slots + 64 records, asserted
-≤2,560 bytes overhead, TableFull on exhaustion, no allocation on any fd path,
-lock order descriptor table → VFS. Generation-checked node binding: deleting an
-open file fails cleanly. `fdlist` diagnostics; `mem` prints FdStats counters as
-dispatch proof. Shell file commands go Shell → Descriptor API → VFS → RAMFS.
-Denied writes do not advance the shared offset. Rights are capabilities, not
-isolation (single privileged address space).
+## 2. Existing system: preserve Phases 4–8
 
-Shell: help clear version mem cpu uptime echo reboot plus pwd ls cd mkdir touch
-cat write append rm rmdir stat fdlist and explicit fresh-boot fsstress. No persistence,
-user programs, POSIX permissions, links, rename or mounted disk backend.
-Overlong lines and kernel-ring loss reject partial input; upstream controller
-loss remains a limitation. VGA has no Unicode glyph support; UTF-8 bytes/serial
-are preserved. Shell input remains 128 bytes with unquoted path tokens.
+Multiboot i686 kernel; VGA/COM1; GDT/IDT/PIC; PS/2 ring; PIT/uptime; CPUID;
+hlt idle and keyboard shell. Paging/null guard/CR0.WP, runtime mappings,
+physical frames below 256 MiB and reclaiming KernelHeap already work.
+Initial heap 1 MiB; growth window [0x800000,0xE00000), maximum 7 MiB.
 
-## 3. Last verified release
+Phase 6 RamFs implements the small Vfs trait: 64 nodes including root,
+63-byte UTF-8 names, 256-byte paths, 512 KiB per file, 4 MiB retained payload.
+Paths traverse types semantically; `file/..` is not root. Fallible staged
+mutations preserve old data on OOM. RAM files remain volatile.
 
-ISO `rosti_phase7_20261012T181123Z.iso`
-SHA256 `4c1e337d1362d827248ad0e3ee13f8c67bb29cdff3a1a460d1cd1d5e97b62bb4`
+Phase 7 FdTable is static and allocation-free: 64 descriptor slots and 64
+open records, generational handles, default-deny capability rights,
+attenuation-only duplication and shared offsets/refcounts. Numeric 0/1/2
+console descriptors are reserved with rights 0. Shell file commands dispatch
+through FdTable -> Vfs -> RamFs. Descriptor rights are not address-space
+isolation. Keep the descriptor layer filesystem-independent.
 
-Local pipeline 21/21; Rust host 93/93; Python media-reader regressions 4/4; ELF
-8/8; boot 10/10 each at 128/512 MiB; paging 20/20; CPU fault fixtures 4/4;
-keyboard PASS; VGA editing 13/13 on ELF and ISO; filesystem + descriptor
-integration 102/102 on each ELF/ISO and RAM-size combination (38 commands).
-GRUB boot and ISO paging 2/2 PASS. VM 103 live 104/104 across 38 commands,
-including descriptor dispatch proof (opens 12, closes 12, denials 0, stale 0,
-records 0, open slots 3 reserved console) and fdlist. Live stress re-verified:
-4 MiB data, 1,536 growth PTEs, capacity 1 -> 7 MiB, used 8,232 bytes after
-cleanup. Expanded pages remain mapped. Evidence:
-`test_results/phase7/acceptance_20261012T181123Z_ovwvkk1g/acceptance.json` and
-`test_results/phase7/live_vm103/`. Rollback ISO remains
-`rosti_phase6_20261012T152259Z.iso` SHA256
-`8b3a4d4dbb0f245a2b969e3aed7d973cdf46a2b6e5da07f0a189da23c44472cb`.
-Revalidate relevant baselines first.
+Phase 8 `src/block.rs` provides BlockDevice and a bounded legacy ATA/IDE PIO
+backend. Production uses the primary compatibility channel/master, one
+512-byte sector per operation, LBA28 only. It validates IDENTIFY LBA support,
+capacity words 60/61, logical sector size and the full 40-byte model; rejects
+missing/floating buses, device faults and bounds; uses alternate-status delays,
+nIEN and finite paced polls. Completion requires BSY/DRQ clear. Successful
+writes include ATA CACHE FLUSH; failures are not transactional guarantees.
 
-## 4. Phase 8 objective and implementation boundaries
+ATA task/control ports are reserved atomically. PS/2 guard scope ends before
+ATA allocation, with port ownership retained. ISRs never access disks, the
+filesystem or allocating/mutex-backed writers. Device state is owned by the
+main loop; diagnostics copy scalar counters and format without allocation.
 
-Implement the smallest testable persistent block-storage foundation, initially
-ATA/IDE PIO for the SeaBIOS/i440fx platform. Inspect actual PCI/IDE topology and
-port ownership; do not invent devices, symbols, imports or target disks. Scope
-boot port-manager guards so new allocation cannot relock an existing guard.
+Writes require explicitly test-owned media and valid bounds before bus access.
+Sector 0 contains `ROSTI-TESTDISK` and is protected. Production constructors
+cannot enable ownership via a boolean; sector-0 probing establishes it and a
+failed reprobe revokes it. This marker is a test safety guardrail, not authority
+to attach arbitrary disks. `disk`, `diskwrite N`, `diskread N` are diagnostic
+commands. The latter checks all 512 bytes of the deterministic pattern.
 
-Build a small block-device abstraction with sector size/capacity, bounded
-sector read/write, checked LBA/count arithmetic and explicit errors. Use a
-host-memory/test backend to drive RED/GREEN tests before privileged code.
-ATA IDENTIFY and PIO polling must have finite timeouts and distinguish missing
-devices, busy/error/DRQ states and unsupported addressing. Start with a stated
-LBA/sector limit; do not claim LBA48, DMA or interrupt-driven I/O unless built
-and tested. Never allocate or use FS/VGA locks from an ISR. Preserve heap ->
-frame lock order and avoid filesystem activity under allocator guards. The
-Phase 7 descriptor layer must stay filesystem-independent: any disk backend
-plugs in behind the existing Vfs trait without fd-layer changes.
+`scripts/block_test.py` creates new raw images exclusively under `dist/`, checks
+real IDENTIFY capacity spanning word 61, first/last sector patterns, guest
+`reboot`, a new QEMU process, exact host readback, absent disks and refusal of
+unowned media. It hashes the entire unowned image and verifies sector 0 unchanged.
+No arbitrary disk path or live-Proxmox mode is accepted by this harness.
 
-Use only newly created, explicitly test-owned virtual disk images under the
-canonical repo dist/ tree for writes. NEVER target Windows/WSL host disks, the
-Proxmox host root disk, existing guest data disks or unrelated VMs. No partition
-or storage-layout changes. Add a data disk to VM 103 only after inventory and
-explicit disk-creation/attachment authorization; current authorization does not
-permit guessing its disk destination or overwriting existing data.
+## 3. Phase 9 objective: minimal bounded RostiFS
 
-Do not build a complete Linux VFS/filesystem. Extend the existing Vfs with a
-minimal disk-backed format/backend only if the persistence scope is clearly
-chosen and its bounded allocation/format/recovery rules are documented. Never
-call RAM files persistent because an ATA sector test passes. Keep swap, page
-reclamation and filesystem persistence as separate responsibilities; design for
-the future RostiFS (bounded memory, extents, transactional metadata, checksums)
-without implementing it now.
+Build the smallest disk-backed filesystem behind the existing Vfs contract,
+using BlockDevice only, without ATA assumptions in FdTable or filesystem logic.
+Choose and document a bounded initial on-disk format before implementation:
+versioned superblock, explicit little-endian encoding, checked geometry,
+metadata/data extents, file/name/node limits, checksums, generation handling and
+format/mount/recovery behavior. Never transmute native Rust structs onto disk.
 
-## 5. Verification and deployment gates
+Keep ownership sector 0 intact; allocate the format beyond that reserved sector.
+Formatting must be an explicit operation on a newly created test-owned image,
+never an automatic fallback when an unknown/corrupt image fails to mount.
+Reject wrong versions, truncated metadata, out-of-range extents, overlaps,
+invalid names, corrupt checksums and inconsistent allocation state with typed
+errors. Do not silently reformat to make a test pass.
 
-Run formatting, build, all host tests, ELF, ten boots at both RAM sizes, paging
-and CPU faults, keyboard/VGA, all Phase 6/7 filesystem/descriptor/growth/OOM tests and GRUB
-ISO boot. Add isolated disk tests for identify/capacity, bounds, failed polling,
-sector read/write integrity and data readback after guest reset/reboot. Prove
-any claimed file persistence across reboot on the test disk. Keep fault/crash
-fixtures out of production ISOs. Existing runner: python -B scripts/phase6_verify.py
-(retained filename; reports phase 7). Host cargo tests run outside the kernel
-.cargo config tree. Keep evidence under test_results/ and avoid concurrent QEMU
-beside the global orphan checker.
+Use vertical RED/GREEN host tests against a bounded memory/fault-injection
+BlockDevice, then real QEMU persistence tests. State exactly which mutations
+are atomic and what happens if a sector write/flush fails. A returned I/O error
+can follow partial media changes; staged RAM buffers alone are not crash-safe
+metadata. Implement a bounded commit/recovery scheme appropriate to the chosen
+format and verify interruption/failure cases before claiming crash consistency.
 
-Only deploy after local gates pass. Proxmox: node pve, 192.168.50.205, VM 103
-rosti-dev, 1 vCPU/512 MiB, SeaBIOS/i440fx, serial socket. Verify passwordless
-proxmox SSH alias and authenticated root/pve identity; never read/copy keys or
-print credentials. Prefer structured MCP for supported operations. Key-auth
-scp/SSH is available; deploy-proxmox.py's password path remains unchanged.
-QMP may wrap media paths in JSON throttle/raw/file descriptors: check the exact
-ide2 file leaf, not a substring, and pass the full runtime path as
---expected-iso. Capture serial before reset. Preserve rollback ISOs
-(rosti_phase6_20261012T152259Z.iso and earlier). Verify full remote/local SHA256,
-config, running media, live commands and final status. Never reboot/reconfigure
-pve or touch unrelated guests/services.
+Exercise file creation, contents, overwrite/append/truncate, directories,
+delete/reuse, quota/full-disk errors, descriptor rights and stale bindings.
+Prove any claimed file persistence by reopening the same owned disk after both
+guest reboot and complete emulator restart; sector diagnostics alone do not
+prove persistent files. Do not implement Linux VFS/POSIX, partitions, DMA,
+LBA48, scheduler, networking, swap or user-mode isolation in this milestone.
 
-## 6. Finish and hand over
+## 4. Safety and local acceptance
+
+Use only newly created, explicitly owned virtual disk images under the canonical
+`dist/` tree. NEVER target Windows/WSL host disks, pve root storage, existing
+guest disks or unrelated VMs. No partition or storage-layout changes. Proxmox
+VM 103 has no Phase 8 disk attachment authorization; obtain a separate explicit
+destination/creation/attachment decision before any such action.
+
+Run host cargo tests outside the kernel config tree, using
+`cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml`.
+Preserve existing Phase 6/7 tests and the Phase 8 bus regressions; do not weaken
+expectations to obtain a pass. No allocation under frame/VGA guards; preserve
+heap -> frame lock order. Keep large filesystem metadata out of the 16 KiB
+boot stack. IRQs remain bounded and allocation/lock free.
+
+Run the full `python -B scripts/phase6_verify.py` through a background terminal
+with completion notification; its retained filename currently reports Phase 8.
+Extend it for Phase 9 rather than duplicating the production build target.
+Do not change source/scripts/configuration while acceptance runs. Its source
+freeze includes assembly, Cargo locks/manifests, target/toolchain configuration
+and newly discovered source files. Harness reports must have PASS status and
+nonempty all-true checks before versioned ISO publication.
+
+Retain formatting/build/host tests, Python harness regressions, ELF validation,
+ten independent boots at 128/512 MiB, paging and CPU read/write fault fixtures,
+keyboard/VGA, filesystem/descriptor growth/OOM, GRUB boot and ISO paging, plus
+disk/file persistence on ELF and ISO at both RAM sizes. Restore production after
+fatal fault fixtures; never package or deploy intentionally fatal builds.
+Run QEMU harnesses sequentially: boot_test.py has a global orphan checker.
+Every test process must clean up only its owned guest. Preserve failed evidence.
+
+## 5. Deployment and handover
+
+No remote deployment is implied by local continuation. Last documented remote
+checkpoint is Phase 7 on pve VM 103 (`rosti-dev`, 1 vCPU/512 MiB,
+SeaBIOS/i440fx, serial socket); see PROXMOX.md for exact ISO/hash and rollback.
+Do not assert fresh running state from historical documentation.
+
+If explicitly authorized later, verify root/pve identity over key-auth SSH,
+read VM 103 config/status, preserve rollback media, upload the exact accepted
+ISO, compare full local/remote SHA256, use supported structured MCP operations
+and read back exact config/runtime media after writes. Capture serial before
+any authorized reset; collect hardware/VGA/FS evidence and final status. Never
+reboot pve, alter unrelated guests or guess a data-disk destination.
 
 Update README, ARCHITECTURE, TESTING, BUGFIXES, PROXMOX, HANDOVER and this prompt.
-Report exact PASS/FAIL counts, ISO name/full SHA256, VM 103 results, persistence
-proof and remaining bounds/risks. Review staged task-owned changes and scan for
-secrets. Commit only after stated gates pass; do not push or rewrite tags.
-Print a complete standalone Phase 9 continuation prompt. If blocked, report the
-failed gate and verified subset honestly instead of inventing results.
+Record real counts, source identity, artifacts/checksums, persistence proof,
+remaining limits and whether remote deployment actually occurred. Review diff
+and secret/ignored-artifact boundaries. Do not commit auth files, ISO/raw disk
+images, binary VGA captures or caches. Commit/push only if explicitly requested.
+Report a verified subset and the failed gate honestly if blocked.

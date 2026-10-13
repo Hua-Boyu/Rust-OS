@@ -50,6 +50,11 @@ pub mod fs_commands;
 #[path = "../../src/fd.rs"]
 pub mod fd;
 
+#[path = "../../src/block.rs"]
+pub mod block;
+#[cfg(test)]
+mod block_tests;
+
 // interrupt.rs is not included here: the x86-interrupt ABI cannot compile on
 // the host target. IDT gate encoding is tested via the mirror below.
 

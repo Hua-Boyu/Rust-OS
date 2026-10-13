@@ -60,6 +60,7 @@ pub fn poll(
     fs: &mut impl crate::fs::Vfs,
     table: &mut crate::fd::FdTable,
     cwd: &mut crate::fs::NodeId,
+    disk: &mut impl crate::block::BlockDevice,
 ) -> bool {
     if kbd::RING.recover_overflow() {
         unsafe {
@@ -97,7 +98,7 @@ pub fn poll(
             // Mirror the line-ending to serial so echoed input and command
             // output have consistent line boundaries on the serial console.
             io::serial::putc(b'\n');
-            run_command(fs, table, cwd);
+            run_command(fs, table, cwd, disk);
             print_prompt();
             return true;
         }
@@ -130,10 +131,19 @@ fn say(s: &str) {
     io::serial::puts("\n");
 }
 
+fn parse_lba(rest: &str) -> Option<usize> {
+    let rest = rest.trim();
+    if rest.is_empty() || !rest.bytes().all(|b| b.is_ascii_digit()) {
+        return None;
+    }
+    rest.parse::<usize>().ok()
+}
+
 fn run_command(
     fs: &mut impl crate::fs::Vfs,
     table: &mut crate::fd::FdTable,
     cwd: &mut crate::fs::NodeId,
+    disk: &mut impl crate::block::BlockDevice,
 ) {
     let line = unsafe { (&raw mut LINE).as_mut().expect("line buffer") };
     let len = unsafe { LINE_LEN };
@@ -169,7 +179,7 @@ fn run_command(
     match name {
         "help" => {
             say(
-                "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch cat write append rm rmdir stat fsstress fdlist",
+                "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch cat write append rm rmdir stat fsstress fdlist disk diskwrite diskread",
             );
         }
         "clear" => {
@@ -298,6 +308,75 @@ fn run_command(
                 });
             } else {
                 say("fs: invalid path");
+            }
+        }
+        "disk" => {
+            if disk.capacity_sectors() == 0 {
+                say("block: no device (IDENTIFY failed or 28-bit addressing unsupported)");
+            } else {
+                report!("block device: {}", disk.model());
+                report!(
+                    "capacity: {} sectors x {} bytes",
+                    disk.capacity_sectors(),
+                    disk.sector_size()
+                );
+                report!(
+                    "test-owned media: {}",
+                    if disk.test_owned() { "yes" } else { "no" }
+                );
+                let s = disk.stats();
+                report!(
+                    "block stats: reads {} writes {} timeouts {} device_errors {} no_device {} bytes {} protected_denials {}",
+                    s.reads,
+                    s.writes,
+                    s.timeouts,
+                    s.device_errors,
+                    s.no_device,
+                    s.bytes_transferred,
+                    s.protected_denials
+                );
+            }
+        }
+        "diskwrite" => {
+            let lba = match parse_lba(rest) {
+                Some(l) => l,
+                None => {
+                    say("block: usage: diskwrite <sector>");
+                    return;
+                }
+            };
+            let mut buf = [0u8; crate::block::SECTOR_SIZE];
+            crate::block::marker_pattern(&mut buf);
+            match disk.write_sector(lba, &buf) {
+                Ok(()) => report!("block: wrote sector {}", lba),
+                Err(e) => report!("block: {}", e),
+            }
+        }
+        "diskread" => {
+            let lba = match parse_lba(rest) {
+                Some(l) => l,
+                None => {
+                    say("block: usage: diskread <sector>");
+                    return;
+                }
+            };
+            let mut buf = [0u8; crate::block::SECTOR_SIZE];
+            match disk.read_sector(lba, &mut buf) {
+                Ok(()) => {
+                    let mut expected = [0u8; crate::block::SECTOR_SIZE];
+                    crate::block::marker_pattern(&mut expected);
+                    let mismatches = buf
+                        .iter()
+                        .zip(expected.iter())
+                        .filter(|(a, b)| a != b)
+                        .count();
+                    if mismatches == 0 {
+                        report!("block: sector {} pattern match (512 bytes)", lba);
+                    } else {
+                        report!("block: sector {} mismatch {} bytes", lba, mismatches);
+                    }
+                }
+                Err(e) => report!("block: {}", e),
             }
         }
         "reboot" => {

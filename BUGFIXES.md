@@ -2,6 +2,31 @@
 
 Confirmed defects, evidence, and fixes (this session unless noted).
 
+## Phase 8 defects found in the unfinished block layer
+
+- Boot held a reference to the temporary `PORT_MANAGER.lock()` guard across
+  the entire `kernel_main` body. ATA initialization then re-entered that same
+  non-reentrant lock. PS/2 setup now has an explicit scope before acquiring ATA
+  ports; retained port ownership, ISR behavior and lock ordering are preserved.
+- ATA DRQ was encoded as `0x40` (DRDY) instead of `0x08`. The old scripted bus
+  repeated the same incorrect value, hiding the hardware mismatch. A regression
+  against the protocol bit was observed RED, then GREEN with DRQ corrected.
+- The original IDENTIFY parser used only word 60 for capacity and only words
+  27..36 for the model. ATA LBA28 capacity uses words 60/61; the model spans
+  words 27..46. Unsupported addressing and device-fault states need explicit
+  rejection rather than treating arbitrary IDENTIFY data as usable capacity.
+- Acceptance hashed only the files discovered at the start and omitted target
+  configuration. New source files and a changed `target.json` both falsely
+  passed. New source-freeze regressions were observed RED, then GREEN after
+  rediscovering source/build inputs for the final comparison.
+- Acceptance copied the versioned ISO before checking source stability. A RED
+  regression showed a failed source freeze still left a release-named artifact.
+  The freeze check now precedes versioned publication; regression is GREEN.
+
+Phase 8 live-I/O and complete regression results are recorded separately in
+HANDOVER.md and `test_results/phase8/`; host fixtures are not hardware proof.
+
+
 ## 1. ISR deadlock on the VGA writer SpinMutex (fixed)
 
 - Evidence: 10-run probe was 7/10–8/10 with `KERNEL_FAULT (init incomplete)`.

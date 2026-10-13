@@ -7,7 +7,7 @@
 - [x] deterministic QEMU boot test (scripts/boot_test.py, 10/10 verified)  
 - [x] Proxmox-ready ISO (dist/rosti.iso, GRUB multiboot, boot-verified in QEMU) — see PROXMOX.md  
 - [ ] USE TYPES PROPERLY AND MAKE THINGS ACTUALLY WORK!!! <<<<  
-- [x] regression/deployment harness (93 host tests; 21 acceptance gates)
+- [x] regression/deployment harness (117 host tests; 27 local acceptance gates)
 - [x] physical frames and identity paging (active on 512 MiB VM 103; null guard and CPU faults verified)
 - [x] shell Backspace visually erases characters, including wrapped input
   (QEMU ELF/ISO and live Proxmox VM 103 display regression verified)
@@ -61,3 +61,22 @@ overhead, no heap allocation on any fd path). Stale handles, double closes,
 escalation, type mismatches and exhaustion are rejected with typed errors.
 Rights are capabilities, not isolation: the kernel still shares one privileged
 address space.
+
+## Phase 8: bounded persistent block-storage foundation
+
+Phase 8 adds ATA/IDE PIO behind the filesystem-independent
+`BlockDevice` trait. `disk` reports the device and I/O counters; `diskwrite N`
+writes a deterministic 512-byte diagnostic pattern to a test-owned sector;
+`diskread N` checks every byte against that pattern. Sector 0 is reserved for
+the test-media ownership marker. Only newly created virtual disks under
+`dist/` are test targets; no host disks or existing VM disks are authorized.
+
+**Sector persistence is not file persistence.** Shell files still use RamFs
+through the descriptor/VFS stack and disappear on reboot. RostiFS, mounting,
+partitioning, DMA, LBA48, swap and user-mode isolation remain future work.
+
+Phase 8 acceptance is recorded separately under `test_results/phase8/`.
+The retained `scripts/phase6_verify.py` filename runs the current acceptance
+pipeline, including block readback across guest reboot and QEMU process restart
+on ELF/GRUB boot paths at 128/512 MiB. Consult HANDOVER.md for the latest actual
+results; the presence of a disk image or ISO alone does not establish a pass.

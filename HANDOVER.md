@@ -1,4 +1,108 @@
-# Rosti OS — Phase 7 verified handover
+# Rosti OS — Phase 8 locally verified handover
+
+## Current checkpoint
+
+Canonical repository: `C:\Users\iamsv\Documents\Rust-OS`, branch `main`.
+Phase 8 is implemented in the working tree atop Phase 7 commit
+`7b8b0fe4f90a2bc8609c3a76a4eb6d7c977af5d3`. No commit/push was performed;
+existing work was preserved, and historical `v0.1.0` was not moved.
+
+Completed acceptance:
+`test_results/phase8/acceptance_20261013T091203Z_kq161don/acceptance.json`.
+It reports **PASS, 27/27 gates**. Source/build-input hashes were reread and
+matched the current working tree after completion. ISO and kernel hashes were
+independently reread; the versioned ISO matches `dist/rosti.iso`. No local QEMU
+process remained after verification.
+
+The earlier `acceptance_20261013T090437Z_jytpexy3` invocation was interrupted by
+the foreground tool's effective time limit after 25 passed gates. Its RUNNING
+report is incomplete, not acceptance evidence. The complete pipeline was then
+rerun through a background terminal to exit code 0. No assertion was weakened.
+
+## Phase 8 implementation
+
+- `src/block.rs`: filesystem-independent BlockDevice plus bounded ATA/IDE PIO;
+  primary legacy compatibility channel/master, 512-byte sectors, LBA28 only.
+- IDENTIFY combines capacity words 60/61 and decodes all 40 model characters.
+  Unsupported LBA/logical-sector formats, absent/floating buses, ERR/DF,
+  timeout, bad buffer size and out-of-range sectors return typed errors.
+- Correct DRQ bit 3 and slave-select bit 4; alternate-status delays, nIEN,
+  paced finite polling, BSY/DRQ-clear completion and CACHE FLUSH before write
+  success. No DMA, LBA48, ATA IRQ handler or transparent reset/retry recovery.
+- Ownership and bounds are checked before write bus access; sector 0 is
+  protected. Reprobes revoke stale ownership. Production constructors cannot
+  enable ownership directly. The marker is a guardrail for authorized test
+  images, not hardware isolation or disk-attachment permission.
+- Atomic permanent reservation of ATA task/control ports; PS/2 guard ends
+  before ATA acquisition with existing ports still owned. State is static and
+  main-loop owned; IRQs remain allocation/lock free. Disk diagnostics use
+  allocation-free formatting.
+- Shell adds `disk`, `diskwrite N`, `diskread N`; marker reads compare every
+  byte of the 512-byte sector. File commands and FdTable remain unchanged.
+- `scripts/block_test.py` creates exclusive new raw images only under dist/;
+  exact QMP attachment, first/last sector integrity, host readback, real guest
+  reboot, a new emulator process, absent disks and whole-image unowned-media
+  protection are tested. It cannot target live Proxmox or arbitrary disks.
+- Acceptance now includes the complete block ELF/ISO/RAM matrix and Python
+  harness regressions. It rediscovers source/build inputs at freeze, including
+  assembly, target/toolchain and Cargo manifests/locks; validates JSON checks;
+  and publishes the versioned ISO only after evidence/freeze validation.
+
+## Measured local acceptance
+
+- Rust host tests: **117/117**, zero failures.
+- Python media-reader regressions: **4/4**; acceptance-runner regressions: **5/5**.
+- Kernel/host formatting and production build: PASS. ELF contract: **8/8**.
+- Independent ELF boots: **10/10 at 128 MiB**, **10/10 at 512 MiB**.
+- Paging stability: **20/20**; CPU read faults **2/2**, CPU write faults **2/2**;
+  GRUB ISO paging **2/2**.
+- Keyboard integration: PASS. Actual VGA editing: **13/13 ELF**, **13/13 ISO**.
+- Filesystem/descriptor/growth/OOM: **102/102 checks and 38 commands** for each
+  ELF/ISO boot path at both 128/512 MiB.
+- Block integration: **98/98 checks** for each ELF/ISO boot path at both RAM
+  sizes. Each run proves full-sector persistence across guest reboot and a
+  fresh QEMU process, sector-0 preservation and an unchanged unowned image.
+- All four FS stress runs retained the **8,232-byte** baseline after cleanup:
+  heap capacity **1,048,576 -> 7,340,032 bytes**, **1,536 growth pages**, four
+  intentional allocation failures; zero leaked open records, only descriptors
+  0/1/2 reserved. Existing Phase 6/7 semantics were preserved.
+
+## Accepted local artifacts and remote boundary
+
+ISO: `dist/rosti_phase8_20261013T091203Z.iso`, **9,586,688 bytes**.
+SHA256: `5ca54fe8eff24743a8935cbfd8de8f59808bd3ec14f85b23b65c34c3fd0dc6da`.
+Kernel SHA256: `273cd30782fd3fec2ef59aa945799d6780a93faf4875317d107b8bf66215f816`.
+
+The previously built local ISO was automatically preserved as
+`dist/rosti_preserved_1c6aaf301368664b.iso`, SHA256
+`1c6aaf301368664bb4279ff0d247f39bf23e7bb40d7941f15ede0202006ace55`.
+This preservation is distinct from the last deployed Phase 7 release and its
+Phase 6 rollback. Earlier versioned/rollback media were not deleted.
+
+**No Proxmox operation was performed during this continuation.** Phase 8 is
+local-only, not deployed to VM 103; no guest disk was created or attached.
+The archived Phase 7 deployment below is a historical checkpoint, not a fresh
+query of remote state. New VM disk attachment still requires explicit
+creation/destination/attachment authorization and inventory.
+
+## Limits and next milestone
+
+Persistent diagnostic **sectors**, not persistent files. RamFs still disappears
+on reboot. A failed write/flush may leave partial media changes; no atomic-write,
+journal, mount table, partition parser or crash-consistency guarantee is claimed.
+No scheduler/user mode/networking/swap was added; existing PS/2, VGA/Unicode,
+exception and frame-cap limitations remain.
+
+Next is Phase 9: minimal bounded RostiFS behind Vfs/BlockDevice, with explicit
+format/mount rules, checksums, bounded extents and tested metadata recovery.
+Do not alter FdTable to know ATA/filesystem internals. The complete standalone
+continuation is in NEXT_SESSION_PROMPT.md. Commit/push only if requested.
+
+## Archived Phase 7 handover
+
+The following sections retain the prior checkpoint for provenance and rollback;
+its "next milestone" describes the state before the Phase 8 work above.
+
 
 ## Checkpoint
 

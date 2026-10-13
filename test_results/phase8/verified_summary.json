@@ -1,0 +1,39 @@
+{
+  "overall": "PASS",
+  "acceptance": "test_results\\phase8\\acceptance_20261013T091203Z_kq161don\\acceptance.json",
+  "gates_passed": 27,
+  "gates_total": 27,
+  "host_tests": {
+    "pass": 117,
+    "fail": 0
+  },
+  "block_matrix": {
+    "block_elf_128": {
+      "passed": 98,
+      "total": 98
+    },
+    "block_elf_512": {
+      "passed": 98,
+      "total": 98
+    },
+    "block_iso_128": {
+      "passed": 98,
+      "total": 98
+    },
+    "block_iso_512": {
+      "passed": 98,
+      "total": 98
+    }
+  },
+  "iso": {
+    "name": "rosti_phase8_20261013T091203Z.iso",
+    "path": "dist\\rosti_phase8_20261013T091203Z.iso",
+    "sha256": "5ca54fe8eff24743a8935cbfd8de8f59808bd3ec14f85b23b65c34c3fd0dc6da",
+    "bytes": 9586688,
+    "kernel_sha256": "273cd30782fd3fec2ef59aa945799d6780a93faf4875317d107b8bf66215f816"
+  },
+  "source_freeze_verified": true,
+  "emulator_cleanup_verified": true,
+  "remote_changes_performed": false,
+  "committed_or_pushed": false
+}

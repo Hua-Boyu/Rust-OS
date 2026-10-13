@@ -9,6 +9,8 @@ use core::panic::PanicInfo;
 extern crate alloc;
 
 mod allocator;
+mod block;
+use block::BlockDevice;
 mod cpu;
 mod fd;
 mod fs;
@@ -137,19 +139,49 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     }
 
     // stub: enable ps2 & interrupts
-    let pm = &mut PORT_MANAGER.lock();
-    let mut ps2_status = pm.allocate(0x64).expect("ps2 status");
-    let _ps2_data = pm.allocate(0x60).expect("ps2 data");
-    // read the status register from port 0x64 (not the data port 0x60),
-    // set bit 0 (enable reception of keyboard scancodes) and write it back
-    // to the command port 0x64.
-    ps2_status.outb(0xAE);
-    ps2_status.outb(0x20);
-    let s = ps2_status.inb() | 0x01;
-    ps2_status.outb(s);
+    {
+        let pm = &mut PORT_MANAGER.lock();
+        let mut ps2_status = pm.allocate(0x64).expect("ps2 status");
+        let _ps2_data = pm.allocate(0x60).expect("ps2 data");
+        // read the status register from port 0x64 (not the data port 0x60),
+        // set bit 0 (enable reception of keyboard scancodes) and write it back
+        // to the command port 0x64.
+        ps2_status.outb(0xAE);
+        ps2_status.outb(0x20);
+        let s = ps2_status.inb() | 0x01;
+        ps2_status.outb(s);
+        core::mem::forget(ps2_status);
+        core::mem::forget(_ps2_data);
+    } // release allocator guard before ATA allocation or formatting
 
     println!("ps2 init enable");
     timer::init();
+
+    // Phase 8 block layer: acquire the primary IDE channel through the port
+    // allocator, release the guard, then probe with finite bounded polls.
+    // Main context only; ISRs never touch ports or this subsystem.
+    static mut DISK: block::AtaDevice<block::PortBus> =
+        block::AtaDevice::new(block::PortBus::new([0; 9]), block::PRIMARY_BASE, 0, false);
+    let disk = unsafe { &mut *(&raw mut DISK) };
+    let ports = block::acquire_channel(&mut PORT_MANAGER.lock(), block::PRIMARY_BASE);
+    if let Some(ports) = ports {
+        disk.rebind_ports(ports);
+        match disk.probe() {
+            Ok(()) if disk.capacity_sectors() > 0 => {
+                io::serial::puts("ROSTI: block device present\n");
+                disk.probe_test_owned();
+            }
+            Ok(()) => io::serial::puts("ROSTI: block device: no 28-bit LBA support\n"),
+            Err(e) => {
+                io::serial::puts("ROSTI: block probe: ");
+                use core::fmt::Write;
+                let _ = writeln!(io::serial::SerialWriter, "{}", e);
+            }
+        }
+    } else {
+        io::serial::puts("ROSTI: block ports unavailable (already owned)\n");
+    }
+
     io::serial::puts("ROSTI: boot complete\n");
 
     shell::banner();
@@ -183,7 +215,7 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     // keyboard/timer events wake the loop; hlt itself cannot be executed with
     // interrupts disabled (it would halt forever), so we never cli here.
     loop {
-        if !shell::poll(filesystem, descriptors, &mut cwd) {
+        if !shell::poll(filesystem, descriptors, &mut cwd, disk) {
             unsafe {
                 core::arch::asm!("hlt");
             }

@@ -24,6 +24,19 @@ impl PortAllocator {
         None
     }
 
+    /// Validate the whole set before reserving kernel-lifetime ports.
+    pub fn reserve_permanent(&mut self, ports: &[u16]) -> bool {
+        for (i, &port) in ports.iter().enumerate() {
+            if self.used[port as usize] || ports[..i].contains(&port) {
+                return false;
+            }
+        }
+        for &port in ports {
+            self.used[port as usize] = true;
+        }
+        true
+    }
+
     pub fn release(&mut self, port_id: u16) {
         self.used[port_id as usize] = false;
     }
@@ -69,6 +82,19 @@ pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
     }
 }
 
+pub unsafe fn lockfree_inw(port_in: u16) -> u16 {
+    #[cfg(test)]
+    return 0; // host tests cannot execute privileged `in` instructions
+    #[allow(unreachable_code)]
+    {
+        let mut ret;
+        unsafe {
+            asm!("in %dx, %ax", in("dx") port_in, out("ax") ret, options(att_syntax));
+        }
+        ret
+    }
+}
+
 /// Short I/O delay (~1 microsecond) via an unused ISA port. Needed after PIC
 /// commands and the reboot command, where the hardware requires a delay
 /// between writes.
@@ -87,5 +113,14 @@ pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
     #[allow(unreachable_code)]
     unsafe {
         asm!("out %al, %dx", in("dx") port_out, in("al") val, options(att_syntax));
+    }
+}
+
+pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    #[cfg(test)]
+    return; // host tests cannot execute privileged `out` instructions
+    #[allow(unreachable_code)]
+    unsafe {
+        asm!("out %ax, %dx", in("dx") port_out, in("ax") val, options(att_syntax));
     }
 }

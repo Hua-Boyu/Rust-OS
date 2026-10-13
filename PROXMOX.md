@@ -1,5 +1,12 @@
 # PROXMOX DEPLOYMENT
 
+Phase 8 is fully verified locally and has not been deployed. No guest data
+disk was created or attached during this continuation. The
+Phase 7 deployment below is the last recorded remote checkpoint, not a fresh
+live-state query. Phase 8 disk tests use new `dist/` images in local QEMU.
+A VM 103 disk requires separate explicit creation/attachment authorization,
+a read-only inventory, an exact owned destination and verified readback.
+
 ## Current Phase 7 deployment
 
 VM 103 (`rosti-dev`) on pve is running the Phase 7 build. Only its CD-ROM and

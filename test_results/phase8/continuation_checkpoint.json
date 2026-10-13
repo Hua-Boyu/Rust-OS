@@ -1,0 +1,16 @@
+{
+  "timestamp_utc": "2026-10-13T08:51:19.940115+00:00",
+  "head": "7b8b0fe4f90a2bc8609c3a76a4eb6d7c977af5d3",
+  "branch": "main",
+  "status": " M scripts/phase6_verify.py\n M src/io/ports.rs\n M src/main.rs\n M src/shell.rs\n M tests_kernel/src/lib.rs\n?? src/block.rs\n?? tests_kernel/src/block_tests.rs\n",
+  "historical_release_tag": "1f560d904dd785350f7712097dc1bf51119be1c0",
+  "checkpoint_sha256": {
+    "src/block.rs": "bcdcc45e907f4321c7c2c16a67e5331c681ec989bc05746814fc19e2a77c886d",
+    "tests_kernel/src/block_tests.rs": "bc8c581bf1315704c6d73c47f2c42b6ab17e8e0a2cb92edf3b4fdd894a1f184f",
+    "src/io/ports.rs": "9f7de5dd2c8546e1a9aa36b9a3eeed79f5d09f7a3d8d373268e8baa2ff7d4ac2",
+    "src/main.rs": "e14f6cd4ed5c50c08930f09abafd93a26dbd73d61b36befc3b716d6653f34d25",
+    "src/shell.rs": "0a9514145f56ce3a390e6bae7f669d009b9ca7350e3764dfa7c4f548d6a4ee89",
+    "tests_kernel/src/lib.rs": "748ca118d78144b30774799d74529e1bbb08d6bde93a1fd652b94e9faafd49bd"
+  },
+  "scope": "Local Phase8 ATA block foundation; no remote VM or storage changes authorized; RAM filesystem remains volatile"
+}

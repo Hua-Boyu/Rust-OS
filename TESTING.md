@@ -1,6 +1,44 @@
 # TESTING
 
-## Current Phase 7 acceptance
+## Phase 8 acceptance protocol
+
+Run `python -B scripts/phase6_verify.py` from the canonical repository.
+The retained filename now reports Phase 8 and preserves a versioned
+`dist/rosti_phase8_<UTC>.iso` only after the local gates pass. Source and script
+hashes must remain stable during the run. Do not run other QEMU instances beside
+the global orphan-checking boot harness.
+
+The block matrix uses `scripts/block_test.py --ram 128|512`, optionally
+`--iso dist/rosti.iso`, with a unique `--output-dir`. It must prove device
+capacity, full-sector integrity, checked bounds, missing-device behavior,
+refusal of unmarked media and persistence after guest reboot and full QEMU
+process restart. New owned raw images live under `dist/`; serial/QMP reports
+live under `test_results/phase8/`. No Proxmox disks are part of this matrix.
+
+Host scripted-bus tests cover failures and protocol sequencing; only the real
+QEMU disk tests prove privileged I/O and persistence. Existing filesystem,
+descriptor, heap/OOM, paging, keyboard and VGA gates remain required. RAM files
+remain volatile even when block tests pass.
+
+Phase 8 measured results: completed
+`test_results/phase8/acceptance_20261013T091203Z_kq161don/acceptance.json`,
+**27/27 gates PASS**, Rust **117/117**, Python media readers **4/4** and
+acceptance regressions **5/5**. Block integration is **98/98** for each
+ELF/ISO + 128/512 MiB combination; filesystem/descriptor/growth/OOM is
+**102/102** across 38 commands for each combination. Independent boots are
+10/10 per RAM size, paging 20/20, CPU read/write faults 2/2 each, ISO paging
+2/2 and VGA editing 13/13 per ELF/ISO path. Kernel/host fmt, production build,
+ELF 8/8, keyboard and GRUB boot passed. Source freeze and artifact hashes were
+independently reread after completion; no emulator was left running.
+
+Accepted ISO: `dist/rosti_phase8_20261013T091203Z.iso`, SHA256
+`5ca54fe8eff24743a8935cbfd8de8f59808bd3ec14f85b23b65c34c3fd0dc6da`.
+The interrupted foreground run's RUNNING report is not acceptance; use the
+completed background run above. HANDOVER.md records memory counters and
+remaining limits. Prior results below are archived checkpoints.
+
+
+## Verified Phase 7 acceptance (previous checkpoint)
 
 Evidence: `test_results/phase7/acceptance_20261012T181123Z_ovwvkk1g/acceptance.json` (the run whose ISO was deployed to VM 103), `test_results/phase7/acceptance_20261012T231050Z_afsptz17/acceptance.json` (final re-run against the exact committed source; the only source delta was a comment in src/fd.rs, no binary behavior change) and
 `test_results/phase7/live_vm103/` (report.json + serial.txt). Phase 6 evidence

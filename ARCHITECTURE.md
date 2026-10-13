@@ -180,6 +180,29 @@ Loss upstream in the PS/2 controller is not detected by this ring flag. UTF-8
 file bytes are preserved and serial output is UTF-8, but VGA remains a
 byte-oriented text console without Unicode glyph rendering.
 
-No persistence, users, processes,
+No file persistence, users, processes,
 symlinks, hardlinks, rename, timestamp metadata, disk mounts or Linux/POSIX
 compatibility are implemented. The 256 MiB physical-frame tracking cap remains.
+
+## Phase 8: persistent sectors, separate from the VFS
+
+The block layer is a main-context, filesystem-independent subsystem. Its
+`BlockDevice` interface describes sector size, sector capacity, one-sector
+read/write, typed errors, ownership state and scalar statistics. An ATA bus
+abstraction makes protocol behavior testable without executing privileged I/O;
+the volatile host RAM backend is a test double, not persistence evidence.
+
+Storage acceptance requires real ATA PIO on new QEMU raw images: every byte of
+the diagnostic sector must survive a guest reboot and a completely new emulator
+process. Diskless boot and refusal to write unmarked media are separate required
+cases. The safety marker reserves sector 0; diagnostic writes target nonzero
+sectors. This marker is a guardrail for explicitly owned test images, not a
+substitute for disk-attachment authorization or hardware isolation.
+
+Shell file commands continue through FdTable -> Vfs -> RamFs. The block layer
+does not alter descriptor rights, node generations, RAM quotas, heap growth or
+paging ownership. There is no disk VFS backend, mount table, partition parser,
+persistent-file guarantee or crash-consistent RostiFS format in this milestone.
+PIO is synchronous and bounded; ISRs must never perform disk work. A failed
+sector write or cache flush may have changed media before returning an error;
+this layer does not provide atomic writes, rollback or crash-consistent metadata.
