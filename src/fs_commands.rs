@@ -228,9 +228,10 @@ fn rights_mask(rights: Rights) -> u8 {
 }
 
 // No infallible temporary allocation, including binary/invalid UTF-8 files.
-// Reads go through the descriptor layer; UTF-8 scalars are read with at most
-// four bytes; unsafe terminal controls escape. The descriptor offset is realigned
-// to the scalar boundary after each peek so shared offsets stay correct.
+// Reads go through the descriptor layer in bounded 128-byte batches. Refill
+// from the current scalar when fewer than four peek bytes remain in a full
+// batch, so UTF-8 and invalid-byte escaping are unchanged at buffer boundaries.
+// Realign after every scalar to preserve final/shared offsets and SEEK checks.
 fn cat(
     fs: &impl crate::fs::Vfs,
     table: &mut FdTable,
@@ -240,14 +241,26 @@ fn cat(
     if table.stat(fs, fd)?.kind != crate::fs::NodeKind::File {
         return Err(FdError::Fs(crate::fs::FsError::IsADirectory));
     }
-    let mut bytes = [0; 4];
+    let mut bytes = [0; 128];
+    // A descriptor without SEEK must retain the old four-byte read advance
+    // before its first scalar is printed and the realignment is denied.
+    let capacity = if table.info(fd)?.rights.allows(Rights::SEEK) {
+        bytes.len()
+    } else {
+        4
+    };
+    let mut n = 0;
+    let mut cursor = 0;
     loop {
         let start = table.info(fd)?.offset;
-        let n = table.read(fs, fd, &mut bytes)?;
-        if n == 0 {
-            break;
+        if cursor == n || (n == capacity && n - cursor < 4) {
+            n = table.read(fs, fd, &mut bytes[..capacity])?;
+            cursor = 0;
+            if n == 0 {
+                break;
+            }
         }
-        let first = bytes[0];
+        let first = bytes[cursor];
         let width = match first {
             0..=0x7f => 1,
             0xc2..=0xdf => 2,
@@ -256,18 +269,20 @@ fn cat(
             _ => 0,
         };
         if width != 0
-            && width <= n
+            && width <= n - cursor
             && (first >= 32 || first == b'\n' || first == b'\t')
             && first != 127
         {
-            if let Ok(text) = core::str::from_utf8(&bytes[..width]) {
+            if let Ok(text) = core::str::from_utf8(&bytes[cursor..cursor + width]) {
                 out(format_args!("{}", text));
                 table.seek(fd, start + width)?;
+                cursor += width;
                 continue;
             }
         }
         out(format_args!("\\x{:02x}", first));
         table.seek(fd, start + 1)?;
+        cursor += 1;
     }
     out(format_args!("\n"));
     Ok(())
@@ -287,6 +302,212 @@ mod tests {
     use super::*;
     use crate::fd::FdTable;
     use crate::fs::{NodeId, RamFs, Vfs};
+
+    // Real portable-core fixture: count sectors only after format/mount/write.
+    struct CatDevice {
+        bytes: std::vec::Vec<u8>,
+        reads: std::rc::Rc<core::cell::Cell<usize>>,
+        fail_at: std::rc::Rc<core::cell::Cell<Option<usize>>>,
+    }
+
+    impl rostifs::block::BlockDevice for CatDevice {
+        fn sector_size(&self) -> usize {
+            512
+        }
+        fn capacity_sectors(&self) -> usize {
+            self.bytes.len() / 512
+        }
+        fn test_owned(&self) -> bool {
+            true
+        }
+        fn flush(&mut self) -> Result<(), rostifs::block::BlockError> {
+            Ok(())
+        }
+        fn read_sector(
+            &mut self,
+            lba: usize,
+            buf: &mut [u8],
+        ) -> Result<(), rostifs::block::BlockError> {
+            let count = self.reads.get();
+            self.reads.set(count + 1);
+            if self.fail_at.get() == Some(count) {
+                return Err(rostifs::block::BlockError::Rejected);
+            }
+            buf.copy_from_slice(&self.bytes[lba * 512..(lba + 1) * 512]);
+            Ok(())
+        }
+        fn write_sector(
+            &mut self,
+            lba: usize,
+            data: &[u8],
+        ) -> Result<(), rostifs::block::BlockError> {
+            assert_ne!(lba, 0);
+            self.bytes[lba * 512..(lba + 1) * 512].copy_from_slice(data);
+            Ok(())
+        }
+    }
+
+    fn portable_cat_fixture(
+        data: &[u8],
+    ) -> (
+        crate::fs::RostiBackend<'static>,
+        std::rc::Rc<core::cell::Cell<usize>>,
+        std::rc::Rc<core::cell::Cell<Option<usize>>>,
+    ) {
+        let reads = std::rc::Rc::new(core::cell::Cell::new(0));
+        let fail_at = std::rc::Rc::new(core::cell::Cell::new(None));
+        let mut device = CatDevice {
+            bytes: std::vec![0; 32 * 4096],
+            reads: reads.clone(),
+            fail_at: fail_at.clone(),
+        };
+        rostifs::engine::RostiFs::format(&mut device, 0x9500).unwrap();
+        let mut fs =
+            crate::fs::RostiBackend::new(std::boxed::Box::leak(std::boxed::Box::new(device)));
+        fs.mount_in_place().unwrap();
+        let file = fs.create_file(NodeId::ROOT, "data").unwrap();
+        fs.replace(file, data).unwrap();
+        reads.set(0);
+        (fs, reads, fail_at)
+    }
+
+    #[test]
+    fn cat_portable_ascii_uses_one_block_read() {
+        let (mut fs, reads, _) = portable_cat_fixture(&[b'a'; 64]);
+        let mut table = FdTable::new();
+        let mut cwd = NodeId::ROOT;
+        let mut output = std::string::String::new();
+        run(&mut fs, &mut table, &mut cwd, "cat", "data", &mut |args| {
+            use core::fmt::Write;
+            output.write_fmt(args).unwrap();
+        });
+        assert_eq!(output, format!("{}\n", "a".repeat(64)));
+        assert_eq!(table.stats().open_slots, 0);
+        assert_eq!(table.stats().open_records, 0);
+        assert_eq!(
+            reads.get(),
+            8,
+            "one 4 KiB block, not 64 scalar peeks (512 sectors)"
+        );
+    }
+
+    #[test]
+    fn cat_buffer_boundaries_preserve_utf8_invalid_and_truncated_bytes() {
+        // Start each sequence one, two, or three bytes before the 128-byte edge.
+        let cases: &[(&[u8], &str)] = &[
+            ("é".as_bytes(), "é"),
+            ("猫".as_bytes(), "猫"),
+            ("🦀".as_bytes(), "🦀"),
+            (&[0xe2, b'(', 0xa1], "\\xe2(\\xa1"),
+            (&[0xf0, 0x80, 0x80, 0x80], "\\xf0\\x80\\x80\\x80"),
+            (&[0xed, 0xa0, 0x80], "\\xed\\xa0\\x80"),
+            (&[0xf4, 0x90, 0x80, 0x80], "\\xf4\\x90\\x80\\x80"),
+            (&[0xc0, 0xaf, 0xff], "\\xc0\\xaf\\xff"),
+            (&[0xe2], "\\xe2"),
+            (&[0xe2, 0x82], "\\xe2\\x82"),
+            (&[0xf0, 0x9f, 0xa6], "\\xf0\\x9f\\xa6"),
+            (
+                &[0, 0x1b, 0x7f, b'\r', b'\n', b'\t'],
+                "\\x00\\x1b\\x7f\\x0d\n\t",
+            ),
+            ("\u{0085}".as_bytes(), "\u{0085}"), // Existing multibyte control policy.
+        ];
+        let mut fs = RamFs::new();
+        let file = fs.create_file(NodeId::ROOT, "data").unwrap();
+        let mut table = FdTable::new();
+        let mut cwd = NodeId::ROOT;
+        for prefix in [125, 126, 127, 128, 253, 254, 255] {
+            for &(bytes, escaped) in cases {
+                for suffix in ["", "猫\n\tend"] {
+                    let mut data = std::vec![b'a'; prefix];
+                    data.extend_from_slice(bytes);
+                    data.extend_from_slice(suffix.as_bytes());
+                    fs.replace(file, &data).unwrap();
+                    assert_eq!(
+                        command(&mut fs, &mut table, &mut cwd, "cat data"),
+                        format!("{}{}{}\n", "a".repeat(prefix), escaped, suffix),
+                        "prefix={prefix}, bytes={bytes:?}, suffix={suffix:?}"
+                    );
+                    assert_eq!(table.stats().open_slots, 0);
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn cat_preserves_rights_denials_and_final_shared_offsets() {
+        let mut fs = RamFs::new();
+        let file = fs.create_file(NodeId::ROOT, "data").unwrap();
+        fs.replace(file, &[b'a'; 260]).unwrap();
+        for (mask, expected, offset) in [
+            (
+                Rights::READ | Rights::STAT | Rights::SEEK,
+                "a".repeat(257) + "\n",
+                260,
+            ),
+            (Rights::STAT | Rights::SEEK, std::string::String::new(), 3),
+            (Rights::READ | Rights::SEEK, std::string::String::new(), 3),
+            (Rights::READ | Rights::STAT, "a".into(), 7),
+        ] {
+            let mut table = FdTable::new();
+            let fd = table
+                .open(
+                    &fs,
+                    NodeId::ROOT,
+                    "data",
+                    Rights::new(Rights::READ | Rights::STAT | Rights::SEEK),
+                )
+                .unwrap();
+            table.seek(fd, 3).unwrap();
+            let shared = table.dup(fd, mask).unwrap();
+            let mut output = std::string::String::new();
+            let result = cat(&fs, &mut table, shared, &mut |args| {
+                use core::fmt::Write;
+                output.write_fmt(args).unwrap();
+            });
+            if mask == Rights::READ | Rights::STAT | Rights::SEEK {
+                assert_eq!(result, Ok(()));
+            } else {
+                assert_eq!(result, Err(FdError::PermissionDenied));
+            }
+            assert_eq!(output, expected);
+            assert_eq!(table.info(fd).unwrap().offset, offset);
+            assert_eq!(table.info(shared).unwrap().offset, offset);
+        }
+    }
+
+    #[test]
+    fn cat_portable_read_failure_closes_only_owned_descriptor() {
+        let (mut fs, reads, fail_at) = portable_cat_fixture(&[b'a'; 260]);
+        let mut table = FdTable::new();
+        table.init_console();
+        let keep = table
+            .open(
+                &fs,
+                NodeId::ROOT,
+                "data",
+                Rights::new(Rights::READ | Rights::SEEK),
+            )
+            .unwrap();
+        table.seek(keep, 9).unwrap();
+        let duplicate = table.dup(keep, Rights::READ).unwrap();
+        let before = table.stats();
+        fail_at.set(Some(0));
+        let mut cwd = NodeId::ROOT;
+        let mut output = std::string::String::new();
+        run(&mut fs, &mut table, &mut cwd, "cat", "data", &mut |args| {
+            use core::fmt::Write;
+            output.write_fmt(args).unwrap();
+        });
+        assert_eq!(output, "fs: device I/O error\n");
+        assert_eq!(reads.get(), 1);
+        assert_eq!(table.stats().open_slots, before.open_slots);
+        assert_eq!(table.stats().open_records, before.open_records);
+        assert_eq!(table.stats().opens, before.opens + 1);
+        assert_eq!(table.stats().closes, before.closes + 1);
+        assert_eq!(table.info(keep).unwrap().offset, 9);
+        assert_eq!(table.info(duplicate).unwrap().offset, 9);
+    }
 
     #[test]
     fn failing_shell_operations_close_only_command_owned_descriptors() {
