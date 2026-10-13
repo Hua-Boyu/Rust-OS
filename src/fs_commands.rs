@@ -478,35 +478,37 @@ mod tests {
 
     #[test]
     fn cat_portable_read_failure_closes_only_owned_descriptor() {
-        let (mut fs, reads, fail_at) = portable_cat_fixture(&[b'a'; 260]);
-        let mut table = FdTable::new();
-        table.init_console();
-        let keep = table
-            .open(
-                &fs,
-                NodeId::ROOT,
-                "data",
-                Rights::new(Rights::READ | Rights::SEEK),
-            )
-            .unwrap();
-        table.seek(keep, 9).unwrap();
-        let duplicate = table.dup(keep, Rights::READ).unwrap();
-        let before = table.stats();
-        fail_at.set(Some(0));
-        let mut cwd = NodeId::ROOT;
-        let mut output = std::string::String::new();
-        run(&mut fs, &mut table, &mut cwd, "cat", "data", &mut |args| {
-            use core::fmt::Write;
-            output.write_fmt(args).unwrap();
-        });
-        assert_eq!(output, "fs: device I/O error\n");
-        assert_eq!(reads.get(), 1);
-        assert_eq!(table.stats().open_slots, before.open_slots);
-        assert_eq!(table.stats().open_records, before.open_records);
-        assert_eq!(table.stats().opens, before.opens + 1);
-        assert_eq!(table.stats().closes, before.closes + 1);
-        assert_eq!(table.info(keep).unwrap().offset, 9);
-        assert_eq!(table.info(duplicate).unwrap().offset, 9);
+        for (failure, prefix) in [(0, 0), (8, 125)] {
+            let (mut fs, reads, fail_at) = portable_cat_fixture(&[b'a'; 260]);
+            let mut table = FdTable::new();
+            table.init_console();
+            let keep = table
+                .open(
+                    &fs,
+                    NodeId::ROOT,
+                    "data",
+                    Rights::new(Rights::READ | Rights::SEEK),
+                )
+                .unwrap();
+            table.seek(keep, 9).unwrap();
+            let duplicate = table.dup(keep, Rights::READ).unwrap();
+            let before = table.stats();
+            fail_at.set(Some(failure));
+            let mut cwd = NodeId::ROOT;
+            let mut output = std::string::String::new();
+            run(&mut fs, &mut table, &mut cwd, "cat", "data", &mut |args| {
+                use core::fmt::Write;
+                output.write_fmt(args).unwrap();
+            });
+            assert_eq!(output, "a".repeat(prefix) + "fs: device I/O error\n");
+            assert_eq!(reads.get(), failure + 1);
+            assert_eq!(table.stats().open_slots, before.open_slots);
+            assert_eq!(table.stats().open_records, before.open_records);
+            assert_eq!(table.stats().opens, before.opens + 1);
+            assert_eq!(table.stats().closes, before.closes + 1);
+            assert_eq!(table.info(keep).unwrap().offset, 9);
+            assert_eq!(table.info(duplicate).unwrap().offset, 9);
+        }
     }
 
     #[test]

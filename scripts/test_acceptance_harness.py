@@ -3,6 +3,7 @@ import contextlib
 import csv
 import importlib.util
 import io
+import json
 from pathlib import Path
 import sys
 import tempfile
@@ -15,7 +16,7 @@ SPEC.loader.exec_module(acceptance)
 
 
 class SourceFreezeTests(unittest.TestCase):
-    def simulate(self, mutation):
+    def simulate(self, mutation, omit_reports=False, boot_rows=10):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             for path in ("src/main.rs", "tests_kernel/src/lib.rs", "scripts/a.py", "Cargo.toml", "linker.ld", "target.json", ".cargo/config.toml"):
@@ -37,7 +38,16 @@ class SourceFreezeTests(unittest.TestCase):
                     with (folder / "boot_results.csv").open("w", newline="") as stream:
                         writer = csv.DictWriter(stream, fieldnames=["status"])
                         writer.writeheader()
-                        writer.writerows([{"status": "PASS"}] * 10)
+                        writer.writerows([{"status": "PASS"}] * boot_rows)
+                script_name = next((Path(str(c)).name for c in command if str(c).endswith(".py")), "")
+                if not omit_reports and script_name in ("paging_test.py", "fs_test.py", "block_test.py", "rostifs_test.py"):
+                    folder = Path(command[command.index("--output-dir") + 1]) / "fixture"
+                    folder.mkdir(parents=True, exist_ok=True)
+                    count = {"fs_test.py": 102, "block_test.py": 98, "rostifs_test.py": 168}.get(script_name, 2)
+                    if script_name == "paging_test.py" and "--runs" in command:
+                        count = 20
+                    field = "results" if script_name == "paging_test.py" else "checks"
+                    (folder / "report.json").write_text(json.dumps({"overall": "PASS", field: [{"pass": True}] * count}))
                 if any(str(c).endswith("build-proxmox-iso.py") for c in command):
                     (root / "dist").mkdir(exist_ok=True)
                     (root / "dist/rosti.iso").write_bytes(b"fixture ISO")
@@ -47,8 +57,40 @@ class SourceFreezeTests(unittest.TestCase):
 
             with patch.object(acceptance, "PROJECT", root), patch.object(sys, "argv", ["phase6_verify.py"]), patch.object(acceptance.subprocess, "run", side_effect=run), patch.object(acceptance.subprocess, "check_output", return_value="fixture-head\n"), contextlib.redirect_stdout(io.StringIO()):
                 code = acceptance.main()
-            self.last_versioned_count = len(list((root / "dist").glob("rosti_phase9_*.iso")))
+            self.last_versioned_count = len(list((root / "dist").glob("rosti_phase*.iso")))
+            reports = list((root / "test_results").glob("phase*/acceptance_*/acceptance.json"))
+            self.last_report = json.loads(reports[0].read_text())
             return code
+
+    def test_current_milestone_is_phase9_5(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        self.assertEqual(self.last_report["phase"], "9.5")
+
+    def test_missing_mandatory_reports_cannot_publish(self):
+        self.assertEqual(self.simulate(lambda root: None, omit_reports=True), 1)
+        self.assertEqual(self.last_versioned_count, 0)
+
+    def test_nine_boot_rows_cannot_publish(self):
+        self.assertEqual(self.simulate(lambda root: None, boot_rows=9), 1)
+        self.assertEqual(self.last_versioned_count, 0)
+
+    def test_invalid_report_schemas_and_declared_totals_cannot_pass(self):
+        for report in (None, {}, {"checks": [{"pass": True}]},
+                       {"overall": "PASS"}, {"overall": "PASS", "checks": []},
+                       {"overall": "PASS", "checks": [{"pass": False}]},
+                       {"overall": "PASS", "results": [{"pass": 1}]},
+                       {"overall": "PASS", "checks": [{"pass": True}], "check_count": 2}):
+            with self.subTest(report=report), self.assertRaises(RuntimeError):
+                acceptance.evidence_rows(report, "fixture")
+
+    def test_bad_mandatory_report_cannot_publish(self):
+        for bad in ({}, {"checks": [{"pass": True}]}, {"overall": "PASS", "checks": []}):
+            def corrupt(root):
+                path = next((root / "test_results").glob("phase*/acceptance_*/fs_elf_128/*/report.json"))
+                path.write_text(json.dumps(bad))
+            with self.subTest(report=bad):
+                self.assertEqual(self.simulate(corrupt), 1)
+                self.assertEqual(self.last_versioned_count, 0)
 
     def test_failed_source_freeze_does_not_publish_versioned_iso(self):
         self.assertEqual(self.simulate(lambda root: (root / "src/late.rs").write_text("late\n")), 1)
@@ -56,7 +98,7 @@ class SourceFreezeTests(unittest.TestCase):
 
     def test_failed_harness_report_cannot_pass_or_publish(self):
         def failed_report(root):
-            run = next((root / "test_results/phase9").glob("acceptance_*"))
+            run = next((root / "test_results").glob("phase*/acceptance_*"))
             folder = run / "fixture"
             folder.mkdir()
             (folder / "report.json").write_text('{"overall":"FAIL","checks":[{"pass":false}]}')

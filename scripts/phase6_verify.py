@@ -2,7 +2,7 @@
 """Fail-closed local acceptance. Never deploys or changes authentication.
 
 Run from the canonical repository with the existing Rust/QEMU/WSL tools.
-Evidence lives beneath test_results/phase9; logs and counts are real subprocess
+Evidence lives beneath test_results/phase9_5; logs and counts are real subprocess
 results. Preserve the currently built ISO before packaging the replacement.
 """
 import argparse
@@ -53,15 +53,30 @@ def source_snapshot():
     return {p.relative_to(PROJECT).as_posix(): sha256(p) for p in sorted(paths)}
 
 
+def evidence_rows(evidence, path):
+    """An explicit PASS plus nonempty all-true rows, never a default status."""
+    if not isinstance(evidence, dict) or evidence.get("overall") != "PASS":
+        raise RuntimeError(f"failed or invalid harness report: {path}")
+    field = "checks" if "checks" in evidence else "results"
+    rows = evidence.get(field)
+    if not isinstance(rows, list) or not rows or any(
+            not isinstance(row, dict) or row.get("pass") is not True for row in rows):
+        raise RuntimeError(f"failed, missing or empty harness rows: {path}")
+    for name in ("check_count", "pass_count"):
+        if name in evidence and evidence[name] != len(rows):
+            raise RuntimeError(f"inconsistent declared harness count: {path}")
+    return rows
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    parent = (args.output_dir or PROJECT / "test_results" / "phase9").resolve()
+    parent = (args.output_dir or PROJECT / "test_results" / "phase9_5").resolve()
     parent.mkdir(parents=True, exist_ok=True)
     run = Path(tempfile.mkdtemp(prefix=f"acceptance_{stamp}_", dir=parent))
-    report = {"phase": 9, "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
+    report = {"phase": "9.5", "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
     features_active = False
 
     def gate(name, command, timeout=180, cwd=PROJECT):
@@ -113,6 +128,7 @@ def main():
         gate("Python media reader regressions", script("test_fs_harness.py"))
         gate("acceptance runner regressions", script("test_acceptance_harness.py"))
         gate("RostiFS harness regressions", script("test_rostifs_harness.py"))
+        gate("Phase 9.5 benchmark contracts", script("test_phase9_5_bench.py"))
         features_active = True
         gate("build read fault fixture", ["cargo", "build", "--features", "paging-fault-test"])
         gate("CPU read faults 128 and 512", script("paging_test.py", "--fault", "--output-dir", run / "read_fault"))
@@ -128,6 +144,8 @@ def main():
             gate(f"ten ELF boots {memory} MiB", script("boot_test.py", "--runs", 10, "--timeout", 3, "--memory", memory, "--output-dir", output), timeout=90)
             with (output / "boot_results.csv").open(newline="") as capture:
                 rows = list(csv.DictReader(capture))
+            if len(rows) != 10 or any(r.get("status") != "PASS" for r in rows):
+                raise RuntimeError(f"incomplete or failed ten-boot matrix: {memory}")
             report["counts"][f"boot_{memory}"] = {"pass": sum(r["status"] == "PASS" for r in rows), "fail": sum(r["status"] != "PASS" for r in rows)}
         gate("paging stability twenty ELF boots", script("paging_test.py", "--runs", 10, "--output-dir", run / "paging"), timeout=180)
         gate("keyboard integration", script("keyboard_test.py"), timeout=150)
@@ -155,11 +173,25 @@ def main():
         final_hashes = source_snapshot()
         if final_hashes != report["source_sha256"]:
             raise RuntimeError("source changed during acceptance; rerun against stable source")
+        required = {"read_fault": 2, "write_fault": 2, "paging": 20, "iso_paging": 2}
+        for boot in ("elf", "iso"):
+            for memory in (128, 512):
+                required[f"fs_{boot}_{memory}"] = 102
+                required[f"block_{boot}_{memory}"] = 98
+                required[f"rostifs_{boot}_{memory}"] = 168
+        for directory, expected in required.items():
+            # Each harness creates one invocation-owned child. Stage reports are
+            # deeper and must not substitute for its complete aggregate report.
+            paths = list((run / directory).glob("*/report.json"))
+            if len(paths) != 1:
+                raise RuntimeError(f"missing or ambiguous mandatory report: {directory}")
+            rows = evidence_rows(json.loads(paths[0].read_text()), paths[0])
+            if len(rows) != expected:
+                raise RuntimeError(f"incomplete mandatory checks: {directory}: {len(rows)}/{expected}")
         for p in run.rglob("report.json"):
             evidence = json.loads(p.read_text())
             key = str(p.relative_to(run))
-            if not isinstance(evidence, dict) or evidence.get("overall", "PASS") != "PASS":
-                raise RuntimeError(f"failed or invalid harness report: {key}")
+            evidence_rows(evidence, key)
             if "checks" in evidence:
                 checks = evidence["checks"]
                 if not checks or any(c.get("pass") is not True for c in checks):
@@ -170,7 +202,7 @@ def main():
                 if not rows or any(r.get("pass") is not True for r in rows):
                     raise RuntimeError(f"failed or empty harness results: {key}")
                 report["counts"][key] = {"pass": sum(r["pass"] for r in rows), "fail": sum(not r["pass"] for r in rows)}
-        versioned = PROJECT / "dist" / f"rosti_phase9_{stamp}.iso"
+        versioned = PROJECT / "dist" / f"rosti_phase9_5_{stamp}.iso"
         if versioned.exists():
             raise RuntimeError("refusing to overwrite versioned ISO")
         shutil.copy2(current_iso, versioned)
