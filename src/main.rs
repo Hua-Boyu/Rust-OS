@@ -192,6 +192,10 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     static mut BACKEND: fs::RostiBackend<'static> =
         unsafe { fs::RostiBackend::new(&mut *(&raw mut FS_DISK)) };
     static mut DESCRIPTORS: fd::FdTable = fd::FdTable::new();
+    // SAFETY: the boot entry executes once and never returns. These references
+    // are the only FILESYSTEM/DESCRIPTORS borrows, retained by the single main
+    // loop; no ISR, callback or secondary CPU accesses these static objects.
+    // Keep them static to avoid placing their tables on the 16 KiB boot stack.
     let filesystem = unsafe { &mut *(&raw mut FILESYSTEM) };
     let descriptors = unsafe { &mut *(&raw mut DESCRIPTORS) };
     descriptors.init_console();
@@ -201,6 +205,9 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     // independent RAMFS recovery shell remains available. Unmarked disks are
     // not probed as filesystems and cannot be modified by this kernel.
     if disk.test_owned() {
+        // SAFETY: BACKEND is borrowed once at boot and, after attachment, only
+        // through FILESYSTEM's exclusive reference. A failed mount is not
+        // retried through this static; IRQs never access either object.
         let backend = unsafe { &mut *(&raw mut BACKEND) };
         match backend
             .mount_in_place()
