@@ -1,0 +1,18 @@
+{
+  "python_suites": {
+    "Python media reader regressions": 4,
+    "acceptance runner regressions": 11,
+    "RostiFS harness regressions": 16,
+    "Phase 9.5 benchmark contracts": 14
+  },
+  "python_total": 45,
+  "crash_case_lines": [
+    "reordered pending crash cases=2328",
+    "rejected/torn/flush crash cases=2639"
+  ],
+  "matrix_checks": {
+    "ramfs": 408,
+    "ata": 392,
+    "rostifs": 672
+  }
+}

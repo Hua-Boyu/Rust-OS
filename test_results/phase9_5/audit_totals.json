@@ -1,0 +1,126 @@
+{
+  "total": 26,
+  "severity_counts": {
+    "P1": 21,
+    "P2": 5
+  },
+  "findings": [
+    {
+      "id": "B01",
+      "severity": "P1"
+    },
+    {
+      "id": "B02",
+      "severity": "P1"
+    },
+    {
+      "id": "B03",
+      "severity": "P1"
+    },
+    {
+      "id": "B04",
+      "severity": "P2"
+    },
+    {
+      "id": "B05",
+      "severity": "P2"
+    },
+    {
+      "id": "B06",
+      "severity": "P2"
+    },
+    {
+      "id": "B09",
+      "severity": "P1"
+    },
+    {
+      "id": "B10",
+      "severity": "P1"
+    },
+    {
+      "id": "B08",
+      "severity": "P1"
+    },
+    {
+      "id": "B07",
+      "severity": "P1"
+    },
+    {
+      "id": "B11",
+      "severity": "P1"
+    },
+    {
+      "id": "B12",
+      "severity": "P1"
+    },
+    {
+      "id": "B13",
+      "severity": "P1"
+    },
+    {
+      "id": "B14",
+      "severity": "P1"
+    },
+    {
+      "id": "B15",
+      "severity": "P1"
+    },
+    {
+      "id": "B16",
+      "severity": "P1"
+    },
+    {
+      "id": "B17",
+      "severity": "P1"
+    },
+    {
+      "id": "B18",
+      "severity": "P1"
+    },
+    {
+      "id": "B19",
+      "severity": "P1"
+    },
+    {
+      "id": "B20",
+      "severity": "P1"
+    },
+    {
+      "id": "B21",
+      "severity": "P1"
+    },
+    {
+      "id": "B22",
+      "severity": "P2"
+    },
+    {
+      "id": "B23",
+      "severity": "P1"
+    },
+    {
+      "id": "B24",
+      "severity": "P1"
+    },
+    {
+      "id": "B25",
+      "severity": "P2"
+    },
+    {
+      "id": "B26",
+      "severity": "P1"
+    }
+  ],
+  "addressed": [
+    "B01",
+    "B02",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B24"
+  ],
+  "rejected": [
+    "B04"
+  ],
+  "remaining": 18
+}

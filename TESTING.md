@@ -1,5 +1,37 @@
 # TESTING
 
+## Phase 9.5 maintenance verification
+
+The retained entry point `python -B scripts/phase6_verify.py` now writes
+`test_results/phase9_5/acceptance_<UTC>_<unique>/acceptance.json` and publishes
+`dist/rosti_phase9_5_<UTC>.iso` only after all inherited gates plus the new
+benchmark-contract gate pass. Exact ten-row boot matrices and the mandatory
+aggregate report for each fault/paging/RAMFS/ATA/RostiFS configuration are
+required; missing status, missing/empty/false checks and inconsistent declared
+counts fail before publication. Source/build freeze rediscovery is retained.
+
+Host commands still run from `C:/Users/iamsv`, outside the kernel Cargo config;
+the independent portable core and host-tools suites are unchanged. New Rust
+tests cover bit clearing, descriptor retirement/rollback/counter saturation,
+portable-core cat read counts, chunk boundaries, permission/shared offsets and
+first/later read-error cleanup. Existing warnings are not silently removed by
+unrelated changes. Full acceptance must finish as a background job with its
+final report; never overlap it with QEMU benchmarks or change build inputs.
+
+Measurement command (from repository, choose a fresh evidence filename):
+
+```bash
+python -B scripts/test_phase9_5_bench.py
+python -B scripts/phase9_5_bench.py --output test_results/phase9_5/new_measurement.json --iso dist/rosti.iso
+```
+
+The benchmark creates only new test-owned images and reuses canonical QMP/
+serial/VGA boundaries. It runs three independent guests at each RAM size;
+host perf_counter_ns observations include emulation, input pacing and serial
+polling, not isolated guest CPU/physical disk performance. No peak stack or
+mount-only timing claim. Final counts/hashes are in HANDOVER.md; earlier
+milestone sections below are historical and do not override this section.
+
 ## Phase 9 acceptance and reproducible persistence tests
 
 `python -B scripts/phase6_verify.py` now reports Phase 9 and writes a unique

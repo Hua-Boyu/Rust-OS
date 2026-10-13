@@ -1,5 +1,24 @@
 # Rust operating system on i686
 
+## Phase 9.5: measured maintenance, not Phase 10
+
+The minimalist audit uses MenuetOS and nanochess/bootOS as references, not code
+to copy. Rosti retains Rust, capability-aware descriptors, GRUB/i686, RAMFS and
+transactional RostiFS format 1. Bounded cat batching reduces repeated persistent
+reads; descriptor exhaustion/retirement and bit clearing are corrected, and
+acceptance now requires complete evidence. No scheduler, syscall, application
+loader, graphical desktop or initramfs feature was added.
+
+Read [comparison](docs/MINIMAL_OS_COMPARISON.md),
+[audit](docs/PHASE9_5_AUDIT.md), [measurements](docs/PHASE9_5_PERFORMANCE.md),
+[ABI proposal](docs/ROSTI_APPLICATION_ABI_DESIGN.md) and
+[GUI proposal](docs/ROSTI_LIGHTWEIGHT_GUI_DESIGN.md). Designs remain unimplemented.
+HANDOVER.md records actual release status/artifact identities and unresolved
+pre-existing safety prerequisites; passing current QEMU tests is not proof of
+user isolation, physical durability or safe module integration. The canonical
+acceptance entry point remains `python -B scripts/phase6_verify.py`, now Phase 9.5.
+Proxmox remains Phase 7; local maintenance does not authorize deployment.
+
 ## Phase 9: RostiFS v0.1
 
 Rosti OS aims to extend the useful life of older computers through secure,

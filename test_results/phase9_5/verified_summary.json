@@ -1,0 +1,298 @@
+{
+  "acceptance": "test_results\\phase9_5\\acceptance_20261013T221730Z_ibgi0pg6\\acceptance.json",
+  "overall": "PASS",
+  "gates": 37,
+  "source_checkpoint": "b647b7d336a77cb6c0a02678486f6dd2b3185e2a",
+  "verified_input_count": 82,
+  "nested_reports_checked": 52,
+  "iso": {
+    "name": "rosti_phase9_5_20261013T221730Z.iso",
+    "path": "dist\\rosti_phase9_5_20261013T221730Z.iso",
+    "sha256": "26e0407ad977bcb573bac03682a95512562f67b9481b58d88c6cdfe3548e84eb",
+    "bytes": 10272768,
+    "kernel_sha256": "7c6a8097fafcea4fb95e3297d019e92363bb763790f1a54213c897abf083e5ea"
+  },
+  "distinct_rust_tests": 169,
+  "counts": {
+    "host": {
+      "pass": 145,
+      "fail": 0
+    },
+    "rostifs_host": {
+      "pass": 20,
+      "fail": 0
+    },
+    "rostifs_tools": {
+      "pass": 4,
+      "fail": 0
+    },
+    "elf": {
+      "pass": 8,
+      "fail": 0
+    },
+    "boot_128": {
+      "pass": 10,
+      "fail": 0
+    },
+    "boot_512": {
+      "pass": 10,
+      "fail": 0
+    },
+    "block_elf_128\\block_ram128_7_i1ityj\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_7_i1ityj\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_7_i1ityj\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_7_i1ityj\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_7_i1ityj\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_v773vibu\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_v773vibu\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_v773vibu\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_v773vibu\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_v773vibu\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_e2r1isfp\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_e2r1isfp\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_e2r1isfp\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_e2r1isfp\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_e2r1isfp\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512_f1ypzkv0\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512_f1ypzkv0\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512_f1ypzkv0\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512_f1ypzkv0\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512_f1ypzkv0\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "fs_elf_128\\20261014_062024_ram128_2mmqkrgp\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": 38
+    },
+    "fs_elf_512\\20261014_062316_ram512_59qkcov2\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": 38
+    },
+    "fs_iso_128\\20261014_062653_ram128_egf24jpv\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": 38
+    },
+    "fs_iso_512\\20261014_062943_ram512_u5qsvm6i\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": 38
+    },
+    "iso_paging\\20261014_062636_paging\\report.json": {
+      "pass": 2,
+      "fail": 0
+    },
+    "paging\\20261014_061926_paging\\report.json": {
+      "pass": 20,
+      "fail": 0
+    },
+    "read_fault\\20261014_061816_fault\\report.json": {
+      "pass": 2,
+      "fail": 0
+    },
+    "rostifs_elf_128\\rostifs_ram128_m56820vw\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_elf_128\\rostifs_ram128_m56820vw\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_elf_128\\rostifs_ram128_m56820vw\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_elf_128\\rostifs_ram128_m56820vw\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_128\\rostifs_ram128_m56820vw\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_128\\rostifs_ram128_m56820vw\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_512\\rostifs_ram512_vcmcgxpj\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_elf_512\\rostifs_ram512_vcmcgxpj\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_elf_512\\rostifs_ram512_vcmcgxpj\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_elf_512\\rostifs_ram512_vcmcgxpj\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_512\\rostifs_ram512_vcmcgxpj\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_512\\rostifs_ram512_vcmcgxpj\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_128\\rostifs_ram128_j7zlgr94\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_iso_128\\rostifs_ram128_j7zlgr94\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_iso_128\\rostifs_ram128_j7zlgr94\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_iso_128\\rostifs_ram128_j7zlgr94\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_128\\rostifs_ram128_j7zlgr94\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_128\\rostifs_ram128_j7zlgr94\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_512\\rostifs_ram512_e7stvsic\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_iso_512\\rostifs_ram512_e7stvsic\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_iso_512\\rostifs_ram512_e7stvsic\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_iso_512\\rostifs_ram512_e7stvsic\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_512\\rostifs_ram512_e7stvsic\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_512\\rostifs_ram512_e7stvsic\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "write_fault\\20261014_061820_fault\\report.json": {
+      "pass": 2,
+      "fail": 0
+    }
+  }
+}

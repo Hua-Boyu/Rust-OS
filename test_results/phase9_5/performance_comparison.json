@@ -1,0 +1,285 @@
+{
+  "baseline": {
+    "file_bytes": 5146096,
+    "sha256": "b129b1ce8dd1c6c785f5fc0aba6d3d9c8c5f4e676433ef519d505fcd4befd9b8",
+    "section_bytes": {
+      "": 0,
+      ".multiboot": 12,
+      ".got": 88,
+      ".text": 606929,
+      ".rodata": 39126,
+      ".eh_frame_hdr": 28,
+      ".eh_frame": 68,
+      ".data": 92112,
+      ".got.plt": 12,
+      ".bss": 1138108,
+      ".debug_abbrev": 84217,
+      ".debug_info": 1365341,
+      ".debug_aranges": 69976,
+      ".debug_str": 1387569,
+      ".comment": 162,
+      ".debug_frame": 292956,
+      ".debug_line": 621488,
+      ".debug_ranges": 162488,
+      ".debug_loc": 11419,
+      ".symtab": 53472,
+      ".shstrtab": 212,
+      ".strtab": 344332
+    },
+    "allocated_section_bytes": 1876483,
+    "static_address_span_bytes": 1887676,
+    "initialized_allocated_bytes": 738375,
+    "selected_symbols": {
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main10FILESYSTEM": {
+        "address": 2753156,
+        "bytes": 6940
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main11DESCRIPTORS": {
+        "address": 2760096,
+        "bytes": 2328
+      },
+      "_RNvNtCsiGpFisFMzhI_6kernel6memory11FRAME_ALLOC": {
+        "address": 2790044,
+        "bytes": 32804
+      }
+    }
+  },
+  "after": {
+    "file_bytes": 5148792,
+    "sha256": "7c6a8097fafcea4fb95e3297d019e92363bb763790f1a54213c897abf083e5ea",
+    "section_bytes": {
+      "": 0,
+      ".multiboot": 12,
+      ".got": 88,
+      ".text": 608449,
+      ".rodata": 39126,
+      ".eh_frame_hdr": 28,
+      ".eh_frame": 68,
+      ".data": 92176,
+      ".got.plt": 12,
+      ".bss": 1138108,
+      ".debug_abbrev": 84320,
+      ".debug_info": 1366231,
+      ".debug_aranges": 69992,
+      ".debug_str": 1387921,
+      ".comment": 162,
+      ".debug_frame": 293056,
+      ".debug_line": 622147,
+      ".debug_ranges": 162720,
+      ".debug_loc": 11419,
+      ".symtab": 53504,
+      ".shstrtab": 212,
+      ".strtab": 344577
+    },
+    "allocated_section_bytes": 1878067,
+    "static_address_span_bytes": 1887676,
+    "initialized_allocated_bytes": 739959,
+    "selected_symbols": {
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main10FILESYSTEM": {
+        "address": 2753156,
+        "bytes": 6940
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main11DESCRIPTORS": {
+        "address": 2760096,
+        "bytes": 2328
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main7BACKEND": {
+        "address": 2762472,
+        "bytes": 21300
+      },
+      "_RNvNtCsiGpFisFMzhI_6kernel6memory11FRAME_ALLOC": {
+        "address": 2789964,
+        "bytes": 32804
+      }
+    }
+  },
+  "iso_before": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti_phase9_20261013T142104Z.iso",
+    "bytes": 10268672,
+    "sha256": "00de8b73281ecb5dfea20297908ad781f42036fbf369966196a8e81df284db2b"
+  },
+  "iso_after": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+    "bytes": 10272768,
+    "sha256": "eb4c43cc3633aedae4b6e582d422a8376426e4345727ab83b352efb6517f8c1c"
+  },
+  "benchmark": {
+    "baseline": {
+      "128": {
+        "host_boot_median_ns": 1006272100,
+        "operation_enter_to_prompt_median_ns": {
+          "traverse": 67650700,
+          "create": 112035200,
+          "write": 111229700,
+          "read": 191935100,
+          "append": 123419500,
+          "list": 68537500,
+          "delete": 91017100
+        }
+      },
+      "512": {
+        "host_boot_median_ns": 1105275200,
+        "operation_enter_to_prompt_median_ns": {
+          "traverse": 68134000,
+          "create": 111498400,
+          "write": 126376100,
+          "read": 193445500,
+          "append": 125347600,
+          "list": 68603100,
+          "delete": 109007800
+        }
+      }
+    },
+    "after": {
+      "128": {
+        "host_boot_median_ns": 1788326400,
+        "operation_enter_to_prompt_median_ns": {
+          "traverse": 69292900,
+          "create": 111693600,
+          "write": 112059900,
+          "read": 68986400,
+          "append": 112356000,
+          "list": 69158000,
+          "delete": 91954600
+        }
+      },
+      "512": {
+        "host_boot_median_ns": 1425663100,
+        "operation_enter_to_prompt_median_ns": {
+          "traverse": 70347100,
+          "create": 112987000,
+          "write": 124560500,
+          "read": 68400700,
+          "append": 112267600,
+          "list": 68958700,
+          "delete": 92194400
+        }
+      }
+    }
+  },
+  "ata_reduction_percent": 96.92307692307692,
+  "all_ata_deltas": [
+    {
+      "reads": 16,
+      "writes": 112,
+      "bytes": 65536
+    },
+    {
+      "reads": 16,
+      "writes": 112,
+      "bytes": 65536
+    },
+    {
+      "reads": 16,
+      "writes": 112,
+      "bytes": 65536
+    },
+    {
+      "reads": 16,
+      "writes": 112,
+      "bytes": 65536
+    },
+    {
+      "reads": 16,
+      "writes": 112,
+      "bytes": 65536
+    },
+    {
+      "reads": 16,
+      "writes": 112,
+      "bytes": 65536
+    }
+  ],
+  "all_heap": [
+    {
+      "used": 8232,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 2,
+      "fs_storage": 0,
+      "fs_entries": 3,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 5,
+      "fd_closes": 5,
+      "fd_denials": 0,
+      "fd_stale": 0
+    },
+    {
+      "used": 8232,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 2,
+      "fs_storage": 0,
+      "fs_entries": 3,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 5,
+      "fd_closes": 5,
+      "fd_denials": 0,
+      "fd_stale": 0
+    },
+    {
+      "used": 8232,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 2,
+      "fs_storage": 0,
+      "fs_entries": 3,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 5,
+      "fd_closes": 5,
+      "fd_denials": 0,
+      "fd_stale": 0
+    },
+    {
+      "used": 8232,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 2,
+      "fs_storage": 0,
+      "fs_entries": 3,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 5,
+      "fd_closes": 5,
+      "fd_denials": 0,
+      "fd_stale": 0
+    },
+    {
+      "used": 8232,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 2,
+      "fs_storage": 0,
+      "fs_entries": 3,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 5,
+      "fd_closes": 5,
+      "fd_denials": 0,
+      "fd_stale": 0
+    },
+    {
+      "used": 8232,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 2,
+      "fs_storage": 0,
+      "fs_entries": 3,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 5,
+      "fd_closes": 5,
+      "fd_denials": 0,
+      "fd_stale": 0
+    }
+  ]
+}

@@ -1,5 +1,38 @@
 # ARCHITECTURE
 
+## Phase 9.5 maintenance architecture
+
+The storage and capability architecture below is retained. No format version,
+mount lifetime, transaction ordering, bootloader, target or IRQ-storage contract
+changed. `cat` now uses one 128-byte bounded stack buffer instead of issuing a
+four-byte persistent read for every scalar. It overlaps up to three tail bytes
+at refills, preserves UTF-8/invalid-byte escaping, per-scalar SEEK checks and
+shared final offsets; a no-SEEK descriptor retains the prior four-byte denial
+behavior. First and later I/O failures propagate and close only command-owned
+descriptors. No heap cache or file-sized intermediate buffer was added.
+
+Descriptor lifetime invalidation saturates/retire-at-MAX; exhausted console
+installation fails closed, and failed open-record allocation restores the
+unpublished descriptor generation and live count. Cumulative diagnostic counters
+saturate, while live slot/record/ref counts remain exact. The single-bit helper
+now clears correctly without changing other bits. Local SAFETY comments document
+the unique non-IRQ static filesystem/descriptor/backend borrows.
+
+Read-only findings and unresolved safe-API/boot-memory prerequisites are in
+[PHASE9_5_AUDIT.md](docs/PHASE9_5_AUDIT.md); do not infer that passing current
+QEMU tests proves safe arbitrary callers, user isolation or initramfs lifetimes.
+In particular reserved growth-window/module mapping, boot entry ABI, general
+exception signatures and fallible boot inventory need dedicated verification
+before loading system modules. Existing trusted namespace APIs must not be
+exported directly as untrusted capability syscalls.
+
+[Application ABI](docs/ROSTI_APPLICATION_ABI_DESIGN.md) and
+[optional GUI](docs/ROSTI_LIGHTWEIGHT_GUI_DESIGN.md) remain **design only**.
+ELF32-first user loading, traps, processes, framebuffer rendering, mouse input,
+networking and Phase 10 initramfs/verified system images are not implemented.
+Measured comparisons and timing limitations:
+[PHASE9_5_PERFORMANCE.md](docs/PHASE9_5_PERFORMANCE.md).
+
 ## Phase 9: current persistent-storage architecture
 
 Applications/shell → capability-based `FdTable` → `Vfs`/`MountedFs` →

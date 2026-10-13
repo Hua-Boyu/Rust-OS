@@ -1,5 +1,37 @@
 # BUGFIXES
 
+## Phase 9.5 bounded maintenance changes
+
+- `set_one_bit(false)` passed a zero mask length because the helper swapped
+  length/value. All-bit/all-width clear regression was RED then GREEN after
+  correcting the argument order and matching trait parameter names.
+- Final-generation descriptor/open-record release previously incremented MAX;
+  records now retire without panic/wrap. Console installation rejects exhaustion.
+  Failed open-record allocation previously leaked its provisional descriptor;
+  rollback restores occupancy, live counts and unpublished generation. Near-MAX,
+  retired/full-record and diagnostic-counter regressions were RED then GREEN.
+- `cat` read four bytes then rewound for each scalar, repeatedly loading the same
+  4 KiB persistent block. A real portable-core 64-byte ASCII test was RED at 512
+  sector reads and GREEN at eight. A 128-byte fixed buffer preserves output/
+  rights/offset behavior with overlap at scalar boundaries; no FS heap cache.
+  First and later read failures retain error reporting and descriptor cleanup.
+  The exact partial-output prefix at arbitrary device failure can differ because
+  the read schedule changes; it is not promised equivalent to byte-at-a-time I/O.
+- Acceptance now requires the complete mandatory report matrix and exactly ten
+  successful boot rows. Missing reports/nine-row regressions were RED then GREEN;
+  no existing gate/check was removed or lowered. Milestone naming is 9.5.
+- New host benchmark evidence cannot overwrite prior output; failure/cleanup
+  contracts are tested. Generated tracked interpreter caches are untracked and
+  ignored, while local copies and the unrelated initial cache are retained.
+
+The audit explicitly records unresolved pre-existing issues, not fixes:
+growth eligibility versus boot reservations/module mapping, entry stack/DF,
+general error-code exception ABI, allocator lost alignment bytes, Port lifetime,
+mutex guard auto-traits, ring SPSC API, PS/2 setup, page-map borrowing/effective
+permissions, fatal-path locking/stack high-water, trusted namespace policy and
+two-stage shell create/reopen failure. See docs/PHASE9_5_AUDIT.md for evidence,
+risk and verification plans. Existing test success does not erase these findings.
+
 ## Phase 9 corrections and verification boundaries
 
 - The first full acceptance passed ELF persistence but failed on GRUB/ISO ATA

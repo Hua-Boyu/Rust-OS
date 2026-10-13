@@ -1,4 +1,97 @@
-# Rosti OS — Phase 9 verified handover
+# Rosti OS — Phase 9.5 maintenance handover
+
+## Current maintenance checkpoint
+
+Canonical repository `C:\Users\iamsv\Documents\Rust-OS`, branch
+`maintenance/phase9-5`; `main` remains the original Phase 9 checkpoint.
+Initial HEAD: `9da1d48e9c51207b51c31d8c296cf31fd080c49c`.
+Verified maintenance source checkpoint:
+`b647b7d336a77cb6c0a02678486f6dd2b3185e2a`.
+Later documentation/evidence commits do not change its accepted source inputs.
+
+Completed localized changes: correct single-bit clearing; descriptor generation
+retirement, failed-open rollback and saturating cumulative counters; 128-byte
+capability-checked cat batching; exclusive static-borrow SAFETY comments;
+mandatory acceptance reports/exact boot totals; host monotonic benchmark with
+failure evidence, owned cleanup and artifact freeze; untracked/ignored generated
+Python caches, preserving local copies and the initial unrelated cache.
+
+Audit: **26 distinct findings, 0 P0 / 21 P1 / 5 P2**, with source evidence,
+risks and verification plans in docs/PHASE9_5_AUDIT.md. No P0 was identified by
+the read-only reviewers; this is not a claim that all existing safe APIs are
+sound for arbitrary concurrent/untrusted callers. B01/B02/B05/B07/B08/B24 have
+implemented changes; B06 establishes honest partial measurement coverage.
+Other findings are explicitly deferred or rejected, not silently fixed.
+
+Initial Phase 9 was independently reverified: all 80 release-input hashes,
+36 explicit successful gates, 52 valid nested reports and both ELF/ISO hashes.
+`test_results/phase9_5/phase9_reverification.json` and
+`phase9_report_reverification.json`. Original Phase 9/8/7 rollback artifacts
+and all disposable-image evidence remain. No push, tag move, history rewrite,
+physical-disk access, remote upload/attachment/reset/deployment or Phase 10 work.
+
+Current full acceptance evidence:
+`test_results/phase9_5/acceptance_20261013T221730Z_ibgi0pg6/acceptance.json`.
+**PASS, 37/37 gates**, completed background exit 0. All **82** source/build
+inputs were independently reread after acceptance and the final benchmark;
+**52** nested reports have explicit PASS/nonempty all-true rows. Real totals:
+**145 kernel + 20 portable + 4 host-tools = 169 distinct Rust tests**;
+Python **4 media + 11 acceptance + 16 RostiFS + 14 benchmark = 45 tests**.
+Inherited crash suites remain 2,639 rejected/torn/flush cases, 2,328 reordered
+cuts and 4,104 root-prefix tears (9,071 modeled cases; not physical proof).
+ELF validation 8/8, ten boots each at 128/512 MiB, paging 20/20, CPU read/write
+faults 2/2 each, ISO paging 2/2, keyboard PASS, VGA 13/13 each ELF/ISO.
+RAMFS/VFS/FD/growth/OOM **102/102 each configuration (408)**, ATA **98/98 (392)**,
+RostiFS **168/168 (672)** across ELF/GRUB and both RAM sizes. These are **1,472**
+distinct filesystem/block matrix checks; do not add nested aggregate reports
+again. All owned QEMU processes exited; final task-list inspection found none.
+
+Accepted ISO: **dist/rosti_phase9_5_20261013T221730Z.iso**, **10,272,768 B**.
+SHA256: `26e0407ad977bcb573bac03682a95512562f67b9481b58d88c6cdfe3548e84eb`.
+Kernel SHA256: `7c6a8097fafcea4fb95e3297d019e92363bb763790f1a54213c897abf083e5ea`.
+The kernel extracted independently from the accepted ISO matches that hash;
+the old Phase 9 ISO/hash remains unchanged. Sanitized aggregate verification:
+test_results/phase9_5/verified_summary.json and suite_totals.json.
+
+Measured filesystem memory remains 28,240 B static including one 4,096 B scratch;
+descriptors 2,328 B separate, heap use 8,232 B, no persistent-workload growth.
+The 64-byte benchmark workload drops ATA reads 520 -> 16, writes remain 112;
+cat alone drops 512 -> 8 in the independently tested portable fixture. Target
+cat local prologue estimate increases 316 -> 560 B, not hardware stack high-water.
+The maintenance ELF grows 5,146,096 -> 5,148,792 B, text +1,520 B/data +64 B;
+static address span and BSS unchanged. This is not a binary-size optimization.
+Host timing samples vary substantially; no boot-speed improvement or physical
+disk throughput is claimed. See docs/PHASE9_5_PERFORMANCE.md for final replay.
+Final sequential same-host replay of old/new accepted ISOs passed six guests
+each: boot medians **1046.675 -> 1033.911 ms (128 MiB)** and
+**1154.715 -> 1240.394 ms (512 MiB; +7.420% host-observed regression)**.
+Cat Enter-to-prompt **122.676 -> 67.968 / 116.855 -> 67.390 ms** at 128/512.
+Key pacing/polling are included; no causal boot-speed attribution is established.
+ATA/heap deltas remain exact in every replay; paired_comparison.json records all.
+
+Final read-only VM 103 inventory: running, same configuration digest and Phase 7
+CD-ROM, no data disk. No deployment; live RostiFS remains NOT VERIFIED.
+
+Research deliverables: docs/MINIMAL_OS_COMPARISON.md,
+docs/ROSTI_APPLICATION_ABI_DESIGN.md, docs/ROSTI_LIGHTWEIGHT_GUI_DESIGN.md.
+Source-derived facts, vendor claims and hypotheses are separated. No foreign
+code/assets imported; Menuet64 restrictions differ from Menuet32 GPL, bootOS is
+BSD-2-Clause. Application ABI/ELF32 loading and optional GUI are **design only**.
+
+Phase 10 recommendation remains initramfs, safe mount management, verified
+read-only system images and independent recovery. Readiness is **conditional**:
+first address B11 growth reservations/module mappings, B13 entry ABI, B18
+fallible boot inventory and B26 error-path lock ordering with new tests. Before
+untrusted callers, resolve B10/B14–B16/B19 and general error-code exceptions.
+Allocator alignment leakage B09 and PS/2 hardware setup B17 remain limitations.
+Do not run application bytes in ring0 or call CRC a cryptographic trust anchor.
+The complete standalone continuation is NEXT_SESSION_PROMPT.md; no automatic
+Phase 10 development or remote modification is authorized.
+
+## Archived Phase 9 verified handover
+
+The following sections record the original checkpoint. Their branch/count/ISO
+statements are historical and do not override the maintenance section above.
 
 ## 1. Checkpoint and safety
 

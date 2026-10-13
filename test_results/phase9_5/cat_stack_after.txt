@@ -1,0 +1,18 @@
+00228c40 <_RINvNtCsiGpFisFMzhI_6kernel11fs_commands3catINtNtNtB4_2fs7mounted9MountedFsNtNtBL_5rosti12RostiBackendEEB4_>:
+  228c40:	55                   	push   %ebp
+  228c41:	53                   	push   %ebx
+  228c42:	57                   	push   %edi
+  228c43:	56                   	push   %esi
+  228c44:	81 ec 20 02 00 00    	sub    $0x220,%esp
+  228c4a:	e8 00 00 00 00       	call   228c4f <_RINvNtCsiGpFisFMzhI_6kernel11fs_commands3catINtNtNtB4_2fs7mounted9MountedFsNtNtBL_5rosti12RostiBackendEEB4_+0xf>
+  228c4f:	5b                   	pop    %ebx
+  228c50:	81 c3 c1 db 08 00    	add    $0x8dbc1,%ebx
+  228c56:	89 5c 24 78          	mov    %ebx,0x78(%esp)
+  228c5a:	8b b4 24 44 02 00 00 	mov    0x244(%esp),%esi
+  228c61:	89 74 24 64          	mov    %esi,0x64(%esp)
+  228c65:	8b bc 24 40 02 00 00 	mov    0x240(%esp),%edi
+  228c6c:	89 7c 24 68          	mov    %edi,0x68(%esp)
+  228c70:	8a 84 24 3c 02 00 00 	mov    0x23c(%esp),%al
+  228c77:	88 44 24 6f          	mov    %al,0x6f(%esp)
+  228c7b:	8b 94 24 38 02 00 00 	mov    0x238(%esp),%edx
+  228c82:	89 54 24 70          	mov    %edx,0x70(%esp)

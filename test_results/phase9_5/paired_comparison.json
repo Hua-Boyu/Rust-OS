@@ -1,0 +1,71 @@
+{
+  "before": {
+    "128": {
+      "host_boot_median_ns": 1046674800,
+      "operation_enter_to_prompt_median_ns": {
+        "traverse": 67368600,
+        "create": 73628100,
+        "write": 90424800,
+        "read": 122676300,
+        "append": 104524900,
+        "list": 67982600,
+        "delete": 67356800
+      }
+    },
+    "512": {
+      "host_boot_median_ns": 1154714600,
+      "operation_enter_to_prompt_median_ns": {
+        "traverse": 68267000,
+        "create": 90960800,
+        "write": 90474900,
+        "read": 116855000,
+        "append": 90326600,
+        "list": 69048000,
+        "delete": 67691200
+      }
+    }
+  },
+  "after": {
+    "128": {
+      "host_boot_median_ns": 1033910900,
+      "operation_enter_to_prompt_median_ns": {
+        "traverse": 67339100,
+        "create": 67748300,
+        "write": 89607700,
+        "read": 67967900,
+        "append": 89564400,
+        "list": 67860300,
+        "delete": 67553100
+      }
+    },
+    "512": {
+      "host_boot_median_ns": 1240393800,
+      "operation_enter_to_prompt_median_ns": {
+        "traverse": 67431900,
+        "create": 67712100,
+        "write": 89737200,
+        "read": 67390200,
+        "append": 90683200,
+        "list": 67505700,
+        "delete": 68229000
+      }
+    }
+  },
+  "boot_delta_percent": {
+    "128": -1.2194714155724373,
+    "512": 7.419946019561885
+  },
+  "old_iso": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti_phase9_20261013T142104Z.iso",
+    "bytes": 10268672,
+    "sha256": "00de8b73281ecb5dfea20297908ad781f42036fbf369966196a8e81df284db2b"
+  },
+  "new_iso": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti_phase9_5_20261013T221730Z.iso",
+    "bytes": 10272768,
+    "sha256": "26e0407ad977bcb573bac03682a95512562f67b9481b58d88c6cdfe3548e84eb"
+  },
+  "rust_test_total": 169,
+  "python_test_total": 45,
+  "matrix_checks": 1472
+}

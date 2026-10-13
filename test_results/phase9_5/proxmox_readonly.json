@@ -1,0 +1,26 @@
+{
+  "scope": "read-only structured MCP inventory, no deployment or other remote writes",
+  "node": "pve",
+  "vmid": 103,
+  "name": "rosti-dev",
+  "status": "running",
+  "memory_mib": 512,
+  "cores": 1,
+  "bios": "seabios",
+  "configured_machine": "pc",
+  "runtime_machine": "pc-i440fx-11.0+pve0",
+  "serial0": "socket",
+  "boot": "order=ide2",
+  "ide2": "local:iso/rosti_phase7_20261012T181123Z.iso,media=cdrom,size=9204K",
+  "data_disk_entries": [],
+  "configuration_digest": "c0253f4f9bc55e6c3f222dcc893833cc46157a4b",
+  "phase8_9_9_5_deployed": false,
+  "completion_readback": {
+    "status": "running",
+    "configuration_digest": "c0253f4f9bc55e6c3f222dcc893833cc46157a4b",
+    "configuration_unchanged": true,
+    "configured_boot_media": "local:iso/rosti_phase7_20261012T181123Z.iso",
+    "data_disk_entries": [],
+    "live_phase9_5_kernel_or_persistence_verified": false
+  }
+}

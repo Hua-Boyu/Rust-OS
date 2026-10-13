@@ -1,5 +1,20 @@
 # PROXMOX DEPLOYMENT
 
+## Phase 9.5: read-only boundary, no deployment
+
+Structured GET inventory during maintenance confirmed VM 103 `rosti-dev`
+running with 512 MiB, one CPU, SeaBIOS, pc/i440fx, serial socket and only
+ide2 `local:iso/rosti_phase7_20261012T181123Z.iso`; no data disk entry.
+Recorded digest `c0253f4f9bc55e6c3f222dcc893833cc46157a4b` in
+`test_results/phase9_5/proxmox_readonly.json`. Phase 8/9/9.5 have not been
+uploaded/deployed or live persistent-file tested. No attach/detach, disk creation,
+formatting, reset/start/stop, upload or other remote write was performed.
+
+The current Phase 9.5 acceptance and benchmarks use disposable local QEMU media
+only. Future deployment/storage changes need explicit user approval and fresh
+exact target inventory/readback. Do not invoke historical live tests below
+under read-only authorization: they reset the VM and destroy volatile state.
+
 ## Phase 9 safety boundary and fresh read-only inventory
 
 Read-only `pve_get_qemu_config` and `pve_get_qemu_status` confirmed node `pve`,

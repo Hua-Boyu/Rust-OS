@@ -6,13 +6,16 @@ useful life with secure, efficient modern computing and less electronic waste.
 
 ## 1. Recover the verified checkpoint before changing anything
 
-Repository: `C:\Users\iamsv\Documents\Rust-OS`, branch `main`.
+Repository: `C:\Users\iamsv\Documents\Rust-OS`, branch `maintenance/phase9-5`.
 Environment: Windows 11, Git Bash/WSL2, Rust nightly, custom bare-metal i686,
 `no_std`/core/alloc, GRUB Multiboot v1, QEMU i386/SeaBIOS. Native program paths
 must use `C:/...`, not MSYS `/c/...`.
 
 Read HANDOVER.md, NEXT_SESSION_PROMPT.md, ARCHITECTURE.md, TESTING.md,
 BUGFIXES.md, PROXMOX.md, README.md and crates/rostifs/FORMAT.md first.
+Also read docs/MINIMAL_OS_COMPARISON.md, docs/PHASE9_5_AUDIT.md,
+docs/PHASE9_5_PERFORMANCE.md, docs/ROSTI_APPLICATION_ABI_DESIGN.md and
+docs/ROSTI_LIGHTWEIGHT_GUI_DESIGN.md. ABI/GUI proposals are not implemented.
 Load rosti-kernel-development, systematic-debugging, test-driven-development,
 bare-metal-kernel-qemu-testing and git-release-checkpoint when relevant.
 Use the installed skill catalog for other task-specific workflows. DonSeTch
@@ -23,8 +26,12 @@ Phase 8: `8029f3209c36fcceaec6eaf9e8b3228be5376e0f`.
 Phase 9 feature checkpoint: `4fb88fd062f3c667ee7682937752e94aa600cdc3`.
 Subject: `feat(rostifs): add persistent transactional filesystem v0.1`.
 Documentation-only follow-up commits may sit above it; do not confuse them
-with a new kernel release. Verify the checkpoint exists and its code/build inputs
-match the completed acceptance before starting Phase 10. Do not push, reset,
+with a new kernel release. Phase 9.5 source checkpoint is
+`b647b7d336a77cb6c0a02678486f6dd2b3185e2a`; the original starting HEAD was
+`9da1d48e9c51207b51c31d8c296cf31fd080c49c`. Inspect later documentation-only
+commits and exact current Git state; `main` still holds the prior Phase 9.
+Verify the checkpoint exists and its code/build inputs match the completed
+acceptance before starting Phase 10. Do not push, reset,
 rewrite history or move historical tags automatically.
 
 Accepted Phase 9 evidence:
@@ -40,6 +47,37 @@ SHA256: `00de8b73281ecb5dfea20297908ad781f42036fbf369966196a8e81df284db2b`.
 Kernel SHA256: `b129b1ce8dd1c6c785f5fc0aba6d3d9c8c5f4e676433ef519d505fcd4befd9b8`.
 Reread hashes, do not infer correctness from a filename or a RUNNING report.
 The failed earlier acceptance is retained and is not release evidence.
+
+Phase 9.5 completed changes: 128-byte stack-buffered cat, exact Unicode/binary
+output/descriptor cleanup, MAX-generation retirement and failed-open rollback,
+saturating cumulative FD counters, correct bit clearing, documented exclusive
+static borrows, mandatory evidence matrices/exact boot totals and an owned-media
+host monotonic benchmark. RostiFS wire format and transaction/flush order did not
+change. No compiler/profile/GRUB change, new syscall, process, GUI or deployment.
+The measured fixed workload reduced ATA reads 520 -> 16 with writes 112 unchanged;
+FS static 28,240 B, descriptors 2,328 B, heap use 8,232 B and zero growth pages.
+Boot samples are host-observed and noisy; no physical speed or boot improvement
+is claimed. Target cat prologue 316 -> 560 B is not peak stack high-water.
+
+Phase 9.5 evidence:
+`test_results/phase9_5/acceptance_20261013T221730Z_ibgi0pg6/acceptance.json`.
+Completed **PASS, 37/37 gates**; 82 source/build-input hashes and 52 nested
+reports independently verified after completion and the final replay. ISO:
+`dist/rosti_phase9_5_20261013T221730Z.iso`, 10,272,768 B, SHA256
+`26e0407ad977bcb573bac03682a95512562f67b9481b58d88c6cdfe3548e84eb`.
+Kernel SHA256:
+`7c6a8097fafcea4fb95e3297d019e92363bb763790f1a54213c897abf083e5ea`.
+Its independently extracted ISO payload matches. Reread all identities;
+RUNNING or an interrupted job is never a pass. No owned local QEMU remained.
+The retained runner now writes Phase 9.5 evidence and versioned ISO filenames.
+New host coverage totals are 145 kernel + 20 portable + 4 tools (169 distinct
+Rust tests); Python media 4, acceptance 11, RostiFS harness 16, benchmark 14.
+Require fresh actual results, not these counts alone.
+The inherited matrix passes 102 RAMFS/FD/OOM, 98 ATA and 168 RostiFS checks per
+ELF/GRUB + 128/512 configuration; crash model remains 9,071 cases. Sequential
+final replay retains exact 520 -> 16 reads/112 writes/8,232 B heap. Host boot
+medians at 128/512 are 1046.675 -> 1033.911 and 1154.715 -> 1240.394 ms;
+the latter +7.420% observation is disclosed, not attributed to guest CPU.
 
 ## 2. Preserve the current architecture and limitations
 
@@ -84,6 +122,28 @@ Implement working **initramfs integration, safe mount management, a verified
 read-only system-image foundation and an independent secure recovery environment**.
 Choose an incremental, testable scope before coding. Do not claim cryptographic
 verification from CRC or an unsigned digest supplied by the same untrusted image.
+
+**Prerequisite safety work before consuming initramfs bytes:** the Phase 9.5
+read-only audit contains 26 findings (0 P0, 21 P1, 5 P2), not 26 completed fixes.
+Start with B11: growth-frame claims must exclude competing boot/firmware/module
+reservations; modules inside the fixed growth window must remain mapped/pinned
+or be deliberately rejected without writes. B13: establish entry ESP alignment,
+clear DF and controlled IRQ state with an explicit handoff fixture. B18: bounded
+fallible boot/module inventory and recovery boundary. B26: release frame guards
+before allocating error diagnostics. Preserve payload hashes while forcing real
+heap growth and OOM at both RAM sizes, including modules placed in the growth
+window. These are blockers to claiming safe module integration, not reasons to
+copy bootOS's fixed real-mode addresses.
+
+Other known limits: allocator alignment prefixes/tiny tails can leak free
+capacity (B09); general error-code exception signatures (B12), PS/2 setup (B17),
+fatal-path VGA locking/unmeasured stack (B20), Port lifetime (B14), mutex guard
+auto-traits (B15), SPSC endpoint contract (B16), static PageMap aliasing/effective
+permissions (B19), trusted namespace authorization (B10), create/reopen failure
+(B21), Unicode C1 output (B22), shared harness close-error cleanup (B23) and
+wrapping uptime (B25) are not silently fixed. Address dependency-relevant issues
+with isolated RED/GREEN changes; do not broaden this into scheduler/network/GUI
+development. A trusted kernel shell is not an untrusted capability boundary.
 
 1. Inspect Multiboot module parsing/reservations, GRUB packaging and boot memory
    lifetimes. Add a bounded, explicitly versioned initramfs/archive parser and
@@ -144,10 +204,10 @@ only owned child processes and retain successful/failed serial/JSON evidence.
 
 ## 5. Proxmox and host-disk boundary
 
-pve VM **103**, **rosti-dev**, was freshly read-only inspected running on Phase 7,
+pve VM **103**, **rosti-dev**, is running and configured to boot Phase 7,
 512 MiB/one core, SeaBIOS/i440fx, serial socket. Only ide2 is configured:
 `local:iso/rosti_phase7_20261012T181123Z.iso`, boot order ide2. No data disk.
-Phase 8/9 were NOT deployed and live persistent files are NOT VERIFIED.
+Phase 8/9/9.5 were NOT deployed and live persistent files are NOT VERIFIED.
 Existing Phase 6 rollback and Phase 7 media must remain intact.
 
 Read-only inspection is permitted; remote changes require explicit scope.
