@@ -14,5 +14,7 @@ dist/
 test_results/**/qemu_log.txt
 test_results/*
 # Machine-specific caches
+__pycache__/
+*.py[cod]
 *.cache
 .DS_Store
