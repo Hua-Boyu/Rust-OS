@@ -16,7 +16,8 @@ SPEC.loader.exec_module(acceptance)
 
 
 class SourceFreezeTests(unittest.TestCase):
-    def simulate(self, mutation, omit_reports=False, boot_rows=10):
+    def simulate(self, mutation, omit_reports=False, boot_rows=10, read_tests=4):
+        self.last_commands = []
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             for path in ("src/main.rs", "tests_kernel/src/lib.rs", "scripts/a.py", "Cargo.toml", "linker.ld", "target.json", ".cargo/config.toml"):
@@ -28,10 +29,12 @@ class SourceFreezeTests(unittest.TestCase):
             kernel.write_bytes(b"fixture kernel")
 
             def run(command, **kwargs):
+                self.last_commands.append(command)
                 # Simulate successful gates solely to reach the real final source-freeze check.
                 output = kwargs["stdout"]
                 if "test" in command:
-                    output.write(b"test result: ok. 1 passed; 0 failed\n")
+                    passed = read_tests if "read_performance" in command else 1
+                    output.write(f"test result: ok. {passed} passed; 0 failed\n".encode())
                 if any(str(c).endswith("boot_test.py") for c in command):
                     folder = Path(command[command.index("--output-dir") + 1])
                     folder.mkdir(parents=True, exist_ok=True)
@@ -65,6 +68,15 @@ class SourceFreezeTests(unittest.TestCase):
     def test_current_milestone_is_phase9_5(self):
         self.assertEqual(self.simulate(lambda root: None), 0)
         self.assertEqual(self.last_report["phase"], "9.5")
+
+    def test_read_boundary_and_transfer_regressions_are_required(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        self.assertTrue(any("read_performance" in command and "host-tools" in command
+                            and "--ignored" not in command for command in self.last_commands))
+
+    def test_missing_read_regression_cannot_publish(self):
+        self.assertEqual(self.simulate(lambda root: None, read_tests=1), 1)
+        self.assertEqual(self.last_versioned_count, 0)
 
     def test_missing_mandatory_reports_cannot_publish(self):
         self.assertEqual(self.simulate(lambda root: None, omit_reports=True), 1)

@@ -607,10 +607,33 @@ impl Vfs for RostiFs<'_> {
             .map_err(|_| FsError::DeviceIo)?;
         while done < count {
             let pos = offset + done;
-            self.read_block(n.start as usize + pos / FS_BLOCK_SIZE, &mut *page)?;
-            let take = (FS_BLOCK_SIZE - pos % FS_BLOCK_SIZE).min(count - done);
+            // Keep the existing block path for complete aligned blocks; a
+            // sector loop adds borrow/geometry work without reducing transfers.
+            if pos % FS_BLOCK_SIZE == 0 && count - done >= FS_BLOCK_SIZE {
+                self.read_block(n.start as usize + pos / FS_BLOCK_SIZE, &mut *page)?;
+                out[done..done + FS_BLOCK_SIZE].copy_from_slice(&*page);
+                done += FS_BLOCK_SIZE;
+                continue;
+            }
+            // Ordinary reads do not validate a whole-block CRC (mount does).
+            // Transfer only the intersecting sector, reusing the existing
+            // scratch. Retain checked full-block geometry before sector I/O.
+            let mut device = self
+                .device
+                .try_borrow_mut()
+                .map_err(|_| FsError::DeviceIo)?;
+            let first = device
+                .block_first_sector(n.start as usize + pos / FS_BLOCK_SIZE)
+                .map_err(|_| FsError::DeviceIo)?;
+            device
+                .read_sector(
+                    first + (pos % FS_BLOCK_SIZE) / SECTOR_SIZE,
+                    &mut page[..SECTOR_SIZE],
+                )
+                .map_err(|_| FsError::DeviceIo)?;
+            let take = (SECTOR_SIZE - pos % SECTOR_SIZE).min(count - done);
             out[done..done + take]
-                .copy_from_slice(&page[pos % FS_BLOCK_SIZE..pos % FS_BLOCK_SIZE + take]);
+                .copy_from_slice(&page[pos % SECTOR_SIZE..pos % SECTOR_SIZE + take]);
             done += take;
         }
         Ok(count)

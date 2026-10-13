@@ -372,7 +372,7 @@ mod tests {
     }
 
     #[test]
-    fn cat_portable_ascii_uses_one_block_read() {
+    fn cat_portable_ascii_uses_one_sector_read() {
         let (mut fs, reads, _) = portable_cat_fixture(&[b'a'; 64]);
         let mut table = FdTable::new();
         let mut cwd = NodeId::ROOT;
@@ -386,8 +386,8 @@ mod tests {
         assert_eq!(table.stats().open_records, 0);
         assert_eq!(
             reads.get(),
-            8,
-            "one 4 KiB block, not 64 scalar peeks (512 sectors)"
+            1,
+            "one intersecting sector, not a whole 4 KiB block"
         );
     }
 
@@ -478,7 +478,8 @@ mod tests {
 
     #[test]
     fn cat_portable_read_failure_closes_only_owned_descriptor() {
-        for (failure, prefix) in [(0, 0), (8, 125)] {
+        // Fail at the first and second refill, not an old block's eighth sector.
+        for (failure, prefix) in [(0, 0), (1, 125)] {
             let (mut fs, reads, fail_at) = portable_cat_fixture(&[b'a'; 260]);
             let mut table = FdTable::new();
             table.init_console();
