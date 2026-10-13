@@ -1,0 +1,27 @@
+{
+  "branch": "main",
+  "phase8_commit": "8029f3209c36fcceaec6eaf9e8b3228be5376e0f",
+  "phase9_feature_commit": "4fb88fd062f3c667ee7682937752e94aa600cdc3",
+  "feature_parent": "8029f3209c36fcceaec6eaf9e8b3228be5376e0f",
+  "accepted_source_inputs": 80,
+  "source_inputs_equal_worktree_and_committed_normalized_blobs": true,
+  "acceptance": "test_results/phase9/acceptance_20261013T142104Z_1m6_x1ot/acceptance.json",
+  "gates_passed": 36,
+  "gates_total": 36,
+  "iso": {
+    "name": "rosti_phase9_20261013T142104Z.iso",
+    "path": "dist\\rosti_phase9_20261013T142104Z.iso",
+    "sha256": "00de8b73281ecb5dfea20297908ad781f42036fbf369966196a8e81df284db2b",
+    "bytes": 10268672,
+    "kernel_sha256": "b129b1ce8dd1c6c785f5fc0aba6d3d9c8c5f4e676433ef519d505fcd4befd9b8"
+  },
+  "elf": {
+    "path": "target/target/debug/kernel",
+    "sha256": "b129b1ce8dd1c6c785f5fc0aba6d3d9c8c5f4e676433ef519d505fcd4befd9b8",
+    "size_bytes": 5146096
+  },
+  "pushed": false,
+  "tags_created_or_moved": false,
+  "proxmox_mutated": false,
+  "phase10_started": false
+}

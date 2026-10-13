@@ -15,11 +15,11 @@ Phase 8 acceptance inputs matched the recovered worktree; normalized Git blobs
 matched that checkpoint (Git CRLF/LF storage differs). Its accepted ISO hash was
 independently reread and matched. No redundant Phase 8 commit or deployment.
 
-Phase 9 feature checkpoint: resolve with
-`git log -1 --format='%H' --grep='^feat(rostifs): add persistent transactional filesystem v0.1$'`.
-A documentation-only follow-up may record that exact hash. No push, tag move,
+Phase 9 feature checkpoint: `4fb88fd062f3c667ee7682937752e94aa600cdc3`.
+Subject: `feat(rostifs): add persistent transactional filesystem v0.1`.
+Documentation-only updates do not change that verified kernel. No push, tag move,
 history rewrite, real-disk operation or remote deployment was performed.
-The preexisting untracked Python cache is unrelated and deliberately excluded.
+An untracked Python cache is deliberately excluded from the deliverables.
 
 ## 2. Implemented and locally verified
 

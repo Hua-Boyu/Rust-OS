@@ -20,8 +20,8 @@ MCP is the preferred external reference search/fetch provider.
 
 Inspect Git status/branch/HEAD/diff and preserve unrelated files/logs/caches.
 Phase 8: `8029f3209c36fcceaec6eaf9e8b3228be5376e0f`.
-Phase 9 feature checkpoint: resolve with
-`git log -1 --format='%H' --grep='^feat(rostifs): add persistent transactional filesystem v0.1$'`.
+Phase 9 feature checkpoint: `4fb88fd062f3c667ee7682937752e94aa600cdc3`.
+Subject: `feat(rostifs): add persistent transactional filesystem v0.1`.
 Documentation-only follow-up commits may sit above it; do not confuse them
 with a new kernel release. Verify the checkpoint exists and its code/build inputs
 match the completed acceptance before starting Phase 10. Do not push, reset,
