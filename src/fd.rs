@@ -235,6 +235,9 @@ impl FdTable {
         if slot.in_use {
             return Err(FdError::InvalidDescriptor);
         }
+        if slot.handle.generation == u32::MAX {
+            return Err(FdError::TableFull);
+        }
         slot.handle = handle(i, slot.handle.generation + 1);
         slot.kind = kind;
         slot.rights = rights;
@@ -259,7 +262,17 @@ impl FdTable {
             NodeKind::Directory => ResourceKind::Directory,
         };
         let fd = self.allocate_descriptor(kind, rights)?;
-        let open_index = self.allocate_open(node)?;
+        let open_index = match self.allocate_open(node) {
+            Ok(i) => i,
+            Err(error) => {
+                // The provisional generation was never published; undo it too.
+                let slot = &mut self.descriptors[fd as usize];
+                slot.in_use = false;
+                slot.handle.generation -= 1;
+                self.stats.open_slots -= 1;
+                return Err(error);
+            }
+        };
         let slot = &mut self.descriptors[fd as usize];
         slot.open = Some(open_index);
         // The descriptor handle points at the open record, so a stale handle
@@ -268,7 +281,7 @@ impl FdTable {
             open_index as usize,
             self.opens[open_index as usize].generation,
         );
-        self.stats.opens += 1;
+        self.stats.opens = self.stats.opens.saturating_add(1);
         Ok(fd)
     }
 
@@ -314,7 +327,7 @@ impl FdTable {
             return Err(FdError::InvalidHandle);
         }
         if open.generation != h.generation {
-            self.stats.stale_rejections += 1;
+            self.stats.stale_rejections = self.stats.stale_rejections.saturating_add(1);
             return Err(FdError::StaleHandle);
         }
         Ok(open)
@@ -340,7 +353,7 @@ impl FdTable {
     ) -> Result<(u8, NodeId, usize, ResourceKind), FdError> {
         let slot = *self.descriptor(fd)?;
         if !slot.rights.allows(required) {
-            self.stats.denials += 1;
+            self.stats.denials = self.stats.denials.saturating_add(1);
             return Err(FdError::PermissionDenied);
         }
         let open_index = slot.open.ok_or(FdError::NotOpen)?;
@@ -439,16 +452,16 @@ impl FdTable {
         slot.in_use = false;
         slot.open = None;
         if open_index.is_none() {
-            slot.handle = handle(fd as usize, slot.handle.generation + 1);
+            slot.handle = handle(fd as usize, slot.handle.generation.saturating_add(1));
         }
         self.stats.open_slots -= 1;
-        self.stats.closes += 1;
+        self.stats.closes = self.stats.closes.saturating_add(1);
         if let Some(i) = open_index {
             let open = &mut self.opens[i as usize];
             open.refs -= 1;
             if open.refs == 0 {
                 open.in_use = false;
-                open.generation += 1; // stale handles to this record now fail
+                open.generation = open.generation.saturating_add(1); // retire at MAX, never wrap
                 self.stats.open_records -= 1;
             }
         }
@@ -556,6 +569,178 @@ mod tests {
         fresh.opens[0].generation = u32::MAX;
         assert_eq!(fresh.allocate_open(NodeId::ROOT), Ok(1));
         assert_eq!(table.resolve(handle_at_open), Err(FdError::InvalidHandle));
+    }
+
+    #[test]
+    fn final_generation_last_close_retires_file_and_console() {
+        let mut fs = RamFs::new();
+        fs.create_file(NodeId::ROOT, "f").unwrap();
+        let mut table = FdTable::new();
+        table.opens[0].generation = u32::MAX - 1;
+        let fd = opened(&mut fs, &mut table, "f", file_rights());
+        let last_handle = table.info(fd).unwrap().handle;
+        assert_eq!(last_handle.generation, u32::MAX);
+        let duplicate = table.dup(fd, Rights::READ).unwrap();
+        table.close(fd).unwrap();
+        assert!(table.resolve(last_handle).is_ok());
+        assert_eq!(table.info(duplicate).unwrap().refs, 1);
+        table.close(duplicate).unwrap();
+        assert_eq!(table.opens[0].generation, u32::MAX);
+        assert_eq!(table.resolve(last_handle), Err(FdError::InvalidHandle));
+        let next = opened(&mut fs, &mut table, "f", file_rights());
+        assert_ne!(table.info(next).unwrap().handle.slot, last_handle.slot);
+        assert_eq!(table.resolve(last_handle), Err(FdError::InvalidHandle));
+        table.close(next).unwrap();
+
+        table.descriptors[STDOUT as usize].handle.generation = u32::MAX - 1;
+        table
+            .install(STDOUT, ResourceKind::ConsoleOutput, Rights::new(0))
+            .unwrap();
+        table.close(STDOUT).unwrap();
+        assert_eq!(
+            table.descriptors[STDOUT as usize].handle.generation,
+            u32::MAX
+        );
+        assert_eq!(table.stats().open_slots, 0);
+        assert_eq!(table.stats().open_records, 0);
+    }
+
+    #[test]
+    fn exhausted_install_rejects_without_changing_slots() {
+        let mut table = FdTable::new();
+        table.descriptors[STDOUT as usize].handle.generation = u32::MAX;
+        let before = table.descriptors;
+        let stats = table.stats();
+        assert_eq!(
+            table.install(STDOUT, ResourceKind::ConsoleOutput, Rights::new(0)),
+            Err(FdError::TableFull)
+        );
+        assert_eq!(table.descriptors, before);
+        assert_eq!(table.stats(), stats);
+        let fd = table
+            .allocate_descriptor(ResourceKind::ConsoleOutput, Rights::new(0))
+            .unwrap();
+        assert_ne!(fd, STDOUT);
+    }
+
+    #[test]
+    fn failed_open_with_unavailable_records_preserves_live_counts() {
+        let mut fs = RamFs::new();
+        fs.create_file(NodeId::ROOT, "f").unwrap();
+        for retired in [false, true] {
+            let mut table = FdTable::new();
+            table.init_console();
+            let existing = opened(&mut fs, &mut table, "f", file_rights());
+            let existing_info = table.info(existing).unwrap();
+            for i in 1..MAX_HANDLES {
+                if retired {
+                    table.opens[i].generation = u32::MAX;
+                } else {
+                    table.allocate_open(NodeId::ROOT).unwrap();
+                }
+            }
+            let stats = table.stats();
+            let records = table.opens;
+            for _ in 0..MAX_DESCRIPTORS * 2 {
+                assert_eq!(
+                    table.open(&fs, NodeId::ROOT, "f", file_rights()),
+                    Err(FdError::TableFull)
+                );
+                assert_eq!(table.stats(), stats);
+                assert_eq!(table.opens, records);
+                assert_eq!(table.info(existing).unwrap(), existing_info);
+                assert_eq!(
+                    table.descriptors.iter().filter(|slot| slot.in_use).count(),
+                    stats.open_slots
+                );
+            }
+            table.close(existing).unwrap();
+            assert!(table.open(&fs, NodeId::ROOT, "f", file_rights()).is_ok());
+        }
+    }
+
+    #[test]
+    fn failed_open_does_not_retire_provisional_descriptor() {
+        let mut fs = RamFs::new();
+        fs.create_file(NodeId::ROOT, "f").unwrap();
+        let mut table = FdTable::new();
+        table.descriptors[0].handle.generation = u32::MAX - 1;
+        for record in &mut table.opens {
+            record.generation = u32::MAX;
+        }
+        let stats = table.stats();
+        assert_eq!(
+            table.open(&fs, NodeId::ROOT, "f", file_rights()),
+            Err(FdError::TableFull)
+        );
+        assert_eq!(table.stats(), stats);
+        assert_eq!(table.descriptors[0].handle.generation, u32::MAX - 1);
+        assert_eq!(
+            table.install(0, ResourceKind::ConsoleOutput, Rights::new(0)),
+            Ok(0)
+        );
+        table.close(0).unwrap();
+        assert_eq!(table.descriptors[0].handle.generation, u32::MAX);
+    }
+
+    #[test]
+    fn cumulative_opens_saturate() {
+        let mut fs = RamFs::new();
+        fs.create_file(NodeId::ROOT, "f").unwrap();
+        let mut table = FdTable::new();
+        table.stats.opens = usize::MAX - 1;
+        for _ in 0..2 {
+            let fd = opened(&mut fs, &mut table, "f", file_rights());
+            table.close(fd).unwrap();
+            assert_eq!(table.stats().opens, usize::MAX);
+        }
+        assert_eq!(table.stats().open_slots, 0);
+        assert_eq!(table.stats().open_records, 0);
+    }
+
+    #[test]
+    fn cumulative_closes_saturate() {
+        let mut table = FdTable::new();
+        table.init_console();
+        table.stats.closes = usize::MAX - 1;
+        for fd in [STDOUT, STDERR] {
+            table.close(fd).unwrap();
+            assert_eq!(table.stats().closes, usize::MAX);
+        }
+        assert_eq!(table.stats().open_slots, 1);
+        assert_eq!(table.stats().open_records, 0);
+    }
+
+    #[test]
+    fn cumulative_denials_saturate() {
+        let mut table = FdTable::new();
+        table.init_console();
+        table.stats.denials = usize::MAX - 1;
+        for _ in 0..2 {
+            assert_eq!(table.seek(STDOUT, 0), Err(FdError::PermissionDenied));
+            assert_eq!(table.stats().denials, usize::MAX);
+        }
+        assert_eq!(table.stats().open_slots, 3);
+        assert_eq!(table.stats().open_records, 0);
+    }
+
+    #[test]
+    fn cumulative_stale_rejections_saturate() {
+        let mut fs = RamFs::new();
+        fs.create_file(NodeId::ROOT, "f").unwrap();
+        let mut table = FdTable::new();
+        let fd = opened(&mut fs, &mut table, "f", file_rights());
+        let stale = table.info(fd).unwrap().handle;
+        table.close(fd).unwrap();
+        let live = opened(&mut fs, &mut table, "f", file_rights());
+        table.stats.stale_rejections = usize::MAX - 1;
+        for _ in 0..2 {
+            assert_eq!(table.resolve(stale), Err(FdError::StaleHandle));
+            assert_eq!(table.stats().stale_rejections, usize::MAX);
+        }
+        assert!(table.resolve(table.info(live).unwrap().handle).is_ok());
+        assert_eq!(table.stats().open_slots, 1);
+        assert_eq!(table.stats().open_records, 1);
     }
 
     #[test]
