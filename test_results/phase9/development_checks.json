@@ -1,0 +1,71 @@
+{
+  "phase": 9,
+  "release_acceptance": false,
+  "checks": [
+    {
+      "name": "initial portable filesystem host tests (before COW rewrite)",
+      "status": "FAIL",
+      "passed": 8,
+      "failed": 10,
+      "details": "CRC32C reference expectations, invalid formatted metadata, and flawed fault injection/transaction behavior; initial implementation not accepted."
+    },
+    {
+      "name": "host tests invoked inside kernel cargo configuration",
+      "status": "HARNESS_FAIL",
+      "exit_code": 101,
+      "details": "Cannot find crate test under custom bare-metal target. Correct path is host cargo from outside repository with absolute manifest."
+    },
+    {
+      "name": "first production build during portable scratch-buffer refactor",
+      "status": "FAIL",
+      "exit_code": 101,
+      "details": "12 E0308 RefMut<[u8;4096]> to byte-slice conversion errors in in-flight storage core. No release artifact published."
+    },
+    {
+      "name": "Python existing media-reader regressions",
+      "status": "PASS",
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "name": "Python acceptance-runner regressions including portable source freeze",
+      "status": "PASS",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "name": "first full acceptance",
+      "status": "FAIL",
+      "passed_gates": 32,
+      "total_attempted_gates": 33,
+      "evidence": "test_results/phase9/acceptance_20261013T134706Z_ibbq640i/acceptance.json",
+      "details": "GRUB ISO first mutation returned actual ATA poll timeout; no versioned release ISO published."
+    },
+    {
+      "name": "old ATA polling budget and unchecked counter regressions",
+      "status": "RED",
+      "exit_codes": [
+        101,
+        101
+      ],
+      "evidence": [
+        "test_results/phase9/red_asynchronous_flush_can_exceed_old_poll_budget.log",
+        "test_results/phase9/red_long_lived_transfer_counters.log"
+      ]
+    },
+    {
+      "name": "corrected ATA budget repeated ISO128 reproduction",
+      "status": "PASS",
+      "runs": 3,
+      "checks_per_run": 168,
+      "evidence": "test_results/phase9/poll_budget_repro/"
+    },
+    {
+      "name": "final complete acceptance",
+      "status": "PASS",
+      "passed_gates": 36,
+      "total_gates": 36,
+      "evidence": "test_results/phase9/acceptance_20261013T142104Z_1m6_x1ot/acceptance.json"
+    }
+  ]
+}

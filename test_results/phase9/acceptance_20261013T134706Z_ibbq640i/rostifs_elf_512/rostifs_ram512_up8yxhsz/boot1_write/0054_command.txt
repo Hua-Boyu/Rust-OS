@@ -1,0 +1,25 @@
+Paging: enabled
+Page directory: 0x00001000
+Mapped pages: 129503
+Page size: 4096 bytes
+
+Kernel heap:
+Current capacity: 1048576 bytes
+Used: 8232 bytes
+Free: 1040344 bytes
+Failed allocations: 0
+Live allocations: 2
+Invalid deallocs: 0
+Free blocks: 2 (largest 1039680 bytes)
+Alignment waste: 0 bytes
+Growth pages: 0
+
+Page faults: 0
+rosti>rostifs
+RostiFS v0.1 format 1 mounted /mnt/rosti
+generation: 1 valid roots: 2
+volume: 256 blocks free: 249 used: 7
+filesystem metadata: 22324 bytes; mount allocations: 0; cache: 0
+rosti>diskwrite 8
+block: raw writes refused while RostiFS is mounted
+rosti>

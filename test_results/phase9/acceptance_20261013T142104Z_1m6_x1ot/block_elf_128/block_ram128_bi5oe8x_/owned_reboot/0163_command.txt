@@ -1,0 +1,25 @@
+capacity: 65552 sectors x 512 bytes
+test-owned media: yes
+block stats: reads 17 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 8704
+ protected_denials 0
+rosti>diskread 1
+block: sector 1 mismatch 510 bytes
+rosti>diskwrite 0
+block: write refused: media not test-owned
+rosti>diskread 65552
+block: LBA out of range
+rosti>diskwrite 65552
+block: LBA out of range
+rosti>diskread 268435456
+block: LBA out of range
+rosti>diskwrite 4294967295
+block: LBA out of range
+rosti>diskwrite -1
+block: usage: diskwrite <sector>
+rosti>diskwrite 1
+block: wrote sector 1
+rosti>diskwrite 65551
+block: wrote sector 65551
+rosti>diskread 1
+block: sector 1 pattern match (512 bytes)
+rosti>

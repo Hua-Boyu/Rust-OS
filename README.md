@@ -1,5 +1,45 @@
 # Rust operating system on i686
 
+## Phase 9: RostiFS v0.1
+
+Rosti OS aims to extend the useful life of older computers through secure,
+efficient computing and reduced electronic waste. RostiFS is a portable,
+dependency-free `no_std` Rust storage engine, not a Linux filesystem port.
+
+The existing capability descriptors and VFS now route files under `/mnt/rosti`
+to an explicitly test-owned ATA image. `/` remains RAMFS; no boot-root migration
+or automatic formatting occurs. Invalid volumes leave the RAMFS recovery shell
+available. Existing commands (`ls`, `cd`, `pwd`, `mkdir`, `touch`, `cat`, `write`,
+`append`, `rm`, `rmdir`, `stat`) work through the existing descriptor/VFS stack.
+`rostifs` reports mount, capacity and bounded metadata memory. Raw `diskwrite`
+is refused while a filesystem is mounted.
+
+Format version **1** uses 4 KiB blocks, explicit little-endian encoding, two
+checksummed root slots, two complete metadata banks and copy-on-write file data.
+Each mutation orders **data → flush → metadata → flush → root → flush**.
+Recovery validates snapshots rather than guessing repairs. CRC32C detects
+accidental corruption; it is not cryptographic integrity. **Physical power-loss
+safety has not been established.**
+
+Initial limits: 64 nodes including root, 60-byte UTF-8 names, 256-byte paths,
+256 KiB files in contiguous extents, volumes up to 256 MiB. Metadata and scratch
+are fixed; mount/traversal/write operations allocate no heap memory. Old snapshot
+retention and fragmentation can produce a full-volume error despite nominal
+free capacity. Rename, timestamps, symlinks, compression and user snapshots are
+not implemented.
+
+Host tools: `mkrostifs`, `rostifsck`, `rostifs-inspect`; build the portable crate
+with `--features host-tools` from outside the kernel Cargo configuration. They
+accept only explicit absolute test-owned `.img` paths under this repository's
+`dist/`, reject raw devices, and never overwrite an existing image on format.
+See [the format and tool contract](crates/rostifs/FORMAT.md).
+
+Local verification and exact release artifacts are recorded in `HANDOVER.md`
+and `test_results/phase9/`; `scripts/phase6_verify.py` now runs Phase 9 acceptance.
+Proxmox VM 103 remains on Phase 7 with no data disk attached; Phase 9 is not
+live-verified or deployed. The older milestone descriptions below are archived
+context and do not override this section.
+
 ## todo:  
 - [x] gdt loading  
 - [x] interrupts  

@@ -10,6 +10,7 @@ struct FakeBus {
     command_status: u8,
     completion_status: u8,
     flush_status: u8,
+    flush_busy_polls: usize,
     command: u8,
     script: VecDeque<u8>,
     signature: u8,
@@ -33,6 +34,7 @@ impl FakeBus {
             command_status: STATUS_DRQ,
             completion_status: 0x40,
             flush_status: 0x40,
+            flush_busy_polls: 0,
             command: 0,
             script: VecDeque::new(),
             signature: 0,
@@ -61,6 +63,11 @@ impl AtaBus for FakeBus {
         self.events.push(('w', port, val));
         if port == PORT_STATUS {
             self.command = val;
+            if val == CMD_FLUSH && self.flush_busy_polls != 0 {
+                self.script
+                    .extend(std::iter::repeat_n(STATUS_BSY, self.flush_busy_polls));
+                self.script.push_back(self.flush_status);
+            }
             self.status = if val == CMD_FLUSH {
                 self.flush_status
             } else {
@@ -297,6 +304,39 @@ fn writes_flush_cache_before_success() {
         .collect();
     assert_eq!(cmds, vec![CMD_IDENTIFY, CMD_WRITE, CMD_FLUSH]);
     assert_eq!(d.stats().writes, 1);
+}
+#[test]
+fn explicit_flush_barrier_issues_command_and_reports_failure() {
+    let mut d = device(true);
+    BlockDevice::flush(&mut d).unwrap();
+    assert!(d.bus().writes().contains(&(PORT_STATUS, CMD_FLUSH)));
+    d.bus_mut().flush_status = STATUS_ERR;
+    assert_eq!(
+        BlockDevice::flush(&mut d),
+        Err(BlockError::DeviceError(STATUS_ERR))
+    );
+    assert_eq!(d.stats().writes, 0);
+    let mut unprobed = AtaDevice::new(FakeBus::new(8, "X"), PRIMARY_BASE, 0, false);
+    assert_eq!(BlockDevice::flush(&mut unprobed), Err(BlockError::NoDevice));
+    assert!(unprobed.bus().events.is_empty());
+    assert_eq!(
+        BlockDevice::flush(&mut RamDisk::new()),
+        Err(BlockError::UnsupportedAddressing)
+    );
+}
+#[test]
+fn asynchronous_flush_can_exceed_old_poll_budget_but_is_still_bounded() {
+    let mut d = device(true);
+    d.bus_mut().flush_busy_polls = 8192;
+    BlockDevice::flush(&mut d).unwrap();
+    assert!(d.bus().script.is_empty());
+    d.write_sector(1, &[0x55; 512]).unwrap();
+    assert_eq!(d.stats().writes, 1);
+    assert_eq!(d.stats().timeouts, 0);
+    d.bus_mut().flush_status = STATUS_BSY;
+    assert_eq!(BlockDevice::flush(&mut d), Err(BlockError::Timeout));
+    assert_eq!(d.stats().timeouts, 1);
+    assert!(POLL_LIMIT <= 100_000);
 }
 #[test]
 fn completion_drq_or_fault_prevents_success_and_flush() {

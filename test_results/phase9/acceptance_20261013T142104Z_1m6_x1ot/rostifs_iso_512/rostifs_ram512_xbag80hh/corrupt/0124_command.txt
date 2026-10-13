@@ -1,0 +1,25 @@
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>stat /mnt/rosti
+fs: not found
+rosti>pwd
+/
+rosti>write /recovery.txt Recovery RAMFS
+ok
+rosti>cat /recovery.txt
+Recovery RAMFS
+rosti>rm /recovery.txt
+ok
+rosti>stat /recovery.txt
+fs: not found
+rosti>fdlist
+fd 0 console-in rights 0 offset 0 refs 0
+fd 1 console-out rights 0 offset 0 refs 0
+fd 2 console-out rights 0 offset 0 refs 0
+rosti>

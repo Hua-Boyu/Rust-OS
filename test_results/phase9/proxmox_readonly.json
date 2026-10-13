@@ -1,0 +1,20 @@
+{
+  "operation": "read-only pve_get_qemu_config and pve_get_qemu_status",
+  "node": "pve",
+  "vmid": 103,
+  "name": "rosti-dev",
+  "status": "running",
+  "memory_mib": 512,
+  "cores": 1,
+  "bios": "seabios",
+  "runtime_machine": "pc-i440fx-11.0+pve0",
+  "ide2": "local:iso/rosti_phase7_20261012T181123Z.iso,media=cdrom,size=9204K",
+  "boot": "order=ide2",
+  "serial0": "socket",
+  "data_disks": [],
+  "configuration_digest": "c0253f4f9bc55e6c3f222dcc893833cc46157a4b",
+  "modifications": [],
+  "live_rostifs_verified": false,
+  "verified_again_at_completion": true,
+  "config_unchanged": true
+}

@@ -1,0 +1,2 @@
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `Documents\Rust-OS\crates\rostifs\target\debug\mkrostifs.exe --test-owned-image 'C:\Users\iamsv\Documents\Rust-OS\dist\phase9_rostifs_jf7s4x_k\owned.img' --blocks 256`

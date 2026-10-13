@@ -1,5 +1,70 @@
 # ARCHITECTURE
 
+## Phase 9: current persistent-storage architecture
+
+Applications/shell → capability-based `FdTable` → `Vfs`/`MountedFs` →
+`RostiBackend` → portable `rostifs::engine::RostiFs` → `BlockDevice` →
+shared ATA/IDE driver → authorized test image.
+
+- `crates/rostifs/` is independently host-testable and `no_std`, with no unsafe
+  code, heap allocations or third-party dependencies. Its authoritative wire
+  format, bounds, checksums, transaction assumptions and recovery algorithm are
+  specified in [FORMAT.md](crates/rostifs/FORMAT.md).
+- `src/fs/mounted.rs` traverses mount boundaries component-by-component, including
+  `..`; it preserves RAMFS type checks, quotas and absent-disk accounting.
+  `/mnt/rosti` is exposed only after successful validation. Node identities are
+  interned with generational bindings; RAMFS and mounted nodes cannot alias.
+  Unmount rejects mounted cwd and active descriptors, including duplicates and
+  deleted-but-open files. The shell does not expose unmount/remount yet.
+- `src/fs/rosti.rs` adapts portable VFS types without layout casts. The core and
+  adapter are const-initialized in static storage, mounted in place, and never
+  returned by value on the 16 KiB boot stack. Root RAMFS remains independent.
+- `src/storage.rs` provides distinct filesystem/diagnostic views of one ATA
+  driver behind a main-context mutex; no mutable ATA reference is aliased. IRQs
+  must never touch this mutex, descriptors or filesystem I/O. ATA sector writes
+  still flush individually; an explicit bounded CACHE FLUSH implements each
+  filesystem ordering barrier. Flush failures propagate, never become success.
+- `src/fs_commands.rs` closes command-owned descriptors on every exit, including
+  persistent I/O failures, without closing preexisting handles. Existing read-only
+  rights, shared offsets, attenuation, stale-handle rejection and resource counts
+  remain the descriptor layer's responsibility.
+
+Allocation is derived from validated extent inventories, not a disk-size RAM
+bitmap. Replacement extents cannot overlap either valid committed snapshot.
+Deleting data frees it only after retained generations no longer reference it.
+Directory parent/name records are inline in the bounded metadata bank. A file
+update copies its complete bounded extent; fragmentation and COW headroom are
+intentional v0.1 limitations.
+
+The commit protocol publishes an alternating root only after data and metadata
+barriers, then performs a final barrier before acknowledging success. I/O error
+leaves the old RAM snapshot visible and poisons mutations until remount, because
+the durable outcome may be old or new. Mount reads and validates both complete
+snapshots, their file checksums, references and allocation before selecting the
+higher valid generation. Unsupported versions or unreadable candidate roots
+fail closed. One valid root is degraded recovery; `rostifsck` reports degradation
+without repairs. No valid root leaves the RAMFS recovery shell reachable.
+
+Memory measured from the actual i686 ELF and QEMU: namespace **6,940 B**, engine
+plus adapter **21,300 B**, total filesystem static objects **28,240 B** (including
+root RAMFS). Shared scratch **4,096 B**, included in the engine; no cache and no
+per-operation heap allocation. The `rostifs` metadata-table diagnostic is
+**22,324 B**, excluding RAMFS and 28 namespace control bytes. Descriptor table
+is **2,328 B**, ATA driver/mutex **104 B**, separately accounted. These objects
+remain resident even if mounting fails. Directory/path work uses bounded loops
+and small inline buffers; file writes never allocate file-sized RAM staging.
+Compiler stack reservations are not hardware high-water measurements. See
+`test_results/phase9/memory_measurements.json` and the format's memory section.
+
+Future, **not implemented**: optional LZ4, verified read-only OS images, signed
+manifests, user snapshots, selective data COW, immutable-object deduplication,
+file-backed mmap, swap-aware caches, HDD/SSD allocation policies, model-file
+optimizations, SMB/NFS through VFS and Windows/Linux compatibility bridges.
+These do not add GPU or AI requirements to this kernel.
+
+The sections below describe prior milestone architecture; current storage
+behavior is specified above and in FORMAT.md.
+
 Bare-metal i686 kernel, Rust (nightly, custom JSON target `target.json`,
 build-std core/alloc), no external crates beyond core/alloc.
 

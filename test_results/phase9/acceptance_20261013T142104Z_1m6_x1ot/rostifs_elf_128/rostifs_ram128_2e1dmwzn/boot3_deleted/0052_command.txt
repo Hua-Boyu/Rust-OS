@@ -1,0 +1,25 @@
+total size: 130559K
+frame allocator: 32639 frames total, 2051 reserved, 30604 free
+paging window: 0x07fe0000 (page tables built, validated)
+hi
+old idtr: Idtr { limit: 1023, base: 0 }
+new idtr: Idtr { limit: 2047, base: 3981748 }
+ps2 init enable
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>cd /mnt/rosti
+ok
+rosti>pwd
+/mnt/rosti
+rosti>cd /
+ok
+rosti>stat /mnt/rosti/persist
+fs: not found
+rosti>

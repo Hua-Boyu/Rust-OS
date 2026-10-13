@@ -1,0 +1,5 @@
+OK version=1 fs_id=15631482690165805569 generation=7 blocks=256 used=9 free=247 nodes=4 metadata_bytes=20296
+Directory 0 /
+Directory 0 /persist
+Directory 0 /persist/nested
+File 29 /persist/nested/message.txt

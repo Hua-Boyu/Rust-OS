@@ -179,7 +179,7 @@ fn run_command(
     match name {
         "help" => {
             say(
-                "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch cat write append rm rmdir stat fsstress fdlist disk diskwrite diskread",
+                "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch cat write append rm rmdir stat fsstress fdlist disk diskwrite diskread rostifs",
             );
         }
         "clear" => {
@@ -310,6 +310,30 @@ fn run_command(
                 say("fs: invalid path");
             }
         }
+        "rostifs" => {
+            if !rest.trim().is_empty() {
+                say("fs: invalid path");
+            } else if let Some(info) = fs.persistent_info() {
+                report!("RostiFS v0.1 format 1 mounted /mnt/rosti");
+                report!(
+                    "generation: {} valid roots: {}",
+                    info.generation,
+                    info.valid_roots
+                );
+                report!(
+                    "volume: {} blocks free: {} used: {}",
+                    info.total_blocks,
+                    info.free_blocks,
+                    info.used_blocks
+                );
+                report!(
+                    "filesystem metadata: {} bytes; mount allocations: 0; cache: 0",
+                    info.metadata_bytes
+                );
+            } else {
+                say("RostiFS: not mounted (RAMFS recovery shell available)");
+            }
+        }
         "disk" => {
             if disk.capacity_sectors() == 0 {
                 say("block: no device (IDENTIFY failed or 28-bit addressing unsupported)");
@@ -338,6 +362,10 @@ fn run_command(
             }
         }
         "diskwrite" => {
+            if fs.persistent_info().is_some() {
+                say("block: raw writes refused while RostiFS is mounted");
+                return;
+            }
             let lba = match parse_lba(rest) {
                 Some(l) => l,
                 None => {

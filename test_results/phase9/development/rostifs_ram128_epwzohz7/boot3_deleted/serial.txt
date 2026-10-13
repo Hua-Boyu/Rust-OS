@@ -1,0 +1,41 @@
+ROSTI: entered kernel_main
+DBG: alloc init
+DBG: mmap print
+DBG: mmap printed
+DBG: mmap parsed
+DBG: mem info set
+DBG: frame init start
+DBG: frame lock acquired
+DBG: init entered
+DBG: frame init passes done
+DBG: frame init done
+DBG: page tables built
+ROSTI: paging enabled (CR0.PG, identity map)
+ROSTI: block device present
+ROSTI: RostiFS mounted at /mnt/rosti
+ROSTI: boot complete
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>cd /mnt/rosti
+ok
+rosti>pwd
+/mnt/rosti
+rosti>cd /
+ok
+rosti>stat /mnt/rosti/persist
+fs: not found
+rosti>stat /mnt/rosti/persist/nested/message.txt
+fs: not found
+rosti>ls /mnt/rosti
+rosti>fdlist
+fd 0 console-in rights 0 offset 0 refs 0
+fd 1 console-out rights 0 offset 0 refs 0
+fd 2 console-out rights 0 offset 0 refs 0
+rosti>

@@ -1,0 +1,52 @@
+{
+  "measurement": "ELF32 symbol table and real QEMU shell/heap counters",
+  "kernel_sha256": "b129b1ce8dd1c6c785f5fc0aba6d3d9c8c5f4e676433ef519d505fcd4befd9b8",
+  "elf_static_symbols": [
+    {
+      "symbol": "stack_bottom",
+      "address": "0x2b7000",
+      "bytes": 0
+    },
+    {
+      "symbol": "stack_top",
+      "address": "0x2bb000",
+      "bytes": 0
+    },
+    {
+      "symbol": "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main10FILESYSTEM",
+      "address": "0x2a0284",
+      "bytes": 6940
+    },
+    {
+      "symbol": "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main11DESCRIPTORS",
+      "address": "0x2a1da0",
+      "bytes": 2328
+    },
+    {
+      "symbol": "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main7BACKEND",
+      "address": "0x2a26e8",
+      "bytes": 21300
+    },
+    {
+      "symbol": "_RNvNtCsiGpFisFMzhI_6kernel7storage4DISK",
+      "address": "0x2b139c",
+      "bytes": 104
+    }
+  ],
+  "filesystem_namespace_bytes": 6940,
+  "portable_adapter_bytes": 21300,
+  "descriptor_table_bytes": 2328,
+  "disk_driver_mutex_bytes": 104,
+  "boot_stack_bytes": 16384,
+  "qemu_report": "test_results/phase9/acceptance_20261013T142104Z_1m6_x1ot/rostifs_iso_512/rostifs_ram512_xbag80hh/report.json",
+  "qemu_reported_persistent_metadata_tables_bytes": 22324,
+  "mount_heap_allocations": 0,
+  "directory_traversal_heap_allocations": 0,
+  "persistent_write_heap_allocations": 0,
+  "cache_bytes": 0,
+  "shared_scratch_bytes": 4096,
+  "observed_heap_used_before_and_after": 8232,
+  "observed_growth_pages_before_and_after": 0,
+  "limitations": "Symbol sizes measure full static objects. Shell metadata diagnostics count engine+binding tables, excluding 28 namespace control bytes. Static objects remain resident even without a mount. Stack reservations are compiler estimates, not hardware high-water measurement.",
+  "filesystem_total_static_bytes": 28240
+}

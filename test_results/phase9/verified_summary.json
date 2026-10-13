@@ -1,0 +1,202 @@
+{
+  "acceptance": "test_results\\phase9\\acceptance_20261013T142104Z_1m6_x1ot\\acceptance.json",
+  "overall": "PASS",
+  "gates_total": 36,
+  "gates_passed": 36,
+  "source_inputs": 80,
+  "iso": {
+    "name": "rosti_phase9_20261013T142104Z.iso",
+    "path": "dist\\rosti_phase9_20261013T142104Z.iso",
+    "sha256": "00de8b73281ecb5dfea20297908ad781f42036fbf369966196a8e81df284db2b",
+    "bytes": 10268672,
+    "kernel_sha256": "b129b1ce8dd1c6c785f5fc0aba6d3d9c8c5f4e676433ef519d505fcd4befd9b8"
+  },
+  "host_tests": {
+    "host": {
+      "pass": 132,
+      "fail": 0
+    },
+    "rostifs_host": {
+      "pass": 20,
+      "fail": 0
+    },
+    "rostifs_tools": {
+      "pass": 4,
+      "fail": 0
+    }
+  },
+  "matrix": [
+    {
+      "media": "elf",
+      "ram_mib": 128,
+      "checks": 168,
+      "commands": 56,
+      "report": "test_results\\phase9\\acceptance_20261013T142104Z_1m6_x1ot\\rostifs_elf_128\\rostifs_ram128_2e1dmwzn\\report.json",
+      "image": "dist\\phase9_rostifs_470b26h7\\owned.img",
+      "after_write_sha256": "d159072ceaacada360bf1432f40d58d409f71421362c1b8f6ef53a6a14de04c4",
+      "after_delete_sha256": "9f87c48a6c7f6d2c6e00e47395b9ca9452109f9d2f4f5a8e7f942a738b67e001",
+      "metadata_tables_bytes": 22324,
+      "memory": {
+        "before persistent writes": {
+          "used": 8232,
+          "capacity": 1048576,
+          "growth_pages": 0,
+          "failed_allocations": 0,
+          "live_allocations": 2,
+          "fs_storage": 0,
+          "fs_entries": 3,
+          "fd_open_slots": 3,
+          "fd_open_records": 0,
+          "fd_opens": 0,
+          "fd_closes": 0,
+          "fd_denials": 0,
+          "fd_stale": 0
+        },
+        "after persistent writes": {
+          "used": 8232,
+          "capacity": 1048576,
+          "growth_pages": 0,
+          "failed_allocations": 0,
+          "live_allocations": 2,
+          "fs_storage": 4096,
+          "fs_entries": 6,
+          "fd_open_slots": 3,
+          "fd_open_records": 0,
+          "fd_opens": 8,
+          "fd_closes": 8,
+          "fd_denials": 0,
+          "fd_stale": 0
+        }
+      }
+    },
+    {
+      "media": "elf",
+      "ram_mib": 512,
+      "checks": 168,
+      "commands": 56,
+      "report": "test_results\\phase9\\acceptance_20261013T142104Z_1m6_x1ot\\rostifs_elf_512\\rostifs_ram512_42soyzim\\report.json",
+      "image": "dist\\phase9_rostifs_ycvu0r34\\owned.img",
+      "after_write_sha256": "cd206a249c04852cb7bdb415d2e3ea0ce168af456838b172b1d99fd807fee2c0",
+      "after_delete_sha256": "29bbfa9ecf8065f0f5444e49b5b0600292b1a4be846f51a492f3e19afc505578",
+      "metadata_tables_bytes": 22324,
+      "memory": {
+        "before persistent writes": {
+          "used": 8232,
+          "capacity": 1048576,
+          "growth_pages": 0,
+          "failed_allocations": 0,
+          "live_allocations": 2,
+          "fs_storage": 0,
+          "fs_entries": 3,
+          "fd_open_slots": 3,
+          "fd_open_records": 0,
+          "fd_opens": 0,
+          "fd_closes": 0,
+          "fd_denials": 0,
+          "fd_stale": 0
+        },
+        "after persistent writes": {
+          "used": 8232,
+          "capacity": 1048576,
+          "growth_pages": 0,
+          "failed_allocations": 0,
+          "live_allocations": 2,
+          "fs_storage": 4096,
+          "fs_entries": 6,
+          "fd_open_slots": 3,
+          "fd_open_records": 0,
+          "fd_opens": 8,
+          "fd_closes": 8,
+          "fd_denials": 0,
+          "fd_stale": 0
+        }
+      }
+    },
+    {
+      "media": "iso",
+      "ram_mib": 128,
+      "checks": 168,
+      "commands": 56,
+      "report": "test_results\\phase9\\acceptance_20261013T142104Z_1m6_x1ot\\rostifs_iso_128\\rostifs_ram128_im7t8rqy\\report.json",
+      "image": "dist\\phase9_rostifs_jf7s4x_k\\owned.img",
+      "after_write_sha256": "8cc83929816664c1e90edf100acb455680aaddb4ddbdd6cb1f336b6ab920e903",
+      "after_delete_sha256": "f7d5bf79d95322ab3ee7ac8fd4b2b6cadbb4e70943506bf759d1ccdffe479508",
+      "metadata_tables_bytes": 22324,
+      "memory": {
+        "before persistent writes": {
+          "used": 8232,
+          "capacity": 1048576,
+          "growth_pages": 0,
+          "failed_allocations": 0,
+          "live_allocations": 2,
+          "fs_storage": 0,
+          "fs_entries": 3,
+          "fd_open_slots": 3,
+          "fd_open_records": 0,
+          "fd_opens": 0,
+          "fd_closes": 0,
+          "fd_denials": 0,
+          "fd_stale": 0
+        },
+        "after persistent writes": {
+          "used": 8232,
+          "capacity": 1048576,
+          "growth_pages": 0,
+          "failed_allocations": 0,
+          "live_allocations": 2,
+          "fs_storage": 4096,
+          "fs_entries": 6,
+          "fd_open_slots": 3,
+          "fd_open_records": 0,
+          "fd_opens": 8,
+          "fd_closes": 8,
+          "fd_denials": 0,
+          "fd_stale": 0
+        }
+      }
+    },
+    {
+      "media": "iso",
+      "ram_mib": 512,
+      "checks": 168,
+      "commands": 56,
+      "report": "test_results\\phase9\\acceptance_20261013T142104Z_1m6_x1ot\\rostifs_iso_512\\rostifs_ram512_xbag80hh\\report.json",
+      "image": "dist\\phase9_rostifs_9hydcvtc\\owned.img",
+      "after_write_sha256": "d267303ffe3e2f325d01f66d517b7e87ee3629ef266b8215d421ae74126859fa",
+      "after_delete_sha256": "fa0975d9c32f08fb3a64a41f510c49e3133e0b6a85aa6a69a95ac4070b6040e7",
+      "metadata_tables_bytes": 22324,
+      "memory": {
+        "before persistent writes": {
+          "used": 8232,
+          "capacity": 1048576,
+          "growth_pages": 0,
+          "failed_allocations": 0,
+          "live_allocations": 2,
+          "fs_storage": 0,
+          "fs_entries": 3,
+          "fd_open_slots": 3,
+          "fd_open_records": 0,
+          "fd_opens": 0,
+          "fd_closes": 0,
+          "fd_denials": 0,
+          "fd_stale": 0
+        },
+        "after persistent writes": {
+          "used": 8232,
+          "capacity": 1048576,
+          "growth_pages": 0,
+          "failed_allocations": 0,
+          "live_allocations": 2,
+          "fs_storage": 4096,
+          "fs_entries": 6,
+          "fd_open_slots": 3,
+          "fd_open_records": 0,
+          "fd_opens": 8,
+          "fd_closes": 8,
+          "fd_denials": 0,
+          "fd_stale": 0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+Failed allocations: 0
+Live allocations: 2
+Invalid deallocs: 0
+Free blocks: 2 (largest 1039680 bytes)
+Alignment waste: 0 bytes
+Growth pages: 0
+
+Page faults: 0
+rosti>rostifs
+RostiFS v0.1 format 1 mounted /mnt/rosti
+generation: 1 valid roots: 2
+volume: 256 blocks free: 249 used: 7
+filesystem metadata: 22324 bytes; mount allocations: 0; cache: 0
+rosti>diskwrite 8
+block: raw writes refused while RostiFS is mounted
+rosti>ls /mnt/rosti
+rosti>mkdir /mnt/rosti/persist
+ok
+rosti>mkdir /mnt/rosti/persist/nested
+ok
+rosti>write /mnt/rosti/persist/nested/message.txt old payload must disappear
+ok
+rosti>cat /mnt/rosti/persist/nested/message.txt
+old payload must disappear
+rosti>

@@ -1,0 +1,25 @@
+hi
+old idtr: Idtr { limit: 0, base: 0 }
+new idtr: Idtr { limit: 2047, base: 3981748 }
+ps2 init enable
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>cd /mnt/rosti
+ok
+rosti>pwd
+/mnt/rosti
+rosti>cd /
+ok
+rosti>stat /mnt/rosti/persist
+fs: not found
+rosti>stat /mnt/rosti/persist/nested/message.txt
+fs: not found
+rosti>ls /mnt/rosti
+rosti>

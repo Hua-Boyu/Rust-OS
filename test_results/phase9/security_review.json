@@ -1,0 +1,10 @@
+{
+  "scope": "reviewed staged task-owned source, docs and sanitized textual evidence; credential files and raw binaries excluded",
+  "scanned_staged_files": 1663,
+  "possible_literal_credentials": [],
+  "private_key_markers": [],
+  "source_documentation_diff_check": "PASS",
+  "evidence_whitespace": "preserved exactly as captured; trailing file data/console whitespace is intentional",
+  "excluded": "preexisting scripts/__pycache__/phase6_verify.cpython-311.pyc, ISO/images/target/raw VGA/qemu debug trace binaries",
+  "history": "not rewritten; historical disclosure note remains documented in BUGFIXES.md"
+}

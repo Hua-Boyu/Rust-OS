@@ -1,5 +1,10 @@
+mod mounted;
+mod rosti;
 mod vfs;
 use alloc::vec::Vec;
+pub use mounted::MountedFs;
+pub type MountFs = MountedFs;
+pub use rosti::RostiBackend;
 pub use vfs::{FsError, FsStats, Metadata, NodeId, NodeKind, Vfs};
 const MAX_NODES: usize = 64;
 pub const MAX_PATH: usize = 256;
@@ -97,7 +102,7 @@ impl RamFs {
     }
     fn id(&self, slot: usize) -> NodeId {
         NodeId {
-            slot: slot as u8,
+            slot: slot as u16,
             generation: self.generations[slot],
         }
     }

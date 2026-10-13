@@ -1,0 +1,6 @@
+   Compiling rostifs v0.1.0 (C:\Users\iamsv\Documents\Rust-OS\crates\rostifs)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.42s
+     Running `Documents\Rust-OS\crates\rostifs\target\debug\mkrostifs.exe --test-owned-image 'C:\Users\iamsv\Documents\Rust-OS\dist\phase9_rostifs_zozp57bh\owned.img' --blocks 256`
+mkrostifs: only repository dist test images accepted
+
+error: process didn't exit successfully: `Documents\Rust-OS\crates\rostifs\target\debug\mkrostifs.exe --test-owned-image 'C:\Users\iamsv\Documents\Rust-OS\dist\phase9_rostifs_zozp57bh\owned.img' --blocks 256` (exit code: 1)

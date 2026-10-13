@@ -1,0 +1,2 @@
+FAIL: RostiFS 22/24 checks; evidence: C:\Users\iamsv\Documents\Rust-OS\test_results\phase9\acceptance_20261013T134706Z_ibbq640i\rostifs_iso_128\rostifs_ram128_pd2ydri2
+AssertionError: boot1_write: complete independent process stage

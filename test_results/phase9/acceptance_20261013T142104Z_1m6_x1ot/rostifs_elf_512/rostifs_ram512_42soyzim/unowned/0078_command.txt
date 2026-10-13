@@ -1,0 +1,25 @@
+total size: 523775K
+frame allocator: 65439 frames total, 2019 reserved, 63308 free
+paging window: 0x1ffe0000 (page tables built, validated)
+hi
+old idtr: Idtr { limit: 1023, base: 0 }
+new idtr: Idtr { limit: 2047, base: 3981748 }
+ps2 init enable
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>stat /mnt/rosti
+fs: not found
+rosti>pwd
+/
+rosti>write /recovery.txt Recovery RAMFS
+ok
+rosti>cat /recovery.txt
+Recovery RAMFS
+rosti>

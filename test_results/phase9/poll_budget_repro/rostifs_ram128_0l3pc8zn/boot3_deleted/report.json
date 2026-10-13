@@ -1,0 +1,455 @@
+{
+  "ram_mib": 128,
+  "stress": false,
+  "checks": [
+    {
+      "name": "QMP greeting",
+      "pass": true
+    },
+    {
+      "name": "ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "QMP exact owned image attached",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after cd /mnt/rosti",
+      "pass": true
+    },
+    {
+      "name": "cd /mnt/rosti: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after pwd",
+      "pass": true
+    },
+    {
+      "name": "pwd: exact output '/mnt/rosti'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after cd /",
+      "pass": true
+    },
+    {
+      "name": "cd /: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after stat /mnt/rosti/persist",
+      "pass": true
+    },
+    {
+      "name": "/mnt/rosti/persist: missing, not echo-only evidence",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after stat /mnt/rosti/persist/nested/message.txt",
+      "pass": true
+    },
+    {
+      "name": "/mnt/rosti/persist/nested/message.txt: missing, not echo-only evidence",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after ls /mnt/rosti",
+      "pass": true
+    },
+    {
+      "name": "ls /mnt/rosti: exact output ''",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after fdlist",
+      "pass": true
+    },
+    {
+      "name": "fdlist contains only reserved console descriptors 0/1/2",
+      "pass": true
+    },
+    {
+      "name": "owned guest alive after stage",
+      "pass": true
+    },
+    {
+      "name": "no serial kernel fault",
+      "pass": true
+    },
+    {
+      "name": "owned QEMU process terminated",
+      "pass": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "cd /mnt/rosti",
+      "serial_fragment": "cd /mnt/rosti\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "size: 20, len: 639K, addr: 0x00, typ: 1",
+        "size: 20, len: 1K, addr: 0x9fc00, typ: 2",
+        "size: 20, len: 64K, addr: 0xf0000, typ: 2",
+        "size: 20, len: 129920K, addr: 0x100000, typ: 1",
+        "size: 20, len: 128K, addr: 0x7fe0000, typ: 2",
+        "size: 20, len: 256K, addr: 0xfffc0000, typ: 2",
+        "total size: 130559K",
+        "frame allocator: 32639 frames total, 2050 reserved, 30606 free",
+        "paging window: 0x07fe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 0, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3981748 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>cd /mnt/rosti",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "pwd",
+      "serial_fragment": "pwd\n/mnt/rosti\nrosti>",
+      "output": "/mnt/rosti\n",
+      "vga": [
+        "size: 20, len: 64K, addr: 0xf0000, typ: 2",
+        "size: 20, len: 129920K, addr: 0x100000, typ: 1",
+        "size: 20, len: 128K, addr: 0x7fe0000, typ: 2",
+        "size: 20, len: 256K, addr: 0xfffc0000, typ: 2",
+        "total size: 130559K",
+        "frame allocator: 32639 frames total, 2050 reserved, 30606 free",
+        "paging window: 0x07fe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 0, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3981748 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>cd /mnt/rosti",
+        "ok",
+        "rosti>pwd",
+        "/mnt/rosti",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cd /",
+      "serial_fragment": "cd /\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "size: 20, len: 128K, addr: 0x7fe0000, typ: 2",
+        "size: 20, len: 256K, addr: 0xfffc0000, typ: 2",
+        "total size: 130559K",
+        "frame allocator: 32639 frames total, 2050 reserved, 30606 free",
+        "paging window: 0x07fe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 0, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3981748 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>cd /mnt/rosti",
+        "ok",
+        "rosti>pwd",
+        "/mnt/rosti",
+        "rosti>cd /",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "stat /mnt/rosti/persist",
+      "serial_fragment": "stat /mnt/rosti/persist\nfs: not found\nrosti>",
+      "output": "fs: not found\n",
+      "vga": [
+        "total size: 130559K",
+        "frame allocator: 32639 frames total, 2050 reserved, 30606 free",
+        "paging window: 0x07fe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 0, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3981748 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>cd /mnt/rosti",
+        "ok",
+        "rosti>pwd",
+        "/mnt/rosti",
+        "rosti>cd /",
+        "ok",
+        "rosti>stat /mnt/rosti/persist",
+        "fs: not found",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "stat /mnt/rosti/persist/nested/message.txt",
+      "serial_fragment": "stat /mnt/rosti/persist/nested/message.txt\nfs: not found\nrosti>",
+      "output": "fs: not found\n",
+      "vga": [
+        "paging window: 0x07fe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 0, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3981748 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>cd /mnt/rosti",
+        "ok",
+        "rosti>pwd",
+        "/mnt/rosti",
+        "rosti>cd /",
+        "ok",
+        "rosti>stat /mnt/rosti/persist",
+        "fs: not found",
+        "rosti>stat /mnt/rosti/persist/nested/message.txt",
+        "fs: not found",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "ls /mnt/rosti",
+      "serial_fragment": "ls /mnt/rosti\nrosti>",
+      "output": "\n",
+      "vga": [
+        "hi",
+        "old idtr: Idtr { limit: 0, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3981748 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>cd /mnt/rosti",
+        "ok",
+        "rosti>pwd",
+        "/mnt/rosti",
+        "rosti>cd /",
+        "ok",
+        "rosti>stat /mnt/rosti/persist",
+        "fs: not found",
+        "rosti>stat /mnt/rosti/persist/nested/message.txt",
+        "fs: not found",
+        "rosti>ls /mnt/rosti",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "fdlist",
+      "serial_fragment": "fdlist\nfd 0 console-in rights 0 offset 0 refs 0\nfd 1 console-out rights 0 offset 0 refs 0\nfd 2 console-out rights 0 offset 0 refs 0\nrosti>",
+      "output": "fd 0 console-in rights 0 offset 0 refs 0\nfd 1 console-out rights 0 offset 0 refs 0\nfd 2 console-out rights 0 offset 0 refs 0\n",
+      "vga": [
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>cd /mnt/rosti",
+        "ok",
+        "rosti>pwd",
+        "/mnt/rosti",
+        "rosti>cd /",
+        "ok",
+        "rosti>stat /mnt/rosti/persist",
+        "fs: not found",
+        "rosti>stat /mnt/rosti/persist/nested/message.txt",
+        "fs: not found",
+        "rosti>ls /mnt/rosti",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>"
+      ]
+    }
+  ],
+  "memory": {},
+  "overall": "PASS",
+  "argv": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-cdrom",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+    "-boot",
+    "d",
+    "-machine",
+    "pc",
+    "-m",
+    "128",
+    "-display",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9\\poll_budget_repro\\rostifs_ram128_0l3pc8zn\\boot3_deleted\\serial.txt",
+    "-monitor",
+    "none",
+    "-qmp",
+    "tcp:127.0.0.1:2830,server=on,wait=off",
+    "-d",
+    "guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9\\poll_budget_repro\\rostifs_ram128_0l3pc8zn\\boot3_deleted\\qemu_log.txt",
+    "-drive",
+    "file=C:/Users/iamsv/Documents/Rust-OS/dist/phase9_rostifs_5of5niw2/owned.img,format=raw,if=ide,index=0,cache=writeback"
+  ],
+  "qemu_pid": 18804,
+  "query_block": [
+    {
+      "io-status": "ok",
+      "device": "ide1-cd0",
+      "locked": false,
+      "removable": true,
+      "inserted": {
+        "iops_rd": 0,
+        "detect_zeroes": "off",
+        "active": true,
+        "image": {
+          "limits": {
+            "request-alignment": 512,
+            "min-mem-alignment": 512,
+            "opt-mem-alignment": 4096,
+            "max-iov": 1024
+          },
+          "virtual-size": 10268672,
+          "filename": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+          "format": "raw",
+          "actual-size": 10268672
+        },
+        "iops_wr": 0,
+        "ro": true,
+        "children": [
+          {
+            "node-name": "#block086",
+            "child": "file"
+          }
+        ],
+        "node-name": "#block182",
+        "backing_file_depth": 0,
+        "drv": "raw",
+        "iops": 0,
+        "bps_wr": 0,
+        "write_threshold": 0,
+        "encrypted": false,
+        "bps": 0,
+        "bps_rd": 0,
+        "cache": {
+          "no-flush": false,
+          "direct": false,
+          "writeback": true
+        },
+        "file": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso"
+      },
+      "qdev": "/machine/unattached/device[5]",
+      "tray_open": false,
+      "type": "unknown"
+    },
+    {
+      "io-status": "ok",
+      "device": "ide0-hd0",
+      "locked": false,
+      "removable": false,
+      "inserted": {
+        "iops_rd": 0,
+        "detect_zeroes": "off",
+        "active": true,
+        "image": {
+          "limits": {
+            "request-alignment": 1,
+            "min-mem-alignment": 512,
+            "opt-mem-alignment": 4096,
+            "max-iov": 1024
+          },
+          "virtual-size": 1048576,
+          "filename": "C:/Users/iamsv/Documents/Rust-OS/dist/phase9_rostifs_5of5niw2/owned.img",
+          "format": "raw",
+          "actual-size": 1048576
+        },
+        "iops_wr": 0,
+        "ro": false,
+        "children": [
+          {
+            "node-name": "#block274",
+            "child": "file"
+          }
+        ],
+        "node-name": "#block305",
+        "backing_file_depth": 0,
+        "drv": "raw",
+        "iops": 0,
+        "bps_wr": 0,
+        "write_threshold": 0,
+        "encrypted": false,
+        "bps": 0,
+        "bps_rd": 0,
+        "cache": {
+          "no-flush": false,
+          "direct": false,
+          "writeback": true
+        },
+        "file": "C:/Users/iamsv/Documents/Rust-OS/dist/phase9_rostifs_5of5niw2/owned.img"
+      },
+      "qdev": "/machine/unattached/device[4]",
+      "type": "unknown"
+    },
+    {
+      "device": "floppy0",
+      "locked": false,
+      "removable": true,
+      "qdev": "/machine/unattached/device[15]",
+      "type": "unknown"
+    }
+  ],
+  "owned_qemu_exited": true,
+  "stage": "boot3_deleted",
+  "image": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase9_rostifs_5of5niw2\\owned.img",
+  "check_count": 21,
+  "command_count": 7
+}

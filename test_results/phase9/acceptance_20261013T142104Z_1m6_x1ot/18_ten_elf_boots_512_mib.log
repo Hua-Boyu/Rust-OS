@@ -1,0 +1,12 @@
+run 01: PASS  markers=enter+done exit=killed@timeout t=3.0s
+run 02: PASS  markers=enter+done exit=killed@timeout t=3.0s
+run 03: PASS  markers=enter+done exit=killed@timeout t=3.1s
+run 04: PASS  markers=enter+done exit=killed@timeout t=3.0s
+run 05: PASS  markers=enter+done exit=killed@timeout t=3.0s
+run 06: PASS  markers=enter+done exit=killed@timeout t=3.0s
+run 07: PASS  markers=enter+done exit=killed@timeout t=3.0s
+run 08: PASS  markers=enter+done exit=killed@timeout t=3.0s
+run 09: PASS  markers=enter+done exit=killed@timeout t=3.0s
+run 10: PASS  markers=enter+done exit=killed@timeout t=3.0s
+
+10/10 passed. Results: C:\Users\iamsv\Documents\Rust-OS\test_results\phase9\acceptance_20261013T142104Z_1m6_x1ot\boot_512\boot_results.csv

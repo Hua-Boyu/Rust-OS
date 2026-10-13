@@ -24,6 +24,7 @@ mod memory;
 mod multiboot;
 mod reboot;
 mod shell;
+mod storage;
 mod timer;
 mod utils;
 
@@ -160,11 +161,9 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     // Phase 8 block layer: acquire the primary IDE channel through the port
     // allocator, release the guard, then probe with finite bounded polls.
     // Main context only; ISRs never touch ports or this subsystem.
-    static mut DISK: block::AtaDevice<block::PortBus> =
-        block::AtaDevice::new(block::PortBus::new([0; 9]), block::PRIMARY_BASE, 0, false);
-    let disk = unsafe { &mut *(&raw mut DISK) };
     let ports = block::acquire_channel(&mut PORT_MANAGER.lock(), block::PRIMARY_BASE);
     if let Some(ports) = ports {
+        let disk = &mut *storage::DISK.lock();
         disk.rebind_ports(ports);
         match disk.probe() {
             Ok(()) if disk.capacity_sectors() > 0 => {
@@ -181,19 +180,45 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     } else {
         io::serial::puts("ROSTI: block ports unavailable (already owned)\n");
     }
-
-    io::serial::puts("ROSTI: boot complete\n");
-
-    shell::banner();
+    let mut disk = storage::DiskView::new();
 
     // Filesystem metadata lives in static storage, not the 16 KiB boot stack.
     // Exactly one main-loop owner; IRQ handlers never access this instance.
-    static mut FILESYSTEM: fs::RamFs = fs::RamFs::new();
+    static mut FILESYSTEM: fs::MountedFs = fs::MountedFs::new();
+    static mut FS_DISK: storage::FsDisk = storage::FsDisk;
+    // SAFETY: const initialization gives the backend the sole mutable view of
+    // FS_DISK for the entire kernel lifetime. Diagnostics use a different view
+    // serialized through storage::DISK; neither view aliases the ATA driver.
+    static mut BACKEND: fs::RostiBackend<'static> =
+        unsafe { fs::RostiBackend::new(&mut *(&raw mut FS_DISK)) };
     static mut DESCRIPTORS: fd::FdTable = fd::FdTable::new();
     let filesystem = unsafe { &mut *(&raw mut FILESYSTEM) };
     let descriptors = unsafe { &mut *(&raw mut DESCRIPTORS) };
     descriptors.init_console();
     let mut cwd = fs::NodeId::ROOT;
+
+    // Never format at boot. Unknown/corrupt owned media fails closed while the
+    // independent RAMFS recovery shell remains available. Unmarked disks are
+    // not probed as filesystems and cannot be modified by this kernel.
+    if disk.test_owned() {
+        let backend = unsafe { &mut *(&raw mut BACKEND) };
+        match backend
+            .mount_in_place()
+            .and_then(|()| filesystem.mount_backend(backend))
+        {
+            Ok(()) => io::serial::puts("ROSTI: RostiFS mounted at /mnt/rosti\n"),
+            Err(error) => {
+                use core::fmt::Write;
+                let _ = writeln!(
+                    io::serial::SerialWriter,
+                    "ROSTI: RostiFS mount rejected: {}",
+                    error
+                );
+            }
+        }
+    }
+    io::serial::puts("ROSTI: boot complete\n");
+    shell::banner();
 
     #[cfg(feature = "paging-fault-test")]
     unsafe {
@@ -215,7 +240,7 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     // keyboard/timer events wake the loop; hlt itself cannot be executed with
     // interrupts disabled (it would halt forever), so we never cli here.
     loop {
-        if !shell::poll(filesystem, descriptors, &mut cwd, disk) {
+        if !shell::poll(filesystem, descriptors, &mut cwd, &mut disk) {
             unsafe {
                 core::arch::asm!("hlt");
             }

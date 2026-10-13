@@ -1,0 +1,35 @@
+ROSTI: entered kernel_main
+DBG: alloc init
+DBG: mmap print
+DBG: mmap printed
+DBG: mmap parsed
+DBG: mem info set
+DBG: frame init start
+DBG: frame lock acquired
+DBG: init entered
+DBG: frame init passes done
+DBG: frame init done
+DBG: page tables built
+ROSTI: paging enabled (CR0.PG, identity map)
+ROSTI: block device present
+ROSTI: RostiFS mount rejected: corrupt volume
+ROSTI: boot complete
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>disk
+block device: QEMU HARDDISK
+capacity: 65552 sectors x 512 bytes
+test-owned media: yes
+block stats: reads 17 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 8704 protected_denials 0
+rosti>diskread 1
+block: sector 1 pattern match (512 bytes)
+rosti>diskread 65551
+block: sector 65551 pattern match (512 bytes)
+rosti>

@@ -2,7 +2,7 @@
 """Fail-closed local acceptance. Never deploys or changes authentication.
 
 Run from the canonical repository with the existing Rust/QEMU/WSL tools.
-Evidence lives beneath test_results/phase8; logs and counts are real subprocess
+Evidence lives beneath test_results/phase9; logs and counts are real subprocess
 results. Preserve the currently built ISO before packaging the replacement.
 """
 import argparse
@@ -39,6 +39,17 @@ def source_snapshot():
         path = PROJECT / name
         if path.is_file():
             paths.add(path)
+    # Portable storage code and tool inputs are release inputs too. Never hash
+    # generated target/ trees or include them as source-freeze dependencies.
+    for crate in (PROJECT / "crates").glob("*"):
+        if not crate.is_dir():
+            continue
+        paths.update(p for p in (crate / "src").rglob("*.rs") if p.is_file())
+        paths.update(p for p in (crate / "tests").rglob("*.rs") if p.is_file())
+        for name in ("Cargo.toml", "Cargo.lock", ".cargo/config.toml"):
+            path = crate / name
+            if path.is_file():
+                paths.add(path)
     return {p.relative_to(PROJECT).as_posix(): sha256(p) for p in sorted(paths)}
 
 
@@ -47,10 +58,10 @@ def main():
     parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    parent = (args.output_dir or PROJECT / "test_results" / "phase8").resolve()
+    parent = (args.output_dir or PROJECT / "test_results" / "phase9").resolve()
     parent.mkdir(parents=True, exist_ok=True)
     run = Path(tempfile.mkdtemp(prefix=f"acceptance_{stamp}_", dir=parent))
-    report = {"phase": 8, "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
+    report = {"phase": 9, "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
     features_active = False
 
     def gate(name, command, timeout=180, cwd=PROJECT):
@@ -87,8 +98,21 @@ def main():
         if not match:
             raise RuntimeError("host test totals not found")
         report["counts"]["host"] = {"pass": int(match[1]), "fail": int(match[2])}
+        manifest = str(PROJECT / "crates/rostifs/Cargo.toml")
+        gate("RostiFS formatting", ["cargo", "+nightly", "fmt", "--manifest-path", manifest, "--check"])
+        text = gate("RostiFS host and crash recovery tests", ["cargo", "+nightly", "test", "--manifest-path", manifest, "--", "--nocapture"], timeout=300, cwd=Path.home())
+        totals = re.findall(r"test result: ok\. (\d+) passed; (\d+) failed", text)
+        if not totals:
+            raise RuntimeError("RostiFS test totals not found")
+        report["counts"]["rostifs_host"] = {"pass": sum(int(p) for p, _ in totals), "fail": sum(int(f) for _, f in totals)}
+        text = gate("RostiFS host tool safety and integration", ["cargo", "+nightly", "test", "--manifest-path", manifest, "--features", "host-tools", "--test", "host_tools"], timeout=180, cwd=Path.home())
+        match = re.search(r"test result: ok\. (\d+) passed; (\d+) failed", text)
+        if not match:
+            raise RuntimeError("host tool test totals not found")
+        report["counts"]["rostifs_tools"] = {"pass": int(match[1]), "fail": int(match[2])}
         gate("Python media reader regressions", script("test_fs_harness.py"))
         gate("acceptance runner regressions", script("test_acceptance_harness.py"))
+        gate("RostiFS harness regressions", script("test_rostifs_harness.py"))
         features_active = True
         gate("build read fault fixture", ["cargo", "build", "--features", "paging-fault-test"])
         gate("CPU read faults 128 and 512", script("paging_test.py", "--fault", "--output-dir", run / "read_fault"))
@@ -96,6 +120,7 @@ def main():
         gate("CPU write faults 128 and 512", script("paging_test.py", "--write-fault", "--output-dir", run / "write_fault"))
         gate("production build", ["cargo", "build"])
         features_active = False
+        gate("production feature and fault exclusion", script("verify_production.py"))
         text = gate("ELF validation", script("validate_elf.py", PROJECT / "target/target/debug/kernel"))
         report["counts"]["elf"] = {"pass": len(re.findall(r"^PASS:", text, re.M)), "fail": len(re.findall(r"^FAIL:", text, re.M))}
         for memory in (128, 512):
@@ -110,6 +135,7 @@ def main():
         for memory in (128, 512):
             gate(f"filesystem growth OOM ELF {memory} MiB", script("fs_test.py", "--ram", memory, "--stress", "--output-dir", run / f"fs_elf_{memory}"), timeout=210)
             gate(f"block persistence ELF {memory} MiB", script("block_test.py", "--ram", memory, "--output-dir", run / f"block_elf_{memory}"), timeout=240)
+            gate(f"RostiFS persistence ELF {memory} MiB", script("rostifs_test.py", "--ram", memory, "--output-dir", run / f"rostifs_elf_{memory}"), timeout=300)
         current_iso = PROJECT / "dist/rosti.iso"
         if current_iso.exists():
             digest = sha256(current_iso)
@@ -125,6 +151,7 @@ def main():
         for memory in (128, 512):
             gate(f"filesystem growth OOM ISO {memory} MiB", script("fs_test.py", "--iso", current_iso, "--ram", memory, "--stress", "--output-dir", run / f"fs_iso_{memory}"), timeout=210)
             gate(f"block persistence ISO {memory} MiB", script("block_test.py", "--iso", current_iso, "--ram", memory, "--output-dir", run / f"block_iso_{memory}"), timeout=240)
+            gate(f"RostiFS persistence ISO {memory} MiB", script("rostifs_test.py", "--iso", current_iso, "--ram", memory, "--output-dir", run / f"rostifs_iso_{memory}"), timeout=300)
         final_hashes = source_snapshot()
         if final_hashes != report["source_sha256"]:
             raise RuntimeError("source changed during acceptance; rerun against stable source")
@@ -143,7 +170,7 @@ def main():
                 if not rows or any(r.get("pass") is not True for r in rows):
                     raise RuntimeError(f"failed or empty harness results: {key}")
                 report["counts"][key] = {"pass": sum(r["pass"] for r in rows), "fail": sum(not r["pass"] for r in rows)}
-        versioned = PROJECT / "dist" / f"rosti_phase8_{stamp}.iso"
+        versioned = PROJECT / "dist" / f"rosti_phase9_{stamp}.iso"
         if versioned.exists():
             raise RuntimeError("refusing to overwrite versioned ISO")
         shutil.copy2(current_iso, versioned)

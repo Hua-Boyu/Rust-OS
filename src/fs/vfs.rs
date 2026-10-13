@@ -2,7 +2,7 @@ use core::fmt;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct NodeId {
-    pub(crate) slot: u8,
+    pub(crate) slot: u16,
     pub(crate) generation: u32,
 }
 impl NodeId {
@@ -41,6 +41,10 @@ pub enum FsError {
     FilesystemFull,
     FileTooLarge,
     InvalidPath,
+    Busy,
+    CorruptVolume,
+    UnsupportedVersion,
+    DeviceIo,
 }
 impl fmt::Display for FsError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -54,10 +58,20 @@ impl fmt::Display for FsError {
             Self::FilesystemFull => "filesystem full",
             Self::FileTooLarge => "file too large",
             Self::InvalidPath => "invalid path",
+            Self::Busy => "mount busy",
+            Self::CorruptVolume => "corrupt volume",
+            Self::UnsupportedVersion => "unsupported format version",
+            Self::DeviceIo => "device I/O error",
         })
     }
 }
 pub trait Vfs {
+    /// None for volatile RAM-only instances. Mounted namespace metadata_bytes
+    /// includes engine state plus adapter/routing tables (static, not heap).
+    fn persistent_info(&self) -> Option<rostifs::engine::MountInfo> {
+        None
+    }
+
     fn root(&self) -> NodeId;
     fn lookup(&self, cwd: NodeId, path: &str) -> Result<NodeId, FsError>;
     fn create_file(&mut self, cwd: NodeId, path: &str) -> Result<NodeId, FsError>;

@@ -1,0 +1,27 @@
+[package]
+name = "rostifs"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+
+[features]
+default = []
+# Safe file-image host tools and explicit formatter; disabled in kernel builds.
+host-tools = []
+
+[[bin]]
+name = "mkrostifs"
+required-features = ["host-tools"]
+
+[[bin]]
+name = "rostifsck"
+required-features = ["host-tools"]
+
+[[bin]]
+name = "rostifs-inspect"
+required-features = ["host-tools"]
+
+[lib]
+test = true
+doctest = false

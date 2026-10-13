@@ -1,0 +1,25 @@
+rosti>ls /mnt/rosti
+rosti>mkdir /mnt/rosti/persist
+ok
+rosti>mkdir /mnt/rosti/persist/nested
+ok
+rosti>write /mnt/rosti/persist/nested/message.txt old payload must disappear
+ok
+rosti>cat /mnt/rosti/persist/nested/message.txt
+old payload must disappear
+rosti>write /mnt/rosti/persist/nested/message.txt Persistent Rosti data
+ok
+rosti>cat /mnt/rosti/persist/nested/message.txt
+Persistent Rosti data
+rosti>append /mnt/rosti/persist/nested/message.txt -append!
+ok
+rosti>cat /mnt/rosti/persist/nested/message.txt
+Persistent Rosti data-append!
+rosti>stat /mnt/rosti/persist/nested/message.txt
+type: file
+size: 29 bytes
+rosti>fdlist
+fd 0 console-in rights 0 offset 0 refs 0
+fd 1 console-out rights 0 offset 0 refs 0
+fd 2 console-out rights 0 offset 0 refs 0
+rosti>

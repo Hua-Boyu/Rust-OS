@@ -1,0 +1,25 @@
+Page directory: 0x00001000
+Mapped pages: 129503
+Page size: 4096 bytes
+
+Kernel heap:
+Current capacity: 1048576 bytes
+Used: 8260 bytes
+Free: 1040316 bytes
+Failed allocations: 0
+Live allocations: 3
+Invalid deallocs: 0
+Free blocks: 3 (largest 1039680 bytes)
+Alignment waste: 0 bytes
+Growth pages: 0
+
+Page faults: 0
+rosti>fdlist
+fd 0 console-in rights 0 offset 0 refs 0
+fd 1 console-out rights 0 offset 0 refs 0
+fd 2 console-out rights 0 offset 0 refs 0
+rosti>rmdir /docs
+fs: directory not empty
+rosti>cat hello.txt
+Hello from Rosti OS!
+rosti>

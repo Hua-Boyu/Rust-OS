@@ -40,6 +40,10 @@ pub fn run(
     ) {
         return false;
     }
+    // Synchronous commands own only the descriptors they open. Cleanup must
+    // also run after disk I/O errors, without closing preexisting handles.
+    let mut existing = 0u64;
+    table.list(&mut |info| existing |= 1u64 << info.fd);
     let result = (|| -> Result<(), FdError> {
         match name {
             "pwd" => {
@@ -202,6 +206,14 @@ pub fn run(
         }
         Ok(())
     })();
+    let mut opened = 0u64;
+    table.list(&mut |info| opened |= 1u64 << info.fd);
+    let new = opened & !existing;
+    for fd in 0..64u8 {
+        if new & (1u64 << fd) != 0 {
+            let _ = table.close(fd);
+        }
+    }
     if let Err(error) = result {
         match error {
             FdError::Fs(e) => out(format_args!("fs: {}\n", e)),
@@ -275,6 +287,32 @@ mod tests {
     use super::*;
     use crate::fd::FdTable;
     use crate::fs::{NodeId, RamFs, Vfs};
+
+    #[test]
+    fn failing_shell_operations_close_only_command_owned_descriptors() {
+        let mut fs = RamFs::new();
+        let mut table = FdTable::new();
+        table.init_console();
+        let mut cwd = NodeId::ROOT;
+        fs.create_dir(cwd, "dir").unwrap();
+        fs.create_file(cwd, "keep").unwrap();
+        let keep = table
+            .open(&mut fs, cwd, "keep", Rights::new(Rights::READ))
+            .unwrap();
+        for (command, path) in [
+            ("cat", "dir"),
+            ("write", "dir data"),
+            ("ls", "keep"),
+            ("rm", "dir"),
+        ] {
+            run(&mut fs, &mut table, &mut cwd, command, path, &mut |_| {});
+            assert!(table.info(keep).is_ok());
+            let mut count = 0;
+            table.list(&mut |_| count += 1);
+            assert_eq!(count, 4);
+        }
+        table.close(keep).unwrap();
+    }
 
     #[test]
     fn pwd_outputs_root_without_allocating_filesystem_storage() {

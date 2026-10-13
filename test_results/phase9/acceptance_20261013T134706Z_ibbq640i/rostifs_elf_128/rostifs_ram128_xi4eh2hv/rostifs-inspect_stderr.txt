@@ -1,0 +1,2 @@
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running `Documents\Rust-OS\crates\rostifs\target\debug\rostifs-inspect.exe --test-owned-image 'C:\Users\iamsv\Documents\Rust-OS\dist\phase9_rostifs_e4zwfega\owned.img'`

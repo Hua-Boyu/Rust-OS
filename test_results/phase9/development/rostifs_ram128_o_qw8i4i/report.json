@@ -1,0 +1,14 @@
+{
+  "overall": "FAIL",
+  "ram_mib": 128,
+  "boot_path": "ELF",
+  "iso": null,
+  "checks": [],
+  "scenarios": [],
+  "binary_fixture": "not required; not exercised",
+  "disk_dir": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase9_rostifs_zozp57bh",
+  "error": "RuntimeError: HARNESS_FAIL: mkrostifs exited 1; see formatter logs",
+  "elapsed_s": 2.562,
+  "check_count": 0,
+  "pass_count": 0
+}

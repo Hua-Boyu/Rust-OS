@@ -1,0 +1,25 @@
+old idtr: Idtr { limit: 0, base: 0 }
+new idtr: Idtr { limit: 2047, base: 3981748 }
+ps2 init enable
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>stat /mnt/rosti
+fs: not found
+rosti>pwd
+/
+rosti>write /recovery.txt Recovery RAMFS
+ok
+rosti>cat /recovery.txt
+Recovery RAMFS
+rosti>rm /recovery.txt
+ok
+rosti>stat /recovery.txt
+fs: not found
+rosti>

@@ -20,8 +20,10 @@ use core::fmt;
 pub const SECTOR_SIZE: usize = 512;
 /// Stated 28-bit addressing limit. LBA48 is not implemented or claimed.
 pub const MAX_LBA_28: usize = (1 << 28) - 1;
-/// Finite poll budget per status wait (~ms at io_wait pacing).
-pub const POLL_LIMIT: usize = 4000;
+/// Finite status-read budget, not a millisecond timeout: virtual port 0x80 is
+/// not a real-time delay. 4,000 reads expired before asynchronous writeback
+/// flush completion on GRUB/QEMU; retain a hard 100,000-read upper bound.
+pub const POLL_LIMIT: usize = 100_000;
 /// Stated transfer limit: single-sector operations, at most this many sectors
 /// per logical transfer. Multi-sector batching is not implemented or claimed.
 pub const MAX_TRANSFER_SECTORS: usize = 64;
@@ -114,6 +116,11 @@ pub trait BlockDevice {
     /// True only for explicitly test-owned media (sector 0 carries the
     /// documented magic). Writes are refused on any other device.
     fn test_owned(&self) -> bool;
+    /// Explicit ordering barrier. Backends without a verified flush operation
+    /// must fail rather than advertise durable transactions.
+    fn flush(&mut self) -> Result<(), BlockError> {
+        Err(BlockError::UnsupportedAddressing)
+    }
     fn model(&self) -> &str {
         ""
     }
@@ -278,8 +285,8 @@ impl BlockDevice for RamDisk {
         }
         let start = lba * SECTOR_SIZE;
         buf.copy_from_slice(&self.data[start..start + SECTOR_SIZE]);
-        self.stats.reads += 1;
-        self.stats.bytes_transferred += SECTOR_SIZE;
+        self.stats.reads = self.stats.reads.saturating_add(1);
+        self.stats.bytes_transferred = self.stats.bytes_transferred.saturating_add(SECTOR_SIZE);
         Ok(())
     }
     fn write_sector(&mut self, lba: usize, data: &[u8]) -> Result<(), BlockError> {
@@ -290,13 +297,13 @@ impl BlockDevice for RamDisk {
             return Err(BlockError::OutOfRange);
         }
         if !self.test_owned() || lba == 0 {
-            self.stats.protected_denials += 1;
+            self.stats.protected_denials = self.stats.protected_denials.saturating_add(1);
             return Err(BlockError::Protected);
         }
         let start = lba * SECTOR_SIZE;
         self.data[start..start + SECTOR_SIZE].copy_from_slice(data);
-        self.stats.writes += 1;
-        self.stats.bytes_transferred += SECTOR_SIZE;
+        self.stats.writes = self.stats.writes.saturating_add(1);
+        self.stats.bytes_transferred = self.stats.bytes_transferred.saturating_add(SECTOR_SIZE);
         Ok(())
     }
     fn stats(&self) -> BlockStats {
@@ -545,15 +552,15 @@ impl<B: AtaBus> AtaDevice<B> {
         ) {
             Ok(_) => Ok(()),
             Err(BlockError::Timeout) => {
-                self.stats.timeouts += 1;
+                self.stats.timeouts = self.stats.timeouts.saturating_add(1);
                 Err(BlockError::Timeout)
             }
             Err(BlockError::DeviceError(s)) => {
-                self.stats.device_errors += 1;
+                self.stats.device_errors = self.stats.device_errors.saturating_add(1);
                 Err(BlockError::DeviceError(s))
             }
             Err(BlockError::NoDevice) => {
-                self.stats.no_device += 1;
+                self.stats.no_device = self.stats.no_device.saturating_add(1);
                 Err(BlockError::NoDevice)
             }
             Err(e) => Err(e),
@@ -571,8 +578,8 @@ impl<B: AtaBus> AtaDevice<B> {
         self.bus.ins_sector(self.base, buf)?;
         self.delay();
         self.poll_and_count(0)?;
-        self.stats.reads += 1;
-        self.stats.bytes_transferred += SECTOR_SIZE;
+        self.stats.reads = self.stats.reads.saturating_add(1);
+        self.stats.bytes_transferred = self.stats.bytes_transferred.saturating_add(SECTOR_SIZE);
         Ok(())
     }
 
@@ -582,7 +589,7 @@ impl<B: AtaBus> AtaDevice<B> {
         }
         self.validate_lba(lba)?;
         if !self.test_owned || lba == 0 {
-            self.stats.protected_denials += 1;
+            self.stats.protected_denials = self.stats.protected_denials.saturating_add(1);
             return Err(BlockError::Protected);
         }
         self.select(lba)?;
@@ -596,17 +603,29 @@ impl<B: AtaBus> AtaDevice<B> {
         self.bus.outb(self.base + 7, CMD_FLUSH);
         self.delay();
         self.poll_and_count(0)?;
-        self.stats.writes += 1;
-        self.stats.bytes_transferred += SECTOR_SIZE;
+        self.stats.writes = self.stats.writes.saturating_add(1);
+        self.stats.bytes_transferred = self.stats.bytes_transferred.saturating_add(SECTOR_SIZE);
         Ok(())
     }
 
     pub fn stats(&self) -> BlockStats {
         self.stats
     }
+
+    /// Main-context ATA CACHE FLUSH barrier with bounded completion polling.
+    pub fn flush(&mut self) -> Result<(), BlockError> {
+        self.validate_lba(0)?;
+        self.poll_and_count(0)?;
+        self.bus.outb(self.base + 7, CMD_FLUSH);
+        self.delay();
+        self.poll_and_count(0)
+    }
 }
 
 impl<B: AtaBus> BlockDevice for AtaDevice<B> {
+    fn flush(&mut self) -> Result<(), BlockError> {
+        AtaDevice::flush(self)
+    }
     fn sector_size(&self) -> usize {
         SECTOR_SIZE
     }
@@ -627,5 +646,26 @@ impl<B: AtaBus> BlockDevice for AtaDevice<B> {
     }
     fn model(&self) -> &str {
         self.model()
+    }
+}
+
+#[cfg(test)]
+mod counter_tests {
+    use super::*;
+
+    #[test]
+    fn long_lived_transfer_counters_saturate_instead_of_panicking() {
+        let mut disk = RamDisk::new_test();
+        disk.stats.reads = usize::MAX;
+        disk.stats.writes = usize::MAX;
+        disk.stats.bytes_transferred = usize::MAX - 1;
+        disk.stats.protected_denials = usize::MAX;
+        disk.read_sector(1, &mut [0; 512]).unwrap();
+        disk.write_sector(1, &[0x5a; 512]).unwrap();
+        assert_eq!(disk.write_sector(0, &[0; 512]), Err(BlockError::Protected));
+        assert_eq!(disk.stats.reads, usize::MAX);
+        assert_eq!(disk.stats.writes, usize::MAX);
+        assert_eq!(disk.stats.bytes_transferred, usize::MAX);
+        assert_eq!(disk.stats.protected_denials, usize::MAX);
     }
 }

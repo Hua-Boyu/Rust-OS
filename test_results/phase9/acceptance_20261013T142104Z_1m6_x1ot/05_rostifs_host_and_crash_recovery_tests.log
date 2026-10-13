@@ -1,0 +1,37 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running unittests src\lib.rs (Documents\Rust-OS\crates\rostifs\target\debug\build\rostifs/ef010ee8a2f081e2\out\rostifs-ef010ee8a2f081e2.exe)
+
+running 20 tests
+RostiFs bytes=20296 inode bytes=84
+test checksum::tests::crc32c_known_vectors ... ok
+test crash_tests::fixed_memory_measurement ... ok
+test crash_tests::paths_are_semantic_and_creation_names_strict ... ok
+test crash_tests::listing_callback_can_reenter_read_without_aliasing ... ok
+test crash_tests::version_geometry_marker_and_checked_translation ... ok
+test crash_tests::canonical_path_limit_applies_to_relative_creates ... ok
+test crash_tests::previous_root_data_survives_repeated_cow_and_latest_root_corruption ... ok
+test crash_tests::no_generation_wrap_and_node_retirement ... ok
+test crash_tests::io_error_during_candidate_read_cannot_mount_older_root ... ok
+test crash_tests::nested_directories_handles_and_full_name_boundary ... ok
+test crash_tests::sparse_writes_append_truncate_and_bounds ... ok
+test crash_tests::roots_metadata_data_corruption_fallback_and_both_bad ... ok
+test crash_tests::fragmented_free_space_refuses_large_extent_then_reuses_deleted_run ... ok
+test crash_tests::metadata_capacity_and_disk_full_preserve_old_state ... ok
+test crash_tests::corrupt_references_overlap_names_cycles_and_free_records_rejected ... ok
+test crash_tests::deterministic_random_model_and_repeated_remount ... ok
+test crash_tests::sequence_of_failed_commits_remounts_and_successful_reuse ... ok
+reordered pending crash cases=2328
+test crash_tests::every_event_crash_with_reordered_pending_subsets ... ok
+all root-sector byte-prefix tears=4104
+test crash_tests::every_root_sector_every_byte_prefix_tear ... ok
+rejected/torn/flush crash cases=2639
+test crash_tests::every_sector_rejected_torn_and_every_flush_failed_recovers_old_or_new ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 34.38s
+
+     Running tests\host_tools.rs (Documents\Rust-OS\crates\rostifs\target\debug\build\rostifs/dcefc5085f2ad4fd\out\host_tools-dcefc5085f2ad4fd.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

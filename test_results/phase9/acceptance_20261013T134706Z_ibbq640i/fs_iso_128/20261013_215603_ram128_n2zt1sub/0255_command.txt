@@ -1,0 +1,25 @@
+Invalid deallocs: 0
+Free blocks: 3 (largest 1039544 bytes)
+Alignment waste: 0 bytes
+Growth pages: 0
+
+Page faults: 0
+rosti>fdlist
+fd 0 console-in rights 0 offset 0 refs 0
+fd 1 console-out rights 0 offset 0 refs 0
+fd 2 console-out rights 0 offset 0 refs 0
+rosti>rmdir /docs
+fs: directory not empty
+rosti>cat hello.txt
+Hello from Rosti OS!
+rosti>rm hello.txt
+ok
+rosti>stat hello.txt
+fs: not found
+rosti>cd ..
+ok
+rosti>rmdir docs
+ok
+rosti>pwd
+/
+rosti>

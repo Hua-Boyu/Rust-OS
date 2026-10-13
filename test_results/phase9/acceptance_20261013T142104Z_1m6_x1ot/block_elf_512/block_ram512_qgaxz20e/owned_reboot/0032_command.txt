@@ -1,0 +1,25 @@
+paging window: 0x1ffe0000 (page tables built, validated)
+hi
+old idtr: Idtr { limit: 1023, base: 0 }
+new idtr: Idtr { limit: 2047, base: 3981748 }
+ps2 init enable
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>disk
+block device: QEMU HARDDISK
+capacity: 65552 sectors x 512 bytes
+test-owned media: yes
+block stats: reads 17 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 8704
+ protected_denials 0
+rosti>diskread 1
+block: sector 1 mismatch 510 bytes
+rosti>diskwrite 0
+block: write refused: media not test-owned
+rosti>

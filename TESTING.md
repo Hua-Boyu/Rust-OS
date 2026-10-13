@@ -1,5 +1,77 @@
 # TESTING
 
+## Phase 9 acceptance and reproducible persistence tests
+
+`python -B scripts/phase6_verify.py` now reports Phase 9 and writes a unique
+`test_results/phase9/acceptance_<UTC>_<unique>/acceptance.json`. Run it as a
+bounded background job with completion notification. It retains all Phase 8
+regressions and adds portable-core formatting/tests, host-tool safety tests,
+production feature exclusion and RostiFS persistence on ELF/GRUB at 128/512 MiB.
+Only a complete PASS report, unchanged source/build inputs and valid all-true
+harness evidence permit publication of `dist/rosti_phase9_<UTC>.iso`.
+
+Commands (host Cargo must execute from outside the kernel config tree):
+
+```bash
+bash scripts/run_tests.sh
+cd "$HOME"
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/crates/rostifs/Cargo.toml -- --nocapture
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/crates/rostifs/Cargo.toml --features host-tools --test host_tools
+```
+
+From the repository, sequentially:
+
+```bash
+python -B scripts/test_rostifs_harness.py
+python -B scripts/rostifs_test.py --ram 128 --output-dir test_results/phase9/manual
+python -B scripts/rostifs_test.py --ram 512 --output-dir test_results/phase9/manual
+python -B scripts/rostifs_test.py --iso dist/rosti.iso --ram 128 --output-dir test_results/phase9/manual
+python -B scripts/rostifs_test.py --iso dist/rosti.iso --ram 512 --output-dir test_results/phase9/manual
+```
+
+The RostiFS harness creates exclusive new `.img` files in a unique `dist/`
+subdirectory; no arbitrary existing disk path or live-Proxmox mode is accepted.
+The formatter receives an explicit `--test-owned-image` path and executes from
+the user's home. Five separate owned QEMU processes prove:
+
+1. Boot/mount, nested creation, overwrite, exact read/append, descriptor closure,
+   unchanged heap/growth counters, raw-write denial and **guest-requested reboot**
+   followed by read-only reopen/readback.
+2. A **new emulator process** reads the existing directory/file before any
+   mutation, then deletes the file and removes empty directories.
+3. Another new process proves deletion persisted; the complete disk hash must
+   remain unchanged during this verification-only boot.
+4. Corrupting both root headers rejects the mount while the independent RAMFS
+   recovery shell can create/read/delete files; the corrupt disk stays unchanged.
+5. Unowned media remains byte-for-byte unchanged and the recovery shell works.
+
+After the write process exits, real `rostifsck` and `rostifs-inspect` subprocesses
+validate the guest-written image and list its nested file without changing its
+hash. Serial logs, QMP attachment, command boundaries, process cleanup, image
+hashes and machine-readable reports are retained. Timeouts clean up only the
+runner's own QEMU process; never globally kill emulators. Do not run another
+QEMU concurrently with the existing boot runner's global orphan check.
+
+Host results verified during development and repeated by acceptance:
+**132 kernel tests**, **20 portable-core tests**, **4 host-tool integration tests**;
+Python media-reader **4**, acceptance-runner **6**, RostiFS-harness **16**.
+Crash suites passed **2,639** rejected/torn/write/flush faults, **2,328** crash
+cuts with reordered pending-sector subsets, and **4,104** root-sector prefix
+tears. These are trace-derived cases inside tests, not separate test binaries.
+Tests compare complete exact old/new trees and bytes; include full/fragmented
+volumes, corruption with recomputed CRCs, generation retirement, binary data,
+names/paths, repeated remounts, deterministic modeled operations and reuse.
+
+Successful flush means all preceding writes become durably ordered in the
+documented simulation model. Subset sampling is not every possible permutation;
+CRC collision, dishonest disk firmware and physical power interruption are not
+proved. See FORMAT.md. The ATA/QEMU protocol is tested, but no physical
+power-loss safety claim follows.
+
+The completed release matrix, exact ISO/hash and failed-development evidence
+are recorded in HANDOVER.md and the Phase 9 acceptance report. Archived earlier
+milestone results below are not current release evidence.
+
 ## Phase 8 acceptance protocol
 
 Run `python -B scripts/phase6_verify.py` from the canonical repository.

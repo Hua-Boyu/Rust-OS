@@ -1,0 +1,121 @@
+warning: unused import: `crate::println`
+ --> src\..\..\src\multiboot.rs:9:5
+  |
+9 | use crate::println;
+  |     ^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: formatting may not be suitable for sub-register argument
+   --> src\..\..\src\memory\paging.rs:495:41
+    |
+495 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+    |                                         ^^^^^                  --- for this argument
+    |
+    = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+    = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+    = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+   --> src\..\..\src\memory\paging.rs:508:41
+    |
+508 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+    |                                         ^^^^^                  --- for this argument
+    |
+    = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+    = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:72:28
+   |
+72 | pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:85:28
+   |
+85 | pub unsafe fn lockfree_inw(port_in: u16) -> u16 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:110:29
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:110:44
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:119:29
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:119:44
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `frame`
+   --> src\..\..\src\allocator.rs:272:33
+    |
+272 |                     if let Some(frame) = crate::memory::heap_grow_frame(slot) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_frame`
+
+warning: unused variable: `t0`
+   --> src\lib.rs:252:18
+    |
+252 |     let (b0, l0, t0) = (e0.base_addr, e0.length, e0.type_);
+    |                  ^^ help: if this is intentional, prefix it with an underscore: `_t0`
+
+warning: static `KERNEL_START` is never used
+  --> src\..\..\src\memory\frame.rs:44:8
+   |
+44 | static KERNEL_START: u32 = 0;
+   |        ^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: static `KERNEL_END` is never used
+  --> src\..\..\src\memory\frame.rs:46:8
+   |
+46 | static KERNEL_END: u32 = 0;
+   |        ^^^^^^^^^^
+
+warning: feature `abi_x86_interrupt` is declared but not used
+ --> src\lib.rs:5:12
+  |
+5 | #![feature(abi_x86_interrupt)]
+  |            ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_features)]` (part of `#[warn(unused)]`) on by default
+
+warning: `tests_kernel` (lib test) generated 14 warnings (run `cargo fix --lib -p tests_kernel --tests` to apply 9 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running unittests src\lib.rs (Documents\Rust-OS\tests_kernel\target\debug\build\tests_kernel/f5697f0c381eba7a\out\tests_kernel-f5697f0c381eba7a.exe)
+
+running 1 test
+test block::counter_tests::long_lived_transfer_counters_saturate_instead_of_panicking ... FAILED
+
+failures:
+
+---- block::counter_tests::long_lived_transfer_counters_saturate_instead_of_panicking stdout ----
+
+thread 'block::counter_tests::long_lived_transfer_counters_saturate_instead_of_panicking' (22836) panicked at src\..\..\src\block.rs:288:9:
+attempt to add with overflow
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    block::counter_tests::long_lived_transfer_counters_saturate_instead_of_panicking
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 131 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--lib`

@@ -1,0 +1,550 @@
+{
+  "ram_mib": 128,
+  "stress": false,
+  "checks": [
+    {
+      "name": "QMP greeting",
+      "pass": true
+    },
+    {
+      "name": "ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "QMP exact owned image attached",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after cd /mnt/rosti",
+      "pass": true
+    },
+    {
+      "name": "cd /mnt/rosti: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after pwd",
+      "pass": true
+    },
+    {
+      "name": "pwd: exact output '/mnt/rosti'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after cd /",
+      "pass": true
+    },
+    {
+      "name": "cd /: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "name": "mem before persistent writes: paging and physical frame diagnostics",
+      "pass": true
+    },
+    {
+      "name": "mem before persistent writes: no faults or invalid deallocations",
+      "pass": true
+    },
+    {
+      "name": "mem before persistent writes: heap counters parsed",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after rostifs",
+      "pass": true
+    },
+    {
+      "name": "mounted format and bounded allocation diagnostics",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after diskwrite 8",
+      "pass": true
+    },
+    {
+      "name": "diskwrite 8: exact output 'block: raw writes refused while RostiFS is mounted'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after ls /mnt/rosti",
+      "pass": true
+    },
+    {
+      "name": "ls /mnt/rosti: exact output ''",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mkdir /mnt/rosti/persist",
+      "pass": true
+    },
+    {
+      "name": "mkdir /mnt/rosti/persist: successful dispatch",
+      "pass": false
+    },
+    {
+      "name": "VGA prompt after disk",
+      "pass": true
+    },
+    {
+      "name": "owned QEMU process terminated",
+      "pass": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "cd /mnt/rosti",
+      "serial_fragment": "cd /mnt/rosti\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "size: 20, len: 639K, addr: 0x00, typ: 1",
+        "size: 20, len: 1K, addr: 0x9fc00, typ: 2",
+        "size: 20, len: 64K, addr: 0xf0000, typ: 2",
+        "size: 20, len: 129920K, addr: 0x100000, typ: 1",
+        "size: 20, len: 128K, addr: 0x7fe0000, typ: 2",
+        "size: 20, len: 256K, addr: 0xfffc0000, typ: 2",
+        "total size: 130559K",
+        "frame allocator: 32639 frames total, 2050 reserved, 30606 free",
+        "paging window: 0x07fe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 0, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3981748 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>cd /mnt/rosti",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "pwd",
+      "serial_fragment": "pwd\n/mnt/rosti\nrosti>",
+      "output": "/mnt/rosti\n",
+      "vga": [
+        "size: 20, len: 64K, addr: 0xf0000, typ: 2",
+        "size: 20, len: 129920K, addr: 0x100000, typ: 1",
+        "size: 20, len: 128K, addr: 0x7fe0000, typ: 2",
+        "size: 20, len: 256K, addr: 0xfffc0000, typ: 2",
+        "total size: 130559K",
+        "frame allocator: 32639 frames total, 2050 reserved, 30606 free",
+        "paging window: 0x07fe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 0, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3981748 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>cd /mnt/rosti",
+        "ok",
+        "rosti>pwd",
+        "/mnt/rosti",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cd /",
+      "serial_fragment": "cd /\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "size: 20, len: 128K, addr: 0x7fe0000, typ: 2",
+        "size: 20, len: 256K, addr: 0xfffc0000, typ: 2",
+        "total size: 130559K",
+        "frame allocator: 32639 frames total, 2050 reserved, 30606 free",
+        "paging window: 0x07fe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 0, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3981748 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>cd /mnt/rosti",
+        "ok",
+        "rosti>pwd",
+        "/mnt/rosti",
+        "rosti>cd /",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 130559 KB\nallocator block base: 0x2cc000\nFS nodes: 3\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 28212 bytes (fixed)\nDescriptors: open 3 records 0 opens 0 closes 0 denials 0 stale 0\nPhysical memory:\nTotal frames: 32639\nFree frames: 30606\nAllocated frames: 33\nReserved frames: 2050\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 31199\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8232 bytes\nFree: 1040344 bytes\nFailed allocations: 0\nLive allocations: 2\nInvalid deallocs: 0\nFree blocks: 2 (largest 1039544 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 130559 KB\nallocator block base: 0x2cc000\nFS nodes: 3\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 28212 bytes (fixed)\nDescriptors: open 3 records 0 opens 0 closes 0 denials 0 stale 0\nPhysical memory:\nTotal frames: 32639\nFree frames: 30606\nAllocated frames: 33\nReserved frames: 2050\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 31199\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8232 bytes\nFree: 1040344 bytes\nFailed allocations: 0\nLive allocations: 2\nInvalid deallocs: 0\nFree blocks: 2 (largest 1039544 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 32639",
+        "Free frames: 30606",
+        "Allocated frames: 33",
+        "Reserved frames: 2050",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 31199",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8232 bytes",
+        "Free: 1040344 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 2",
+        "Invalid deallocs: 0",
+        "Free blocks: 2 (largest 1039544 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "rostifs",
+      "serial_fragment": "rostifs\nRostiFS v0.1 format 1 mounted /mnt/rosti\ngeneration: 1 valid roots: 2\nvolume: 256 blocks free: 249 used: 7\nfilesystem metadata: 22324 bytes; mount allocations: 0; cache: 0\nrosti>",
+      "output": "RostiFS v0.1 format 1 mounted /mnt/rosti\ngeneration: 1 valid roots: 2\nvolume: 256 blocks free: 249 used: 7\nfilesystem metadata: 22324 bytes; mount allocations: 0; cache: 0\n",
+      "vga": [
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 31199",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8232 bytes",
+        "Free: 1040344 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 2",
+        "Invalid deallocs: 0",
+        "Free blocks: 2 (largest 1039544 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>rostifs",
+        "RostiFS v0.1 format 1 mounted /mnt/rosti",
+        "generation: 1 valid roots: 2",
+        "volume: 256 blocks free: 249 used: 7",
+        "filesystem metadata: 22324 bytes; mount allocations: 0; cache: 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "diskwrite 8",
+      "serial_fragment": "diskwrite 8\nblock: raw writes refused while RostiFS is mounted\nrosti>",
+      "output": "block: raw writes refused while RostiFS is mounted\n",
+      "vga": [
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 31199",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8232 bytes",
+        "Free: 1040344 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 2",
+        "Invalid deallocs: 0",
+        "Free blocks: 2 (largest 1039544 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>rostifs",
+        "RostiFS v0.1 format 1 mounted /mnt/rosti",
+        "generation: 1 valid roots: 2",
+        "volume: 256 blocks free: 249 used: 7",
+        "filesystem metadata: 22324 bytes; mount allocations: 0; cache: 0",
+        "rosti>diskwrite 8",
+        "block: raw writes refused while RostiFS is mounted",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "ls /mnt/rosti",
+      "serial_fragment": "ls /mnt/rosti\nrosti>",
+      "output": "\n",
+      "vga": [
+        "Page directory: 0x00001000",
+        "Mapped pages: 31199",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8232 bytes",
+        "Free: 1040344 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 2",
+        "Invalid deallocs: 0",
+        "Free blocks: 2 (largest 1039544 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>rostifs",
+        "RostiFS v0.1 format 1 mounted /mnt/rosti",
+        "generation: 1 valid roots: 2",
+        "volume: 256 blocks free: 249 used: 7",
+        "filesystem metadata: 22324 bytes; mount allocations: 0; cache: 0",
+        "rosti>diskwrite 8",
+        "block: raw writes refused while RostiFS is mounted",
+        "rosti>ls /mnt/rosti",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mkdir /mnt/rosti/persist",
+      "serial_fragment": "mkdir /mnt/rosti/persist\nROSTI: filesystem block I/O failed: poll timeout\nfs: device I/O error\nrosti>",
+      "output": "ROSTI: filesystem block I/O failed: poll timeout\nfs: device I/O error\n",
+      "vga": [
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8232 bytes",
+        "Free: 1040344 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 2",
+        "Invalid deallocs: 0",
+        "Free blocks: 2 (largest 1039544 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>rostifs",
+        "RostiFS v0.1 format 1 mounted /mnt/rosti",
+        "generation: 1 valid roots: 2",
+        "volume: 256 blocks free: 249 used: 7",
+        "filesystem metadata: 22324 bytes; mount allocations: 0; cache: 0",
+        "rosti>diskwrite 8",
+        "block: raw writes refused while RostiFS is mounted",
+        "rosti>ls /mnt/rosti",
+        "rosti>mkdir /mnt/rosti/persist",
+        "fs: device I/O error",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "disk",
+      "serial_fragment": "disk\nblock device: QEMU HARDDISK\ncapacity: 2048 sectors x 512 bytes\ntest-owned media: yes\nblock stats: reads 49 writes 9 timeouts 1 device_errors 0 no_device 0 bytes 29696 protected_denials 0\nrosti>",
+      "output": "block device: QEMU HARDDISK\ncapacity: 2048 sectors x 512 bytes\ntest-owned media: yes\nblock stats: reads 49 writes 9 timeouts 1 device_errors 0 no_device 0 bytes 29696 protected_denials 0\n",
+      "vga": [
+        "Failed allocations: 0",
+        "Live allocations: 2",
+        "Invalid deallocs: 0",
+        "Free blocks: 2 (largest 1039544 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>rostifs",
+        "RostiFS v0.1 format 1 mounted /mnt/rosti",
+        "generation: 1 valid roots: 2",
+        "volume: 256 blocks free: 249 used: 7",
+        "filesystem metadata: 22324 bytes; mount allocations: 0; cache: 0",
+        "rosti>diskwrite 8",
+        "block: raw writes refused while RostiFS is mounted",
+        "rosti>ls /mnt/rosti",
+        "rosti>mkdir /mnt/rosti/persist",
+        "fs: device I/O error",
+        "rosti>disk",
+        "block device: QEMU HARDDISK",
+        "capacity: 2048 sectors x 512 bytes",
+        "test-owned media: yes",
+        "block stats: reads 49 writes 9 timeouts 1 device_errors 0 no_device 0 bytes 2969",
+        "6 protected_denials 0",
+        "rosti>"
+      ]
+    }
+  ],
+  "memory": {
+    "before persistent writes": {
+      "used": 8232,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 2,
+      "fs_storage": 0,
+      "fs_entries": 3,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 0,
+      "fd_closes": 0,
+      "fd_denials": 0,
+      "fd_stale": 0
+    }
+  },
+  "overall": "FAIL",
+  "argv": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-cdrom",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+    "-boot",
+    "d",
+    "-machine",
+    "pc",
+    "-m",
+    "128",
+    "-display",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9\\development\\rostifs_ram128_rgl54bo8\\boot1_write\\serial.txt",
+    "-monitor",
+    "none",
+    "-qmp",
+    "tcp:127.0.0.1:57470,server=on,wait=off",
+    "-d",
+    "guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9\\development\\rostifs_ram128_rgl54bo8\\boot1_write\\qemu_log.txt",
+    "-drive",
+    "file=C:/Users/iamsv/Documents/Rust-OS/dist/phase9_rostifs_axbuxzw1/owned.img,format=raw,if=ide,index=0,cache=writeback"
+  ],
+  "qemu_pid": 30848,
+  "query_block": [
+    {
+      "io-status": "ok",
+      "device": "ide1-cd0",
+      "locked": false,
+      "removable": true,
+      "inserted": {
+        "iops_rd": 0,
+        "detect_zeroes": "off",
+        "active": true,
+        "image": {
+          "limits": {
+            "request-alignment": 512,
+            "min-mem-alignment": 512,
+            "opt-mem-alignment": 4096,
+            "max-iov": 1024
+          },
+          "virtual-size": 10268672,
+          "filename": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+          "format": "raw",
+          "actual-size": 10268672
+        },
+        "iops_wr": 0,
+        "ro": true,
+        "children": [
+          {
+            "node-name": "#block015",
+            "child": "file"
+          }
+        ],
+        "node-name": "#block132",
+        "backing_file_depth": 0,
+        "drv": "raw",
+        "iops": 0,
+        "bps_wr": 0,
+        "write_threshold": 0,
+        "encrypted": false,
+        "bps": 0,
+        "bps_rd": 0,
+        "cache": {
+          "no-flush": false,
+          "direct": false,
+          "writeback": true
+        },
+        "file": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso"
+      },
+      "qdev": "/machine/unattached/device[5]",
+      "tray_open": false,
+      "type": "unknown"
+    },
+    {
+      "io-status": "ok",
+      "device": "ide0-hd0",
+      "locked": false,
+      "removable": false,
+      "inserted": {
+        "iops_rd": 0,
+        "detect_zeroes": "off",
+        "active": true,
+        "image": {
+          "limits": {
+            "request-alignment": 1,
+            "min-mem-alignment": 512,
+            "opt-mem-alignment": 4096,
+            "max-iov": 1024
+          },
+          "virtual-size": 1048576,
+          "filename": "C:/Users/iamsv/Documents/Rust-OS/dist/phase9_rostifs_axbuxzw1/owned.img",
+          "format": "raw",
+          "actual-size": 1048576
+        },
+        "iops_wr": 0,
+        "ro": false,
+        "children": [
+          {
+            "node-name": "#block227",
+            "child": "file"
+          }
+        ],
+        "node-name": "#block380",
+        "backing_file_depth": 0,
+        "drv": "raw",
+        "iops": 0,
+        "bps_wr": 0,
+        "write_threshold": 0,
+        "encrypted": false,
+        "bps": 0,
+        "bps_rd": 0,
+        "cache": {
+          "no-flush": false,
+          "direct": false,
+          "writeback": true
+        },
+        "file": "C:/Users/iamsv/Documents/Rust-OS/dist/phase9_rostifs_axbuxzw1/owned.img"
+      },
+      "qdev": "/machine/unattached/device[4]",
+      "type": "unknown"
+    },
+    {
+      "device": "floppy0",
+      "locked": false,
+      "removable": true,
+      "qdev": "/machine/unattached/device[15]",
+      "type": "unknown"
+    }
+  ],
+  "rostifs_metadata_bytes": 22324,
+  "error": "AssertionError: mkdir /mnt/rosti/persist: successful dispatch",
+  "failure_disk_status": "block device: QEMU HARDDISK\ncapacity: 2048 sectors x 512 bytes\ntest-owned media: yes\nblock stats: reads 49 writes 9 timeouts 1 device_errors 0 no_device 0 bytes 29696 protected_denials 0\n",
+  "owned_qemu_exited": true,
+  "stage": "boot1_write",
+  "image": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase9_rostifs_axbuxzw1\\owned.img",
+  "check_count": 24,
+  "command_count": 9
+}

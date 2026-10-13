@@ -1,0 +1,11 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running tests\host_tools.rs (Documents\Rust-OS\crates\rostifs\target\debug\build\rostifs/8625087f1004dd8f\out\host_tools-8625087f1004dd8f.exe)
+
+running 4 tests
+test regular_image_reopen_persists_nested_files_and_readonly_tools ... ok
+test fsck_degraded_and_corrupt_images_fail_without_repairs ... ok
+test binaries_format_check_inspect_refuse_overwrite_and_unique_ids ... ok
+test tools_refuse_devices_relative_outside_dist_ads_and_bad_geometry ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s
+

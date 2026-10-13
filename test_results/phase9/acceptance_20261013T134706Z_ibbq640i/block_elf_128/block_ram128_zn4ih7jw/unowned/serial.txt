@@ -1,0 +1,43 @@
+ROSTI: entered kernel_main
+DBG: alloc init
+DBG: mmap print
+DBG: mmap printed
+DBG: mmap parsed
+DBG: mem info set
+DBG: frame init start
+DBG: frame lock acquired
+DBG: init entered
+DBG: frame init passes done
+DBG: frame init done
+DBG: page tables built
+ROSTI: paging enabled (CR0.PG, identity map)
+ROSTI: block device present
+ROSTI: boot complete
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>disk
+block device: QEMU HARDDISK
+capacity: 65552 sectors x 512 bytes
+test-owned media: no
+block stats: reads 1 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 512 protected_denials 0
+rosti>diskwrite 1
+block: write refused: media not test-owned
+rosti>diskwrite 0
+block: write refused: media not test-owned
+rosti>diskwrite 65552
+block: LBA out of range
+rosti>diskread 1
+block: sector 1 mismatch 510 bytes
+rosti>disk
+block device: QEMU HARDDISK
+capacity: 65552 sectors x 512 bytes
+test-owned media: no
+block stats: reads 2 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 1024 protected_denials 2
+rosti>

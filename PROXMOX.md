@@ -1,5 +1,31 @@
 # PROXMOX DEPLOYMENT
 
+## Phase 9 safety boundary and fresh read-only inventory
+
+Read-only `pve_get_qemu_config` and `pve_get_qemu_status` confirmed node `pve`,
+VM **103**, name **rosti-dev**, running, **512 MiB**, one core, SeaBIOS,
+runtime i440fx, `serial0: socket`. Its only disk entry is the CD-ROM:
+`ide2: local:iso/rosti_phase7_20261012T181123Z.iso,media=cdrom,size=9204K`;
+boot order `ide2`. **No data disk is configured.** Evidence:
+`test_results/phase9/proxmox_readonly.json`.
+
+No create/format/attach/detach/upload/reset/start/stop operation was performed.
+Phase 8 and Phase 9 are local-only releases; **live RostiFS persistence is NOT
+VERIFIED**. Existing deployed Phase 7 media and Phase 6 rollback remain intact.
+
+A possible future VM test would require a **64 MiB raw virtual data disk on
+IDE0** of VM 103, after re-inventory proving IDE0 free and selecting an exact
+new storage allocation distinct from all existing disks. This is a proposal,
+not permission or a completed allocation: the storage pool/destination and disk
+identity must be presented for explicit approval before any change. No raw host
+disk, NAS volume or other guest disk is a formatting target. The host formatter
+currently creates only exclusive images under this repository's `dist/`.
+
+All current filesystem tests use newly created local QEMU images. Do not claim
+live file persistence from local evidence or the remote VM's running status.
+The prior deployment workflow and rollback identities below remain historical
+reference, not authorization for new storage changes.
+
 Phase 8 is fully verified locally and has not been deployed. No guest data
 disk was created or attached during this continuation. The
 Phase 7 deployment below is the last recorded remote checkpoint, not a fresh

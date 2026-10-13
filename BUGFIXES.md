@@ -1,5 +1,72 @@
 # BUGFIXES
 
+## Phase 9 corrections and verification boundaries
+
+- The first full acceptance passed ELF persistence but failed on GRUB/ISO ATA
+  cache-flush completion. Reproduction captured a real `poll timeout`, not a
+  checksum or mount failure. Port 0x80 is not a wall-clock delay in QEMU; the old
+  4,000-read budget could expire before asynchronous writeback completed. The
+  driver now permits a hard maximum of 100,000 status reads. An 8,192-busy-poll
+  scripted flush regression was RED with the old budget and GREEN with the fix;
+  permanently busy devices still time out. The unchanged ISO persistence checks
+  passed 168/168 in three independent reproduction runs. This is an iteration
+  bound, not a real-time timeout or proof of physical disk durability.
+- ATA/RAM-disk statistics used unchecked `usize` increments. On i686, cumulative
+  transferred bytes could overflow after 4 GiB of I/O and panic despite valid
+  filesystem addresses. Transfer, error and denial counters now saturate; a
+  near-address-width regression was observed RED then GREEN. Counters at their
+  maximum no longer represent an exact cumulative count.
+- An explicit fragmented-volume regression fills all eight test data blocks,
+  deletes alternating files, advances retained generations, rejects a two-block
+  extent despite four isolated free blocks, then reuses a merged deleted run
+  and verifies all surviving binary data after remount. Duplicate deletion is
+  rejected without freeing another file's blocks.
+
+- The initial uncommitted RostiFS used in-place metadata, inconsistent bitmap
+  geometry, unstamped free slots, invalid name/page boundaries and unrelated
+  transaction generations as node lifetimes. It did not mount its own formatted
+  image and failed 10 of 18 host tests. It was replaced, not declared complete:
+  two COW metadata banks, independently validated roots, protected old data,
+  fixed inline directories and slot-lifetime generations fix the architecture.
+- CRC32C code was correct, but its draft reference tests were wrong:
+  `123456789` is `e3069283` and `a` is `c1d04330`. Established vectors and real
+  byte corruption tests now validate the checksum, not self-invented values.
+- A draft `UnsafeCell` accessor could manufacture aliased mutable references
+  through shared VFS reads. The portable core now uses fallible `RefCell`
+  borrowing and contains no unsafe code. Hardware diagnostic/FS views serialize
+  access to the same ATA owner instead of sharing `&mut AtaDevice` references.
+- Draft crash tests hardcoded block counts while the device performed eight
+  sector writes per block and skipped flush boundaries. Current tests derive
+  injection points from real successful event traces, check exact old/new trees
+  and data, tear sectors/root prefixes, reject writes/flushes and reorder pending
+  sectors. A failed commit poisons subsequent writes until remount.
+- Multiple local 4 KiB buffers and by-value filesystem construction threatened
+  the 16 KiB boot stack. One instance-owned 4 KiB scratch buffer and const static
+  in-place mounting avoid these buffers on the kernel stack. Host-only by-value
+  constructors remain unsuitable for the boot stack.
+- Shell errors after opening a descriptor leaked it (e.g. `cat` on a directory,
+  failed writes/listing/removal). Commands now close only newly opened handles
+  on every exit. A regression retains an unrelated handle while exercising
+  all failing command paths.
+- Root/source freeze now includes portable crate sources, integration tests,
+  manifests and locks; newly added storage code cannot evade acceptance hashing.
+  Production acceptance explicitly checks resolved Cargo features and rejects
+  the deliberate fatal-fault ELF marker. Existing tests were not weakened.
+- The kernel's explicit top-level workspace and a separately rooted path
+  dependency produced Cargo's `multiple workspace roots` error even with an
+  exclusion. The one-package kernel now uses package resolver 2; the portable
+  and host test crates remain independently rooted. Failed build evidence is
+  retained in `test_results/phase9/`.
+
+Known limits are deliberate, not fixed by this release: contiguous allocation
+may fail under fragmentation; old-root retention delays reuse; shell create
+plus write is two commits; ordinary post-mount data reads do not revalidate the
+whole-file checksum until the next mount/check. Hardware power-loss honesty,
+CRC collisions, hostile concurrent host path replacement, Unicode VGA rendering
+and scheduler/user-mode isolation are not proved. FORMAT.md specifies the
+tested failure model. No physical power-loss safety or cryptographic integrity
+claim is made.
+
 Confirmed defects, evidence, and fixes (this session unless noted).
 
 ## Phase 8 defects found in the unfinished block layer

@@ -1,0 +1,25 @@
+
+rosti>cd /mnt/rosti
+ok
+rosti>pwd
+/mnt/rosti
+rosti>cd /
+ok
+rosti>cat /mnt/rosti/persist/nested/message.txt
+Persistent Rosti data-append!
+rosti>ls /mnt/rosti/persist/nested
+message.txt
+rosti>fdlist
+fd 0 console-in rights 0 offset 0 refs 0
+fd 1 console-out rights 0 offset 0 refs 0
+fd 2 console-out rights 0 offset 0 refs 0
+rosti>rm /mnt/rosti/persist/nested/message.txt
+ok
+rosti>stat /mnt/rosti/persist/nested/message.txt
+fs: not found
+rosti>rmdir /mnt/rosti/persist/nested
+ok
+rosti>rmdir /mnt/rosti/persist
+ok
+rosti>ls /mnt/rosti
+rosti>

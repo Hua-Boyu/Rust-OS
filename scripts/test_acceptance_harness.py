@@ -47,7 +47,7 @@ class SourceFreezeTests(unittest.TestCase):
 
             with patch.object(acceptance, "PROJECT", root), patch.object(sys, "argv", ["phase6_verify.py"]), patch.object(acceptance.subprocess, "run", side_effect=run), patch.object(acceptance.subprocess, "check_output", return_value="fixture-head\n"), contextlib.redirect_stdout(io.StringIO()):
                 code = acceptance.main()
-            self.last_versioned_count = len(list((root / "dist").glob("rosti_phase8_*.iso")))
+            self.last_versioned_count = len(list((root / "dist").glob("rosti_phase9_*.iso")))
             return code
 
     def test_failed_source_freeze_does_not_publish_versioned_iso(self):
@@ -56,7 +56,7 @@ class SourceFreezeTests(unittest.TestCase):
 
     def test_failed_harness_report_cannot_pass_or_publish(self):
         def failed_report(root):
-            run = next((root / "test_results/phase8").glob("acceptance_*"))
+            run = next((root / "test_results/phase9").glob("acceptance_*"))
             folder = run / "fixture"
             folder.mkdir()
             (folder / "report.json").write_text('{"overall":"FAIL","checks":[{"pass":false}]}')
@@ -71,6 +71,14 @@ class SourceFreezeTests(unittest.TestCase):
 
     def test_stable_source_can_finish(self):
         self.assertEqual(self.simulate(lambda root: None), 0)
+
+    def test_portable_source_added_during_acceptance_is_rejected(self):
+        def add(root):
+            directory = root / "crates/rostifs/src"
+            directory.mkdir(parents=True)
+            (directory / "late.rs").write_text("late\n")
+        self.assertEqual(self.simulate(add), 1)
+        self.assertEqual(self.last_versioned_count, 0)
 
 
 if __name__ == "__main__":
