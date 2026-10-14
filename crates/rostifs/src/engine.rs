@@ -551,15 +551,18 @@ impl<'a> RostiFs<'a> {
         for b in 0..blocks {
             page.fill(0);
             let base = b * FS_BLOCK_SIZE;
-            if preserve && base < old.size as usize {
-                self.read_block(old.start as usize + b, &mut *page)?;
-                let keep = (old.size as usize - base)
-                    .min(FS_BLOCK_SIZE)
-                    .min(len - base);
-                page[keep..].fill(0);
-            }
             let low = base.max(offset);
             let high = (base + FS_BLOCK_SIZE).min(offset + data.len()).min(len);
+            let keep = (old.size as usize)
+                .min(len)
+                .saturating_sub(base)
+                .min(FS_BLOCK_SIZE);
+            // Read only if some live old byte survives this overwrite. Retain
+            // whole-block reads for partial preservation; padding stays zero.
+            if preserve && keep != 0 && !(low == base && high >= base + keep) {
+                self.read_block(old.start as usize + b, &mut *page)?;
+                page[keep..].fill(0);
+            }
             if low < high {
                 page[low - base..high - base].copy_from_slice(&data[low - offset..high - offset]);
             }

@@ -130,6 +130,11 @@ def main():
         if not match or int(match[1]) != 4 or int(match[2]) != 0:
             raise RuntimeError("RostiFS read regression totals missing or incomplete")
         report["counts"]["rostifs_read"] = {"pass": int(match[1]), "fail": int(match[2])}
+        text = gate("RostiFS write preservation regressions", ["cargo", "+nightly", "test", "--manifest-path", manifest, "--features", "host-tools", "--test", "write_preservation"], timeout=180, cwd=Path.home())
+        match = re.search(r"test result: ok\. (\d+) passed; (\d+) failed", text)
+        if not match or int(match[1]) != 3 or int(match[2]) != 0:
+            raise RuntimeError("RostiFS write regression totals missing or incomplete")
+        report["counts"]["rostifs_write"] = {"pass": int(match[1]), "fail": int(match[2])}
         gate("Python media reader regressions", script("test_fs_harness.py"))
         gate("acceptance runner regressions", script("test_acceptance_harness.py"))
         gate("RostiFS harness regressions", script("test_rostifs_harness.py"))

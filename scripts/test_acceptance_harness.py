@@ -16,7 +16,7 @@ SPEC.loader.exec_module(acceptance)
 
 
 class SourceFreezeTests(unittest.TestCase):
-    def simulate(self, mutation, omit_reports=False, boot_rows=10, read_tests=4):
+    def simulate(self, mutation, omit_reports=False, boot_rows=10, read_tests=4, write_tests=3):
         self.last_commands = []
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -34,6 +34,8 @@ class SourceFreezeTests(unittest.TestCase):
                 output = kwargs["stdout"]
                 if "test" in command:
                     passed = read_tests if "read_performance" in command else 1
+                    if "write_preservation" in command:
+                        passed = write_tests
                     output.write(f"test result: ok. {passed} passed; 0 failed\n".encode())
                 if any(str(c).endswith("boot_test.py") for c in command):
                     folder = Path(command[command.index("--output-dir") + 1])
@@ -76,6 +78,15 @@ class SourceFreezeTests(unittest.TestCase):
 
     def test_missing_read_regression_cannot_publish(self):
         self.assertEqual(self.simulate(lambda root: None, read_tests=1), 1)
+        self.assertEqual(self.last_versioned_count, 0)
+
+    def test_write_preservation_regressions_are_required(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        self.assertTrue(any("write_preservation" in command and "host-tools" in command
+                            and "--ignored" not in command for command in self.last_commands))
+
+    def test_missing_write_regression_cannot_publish(self):
+        self.assertEqual(self.simulate(lambda root: None, write_tests=2), 1)
         self.assertEqual(self.last_versioned_count, 0)
 
     def test_missing_mandatory_reports_cannot_publish(self):
