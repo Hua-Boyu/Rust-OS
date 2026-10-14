@@ -997,6 +997,9 @@ fn heap_growth_disabled_in_host_tests_and_stats_are_consistent() {
 
 // ---- Phase 5 performance baseline (recorded, not optimized) ----
 
+#[cfg(test)]
+mod maintenance_measurements;
+
 #[test]
 fn perf_baseline_records_latencies() {
     use core::alloc::Layout;
