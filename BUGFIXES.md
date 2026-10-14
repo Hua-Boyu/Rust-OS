@@ -1,5 +1,19 @@
 # BUGFIXES
 
+## Phase 9.5C unnecessary preservation transfers
+
+- Full old-block preservation reads ran even when all live old bytes were
+  supplied by an offset write. A full 8,193-byte overwrite was RED at 24 reads
+  versus zero. The bounded coverage condition skips only wholly redundant reads;
+  complete COW writes, CRCs, zero padding and three barriers remain unchanged.
+- Three focused regressions exercise bytes, budgets, remount validation, holes,
+  truncation, remaining read failures and poisoning after an earlier COW write.
+  Acceptance now mandates these tests; incomplete totals cannot publish an ISO.
+- C04 scan costs and C05 stranded prefixes/tails are measured but NOT FIXED.
+  B11/B13/B18/B26 remain blockers. B26 also includes destruction of the consumed
+  page-table Vec while the frame guard lives; moving error allocation alone is
+  insufficient. See docs/PHASE9_5C_RESULTS.md for exact measurements and plans.
+
 ## Phase 9.5B volume-scaled diagnostic work (C03)
 
 - Occupancy diagnostics scanned every data block against both inode inventories,

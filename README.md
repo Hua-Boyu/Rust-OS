@@ -1,5 +1,15 @@
 # Rust operating system on i686
 
+## Phase 9.5C final bounded maintenance
+
+COW offset writes avoid old-block reads only when every live old byte is replaced.
+This reduces measured covered-overwrite transfers without a cache or durability,
+CRC, wire-format or capability change. Host timings are mixed; no whole-OS speedup
+is claimed. Resident section total and static span are unchanged. Frame/heap
+investigations confirm costs and stranded capacity but leave unsafe allocator
+changes deferred. Read docs/PHASE9_5C_RESULTS.md and current HANDOVER.md for the
+final verified checkpoint. Phase 10 is blocked, not started; no VM was deployed.
+
 ## Phase 9.5B evidence-driven performance maintenance
 
 Ordinary partial RostiFS reads avoid unrequested sectors, retaining the existing

@@ -1,4 +1,53 @@
-# Rosti OS — Phase 9.5B performance maintenance handover
+# Rosti OS — Phase 9.5C final maintenance handover
+
+## Latest checkpoint — Phase 9.5C COMPLETE / VERIFIED
+
+Started clean at `2903eb00f74f05c5c174f7fcb6f661bdcdd896d9`, branch
+`maintenance/phase9-5b`. Final accepted source checkpoint:
+`8f9082382cbdf442096e91a06c9903397b04d2e2`; documentation/evidence commit follows.
+Verified C02 commit: `825cb89c16272720615116f54ede05783b322fad`.
+
+C02 skips old whole-block reads only when every retained old byte is supplied
+by the write. No cache/unsafe/format/capability/CRC/COW/flush-order change.
+Three focused regressions plus a mandatory gate and two fail-closed runner tests.
+Independent read-only review: PASS, no security concerns or logic errors.
+Host B/C/B/C: 18 samples/workload/side, 100 transactions/sample. Reads for full,
+first-block and unaligned overwrites fall 24 -> 0/16/8; writes remain 48 and
+flushes three. Full-overwrite median 1.444695 -> 1.469776 ms; other timings vary
+and unchanged-transfer control also improves. Accepted for transfer savings,
+not a claimed overall latency/throughput speedup. No rejected prototype remains.
+
+C04/C05 were measured, production changes DEFERRED. Nine-sample frame profiles
+show scan-state cost; isolated heap cycles confirm eight-byte prefix and seven-byte
+tiny-tail capacity loss despite zero live/used. Exact samples, bounds, throughput
+derivations and actionable safety plans are in docs/PHASE9_5C_RESULTS.md.
+No C01/C03 repeat. Temporary baseline worktree/builds removed, evidence preserved.
+
+Official acceptance completed in notified background, exit 0: **PASS 39/39**,
+179 Rust, 49 Python, all 9,071 modeled crash cases. Evidence:
+test_results/phase9_5/acceptance_20261014T142055Z_qg7d7qid/acceptance.json.
+All 86 source inputs and 52 nested PASS reports independently checked; exact
+mandatory matrix, final owned-image hashes and cleanup verified. ELF/GRUB at
+128/512 MiB pass paging/faults, memory/OOM, VFS/capabilities, ATA/RostiFS
+persistence, corruption and independent RAMFS recovery. No local QEMU remains.
+
+Accepted ISO: dist/rosti_phase9_5_20261014T142055Z.iso (10,276,864 B).
+SHA256: 5294625001799bfb5bdac7d6c01d95f7332b1e0255dc65927a1aff2c900e3331.
+Kernel: 0a5046e9d05d3642cc5876335372d298ba1bc703064774d8f0e3e972072c3248;
+independent ISO payload extraction matches. Historical accepted ISO hashes survive.
+ELF +120 B, text +16/data -16, rodata/BSS unchanged; resident allocated total and
+static span unchanged. QEMU retained heap 8,232 B/capacity 1 MiB/zero growth pages,
+filesystem/descriptor storage unchanged. Stack/heap high-water remains unmeasured.
+
+**Phase 10 readiness: BLOCKED by B11/B13/B18/B26.** B26 also drops consumed
+page-table Vec backing under the frame guard on failure; moving error allocation
+alone is incomplete. Fix reservation precedence/live mappings, entry ABI/DF,
+fallible boot inventory and all guard-held heap operations with new independent
+fixtures before Phase 10. Broader safe-API and allocator findings remain.
+No Phase 10 feature, Proxmox call/deploy/restart/storage change, physical-media
+operation, push/tag/history rewrite. This bounded pass is finished; stop here.
+Current release index: test_results/phase9_5/c02_validation.json. Earlier sections
+below are historical and do not override this checkpoint.
 
 ## Latest Phase 9.5B continuation — C03 VERIFIED
 

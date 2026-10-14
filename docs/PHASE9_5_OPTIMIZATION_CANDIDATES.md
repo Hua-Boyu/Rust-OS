@@ -1,5 +1,14 @@
 # Phase 9.5B optimization candidates
 
+## Latest Phase 9.5C disposition
+
+C02 has a bounded covered-old-byte read-elision implementation with focused
+tests, repeated host A/B samples and an independent read-only review. C04/C05
+now have explicit ignored host investigation probes; no production memory
+optimization was attempted. See PHASE9_5C_RESULTS.md for current measurements,
+acceptance and remaining blockers. Historical decisions below describe earlier
+passes, not the latest disposition. C01/C03 were not repeated.
+
 Scope: maintenance only; no Phase 10, target/profile change, format migration,
 flush deletion, VM deployment or physical media. Starting clean source:
 `9792bd4cc2dbb04e1b64b2f623fcb3d0325439e7`. The existing cat batching and descriptor

@@ -1,5 +1,26 @@
 # TESTING
 
+## Phase 9.5C final maintenance
+
+From C:/Users/iamsv, outside kernel Cargo config:
+
+```bash
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/crates/rostifs/Cargo.toml --features host-tools --test write_preservation
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/crates/rostifs/Cargo.toml --features host-tools --test write_preservation measured_preservation_workloads -- --ignored --exact --nocapture
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml maintenance_measurements::measured_frame_scan_states -- --ignored --exact --nocapture
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml maintenance_measurements::measured_heap_capacity_loss -- --ignored --exact --nocapture
+```
+
+Run timing probes separately. The write target has three required ordinary
+regressions and one ignored benchmark; two new acceptance-runner regressions
+require its invocation and complete totals. Full acceptance now has 39 gates;
+all prior gates and modeled crash cases remain. Frame/heap investigations are
+ignored observations, not claims of allocator fixes or guest/TLB measurements.
+Use the notified background procedure for `python -B scripts/phase6_verify.py`;
+no competing QEMU or source changes. Latest release evidence and limitations:
+docs/PHASE9_5C_RESULTS.md, with c02_* and c04_c05_investigation.json under
+test_results/phase9_5. Older campaign counts below remain historical.
+
 ## Phase 9.5B controlled experiments
 
 From C:/Users/iamsv (outside kernel Cargo configuration):

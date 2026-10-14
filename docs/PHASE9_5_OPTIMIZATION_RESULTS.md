@@ -1,5 +1,13 @@
 # Phase 9.5B optimization results
 
+## Latest final bounded pass: Phase 9.5C
+
+See [PHASE9_5C_RESULTS.md](PHASE9_5C_RESULTS.md). C02 eliminates measured redundant
+preservation transfers while retaining complete COW writes/CRCs/barriers; mixed
+host timing does not establish general latency gain. C04/C05 are measured but
+production changes deferred. No C01/C03 repeat or Phase 10 implementation.
+Earlier acceptance and measurements below are preserved historical checkpoints.
+
 ## Latest continuation: C03 VERIFIED
 
 Source checkpoint `bea7e87e29b4c8b7fd0d6158ec1dd66d3ee11aca` adds a bounded

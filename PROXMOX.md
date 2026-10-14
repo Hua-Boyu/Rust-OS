@@ -1,5 +1,11 @@
 # PROXMOX DEPLOYMENT
 
+## Phase 9.5C boundary
+
+No Proxmox API/SSH action, upload, deployment, restart, reset or storage mutation
+was performed in this pass. Prior inventory below is historical, not a refreshed
+remote-state assertion. All new verification uses exclusive local QEMU images.
+
 ## Phase 9.5B fresh read-only inventory
 
 Start and finish GETs confirm VM 103 rosti-dev running, 512 MiB/one core,

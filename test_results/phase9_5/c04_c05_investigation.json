@@ -1,0 +1,173 @@
+{
+  "C04_samples": [
+    {
+      "state": "sparse",
+      "sample": 0,
+      "ns_per_op": 115.0
+    },
+    {
+      "state": "sparse",
+      "sample": 1,
+      "ns_per_op": 116.0
+    },
+    {
+      "state": "sparse",
+      "sample": 2,
+      "ns_per_op": 114.0
+    },
+    {
+      "state": "sparse",
+      "sample": 3,
+      "ns_per_op": 109.0
+    },
+    {
+      "state": "sparse",
+      "sample": 4,
+      "ns_per_op": 163.0
+    },
+    {
+      "state": "sparse",
+      "sample": 5,
+      "ns_per_op": 110.0
+    },
+    {
+      "state": "sparse",
+      "sample": 6,
+      "ns_per_op": 113.0
+    },
+    {
+      "state": "sparse",
+      "sample": 7,
+      "ns_per_op": 117.0
+    },
+    {
+      "state": "sparse",
+      "sample": 8,
+      "ns_per_op": 114.0
+    },
+    {
+      "state": "dense",
+      "sample": 0,
+      "ns_per_op": 5278.0
+    },
+    {
+      "state": "dense",
+      "sample": 1,
+      "ns_per_op": 5129.0
+    },
+    {
+      "state": "dense",
+      "sample": 2,
+      "ns_per_op": 4920.0
+    },
+    {
+      "state": "dense",
+      "sample": 3,
+      "ns_per_op": 4928.0
+    },
+    {
+      "state": "dense",
+      "sample": 4,
+      "ns_per_op": 6678.0
+    },
+    {
+      "state": "dense",
+      "sample": 5,
+      "ns_per_op": 7088.0
+    },
+    {
+      "state": "dense",
+      "sample": 6,
+      "ns_per_op": 5170.0
+    },
+    {
+      "state": "dense",
+      "sample": 7,
+      "ns_per_op": 4953.0
+    },
+    {
+      "state": "dense",
+      "sample": 8,
+      "ns_per_op": 8835.0
+    },
+    {
+      "state": "exhausted",
+      "sample": 0,
+      "ns_per_op": 320935.0
+    },
+    {
+      "state": "exhausted",
+      "sample": 1,
+      "ns_per_op": 319418.0
+    },
+    {
+      "state": "exhausted",
+      "sample": 2,
+      "ns_per_op": 325893.0
+    },
+    {
+      "state": "exhausted",
+      "sample": 3,
+      "ns_per_op": 325348.0
+    },
+    {
+      "state": "exhausted",
+      "sample": 4,
+      "ns_per_op": 316423.0
+    },
+    {
+      "state": "exhausted",
+      "sample": 5,
+      "ns_per_op": 323908.0
+    },
+    {
+      "state": "exhausted",
+      "sample": 6,
+      "ns_per_op": 326432.0
+    },
+    {
+      "state": "exhausted",
+      "sample": 7,
+      "ns_per_op": 316465.0
+    },
+    {
+      "state": "exhausted",
+      "sample": 8,
+      "ns_per_op": 321786.0
+    }
+  ],
+  "C04_summary": [
+    {
+      "state": "sparse",
+      "samples": 9,
+      "median_ns": 114.0
+    },
+    {
+      "state": "dense",
+      "samples": 9,
+      "median_ns": 5170.0
+    },
+    {
+      "state": "exhausted",
+      "samples": 9,
+      "median_ns": 321786.0
+    }
+  ],
+  "C05_observations": [
+    {
+      "state": "aligned",
+      "before_free": 4096,
+      "after_free": 4088,
+      "stranded": 8,
+      "waste": 8
+    },
+    {
+      "state": "tiny_tail",
+      "before_free": 4096,
+      "after_free": 4089,
+      "stranded": 7,
+      "waste": 0
+    }
+  ],
+  "decision": "DEFER production C04/C05: reservation and unsafe span ownership prerequisites; model only, no guest timings"
+}

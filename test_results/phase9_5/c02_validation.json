@@ -1,0 +1,76 @@
+{
+  "status": "VERIFIED",
+  "starting_head": "2903eb00f74f05c5c174f7fcb6f661bdcdd896d9",
+  "acceptance": "test_results\\phase9_5\\acceptance_20261014T142055Z_qg7d7qid\\acceptance.json",
+  "gates_passed": 39,
+  "rust_passed": 179,
+  "python_counts": {
+    "Python media reader regressions": 4,
+    "acceptance runner regressions": 15,
+    "RostiFS harness regressions": 16,
+    "Phase 9.5 benchmark contracts": 14
+  },
+  "python_passed": 49,
+  "source_hash_count": 86,
+  "nested_reports_verified": 52,
+  "modeled_crash_cases": 9071,
+  "iso": {
+    "name": "rosti_phase9_5_20261014T142055Z.iso",
+    "path": "dist\\rosti_phase9_5_20261014T142055Z.iso",
+    "sha256": "5294625001799bfb5bdac7d6c01d95f7332b1e0255dc65927a1aff2c900e3331",
+    "bytes": 10276864,
+    "kernel_sha256": "0a5046e9d05d3642cc5876335372d298ba1bc703064774d8f0e3e972072c3248"
+  },
+  "source_hashes_verified": true,
+  "qemu_cleanup_verified": true,
+  "iso_payload_independently_extracted": true,
+  "mandatory_matrix_rechecked": {
+    "read_fault": 2,
+    "write_fault": 2,
+    "paging": 20,
+    "iso_paging": 2,
+    "fs_elf_128": 102,
+    "block_elf_128": 98,
+    "rostifs_elf_128": 168,
+    "fs_elf_512": 102,
+    "block_elf_512": 98,
+    "rostifs_elf_512": 168,
+    "fs_iso_128": 102,
+    "block_iso_128": 98,
+    "rostifs_iso_128": 168,
+    "fs_iso_512": 102,
+    "block_iso_512": 98,
+    "rostifs_iso_512": 168
+  },
+  "accepted_kernel_sha256": "0a5046e9d05d3642cc5876335372d298ba1bc703064774d8f0e3e972072c3248",
+  "accepted_iso_sha256": "5294625001799bfb5bdac7d6c01d95f7332b1e0255dc65927a1aff2c900e3331",
+  "verified_source_commit": "8f9082382cbdf442096e91a06c9903397b04d2e2",
+  "optimization_commit": "825cb89c16272720615116f54ede05783b322fad",
+  "final_owned_images_verified": [
+    {
+      "configuration": "elf_128",
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase9_rostifs_2t76mkv_\\owned.img",
+      "sha256": "954909ff0be911eea4ecd6cb5d6f9206c813b28186adb37bcbd55e0f34a35991",
+      "pass": true
+    },
+    {
+      "configuration": "elf_512",
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase9_rostifs_e786g_2h\\owned.img",
+      "sha256": "b34d0a56d8cc901fbd05753b287e4fe7912bb051f5c676fb06fb1f124ada6838",
+      "pass": true
+    },
+    {
+      "configuration": "iso_128",
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase9_rostifs_bsa54qmf\\owned.img",
+      "sha256": "da68d3d9db5ace84fbc5857bdfab5027bea41392e4d2c04a7e6dbb9f2930fa9d",
+      "pass": true
+    },
+    {
+      "configuration": "iso_512",
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase9_rostifs_hy_v8ovx\\owned.img",
+      "sha256": "1e2783cd536493639a10c36b1b06f855c2c4a68b906a2ec0306d318221619261",
+      "pass": true
+    }
+  ],
+  "post_commit_source_hashes_verified": true
+}

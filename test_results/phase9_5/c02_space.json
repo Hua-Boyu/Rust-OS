@@ -1,0 +1,100 @@
+{
+  "baseline": {
+    "file_bytes": 5153472,
+    "sha256": "ba7b86f66c09e0dc7a7814df8ab82cdecfdba9314c0fc1cc19c34f6a1a5df0d0",
+    "section_bytes": {
+      "": 0,
+      ".multiboot": 12,
+      ".got": 88,
+      ".text": 610961,
+      ".rodata": 39122,
+      ".eh_frame_hdr": 28,
+      ".eh_frame": 68,
+      ".data": 92368,
+      ".got.plt": 12,
+      ".bss": 1138108,
+      ".debug_abbrev": 84488,
+      ".debug_info": 1367293,
+      ".debug_aranges": 70064,
+      ".debug_str": 1385730,
+      ".comment": 162,
+      ".debug_frame": 293192,
+      ".debug_line": 623349,
+      ".debug_ranges": 162992,
+      ".debug_loc": 11375,
+      ".symtab": 53616,
+      ".shstrtab": 212,
+      ".strtab": 344181
+    },
+    "allocated_section_bytes": 1880767,
+    "static_address_span_bytes": 1891772,
+    "initialized_allocated_bytes": 742659,
+    "selected_symbols": {
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main10FILESYSTEM": {
+        "address": 2757252,
+        "bytes": 6940
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main11DESCRIPTORS": {
+        "address": 2764192,
+        "bytes": 2328
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main7BACKEND": {
+        "address": 2766568,
+        "bytes": 21300
+      },
+      "_RNvNtCsiGpFisFMzhI_6kernel6memory11FRAME_ALLOC": {
+        "address": 2794060,
+        "bytes": 32804
+      }
+    }
+  },
+  "candidate": {
+    "file_bytes": 5153592,
+    "sha256": "0a5046e9d05d3642cc5876335372d298ba1bc703064774d8f0e3e972072c3248",
+    "section_bytes": {
+      "": 0,
+      ".multiboot": 12,
+      ".got": 88,
+      ".text": 610977,
+      ".rodata": 39122,
+      ".eh_frame_hdr": 28,
+      ".eh_frame": 68,
+      ".data": 92352,
+      ".got.plt": 12,
+      ".bss": 1138108,
+      ".debug_abbrev": 84488,
+      ".debug_info": 1367325,
+      ".debug_aranges": 70064,
+      ".debug_str": 1385730,
+      ".comment": 162,
+      ".debug_frame": 293192,
+      ".debug_line": 623364,
+      ".debug_ranges": 163080,
+      ".debug_loc": 11375,
+      ".symtab": 53616,
+      ".shstrtab": 212,
+      ".strtab": 344181
+    },
+    "allocated_section_bytes": 1880767,
+    "static_address_span_bytes": 1891772,
+    "initialized_allocated_bytes": 742659,
+    "selected_symbols": {
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main10FILESYSTEM": {
+        "address": 2757252,
+        "bytes": 6940
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main11DESCRIPTORS": {
+        "address": 2764192,
+        "bytes": 2328
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main7BACKEND": {
+        "address": 2766568,
+        "bytes": 21300
+      },
+      "_RNvNtCsiGpFisFMzhI_6kernel6memory11FRAME_ALLOC": {
+        "address": 2794060,
+        "bytes": 32804
+      }
+    }
+  }
+}

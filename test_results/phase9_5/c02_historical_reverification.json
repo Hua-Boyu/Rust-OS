@@ -1,0 +1,33 @@
+{
+  "starting_head": "2903eb00f74f05c5c174f7fcb6f661bdcdd896d9",
+  "historical_acceptance": {
+    "status": "PASS",
+    "gates": 38,
+    "source_inputs": 84,
+    "nested_reports_verified": 52
+  },
+  "preserved_iso_checks": [
+    {
+      "path": "dist\\rosti_phase9_5_20261013T221730Z.iso",
+      "sha256": "26e0407ad977bcb573bac03682a95512562f67b9481b58d88c6cdfe3548e84eb",
+      "pass": true
+    },
+    {
+      "path": "dist\\rosti_phase9_5_20261013T233346Z.iso",
+      "sha256": "a3620655691625f36e760fae73b50878176dc940fd924686956053bd7eb91681",
+      "pass": true
+    },
+    {
+      "path": "dist\\rosti_c03_benchmark.iso",
+      "sha256": "f6cb0ceeccd844062a82031debf68f1aa61156b98827a6d247b43fff67cd461a",
+      "pass": true
+    },
+    {
+      "path": "dist\\rosti_phase9_5_20261014T123644Z.iso",
+      "sha256": "c6c1f9381075320b864a4b4f9542c019879037da2d484764136db12a66e7267b",
+      "pass": true
+    }
+  ],
+  "qemu_replays_verified": 12,
+  "source_changes_during_acceptance": false
+}

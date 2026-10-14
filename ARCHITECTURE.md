@@ -1,5 +1,18 @@
 # ARCHITECTURE
 
+## Phase 9.5C preservation reads
+
+The COW writer bounds the old live prefix of each destination block by old and
+new lengths. It reads the old block only when some such byte is not supplied by
+the write. Partial preservation keeps the existing whole-block path. Scratch
+zeroing, final padding, complete new extent CRC, both protected roots, metadata
+COW and data/metadata/root barriers are unchanged; no extra cache, field or unsafe
+operation. Mount/check still validate all padded extents. The sector/error
+schedule intentionally omits old blocks whose live contents are wholly replaced.
+See docs/PHASE9_5C_RESULTS.md for scope, measurements and final release evidence.
+Frame and heap probes are test-only, ignored explicit investigations; production
+allocation/growth semantics remain unchanged. Phase 10 remains blocked.
+
 ## Phase 9.5B bounded occupancy diagnostics (C03)
 
 `RostiFs::mount_info` sweeps the endpoints of current/previous inode extents,

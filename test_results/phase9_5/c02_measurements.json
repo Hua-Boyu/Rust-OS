@@ -1,0 +1,1598 @@
+{
+  "scope": "Counted volatile RAM host debug fixture, complete COW transactions; setup excluded, CRC/metadata included; no guest or physical disk timing",
+  "order": [
+    "B1",
+    "C1",
+    "B2",
+    "C2"
+  ],
+  "starting_head": "2903eb00f74f05c5c174f7fcb6f661bdcdd896d9",
+  "samples": [
+    {
+      "batch": "B1",
+      "name": "full",
+      "sample": 0,
+      "ops": 100,
+      "ns": 137265800,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "full",
+      "sample": 1,
+      "ops": 100,
+      "ns": 136891700,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "full",
+      "sample": 2,
+      "ops": 100,
+      "ns": 141700100,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "full",
+      "sample": 3,
+      "ops": 100,
+      "ns": 136774300,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "full",
+      "sample": 4,
+      "ops": 100,
+      "ns": 145576900,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "full",
+      "sample": 5,
+      "ops": 100,
+      "ns": 156150700,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "full",
+      "sample": 6,
+      "ops": 100,
+      "ns": 138546500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "full",
+      "sample": 7,
+      "ops": 100,
+      "ns": 140294700,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "full",
+      "sample": 8,
+      "ops": 100,
+      "ns": 140785500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "first_block",
+      "sample": 0,
+      "ops": 100,
+      "ns": 138539900,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "first_block",
+      "sample": 1,
+      "ops": 100,
+      "ns": 138194800,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "first_block",
+      "sample": 2,
+      "ops": 100,
+      "ns": 138883700,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "first_block",
+      "sample": 3,
+      "ops": 100,
+      "ns": 154644400,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "first_block",
+      "sample": 4,
+      "ops": 100,
+      "ns": 133933800,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "first_block",
+      "sample": 5,
+      "ops": 100,
+      "ns": 140683700,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "first_block",
+      "sample": 6,
+      "ops": 100,
+      "ns": 153268900,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "first_block",
+      "sample": 7,
+      "ops": 100,
+      "ns": 138948800,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "first_block",
+      "sample": 8,
+      "ops": 100,
+      "ns": 138659400,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "unaligned",
+      "sample": 0,
+      "ops": 100,
+      "ns": 139124600,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "unaligned",
+      "sample": 1,
+      "ops": 100,
+      "ns": 138734100,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "unaligned",
+      "sample": 2,
+      "ops": 100,
+      "ns": 183175300,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "unaligned",
+      "sample": 3,
+      "ops": 100,
+      "ns": 275210600,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "unaligned",
+      "sample": 4,
+      "ops": 100,
+      "ns": 253665400,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "unaligned",
+      "sample": 5,
+      "ops": 100,
+      "ns": 228240700,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "unaligned",
+      "sample": 6,
+      "ops": 100,
+      "ns": 234235000,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "unaligned",
+      "sample": 7,
+      "ops": 100,
+      "ns": 267873900,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "unaligned",
+      "sample": 8,
+      "ops": 100,
+      "ns": 239637800,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "partial",
+      "sample": 0,
+      "ops": 100,
+      "ns": 253327100,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "partial",
+      "sample": 1,
+      "ops": 100,
+      "ns": 248178600,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "partial",
+      "sample": 2,
+      "ops": 100,
+      "ns": 254015100,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "partial",
+      "sample": 3,
+      "ops": 100,
+      "ns": 261773400,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "partial",
+      "sample": 4,
+      "ops": 100,
+      "ns": 257116000,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "partial",
+      "sample": 5,
+      "ops": 100,
+      "ns": 258445400,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "partial",
+      "sample": 6,
+      "ops": 100,
+      "ns": 253972400,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "partial",
+      "sample": 7,
+      "ops": 100,
+      "ns": 272075300,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B1",
+      "name": "partial",
+      "sample": 8,
+      "ops": 100,
+      "ns": 267033600,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "full",
+      "sample": 0,
+      "ops": 100,
+      "ns": 144271600,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "full",
+      "sample": 1,
+      "ops": 100,
+      "ns": 151897800,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "full",
+      "sample": 2,
+      "ops": 100,
+      "ns": 160645100,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "full",
+      "sample": 3,
+      "ops": 100,
+      "ns": 145292800,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "full",
+      "sample": 4,
+      "ops": 100,
+      "ns": 144009100,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "full",
+      "sample": 5,
+      "ops": 100,
+      "ns": 145161100,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "full",
+      "sample": 6,
+      "ops": 100,
+      "ns": 156963500,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "full",
+      "sample": 7,
+      "ops": 100,
+      "ns": 148487800,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "full",
+      "sample": 8,
+      "ops": 100,
+      "ns": 146033200,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "first_block",
+      "sample": 0,
+      "ops": 100,
+      "ns": 146981400,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "first_block",
+      "sample": 1,
+      "ops": 100,
+      "ns": 164917100,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "first_block",
+      "sample": 2,
+      "ops": 100,
+      "ns": 160824000,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "first_block",
+      "sample": 3,
+      "ops": 100,
+      "ns": 157027500,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "first_block",
+      "sample": 4,
+      "ops": 100,
+      "ns": 146824300,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "first_block",
+      "sample": 5,
+      "ops": 100,
+      "ns": 152049800,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "first_block",
+      "sample": 6,
+      "ops": 100,
+      "ns": 151541900,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "first_block",
+      "sample": 7,
+      "ops": 100,
+      "ns": 149227000,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "first_block",
+      "sample": 8,
+      "ops": 100,
+      "ns": 147960700,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "unaligned",
+      "sample": 0,
+      "ops": 100,
+      "ns": 146062700,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "unaligned",
+      "sample": 1,
+      "ops": 100,
+      "ns": 145074700,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "unaligned",
+      "sample": 2,
+      "ops": 100,
+      "ns": 144529200,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "unaligned",
+      "sample": 3,
+      "ops": 100,
+      "ns": 145581800,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "unaligned",
+      "sample": 4,
+      "ops": 100,
+      "ns": 145538800,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "unaligned",
+      "sample": 5,
+      "ops": 100,
+      "ns": 144685200,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "unaligned",
+      "sample": 6,
+      "ops": 100,
+      "ns": 151156900,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "unaligned",
+      "sample": 7,
+      "ops": 100,
+      "ns": 146239200,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "unaligned",
+      "sample": 8,
+      "ops": 100,
+      "ns": 147042700,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "partial",
+      "sample": 0,
+      "ops": 100,
+      "ns": 149938500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "partial",
+      "sample": 1,
+      "ops": 100,
+      "ns": 149389800,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "partial",
+      "sample": 2,
+      "ops": 100,
+      "ns": 153429300,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "partial",
+      "sample": 3,
+      "ops": 100,
+      "ns": 149531500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "partial",
+      "sample": 4,
+      "ops": 100,
+      "ns": 146384700,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "partial",
+      "sample": 5,
+      "ops": 100,
+      "ns": 146172200,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "partial",
+      "sample": 6,
+      "ops": 100,
+      "ns": 147054300,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "partial",
+      "sample": 7,
+      "ops": 100,
+      "ns": 149517300,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C1",
+      "name": "partial",
+      "sample": 8,
+      "ops": 100,
+      "ns": 151583200,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "full",
+      "sample": 0,
+      "ops": 100,
+      "ns": 147003700,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "full",
+      "sample": 1,
+      "ops": 100,
+      "ns": 143362100,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "full",
+      "sample": 2,
+      "ops": 100,
+      "ns": 142021800,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "full",
+      "sample": 3,
+      "ops": 100,
+      "ns": 154262500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "full",
+      "sample": 4,
+      "ops": 100,
+      "ns": 146670400,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "full",
+      "sample": 5,
+      "ops": 100,
+      "ns": 145793900,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "full",
+      "sample": 6,
+      "ops": 100,
+      "ns": 180533200,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "full",
+      "sample": 7,
+      "ops": 100,
+      "ns": 194911900,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "full",
+      "sample": 8,
+      "ops": 100,
+      "ns": 195237000,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "first_block",
+      "sample": 0,
+      "ops": 100,
+      "ns": 203508300,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "first_block",
+      "sample": 1,
+      "ops": 100,
+      "ns": 198125200,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "first_block",
+      "sample": 2,
+      "ops": 100,
+      "ns": 203302000,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "first_block",
+      "sample": 3,
+      "ops": 100,
+      "ns": 203082500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "first_block",
+      "sample": 4,
+      "ops": 100,
+      "ns": 195341700,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "first_block",
+      "sample": 5,
+      "ops": 100,
+      "ns": 205043500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "first_block",
+      "sample": 6,
+      "ops": 100,
+      "ns": 201523700,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "first_block",
+      "sample": 7,
+      "ops": 100,
+      "ns": 200625400,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "first_block",
+      "sample": 8,
+      "ops": 100,
+      "ns": 188273800,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "unaligned",
+      "sample": 0,
+      "ops": 100,
+      "ns": 203613300,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "unaligned",
+      "sample": 1,
+      "ops": 100,
+      "ns": 200260400,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "unaligned",
+      "sample": 2,
+      "ops": 100,
+      "ns": 194455600,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "unaligned",
+      "sample": 3,
+      "ops": 100,
+      "ns": 196985000,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "unaligned",
+      "sample": 4,
+      "ops": 100,
+      "ns": 200087900,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "unaligned",
+      "sample": 5,
+      "ops": 100,
+      "ns": 192651900,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "unaligned",
+      "sample": 6,
+      "ops": 100,
+      "ns": 195825500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "unaligned",
+      "sample": 7,
+      "ops": 100,
+      "ns": 206920500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "unaligned",
+      "sample": 8,
+      "ops": 100,
+      "ns": 194718700,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "partial",
+      "sample": 0,
+      "ops": 100,
+      "ns": 188284200,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "partial",
+      "sample": 1,
+      "ops": 100,
+      "ns": 200088100,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "partial",
+      "sample": 2,
+      "ops": 100,
+      "ns": 203618800,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "partial",
+      "sample": 3,
+      "ops": 100,
+      "ns": 202134500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "partial",
+      "sample": 4,
+      "ops": 100,
+      "ns": 202304200,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "partial",
+      "sample": 5,
+      "ops": 100,
+      "ns": 210634500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "partial",
+      "sample": 6,
+      "ops": 100,
+      "ns": 198369500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "partial",
+      "sample": 7,
+      "ops": 100,
+      "ns": 196995100,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "B2",
+      "name": "partial",
+      "sample": 8,
+      "ops": 100,
+      "ns": 201993000,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "full",
+      "sample": 0,
+      "ops": 100,
+      "ns": 171554800,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "full",
+      "sample": 1,
+      "ops": 100,
+      "ns": 154245100,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "full",
+      "sample": 2,
+      "ops": 100,
+      "ns": 140741700,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "full",
+      "sample": 3,
+      "ops": 100,
+      "ns": 144274200,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "full",
+      "sample": 4,
+      "ops": 100,
+      "ns": 147868200,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "full",
+      "sample": 5,
+      "ops": 100,
+      "ns": 147993500,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "full",
+      "sample": 6,
+      "ops": 100,
+      "ns": 151376200,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "full",
+      "sample": 7,
+      "ops": 100,
+      "ns": 146087000,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "full",
+      "sample": 8,
+      "ops": 100,
+      "ns": 143080600,
+      "reads": 0,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "first_block",
+      "sample": 0,
+      "ops": 100,
+      "ns": 151816900,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "first_block",
+      "sample": 1,
+      "ops": 100,
+      "ns": 155573500,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "first_block",
+      "sample": 2,
+      "ops": 100,
+      "ns": 155383000,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "first_block",
+      "sample": 3,
+      "ops": 100,
+      "ns": 153067600,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "first_block",
+      "sample": 4,
+      "ops": 100,
+      "ns": 158302600,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "first_block",
+      "sample": 5,
+      "ops": 100,
+      "ns": 168686300,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "first_block",
+      "sample": 6,
+      "ops": 100,
+      "ns": 160580500,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "first_block",
+      "sample": 7,
+      "ops": 100,
+      "ns": 146439000,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "first_block",
+      "sample": 8,
+      "ops": 100,
+      "ns": 164993700,
+      "reads": 1600,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "unaligned",
+      "sample": 0,
+      "ops": 100,
+      "ns": 200828600,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "unaligned",
+      "sample": 1,
+      "ops": 100,
+      "ns": 165683900,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "unaligned",
+      "sample": 2,
+      "ops": 100,
+      "ns": 151819100,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "unaligned",
+      "sample": 3,
+      "ops": 100,
+      "ns": 146804100,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "unaligned",
+      "sample": 4,
+      "ops": 100,
+      "ns": 146636900,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "unaligned",
+      "sample": 5,
+      "ops": 100,
+      "ns": 146464600,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "unaligned",
+      "sample": 6,
+      "ops": 100,
+      "ns": 147561700,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "unaligned",
+      "sample": 7,
+      "ops": 100,
+      "ns": 151949200,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "unaligned",
+      "sample": 8,
+      "ops": 100,
+      "ns": 147756500,
+      "reads": 800,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "partial",
+      "sample": 0,
+      "ops": 100,
+      "ns": 146491400,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "partial",
+      "sample": 1,
+      "ops": 100,
+      "ns": 147090200,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "partial",
+      "sample": 2,
+      "ops": 100,
+      "ns": 146051600,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "partial",
+      "sample": 3,
+      "ops": 100,
+      "ns": 147074500,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "partial",
+      "sample": 4,
+      "ops": 100,
+      "ns": 146054800,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "partial",
+      "sample": 5,
+      "ops": 100,
+      "ns": 157042200,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "partial",
+      "sample": 6,
+      "ops": 100,
+      "ns": 146073100,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "partial",
+      "sample": 7,
+      "ops": 100,
+      "ns": 146738900,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    },
+    {
+      "batch": "C2",
+      "name": "partial",
+      "sample": 8,
+      "ops": 100,
+      "ns": 147250100,
+      "reads": 2400,
+      "writes": 4800,
+      "flushes": 300
+    }
+  ],
+  "summary": [
+    {
+      "name": "first_block",
+      "B": {
+        "n": 18,
+        "median_ns": 1714591.0,
+        "min_ns": 1339338.0,
+        "max_ns": 2050435.0,
+        "sectors_per_op": [
+          24.0
+        ],
+        "writes_per_op": [
+          48.0
+        ],
+        "flushes_per_op": [
+          3.0
+        ],
+        "derived_host_transactions_per_second": 583.2294698852379
+      },
+      "C": {
+        "n": 18,
+        "median_ns": 1542253.0,
+        "min_ns": 1464390.0,
+        "max_ns": 1686863.0,
+        "sectors_per_op": [
+          16.0
+        ],
+        "writes_per_op": [
+          48.0
+        ],
+        "flushes_per_op": [
+          3.0
+        ],
+        "derived_host_transactions_per_second": 648.4020455787734
+      },
+      "ratio": 1.1117443117309547
+    },
+    {
+      "name": "full",
+      "B": {
+        "n": 18,
+        "median_ns": 1444695.0,
+        "min_ns": 1367743.0,
+        "max_ns": 1952370.0,
+        "sectors_per_op": [
+          24.0
+        ],
+        "writes_per_op": [
+          48.0
+        ],
+        "flushes_per_op": [
+          3.0
+        ],
+        "derived_host_transactions_per_second": 692.1876243774637
+      },
+      "C": {
+        "n": 18,
+        "median_ns": 1469776.0,
+        "min_ns": 1407417.0,
+        "max_ns": 1715548.0,
+        "sectors_per_op": [
+          0.0
+        ],
+        "writes_per_op": [
+          48.0
+        ],
+        "flushes_per_op": [
+          3.0
+        ],
+        "derived_host_transactions_per_second": 680.375785153656
+      },
+      "ratio": 0.9829354949325612
+    },
+    {
+      "name": "partial",
+      "B": {
+        "n": 18,
+        "median_ns": 2294065.5,
+        "min_ns": 1882842.0,
+        "max_ns": 2720753.0,
+        "sectors_per_op": [
+          24.0
+        ],
+        "writes_per_op": [
+          48.0
+        ],
+        "flushes_per_op": [
+          3.0
+        ],
+        "derived_host_transactions_per_second": 435.9073444066876
+      },
+      "C": {
+        "n": 18,
+        "median_ns": 1470823.5,
+        "min_ns": 1460516.0,
+        "max_ns": 1570422.0,
+        "sectors_per_op": [
+          24.0
+        ],
+        "writes_per_op": [
+          48.0
+        ],
+        "flushes_per_op": [
+          3.0
+        ],
+        "derived_host_transactions_per_second": 679.8912310008645
+      },
+      "ratio": 1.5597150167916136
+    },
+    {
+      "name": "unaligned",
+      "B": {
+        "n": 18,
+        "median_ns": 2001741.5,
+        "min_ns": 1387341.0,
+        "max_ns": 2752106.0,
+        "sectors_per_op": [
+          24.0
+        ],
+        "writes_per_op": [
+          48.0
+        ],
+        "flushes_per_op": [
+          3.0
+        ],
+        "derived_host_transactions_per_second": 499.5650037729647
+      },
+      "C": {
+        "n": 18,
+        "median_ns": 1467205.0,
+        "min_ns": 1445292.0,
+        "max_ns": 2008286.0,
+        "sectors_per_op": [
+          8.0
+        ],
+        "writes_per_op": [
+          48.0
+        ],
+        "flushes_per_op": [
+          3.0
+        ],
+        "derived_host_transactions_per_second": 681.5680153761745
+      },
+      "ratio": 1.3643229814511264
+    }
+  ]
+}

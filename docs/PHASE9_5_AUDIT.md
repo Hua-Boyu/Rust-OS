@@ -1,5 +1,17 @@
 # Phase 9.5 read-only architecture audit
 
+## Phase 9.5C follow-up (latest)
+
+The final bounded pass does not close B09/B11/B13/B18/B26. C05 observations
+confirm 8-byte alignment-prefix and 7-byte tiny-tail loss on separate 4 KiB heap
+cycles, despite used/live returning to zero. C04 scan-state measurements confirm
+increasing cost without changing allocation policy. For B26, the consumed tables
+Vec in build_identity_map also drops under the frame guard on failure; moving
+only prepare's error Vec cannot remove all frame-to-heap locking. These findings
+and actionable prerequisite tests are in PHASE9_5C_RESULTS.md. C02 changes only
+covered old-block reads, not CRC/COW/flush/capability protections. No new safe
+module boundary or general allocator soundness claim is made.
+
 ## Initial evidence and change boundary
 
 Initial HEAD `9da1d48e9c51207b51c31d8c296cf31fd080c49c`; branch created:
