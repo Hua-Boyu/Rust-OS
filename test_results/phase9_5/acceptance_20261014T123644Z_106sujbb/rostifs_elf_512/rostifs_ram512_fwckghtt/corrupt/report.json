@@ -1,0 +1,417 @@
+{
+  "ram_mib": 512,
+  "stress": false,
+  "checks": [
+    {
+      "name": "QMP greeting",
+      "pass": true
+    },
+    {
+      "name": "ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "QMP exact owned image attached",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after stat /mnt/rosti",
+      "pass": true
+    },
+    {
+      "name": "/mnt/rosti: missing, not echo-only evidence",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after pwd",
+      "pass": true
+    },
+    {
+      "name": "pwd: exact output '/'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after write /recovery.txt Recovery RAMFS",
+      "pass": true
+    },
+    {
+      "name": "write /recovery.txt Recovery RAMFS: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after cat /recovery.txt",
+      "pass": true
+    },
+    {
+      "name": "cat /recovery.txt: exact output 'Recovery RAMFS'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after rm /recovery.txt",
+      "pass": true
+    },
+    {
+      "name": "rm /recovery.txt: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after stat /recovery.txt",
+      "pass": true
+    },
+    {
+      "name": "/recovery.txt: missing, not echo-only evidence",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after fdlist",
+      "pass": true
+    },
+    {
+      "name": "fdlist contains only reserved console descriptors 0/1/2",
+      "pass": true
+    },
+    {
+      "name": "mount rejection retains a fault-free recovery shell",
+      "pass": true
+    },
+    {
+      "name": "owned guest alive after stage",
+      "pass": true
+    },
+    {
+      "name": "no serial kernel fault",
+      "pass": true
+    },
+    {
+      "name": "owned QEMU process terminated",
+      "pass": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "stat /mnt/rosti",
+      "serial_fragment": "stat /mnt/rosti\nfs: not found\nrosti>",
+      "output": "fs: not found\n",
+      "vga": [
+        "size: 20, len: 639K, addr: 0x00, typ: 1",
+        "size: 20, len: 1K, addr: 0x9fc00, typ: 2",
+        "size: 20, len: 64K, addr: 0xf0000, typ: 2",
+        "size: 20, len: 523136K, addr: 0x100000, typ: 1",
+        "size: 20, len: 128K, addr: 0x1ffe0000, typ: 2",
+        "size: 20, len: 256K, addr: 0xfffc0000, typ: 2",
+        "total size: 523775K",
+        "frame allocator: 65439 frames total, 2020 reserved, 63307 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3985844 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /mnt/rosti",
+        "fs: not found",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "pwd",
+      "serial_fragment": "pwd\n/\nrosti>",
+      "output": "/\n",
+      "vga": [
+        "size: 20, len: 64K, addr: 0xf0000, typ: 2",
+        "size: 20, len: 523136K, addr: 0x100000, typ: 1",
+        "size: 20, len: 128K, addr: 0x1ffe0000, typ: 2",
+        "size: 20, len: 256K, addr: 0xfffc0000, typ: 2",
+        "total size: 523775K",
+        "frame allocator: 65439 frames total, 2020 reserved, 63307 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3985844 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /mnt/rosti",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "write /recovery.txt Recovery RAMFS",
+      "serial_fragment": "write /recovery.txt Recovery RAMFS\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "size: 20, len: 128K, addr: 0x1ffe0000, typ: 2",
+        "size: 20, len: 256K, addr: 0xfffc0000, typ: 2",
+        "total size: 523775K",
+        "frame allocator: 65439 frames total, 2020 reserved, 63307 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3985844 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /mnt/rosti",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cat /recovery.txt",
+      "serial_fragment": "cat /recovery.txt\nRecovery RAMFS\nrosti>",
+      "output": "Recovery RAMFS\n",
+      "vga": [
+        "total size: 523775K",
+        "frame allocator: 65439 frames total, 2020 reserved, 63307 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3985844 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /mnt/rosti",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>cat /recovery.txt",
+        "Recovery RAMFS",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "rm /recovery.txt",
+      "serial_fragment": "rm /recovery.txt\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3985844 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /mnt/rosti",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>cat /recovery.txt",
+        "Recovery RAMFS",
+        "rosti>rm /recovery.txt",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "stat /recovery.txt",
+      "serial_fragment": "stat /recovery.txt\nfs: not found\nrosti>",
+      "output": "fs: not found\n",
+      "vga": [
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 3985844 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /mnt/rosti",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>cat /recovery.txt",
+        "Recovery RAMFS",
+        "rosti>rm /recovery.txt",
+        "ok",
+        "rosti>stat /recovery.txt",
+        "fs: not found",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "fdlist",
+      "serial_fragment": "fdlist\nfd 0 console-in rights 0 offset 0 refs 0\nfd 1 console-out rights 0 offset 0 refs 0\nfd 2 console-out rights 0 offset 0 refs 0\nrosti>",
+      "output": "fd 0 console-in rights 0 offset 0 refs 0\nfd 1 console-out rights 0 offset 0 refs 0\nfd 2 console-out rights 0 offset 0 refs 0\n",
+      "vga": [
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /mnt/rosti",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>cat /recovery.txt",
+        "Recovery RAMFS",
+        "rosti>rm /recovery.txt",
+        "ok",
+        "rosti>stat /recovery.txt",
+        "fs: not found",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>"
+      ]
+    }
+  ],
+  "memory": {},
+  "overall": "PASS",
+  "argv": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+    "-machine",
+    "pc",
+    "-m",
+    "512",
+    "-display",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\acceptance_20261014T123644Z_106sujbb\\rostifs_elf_512\\rostifs_ram512_fwckghtt\\corrupt\\serial.txt",
+    "-monitor",
+    "none",
+    "-qmp",
+    "tcp:127.0.0.1:60855,server=on,wait=off",
+    "-d",
+    "guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\acceptance_20261014T123644Z_106sujbb\\rostifs_elf_512\\rostifs_ram512_fwckghtt\\corrupt\\qemu_log.txt",
+    "-drive",
+    "file=C:/Users/iamsv/Documents/Rust-OS/dist/phase9_rostifs_5revn50u/corrupt.img,format=raw,if=ide,index=0,cache=writeback"
+  ],
+  "qemu_pid": 21636,
+  "query_block": [
+    {
+      "io-status": "ok",
+      "device": "ide0-hd0",
+      "locked": false,
+      "removable": false,
+      "inserted": {
+        "iops_rd": 0,
+        "detect_zeroes": "off",
+        "active": true,
+        "image": {
+          "limits": {
+            "request-alignment": 1,
+            "min-mem-alignment": 512,
+            "opt-mem-alignment": 4096,
+            "max-iov": 1024
+          },
+          "virtual-size": 1048576,
+          "filename": "C:/Users/iamsv/Documents/Rust-OS/dist/phase9_rostifs_5revn50u/corrupt.img",
+          "format": "raw",
+          "actual-size": 1048576
+        },
+        "iops_wr": 0,
+        "ro": false,
+        "children": [
+          {
+            "node-name": "#block008",
+            "child": "file"
+          }
+        ],
+        "node-name": "#block177",
+        "backing_file_depth": 0,
+        "drv": "raw",
+        "iops": 0,
+        "bps_wr": 0,
+        "write_threshold": 0,
+        "encrypted": false,
+        "bps": 0,
+        "bps_rd": 0,
+        "cache": {
+          "no-flush": false,
+          "direct": false,
+          "writeback": true
+        },
+        "file": "C:/Users/iamsv/Documents/Rust-OS/dist/phase9_rostifs_5revn50u/corrupt.img"
+      },
+      "qdev": "/machine/unattached/device[4]",
+      "type": "unknown"
+    },
+    {
+      "io-status": "ok",
+      "device": "ide1-cd0",
+      "locked": false,
+      "removable": true,
+      "qdev": "/machine/unattached/device[5]",
+      "tray_open": false,
+      "type": "unknown"
+    },
+    {
+      "device": "floppy0",
+      "locked": false,
+      "removable": true,
+      "qdev": "/machine/unattached/device[15]",
+      "type": "unknown"
+    }
+  ],
+  "owned_qemu_exited": true,
+  "stage": "corrupt",
+  "image": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase9_rostifs_5revn50u\\corrupt.img",
+  "check_count": 22,
+  "command_count": 7
+}

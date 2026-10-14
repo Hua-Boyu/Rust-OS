@@ -6,7 +6,8 @@ From C:/Users/iamsv (outside kernel Cargo configuration):
 
 ```bash
 cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/crates/rostifs/Cargo.toml --features host-tools --test read_performance
-cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/crates/rostifs/Cargo.toml --features host-tools --test read_performance -- --ignored --nocapture
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/crates/rostifs/Cargo.toml --features host-tools --test read_performance measured_read_workloads -- --ignored --exact --nocapture
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/crates/rostifs/Cargo.toml --features host-tools --test read_performance measured_mount_info_workloads -- --ignored --exact --nocapture
 cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml perf_baseline_records_latencies -- --exact --nocapture
 ```
 
@@ -17,6 +18,20 @@ tests preserve output/rights/shared offsets/cleanup while retargeting their
 injection indices to the new transfer schedule. The ignored timing fixture is
 not a correctness test: nine fixed 2,000-read samples per size, 100 warm-up reads,
 counted RAM BlockDevice, host Instant, no physical/guest throughput claim.
+
+C03 adds three default-core occupancy regressions: metadata-bounded empty work,
+all 128 interleaved extents, and an independent set-union oracle over 320 internal
+inventory models. NoIo panics on reads/writes/flushes. Work-count hooks are cfg(test)
+only and per-thread, not production instrumentation. The separate ignored host
+diagnostic fixture has nine samples of three queries for each 128/1024/65536-block
+capacity and empty/fragmented state; fixed 512 KiB backing covers all touched
+metadata/data. It models capacity for pure computation, not full-volume I/O.
+Setup/format/create/delete times are excluded; expected union counts and zero I/O
+are asserted. Invoke one exact named timing filter at a time: running all ignored
+tests with default test threading would run competing measurements.
+The unchanged original QEMU workload remains a regression replay, not an isolated
+guest diagnostic benchmark. C03 evidence is in c03_measurements.json and
+docs/PHASE9_5_C03_RESULTS.md; prior optimization reports remain historical.
 
 Full acceptance now has an additional mandatory four-test read gate (38 gates
 when complete); mocked missing invocation/incomplete totals cannot publish an ISO.

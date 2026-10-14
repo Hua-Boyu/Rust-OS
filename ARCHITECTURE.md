@@ -1,5 +1,21 @@
 # ARCHITECTURE
 
+## Phase 9.5B bounded occupancy diagnostics (C03)
+
+`RostiFs::mount_info` sweeps the endpoints of current/previous inode extents,
+counting their union clipped to `[DATA_START, total_blocks)`. It no longer tests
+every block in the volume. Both snapshots remain represented; duplicates, overlap,
+reserved-region clipping and unmounted/failed-remount diagnostic states retain
+the old count semantics. The sweep advances strictly to an extent endpoint or
+the volume end, with at most 257 inventories of 128 records inspected.
+
+No cache, sorted temporary array, heap allocation, persistent field, unsafe code,
+I/O, inode mutation or allocation-path change is introduced. The allocation
+helper `occupied` is unchanged. Endpoint sums use u64 before clipping to avoid
+32-bit intermediate overflow. Read-only statistics do not validate new media or
+replace mount CRC/namespace checks. Work probes exist only under cfg(test).
+Measurement and final acceptance are indexed in docs/PHASE9_5_C03_RESULTS.md.
+
 ## Phase 9.5B partial-read architecture
 
 Ordinary RostiFS reads now transfer only sectors intersecting requested bytes.

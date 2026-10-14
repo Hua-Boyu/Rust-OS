@@ -1,5 +1,18 @@
 # Phase 9.5B optimization results
 
+## Latest continuation: C03 VERIFIED
+
+Source checkpoint `bea7e87e29b4c8b7fd0d6158ec1dd66d3ee11aca` adds a bounded
+current/previous extent-union diagnostic sweep. See [PHASE9_5_C03_RESULTS.md](PHASE9_5_C03_RESULTS.md)
+for the second candidate's actual host measurements, all QEMU replay observations,
+space/stack trade-offs and PASS 38/38 (176 Rust/47 Python, 84 source hashes).
+No confirmed guest/end-to-end gain is claimed. C02/C04/C05 remain DEFERRED;
+Phase 10 remains BLOCKED. This concludes the bounded continued pass.
+
+The C01 narrative and optimization_*.json evidence below are historical and
+preserved; use c03_measurements.json/c03_review.json/c03_validation.json for
+the latest release identity and verification. No prior timing report is rewritten.
+
 ## Scope and decisions
 
 Starting clean HEAD: `9792bd4cc2dbb04e1b64b2f623fcb3d0325439e7`.

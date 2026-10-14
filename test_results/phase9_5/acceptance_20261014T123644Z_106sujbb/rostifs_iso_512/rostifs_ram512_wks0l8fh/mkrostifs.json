@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "cargo",
+    "+nightly",
+    "run",
+    "--manifest-path",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\crates\\rostifs\\Cargo.toml",
+    "--features",
+    "host-tools",
+    "--bin",
+    "mkrostifs",
+    "--",
+    "--test-owned-image",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase9_rostifs_hci8n17h\\owned.img",
+    "--blocks",
+    "256"
+  ],
+  "cwd": "C:\\Users\\iamsv",
+  "exit_code": 0
+}

@@ -1,0 +1,280 @@
+{
+  "status": "VERIFIED",
+  "decision": "accept bounded occupancy diagnostic optimization; no guest/end-to-end speed claim",
+  "starting_head": "55cda2f38603a9f4c9078f0328344d69d9e8db44",
+  "acceptance": "test_results\\phase9_5\\acceptance_20261014T123644Z_106sujbb\\acceptance.json",
+  "gates_passed": 38,
+  "source_hash_count": 84,
+  "nested_reports_verified": 52,
+  "rust_passed": 176,
+  "python_passed": 47,
+  "modeled_crash_cases": 9071,
+  "iso_checks": [
+    {
+      "label": "phase95",
+      "iso_path": "dist\\rosti_phase9_5_20261013T221730Z.iso",
+      "iso_sha256": "26e0407ad977bcb573bac03682a95512562f67b9481b58d88c6cdfe3548e84eb",
+      "extracted_kernel_sha256": "7c6a8097fafcea4fb95e3297d019e92363bb763790f1a54213c897abf083e5ea",
+      "pass": true
+    },
+    {
+      "label": "C01",
+      "iso_path": "dist\\rosti_phase9_5_20261013T233346Z.iso",
+      "iso_sha256": "a3620655691625f36e760fae73b50878176dc940fd924686956053bd7eb91681",
+      "extracted_kernel_sha256": "a01f5d2728187907312553bd2c2d76e58f6e6af028a0b1c2b7e81b5f00d7d330",
+      "pass": true
+    },
+    {
+      "label": "C03_benchmark",
+      "iso_path": "dist\\rosti_c03_benchmark.iso",
+      "iso_sha256": "f6cb0ceeccd844062a82031debf68f1aa61156b98827a6d247b43fff67cd461a",
+      "extracted_kernel_sha256": "ba7b86f66c09e0dc7a7814df8ab82cdecfdba9314c0fc1cc19c34f6a1a5df0d0",
+      "pass": true
+    },
+    {
+      "label": "C03_accepted",
+      "iso_path": "dist\\rosti_phase9_5_20261014T123644Z.iso",
+      "iso_sha256": "c6c1f9381075320b864a4b4f9542c019879037da2d484764136db12a66e7267b",
+      "extracted_kernel_sha256": "ba7b86f66c09e0dc7a7814df8ab82cdecfdba9314c0fc1cc19c34f6a1a5df0d0",
+      "pass": true
+    }
+  ],
+  "stack_local_prologue_bytes": {
+    "baseline": 92,
+    "candidate": 204
+  },
+  "qemu_order": [
+    "B1",
+    "C1",
+    "B2",
+    "C2"
+  ],
+  "qemu_summary": [
+    {
+      "baseline": {
+        "median_ms": 1078.34835,
+        "min_ms": 1023.1123,
+        "max_ms": 2722.2578,
+        "samples": 6
+      },
+      "candidate": {
+        "median_ms": 1046.6474,
+        "min_ms": 960.4062,
+        "max_ms": 1228.6087,
+        "samples": 6
+      },
+      "ram_mib": 128,
+      "operation": "boot",
+      "ranges_overlap": true
+    },
+    {
+      "baseline": {
+        "median_ms": 83.1992,
+        "min_ms": 67.9298,
+        "max_ms": 111.7526,
+        "samples": 6
+      },
+      "candidate": {
+        "median_ms": 90.66915,
+        "min_ms": 79.2319,
+        "max_ms": 111.9886,
+        "samples": 6
+      },
+      "ram_mib": 128,
+      "operation": "create",
+      "ranges_overlap": true
+    },
+    {
+      "baseline": {
+        "median_ms": 68.4768,
+        "min_ms": 67.6619,
+        "max_ms": 78.326,
+        "samples": 6
+      },
+      "candidate": {
+        "median_ms": 68.09015,
+        "min_ms": 67.4889,
+        "max_ms": 68.6913,
+        "samples": 6
+      },
+      "ram_mib": 128,
+      "operation": "read",
+      "ranges_overlap": true
+    },
+    {
+      "baseline": {
+        "median_ms": 112.1676,
+        "min_ms": 75.2908,
+        "max_ms": 173.2308,
+        "samples": 6
+      },
+      "candidate": {
+        "median_ms": 90.61715,
+        "min_ms": 89.2919,
+        "max_ms": 112.6322,
+        "samples": 6
+      },
+      "ram_mib": 128,
+      "operation": "write",
+      "ranges_overlap": true
+    },
+    {
+      "baseline": {
+        "median_ms": 100.1869,
+        "min_ms": 75.8978,
+        "max_ms": 201.9501,
+        "samples": 6
+      },
+      "candidate": {
+        "median_ms": 95.68675,
+        "min_ms": 89.7515,
+        "max_ms": 111.2265,
+        "samples": 6
+      },
+      "ram_mib": 128,
+      "operation": "append",
+      "ranges_overlap": true
+    },
+    {
+      "baseline": {
+        "median_ms": 1212.20265,
+        "min_ms": 1092.7014,
+        "max_ms": 1378.807,
+        "samples": 6
+      },
+      "candidate": {
+        "median_ms": 1232.37085,
+        "min_ms": 1106.3218,
+        "max_ms": 1470.008,
+        "samples": 6
+      },
+      "ram_mib": 512,
+      "operation": "boot",
+      "ranges_overlap": true
+    },
+    {
+      "baseline": {
+        "median_ms": 83.0506,
+        "min_ms": 67.8593,
+        "max_ms": 188.6645,
+        "samples": 6
+      },
+      "candidate": {
+        "median_ms": 94.34485,
+        "min_ms": 68.6213,
+        "max_ms": 110.1029,
+        "samples": 6
+      },
+      "ram_mib": 512,
+      "operation": "create",
+      "ranges_overlap": true
+    },
+    {
+      "baseline": {
+        "median_ms": 68.5011,
+        "min_ms": 68.088,
+        "max_ms": 76.5887,
+        "samples": 6
+      },
+      "candidate": {
+        "median_ms": 68.69105,
+        "min_ms": 67.7448,
+        "max_ms": 69.1728,
+        "samples": 6
+      },
+      "ram_mib": 512,
+      "operation": "read",
+      "ranges_overlap": true
+    },
+    {
+      "baseline": {
+        "median_ms": 107.13405,
+        "min_ms": 89.8899,
+        "max_ms": 354.4772,
+        "samples": 6
+      },
+      "candidate": {
+        "median_ms": 100.8087,
+        "min_ms": 90.7139,
+        "max_ms": 113.3944,
+        "samples": 6
+      },
+      "ram_mib": 512,
+      "operation": "write",
+      "ranges_overlap": true
+    },
+    {
+      "baseline": {
+        "median_ms": 108.9415,
+        "min_ms": 76.0548,
+        "max_ms": 132.6155,
+        "samples": 6
+      },
+      "candidate": {
+        "median_ms": 101.4452,
+        "min_ms": 90.2273,
+        "max_ms": 119.0818,
+        "samples": 6
+      },
+      "ram_mib": 512,
+      "operation": "append",
+      "ranges_overlap": true
+    }
+  ],
+  "qemu_report_paths": {
+    "baseline": [
+      "c03_qemu_baseline.json",
+      "c03_qemu_baseline_round2.json"
+    ],
+    "candidate": [
+      "c03_qemu_candidate_retry.json",
+      "c03_qemu_candidate_round2.json"
+    ]
+  },
+  "qemu_memory": {
+    "used": 8232,
+    "capacity": 1048576,
+    "growth_pages": 0,
+    "failed_allocations": 0,
+    "live_allocations": 2,
+    "fs_storage": 0,
+    "fs_entries": 3,
+    "fd_open_slots": 3,
+    "fd_open_records": 0,
+    "fd_opens": 5,
+    "fd_closes": 5,
+    "fd_denials": 0,
+    "fd_stale": 0
+  },
+  "ata_delta_all_runs": {
+    "reads": 9,
+    "writes": 112,
+    "bytes": 61952
+  },
+  "known_measurement_limitations": [
+    "Host-only capacity-model diagnostic timings, clock overhead not isolated; submicrosecond values approximate",
+    "QEMU timings include65ms key pacing/20ms polls and firmware/GRUB/QMP startup; no isolated guest time",
+    "Observed first-pair create shift was retained; ranges overlap across bounded full B/C/B/C samples",
+    "ISO-mode report local ELF metadata belongs to host target, not loaded ISO; independent extracted fingerprints above attest guest payload",
+    "Peak stack/heap/transient capacities and physical durability not measured"
+  ],
+  "proxmox_readonly": {
+    "node": "pve",
+    "vmid": 103,
+    "status": "running",
+    "name": "rosti-dev",
+    "memory_mib": 512,
+    "vcpus": 1,
+    "maxdisk_bytes": 0,
+    "ide2": "local:iso/rosti_phase7_20261012T181123Z.iso,media=cdrom,size=9204K",
+    "digest": "c0253f4f9bc55e6c3f222dcc893833cc46157a4b",
+    "state_changes": false
+  },
+  "phase10": "BLOCKED",
+  "remaining_candidates": [
+    "C02",
+    "C04",
+    "C05"
+  ],
+  "production_unverified_changes": false
+}

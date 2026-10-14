@@ -54,13 +54,15 @@ safe-API/boot-memory findings remain unresolved, not disproved by these tests.
   write/flush counts separately; exact remount bytes and all crash-fault suites.
 - Priority: after C01, only with a measured representative overwrite workload.
 
-### C03 — volume-wide mount_info occupancy scan (P1, DEFERRED)
+### C03 — volume-wide mount_info occupancy scan (P1, VERIFIED)
 
 - Subsystem/source: `engine.rs:82`, mount_info and occupied; adapter diagnostics
   in `src/fs/rosti.rs`, mounted persistent_info.
-- Evidence: source-derived work scales with volume blocks times two 64-node
-  snapshots, even though extents are bounded. No new measured diagnostic latency
-  or user frequency; not claimed as the cause of boot time.
+- Evidence: completed B/C/B/C host measurements, 18 samples/state/geometry.
+  Fragmented 128-block diagnostics: 27.500 -> 13.000 us (2.115x); maximum
+  geometry: 16.660 ms -> 12.983 us. Empty work regression was RED at 15,488
+  probes/128-block volume; the adopted sweep is metadata-bounded. Frequency and
+  isolated guest time remain unknown; no boot/whole-OS gain is claimed.
 - Hypothesis/change: count union of bounded validated extent intervals instead of
   querying occupancy for each data block; include reserved blocks exactly once.
 - Expected benefit: bounded diagnostic computation independent of volume capacity;
@@ -69,7 +71,12 @@ safe-API/boot-memory findings remain unresolved, not disproved by these tests.
 - Benchmark/tests: 128/1,024/65,536-block diagnostic fixture, empty/full/fragmented/
   cross-root/degraded volumes; differential exact counts against current scan;
   separately time mount validation and mount_info, never conflate them.
-- Priority: below measured ordinary reads; no production change without those probes.
+- Decision: accepted after three portable regressions, independent read-only
+  review and PASS 38/38. No heap/cache/I/O/allocator/format change; +508 loaded B,
+  no page-rounded static growth. Evidence: PHASE9_5_C03_RESULTS.md and
+  test_results/phase9_5/c03_measurements.json, c03_review.json, c03_validation.json.
+  Synthetic inventory models include overlap/clipping; public failed-remount
+  stats transitions and widened-u32 oracle remain supplementary DEFERRED coverage.
 
 ### C04 — frame allocation rescans bitmap prefix (P1, DEFERRED)
 

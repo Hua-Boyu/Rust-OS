@@ -1,6 +1,46 @@
 # Rosti OS — Phase 9.5B performance maintenance handover
 
-## Latest verified Phase 9.5B checkpoint
+## Latest Phase 9.5B continuation — C03 VERIFIED
+
+Continuation started from `55cda2f38603a9f4c9078f0328344d69d9e8db44`.
+Verified source commit: `bea7e87e29b4c8b7fd0d6158ec1dd66d3ee11aca`.
+Documentation/evidence commits may follow. Branch: maintenance/phase9-5b.
+Occupancy diagnostics now count the clipped union of current/previous extents
+with metadata-bounded endpoint work, not volume-wide scans. No cache/heap/I/O,
+allocation helper, format, CRC, capability or durability change.
+
+Final local acceptance: test_results/phase9_5/acceptance_20261014T123644Z_106sujbb/acceptance.json,
+PASS 38/38, 176 Rust and 47 Python; all 84 source hashes and 52 nested reports
+independently checked. All 9,071 modeled crash cases and ELF/ISO 128/512 MiB gates
+remain passing. Accepted ISO: dist/rosti_phase9_5_20261014T123644Z.iso.
+SHA256: c6c1f9381075320b864a4b4f9542c019879037da2d484764136db12a66e7267b.
+Kernel SHA256: ba7b86f66c09e0dc7a7814df8ab82cdecfdba9314c0fc1cc19c34f6a1a5df0d0;
+independently extracted /boot/rosti.bin matches. All earlier accepted ISOs survive.
+
+B/C/B/C host diagnostic fixture, 18 samples/case: fragmented 512 KiB volume
+27.500 -> 13.000 us (2.115x), maximum geometry 16.660 ms -> 12.983 us.
+Capacity-only backing is disclosed; this is not guest/device/whole-OS speed.
+QEMU B/C/B/C has six samples/RAM/checkpoint; observed timing ranges overlap,
+including the retained first-pair create shift. No end-to-end gain is claimed.
+Every replay preserves 9 reads/112 writes, retained heap 8,232 B, capacity 1 MiB,
+zero growth pages and cleanup. Text +496 B, rodata -4 B, data +16 B, BSS 0;
+loaded +508 B, page-rounded span unchanged; full ELF -4,396 B. Diagnostic local
+prologue 92 -> 204 B is not peak/caller/IRQ stack usage.
+
+Evidence: docs/PHASE9_5_C03_RESULTS.md and test_results/phase9_5/c03_measurements.json,
+c03_review.json, c03_validation.json. Previous optimization_*.json remain immutable
+C01 evidence. Optional widened-u32 oracle/public failed-remount stats transition
+coverage is DEFERRED; independent review found no security concerns/logic errors.
+The missing-ISO candidate FAIL was a resolved packaging-path error before guest
+launch; no timeout or test was weakened. Earlier C01 append timeout remains open.
+
+Proxmox read-only refresh: VM 103 running, Phase 7 ISO, 512 MiB, one vCPU, no data
+disk; no upload, restart or storage change. No push/tag/history rewrite.
+Stop this pass here: C02/C04/C05 and isolated guest/IRQ/TLB/ATA/peak metrics remain
+DEFERRED. Phase 10 remains BLOCKED by B11/B13/B18/B26 and broader safety work.
+The C01 checkpoint below is historical; current continuation is NEXT_SESSION_PROMPT.md.
+
+## Historical C01 verified Phase 9.5B checkpoint
 
 Canonical repository: C:\Users\iamsv\Documents\Rust-OS.
 Branch: maintenance/phase9-5b. Clean campaign starting HEAD:

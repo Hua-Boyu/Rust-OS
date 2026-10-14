@@ -1,5 +1,19 @@
 # BUGFIXES
 
+## Phase 9.5B volume-scaled diagnostic work (C03)
+
+- Occupancy diagnostics scanned every data block against both inode inventories,
+  even on an empty volume. The bounded-work regression was RED: 15,488 probes on
+  a 128-block empty volume versus a 128-probe budget. The endpoint union sweep
+  preserves the count while bounding work by metadata, not volume size.
+- Three portable regressions cover empty-volume work, all 128 interleaved extents,
+  and a BTreeSet oracle for 320 synthetic clipped/overlapping inventory states.
+  A panic-on-I/O device enforces that diagnostics remain read-only computations.
+  These synthetic states are not a claim of newly validated corruption handling.
+- The host capacity-only diagnostic fixture is not a full-volume device benchmark.
+  Existing crash, CRC, mount, COW, flush and capability semantics are unchanged.
+  See docs/PHASE9_5_C03_RESULTS.md for measured latency and release evidence.
+
 ## Phase 9.5B read amplification
 
 - Previously an ordinary 64-byte portable read loaded a complete 4 KiB block

@@ -10,14 +10,15 @@ Canonical repository: `C:\Users\iamsv\Documents\Rust-OS`.
 Branch: `maintenance/phase9-5b`. Starting Phase 9.5B HEAD:
 `9792bd4cc2dbb04e1b64b2f623fcb3d0325439e7`. Recover the actual latest HEAD/status,
 not this historical start. Read HANDOVER.md for the latest verified source commit
-and artifact identities, and optimization_results.json for final release status.
-Verified source checkpoint: `ab1e8033f3b766bcd41ed7b712ae12a1c0f2f871`.
-Final local acceptance: test_results/phase9_5/acceptance_20261013T233346Z_9aov10bm/
-acceptance.json, PASS 38/38, 173 Rust and 47 Python tests; 83 source hashes and
+and artifact identities, and c03_validation.json for final release status.
+Latest continuation started at `55cda2f38603a9f4c9078f0328344d69d9e8db44`.
+Verified source checkpoint: `bea7e87e29b4c8b7fd0d6158ec1dd66d3ee11aca`.
+Final local acceptance: test_results/phase9_5/acceptance_20261014T123644Z_106sujbb/
+acceptance.json, PASS 38/38, 176 Rust and 47 Python tests; 84 source hashes and
 52 nested reports independently verified. Accepted ISO:
-dist/rosti_phase9_5_20261013T233346Z.iso, SHA256
-a3620655691625f36e760fae73b50878176dc940fd924686956053bd7eb91681.
-Kernel SHA256 a01f5d2728187907312553bd2c2d76e58f6e6af028a0b1c2b7e81b5f00d7d330
+dist/rosti_phase9_5_20261014T123644Z.iso, SHA256
+c6c1f9381075320b864a4b4f9542c019879037da2d484764136db12a66e7267b.
+Kernel SHA256 ba7b86f66c09e0dc7a7814df8ab82cdecfdba9314c0fc1cc19c34f6a1a5df0d0
 matches the independently extracted ISO payload. Documentation commits may follow.
 Windows 11/Git Bash/WSL2, nightly Rust, i686 no_std/core/alloc, GRUB Multiboot v1,
 SeaBIOS/QEMU i386. Native tools require C:/ paths, not /c/ paths.
@@ -60,8 +61,20 @@ the failure unrelated merely because the write-path diff is empty. No timeout
 budget or durability check was weakened. The final completed acceptance, not a
 subset/retry/RUNNING report, determines release status in the current handover.
 
-Next objective: assess the four DEFERRED candidates C02 preservation reads,
-C03 occupancy diagnostics, C04 frame scans and C05 allocator free-capacity loss.
+C03 occupancy diagnostics are now VERIFIED: clipped current/previous extent union,
+no heap/cache/I/O or allocation/durability change. Host B/C/B/C 18 samples/case:
+fragmented 128 blocks 27.500 -> 13.000 us; maximum geometry 16.660 ms -> 12.983 us.
+Capacity-only fixture is not disk or guest timing. QEMU ranges overlap; the observed
+create shift and every sample were retained. +508 loaded bytes, no page-rounded
+growth; local prologue 92 -> 204 B is not peak stack. See PHASE9_5_C03_RESULTS.md
+and c03_measurements.json/c03_review.json/c03_validation.json for current evidence;
+optimization_*.json remain immutable C01 reports, not the latest release index.
+
+The continued bounded pass is complete: C01 prototype/hybrid plus C03 were evaluated.
+Do not automatically start a fourth implementation to pursue a score.
+Next authorized campaign may assess C02 preservation reads, C04 frame scans and
+C05 allocator free-capacity loss, or supplementary u32-boundary/public-remount stats
+tests. Recover actual state and scope before starting; do not duplicate C01/C03.
 Prioritize correctness tests for allocator/growth reservations before changing
 unsafe memory paths. Do not optimize source-derived hypotheses without actual
 call/byte/transfer measurements. The suite is explicitly partial: isolated guest

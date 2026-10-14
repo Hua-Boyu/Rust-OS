@@ -1,0 +1,1741 @@
+{
+  "starting_head": "55cda2f38603a9f4c9078f0328344d69d9e8db44",
+  "scope": "host-only mounted portable core occupancy diagnostics; capacity-only backing model, not disk throughput or guest latency",
+  "order": [
+    "B1",
+    "C1",
+    "B2",
+    "C2"
+  ],
+  "operations_per_sample": 3,
+  "samples_per_case": 18,
+  "input": {
+    "blocks": [
+      128,
+      1024,
+      65536
+    ],
+    "empty_used": 7,
+    "fragmented_used": 16,
+    "fs_id": 3075,
+    "backing_bytes": 524288,
+    "format_and_mutation_time_excluded": true
+  },
+  "baseline_samples": [
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 83000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 83000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 82800
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 84700
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 80200
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 80000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 80000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 80000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 80000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 87100
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 82100
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 82200
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 82000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 82100
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 82100
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 82100
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 82100
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 85200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 698600
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 696900
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 696700
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 700000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 695300
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 730200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 681600
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 677500
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 686400
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 736500
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 742300
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 858300
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 755000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 758100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 766500
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 772600
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 776400
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 782200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 47137300
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 47931800
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 46611800
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 47226600
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 46893600
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 47260400
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 46200800
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 47343700
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 44870500
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 48065700
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 48572800
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 66233800
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 53662600
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 52473300
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 50118800
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 50104400
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 50126300
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 49993800
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 83500
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 100000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 83300
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 82400
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 81100
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 81000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 86400
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 81000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 81000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 83000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 82800
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 82400
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 82500
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 82800
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 82700
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 82700
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 82500
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 82500
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 710200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 701500
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 704200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 702700
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 724700
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 681000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 675700
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 674800
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 686100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 739700
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 740100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 743300
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 739500
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 742100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 770200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 721900
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 728500
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 760800
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 43977200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 49501700
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 49180600
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 45940100
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 43947700
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 43827000
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 44528800
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 44660400
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 44693200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 49055600
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 50210400
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 49137600
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 50318700
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 49800600
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 49270100
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 49966400
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 49465200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 49822200
+    }
+  ],
+  "candidate_samples": [
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 2500
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 2300
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 4700
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 2600
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 39300
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 39100
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 39200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 38900
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 38900
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 38900
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 38900
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 38900
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 38900
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 38800
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 39300
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 38900
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 39000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 4200
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 2000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 2000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 2000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 2600
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 2000
+    },
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 2000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 38200
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 38000
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 42200
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 37900
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 37900
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 37900
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 37900
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 37900
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 37900
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 2000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 2000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 38200
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 38000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 38100
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 38000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 38000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 38000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 38000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 38000
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 37900
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 3400
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 3900
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 4100
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 3900
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 3600
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 2200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 2100
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 0,
+      "operations": 3,
+      "host_ns": 38300
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 1,
+      "operations": 3,
+      "host_ns": 38200
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 2,
+      "operations": 3,
+      "host_ns": 38100
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 3,
+      "operations": 3,
+      "host_ns": 38100
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 4,
+      "operations": 3,
+      "host_ns": 38100
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 5,
+      "operations": 3,
+      "host_ns": 40900
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 6,
+      "operations": 3,
+      "host_ns": 38100
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 7,
+      "operations": 3,
+      "host_ns": 38100
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "sample": 8,
+      "operations": 3,
+      "host_ns": 38100
+    }
+  ],
+  "binary_baseline": {
+    "file_bytes": 5157868,
+    "sha256": "a01f5d2728187907312553bd2c2d76e58f6e6af028a0b1c2b7e81b5f00d7d330",
+    "section_bytes": {
+      "": 0,
+      ".multiboot": 12,
+      ".got": 88,
+      ".text": 610465,
+      ".rodata": 39126,
+      ".eh_frame_hdr": 28,
+      ".eh_frame": 68,
+      ".data": 92352,
+      ".got.plt": 12,
+      ".bss": 1138108,
+      ".debug_abbrev": 84320,
+      ".debug_info": 1367429,
+      ".debug_aranges": 70048,
+      ".debug_str": 1389330,
+      ".comment": 162,
+      ".debug_frame": 293272,
+      ".debug_line": 622863,
+      ".debug_ranges": 162824,
+      ".debug_loc": 11460,
+      ".symtab": 53616,
+      ".shstrtab": 212,
+      ".strtab": 345532
+    },
+    "allocated_section_bytes": 1880259,
+    "static_address_span_bytes": 1891772,
+    "initialized_allocated_bytes": 742151,
+    "selected_symbols": {
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main10FILESYSTEM": {
+        "address": 2757252,
+        "bytes": 6940
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main11DESCRIPTORS": {
+        "address": 2764192,
+        "bytes": 2328
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main7BACKEND": {
+        "address": 2766568,
+        "bytes": 21300
+      },
+      "_RNvNtCsiGpFisFMzhI_6kernel6memory11FRAME_ALLOC": {
+        "address": 2794060,
+        "bytes": 32804
+      }
+    }
+  },
+  "binary_candidate": {
+    "file_bytes": 5153472,
+    "sha256": "ba7b86f66c09e0dc7a7814df8ab82cdecfdba9314c0fc1cc19c34f6a1a5df0d0",
+    "section_bytes": {
+      "": 0,
+      ".multiboot": 12,
+      ".got": 88,
+      ".text": 610961,
+      ".rodata": 39122,
+      ".eh_frame_hdr": 28,
+      ".eh_frame": 68,
+      ".data": 92368,
+      ".got.plt": 12,
+      ".bss": 1138108,
+      ".debug_abbrev": 84488,
+      ".debug_info": 1367293,
+      ".debug_aranges": 70064,
+      ".debug_str": 1385730,
+      ".comment": 162,
+      ".debug_frame": 293192,
+      ".debug_line": 623349,
+      ".debug_ranges": 162992,
+      ".debug_loc": 11375,
+      ".symtab": 53616,
+      ".shstrtab": 212,
+      ".strtab": 344181
+    },
+    "allocated_section_bytes": 1880767,
+    "static_address_span_bytes": 1891772,
+    "initialized_allocated_bytes": 742659,
+    "selected_symbols": {
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main10FILESYSTEM": {
+        "address": 2757252,
+        "bytes": 6940
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main11DESCRIPTORS": {
+        "address": 2764192,
+        "bytes": 2328
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main7BACKEND": {
+        "address": 2766568,
+        "bytes": 21300
+      },
+      "_RNvNtCsiGpFisFMzhI_6kernel6memory11FRAME_ALLOC": {
+        "address": 2794060,
+        "bytes": 32804
+      }
+    }
+  },
+  "rustc": "rustc 1.101.0-nightly (1d81eb4ad 2026-10-07)\nbinary: rustc\ncommit-hash: 1d81eb4ad9cd207e3e638bd32b17ec4fce8412a6\ncommit-date: 2026-10-07\nhost: x86_64-pc-windows-msvc\nrelease: 1.101.0-nightly\nLLVM version: 23.1.3\n",
+  "host": "Windows-10-10.0.26300-SP0",
+  "median_results": [
+    {
+      "blocks": 128,
+      "fragmented": false,
+      "baseline_median_ns": 27250.0,
+      "candidate_median_ns": 700.0,
+      "baseline_min_max_ns": [
+        26666.666666666668,
+        33333.333333333336
+      ],
+      "candidate_min_max_ns": [
+        666.6666666666666,
+        1566.6666666666667
+      ],
+      "latency_speedup": 38.92857142857143
+    },
+    {
+      "blocks": 128,
+      "fragmented": true,
+      "baseline_median_ns": 27500.0,
+      "candidate_median_ns": 13000.0,
+      "baseline_min_max_ns": [
+        27333.333333333332,
+        29033.333333333332
+      ],
+      "candidate_min_max_ns": [
+        12633.333333333334,
+        14066.666666666666
+      ],
+      "latency_speedup": 2.1153846153846154
+    },
+    {
+      "blocks": 1024,
+      "fragmented": false,
+      "baseline_median_ns": 232266.6666666667,
+      "candidate_median_ns": 700.0,
+      "baseline_min_max_ns": [
+        224933.33333333334,
+        243400.0
+      ],
+      "candidate_min_max_ns": [
+        666.6666666666666,
+        733.3333333333334
+      ],
+      "latency_speedup": 331.80952380952385
+    },
+    {
+      "blocks": 1024,
+      "fragmented": true,
+      "baseline_median_ns": 249716.66666666666,
+      "candidate_median_ns": 12833.333333333334,
+      "baseline_min_max_ns": [
+        240633.33333333334,
+        286100.0
+      ],
+      "candidate_min_max_ns": [
+        12633.333333333334,
+        13066.666666666666
+      ],
+      "latency_speedup": 19.458441558441557
+    },
+    {
+      "blocks": 65536,
+      "fragmented": false,
+      "baseline_median_ns": 15468766.666666666,
+      "candidate_median_ns": 733.3333333333334,
+      "baseline_min_max_ns": [
+        14609000.0,
+        16500566.666666666
+      ],
+      "candidate_min_max_ns": [
+        700.0,
+        1366.6666666666667
+      ],
+      "latency_speedup": 21093.772727272724
+    },
+    {
+      "blocks": 65536,
+      "fragmented": true,
+      "baseline_median_ns": 16660033.333333332,
+      "candidate_median_ns": 12983.333333333332,
+      "baseline_min_max_ns": [
+        16021900.0,
+        22077933.333333332
+      ],
+      "candidate_min_max_ns": [
+        12700.0,
+        13633.333333333334
+      ],
+      "latency_speedup": 1283.186136071887
+    }
+  ],
+  "diagnostic_io_counts": {
+    "reads": 0,
+    "writes": 0,
+    "flushes": 0
+  },
+  "regression_red": "empty128 budget old15488 node probes exceeds128; new <=128",
+  "test_only_probes": true,
+  "full_acceptance": "PASS",
+  "validation_report": "test_results/phase9_5/c03_validation.json"
+}
