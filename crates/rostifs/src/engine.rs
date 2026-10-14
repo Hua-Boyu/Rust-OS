@@ -12,6 +12,9 @@ use crate::{
     vfs::*,
 };
 use core::cell::RefCell;
+#[cfg(test)]
+#[path = "occupancy_tests.rs"]
+mod occupancy_tests;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct MountInfo {
     pub fs_id: u64,
@@ -80,10 +83,39 @@ impl<'a> RostiFs<'a> {
         core::mem::size_of::<Self>()
     }
     pub fn mount_info(&self) -> MountInfo {
-        let used = (DATA_START..self.sb.total_blocks as usize)
-            .filter(|&b| Self::occupied(&self.nodes, b) || Self::occupied(&self.previous, b))
-            .count()
-            + DATA_START;
+        // Count the clipped union of both inventories, not every volume block.
+        // Sweep endpoints without a cache/sort buffer or disjointness assumption;
+        // this also preserves diagnostics after an incomplete remount.
+        let end = self.sb.total_blocks as usize;
+        let mut cursor = DATA_START;
+        let mut used = DATA_START;
+        while cursor < end {
+            let mut next = end;
+            let mut covered = cursor;
+            for n in self.nodes.iter().chain(self.previous.iter()) {
+                #[cfg(test)]
+                occupancy_tests::probe();
+                if n.blocks == 0 {
+                    continue;
+                }
+                let start = n.start as usize;
+                let stop = (n.start as u64 + n.blocks as u64).min(end as u64) as usize;
+                if stop <= cursor {
+                    continue;
+                }
+                if start <= cursor {
+                    covered = covered.max(stop);
+                } else {
+                    next = next.min(start);
+                }
+            }
+            if covered > cursor {
+                used += covered - cursor;
+                cursor = covered;
+            } else {
+                cursor = next;
+            }
+        }
         MountInfo {
             fs_id: self.sb.fs_id,
             generation: self.sb.generation,

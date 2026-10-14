@@ -214,3 +214,50 @@ fn measured_read_workloads() {
         }
     }
 }
+
+#[test]
+#[ignore = "explicit serial host diagnostic benchmark, not guest boot timing"]
+fn measured_mount_info_workloads() {
+    for blocks in [128, 1024, 65536] {
+        for fragmented in [false, true] {
+            // Capacity-only model: backing covers every touched sector.
+            // No volume-sized host allocation or physical disk access.
+            let counts = Rc::new(Counts::default());
+            counts.capacity_override.set(Some(blocks * 8));
+            let mut disk = Disk {
+                bytes: vec![0; 128 * 4096],
+                counts: counts.clone(),
+            };
+            RostiFs::format(&mut disk, 0xc03).unwrap();
+            let mut fs = RostiFs::mount(&mut disk).unwrap();
+            if fragmented {
+                for i in 0..16 {
+                    let id = fs.create_file(NodeId::ROOT, &format!("f{i}")).unwrap();
+                    fs.replace(id, &[i as u8; 32]).unwrap();
+                }
+                for i in (0..16).step_by(2) {
+                    fs.remove_file(NodeId::ROOT, &format!("f{i}")).unwrap();
+                }
+            }
+            let expected_used = if fragmented { 16 } else { 7 };
+            assert_eq!(fs.mount_info().used_blocks, expected_used);
+            counts.reads.set(0);
+            counts.writes.set(0);
+            counts.flushes.set(0);
+            for sample in 0..9 {
+                let started = Instant::now();
+                for _ in 0..3 {
+                    let info = std::hint::black_box(&fs).mount_info();
+                    assert_eq!(std::hint::black_box(info.used_blocks), expected_used);
+                }
+                let ns = started.elapsed().as_nanos();
+                println!(
+                    "ROSTI_OCCUPANCY {{\"blocks\":{blocks},\"fragmented\":{fragmented},\"sample\":{sample},\"operations\":3,\"host_ns\":{ns}}}"
+                );
+            }
+            assert_eq!(counts.reads.get(), 0);
+            assert_eq!(counts.writes.get(), 0);
+            assert_eq!(counts.flushes.get(), 0);
+        }
+    }
+}
