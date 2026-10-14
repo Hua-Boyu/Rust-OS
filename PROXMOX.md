@@ -1,5 +1,15 @@
 # PROXMOX DEPLOYMENT
 
+## Phase 9.5B fresh read-only inventory
+
+Start and finish GETs confirm VM 103 rosti-dev running, 512 MiB/one core,
+SeaBIOS/pc-i440fx, serial socket and only the Phase 7 ide2 CD-ROM. Configuration
+digest remains c0253f4f9bc55e6c3f222dcc893833cc46157a4b; no data disk is configured.
+No upload, reset, power change, disk attachment/storage modification or deployment
+occurred. Candidate acceptance and reproduction use exclusive local dist images;
+no current live RostiFS validation is claimed. Historical live commands below
+remain outside this maintenance authorization because they reset the VM.
+
 ## Phase 9.5: read-only boundary, no deployment
 
 Structured GET inventory during maintenance confirmed VM 103 `rosti-dev`

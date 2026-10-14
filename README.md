@@ -1,5 +1,20 @@
 # Rust operating system on i686
 
+## Phase 9.5B evidence-driven performance maintenance
+
+Ordinary partial RostiFS reads avoid unrequested sectors, retaining the existing
+full-block path, resident scratch, capability checks, mount CRCs and every durable
+commit barrier. Five candidates were audited; the all-sector prototype was rejected,
+and four unmeasured/higher-risk candidates remain deferred. The counted small-read
+host fixture improves about 3.8x; paced QEMU cat latency is not distinguishable from
+noise. No whole-OS speedup or physical disk throughput is claimed. Static aligned
+kernel span costs an additional 4 KiB; filesystem and retained heap storage do not grow.
+
+Read docs/PHASE9_5_OPTIMIZATION_CANDIDATES.md and
+docs/PHASE9_5_OPTIMIZATION_RESULTS.md plus the current HANDOVER.md for final release
+acceptance, rejected/failing probes, space costs and explicit partial-suite coverage.
+NEXT_SESSION_PROMPT.md now continues maintenance, not Phase 10. Proxmox is unchanged.
+
 ## Phase 9.5: measured maintenance, not Phase 10
 
 The minimalist audit uses MenuetOS and nanochess/bootOS as references, not code

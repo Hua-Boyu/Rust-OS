@@ -1,5 +1,36 @@
 # TESTING
 
+## Phase 9.5B controlled experiments
+
+From C:/Users/iamsv (outside kernel Cargo configuration):
+
+```bash
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/crates/rostifs/Cargo.toml --features host-tools --test read_performance
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/crates/rostifs/Cargo.toml --features host-tools --test read_performance -- --ignored --nocapture
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml perf_baseline_records_latencies -- --exact --nocapture
+```
+
+Four read regressions cover exact bytes/tail sentinels, EOF/empty/usize::MAX,
+intersecting-sector counts, changed geometry rejected before I/O and all 17
+failure positions across partial/full/partial reads with recovery. Existing cat
+tests preserve output/rights/shared offsets/cleanup while retargeting their
+injection indices to the new transfer schedule. The ignored timing fixture is
+not a correctness test: nine fixed 2,000-read samples per size, 100 warm-up reads,
+counted RAM BlockDevice, host Instant, no physical/guest throughput claim.
+
+Full acceptance now has an additional mandatory four-test read gate (38 gates
+when complete); mocked missing invocation/incomplete totals cannot publish an ISO.
+Run python -B scripts/phase6_verify.py as a background job. Never overlap acceptance
+with QEMU benchmarks or alter source/build inputs while it runs. All original gates
+and exact 128/512 MiB ELF/GRUB matrix totals remain required.
+
+The unchanged phase9_5_bench.py was replayed B/C/B/C, three fresh guests per RAM
+size per round. Raw evidence and median/min/max/sample counts are in
+test_results/phase9_5/optimization_baseline.json and optimization_results.json.
+Host command timings include pacing/polling; guest execution, isolated disk/serial,
+IRQ latency and peak stack remain unavailable. Full suite coverage/deferrals are
+explicit in docs/PHASE9_5_OPTIMIZATION_RESULTS.md; no invented future-component tests.
+
 ## Phase 9.5 maintenance verification
 
 The retained entry point `python -B scripts/phase6_verify.py` now writes

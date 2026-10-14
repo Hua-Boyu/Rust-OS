@@ -1,5 +1,23 @@
 # BUGFIXES
 
+## Phase 9.5B read amplification
+
+- Previously an ordinary 64-byte portable read loaded a complete 4 KiB block
+  (eight sectors), even after the earlier shell batching improvement. A new
+  instrumented budget regression was RED at eight versus one. Partial reads
+  now use intersecting sectors and the existing scratch; complete aligned blocks
+  keep read_block. No mount CRC, format, write, durability or capability change.
+- The initial all-sector prototype made full-block host reads slower and was
+  rejected. Its unchanged workload observations are retained, not hidden. The
+  hybrid was tested with the exact original workload and an independent review.
+- Shell first/second-refill failures now use call indices 0/1 rather than 0/8;
+  the output prefix, error, descriptor ownership and shared-offset assertions
+  are unchanged. Transfer counts now require one sector, not eight.
+- Four dedicated portable regressions and a mandatory acceptance gate cover
+  geometry, cross-boundary bytes, EOF and every mixed-path device failure.
+  Historical safety findings in PHASE9_5_AUDIT.md remain unresolved; no claim of
+  arbitrary-thread/user API soundness or physical crash safety follows.
+
 ## Phase 9.5 bounded maintenance changes
 
 - `set_one_bit(false)` passed a zero mask length because the helper swapped

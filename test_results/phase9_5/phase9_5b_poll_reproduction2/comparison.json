@@ -1,0 +1,42 @@
+{
+  "scope": "sequential accepted B/candidate C ELF128 RostiFS reproductions; no timeout changes",
+  "runs": [
+    {
+      "label": "B1",
+      "kernel_sha256": "7c6a8097fafcea4fb95e3297d019e92363bb763790f1a54213c897abf083e5ea",
+      "exit_code": 0,
+      "overall": "PASS",
+      "checks": 168,
+      "failed_checks": [],
+      "report": "test_results\\phase9_5\\phase9_5b_poll_reproduction2\\B1\\rostifs_ram128_8kk4hioc\\report.json"
+    },
+    {
+      "label": "C1",
+      "kernel_sha256": "a01f5d2728187907312553bd2c2d76e58f6e6af028a0b1c2b7e81b5f00d7d330",
+      "exit_code": 0,
+      "overall": "PASS",
+      "checks": 168,
+      "failed_checks": [],
+      "report": "test_results\\phase9_5\\phase9_5b_poll_reproduction2\\C1\\rostifs_ram128_dtafaiyk\\report.json"
+    },
+    {
+      "label": "B2",
+      "kernel_sha256": "7c6a8097fafcea4fb95e3297d019e92363bb763790f1a54213c897abf083e5ea",
+      "exit_code": 0,
+      "overall": "PASS",
+      "checks": 168,
+      "failed_checks": [],
+      "report": "test_results\\phase9_5\\phase9_5b_poll_reproduction2\\B2\\rostifs_ram128_2_06qfif\\report.json"
+    },
+    {
+      "label": "C2",
+      "kernel_sha256": "a01f5d2728187907312553bd2c2d76e58f6e6af028a0b1c2b7e81b5f00d7d330",
+      "exit_code": 0,
+      "overall": "PASS",
+      "checks": 168,
+      "failed_checks": [],
+      "report": "test_results\\phase9_5\\phase9_5b_poll_reproduction2\\C2\\rostifs_ram128_3e1vmqp2\\report.json"
+    }
+  ],
+  "candidate_restored": true
+}

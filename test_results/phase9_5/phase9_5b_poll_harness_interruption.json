@@ -1,0 +1,9 @@
+{
+  "classification": "BLOCKED",
+  "scope": "temporary reproduction harness, not kernel",
+  "baseline_B1": "PASS 168/168; invocation aborted before C1",
+  "failure": "copy2 propagated read-only mode from ISO-extracted baseline ELF to generated kernel target; observed mode 0444 and Windows FILE_ATTRIBUTE_READONLY",
+  "qemu_process_inspection": "tasklist: no qemu-system-i386 processes",
+  "resolution": "only generated kernel target made writable; candidate content restored by hash; corrected copyfile runner uses new unique evidence directory",
+  "preserved_evidence_dir": "test_results/phase9_5/phase9_5b_poll_reproduction"
+}

@@ -1,6 +1,95 @@
-# Rosti OS — Phase 9.5 maintenance handover
+# Rosti OS — Phase 9.5B performance maintenance handover
 
-## Current maintenance checkpoint
+## Latest verified Phase 9.5B checkpoint
+
+Canonical repository: C:\Users\iamsv\Documents\Rust-OS.
+Branch: maintenance/phase9-5b. Clean campaign starting HEAD:
+`9792bd4cc2dbb04e1b64b2f623fcb3d0325439e7`. Previous maintenance/documentation
+commits were complete; no uncommitted work was discarded. Verified source commit:
+`ab1e8033f3b766bcd41ed7b712ae12a1c0f2f871`
+(`perf(rostifs): avoid unrequested sectors in partial reads`). Later documentation
+commits do not change the accepted source/build inputs. No push, tag move/history rewrite,
+Phase 10 implementation, physical disk or VM modification occurred.
+
+Previous Phase 9.5 checkpoint was independently rechecked: 37/37 PASS, 82 source
+hashes, 52 nested reports, historical ISO/kernel identities and paired benchmark
+JSON. The older accepted Phase 9/9.5 binaries/reports remain unchanged. New evidence:
+test_results/phase9_5/optimization_baseline.json, optimization_results.json and
+optimization_review.json; docs/PHASE9_5_OPTIMIZATION_CANDIDATES.md and
+docs/PHASE9_5_OPTIMIZATION_RESULTS.md.
+
+**VERIFIED:** C01 hybrid partial-read optimization. Requested sectors only for
+partial blocks, existing read_block for complete aligned blocks; same resident
+scratch, no new heap/cache/static field/unsafe code. Full-block geometry, format 1,
+mount/check whole-extent CRCs, writes/COW/delayed reuse/poison/flushes, capability
+checks and shared offsets are unchanged. Read errors may leave a copied caller
+prefix; unrequested sector errors are no longer probed. Four new portable read
+regressions and a mandatory acceptance gate preserve boundary/error coverage.
+
+Measurements: 64-byte reads use 8 -> 1 sectors. Original complete QEMU workload
+uses 16 -> 9 reads, 112 writes unchanged, transfer bytes 65,536 -> 61,952.
+Final counted RAM-fixture medians: 64 B 686.575 -> 182.325 ns, 128 B 697.825 ->
+182.700 ns, 512 B 692.500 -> 180.450 ns (about 3.8x host-fixture latency ratios).
+18 samples per read size, fixed 2,000 operations/sample, identical final fixture
+and B/C/B/C order. QEMU also runs B/C/B/C, six samples per RAM size/checkpoint;
+cat medians 68.831 -> 68.562 ms (128) and 68.769 -> 68.556 ms (512) overlap in
+spread. **No confirmed QEMU cat/boot latency or whole-OS speedup.** Full-block
+host differences overlap in noise. All observations/regressions are retained.
+
+Space: ELF 5,148,792 -> 5,157,868 B; text +2,016 B, data +176 B, rodata/BSS
+unchanged. Allocated sections +2,192 B, aligned static span +4,096 B (one more
+reserved frame). FS static 28,240 B, descriptor table 2,328 B, scratch 4,096 B
+included and heap 8,232 B/capacity 1 MiB unchanged; no persistent growth pages.
+Allocated physical frames remain 33/129 at 128/512 MiB. Read prologue estimate
+352 -> 500 B, not measured peak stack; boot stack remains 16 KiB. No compiler,
+target, CPU tuning, SIMD, linker, Multiboot or diagnostic-profile change.
+
+Final full acceptance:
+`test_results/phase9_5/acceptance_20261013T233346Z_9aov10bm/acceptance.json`.
+**PASS 38/38**, completed background exit 0. All 83 source/build inputs still
+match after source commit; 52 nested reports validated. **173 Rust** (145 kernel,
+20 portable, 4 tools, 4 reads), **47 Python** (4 media, 13 acceptance, 16 RostiFS,
+14 benchmark). ELF validation 8/8, ten boots each RAM size, paging/faults,
+keyboard/VGA, RAMFS/FD/growth/OOM, ATA/RostiFS persistence and corrupt-media recovery
+pass on ELF/GRUB at 128/512 MiB. Mandatory matrix: 102 RAMFS + 98 ATA + 168 RostiFS
+checks in each of four configurations (1,472 distinct checks). Crash model remains
+2,639 rejected/torn/flush cases + 2,328 reordered cuts + 4,104 prefix tears (9,071).
+Final owned-image hashes were reread; no owned QEMU remains. No physical power-loss proof.
+
+Accepted ISO: `dist/rosti_phase9_5_20261013T233346Z.iso`, 10,280,960 B.
+SHA256: `a3620655691625f36e760fae73b50878176dc940fd924686956053bd7eb91681`.
+Kernel: `a01f5d2728187907312553bd2c2d76e58f6e6af028a0b1c2b7e81b5f00d7d330`;
+independently extracted ISO payload matches. New ISO is local only.
+
+**REJECTED:** all-sector C01 prototype increased full-block host CPU cost;
+hybrid keeps the original block path. Five candidates audited, one experiment
+with two implementations; no second/third unmeasured optimization was started.
+First full acceptance failed 25/26 attempted gates on ELF128 append ATA poll
+timeout. Failed logs/image/report remain. B/C/B/C exact ELF128 reproductions then
+passed 168/168 in all four runs, followed by the complete 38/38 acceptance above.
+The timeout cause remains unresolved; no poll budget/test was weakened and no ATA
+fix is claimed. A reproduction harness read-only-copy interruption was separately
+diagnosed/restored; its incomplete comparison is retained, not counted as PASS.
+
+**DEFERRED:** C02 write preservation reads, C03 volume-wide occupancy diagnostics,
+C04 frame scans and C05 allocator free-capacity loss. The performance suite is
+explicitly partial: isolated guest/subphase/IRQ/TLB/ATA/open/dup/rights timings and
+peak heap/stack remain unmeasured. Future process/scheduler/IPC/syscall/network/GPU/
+RDP benchmarks are NOT APPLICABLE, not invented. No new IMPLEMENTED BUT UNVERIFIED
+production change remains; prior audit findings are not silently resolved.
+
+**BLOCKED:** safe Phase 10/module integration pending B11/B13/B18/B26, and broader
+safe-API/exception/allocator/lock prerequisites before untrusted execution. Phase 10
+was not begun. NEXT_SESSION_PROMPT.md is now a standalone maintenance continuation;
+the previous Phase 10 prompt is retained in Git history, not current authority.
+
+Fresh read-only Proxmox GETs: pve VM 103 rosti-dev still running, 512 MiB/one core,
+SeaBIOS/i440fx, Phase 7 ide2 only, no data disk, unchanged digest
+c0253f4f9bc55e6c3f222dcc893833cc46157a4b. No upload/reset/restart/storage change;
+live RostiFS remains unverified. Temporary baseline worktree/build targets removed;
+canonical dist/test_results retain payloads, measurements and failed evidence.
+
+## Archived accepted Phase 9.5 maintenance checkpoint
 
 Canonical repository `C:\Users\iamsv\Documents\Rust-OS`, branch
 `maintenance/phase9-5`; `main` remains the original Phase 9 checkpoint.

@@ -1,0 +1,2080 @@
+{
+  "classification": "VERIFIED",
+  "campaign": "Phase 9.5B",
+  "timestamp_utc": "2026-10-13T23:18:57.077985+00:00",
+  "starting_head": "9792bd4cc2dbb04e1b64b2f623fcb3d0325439e7",
+  "previous_checkpoint_verification": "test_results/phase9_5/phase9_5b_initial_verification.json",
+  "environment": {
+    "platform": "Windows-10-10.0.26300-SP0",
+    "machine": "AMD64",
+    "host_cpu_count": 24,
+    "python": "3.11.15",
+    "rustc": "rustc 1.101.0-nightly (1d81eb4ad 2026-10-07)\nbinary: rustc\ncommit-hash: 1d81eb4ad9cd207e3e638bd32b17ec4fce8412a6\ncommit-date: 2026-10-07\nhost: x86_64-pc-windows-msvc\nrelease: 1.101.0-nightly\nLLVM version: 23.1.3\n",
+    "qemu": "QEMU emulator version 10.2.0 (v10.2.0-12105-g0f12d445bd)\nCopyright (c) 2003-2025 Fabrice Bellard and the QEMU Project developers\n",
+    "compiler_profile": "canonical unoptimized dev/test with debuginfo; unchanged",
+    "guest_cpu": "QEMU default i386 CPU (no -cpu override)",
+    "guest_machine": "pc; one default vCPU; 128/512 MiB; IDE raw writeback; SeaBIOS; GRUB",
+    "host_timing": "perf_counter_ns QEMU, Instant RAM fixture; neither guest execution time"
+  },
+  "historical_phase9": {
+    "report": "test_results/phase9_5/paired_phase9.json",
+    "scope": "historical same-workload evidence; not contemporary latency comparison",
+    "report_sha256": "3d6876888b88a42717a7db48a8db73d413a08546c7b56bb73381bcd2ad564525",
+    "kernel": {
+      "file_bytes": 5146096,
+      "sha256": "b129b1ce8dd1c6c785f5fc0aba6d3d9c8c5f4e676433ef519d505fcd4befd9b8",
+      "section_bytes": {
+        "": 0,
+        ".multiboot": 12,
+        ".got": 88,
+        ".text": 606929,
+        ".rodata": 39126,
+        ".eh_frame_hdr": 28,
+        ".eh_frame": 68,
+        ".data": 92112,
+        ".got.plt": 12,
+        ".bss": 1138108,
+        ".debug_abbrev": 84217,
+        ".debug_info": 1365341,
+        ".debug_aranges": 69976,
+        ".debug_str": 1387569,
+        ".comment": 162,
+        ".debug_frame": 292956,
+        ".debug_line": 621488,
+        ".debug_ranges": 162488,
+        ".debug_loc": 11419,
+        ".symtab": 53472,
+        ".shstrtab": 212,
+        ".strtab": 344332
+      },
+      "allocated_section_bytes": 1876483,
+      "static_address_span_bytes": 1887676,
+      "initialized_allocated_bytes": 738375,
+      "selected_symbols": {
+        "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main10FILESYSTEM": {
+          "address": 2753156,
+          "bytes": 6940
+        },
+        "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main11DESCRIPTORS": {
+          "address": 2760096,
+          "bytes": 2328
+        },
+        "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main7BACKEND": {
+          "address": 2762472,
+          "bytes": 21300
+        },
+        "_RNvNtCsiGpFisFMzhI_6kernel6memory11FRAME_ALLOC": {
+          "address": 2790044,
+          "bytes": 32804
+        }
+      }
+    }
+  },
+  "accepted_phase9_5": {
+    "kernel": {
+      "file_bytes": 5148792,
+      "sha256": "7c6a8097fafcea4fb95e3297d019e92363bb763790f1a54213c897abf083e5ea",
+      "section_bytes": {
+        "": 0,
+        ".multiboot": 12,
+        ".got": 88,
+        ".text": 608449,
+        ".rodata": 39126,
+        ".eh_frame_hdr": 28,
+        ".eh_frame": 68,
+        ".data": 92176,
+        ".got.plt": 12,
+        ".bss": 1138108,
+        ".debug_abbrev": 84320,
+        ".debug_info": 1366231,
+        ".debug_aranges": 69992,
+        ".debug_str": 1387921,
+        ".comment": 162,
+        ".debug_frame": 293056,
+        ".debug_line": 622147,
+        ".debug_ranges": 162720,
+        ".debug_loc": 11419,
+        ".symtab": 53504,
+        ".shstrtab": 212,
+        ".strtab": 344577
+      },
+      "allocated_section_bytes": 1878067,
+      "static_address_span_bytes": 1887676,
+      "initialized_allocated_bytes": 739959,
+      "selected_symbols": {
+        "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main10FILESYSTEM": {
+          "address": 2753156,
+          "bytes": 6940
+        },
+        "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main11DESCRIPTORS": {
+          "address": 2760096,
+          "bytes": 2328
+        },
+        "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main7BACKEND": {
+          "address": 2762472,
+          "bytes": 21300
+        },
+        "_RNvNtCsiGpFisFMzhI_6kernel6memory11FRAME_ALLOC": {
+          "address": 2789964,
+          "bytes": 32804
+        }
+      }
+    },
+    "qemu": {
+      "reports": [
+        "test_results\\phase9_5\\phase9_5b_baseline_run1.json",
+        "test_results\\phase9_5\\phase9_5b_baseline_run2.json"
+      ],
+      "runs": [
+        {
+          "ram_mib": 128,
+          "repeat": 0,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_128_0_y3hu0qg_\\report.json",
+          "host_start_to_mounted_prompt_ns": 1239658700,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 994480400,
+              "host_enter_to_prompt_ns": 76633900
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 987466500,
+              "host_enter_to_prompt_ns": 98057300
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5745094200,
+              "host_enter_to_prompt_ns": 143127100
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 813117000,
+              "host_enter_to_prompt_ns": 79775900
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1595254500,
+              "host_enter_to_prompt_ns": 162939200
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 248242200,
+              "host_enter_to_prompt_ns": 80860700
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 786567600,
+              "host_enter_to_prompt_ns": 112815800
+            }
+          ]
+        },
+        {
+          "ram_mib": 128,
+          "repeat": 1,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_128_1_bjral1jr\\report.json",
+          "host_start_to_mounted_prompt_ns": 1999869900,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 983940600,
+              "host_enter_to_prompt_ns": 68814600
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 944629500,
+              "host_enter_to_prompt_ns": 112037100
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5418847800,
+              "host_enter_to_prompt_ns": 91004400
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 759188000,
+              "host_enter_to_prompt_ns": 68625900
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1327451900,
+              "host_enter_to_prompt_ns": 90735900
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 219313700,
+              "host_enter_to_prompt_ns": 67871900
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 714093400,
+              "host_enter_to_prompt_ns": 90287500
+            }
+          ]
+        },
+        {
+          "ram_mib": 128,
+          "repeat": 2,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_128_2__xfk8670\\report.json",
+          "host_start_to_mounted_prompt_ns": 1908044100,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 983457000,
+              "host_enter_to_prompt_ns": 68223200
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 921801700,
+              "host_enter_to_prompt_ns": 91222300
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5421057300,
+              "host_enter_to_prompt_ns": 111429200
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 759972100,
+              "host_enter_to_prompt_ns": 68902000
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1422579900,
+              "host_enter_to_prompt_ns": 153889400
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 220920200,
+              "host_enter_to_prompt_ns": 68914200
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 736301800,
+              "host_enter_to_prompt_ns": 113108400
+            }
+          ]
+        },
+        {
+          "ram_mib": 512,
+          "repeat": 0,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_512_0_gltlwdgy\\report.json",
+          "host_start_to_mounted_prompt_ns": 2202483000,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 1041959300,
+              "host_enter_to_prompt_ns": 76905900
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 1001586400,
+              "host_enter_to_prompt_ns": 112462600
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5724777500,
+              "host_enter_to_prompt_ns": 99137900
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 776006900,
+              "host_enter_to_prompt_ns": 68539700
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1432475200,
+              "host_enter_to_prompt_ns": 112294200
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 216814000,
+              "host_enter_to_prompt_ns": 68193500
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 736405900,
+              "host_enter_to_prompt_ns": 76482200
+            }
+          ]
+        },
+        {
+          "ram_mib": 512,
+          "repeat": 1,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_512_1_6oafxfdj\\report.json",
+          "host_start_to_mounted_prompt_ns": 1923732600,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 979818500,
+              "host_enter_to_prompt_ns": 68584000
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 924398600,
+              "host_enter_to_prompt_ns": 90975600
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5423605500,
+              "host_enter_to_prompt_ns": 90554600
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 757177100,
+              "host_enter_to_prompt_ns": 68600100
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1353948400,
+              "host_enter_to_prompt_ns": 112542200
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 213430000,
+              "host_enter_to_prompt_ns": 68676300
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 728029700,
+              "host_enter_to_prompt_ns": 99232000
+            }
+          ]
+        },
+        {
+          "ram_mib": 512,
+          "repeat": 2,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_512_2_hkczhx80\\report.json",
+          "host_start_to_mounted_prompt_ns": 1952618800,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 974859500,
+              "host_enter_to_prompt_ns": 68256300
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 1027182700,
+              "host_enter_to_prompt_ns": 195177200
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5520843600,
+              "host_enter_to_prompt_ns": 112611100
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 763062500,
+              "host_enter_to_prompt_ns": 69009300
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1336183800,
+              "host_enter_to_prompt_ns": 90776200
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 209639300,
+              "host_enter_to_prompt_ns": 68357300
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 732475800,
+              "host_enter_to_prompt_ns": 111589500
+            }
+          ]
+        },
+        {
+          "ram_mib": 128,
+          "repeat": 0,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_128_0_zye268q0\\report.json",
+          "host_start_to_mounted_prompt_ns": 1792262800,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 995354300,
+              "host_enter_to_prompt_ns": 68178900
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 966223600,
+              "host_enter_to_prompt_ns": 112877300
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5643308200,
+              "host_enter_to_prompt_ns": 107210200
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 782627200,
+              "host_enter_to_prompt_ns": 69113200
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1382077600,
+              "host_enter_to_prompt_ns": 109925100
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 220088900,
+              "host_enter_to_prompt_ns": 68368600
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 702683000,
+              "host_enter_to_prompt_ns": 68504600
+            }
+          ]
+        },
+        {
+          "ram_mib": 128,
+          "repeat": 1,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_128_1_f7y_741r\\report.json",
+          "host_start_to_mounted_prompt_ns": 1873114900,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 976529400,
+              "host_enter_to_prompt_ns": 68536800
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 944598700,
+              "host_enter_to_prompt_ns": 112715800
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5451493100,
+              "host_enter_to_prompt_ns": 138454300
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 771505900,
+              "host_enter_to_prompt_ns": 68634300
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1332435000,
+              "host_enter_to_prompt_ns": 90479100
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 218292300,
+              "host_enter_to_prompt_ns": 68423300
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 719345500,
+              "host_enter_to_prompt_ns": 90998500
+            }
+          ]
+        },
+        {
+          "ram_mib": 128,
+          "repeat": 2,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_128_2_nxohmmgi\\report.json",
+          "host_start_to_mounted_prompt_ns": 1926275400,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 1004949900,
+              "host_enter_to_prompt_ns": 69383300
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 1007307700,
+              "host_enter_to_prompt_ns": 153262200
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5487629800,
+              "host_enter_to_prompt_ns": 133335400
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 766194700,
+              "host_enter_to_prompt_ns": 68760500
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1371265100,
+              "host_enter_to_prompt_ns": 115730500
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 227725200,
+              "host_enter_to_prompt_ns": 68991600
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 720278200,
+              "host_enter_to_prompt_ns": 90889000
+            }
+          ]
+        },
+        {
+          "ram_mib": 512,
+          "repeat": 0,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_512_0_dx01o2e1\\report.json",
+          "host_start_to_mounted_prompt_ns": 2307018700,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 998669500,
+              "host_enter_to_prompt_ns": 68131100
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 973631400,
+              "host_enter_to_prompt_ns": 104425700
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5583918600,
+              "host_enter_to_prompt_ns": 105084500
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 782065500,
+              "host_enter_to_prompt_ns": 68986200
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1365216000,
+              "host_enter_to_prompt_ns": 90474900
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 210101900,
+              "host_enter_to_prompt_ns": 68587300
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 707517700,
+              "host_enter_to_prompt_ns": 68117800
+            }
+          ]
+        },
+        {
+          "ram_mib": 512,
+          "repeat": 1,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_512_1_udrgsr4b\\report.json",
+          "host_start_to_mounted_prompt_ns": 1990695800,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 984016500,
+              "host_enter_to_prompt_ns": 69762600
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 939717400,
+              "host_enter_to_prompt_ns": 90735900
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5431097400,
+              "host_enter_to_prompt_ns": 91443600
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 761662100,
+              "host_enter_to_prompt_ns": 68825600
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1348421600,
+              "host_enter_to_prompt_ns": 90691500
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 210291900,
+              "host_enter_to_prompt_ns": 68460600
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 712870700,
+              "host_enter_to_prompt_ns": 90265900
+            }
+          ]
+        },
+        {
+          "ram_mib": 512,
+          "repeat": 2,
+          "overall": "PASS",
+          "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_5\\bench_512_2_dao968nr\\report.json",
+          "host_start_to_mounted_prompt_ns": 2065804400,
+          "memory_before": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 0,
+            "fd_closes": 0,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "memory_after": {
+            "used": 8232,
+            "capacity": 1048576,
+            "growth_pages": 0,
+            "failed_allocations": 0,
+            "live_allocations": 2,
+            "fs_storage": 0,
+            "fs_entries": 3,
+            "fd_open_slots": 3,
+            "fd_open_records": 0,
+            "fd_opens": 5,
+            "fd_closes": 5,
+            "fd_denials": 0,
+            "fd_stale": 0
+          },
+          "ata_delta": {
+            "reads": 16,
+            "writes": 112,
+            "bytes": 65536
+          },
+          "operations": [
+            {
+              "operation": "traverse",
+              "host_full_command_ns": 979336800,
+              "host_enter_to_prompt_ns": 68727900
+            },
+            {
+              "operation": "create",
+              "host_full_command_ns": 918459400,
+              "host_enter_to_prompt_ns": 90773600
+            },
+            {
+              "operation": "write",
+              "host_full_command_ns": 5416091300,
+              "host_enter_to_prompt_ns": 89934200
+            },
+            {
+              "operation": "read",
+              "host_full_command_ns": 766678100,
+              "host_enter_to_prompt_ns": 68712300
+            },
+            {
+              "operation": "append",
+              "host_full_command_ns": 1334235000,
+              "host_enter_to_prompt_ns": 91596600
+            },
+            {
+              "operation": "list",
+              "host_full_command_ns": 210900400,
+              "host_enter_to_prompt_ns": 68603600
+            },
+            {
+              "operation": "delete",
+              "host_full_command_ns": 732215200,
+              "host_enter_to_prompt_ns": 91951400
+            }
+          ]
+        }
+      ],
+      "summaries": {
+        "128": {
+          "boot_ms": {
+            "samples": 6,
+            "median": 1890.5795,
+            "min": 1239.6587,
+            "max": 1999.8699,
+            "range": 760.2112
+          },
+          "operations_ms": {
+            "traverse": {
+              "samples": 6,
+              "median": 68.6757,
+              "min": 68.1789,
+              "max": 76.6339,
+              "range": 8.454999999999998
+            },
+            "create": {
+              "samples": 6,
+              "median": 112.37645,
+              "min": 91.2223,
+              "max": 153.2622,
+              "range": 62.0399
+            },
+            "write": {
+              "samples": 6,
+              "median": 122.38229999999999,
+              "min": 91.0044,
+              "max": 143.1271,
+              "range": 52.12270000000001
+            },
+            "read": {
+              "samples": 6,
+              "median": 68.83125,
+              "min": 68.6259,
+              "max": 79.7759,
+              "range": 11.149999999999991
+            },
+            "append": {
+              "samples": 6,
+              "median": 112.8278,
+              "min": 90.4791,
+              "max": 162.9392,
+              "range": 72.4601
+            },
+            "list": {
+              "samples": 6,
+              "median": 68.66874999999999,
+              "min": 67.8719,
+              "max": 80.8607,
+              "range": 12.988799999999998
+            },
+            "delete": {
+              "samples": 6,
+              "median": 90.94375,
+              "min": 68.5046,
+              "max": 113.1084,
+              "range": 44.60380000000001
+            }
+          }
+        },
+        "512": {
+          "boot_ms": {
+            "samples": 6,
+            "median": 2028.2501,
+            "min": 1923.7326,
+            "max": 2307.0187,
+            "range": 383.28610000000003
+          },
+          "operations_ms": {
+            "traverse": {
+              "samples": 6,
+              "median": 68.65595,
+              "min": 68.1311,
+              "max": 76.9059,
+              "range": 8.774799999999999
+            },
+            "create": {
+              "samples": 6,
+              "median": 97.70065,
+              "min": 90.7359,
+              "max": 195.1772,
+              "range": 104.4413
+            },
+            "write": {
+              "samples": 6,
+              "median": 95.29075,
+              "min": 89.9342,
+              "max": 112.6111,
+              "range": 22.67689999999999
+            },
+            "read": {
+              "samples": 6,
+              "median": 68.76894999999999,
+              "min": 68.5397,
+              "max": 69.0093,
+              "range": 0.4695999999999998
+            },
+            "append": {
+              "samples": 6,
+              "median": 91.18639999999999,
+              "min": 90.4749,
+              "max": 112.5422,
+              "range": 22.06729999999999
+            },
+            "list": {
+              "samples": 6,
+              "median": 68.52395,
+              "min": 68.1935,
+              "max": 68.6763,
+              "range": 0.48279999999999745
+            },
+            "delete": {
+              "samples": 6,
+              "median": 91.10865000000001,
+              "min": 68.1178,
+              "max": 111.5895,
+              "range": 43.4717
+            }
+          }
+        }
+      }
+    },
+    "host_read": {
+      "fixture_sha256": "66746115aabd534bb2533a8d8bae482792c90f6f38823cac05ec6d7f75fd61c5",
+      "reports": [
+        "test_results/phase9_5/phase9_5b_host_final_b1.log",
+        "test_results/phase9_5/phase9_5b_host_final_b2.log"
+      ],
+      "raw_samples": [
+        {
+          "size": 64,
+          "sample": 0,
+          "operations": 2000,
+          "host_ns": 1404900,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 1,
+          "operations": 2000,
+          "host_ns": 1351700,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 2,
+          "operations": 2000,
+          "host_ns": 1376400,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 3,
+          "operations": 2000,
+          "host_ns": 1351600,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 4,
+          "operations": 2000,
+          "host_ns": 1300400,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 5,
+          "operations": 2000,
+          "host_ns": 1336700,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 6,
+          "operations": 2000,
+          "host_ns": 1320700,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 7,
+          "operations": 2000,
+          "host_ns": 1355600,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 8,
+          "operations": 2000,
+          "host_ns": 1364100,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 0,
+          "operations": 2000,
+          "host_ns": 1369400,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 1,
+          "operations": 2000,
+          "host_ns": 1411500,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 2,
+          "operations": 2000,
+          "host_ns": 1359100,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 3,
+          "operations": 2000,
+          "host_ns": 1392300,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 4,
+          "operations": 2000,
+          "host_ns": 1379100,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 5,
+          "operations": 2000,
+          "host_ns": 1348400,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 6,
+          "operations": 2000,
+          "host_ns": 1302400,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 7,
+          "operations": 2000,
+          "host_ns": 1380200,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 8,
+          "operations": 2000,
+          "host_ns": 1365400,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 0,
+          "operations": 2000,
+          "host_ns": 1390300,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 1,
+          "operations": 2000,
+          "host_ns": 1358000,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 2,
+          "operations": 2000,
+          "host_ns": 1380200,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 3,
+          "operations": 2000,
+          "host_ns": 1358500,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 4,
+          "operations": 2000,
+          "host_ns": 1357100,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 5,
+          "operations": 2000,
+          "host_ns": 1389800,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 6,
+          "operations": 2000,
+          "host_ns": 1340700,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 7,
+          "operations": 2000,
+          "host_ns": 1371500,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 8,
+          "operations": 2000,
+          "host_ns": 1313600,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 0,
+          "operations": 2000,
+          "host_ns": 1299900,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 1,
+          "operations": 2000,
+          "host_ns": 1315100,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 2,
+          "operations": 2000,
+          "host_ns": 1292900,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 3,
+          "operations": 2000,
+          "host_ns": 1284600,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 4,
+          "operations": 2000,
+          "host_ns": 1305500,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 5,
+          "operations": 2000,
+          "host_ns": 1302700,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 6,
+          "operations": 2000,
+          "host_ns": 1295400,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 7,
+          "operations": 2000,
+          "host_ns": 1285700,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 8,
+          "operations": 2000,
+          "host_ns": 1665300,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 0,
+          "operations": 2000,
+          "host_ns": 1725400,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 1,
+          "operations": 2000,
+          "host_ns": 1603800,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 2,
+          "operations": 2000,
+          "host_ns": 1409900,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 3,
+          "operations": 2000,
+          "host_ns": 1384600,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 4,
+          "operations": 2000,
+          "host_ns": 1364700,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 5,
+          "operations": 2000,
+          "host_ns": 1416700,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 6,
+          "operations": 2000,
+          "host_ns": 1369900,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 7,
+          "operations": 2000,
+          "host_ns": 1771800,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 64,
+          "sample": 8,
+          "operations": 2000,
+          "host_ns": 1417800,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 0,
+          "operations": 2000,
+          "host_ns": 1409200,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 1,
+          "operations": 2000,
+          "host_ns": 1477200,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 2,
+          "operations": 2000,
+          "host_ns": 1490100,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 3,
+          "operations": 2000,
+          "host_ns": 1501500,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 4,
+          "operations": 2000,
+          "host_ns": 1399000,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 5,
+          "operations": 2000,
+          "host_ns": 1312200,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 6,
+          "operations": 2000,
+          "host_ns": 6408100,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 7,
+          "operations": 2000,
+          "host_ns": 1436900,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 128,
+          "sample": 8,
+          "operations": 2000,
+          "host_ns": 1736000,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 0,
+          "operations": 2000,
+          "host_ns": 1237100,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 1,
+          "operations": 2000,
+          "host_ns": 1594800,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 2,
+          "operations": 2000,
+          "host_ns": 1620200,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 3,
+          "operations": 2000,
+          "host_ns": 1718000,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 4,
+          "operations": 2000,
+          "host_ns": 1838700,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 5,
+          "operations": 2000,
+          "host_ns": 1937100,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 6,
+          "operations": 2000,
+          "host_ns": 2172800,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 7,
+          "operations": 2000,
+          "host_ns": 2670000,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 512,
+          "sample": 8,
+          "operations": 2000,
+          "host_ns": 1253500,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 0,
+          "operations": 2000,
+          "host_ns": 1730200,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 1,
+          "operations": 2000,
+          "host_ns": 1631500,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 2,
+          "operations": 2000,
+          "host_ns": 2476500,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 3,
+          "operations": 2000,
+          "host_ns": 2213600,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 4,
+          "operations": 2000,
+          "host_ns": 1397400,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 5,
+          "operations": 2000,
+          "host_ns": 1404700,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 6,
+          "operations": 2000,
+          "host_ns": 2084400,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 7,
+          "operations": 2000,
+          "host_ns": 1462400,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        },
+        {
+          "size": 4096,
+          "sample": 8,
+          "operations": 2000,
+          "host_ns": 1865300,
+          "reads": 16000,
+          "writes": 0,
+          "flushes": 0
+        }
+      ],
+      "ns_per_op": {
+        "64": {
+          "samples": 18,
+          "median": 686.575,
+          "min": 650.2,
+          "max": 885.9,
+          "range": 235.69999999999993
+        },
+        "128": {
+          "samples": 18,
+          "median": 697.825,
+          "min": 651.2,
+          "max": 3204.05,
+          "range": 2552.8500000000004
+        },
+        "512": {
+          "samples": 18,
+          "median": 692.5,
+          "min": 618.55,
+          "max": 1335.0,
+          "range": 716.45
+        },
+        "4096": {
+          "samples": 18,
+          "median": 700.5250000000001,
+          "min": 642.3,
+          "max": 1238.25,
+          "range": 595.95
+        }
+      },
+      "sector_reads_per_op": {
+        "64": [
+          8.0
+        ],
+        "128": [
+          8.0
+        ],
+        "512": [
+          8.0
+        ],
+        "4096": [
+          8.0
+        ]
+      }
+    },
+    "host_memory_paging_model": {
+      "scope": "existing host-only isolated instances; no hardware TLB or kernel growth timing",
+      "samples": [
+        {
+          "frame_alloc_ns": 3368.5,
+          "frame_free_ns": 23.4,
+          "map_ns": 313.0,
+          "unmap_ns": 279.9,
+          "heap_alloc_ns": 2086.7,
+          "heap_free_ns": 1720.7,
+          "fragmentation_free_blocks": 251.0,
+          "alignment_waste_bytes": 0.0
+        },
+        {
+          "frame_alloc_ns": 3812.8,
+          "frame_free_ns": 18.7,
+          "map_ns": 417.9,
+          "unmap_ns": 401.9,
+          "heap_alloc_ns": 2866.7,
+          "heap_free_ns": 2349.3,
+          "fragmentation_free_blocks": 251.0,
+          "alignment_waste_bytes": 0.0
+        },
+        {
+          "frame_alloc_ns": 2543.9,
+          "frame_free_ns": 12.6,
+          "map_ns": 291.2,
+          "unmap_ns": 276.3,
+          "heap_alloc_ns": 1970.3,
+          "heap_free_ns": 1628.4,
+          "fragmentation_free_blocks": 251.0,
+          "alignment_waste_bytes": 0.0
+        },
+        {
+          "frame_alloc_ns": 2734.4,
+          "frame_free_ns": 13.4,
+          "map_ns": 286.6,
+          "unmap_ns": 271.2,
+          "heap_alloc_ns": 1943.1,
+          "heap_free_ns": 1601.6,
+          "fragmentation_free_blocks": 251.0,
+          "alignment_waste_bytes": 0.0
+        },
+        {
+          "frame_alloc_ns": 5420.0,
+          "frame_free_ns": 19.1,
+          "map_ns": 659.8,
+          "unmap_ns": 786.0,
+          "heap_alloc_ns": 4477.7,
+          "heap_free_ns": 3028.7,
+          "fragmentation_free_blocks": 251.0,
+          "alignment_waste_bytes": 0.0
+        },
+        {
+          "frame_alloc_ns": 3790.0,
+          "frame_free_ns": 18.7,
+          "map_ns": 417.5,
+          "unmap_ns": 394.6,
+          "heap_alloc_ns": 2835.6,
+          "heap_free_ns": 2378.2,
+          "fragmentation_free_blocks": 251.0,
+          "alignment_waste_bytes": 0.0
+        },
+        {
+          "frame_alloc_ns": 3757.4,
+          "frame_free_ns": 18.3,
+          "map_ns": 423.6,
+          "unmap_ns": 402.6,
+          "heap_alloc_ns": 2086.9,
+          "heap_free_ns": 1577.1,
+          "fragmentation_free_blocks": 251.0,
+          "alignment_waste_bytes": 0.0
+        },
+        {
+          "frame_alloc_ns": 3739.8,
+          "frame_free_ns": 17.5,
+          "map_ns": 410.6,
+          "unmap_ns": 397.0,
+          "heap_alloc_ns": 2902.6,
+          "heap_free_ns": 2442.1,
+          "fragmentation_free_blocks": 251.0,
+          "alignment_waste_bytes": 0.0
+        },
+        {
+          "frame_alloc_ns": 4590.1,
+          "frame_free_ns": 25.2,
+          "map_ns": 452.3,
+          "unmap_ns": 419.7,
+          "heap_alloc_ns": 2955.7,
+          "heap_free_ns": 3412.9,
+          "fragmentation_free_blocks": 251.0,
+          "alignment_waste_bytes": 0.0
+        }
+      ],
+      "summary": {
+        "frame_alloc_ns": {
+          "samples": 9,
+          "median": 3757.4,
+          "min": 2543.9,
+          "max": 5420.0,
+          "range": 2876.1
+        },
+        "frame_free_ns": {
+          "samples": 9,
+          "median": 18.7,
+          "min": 12.6,
+          "max": 25.2,
+          "range": 12.6
+        },
+        "map_ns": {
+          "samples": 9,
+          "median": 417.5,
+          "min": 286.6,
+          "max": 659.8,
+          "range": 373.19999999999993
+        },
+        "unmap_ns": {
+          "samples": 9,
+          "median": 397.0,
+          "min": 271.2,
+          "max": 786.0,
+          "range": 514.8
+        },
+        "heap_alloc_ns": {
+          "samples": 9,
+          "median": 2835.6,
+          "min": 1943.1,
+          "max": 4477.7,
+          "range": 2534.6
+        },
+        "heap_free_ns": {
+          "samples": 9,
+          "median": 2349.3,
+          "min": 1577.1,
+          "max": 3412.9,
+          "range": 1835.8000000000002
+        },
+        "fragmentation_free_blocks": {
+          "samples": 9,
+          "median": 251.0,
+          "min": 251.0,
+          "max": 251.0,
+          "range": 0.0
+        },
+        "alignment_waste_bytes": {
+          "samples": 9,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "range": 0.0
+        }
+      }
+    }
+  },
+  "methodology": {
+    "qemu_order": [
+      "B round1",
+      "C round1",
+      "B round2",
+      "C round2"
+    ],
+    "qemu_samples_per_ram_per_checkpoint": 6,
+    "host_final_order": [
+      "B1",
+      "C1",
+      "B2",
+      "C2"
+    ],
+    "host_samples_per_read_size": 18,
+    "host_operations_per_sample": 2000,
+    "same_final_fixture": true,
+    "no_parallel_qemu": true,
+    "guest_execution_time": null,
+    "serial_overhead_isolated": null,
+    "disk_emulation_overhead_isolated": null,
+    "clock_instrumentation_overhead_ns": null,
+    "limitations": "QMP pacing and serial polling dominate small command timing; RAM fixture includes counts/assertions and host scheduling. No wall-clock device bandwidth claim."
+  }
+}

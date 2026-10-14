@@ -1,5 +1,22 @@
 # ARCHITECTURE
 
+## Phase 9.5B partial-read architecture
+
+Ordinary RostiFS reads now transfer only sectors intersecting requested bytes.
+Complete aligned 4 KiB reads retain the original read_block path. Both branches
+reuse the same resident scratch, fallible RefCell borrowing and checked full-block
+geometry; no cache, heap allocation, unsafe operation or persistent field is added.
+EOF clamps the count before offset arithmetic. Mount/check still read complete
+padded extents for CRC32C validation. Write/COW, delayed reuse, poisoning and every
+flush are unchanged; so are capability validation and shared descriptor offsets.
+
+An unrequested sector's device error is no longer probed by a small read. An error
+may leave a copied prefix in the caller buffer; reads were not transactional before
+this change. Command-owned descriptor cleanup still applies on every error path.
+Exact memory/ELF/stack trade-offs and unavailable high-water metrics are recorded
+in docs/PHASE9_5_OPTIMIZATION_RESULTS.md. The prior safe-API/boot-memory findings
+remain prerequisites; this read optimization does not resolve them or start Phase 10.
+
 ## Phase 9.5 maintenance architecture
 
 The storage and capability architecture below is retained. No format version,

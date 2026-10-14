@@ -1,0 +1,37 @@
+{
+  "classification": "VERIFIED",
+  "starting_head": "9792bd4cc2dbb04e1b64b2f623fcb3d0325439e7",
+  "clean_at_start": true,
+  "previous_documentation_committed": true,
+  "previous_acceptance": {
+    "overall": "PASS",
+    "gates": 37,
+    "all_pass": true,
+    "source_hashes_verified": 82,
+    "nested_reports_verified": 52
+  },
+  "historical_artifacts": [
+    {
+      "path": "dist/rosti_phase9_20261013T142104Z.iso",
+      "bytes": 10268672,
+      "sha256": "00de8b73281ecb5dfea20297908ad781f42036fbf369966196a8e81df284db2b"
+    },
+    {
+      "path": "dist/rosti_phase9_5_20261013T221730Z.iso",
+      "bytes": 10272768,
+      "sha256": "26e0407ad977bcb573bac03682a95512562f67b9481b58d88c6cdfe3548e84eb"
+    }
+  ],
+  "proxmox_read_only": {
+    "node": "pve",
+    "vmid": 103,
+    "status": "running",
+    "ram_mib": 512,
+    "cores": 1,
+    "bios": "seabios",
+    "ide2": "local:iso/rosti_phase7_20261012T181123Z.iso,media=cdrom,size=9204K",
+    "digest": "c0253f4f9bc55e6c3f222dcc893833cc46157a4b",
+    "data_disks": [],
+    "modifications": false
+  }
+}
