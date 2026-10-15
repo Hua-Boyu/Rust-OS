@@ -3,8 +3,11 @@
 //! Design:
 //! - `free` bitmap: set = frame currently free. `ever` bitmap: set = frame
 //!   was handed out at least once (lets us classify double frees vs freeing a
-//!   reserved frame). `covered`/`ncov` track mmap coverage so overlapping
-//!   ranges are counted once.
+//!   reserved frame). `covered` tracks complete usable frames; `ncov` is the
+//!   authoritative competing-reservation denial bitmap, including overlapping
+//!   firmware and boot spans. Growth's own reservation is not a denial.
+//!   `growth_claimed` tracks live growth ownership separately from `ever`, so
+//!   rollback restores growth-only capacity without losing double-free checks.
 //! - All bitmaps are fixed-size static arrays: init must not allocate,
 //!   because frame allocation is what the global allocator would run on.
 //! - Only frames inside validated usable multiboot ranges (type 1) are ever
@@ -17,6 +20,10 @@ use crate::memory::dbg;
 use crate::memory::paging;
 use crate::multiboot::MmapEntry;
 
+#[cfg(test)]
+#[path = "../../tests_kernel/src/b11_frame_tests.rs"]
+mod b11_tests;
+
 pub const FRAME_SIZE: usize = 4096;
 
 /// Managed address window. The kernel is 32-bit; frames above this are not
@@ -24,6 +31,9 @@ pub const FRAME_SIZE: usize = 4096;
 /// bitmap, comfortably static.
 pub const MAX_FRAME_ADDR: u64 = 256 * 1024 * 1024;
 pub const MAX_FRAMES: usize = (MAX_FRAME_ADDR / FRAME_SIZE as u64) as usize;
+const GROWTH_BITMAP_BYTES: usize =
+    ((paging::GROWTH_END - paging::GROWTH_START) / FRAME_SIZE).div_ceil(8);
+const BITMAP_FRAMES: usize = (MAX_FRAMES / 8 * 4 + GROWTH_BITMAP_BYTES).div_ceil(FRAME_SIZE);
 
 // Always-reserved regardless of mmap type:
 // - VGA framebuffer 0xB8000..0xBC000 (the kernel writes text directly here).
@@ -60,7 +70,7 @@ pub fn kernel_bounds() -> (u64, u64) {
 #[derive(Debug, Clone, Copy)]
 pub struct FrameStats {
     pub total_frames: usize,     // frames inside usable mmap ranges (deduped)
-    pub reserved_frames: usize,  // frames reserved by mmap type or policy
+    pub reserved_frames: usize,  // deduped mmap/policy spans, excluding live claims
     pub free_frames: usize,      // currently free
     pub allocated_frames: usize, // currently handed out
     pub double_frees: usize,     // rejected: freeing an already-free frame
@@ -73,6 +83,7 @@ pub struct FrameAllocator {
     ever: [u8; MAX_FRAMES / 8],
     covered: [u8; MAX_FRAMES / 8],
     ncov: [u8; MAX_FRAMES / 8],
+    growth_claimed: [u8; GROWTH_BITMAP_BYTES],
     stats: FrameStats,
     initialized: bool,
 }
@@ -98,6 +109,7 @@ impl FrameAllocator {
             ever: [0; MAX_FRAMES / 8],
             covered: [0; MAX_FRAMES / 8],
             ncov: [0; MAX_FRAMES / 8],
+            growth_claimed: [0; GROWTH_BITMAP_BYTES],
             stats: FrameStats {
                 total_frames: 0,
                 reserved_frames: 0,
@@ -105,7 +117,7 @@ impl FrameAllocator {
                 allocated_frames: 0,
                 double_frees: 0,
                 invalid_frees: 0,
-                bitmap_frames: MAX_FRAMES / 8 * 4 / FRAME_SIZE,
+                bitmap_frames: BITMAP_FRAMES,
             },
             initialized: false,
         }
@@ -133,6 +145,7 @@ impl FrameAllocator {
         self.ever.fill(0);
         self.covered.fill(0);
         self.ncov.fill(0);
+        self.growth_claimed.fill(0);
         self.stats = FrameStats {
             total_frames: 0,
             reserved_frames: 0,
@@ -140,7 +153,7 @@ impl FrameAllocator {
             allocated_frames: 0,
             double_frees: 0,
             invalid_frees: 0,
-            bitmap_frames: MAX_FRAMES / 8 * 4 / FRAME_SIZE,
+            bitmap_frames: BITMAP_FRAMES,
         };
 
         // Pass 1: mark frames covered by usable ranges (deduped).
@@ -177,19 +190,17 @@ impl FrameAllocator {
             let null_page = f == 0;
             let kernel_overlap = fa < kend && fe > kstart;
             let vga_overlap = fa < VGA_END && fe > VGA_START;
-            let bootinfo_overlap = fa < (bootinfo_addr + FRAME_SIZE as u64) && fe > bootinfo_addr;
-            let bump_overlap = fa < bump_end && fe > bump_start;
+            let bootinfo_overlap =
+                fa < bootinfo_addr.saturating_add(FRAME_SIZE as u64) && fe > bootinfo_addr;
+            let bump_overlap = bump_start < bump_end && fa < bump_end && fe > bump_start;
             // Growth-window frames are reserved for the heap: they are mapped
             // one page at a time on demand, and page tables must never live
             // there (entry writes assume identity mapping).
             let growth_window = fa >= paging::GROWTH_START as u64 && fa < paging::GROWTH_END as u64;
-            if null_page
-                || kernel_overlap
-                || vga_overlap
-                || bootinfo_overlap
-                || bump_overlap
-                || growth_window
-            {
+            let denied =
+                null_page || kernel_overlap || vga_overlap || bootinfo_overlap || bump_overlap;
+            set_bit(&mut self.ncov, f, denied);
+            if denied || growth_window {
                 self.stats.reserved_frames += 1;
             } else {
                 set_bit(&mut self.free, f, true);
@@ -217,14 +228,54 @@ impl FrameAllocator {
                     self.stats.reserved_frames += 1;
                 }
                 if !bit(&self.covered, f) && !bit(&self.ncov, f) {
-                    set_bit(&mut self.ncov, f, true);
                     self.stats.reserved_frames += 1;
                 }
+                // Preserve the denial even for covered growth frames, which
+                // were never in the general free pool in the first place.
+                set_bit(&mut self.ncov, f, true);
             }
         }
 
         self.initialized = true;
         dbg("DBG: frame init passes done\n");
+    }
+
+    /// Initialize with additional pinned boot/module/page-table byte spans.
+    /// Spans are half-open; empty spans do nothing, any reversed span fails
+    /// closed and leaves the allocator uninitialized. No allocation occurs.
+    pub fn init_with_reservations(
+        &mut self,
+        entries: &[MmapEntry],
+        bootinfo_addr: u64,
+        bump_start: u64,
+        bump_end: u64,
+        reservations: &[(u64, u64)],
+    ) -> bool {
+        if reservations.iter().any(|&(start, end)| start > end) {
+            self.init(&[], 0, 0, 0);
+            self.initialized = false;
+            return false;
+        }
+        self.init(entries, bootinfo_addr, bump_start, bump_end);
+        for &(start, end) in reservations {
+            if start == end || start >= MAX_FRAME_ADDR {
+                continue;
+            }
+            let first = (start / FRAME_SIZE as u64) as usize;
+            let last = ((end - 1).min(MAX_FRAME_ADDR - 1) / FRAME_SIZE as u64) as usize;
+            for f in first..=last {
+                if bit(&self.free, f) {
+                    set_bit(&mut self.free, f, false);
+                    self.stats.free_frames -= 1;
+                    self.stats.reserved_frames += 1;
+                }
+                if !bit(&self.covered, f) && !bit(&self.ncov, f) {
+                    self.stats.reserved_frames += 1;
+                }
+                set_bit(&mut self.ncov, f, true);
+            }
+        }
+        true
     }
 
     /// Allocate one physical frame. None on exhaustion or before init.
@@ -244,8 +295,10 @@ impl FrameAllocator {
         None
     }
 
-    /// Free a previously allocated frame. Returns false (and counts the
-    /// event) for double frees and frees of reserved frames.
+    /// Free a previously allocated frame after the caller ends all uses.
+    /// Growth claims return to the growth-only reservation, never the general
+    /// free pool. Returns false (and counts the event) for double frees and
+    /// frees of frames this allocator never handed out.
     pub fn free(&mut self, addr: u64) -> bool {
         if !self.initialized {
             return false;
@@ -264,6 +317,17 @@ impl FrameAllocator {
             self.stats.invalid_frees += 1;
             return false;
         }
+        if addr >= paging::GROWTH_START as u64 && addr < paging::GROWTH_END as u64 {
+            let index = (addr as usize - paging::GROWTH_START) / FRAME_SIZE;
+            if !bit(&self.growth_claimed, index) {
+                self.stats.double_frees += 1;
+                return false;
+            }
+            set_bit(&mut self.growth_claimed, index, false);
+            self.stats.reserved_frames += 1;
+            self.stats.allocated_frames -= 1;
+            return true;
+        }
         if bit(&self.free, frame) {
             if bit(&self.ever, frame) {
                 self.stats.double_frees += 1;
@@ -281,7 +345,9 @@ impl FrameAllocator {
     /// Claim a reserved growth-window frame for heap growth. Only frames
     /// inside the growth window can be claimed; they are accounted as
     /// allocated so stats stay consistent. None if already claimed or the
-    /// frame is not covered by a usable range.
+    /// frame is not completely covered by a usable range, or any competing
+    /// firmware/kernel/boot reservation overlaps it. This exact-address API
+    /// never searches beyond a blocked slot: contiguous heap growth must stop.
     pub fn claim_growth_frame(&mut self, addr: u64) -> Option<u64> {
         if !self.initialized {
             return None;
@@ -293,9 +359,12 @@ impl FrameAllocator {
             return None;
         }
         let frame = Self::frame_of(addr)?;
-        if !bit(&self.covered, frame) || bit(&self.ever, frame) {
+        let index = (addr as usize - paging::GROWTH_START) / FRAME_SIZE;
+        if !bit(&self.covered, frame) || bit(&self.ncov, frame) || bit(&self.growth_claimed, index)
+        {
             return None;
         }
+        set_bit(&mut self.growth_claimed, index, true);
         set_bit(&mut self.ever, frame, true);
         // The frame was reserved for the heap; claiming it converts reserved
         // to allocated so the accounting stays consistent.
