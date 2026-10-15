@@ -28,9 +28,18 @@ stack_top:
 .type _start, @function
 _start:
     // multiboot specifies that we boot into 32-bit protected mode
+    // Keep IRQs masked until Rust has installed the descriptor tables and PIC.
+    cli
+    // Multiboot leaves DF undefined; the i686 Rust/C ABI requires it clear.
+    cld
 
     // setup the stack
     mov $stack_top, %esp
+
+    // Provide 16-byte pre-CALL alignment (target data-layout S128), even though
+    // the current soft-float i686-none compiler may use only 4-byte alignment.
+    // Reserve 8 bytes before the two 4-byte args; callee entry ESP is 12 mod 16.
+    sub $8, %esp
 
     // push multiboot info as args to kernel_main
     // reversed calling order: last argument first
