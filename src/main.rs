@@ -44,88 +44,94 @@ fn panic_handler(info: &PanicInfo) -> ! {
 static PORT_MANAGER: utils::mutex::SpinMutex<io::ports::PortAllocator> =
     utils::mutex::SpinMutex::new(io::ports::PortAllocator::new());
 
+/// Called before paging, once, with the kernel-BSS heap initialized.
+unsafe fn prepare_boot_memory(
+    magic: u32,
+    info: u64,
+) -> Result<(), multiboot::inventory::BootError> {
+    use multiboot::inventory::BootError;
+    let inventory = unsafe { multiboot::inventory::from_physical(magic, info)? };
+    io::serial::puts("DBG: mmap print\n");
+    println!("----- multiboot mmap -----");
+    println!("num entries: {}", inventory.entries.len());
+    io::serial::puts("DBG: mmap printed\n");
+    let mut entries = inventory.entries;
+    entries
+        .try_reserve_exact(inventory.reservations.len())
+        .map_err(|_| BootError::Allocation)?;
+    for (start, end) in inventory.reservations {
+        entries.push(multiboot::MmapEntry {
+            size: 20,
+            base_addr: start,
+            length: end - start,
+            type_: 2,
+        });
+    }
+    io::serial::puts("DBG: mmap parsed\n");
+    let total_kb = entries
+        .iter()
+        .filter(|e| e.type_ == 1)
+        .map(|e| e.length / 1024)
+        .fold(0u64, u64::saturating_add);
+    shell::set_mem_info(total_kb, allocator::bootstrap_heap_bounds().0 as u64);
+    io::serial::puts("DBG: mem info set\n");
+    let (start, end) = allocator::bootstrap_heap_bounds();
+    match memory::prepare(&entries, info, start as u64, end as u64) {
+        Ok(window) => {
+            let (total, reserved, free) = {
+                let fa = memory::FRAME_ALLOC.lock();
+                let s = fa.stats();
+                (s.total_frames, s.reserved_frames, s.free_frames)
+            };
+            println!(
+                "frame allocator: {} frames total, {} reserved, {} free",
+                total, reserved, free
+            );
+            println!(
+                "paging window: {:#010x} (page tables built, validated)",
+                window
+            );
+        }
+        Err(message) => {
+            io::serial::puts("paging validation FAILED, paging left disabled:\n");
+            io::serial::puts(message);
+            io::serial::putc(b'\n');
+        }
+    }
+    Ok(())
+}
+
 #[cfg(not(test))]
 #[unsafe(no_mangle)]
 /// # Safety
-/// Must only be entered by a multiboot-compliant bootloader in 32-bit
-/// protected mode. `info` must be a valid pointer to a multiboot info struct
-/// (guaranteed by the multiboot spec when `magic == 0x2badb002`).
+/// Entered once via boot.s in flat 32-bit protected mode with paging off,
+/// interrupts disabled, DF clear and the i686 C ABI stack contract established.
+/// `info` is treated as an untrusted physical address, not dereferenced as a
+/// Rust BootInfo reference. The inventory adapter bounds all reads first.
+/// The loader/firmware must provide readable conventional RAM and truthful
+/// RAM-map backing; this is not a hostile firmware isolation boundary.
 pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInfo) -> ! {
     io::serial::init();
     io::serial::puts("ROSTI: entered kernel_main\n");
 
     io::vga::init_writer();
-    if magic != 0x2badb002 {
-        panic!("Not booted from multiboot")
-    }
-
     unsafe {
-        // init the allocator BEFORE printing the mmap: print_mmap_entries
-        // allocates a Vec, which requires a working global allocator.
         io::serial::puts("DBG: alloc init\n");
         allocator::ALLOC.lock().init(info);
-        io::serial::puts("DBG: mmap print\n");
-        (*info).print_mmap_entries();
-        io::serial::puts("DBG: mmap printed\n");
-        // capture validated memory info for the shell's `mem` command
-        let mut entries = (*info).get_mmap_entries();
-        // Reserved entries override usable coverage in the frame allocator.
-        // Include the actual mmap buffer, boot modules and optional metadata,
-        // not just one page surrounding the BootInfo header.
-        for (start, end) in (*info).reserved_ranges() {
-            entries.push(multiboot::MmapEntry {
-                size: 20,
-                base_addr: start,
-                length: end - start,
-                type_: 2,
-            });
-        }
-        io::serial::puts("DBG: mmap parsed\n");
-        let total_kb: u64 = entries
-            .iter()
-            .filter(|e| e.type_ == 1)
-            .map(|e| e.length / 1024)
-            .sum();
-        shell::set_mem_info(total_kb, allocator::bootstrap_heap_bounds().0 as u64);
-        io::serial::puts("DBG: mem info set\n");
-
-        // Capture bump bounds once. SpinMutex is NOT reentrant: locking ALLOC
-        // again inside prepare()'s arguments while the set_mem_info guard is
-        // still alive deadlocks the boot (this was the Phase 4 hang).
-        let (bump_start, bump_end) = {
-            let _bump = allocator::ALLOC.lock();
-            let (s, e) = allocator::bootstrap_heap_bounds();
-            (s as u64, e as u64)
-        };
-
-        // Physical frame allocator + page tables. Paging is NOT enabled yet:
-        // the IDT must be loaded first so vector 14 can handle any fault.
-        match memory::prepare(&entries, info as u64, bump_start, bump_end) {
-            Ok(window) => {
-                // Copy stats under one guard: multiple lock() temporaries in
-                // the same println! live until the call returns and deadlock.
-                let (total_frames, reserved_frames, free_frames) = {
-                    let fa = memory::FRAME_ALLOC.lock();
-                    let stats = fa.stats();
-                    (stats.total_frames, stats.reserved_frames, stats.free_frames)
-                };
-                println!(
-                    "frame allocator: {} frames total, {} reserved, {} free",
-                    total_frames, reserved_frames, free_frames
-                );
-                println!(
-                    "paging window: {:#010x} (page tables built, validated)",
-                    window
-                );
-            }
-            Err(missing) => {
-                io::serial::puts("paging validation FAILED, paging left disabled:\n");
-                for m in &missing {
-                    io::serial::puts(m);
-                    io::serial::putc(b'\n');
-                }
-            }
-        }
+    }
+    // Rejected inventory never initializes frames or enables paging. The
+    // independent kernel-BSS heap still supports the RAMFS recovery namespace.
+    // A rejected inventory also closes the persistent-storage gate: no ATA
+    // probe, mount or raw shell write runs against media under untrusted boot
+    // metadata. Accepted boot keeps the storage paths open.
+    if let Err(error) = unsafe { prepare_boot_memory(magic, info as u64) } {
+        multiboot::inventory::record(error);
+        use core::fmt::Write;
+        let _ = writeln!(
+            io::serial::SerialWriter,
+            "ROSTI: boot metadata rejected: {:?}; bootstrap-heap recovery",
+            error
+        );
     }
     println!("hi");
 
@@ -161,24 +167,31 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     // Phase 8 block layer: acquire the primary IDE channel through the port
     // allocator, release the guard, then probe with finite bounded polls.
     // Main context only; ISRs never touch ports or this subsystem.
-    let ports = block::acquire_channel(&mut PORT_MANAGER.lock(), block::PRIMARY_BASE);
-    if let Some(ports) = ports {
-        let disk = &mut *storage::DISK.lock();
-        disk.rebind_ports(ports);
-        match disk.probe() {
-            Ok(()) if disk.capacity_sectors() > 0 => {
-                io::serial::puts("ROSTI: block device present\n");
-                disk.probe_test_owned();
+    // A rejected boot inventory closes the persistent-storage gate before any
+    // device access: media cannot be probed or modified under untrusted boot
+    // metadata. The RAMFS recovery shell remains fully functional.
+    if multiboot::inventory::storage_allowed() {
+        let ports = block::acquire_channel(&mut PORT_MANAGER.lock(), block::PRIMARY_BASE);
+        if let Some(ports) = ports {
+            let disk = &mut *storage::DISK.lock();
+            disk.rebind_ports(ports);
+            match disk.probe() {
+                Ok(()) if disk.capacity_sectors() > 0 => {
+                    io::serial::puts("ROSTI: block device present\n");
+                    disk.probe_test_owned();
+                }
+                Ok(()) => io::serial::puts("ROSTI: block device: no 28-bit LBA support\n"),
+                Err(e) => {
+                    io::serial::puts("ROSTI: block probe: ");
+                    use core::fmt::Write;
+                    let _ = writeln!(io::serial::SerialWriter, "{}", e);
+                }
             }
-            Ok(()) => io::serial::puts("ROSTI: block device: no 28-bit LBA support\n"),
-            Err(e) => {
-                io::serial::puts("ROSTI: block probe: ");
-                use core::fmt::Write;
-                let _ = writeln!(io::serial::SerialWriter, "{}", e);
-            }
+        } else {
+            io::serial::puts("ROSTI: block ports unavailable (already owned)\n");
         }
     } else {
-        io::serial::puts("ROSTI: block ports unavailable (already owned)\n");
+        io::serial::puts("ROSTI: storage gate closed (boot metadata rejected)\n");
     }
     let mut disk = storage::DiskView::new();
 
@@ -203,8 +216,10 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
 
     // Never format at boot. Unknown/corrupt owned media fails closed while the
     // independent RAMFS recovery shell remains available. Unmarked disks are
-    // not probed as filesystems and cannot be modified by this kernel.
-    if disk.test_owned() {
+    // not probed as filesystems and cannot be modified by this kernel. A
+    // rejected boot inventory keeps the storage gate closed: no mount attempt
+    // runs against media under untrusted metadata.
+    if multiboot::inventory::storage_allowed() && disk.test_owned() {
         // SAFETY: BACKEND is borrowed once at boot and, after attachment, only
         // through FILESYSTEM's exclusive reference. A failed mount is not
         // retried through this static; IRQs never access either object.

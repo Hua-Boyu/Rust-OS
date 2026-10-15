@@ -6,9 +6,13 @@
 
 #![allow(dead_code)]
 
+#[cfg(test)]
 use crate::println;
 extern crate alloc;
 use alloc::vec::Vec;
+
+#[path = "boot_inventory.rs"]
+pub mod inventory;
 
 #[repr(C, packed)]
 pub struct BootInfo {
@@ -62,6 +66,7 @@ pub struct MmapEntry {
     pub type_: u32, // name conflicts with rust keyword
 }
 
+#[cfg(test)]
 impl BootInfo {
     /// Bootloader-owned regions, copied before page tables can reuse frames.
     /// # Safety
@@ -170,6 +175,7 @@ impl BootInfo {
 }
 
 /// Pure, host-testable parser: `bytes` is the raw mmap region.
+#[cfg(test)]
 pub fn parse_mmap(bytes: &[u8]) -> Vec<MmapEntry> {
     let mut entries = Vec::new();
     let mut off = 0usize;
@@ -197,7 +203,23 @@ pub fn parse_mmap(bytes: &[u8]) -> Vec<MmapEntry> {
 /// working global allocator, which is exactly what init() is trying to set up
 /// (SpinMutex is not reentrant, so calling parse_mmap from inside init()
 /// would deadlock).
+#[cfg(test)]
 pub fn find_usable_block(bytes: &[u8]) -> Option<MmapEntry> {
+    // Legacy allocation-free query: reject truncated wire records before
+    // searching; individual unusable/overflowing ranges are still skipped.
+    // Boot initialization uses inventory::parse, which rejects the entire
+    // malformed inventory, including overflowing physical ranges.
+    let mut checked = 0usize;
+    while checked < bytes.len() {
+        if bytes.len() - checked < 4 {
+            return None;
+        }
+        let size = u32::from_le_bytes(bytes[checked..checked + 4].try_into().unwrap()) as usize;
+        if size < 20 || size > bytes.len() - checked - 4 {
+            return None;
+        }
+        checked += size + 4;
+    }
     let mut off = 0usize;
     while off + 4 <= bytes.len() {
         let size = u32::from_le_bytes(bytes[off..off + 4].try_into().unwrap()) as usize;
@@ -223,6 +245,17 @@ pub fn find_usable_block(bytes: &[u8]) -> Option<MmapEntry> {
 #[cfg(test)]
 mod phase4_tests {
     use super::*;
+
+    #[test]
+    fn usable_discovery_rejects_malformed_tail_instead_of_trusting_prefix() {
+        let mut bytes = Vec::new();
+        bytes.extend(20u32.to_le_bytes());
+        bytes.extend(0x100000u64.to_le_bytes());
+        bytes.extend(0x100000u64.to_le_bytes());
+        bytes.extend(1u32.to_le_bytes());
+        bytes.push(0xff);
+        assert!(find_usable_block(&bytes).is_none());
+    }
 
     #[test]
     fn bootinfo_layout_matches_multiboot_wire_format() {

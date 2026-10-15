@@ -8,6 +8,9 @@
 pub mod frame;
 pub mod paging;
 
+#[cfg(test)]
+mod review_r1_tests;
+
 pub use paging::{GROWTH_END, GROWTH_START};
 
 extern crate alloc;
@@ -49,87 +52,138 @@ pub fn managed_window_end(entries: &[MmapEntry]) -> u64 {
 
 /// Regions that MUST be mapped before paging is enabled. Validation is
 /// explicit so a bug shows up as a named missing region instead of a fault.
+pub fn required_region_iter(
+    entries: &[MmapEntry],
+    bootinfo_addr: u64,
+) -> impl Iterator<Item = (u64, u64, &'static str)> + '_ {
+    #[cfg(not(test))]
+    let kernel = {
+        let (start, end) = frame::kernel_bounds();
+        (start, end, "kernel image (incl. boot stack)")
+    };
+    #[cfg(test)]
+    let kernel = (4096, 8192, "kernel image (test dummy)");
+    [
+        kernel,
+        (0xB8000, 0xBC000, "VGA framebuffer"),
+        (bootinfo_addr, bootinfo_addr + 4096, "multiboot info struct"),
+    ]
+    .into_iter()
+    .chain(entries.iter().filter_map(|e| {
+        if e.type_ != 1 || e.base_addr >= (1u64 << 32) {
+            return None;
+        }
+        let end = e.base_addr.checked_add(e.length)?.min(1u64 << 32);
+        let start = e.base_addr.max(paging::PAGE_SIZE as u64);
+        // Validation skips individual growth pages. Do not discard an entire
+        // usable record merely because its first page lies in that window.
+        Some((start, end, "usable mmap range"))
+    }))
+}
+
+/// Allocating compatibility helper for unlocked host tests only.
+#[cfg(test)]
 pub fn required_regions(
     entries: &[MmapEntry],
     bootinfo_addr: u64,
 ) -> Vec<(u64, u64, &'static str)> {
-    let mut regions = Vec::new();
+    required_region_iter(entries, bootinfo_addr).collect()
+}
 
-    #[cfg(not(test))]
-    unsafe extern "C" {
-        static KERNEL_START: u32;
-        static KERNEL_END: u32;
-    }
-    #[cfg(not(test))]
-    unsafe {
-        regions.push((
-            &KERNEL_START as *const u32 as u64,
-            &KERNEL_END as *const u32 as u64,
-            "kernel image (incl. boot stack)",
-        ));
-    }
-    #[cfg(test)]
-    regions.push((4096, 8192, "kernel image (test dummy)"));
-
-    regions.push((0xB8000, 0xBC000, "VGA framebuffer"));
-    regions.push((bootinfo_addr, bootinfo_addr + 4096, "multiboot info struct"));
-
-    // Every usable mmap range inside the window must be mapped (the bump
-    // allocator and the page tables live there), except the heap growth
-    // window, which is mapped on demand by design.
-    for e in entries {
-        if e.type_ == 1 && e.base_addr < (1u64 << 32) {
-            if let Some(end) = e.base_addr.checked_add(e.length) {
-                let start = e.base_addr.max(paging::PAGE_SIZE as u64);
-                let end = end.min(1u64 << 32);
-                if paging::in_growth_window(start) && start < paging::GROWTH_END as u64 {
-                    continue;
-                }
-                regions.push((start, end, "usable mmap range"));
-            }
+/// Retain all nonusable inventory entries conservatively: production carries
+/// module and metadata reservations as synthetic type-2 records. Only identity
+/// pages in the managed window need pins; firmware ranges above it are unmapped.
+/// The header's existing 4 KiB physical reservation is retained in full.
+fn permanent_boot_pins(
+    entries: &[MmapEntry],
+    bootinfo_addr: u64,
+    window: u64,
+) -> Result<Vec<(u64, u64)>, &'static str> {
+    let limit = 1u64 << 32;
+    let header_end = bootinfo_addr
+        .checked_add(4096)
+        .filter(|&end| bootinfo_addr != 0 && end <= limit)
+        .ok_or("invalid multiboot info address")?;
+    let mut pins = Vec::new();
+    let capacity = entries
+        .len()
+        .checked_add(1)
+        .ok_or("boot pin capacity overflow")?;
+    pins.try_reserve_exact(capacity)
+        .map_err(|_| "boot pin backing allocation failed")?;
+    let mask = paging::PAGE_SIZE as u64 - 1;
+    pins.push((bootinfo_addr & !mask, (header_end + mask) & !mask));
+    for entry in entries.iter().filter(|e| e.type_ != 1 && e.length != 0) {
+        let end = entry
+            .base_addr
+            .checked_add(entry.length)
+            .ok_or("invalid nonusable mmap span")?;
+        let end = end.min(window).min(limit);
+        let start = entry.base_addr.max(paging::PAGE_SIZE as u64);
+        if start < end {
+            pins.push((start & !mask, (end + mask) & !mask));
         }
     }
-
-    regions
+    Ok(pins)
 }
 
 /// Initialize the frame allocator and build + validate the identity map.
 /// Does NOT enable paging — call enable_paging() after the IDT is loaded.
-/// Returns Ok(window_end) or the names of missing regions.
+/// Returns Ok(window_end) or the first static failure diagnostic.
+/// Boot-only, serialized by the kernel's single-owner initialization path.
+/// Once a map is published, reject reinitialization before touching the frame
+/// allocator or replacing backing exposed through page_map_ref().
+/// Table/pin backing reservations are fallible and happen outside the frame
+/// guard. Failure diagnostics never allocate, including reserve failures.
 pub fn prepare(
     entries: &[MmapEntry],
     bootinfo_addr: u64,
     bump_start: u64,
     bump_end: u64,
-) -> Result<u64, Vec<&'static str>> {
+) -> Result<u64, &'static str> {
+    if page_directory().is_some() {
+        return Err("paging already prepared");
+    }
     dbg("DBG: frame init start\n");
     // Pre-allocate the table vector BEFORE taking the frame lock: heap
     // allocation must never happen while the frame lock is held (the heap
     // growth path takes heap -> frame; this would invert the order).
-    let tables = alloc::vec![0u64; paging::PAGE_DIR_ENTRIES];
+    let window = managed_window_end(entries);
+    let mut boot_pins = permanent_boot_pins(entries, bootinfo_addr, window)?;
+    let mut tables = Vec::new();
+    tables
+        .try_reserve_exact(paging::PAGE_DIR_ENTRIES)
+        .map_err(|_| "page table backing allocation failed")?;
+    tables.resize(paging::PAGE_DIR_ENTRIES, 0u64);
 
-    let (window, pm) = {
+    let (window, built) = {
         let fa = &mut FRAME_ALLOC.lock();
         dbg("DBG: frame lock acquired\n");
         fa.init(entries, bootinfo_addr, bump_start, bump_end);
         dbg("DBG: frame init done\n");
-        let window = managed_window_end(entries);
-        match paging::build_identity_map(fa, window, tables) {
-            Some(pm) => (window, pm),
-            None => return Err(alloc::vec!["frame exhaustion during page table build"]),
-        }
-    }; // frame lock released here
+        let built =
+            paging::build_identity_map_with_pins_in_place(fa, window, &mut tables, &mut boot_pins);
+        (window, built)
+    }; // frame lock released before table backing destruction
+    let pm = match built {
+        Some(pm) => pm,
+        None => return Err("frame exhaustion during page table build"),
+    };
     dbg("DBG: page tables built\n");
 
-    // Validate after the frame lock is released: validate_mapping allocates.
-    let missing = paging::validate_mapping(&pm, &required_regions(entries, bootinfo_addr));
-    if missing.is_empty() {
+    // Validation streams required regions and reports only the first failure.
+    let missing = paging::first_missing_mapping(&pm, required_region_iter(entries, bootinfo_addr));
+    if missing.is_none() {
         unsafe {
             PAGE_MAP = Some(pm);
         }
         Ok(window)
     } else {
-        Err(missing)
+        {
+            let fa = &mut FRAME_ALLOC.lock();
+            pm.release_unpublished_frames(fa);
+        } // unlock before PageMap's Vec backing or diagnostics are dropped
+        Err(missing.unwrap())
     }
 }
 
@@ -177,11 +231,14 @@ pub fn mapped_pages() -> usize {
 /// heap free-list pointers valid and page-table entry writes safe.
 pub fn heap_grow_frame(slot: usize) -> Option<u64> {
     let fa = &mut FRAME_ALLOC.lock();
-    let frame = fa.claim_growth_frame(slot as u64)?;
     let pm = unsafe { (&raw mut PAGE_MAP).as_mut()?.as_mut()? };
+    let frame = fa.claim_growth_frame(slot as u64)?;
     if pm.map(fa, slot as u64, frame, &paging::KERNEL_PERMS) {
         Some(frame)
     } else {
+        // Growth-aware free restores reserved ownership, never ordinary free
+        // capacity. Keep the pre-existing PTE untouched on a map rejection.
+        fa.free(frame);
         None
     }
 }

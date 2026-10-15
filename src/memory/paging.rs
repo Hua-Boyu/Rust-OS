@@ -94,11 +94,26 @@ pub struct PagingStats {
 pub struct PageMap {
     directory: u64,
     tables: Vec<u64>,
+    // Page-rounded permanent boot identity spans; backing is prepared unlocked.
+    boot_pins: Vec<(u64, u64)>,
     stats: PagingStats,
     window_end: u64,
 }
 
 impl PageMap {
+    /// Return only paging-structure frames from an unpublished map. Borrowing
+    /// keeps Vec backing alive until the caller has released its frame guard.
+    /// Call exactly once, before publication/enabling; mapped payload frames
+    /// are not owned by PageMap and must not be freed here.
+    pub(super) fn release_unpublished_frames(&self, fa: &mut FrameAllocator) {
+        for &table in &self.tables {
+            if table != 0 {
+                fa.free(table);
+            }
+        }
+        fa.free(self.directory);
+    }
+
     /// Entry for a linear address, if its page table exists.
     pub fn entry(&self, linear: u64) -> Option<u32> {
         if linear >= (1u64 << 32) {
@@ -227,7 +242,14 @@ impl PageMap {
             self.stats.unmap_rejects += 1;
             return false;
         }
-        if is_boot_critical(linear) {
+        if is_boot_critical(linear)
+            || linear == self.directory
+            || self.tables.contains(&linear)
+            || self
+                .boot_pins
+                .iter()
+                .any(|&(start, end)| linear >= start && linear < end)
+        {
             self.stats.unmap_rejects += 1;
             return false;
         }
@@ -346,16 +368,42 @@ pub fn flush_tlb(page_map: &PageMap) {
 }
 
 /// Build an identity map over [0, window_end) using frames from `fa`.
-/// `tables` must be pre-allocated by the caller: allocating inside this
-/// function while the frame lock is held would invert the heap->frame lock
-/// order used by the heap growth path.
+/// `tables` must be pre-allocated. This owning convenience wrapper must not
+/// be called under a frame guard: failure destroys its Vec backing. Guarded
+/// callers must use `build_identity_map_in_place` and retain backing until unlock.
 /// Returns None if the allocator is exhausted mid-build.
 pub fn build_identity_map(
     fa: &mut FrameAllocator,
     window_end: u64,
     mut tables: Vec<u64>,
 ) -> Option<PageMap> {
-    if window_end == 0 || window_end > (1u64 << 32) {
+    build_identity_map_in_place(fa, window_end, &mut tables)
+}
+
+/// Borrow caller-owned backing so failure cannot destroy it under a frame guard.
+/// Success transfers backing into PageMap without allocating. The caller must
+/// release the guard before dropping either the backing or the returned map.
+pub(crate) fn build_identity_map_in_place(
+    fa: &mut FrameAllocator,
+    window_end: u64,
+    tables: &mut Vec<u64>,
+) -> Option<PageMap> {
+    build_identity_map_with_pins_in_place(fa, window_end, tables, &mut Vec::new())
+}
+
+/// Both backings remain caller-owned on failure, and move without allocation
+/// on success. Never drop the result or either backing under a frame guard.
+pub(crate) fn build_identity_map_with_pins_in_place(
+    fa: &mut FrameAllocator,
+    window_end: u64,
+    tables: &mut Vec<u64>,
+    boot_pins: &mut Vec<(u64, u64)>,
+) -> Option<PageMap> {
+    if window_end == 0
+        || window_end > (1u64 << 32)
+        || tables.len() != PAGE_DIR_ENTRIES
+        || tables.iter().any(|&frame| frame != 0)
+    {
         return None;
     }
     let directory = fa.allocate()?;
@@ -379,9 +427,10 @@ pub fn build_identity_map(
         let table = match fa.allocate() {
             Some(table) => table,
             None => {
-                for &frame in &tables {
-                    if frame != 0 {
-                        fa.free(frame);
+                for frame in tables.iter_mut() {
+                    if *frame != 0 {
+                        fa.free(*frame);
+                        *frame = 0;
                     }
                 }
                 fa.free(directory);
@@ -418,7 +467,8 @@ pub fn build_identity_map(
 
     Some(PageMap {
         directory,
-        tables,
+        tables: core::mem::take(tables),
+        boot_pins: core::mem::take(boot_pins),
         stats,
         window_end,
     })
@@ -435,29 +485,50 @@ fn zero_table(frame: u64) {
     });
 }
 
-/// Validate that every required region has present entries before enabling
-/// paging. Returns the names of missing regions (empty = safe to enable).
+/// Stream validation without heap allocation, including permanent boot pins.
+fn missing_mapping_regions<'a>(
+    page_map: &'a PageMap,
+    required: impl IntoIterator<Item = (u64, u64, &'static str)> + 'a,
+) -> impl Iterator<Item = &'static str> + 'a {
+    required
+        .into_iter()
+        .chain(
+            page_map
+                .boot_pins
+                .iter()
+                .map(|&(start, end)| (start, end, "permanent boot span")),
+        )
+        .filter_map(move |(start, end, name)| {
+            if start >= end {
+                return None;
+            }
+            let mut addr = start & !(PAGE_SIZE as u64 - 1);
+            while addr < end {
+                // Growth holes are intentionally absent until mapped on demand.
+                if !in_growth_window(addr) && !page_map.is_mapped(addr) {
+                    return Some(name);
+                }
+                addr += PAGE_SIZE as u64;
+            }
+            None
+        })
+}
+
+/// Return the first missing region with no allocation on success or failure.
+pub fn first_missing_mapping(
+    page_map: &PageMap,
+    required: impl IntoIterator<Item = (u64, u64, &'static str)>,
+) -> Option<&'static str> {
+    missing_mapping_regions(page_map, required).next()
+}
+
+/// Allocating compatibility helper for unlocked host tests only.
+#[cfg(test)]
 pub fn validate_mapping(
     page_map: &PageMap,
     required: &[(u64, u64, &'static str)],
 ) -> Vec<&'static str> {
-    let mut missing = Vec::new();
-    for &(start, end, name) in required {
-        if start >= end {
-            continue;
-        }
-        let mut addr = start & !(PAGE_SIZE as u64 - 1);
-        while addr < end {
-            // The heap growth window is intentionally unmapped until the heap
-            // maps it on demand; validation must not require it.
-            if !in_growth_window(addr) && !page_map.is_mapped(addr) {
-                missing.push(name);
-                break;
-            }
-            addr += PAGE_SIZE as u64;
-        }
-    }
-    missing
+    missing_mapping_regions(page_map, required.iter().copied()).collect()
 }
 
 #[cfg(not(test))]

@@ -2,6 +2,8 @@
 // The kernel is a no_std/no_main i686 binary and cannot host its own test
 // harness, so this crate includes the testable modules via #[path]; privileged
 // asm! blocks in those modules are cfg-gated out under test builds.
+// This crate is a host test harness, not a non-test kernel library.
+#![cfg(test)]
 #![feature(abi_x86_interrupt)]
 
 #[macro_export]
@@ -1086,3 +1088,9 @@ fn perf_baseline_records_latencies() {
         frag.waste
     );
 }
+
+#[cfg(test)]
+mod b18_inventory_tests;
+
+#[cfg(test)]
+mod b18_outcome_tests;

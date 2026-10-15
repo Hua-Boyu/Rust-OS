@@ -194,94 +194,96 @@ fn run_command(
             } else {
                 report!("usable memory: {} KB", unsafe { MEM_TOTAL_KB });
                 report!("allocator block base: {:#08x}", unsafe { MEM_BLOCK_BASE });
+            }
 
-                // Copy frame stats under one guard, then release before the
-                // heap guard: nested locks on the same mutex deadlock, and
-                // heap allocation during printing could re-enter the heap.
-                let fa_stats = {
-                    let fa = crate::memory::FRAME_ALLOC.lock();
-                    if fa.is_initialized() {
-                        Some(*fa.stats())
-                    } else {
-                        None
-                    }
-                };
-                let fs_stats = fs.stats();
-                report!("FS nodes: {}", fs_stats.nodes);
-                report!("FS storage: {} bytes", fs_stats.allocated_bytes);
-                report!("FS logical bytes: {}", fs_stats.logical_bytes);
-                report!("FS metadata: {} bytes (fixed)", fs_stats.metadata_bytes);
-                let fd_stats = table.stats();
-                report!(
-                    "Descriptors: open {} records {} opens {} closes {} denials {} stale {}",
-                    fd_stats.open_slots,
-                    fd_stats.open_records,
-                    fd_stats.opens,
-                    fd_stats.closes,
-                    fd_stats.denials,
-                    fd_stats.stale_rejections
-                );
-                report!("Physical memory:");
-                if let Some(s) = fa_stats {
-                    report!("Total frames: {}", s.total_frames);
-                    report!("Free frames: {}", s.free_frames);
-                    report!("Allocated frames: {}", s.allocated_frames);
-                    report!("Reserved frames: {}", s.reserved_frames);
-                    report!(
-                        "Frame rejects: double frees {} invalid frees {}",
-                        s.double_frees,
-                        s.invalid_frees
-                    );
+            // Recovery still owns a bounded bootstrap heap and RAMFS even
+            // when no boot map was accepted; report their real state too.
+            // Copy frame stats under one guard, then release before the
+            // heap guard: nested locks on the same mutex deadlock, and
+            // heap allocation during printing could re-enter the heap.
+            let fa_stats = {
+                let fa = crate::memory::FRAME_ALLOC.lock();
+                if fa.is_initialized() {
+                    Some(*fa.stats())
                 } else {
-                    report!("frame allocator: not initialized");
+                    None
                 }
-
-                report!();
-                report!("Virtual memory:");
+            };
+            let fs_stats = fs.stats();
+            report!("FS nodes: {}", fs_stats.nodes);
+            report!("FS storage: {} bytes", fs_stats.allocated_bytes);
+            report!("FS logical bytes: {}", fs_stats.logical_bytes);
+            report!("FS metadata: {} bytes (fixed)", fs_stats.metadata_bytes);
+            let fd_stats = table.stats();
+            report!(
+                "Descriptors: open {} records {} opens {} closes {} denials {} stale {}",
+                fd_stats.open_slots,
+                fd_stats.open_records,
+                fd_stats.opens,
+                fd_stats.closes,
+                fd_stats.denials,
+                fd_stats.stale_rejections
+            );
+            report!("Physical memory:");
+            if let Some(s) = fa_stats {
+                report!("Total frames: {}", s.total_frames);
+                report!("Free frames: {}", s.free_frames);
+                report!("Allocated frames: {}", s.allocated_frames);
+                report!("Reserved frames: {}", s.reserved_frames);
                 report!(
-                    "Paging: {}",
-                    if crate::memory::paging_enabled() {
-                        "enabled"
-                    } else {
-                        "disabled"
-                    }
+                    "Frame rejects: double frees {} invalid frees {}",
+                    s.double_frees,
+                    s.invalid_frees
                 );
-                report!(
-                    "Page directory: {:#010x}",
-                    crate::memory::page_directory().unwrap_or(0)
-                );
-                report!("Mapped pages: {}", crate::memory::mapped_pages());
-                report!("Page size: {} bytes", crate::memory::paging::PAGE_SIZE);
+            } else {
+                report!("frame allocator: not initialized");
+            }
 
-                report!();
-                report!("Kernel heap:");
-                let hs = crate::allocator::heap_stats();
-                report!("Current capacity: {} bytes", hs.capacity);
-                report!("Used: {} bytes", hs.used);
-                report!("Free: {} bytes", hs.free);
-                report!("Failed allocations: {}", hs.failed_allocs);
-                report!("Live allocations: {}", hs.live_allocs);
-                report!("Invalid deallocs: {}", hs.invalid_deallocs);
-                report!(
-                    "Free blocks: {} (largest {} bytes)",
-                    hs.free_blocks,
-                    hs.largest_free
-                );
-                report!("Alignment waste: {} bytes", hs.waste);
-                report!("Growth pages: {}", hs.growth_pages);
-
-                report!();
-                report!("Page faults: {}", crate::interrupt::page_fault_count());
-                if let Some(f) = crate::interrupt::last_page_fault() {
-                    report!(
-                        "Last fault: cr2={:#010x} present={} write={} user={} fetch={}",
-                        f.cr2,
-                        f.present,
-                        f.write,
-                        f.user,
-                        f.fetch
-                    );
+            report!();
+            report!("Virtual memory:");
+            report!(
+                "Paging: {}",
+                if crate::memory::paging_enabled() {
+                    "enabled"
+                } else {
+                    "disabled"
                 }
+            );
+            report!(
+                "Page directory: {:#010x}",
+                crate::memory::page_directory().unwrap_or(0)
+            );
+            report!("Mapped pages: {}", crate::memory::mapped_pages());
+            report!("Page size: {} bytes", crate::memory::paging::PAGE_SIZE);
+
+            report!();
+            report!("Kernel heap:");
+            let hs = crate::allocator::heap_stats();
+            report!("Current capacity: {} bytes", hs.capacity);
+            report!("Used: {} bytes", hs.used);
+            report!("Free: {} bytes", hs.free);
+            report!("Failed allocations: {}", hs.failed_allocs);
+            report!("Live allocations: {}", hs.live_allocs);
+            report!("Invalid deallocs: {}", hs.invalid_deallocs);
+            report!(
+                "Free blocks: {} (largest {} bytes)",
+                hs.free_blocks,
+                hs.largest_free
+            );
+            report!("Alignment waste: {} bytes", hs.waste);
+            report!("Growth pages: {}", hs.growth_pages);
+
+            report!();
+            report!("Page faults: {}", crate::interrupt::page_fault_count());
+            if let Some(f) = crate::interrupt::last_page_fault() {
+                report!(
+                    "Last fault: cr2={:#010x} present={} write={} user={} fetch={}",
+                    f.cr2,
+                    f.present,
+                    f.write,
+                    f.user,
+                    f.fetch
+                );
             }
         }
         "cpu" => match crate::cpu::vendor() {
@@ -362,6 +364,10 @@ fn run_command(
             }
         }
         "diskwrite" => {
+            if !crate::multiboot::inventory::storage_allowed() {
+                say("block: raw writes refused (boot metadata rejected)");
+                return;
+            }
             if fs.persistent_info().is_some() {
                 say("block: raw writes refused while RostiFS is mounted");
                 return;

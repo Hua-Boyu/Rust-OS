@@ -2,7 +2,7 @@
 """Fail-closed local acceptance. Never deploys or changes authentication.
 
 Run from the canonical repository with the existing Rust/QEMU/WSL tools.
-Evidence lives beneath test_results/phase9_5; logs and counts are real subprocess
+Evidence lives beneath test_results/phase9_6; logs and counts are real subprocess
 results. Preserve the currently built ISO before packaging the replacement.
 """
 import argparse
@@ -29,9 +29,11 @@ def source_snapshot():
     paths = set()
     for directory, suffixes in (("src", {".rs", ".s"}),
                                 ("tests_kernel/src", {".rs"}),
-                                ("scripts", {".py", ".sh"})):
+                                ("tests_b26", {".rs", ".s", ".S", ".ld", ".json", ".toml", ".lock"}),
+                                ("scripts", {".py", ".sh", ".rs", ".s", ".S", ".ld", ".json", ".toml", ".lock"})):
         paths.update(p for p in (PROJECT / directory).rglob("*")
-                     if p.is_file() and p.suffix in suffixes)
+                     if p.is_file() and p.suffix in suffixes
+                     and not {"target", "__pycache__"}.intersection(p.relative_to(PROJECT / directory).parts))
     for name in ("Cargo.toml", "Cargo.lock", "linker.ld", "target.json",
                  "rust-toolchain.toml", ".cargo/config.toml",
                  "tests_kernel/Cargo.toml", "tests_kernel/Cargo.lock",
@@ -73,10 +75,10 @@ def main():
     parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    parent = (args.output_dir or PROJECT / "test_results" / "phase9_5").resolve()
+    parent = (args.output_dir or PROJECT / "test_results" / "phase9_6").resolve()
     parent.mkdir(parents=True, exist_ok=True)
     run = Path(tempfile.mkdtemp(prefix=f"acceptance_{stamp}_", dir=parent))
-    report = {"phase": "9.5", "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
+    report = {"phase": "9.6", "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
     features_active = False
 
     def gate(name, command, timeout=180, cwd=PROJECT):
@@ -113,6 +115,24 @@ def main():
         if not match:
             raise RuntimeError("host test totals not found")
         report["counts"]["host"] = {"pass": int(match[1]), "fail": int(match[2])}
+        # Separate filtered invocations prove every Phase 9.6 safety family ran;
+        # a successful broad suite (or a renamed-away filter) cannot substitute.
+        for key, filter_name, host_manifest in (
+                ("b11", "b11_", "tests_kernel/Cargo.toml"),
+                ("b18", "b18_inventory_tests::", "tests_kernel/Cargo.toml"),
+                ("b26", "b26_", "tests_b26/Cargo.toml")):
+            text = gate(f"Phase 9.6 {key.upper()} host safety regressions",
+                        ["cargo", "+nightly", "test", "--manifest-path", str(PROJECT / host_manifest),
+                         "--lib", filter_name, "--", "--test-threads=1"], cwd=Path.home())
+            totals = re.findall(r"test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored", text)
+            observed = re.findall(r"^test (\S+) \.\.\. ok\s*$", text, re.M)
+            if (len(totals) != 1 or int(totals[0][0]) == 0
+                    or int(totals[0][1]) != 0 or int(totals[0][2]) != 0
+                    or len(observed) != int(totals[0][0])
+                    or len(set(observed)) != len(observed)
+                    or any(filter_name not in name for name in observed)):
+                raise RuntimeError(f"{key.upper()} safety test totals missing, empty or inconsistent")
+            report["counts"][key] = {"pass": len(observed), "fail": 0}
         manifest = str(PROJECT / "crates/rostifs/Cargo.toml")
         gate("RostiFS formatting", ["cargo", "+nightly", "fmt", "--manifest-path", manifest, "--check"])
         text = gate("RostiFS host and crash recovery tests", ["cargo", "+nightly", "test", "--manifest-path", manifest, "--", "--nocapture"], timeout=300, cwd=Path.home())
@@ -139,6 +159,15 @@ def main():
         gate("acceptance runner regressions", script("test_acceptance_harness.py"))
         gate("RostiFS harness regressions", script("test_rostifs_harness.py"))
         gate("Phase 9.5 benchmark contracts", script("test_phase9_5_bench.py"))
+        gate("Phase 9.6 boot metadata harness contracts", script("test_boot_metadata_harness.py"))
+        b13_host_path = run / "b13_host.json"
+        gate("Phase 9.6 B13 boot entry host contracts",
+             script("test_b13_boot.py", "--report", b13_host_path))
+        b13_host = json.loads(b13_host_path.read_text())
+        if (b13_host.get("status") != "PASS" or type(b13_host.get("tests_run")) is not int
+                or b13_host["tests_run"] < 3 or b13_host.get("failures") != []):
+            raise RuntimeError("B13 host entry contracts missing, empty or failed")
+        report["counts"]["b13_host"] = {"pass": b13_host["tests_run"], "fail": 0}
         features_active = True
         gate("build read fault fixture", ["cargo", "build", "--features", "paging-fault-test"])
         gate("CPU read faults 128 and 512", script("paging_test.py", "--fault", "--output-dir", run / "read_fault"))
@@ -147,6 +176,70 @@ def main():
         gate("production build", ["cargo", "build"])
         features_active = False
         gate("production feature and fault exclusion", script("verify_production.py"))
+        b13_output = run / "b13_qemu"
+        gate("Phase 9.6 B13 privileged boot entry and production handoff",
+             script("b13_boot_fixture.py", "--build", "--run-qemu", "--production-kernel",
+                    PROJECT / "target/target/debug/kernel", "--output-dir", b13_output), timeout=600)
+        b13_path = b13_output / "report.json"
+        b13 = json.loads(b13_path.read_text())
+        guests = b13.get("guests")
+        if (b13.get("status") != "PASS" or b13.get("qemu_status") != "PASS"
+                or b13.get("inspection", {}).get("status") != "PASS"
+                or not isinstance(guests, list) or len(guests) != 4):
+            raise RuntimeError("B13 privileged entry proof missing or incomplete")
+        b13_reports = {b13_path}
+        expected_guests = {(entry, ram) for entry in ("b13_handoff", "_start") for ram in (128, 512)}
+        observed_guests = set()
+        for guest in guests:
+            if guest.get("status") != "PASS" or guest.get("cleanup") is not True:
+                raise RuntimeError("B13 failed guest or unverified cleanup")
+            identity = (guest.get("entry"), guest.get("memory_mib"))
+            if identity not in expected_guests or identity in observed_guests:
+                raise RuntimeError("B13 missing or duplicate guest configuration")
+            observed_guests.add(identity)
+            kind = "fixture" if identity[0] == "b13_handoff" else "production"
+            child = b13_output / f"{kind}_{identity[1]}" / "report.json"
+            if json.loads(child.read_text()) != guest:
+                raise RuntimeError("B13 aggregate/guest evidence mismatch")
+            b13_reports.add(child)
+        report["counts"]["b13_qemu"] = {"pass": len(observed_guests), "fail": 0}
+        gate("Phase 9.6 B13 injection transport contracts", script("test_b13_entry_inject.py"))
+        b13_report_hashes = {path: sha256(path) for path in b13_reports | {b13_host_path}}
+        metadata_output = run / "boot_metadata"
+        gate("Phase 9.6 integrated boot metadata ELF and GRUB safety",
+             script("boot_metadata_test.py", "--boot", "both", "--ram", 128, 512,
+                    "--output-dir", metadata_output), timeout=1800)
+        metadata_paths = list(metadata_output.glob("*/report.json"))
+        if len(metadata_paths) != 1:
+            raise RuntimeError("missing or ambiguous mandatory boot metadata report")
+        metadata_path = metadata_paths[0]
+        metadata = json.loads(metadata_path.read_text())
+        metadata_rows = evidence_rows(metadata, metadata_path)
+        fixtures = ("nomodule", "invalidmagic", "null", "headerbad", "mmaptruncated",
+                    "modulein-growth", "module-overlap", "countedoverflow", "validmodule",
+                    "reservedgrowth", "frameexhaustion")
+        expected_metadata = {(boot, ram, fixture) for boot in ("elf", "iso")
+                             for ram in (128, 512) for fixture in fixtures}
+        scenarios = metadata.get("scenarios")
+        if (not isinstance(scenarios, list) or len(scenarios) != len(expected_metadata)
+                or metadata.get("expected_scenarios") != len(expected_metadata)
+                or metadata.get("scenario_count") != len(expected_metadata)):
+            raise RuntimeError("incomplete mandatory boot metadata scenario totals")
+        observed_metadata = set()
+        for scenario in scenarios:
+            identity = (scenario.get("boot"), scenario.get("ram_mib"), scenario.get("name"))
+            if (identity not in expected_metadata or identity in observed_metadata
+                    or scenario.get("overall") != "PASS"):
+                raise RuntimeError("missing, duplicate or failed boot metadata configuration")
+            observed_metadata.add(identity)
+            boot, ram, fixture = identity
+            child = metadata_path.parent / f"{boot}_{ram}_{fixture}" / "report.json"
+            if Path(scenario.get("report", "")).resolve() != child.resolve():
+                raise RuntimeError("boot metadata guest report is not invocation-owned")
+            evidence_rows(json.loads(child.read_text()), child)
+        report["counts"]["boot_metadata"] = {"pass": len(metadata_rows), "fail": 0}
+        report["counts"]["boot_metadata_scenarios"] = {"pass": len(observed_metadata), "fail": 0}
+        metadata_digest = sha256(metadata_path)
         text = gate("ELF validation", script("validate_elf.py", PROJECT / "target/target/debug/kernel"))
         report["counts"]["elf"] = {"pass": len(re.findall(r"^PASS:", text, re.M)), "fail": len(re.findall(r"^FAIL:", text, re.M))}
         for memory in (128, 512):
@@ -183,6 +276,10 @@ def main():
         final_hashes = source_snapshot()
         if final_hashes != report["source_sha256"]:
             raise RuntimeError("source changed during acceptance; rerun against stable source")
+        if any(sha256(path) != digest for path, digest in b13_report_hashes.items()):
+            raise RuntimeError("B13 validated evidence changed during acceptance")
+        if sha256(metadata_path) != metadata_digest:
+            raise RuntimeError("boot metadata validated matrix changed during acceptance")
         required = {"read_fault": 2, "write_fault": 2, "paging": 20, "iso_paging": 2}
         for boot in ("elf", "iso"):
             for memory in (128, 512):
@@ -199,6 +296,10 @@ def main():
             if len(rows) != expected:
                 raise RuntimeError(f"incomplete mandatory checks: {directory}: {len(rows)}/{expected}")
         for p in run.rglob("report.json"):
+            # These exact reports use B13's status/guests schema and were fully
+            # validated above; never exempt any other discovered report.
+            if p in b13_reports:
+                continue
             evidence = json.loads(p.read_text())
             key = str(p.relative_to(run))
             evidence_rows(evidence, key)
@@ -212,7 +313,7 @@ def main():
                 if not rows or any(r.get("pass") is not True for r in rows):
                     raise RuntimeError(f"failed or empty harness results: {key}")
                 report["counts"][key] = {"pass": sum(r["pass"] for r in rows), "fail": sum(not r["pass"] for r in rows)}
-        versioned = PROJECT / "dist" / f"rosti_phase9_5_{stamp}.iso"
+        versioned = PROJECT / "dist" / f"rosti_phase9_6_{stamp}.iso"
         if versioned.exists():
             raise RuntimeError("refusing to overwrite versioned ISO")
         shutil.copy2(current_iso, versioned)
