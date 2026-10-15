@@ -25,10 +25,69 @@ pub enum BootError {
     String,
 }
 
+/// Maximum retained label bytes (excluding NUL). Physical metadata validation
+/// still scans through the original 4096-byte bound, even for ineligible names.
+pub const MAX_MODULE_NAME: usize = 63;
+pub const INITRAMFS_LABEL: &str = "rosti.initramfs";
+
+/// Owned printable ASCII only; never a truncated prefix or bootloader pointer.
+/// Empty, oversized, non-ASCII and control-containing strings are ineligible.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ModuleName {
+    bytes: [u8; MAX_MODULE_NAME],
+    len: u8,
+}
+
+impl ModuleName {
+    const EMPTY: Self = Self {
+        bytes: [0; MAX_MODULE_NAME],
+        len: 0,
+    };
+
+    pub fn as_str(&self) -> Option<&str> {
+        if self.len == 0 {
+            None
+        } else {
+            core::str::from_utf8(&self.bytes[..self.len as usize]).ok()
+        }
+    }
+}
+
+/// Sanitized metadata, not permission to dereference physical memory. Consumers
+/// must separately prove mapping/pinning before accessing any payload bytes.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ModuleDescriptor {
+    pub range: (u64, u64),
+    pub name: ModuleName,
+}
+
 pub struct Inventory {
     pub entries: Vec<MmapEntry>,
     pub reservations: Vec<(u64, u64)>,
+    /// Compatibility ranges in loader order.
     pub modules: Vec<(u64, u64)>,
+    /// Parallel owned descriptors, also in loader order; one bounded Vec backing,
+    /// no allocation per name and no MAX_MODULES-sized boot-stack array.
+    pub module_descriptors: Vec<ModuleDescriptor>,
+}
+
+impl Inventory {
+    /// Exact whole-label selection only. Missing/ineligible/other names are
+    /// ignored; two exact matches always fail, independently of loader order.
+    /// No physical reads, allocation, reservation release or global outcome
+    /// mutation occurs here. The caller must handle ambiguity as a rejection.
+    pub fn select_initramfs(&self) -> Result<Option<&ModuleDescriptor>, BootError> {
+        let mut selected = None;
+        for module in &self.module_descriptors {
+            if module.name.as_str() == Some(INITRAMFS_LABEL) {
+                if selected.is_some() {
+                    return Err(BootError::Module);
+                }
+                selected = Some(module);
+            }
+        }
+        Ok(selected)
+    }
 }
 
 /// First-rejection-wins boot outcome, recorded by every parse attempt. The
@@ -217,6 +276,7 @@ where
         entries,
         reservations: vector(128)?,
         modules: vector(MAX_MODULES)?,
+        module_descriptors: vector(MAX_MODULES)?,
     };
     inv.reservations.push(header_range);
     inv.reservations.push(mmap_range);
@@ -250,9 +310,13 @@ where
                 inv.modules.push(range);
                 inv.reservations.push(range);
                 let name = word(&descriptor, 8) as u64;
-                if name != 0 {
-                    string(&mut inv, name, kernel, &mut read)?;
-                }
+                let name = if name != 0 {
+                    string(&mut inv, name, kernel, &mut read)?
+                } else {
+                    ModuleName::EMPTY
+                };
+                inv.module_descriptors
+                    .push(ModuleDescriptor { range, name });
             }
         }
     }
@@ -350,17 +414,26 @@ fn string<F>(
     start: u64,
     kernel: (u64, u64),
     read: &mut F,
-) -> Result<(), BootError>
+) -> Result<ModuleName, BootError>
 where
     F: FnMut(u64, &mut [u8]) -> Result<(), BootError>,
 {
+    let mut name = ModuleName::EMPTY;
+    let mut eligible = true;
     for i in 0..MAX_STRING {
         let range = span(start, i + 1)?;
         address(&inv.entries, range, kernel)?;
         let mut byte = [0];
         read(start + i, &mut byte)?;
         if byte[0] == 0 {
-            return reserve(inv, start, i + 1, kernel);
+            reserve(inv, start, i + 1, kernel)?;
+            return Ok(if eligible { name } else { ModuleName::EMPTY });
+        }
+        if i < MAX_MODULE_NAME as u64 && (0x20..=0x7e).contains(&byte[0]) {
+            name.bytes[i as usize] = byte[0];
+            name.len = (i + 1) as u8;
+        } else {
+            eligible = false;
         }
     }
     Err(BootError::String)

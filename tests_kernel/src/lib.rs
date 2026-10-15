@@ -67,6 +67,9 @@ pub mod fs;
 #[cfg(test)]
 mod fs_tests;
 
+#[path = "../../src/initramfs.rs"]
+pub mod initramfs;
+
 use alloc::vec::Vec;
 use core::alloc::{GlobalAlloc, Layout};
 use utils::bits::CanManipulateBits;

@@ -45,6 +45,7 @@ pub enum FsError {
     CorruptVolume,
     UnsupportedVersion,
     DeviceIo,
+    ReadOnly,
 }
 impl fmt::Display for FsError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -62,6 +63,7 @@ impl fmt::Display for FsError {
             Self::CorruptVolume => "corrupt volume",
             Self::UnsupportedVersion => "unsupported format version",
             Self::DeviceIo => "device I/O error",
+            Self::ReadOnly => "read-only filesystem",
         })
     }
 }

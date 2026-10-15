@@ -1,0 +1,78 @@
+{
+  "scope": "module retention/copy/parser diagnostic slice only",
+  "release_ready": false,
+  "host": {
+    "parallel": {
+      "passed": 243,
+      "failed": 0,
+      "ignored": 2
+    },
+    "serial": {
+      "passed": 243,
+      "failed": 0,
+      "ignored": 2
+    }
+  },
+  "injected_elf_probes": [
+    {
+      "case": "valid",
+      "ram": 128,
+      "path": "test_results\\phase10\\module_probe_green\\report.json"
+    },
+    {
+      "case": "corrupt",
+      "ram": 128,
+      "path": "test_results\\phase10\\module_probe_corrupt_128\\report.json"
+    },
+    {
+      "case": "absent",
+      "ram": 128,
+      "path": "test_results\\phase10\\module_probe_absent_128\\report.json"
+    },
+    {
+      "case": "ambiguous",
+      "ram": 128,
+      "path": "test_results\\phase10\\module_probe_ambiguous_128\\report.json"
+    },
+    {
+      "case": "oversize",
+      "ram": 128,
+      "path": "test_results\\phase10\\module_probe_oversize_128\\report.json"
+    },
+    {
+      "case": "valid",
+      "ram": 512,
+      "path": "test_results\\phase10\\module_probe_valid_512\\report.json"
+    },
+    {
+      "case": "corrupt",
+      "ram": 512,
+      "path": "test_results\\phase10\\module_probe_corrupt_512\\report.json"
+    },
+    {
+      "case": "absent",
+      "ram": 512,
+      "path": "test_results\\phase10\\module_probe_absent_512\\report.json"
+    },
+    {
+      "case": "ambiguous",
+      "ram": 512,
+      "path": "test_results\\phase10\\module_probe_ambiguous_512\\report.json"
+    },
+    {
+      "case": "oversize",
+      "ram": 512,
+      "path": "test_results\\phase10\\module_probe_oversize_512\\report.json"
+    }
+  ],
+  "ordinary_boots": {
+    "128": 10,
+    "512": 10
+  },
+  "review_hashes_verified": true,
+  "grub_successful_module_boot": false,
+  "grub_blocker": "loader sets reserved descriptor field nonzero; existing inventory safely rejects",
+  "grub_refusal_evidence": "test_results/phase10/grub_module_refusal_02/report.json",
+  "no_qemu_remaining": true,
+  "kernel_sha256": "4e1d020064967ee86072dc41c18dfe88a3ef206e0ecc8c86a667af4aa47711ee"
+}

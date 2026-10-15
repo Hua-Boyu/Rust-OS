@@ -133,6 +133,25 @@ impl PageMap {
         }
     }
 
+    /// Check a nonempty byte span against permanent boot pins and current
+    /// identity translations. This allocates nothing and grants no raw access.
+    /// The caller must not retain this PageMap borrow across heap growth.
+    pub(crate) fn pinned_identity_span(&self, start: u64, end: u64) -> bool {
+        if start < PAGE_SIZE as u64 || start >= end || end > (1u64 << 32) {
+            return false;
+        }
+        let mut page = start & !(PAGE_SIZE as u64 - 1);
+        while page < end {
+            if !self.boot_pins.iter().any(|&(a, b)| a <= page && page < b)
+                || self.translate(page) != Some(page)
+            {
+                return false;
+            }
+            page += PAGE_SIZE as u64;
+        }
+        true
+    }
+
     pub fn directory(&self) -> u64 {
         self.directory
     }

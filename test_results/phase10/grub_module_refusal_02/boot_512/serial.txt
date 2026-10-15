@@ -1,0 +1,6 @@
+ROSTI: entered kernel_main
+DBG: alloc init
+ROSTI: boot metadata rejected: Module; bootstrap-heap recovery
+ROSTI: initramfs absent; RAMFS recovery
+ROSTI: storage gate closed (boot metadata rejected)
+ROSTI: boot complete

@@ -1,0 +1,56 @@
+{
+  "scope": "host slice; not Phase10 release acceptance",
+  "kernel_host": {
+    "passed": 232,
+    "failed": 0,
+    "ignored": 2
+  },
+  "builder_tests_passed": 7,
+  "ordinary_elf_boots": {
+    "128": {
+      "passed": 10,
+      "scope": "ordinary no-module ELF boots only",
+      "evidence": "test_results\\phase10\\host_slice_final_boot_128"
+    },
+    "512": {
+      "passed": 10,
+      "scope": "ordinary no-module ELF boots only",
+      "evidence": "test_results\\phase10\\host_slice_final_boot_512"
+    }
+  },
+  "source_sha256": {
+    "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+    "src/fs/archive.rs": "1c3d3624695096b996892fc93bd7d160d062a545f536b1d66560a0f9153af405",
+    "src/fs/vfs.rs": "99aded8399e2ef5ec61c77e875f0dc48f629d7bd33134f328c44d5e092aeaedb",
+    "src/fs/mod.rs": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+    "src/main.rs": "17d7e5a94975a63eb2e77ec61d92b374fe6045a24a6420d5e4f81946bf177d20",
+    "tests_kernel/src/lib.rs": "2af0d9528e70688549e12e27053e910ac69b6547e874813aa9c88c8b654ac30a",
+    "tests_kernel/src/initramfs_tests.rs": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+    "tests_kernel/src/archive_vfs_tests.rs": "955a131339dc307e9af969a69e65c8fd438d740cf9ded7ac882e75bb2c37628f",
+    "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+    "scripts/test_build_initramfs.py": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b"
+  },
+  "release_ready": false,
+  "host_runs": {
+    "host_serial.log": {
+      "passed": 232,
+      "failed": 0,
+      "ignored": 2
+    },
+    "host_parallel.log": {
+      "passed": 232,
+      "failed": 0,
+      "ignored": 2
+    },
+    "parent_host_verification.log": {
+      "passed": 232,
+      "failed": 0,
+      "ignored": 2
+    }
+  },
+  "production_build_exit": 0,
+  "rustfmt_check_edition": 2024,
+  "no_qemu_process_remaining": true,
+  "production_elf_sha256": "d5e6c544c7b242a34c6c6d85167a619837765e9e4dbfa781c83511301a3bac9a",
+  "review": "test_results/phase10/host_review.json"
+}

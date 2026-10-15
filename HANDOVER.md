@@ -1,4 +1,35 @@
-# Rosti OS — Phase 9.6 safety-hardening handover
+# Rosti OS — development handover
+
+## Current checkpoint — Phase 10 PARTIAL / NOT A RELEASE
+
+Branch `maintenance/phase10`, based on `de9643867ed4f9a77698d5100a60c76a06697443`.
+This checkpoint includes the bounded newc parser, read-only archive VFS, host
+builder and sanitized module selection/pinned-copy diagnostic integration.
+The commit containing this section is the checkpoint; inspect `git log` for its
+exact hash. Historical acceptance below remains evidence only for Phase 9.6.
+
+Latest verified host results: 243 passed, zero failed, two ignored in both
+parallel and serial modes; builder seven passed; production build passed.
+Injected ELF module probes: five cases at each of 128/512 MiB passed. Ordinary
+no-module boots: 10/10 at each size. Scoped independent review found no defects;
+review hashes matched current sources. See `docs/PHASE10_INITRAMFS.md` and
+`test_results/phase10/module_slice_verification.json` for scope and evidence.
+
+Real GRUB module success is blocked: loader reserved descriptor field was
+`0xfffffffc`, rejected by the inherited zero-field policy. The positive probe
+failure is preserved; separate negative tests prove safe rejection/storage-gate
+closure at both RAM sizes, not successful import. No unverified namespace is
+published. Trusted digest verification, `/system` mounting and full recovery
+acceptance remain unimplemented or unverified. Do not publish a Phase 10 release.
+
+VM 103 and accepted ISOs were not altered. No deployment or remote storage
+mutation is authorized. Existing unrelated `d1/` is excluded from this checkpoint.
+Generated ISOs, raw debug logs, binary fixtures and caches remain local; selected
+sanitized reports/serial evidence are committed. Commit/push is authorized for
+this checkpoint only; no tag, merge, rebase or history rewrite is requested.
+
+The sections below are preserved historical handovers.
+
 
 ## Latest checkpoint — Phase 9.6 COMPLETE / VERIFIED
 

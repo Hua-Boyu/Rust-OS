@@ -1,5 +1,37 @@
 # Rosti OS — standalone Phase 10 continuation prompt
 
+## Current continuation override — partial implementation checkpoint
+
+Work in `C:/Users/iamsv/Documents/Rust-OS` on `maintenance/phase10`. Recover actual
+HEAD/status before changes; do not reset existing work. Read the current top of
+HANDOVER.md and docs/PHASE10_INITRAMFS.md before the original mission below.
+The commit containing this section is the partial checkpoint, not a release.
+
+Implemented: bounded newc parser, read-only ArchiveFs, deterministic builder,
+owned module labels/exact selection, boot-pinned bounded copy and diagnostic
+parser hook. Valid archives remain UNVERIFIED and unpublished. Host tests:
+243 passed/0 failed/2 ignored, serial and parallel; builder 7 passed; production
+build passed. Injected ELF module cases: 10/10; ordinary boots 10/10 at 128 and
+512 MiB. Read selected evidence under test_results/phase10; scoped review hashes
+were checked. None of this is full Phase 10 acceptance.
+
+Next: investigate the real GRUB module reserved field `0xfffffffc` against the
+specification and loader implementation before proposing a reviewed compatibility
+change. Preserve the original failed positive probe and passing explicit refusal
+probes. Then implement trusted digest verification, transactional `/system`
+attachment and full independent recovery acceptance. Do not weaken validation
+or treat safe refusal as successful import. Keep VM 103, accepted ISOs and
+remote storage untouched; no deployment, tag, merge/rebase or history rewrite.
+The previous commit/push authorization does not automatically authorize another.
+
+Recheck host tests outside the repository:
+`cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml`.
+From the repository run `python -B scripts/test_build_initramfs.py`, production
+`cargo +nightly build`, then sequential local guest tests with fresh evidence
+folders. Preserve `d1/` as unrelated existing work. Detailed original mission and
+safety boundaries follow; this override supersedes stale branch/readiness text.
+
+
 ## Readiness gate
 
 **Phase 9.6 is COMPLETE / VERIFIED: PASS 47/47 source-frozen acceptance at

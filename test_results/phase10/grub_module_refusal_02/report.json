@@ -1,0 +1,13 @@
+{
+  "scope": "real GRUB module copy/parser probe only; no trust/mount/recovery acceptance",
+  "status": "PASS",
+  "expected_reserved_rejection": true,
+  "iso": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase10_module_refusal_02.iso",
+  "iso_sha256": "42180b8146949a4951bfb85111dfaea543e73a096345b77676d4699936efed95",
+  "kernel_sha256": "4e1d020064967ee86072dc41c18dfe88a3ef206e0ecc8c86a667af4aa47711ee",
+  "archive_sha256": "09a3400294a66f28f2a09e3a83a8678b1d2509703b3ad145e5f1d217b2820c3e",
+  "ram_mib": [
+    128,
+    512
+  ]
+}

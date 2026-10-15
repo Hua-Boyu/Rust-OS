@@ -17,6 +17,7 @@ mod fs;
 mod fs_commands;
 mod fs_stress;
 mod gdt;
+mod initramfs;
 mod interrupt;
 mod io;
 mod kbd;
@@ -44,13 +45,26 @@ fn panic_handler(info: &PanicInfo) -> ! {
 static PORT_MANAGER: utils::mutex::SpinMutex<io::ports::PortAllocator> =
     utils::mutex::SpinMutex::new(io::ports::PortAllocator::new());
 
+enum BootModuleSelection {
+    Absent,
+    Selected(multiboot::inventory::ModuleDescriptor),
+    Ambiguous,
+}
+
 /// Called before paging, once, with the kernel-BSS heap initialized.
 unsafe fn prepare_boot_memory(
     magic: u32,
     info: u64,
-) -> Result<(), multiboot::inventory::BootError> {
+) -> Result<BootModuleSelection, multiboot::inventory::BootError> {
     use multiboot::inventory::BootError;
     let inventory = unsafe { multiboot::inventory::from_physical(magic, info)? };
+    // Copy only owned scalar metadata; all loader spans remain reserved even
+    // when selection or later archive import fails.
+    let selected = match inventory.select_initramfs() {
+        Ok(None) => BootModuleSelection::Absent,
+        Ok(Some(module)) => BootModuleSelection::Selected(*module),
+        Err(_) => BootModuleSelection::Ambiguous,
+    };
     io::serial::puts("DBG: mmap print\n");
     println!("----- multiboot mmap -----");
     println!("num entries: {}", inventory.entries.len());
@@ -98,7 +112,7 @@ unsafe fn prepare_boot_memory(
             io::serial::putc(b'\n');
         }
     }
-    Ok(())
+    Ok(selected)
 }
 
 #[cfg(not(test))]
@@ -124,15 +138,19 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     // A rejected inventory also closes the persistent-storage gate: no ATA
     // probe, mount or raw shell write runs against media under untrusted boot
     // metadata. Accepted boot keeps the storage paths open.
-    if let Err(error) = unsafe { prepare_boot_memory(magic, info as u64) } {
-        multiboot::inventory::record(error);
-        use core::fmt::Write;
-        let _ = writeln!(
-            io::serial::SerialWriter,
-            "ROSTI: boot metadata rejected: {:?}; bootstrap-heap recovery",
-            error
-        );
-    }
+    let boot_module = match unsafe { prepare_boot_memory(magic, info as u64) } {
+        Ok(selected) => selected,
+        Err(error) => {
+            multiboot::inventory::record(error);
+            use core::fmt::Write;
+            let _ = writeln!(
+                io::serial::SerialWriter,
+                "ROSTI: boot metadata rejected: {:?}; bootstrap-heap recovery",
+                error
+            );
+            BootModuleSelection::Absent
+        }
+    };
     println!("hi");
 
     gdt::init_gdt();
@@ -143,6 +161,45 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     if memory::page_directory().is_some() {
         memory::enable_paging();
         io::serial::puts("ROSTI: paging enabled (CR0.PG, identity map)\n");
+    }
+
+    // Diagnostic-only import slice: never expose unverified files. The RAMFS
+    // shell is kernel-owned and independent of all outcomes below.
+    match boot_module {
+        BootModuleSelection::Absent => {
+            io::serial::puts("ROSTI: initramfs absent; RAMFS recovery\n")
+        }
+        BootModuleSelection::Ambiguous => {
+            io::serial::puts("ROSTI: initramfs ambiguous; RAMFS recovery\n")
+        }
+        BootModuleSelection::Selected(module) => {
+            // SAFETY: exact descriptor copied from the accepted inventory;
+            // its RAM span was checked against kernel/heap/metadata, reserved
+            // before frame allocation, and is still pinned until reboot.
+            match unsafe { memory::boot_copy::copy_module(module.range.0, module.range.1) } {
+                Ok(bytes) => match initramfs::parse(&bytes) {
+                    Ok(_archive) => {
+                        io::serial::puts("ROSTI: initramfs parsed; UNVERIFIED, not published\n")
+                    }
+                    Err(error) => {
+                        use core::fmt::Write;
+                        let _ = writeln!(
+                            io::serial::SerialWriter,
+                            "ROSTI: initramfs archive rejected: {:?}; RAMFS recovery",
+                            error
+                        );
+                    }
+                },
+                Err(error) => {
+                    use core::fmt::Write;
+                    let _ = writeln!(
+                        io::serial::SerialWriter,
+                        "ROSTI: initramfs copy rejected: {:?}; RAMFS recovery",
+                        error
+                    );
+                }
+            }
+        }
     }
 
     // stub: enable ps2 & interrupts

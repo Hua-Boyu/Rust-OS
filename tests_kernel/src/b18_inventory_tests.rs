@@ -638,3 +638,183 @@ fn accepted_inventory_pins_every_partial_frame_after_source_dropped() {
     }
     assert_eq!(frames.allocate(), None);
 }
+
+#[test]
+fn initramfs_owned_label_and_span_survive_source_drop() {
+    let inv = {
+        let mut f = Physical::new();
+        f.modules(&[(0x300fff, 0x302001, 0x400fff, 0)]);
+        f.add(0x400fff, b"rosti.initramfs\0");
+        f.parse().unwrap()
+    };
+    let selected = inv.select_initramfs().unwrap().unwrap();
+    assert_eq!(selected.range, (0x300fff, 0x302001));
+    assert_eq!(selected.name.as_str(), Some("rosti.initramfs"));
+    assert_eq!(inv.modules, [selected.range]);
+    assert_eq!(inv.module_descriptors.len(), 1);
+    assert!(
+        inv.reservations
+            .contains(&(0x400fff, 0x400fff + b"rosti.initramfs\0".len() as u64))
+    );
+    let mut frames = FrameAllocator::new();
+    assert!(frames.init_with_reservations(
+        &inv.entries,
+        ROOT,
+        0x600000,
+        0x700000,
+        &inv.reservations
+    ));
+    for &(a, b) in &inv.reservations {
+        for page in a / 4096..=(b - 1) / 4096 {
+            assert!(!frames.is_free(page * 4096));
+            assert!(!frames.free(page * 4096));
+        }
+    }
+    while let Some(page) = frames.allocate() {
+        assert!(
+            inv.reservations
+                .iter()
+                .all(|&(a, b)| page + 4096 <= a || page >= b)
+        );
+    }
+}
+
+#[test]
+fn initramfs_absent_and_nonexact_labels_are_ignored() {
+    assert!(
+        Physical::new()
+            .parse()
+            .unwrap()
+            .select_initramfs()
+            .unwrap()
+            .is_none()
+    );
+    for name in [
+        None,
+        Some(&b"\0"[..]),
+        Some(&b"other\0"[..]),
+        Some(&b"ROSTI.INITRAMFS\0"[..]),
+        Some(&b"rosti.initramfs args\0"[..]),
+        Some(&b"rosti.initramfs/\0"[..]),
+        Some(&b"rosti.initramfs\xff\0"[..]),
+        Some(&b"rosti.initramfs\n\0"[..]),
+    ] {
+        let mut f = Physical::new();
+        f.modules(&[(
+            0x300000,
+            0x301000,
+            if name.is_some() { 0x400000 } else { 0 },
+            0,
+        )]);
+        if let Some(bytes) = name {
+            f.add(0x400000, bytes);
+        }
+        let inv = f.parse().unwrap();
+        assert!(inv.select_initramfs().unwrap().is_none());
+    }
+}
+
+#[test]
+fn initramfs_mixed_modules_select_exact_match_in_any_position() {
+    for position in 0..3 {
+        let mut f = Physical::new();
+        let mut descriptors = [
+            (0x300000, 0x301000, 0, 0),
+            (0x302000, 0x303000, 0x400000, 0),
+            (0x304000, 0x305000, 0x401000, 0),
+        ];
+        descriptors.swap(2, position);
+        f.modules(&descriptors);
+        f.add(0x400000, b"other\0");
+        f.add(0x401000, b"rosti.initramfs\0");
+        let inv = f.parse().unwrap();
+        assert_eq!(
+            inv.select_initramfs().unwrap().unwrap().range,
+            (0x304000, 0x305000)
+        );
+        assert_eq!(inv.module_descriptors.len(), inv.modules.len());
+        for (descriptor, range) in inv.module_descriptors.iter().zip(&inv.modules) {
+            assert_eq!(&descriptor.range, range);
+        }
+    }
+    // Inline name storage: no pointer-sized String or per-name heap backing.
+    assert_eq!(core::mem::size_of::<inventory::ModuleName>(), 64);
+    assert!(core::mem::size_of::<inventory::ModuleDescriptor>() <= 80);
+}
+
+#[test]
+fn initramfs_oversized_name_still_validates_every_metadata_byte() {
+    let mut f = Physical::new();
+    let boundary = 0x400000 + inventory::MAX_MODULE_NAME as u64 + 1;
+    let mut map = entry(0, 0x2000000, 1, 0);
+    map.extend(entry(boundary, 1, 2, 0));
+    f.map(map);
+    f.modules(&[(0x300000, 0x301000, 0x400000, 0)]);
+    f.add(0x400000, &vec![b'x'; 4096]);
+    error(f.parse(), BootError::Address);
+    assert!(!f.reads.iter().any(|&(a, _)| a == boundary));
+}
+
+#[test]
+fn initramfs_duplicate_exact_labels_rejected_in_either_order() {
+    for reverse in [false, true] {
+        let mut f = Physical::new();
+        let mut descriptors = [
+            (0x300000, 0x301000, 0x400000, 0),
+            (0x302000, 0x303000, 0x401000, 0),
+        ];
+        if reverse {
+            descriptors.reverse();
+        }
+        f.modules(&descriptors);
+        f.add(0x400000, b"rosti.initramfs\0");
+        f.add(0x401000, b"rosti.initramfs\0");
+        let inv = f.parse().unwrap();
+        assert_eq!(inv.select_initramfs().err(), Some(BootError::Module));
+    }
+}
+
+#[test]
+fn initramfs_name_bounds_never_select_a_truncated_prefix() {
+    use inventory::MAX_MODULE_NAME;
+    for len in [MAX_MODULE_NAME, MAX_MODULE_NAME + 1, 4095] {
+        let mut f = Physical::new();
+        let mut name = vec![b'x'; len];
+        name[..b"rosti.initramfs".len()].copy_from_slice(b"rosti.initramfs");
+        name.push(0);
+        f.modules(&[(0x300000, 0x301000, 0x400000, 0)]);
+        f.add(0x400000, &name);
+        let inv = f.parse().unwrap();
+        assert!(inv.select_initramfs().unwrap().is_none());
+        assert_eq!(
+            inv.module_descriptors[0].name.as_str().is_some(),
+            len == MAX_MODULE_NAME
+        );
+        assert!(
+            inv.reservations
+                .contains(&(0x400000, 0x400000 + name.len() as u64))
+        );
+    }
+    let mut f = Physical::new();
+    f.modules(&[(0x300000, 0x301000, 0x400000, 0)]);
+    f.add(0x400000, &vec![b'x'; 4096]);
+    error(f.parse(), BootError::String);
+}
+
+#[test]
+fn initramfs_required_label_metadata_keeps_validation_fail_closed() {
+    let mut f = Physical::new();
+    f.modules(&[(0x300000, 0x301000, 0x400000, 0)]);
+    f.add(0x400000, b"rosti.initramfs"); // missing NUL must not select
+    error(f.parse(), BootError::Truncated);
+    for pointer in [0x100000, 0x800000, 0x3000000] {
+        let mut f = Physical::new();
+        f.modules(&[(0x300000, 0x301000, pointer, 0)]);
+        error(f.parse(), BootError::Address);
+        assert!(!f.reads.iter().any(|&(a, _)| a == pointer as u64));
+    }
+    let mut f = Physical::new();
+    f.modules(&[(0x300000, 0x301000, 0x300000, 0)]);
+    f.add(0x300000, b"rosti.initramfs\0");
+    error(f.parse(), BootError::Module);
+}

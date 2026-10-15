@@ -5,9 +5,12 @@
 //! frames -> mapping validated -> paging enabled (after the IDT is loaded, so
 //! any fault is handled by the vector-14 handler).
 
+pub(crate) mod boot_copy;
 pub mod frame;
 pub mod paging;
 
+#[cfg(test)]
+mod module_access_tests;
 #[cfg(test)]
 mod review_r1_tests;
 

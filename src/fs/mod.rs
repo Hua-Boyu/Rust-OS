@@ -1,7 +1,9 @@
+mod archive;
 mod mounted;
 mod rosti;
 mod vfs;
 use alloc::vec::Vec;
+pub use archive::ArchiveFs;
 pub use mounted::MountedFs;
 pub type MountFs = MountedFs;
 pub use rosti::RostiBackend;

@@ -1,0 +1,90 @@
+{
+  "status": "PASS",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "entry": "_start",
+  "memory_mib": 128,
+  "cleanup": true,
+  "kernel_sha256": "4e1d020064967ee86072dc41c18dfe88a3ef206e0ecc8c86a667af4aa47711ee",
+  "command": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+    "-m",
+    "128",
+    "-display",
+    "none",
+    "-no-reboot",
+    "-monitor",
+    "none",
+    "-nic",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10\\module_probe_corrupt_128\\serial.txt",
+    "-debugcon",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10\\module_probe_corrupt_128\\debugcon.txt",
+    "-device",
+    "isa-debug-exit,iobase=0xf4,iosize=0x04",
+    "-d",
+    "int,guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10\\module_probe_corrupt_128\\qemu.log",
+    "-S",
+    "-gdb",
+    "tcp:127.0.0.1:5488"
+  ],
+  "before": {
+    "eax": 732803074,
+    "ecx": 2123680,
+    "edx": 66833,
+    "ebx": 38144,
+    "esp": 28432,
+    "ebp": 0,
+    "esi": 0,
+    "edi": 8192,
+    "eip": 2123680,
+    "eflags": 6
+  },
+  "after": {
+    "eax": 732803074,
+    "ecx": 2123680,
+    "edx": 66833,
+    "ebx": 458752,
+    "esp": 28432,
+    "ebp": 0,
+    "esi": 0,
+    "edi": 8192,
+    "eip": 2123680,
+    "eflags": 6
+  },
+  "mutations": [
+    {
+      "address": 16777472,
+      "bytes": "726f7374692e696e697472616d667300"
+    },
+    {
+      "address": 16777216,
+      "bytes": "000010010f0010010001000100000000"
+    },
+    {
+      "address": 17825792,
+      "bytes": "636f72727570742061726368697665"
+    },
+    {
+      "address": 458752,
+      "bytes": "4f0200007f02000080fb0100ffff008000803c0001000000000000010000000000000000000000000000000090000000009000000000000000000000000000003d803c000000000000000000000000000000000000000000"
+    },
+    {
+      "registers": {
+        "ebx": 458752
+      }
+    }
+  ],
+  "serial": "ROSTI: entered kernel_main\nDBG: alloc init\nDBG: mmap print\nDBG: mmap printed\nDBG: mmap parsed\nDBG: mem info set\nDBG: frame init start\nDBG: frame lock acquired\nDBG: init entered\nDBG: frame init passes done\nDBG: frame init done\nDBG: page tables built\nROSTI: paging enabled (CR0.PG, identity map)\nROSTI: initramfs archive rejected: Truncated; RAMFS recovery\nROSTI: block probe: no device\nROSTI: boot complete\n",
+  "debugcon": "",
+  "observed_exit": null,
+  "final_exit": 1,
+  "elapsed_s": 0.6090000000112923,
+  "scope": "injected ELF module copy/parser probe; no trust/mount acceptance",
+  "case": "corrupt",
+  "archive_sha256": "09a3400294a66f28f2a09e3a83a8678b1d2509703b3ad145e5f1d217b2820c3e"
+}
