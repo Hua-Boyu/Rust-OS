@@ -1,4 +1,46 @@
-# Rosti OS — Phase 9.5C final maintenance handover
+# Rosti OS — Phase 9.6 safety-hardening handover
+
+## Latest checkpoint — Phase 9.6 COMPLETE / VERIFIED
+
+Started at `17de9fd12d31e60f7f3dcaef726f4e579871d4dd` on
+`maintenance/phase9-5b`, with existing uncommitted Phase 9.6 work (not a clean
+tree). No reset or historical artifact replacement was performed.
+
+**Phase 9.6 acceptance: PASS 47/47, source-frozen, final.** Evidence:
+`test_results/phase9_6/acceptance_20261015T070148Z_tg2yx8i8/acceptance.json`
+(timestamp 20261015T070148Z). Counts: kernel host 204, B11 12, B18 38, B26 9,
+RostiFS host 23/tools 4/read 4/write 3, B13 host 3 + QEMU 4, boot-metadata 53
+(44 scenarios), ELF 8, boot 128/512 10+10, paging 20, faults 2+2, ISO paging
+2; all block/VFS and RostiFS cross-reboot matrices PASS with zero failures.
+102 nested reports, all nonempty; all 84 owned-QEMU reports record
+`owned_qemu_exited: true`. All 111 frozen source hashes re-verified byte-for-byte
+against the live worktree. ISO `dist/rosti_phase9_6_20261015T070148Z.iso`
+(10,401,792 bytes) SHA256 `e840439338360710b775c06e489c4bc8b1bb312fc9a545d3cb0917fc9c1821ff`;
+extracted kernel SHA256 `8a72342b4afc14e2d6f87c8758aea2869963c4dabea4e14dd22a5f3c149a7fec`.
+All 9,071 modeled RostiFS crash cases retained: 2,639 rejected/torn/flush +
+2,328 reordered + 4,104 root-prefix tears.
+
+Review closure: the three blocking findings in `review_current.json`
+(CURRENT-R1 a.out size-word reservation, CURRENT-R2 stale backing after failed
+construction, CURRENT-R3 allocating error paths) are all fixed in the current
+source — verified directly at `src/boot_inventory.rs:267-283` (checked full-width
+`a+b+4` plus reserved-field rejection), `src/memory/paging.rs:402-437` (zeroed
+length-1024 backing required; occupied slots cleared on rollback) and
+`src/memory/mod.rs` (static `&'static str` diagnostics, two pre-lock fallible
+backing reservations, streamed validation). The final integrated review
+`review_final.json` passed=true confirms each as `fixed_by_static_inspection`.
+B11/B13 focused commits: `f12d1ced9dd26e8ed60009e75c4814c3245f67f3` and
+`53e27fb5c71aff408ef13f4945ace1f4da64e69f`. B18/B26 are verified by the
+final acceptance suites (b18 38, b26 9, boot-metadata 53) plus the passing
+integrated review. **Phase 10 is unblocked and authorized; implementation has
+not started.**
+
+Fresh read-only GETs confirm Proxmox VM 103 remains running on the Phase 7 ISO,
+512 MiB/one vCPU, no data disk, unchanged config digest. No deployment, VM reset,
+storage mutation, physical-media operation, push, tag or history rewrite occurred.
+
+The sections below are historical Phase 9.5C and earlier handovers. Their old
+readiness/status statements do not override this current checkpoint.
 
 ## Latest checkpoint — Phase 9.5C COMPLETE / VERIFIED
 

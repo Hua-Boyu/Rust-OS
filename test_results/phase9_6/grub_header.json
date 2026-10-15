@@ -1,0 +1,25 @@
+{
+  "source_report": "test_results\\phase9_6\\b13_grub_01\\grub_entry_128\\report.json",
+  "root_address": 65536,
+  "flags": 6759,
+  "flags_hex": "0x1a67",
+  "set_bits": [
+    0,
+    1,
+    2,
+    5,
+    6,
+    9,
+    11,
+    12
+  ],
+  "first_88_bytes_hex": "671a00007f02000080fb0100ffffffe07800010000000000000000001600000028000000380101001400000090000000a80001000000000000000000000000007c00010000000000a8040100a80601000300ffff00604f00",
+  "full_116_bytes_hex": "671a00007f02000080fb0100ffffffe07800010000000000000000001600000028000000380101001400000090000000a80001000000000000000000000000007c00010000000000a8040100a80601000300ffff00604f0000800b0000000000a000000050000000190000001002000000000000",
+  "framebuffer_address": 753664,
+  "framebuffer_pitch": 160,
+  "framebuffer_width": 80,
+  "framebuffer_height": 25,
+  "framebuffer_bpp": 16,
+  "framebuffer_type": 2,
+  "paging_smoke": "FAIL at128/512: metadata rejected Flags"
+}

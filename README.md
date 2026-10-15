@@ -1,5 +1,20 @@
 # Rust operating system on i686
 
+## Phase 9.6 — safety before new features
+
+Boot-memory hardening adds bounded fallible Multiboot inventory, reservation-
+aware contiguous growth, explicit aligned/DF-clear Rust entry, permanent boot
+mapping pins, allocation-free paging diagnostics and unlocked backing cleanup.
+Rejected boot metadata retains an independent RAMFS recovery environment while
+persistent storage remains disabled. No initramfs or Phase 10 feature is added.
+RostiFS format v1, 4 KiB blocks, COW/CRC/capabilities and flush ordering remain.
+
+Current release status, exact verification evidence, footprint and limitations:
+`docs/PHASE9_6_SAFETY_HARDENING.md` and `HANDOVER.md`. Full local acceptance is
+`python -B scripts/phase6_verify.py`. Proxmox VM 103 remains on Phase 7; no
+deployment is authorized. This remains a trusted ring-0 kernel, not verified
+untrusted-userspace isolation. Earlier milestone sections below are historical.
+
 ## Phase 9.5C final bounded maintenance
 
 COW offset writes avoid old-block reads only when every live old byte is replaced.

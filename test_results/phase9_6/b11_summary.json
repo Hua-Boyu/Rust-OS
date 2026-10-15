@@ -1,0 +1,102 @@
+{
+  "status": "PASS",
+  "scope": "B11 frame eligibility policy, host-only; no commits or QEMU",
+  "files_owned": [
+    "src/memory/frame.rs",
+    "tests_kernel/src/b11_frame_tests.rs",
+    "tests_kernel/src/b11_standalone.rs"
+  ],
+  "source_sha256": {
+    "src/memory/frame.rs": "61918dfe17e017708d4c3bf58a9cd602645faa277ff74739c59ea56bb9ede2d7",
+    "tests_kernel/src/b11_frame_tests.rs": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+    "tests_kernel/src/b11_standalone.rs": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11"
+  },
+  "focused_counts": [
+    {
+      "passed": 12,
+      "failed": 0,
+      "ignored": 0
+    }
+  ],
+  "kernel_counts": [
+    {
+      "passed": 192,
+      "failed": 0,
+      "ignored": 2
+    }
+  ],
+  "portable_counts": [
+    {
+      "passed": 23,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "passed": 4,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "passed": 4,
+      "failed": 0,
+      "ignored": 2
+    },
+    {
+      "passed": 3,
+      "failed": 0,
+      "ignored": 1
+    }
+  ],
+  "portable_passed_total": 34,
+  "new_growth_bitmap_bytes": 192,
+  "bitmap_storage_pages_rounded": 9,
+  "red_green_runtime_pairs": [
+    [
+      "b11_red_mmap_isolated.json",
+      "b11_green_mmap.json"
+    ],
+    [
+      "b11_red_policy.json",
+      "b11_green_policy.json"
+    ],
+    [
+      "b11_red_explicit_spans_runtime.json",
+      "b11_green_explicit_spans.json"
+    ],
+    [
+      "b11_red_release.json",
+      "b11_green_release.json"
+    ],
+    [
+      "b11_red_empty_span.json",
+      "b11_green_empty_span.json"
+    ]
+  ],
+  "notes": [
+    "Initial integrated compile blocked by concurrent missing inventory module; isolated runner mirrors only MmapEntry and growth constants, executes real frame.rs. Final integrated focused and full suites use actual multiboot/paging modules.",
+    "Historical intermediate kernel failure from concurrently updated malformed-mmap discovery contract preserved in b11_kernel_suite.json; final full run passed after owning agent updated fixture.",
+    "Seven behavior regressions were developed in five runtime RED/GREEN cycles; five added boundary/oracle tests required no further production changes.",
+    "Existing host compiler warnings remain outside B11 scope."
+  ],
+  "integration_required": [
+    "memory::prepare must pass complete inventory reservations to init_with_reservations (or retain equivalent synthetic nonusable mmap entries), including all boot metadata and pinned modules.",
+    "heap_grow_frame must release a claim on missing page map or failed mapping; frame free now restores growth-only reservation and permits retry.",
+    "Allocator alloc_inner already stops when exact grow_next claim fails, advances only on success, and does not skip blocked slots. Do not change it to scan past reservations.",
+    "Actual heap growth disabled in host KernelHeap::init; current B11 tests prove exact frame-claim conservative failure, not guest allocator OOM. Parent integration tests/authorized guest acceptance still needed."
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "entry": "_start",
+  "memory_mib": 512,
+  "cleanup": true,
+  "kernel_sha256": "cdea2baa0f8b36f2cac1dce625e85764ceeb08f3b9a697f029e87d4da2276b84",
+  "command": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+    "-m",
+    "512",
+    "-display",
+    "none",
+    "-no-reboot",
+    "-monitor",
+    "none",
+    "-nic",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_continuation\\production_512\\serial.txt",
+    "-debugcon",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_continuation\\production_512\\debugcon.txt",
+    "-device",
+    "isa-debug-exit,iobase=0xf4,iosize=0x04",
+    "-d",
+    "int,guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_continuation\\production_512\\qemu.log",
+    "-S",
+    "-gdb",
+    "tcp:127.0.0.1:1626"
+  ],
+  "before": {
+    "eax": 732803074,
+    "ecx": 2121968,
+    "edx": 460049,
+    "ebx": 38144,
+    "esp": 28432,
+    "ebp": 0,
+    "esi": 0,
+    "edi": 8192,
+    "eip": 2121968,
+    "eflags": 6
+  },
+  "after": {
+    "eax": 732803074,
+    "ecx": 2121968,
+    "edx": 460049,
+    "ebx": 38144,
+    "esp": 589827,
+    "ebp": 0,
+    "esi": 0,
+    "edi": 8192,
+    "eip": 2121968,
+    "eflags": 1030
+  },
+  "mutations": [
+    {
+      "registers": {
+        "esp": 589827,
+        "eflags": 1030
+      }
+    }
+  ],
+  "serial": "ROSTI: entered kernel_main\nDBG: alloc init\nDBG: mmap print\nDBG: mmap printed\nDBG: mmap parsed\nDBG: mem info set\nDBG: frame init start\nDBG: frame lock acquired\nDBG: init entered\nDBG: frame init passes done\nDBG: frame init done\nDBG: page tables built\nROSTI: paging enabled (CR0.PG, identity map)\nROSTI: block probe: no device\nROSTI: boot complete\nROSTI OS\n32-bit Rust Experimental Kernel\n\nMemory initialization: OK\nGDT: OK\nIDT: OK\nPIC: OK\nKeyboard: Ready\n\nrosti>",
+  "debugcon": "",
+  "observed_exit": null,
+  "final_exit": 1,
+  "elapsed_s": 0.6869999999980791
+}

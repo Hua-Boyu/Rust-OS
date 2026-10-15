@@ -1,0 +1,12 @@
+{
+  "status": "FAIL",
+  "scope": "source-level bounded model, not privileged execution",
+  "source_sha256": "92ed80ebb3c3a167fccfbc3061176d0fcc5bf550c150e7dd9e1fd7620a0eb5f6",
+  "tests_run": 2,
+  "failures": [
+    {
+      "test": "test_direction_flag_cleared_before_rust (__main__.BootHandoff.test_direction_flag_cleared_before_rust)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 46, in test_direction_flag_cleared_before_rust\n    self.assertEqual(flags & 0x400, 0, \"Rust/C ABI requires DF clear\")\nAssertionError: 1024 != 0 : Rust/C ABI requires DF clear\n"
+    }
+  ]
+}

@@ -1,5 +1,40 @@
 # ARCHITECTURE
 
+## Phase 9.6 boot-memory ownership (current)
+
+`boot.s` installs an aligned 16 KiB BSS stack, clears DF and passes Multiboot
+EAX/EBX through the i686 C entry contract: ESP is 16-byte aligned before CALL,
+12 modulo 16 at raw callee entry. The generated soft-float ABI is documented
+separately from this stronger bootstrap guarantee; stack high-water is unknown.
+
+Production boot uses the bounded fallible `multiboot::inventory` parser, not
+raw BootInfo references. With paging off and flat segments, header/mmap reads
+are limited to conventional RAM, later metadata to validated usable RAM outside
+kernel/growth reservations. This assumes truthful loader/firmware backing, not
+fault-safe physical probing. Missing modules are optional; malformed inventory
+records a rejection before shell dispatch. Rejected boot does not probe ATA,
+mount RostiFS or permit raw writes; the independent BSS-heap/RAMFS shell remains.
+
+Complete usable coverage is necessary but never overrides any firmware/kernel/
+boot denial. Ordinary allocation excludes growth, and exact-slot growth stops
+at a competing reservation rather than breaking contiguity. Failed growth maps
+restore only the growth-reserved pool. Live module and metadata pages stay
+reserved and supervisor identity-mapped until reboot; placements in 8..14 MiB
+are rejected. PageMap owns permanent page-rounded pins and protects live table/
+directory identity aliases against unmapping. No module content is executed.
+
+`memory::prepare` returns a static diagnostic, pre-reserves both Vec backings
+fallibly outside FRAME_ALLOC, streams validation, and drops backing only after
+unlock. Unpublished failures return every paging-structure frame. Borrowed
+builder rollback clears returned ownership slots; reprepare cannot replace a
+published map. Lock order remains heap -> frame, never frame -> heap.
+
+Read `docs/PHASE9_6_SAFETY_HARDENING.md` for release evidence and compatibility
+limits. B19 retained PageMap-reference aliasing/effective-user-permission work
+and other historical safe-API/exception/stack findings are not broadly resolved.
+This architecture still describes trusted single-owner ring-0 execution, not
+userspace isolation. The sections below retain historical milestone detail.
+
 ## Phase 9.5C preservation reads
 
 The COW writer bounds the old live prefix of each destination block by old and

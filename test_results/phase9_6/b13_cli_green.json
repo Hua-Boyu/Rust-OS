@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "scope": "source-level bounded model, not privileged execution",
+  "source_sha256": "92ed80ebb3c3a167fccfbc3061176d0fcc5bf550c150e7dd9e1fd7620a0eb5f6",
+  "tests_run": 1,
+  "failures": []
+}

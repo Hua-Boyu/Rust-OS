@@ -1,0 +1,116 @@
+[
+  {
+    "pid": 19752,
+    "create_time": 1792046831.9421515,
+    "name": "bash.exe",
+    "cmdline": [
+      "C:\\Program Files\\Git\\bin\\bash.exe",
+      "-lic",
+      "set +m; python -B scripts/phase6_verify.py"
+    ]
+  },
+  {
+    "pid": 29044,
+    "create_time": 1792046831.9492676,
+    "name": "conhost.exe",
+    "cmdline": [
+      "\\??\\C:\\WINDOWS\\system32\\conhost.exe",
+      "0x4"
+    ]
+  },
+  {
+    "pid": 43172,
+    "create_time": 1792046831.9696171,
+    "name": "bash.exe",
+    "cmdline": [
+      "C:\\Program Files\\Git\\bin\\..\\usr\\bin\\bash.exe",
+      "-lic",
+      "set +m; python -B scripts/phase6_verify.py"
+    ]
+  },
+  {
+    "pid": 8452,
+    "create_time": 1792046832.321555,
+    "name": "python.exe",
+    "cmdline": [
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+      "-B",
+      "scripts/phase6_verify.py"
+    ]
+  },
+  {
+    "pid": 4792,
+    "create_time": 1792046832.338866,
+    "name": "python.exe",
+    "cmdline": [
+      "C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
+      "-B",
+      "scripts/phase6_verify.py"
+    ]
+  },
+  {
+    "pid": 41388,
+    "create_time": 1792046901.370062,
+    "name": "python.exe",
+    "cmdline": [
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+      "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_metadata_test.py",
+      "--boot",
+      "both",
+      "--ram",
+      "128",
+      "512",
+      "--output-dir",
+      "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\acceptance_20261015T064712Z_klfznt_b\\boot_metadata"
+    ]
+  },
+  {
+    "pid": 32364,
+    "create_time": 1792046901.386654,
+    "name": "python.exe",
+    "cmdline": [
+      "C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
+      "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_metadata_test.py",
+      "--boot",
+      "both",
+      "--ram",
+      "128",
+      "512",
+      "--output-dir",
+      "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\acceptance_20261015T064712Z_klfznt_b\\boot_metadata"
+    ]
+  },
+  {
+    "pid": 41968,
+    "create_time": 1792047209.1857083,
+    "name": "qemu-system-i386.exe",
+    "cmdline": [
+      "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+      "-cdrom",
+      "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\boot_metadata_hl8c3fvr\\128_module-overlap\\fixture.iso",
+      "-boot",
+      "d",
+      "-machine",
+      "pc",
+      "-m",
+      "128",
+      "-display",
+      "none",
+      "-nic",
+      "none",
+      "-no-reboot",
+      "-monitor",
+      "none",
+      "-serial",
+      "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\acceptance_20261015T064712Z_klfznt_b\\boot_metadata\\boot_metadata_i9rwxxdw\\iso_128_module-overlap\\serial.txt",
+      "-qmp",
+      "tcp:127.0.0.1:16865,server=on,wait=off",
+      "-d",
+      "guest_errors",
+      "-D",
+      "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\acceptance_20261015T064712Z_klfznt_b\\boot_metadata\\boot_metadata_i9rwxxdw\\iso_128_module-overlap\\qemu_log.txt",
+      "-drive",
+      "file=C:/Users/iamsv/Documents/Rust-OS/dist/boot_metadata_hl8c3fvr/128_module-overlap/owned.raw,format=raw,if=ide,index=0,cache=writeback"
+    ]
+  }
+]

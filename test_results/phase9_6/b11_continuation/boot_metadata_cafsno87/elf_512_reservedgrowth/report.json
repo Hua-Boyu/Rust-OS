@@ -1,0 +1,460 @@
+{
+  "ram_mib": 512,
+  "stress": false,
+  "checks": [
+    {
+      "name": "QMP greeting",
+      "pass": true
+    },
+    {
+      "name": "ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "complete initial prompt",
+      "pass": true
+    },
+    {
+      "name": "injected_metadata: exact physical capture length",
+      "pass": true
+    },
+    {
+      "name": "guest physical metadata exactly matches bounded fixture",
+      "pass": true
+    },
+    {
+      "name": "metadata rejection matches fixture contract",
+      "pass": true
+    },
+    {
+      "name": "CPU CR0.PG agrees with expected paging state",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "name": "shell reports expected paging state",
+      "pass": true
+    },
+    {
+      "name": "no boot page faults or allocator corruption",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after echo metadata-alive",
+      "pass": true
+    },
+    {
+      "name": "echo metadata-alive: exact output 'metadata-alive'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "name": "mem before: paging and physical frame diagnostics",
+      "pass": true
+    },
+    {
+      "name": "mem before: no faults or invalid deallocations",
+      "pass": true
+    },
+    {
+      "name": "mem before: heap counters parsed",
+      "pass": true
+    },
+    {
+      "name": "page directory diagnostic parsed",
+      "pass": true
+    },
+    {
+      "name": "null_pde: exact physical capture length",
+      "pass": true
+    },
+    {
+      "name": "null: 4 KiB page table",
+      "pass": true
+    },
+    {
+      "name": "null_pte: exact physical capture length",
+      "pass": true
+    },
+    {
+      "name": "null page remains absent",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after fsstress",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "name": "mem after_stress: paging and physical frame diagnostics",
+      "pass": true
+    },
+    {
+      "name": "mem after_stress: no faults or invalid deallocations",
+      "pass": true
+    },
+    {
+      "name": "mem after_stress: heap counters parsed",
+      "pass": true
+    },
+    {
+      "name": "one-byte competing reservation safely refuses stress allocation",
+      "pass": true
+    },
+    {
+      "name": "B11 blocked first growth slot cannot be claimed or skipped",
+      "pass": true
+    },
+    {
+      "name": "blocked_growth_pde: exact physical capture length",
+      "pass": true
+    },
+    {
+      "name": "blocked_growth: 4 KiB page table",
+      "pass": true
+    },
+    {
+      "name": "blocked_growth_pte: exact physical capture length",
+      "pass": true
+    },
+    {
+      "name": "reserved first growth page remains unmapped",
+      "pass": true
+    },
+    {
+      "name": "refused-growth stress cleans filesystem fixtures",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after echo metadata-done",
+      "pass": true
+    },
+    {
+      "name": "echo metadata-done: exact output 'metadata-done'",
+      "pass": true
+    },
+    {
+      "name": "no kernel fault through completed workflow",
+      "pass": true
+    },
+    {
+      "name": "owned QEMU process terminated",
+      "pass": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 523839 KB\nallocator block base: 0x2c1000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nDescriptors: open 3 records 0 opens 0 closes 0 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63322\nAllocated frames: 129\nReserved frames: 2085\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129519\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8352 bytes\nFree: 1040224 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1034616 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 523839 KB\nallocator block base: 0x2c1000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nDescriptors: open 3 records 0 opens 0 closes 0 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63322\nAllocated frames: 129\nReserved frames: 2085\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129519\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8352 bytes\nFree: 1040224 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1034616 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 65439",
+        "Free frames: 63322",
+        "Allocated frames: 129",
+        "Reserved frames: 2085",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129519",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8352 bytes",
+        "Free: 1040224 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1034616 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "echo metadata-alive",
+      "serial_fragment": "echo metadata-alive\nmetadata-alive\nrosti>",
+      "output": "metadata-alive\n",
+      "vga": [
+        "Allocated frames: 129",
+        "Reserved frames: 2085",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129519",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8352 bytes",
+        "Free: 1040224 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1034616 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>echo metadata-alive",
+        "metadata-alive",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 523839 KB\nallocator block base: 0x2c1000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nDescriptors: open 3 records 0 opens 0 closes 0 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63322\nAllocated frames: 129\nReserved frames: 2085\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129519\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8352 bytes\nFree: 1040224 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1034616 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 523839 KB\nallocator block base: 0x2c1000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nDescriptors: open 3 records 0 opens 0 closes 0 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63322\nAllocated frames: 129\nReserved frames: 2085\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129519\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8352 bytes\nFree: 1040224 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1034616 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 65439",
+        "Free frames: 63322",
+        "Allocated frames: 129",
+        "Reserved frames: 2085",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129519",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8352 bytes",
+        "Free: 1040224 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1034616 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "fsstress",
+      "serial_fragment": "fsstress\nfsstress: heap used 8352 -> 8352, growth 0 -> 0, failed 0 -> 1\nfsstress: mapped pages 129519 -> 129519, FS storage 0 -> 0, nodes 1 -> 1\nfsstress: FAIL (out of memory)\nrosti>",
+      "output": "fsstress: heap used 8352 -> 8352, growth 0 -> 0, failed 0 -> 1\nfsstress: mapped pages 129519 -> 129519, FS storage 0 -> 0, nodes 1 -> 1\nfsstress: FAIL (out of memory)\n",
+      "vga": [
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129519",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8352 bytes",
+        "Free: 1040224 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1034616 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fsstress",
+        "fsstress: heap used 8352 -> 8352, growth 0 -> 0, failed 0 -> 1",
+        "fsstress: mapped pages 129519 -> 129519, FS storage 0 -> 0, nodes 1 -> 1",
+        "fsstress: FAIL (out of memory)",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 523839 KB\nallocator block base: 0x2c1000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nDescriptors: open 3 records 0 opens 0 closes 0 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63322\nAllocated frames: 129\nReserved frames: 2085\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129519\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8352 bytes\nFree: 1040224 bytes\nFailed allocations: 1\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1034616 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 523839 KB\nallocator block base: 0x2c1000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nDescriptors: open 3 records 0 opens 0 closes 0 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63322\nAllocated frames: 129\nReserved frames: 2085\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129519\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8352 bytes\nFree: 1040224 bytes\nFailed allocations: 1\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1034616 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 65439",
+        "Free frames: 63322",
+        "Allocated frames: 129",
+        "Reserved frames: 2085",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129519",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8352 bytes",
+        "Free: 1040224 bytes",
+        "Failed allocations: 1",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1034616 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "echo metadata-done",
+      "serial_fragment": "echo metadata-done\nmetadata-done\nrosti>",
+      "output": "metadata-done\n",
+      "vga": [
+        "Allocated frames: 129",
+        "Reserved frames: 2085",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129519",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8352 bytes",
+        "Free: 1040224 bytes",
+        "Failed allocations: 1",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1034616 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>echo metadata-done",
+        "metadata-done",
+        "rosti>"
+      ]
+    }
+  ],
+  "memory": {
+    "before": {
+      "used": 8352,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 3,
+      "fs_storage": 0,
+      "fs_entries": 1,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 0,
+      "fd_closes": 0,
+      "fd_denials": 0,
+      "fd_stale": 0
+    },
+    "after_stress": {
+      "used": 8352,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 1,
+      "live_allocations": 3,
+      "fs_storage": 0,
+      "fs_entries": 1,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 0,
+      "fd_closes": 0,
+      "fd_denials": 0,
+      "fd_stale": 0
+    }
+  },
+  "overall": "PASS",
+  "fixture": {
+    "name": "reservedgrowth",
+    "ram_mib": 512,
+    "original_entry": 2101248,
+    "code_size": 29,
+    "info": 458752,
+    "magic": 732803074,
+    "expected_rejection": false,
+    "metadata_hex": "4000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600000000001070000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000014000000000000000000000000fc090000000000010000001400000000fc0900000000000004060000000000020000001400000000001000000000000000ef1f000000000100000014000000000080000000000001000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "kernel_start": 2097152,
+    "kernel_end": 3939337,
+    "mmap": [
+      {
+        "base": 0,
+        "length": 654336,
+        "type": 1
+      },
+      {
+        "base": 654336,
+        "length": 394240,
+        "type": 2
+      },
+      {
+        "base": 1048576,
+        "length": 535756800,
+        "type": 1
+      },
+      {
+        "base": 8388608,
+        "length": 1,
+        "type": 2
+      }
+    ],
+    "module_address": null,
+    "module_size": 0,
+    "module_sha256": null,
+    "fixture_sha256": "82359066a9c79c0e8295be4bdc676c1f40556b3a4518d7b3f496aa75f837d142",
+    "source_sha256": "35599545f2e04900111ebc594e1bf146a608f57f3be7d4b61ad9f6a9df8b16d9"
+  },
+  "argv": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\boot_metadata_d7xej8lp\\512_reservedgrowth\\fixture.elf",
+    "-machine",
+    "pc",
+    "-m",
+    "512",
+    "-display",
+    "none",
+    "-nic",
+    "none",
+    "-no-reboot",
+    "-monitor",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b11_continuation\\boot_metadata_cafsno87\\elf_512_reservedgrowth\\serial.txt",
+    "-qmp",
+    "tcp:127.0.0.1:37155,server=on,wait=off",
+    "-d",
+    "guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b11_continuation\\boot_metadata_cafsno87\\elf_512_reservedgrowth\\qemu_log.txt"
+  ],
+  "qemu_pid": 26016,
+  "metadata_sha256": "80656149b26e547aa5a0be7f470334724aa16e6095a48423f83b0fa159f250da",
+  "registers": "\r\nCPU#0\r\nEAX=00000000 EBX=002ab77c ECX=00000001 EDX=002c0100\r\nESI=002a0c20 EDI=00070500 EBP=00000000 ESP=002afe84\r\nEIP=002549b2 EFL=00000246 [---Z-P-] CPL=0 II=0 A20=1 SMM=0 HLT=1\r\nES =0010 00000000 ffffffff 00cf9300 DPL=0 DS   [-WA]\r\nCS =0008 00000000 ffffffff 00cf9900 DPL=0 CS32 [--A]\r\nSS =0010 00000000 ffffffff 00cf9300 DPL=0 DS   [-WA]\r\nDS =0010 00000000 ffffffff 00cf9300 DPL=0 DS   [-WA]\r\nFS =0010 00000000 ffffffff 00cf9300 DPL=0 DS   [-WA]\r\nGS =0010 00000000 ffffffff 00cf9300 DPL=0 DS   [-WA]\r\nLDT=0000 00000000 0000ffff 00008200 DPL=0 LDT\r\nTR =0000 00000000 0000ffff 00008b00 DPL=0 TSS32-busy\r\nGDT=     002c1008 00000017\r\nIDT=     003c1000 000007ff\r\nCR0=80010011 CR2=00000000 CR3=00001000 CR4=00000000\r\nDR0=00000000 DR1=00000000 DR2=00000000 DR3=00000000 \r\nDR6=ffff0ff0 DR7=00000400\r\nEFER=0000000000000000\r\nFCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80\r\nFPR0=0000000000000000 0000 FPR1=0000000000000000 0000\r\nFPR2=0000000000000000 0000 FPR3=0000000000000000 0000\r\nFPR4=0000000000000000 0000 FPR5=0000000000000000 0000\r\nFPR6=0000000000000000 0000 FPR7=0000000000000000 0000\r\nXMM00=0000000000000000 0000000000000000 XMM01=0000000000000000 0000000000000000\r\nXMM02=0000000000000000 0000000000000000 XMM03=0000000000000000 0000000000000000\r\nXMM04=0000000000000000 0000000000000000 XMM05=0000000000000000 0000000000000000\r\nXMM06=0000000000000000 0000000000000000 XMM07=0000000000000000 0000000000000000\r\n",
+  "frames": {
+    "Total frames": 65439,
+    "Free frames": 63322,
+    "Reserved frames": 2085,
+    "Allocated frames": 129
+  },
+  "owned_qemu_exited": true,
+  "check_count": 38,
+  "pass_count": 38
+}

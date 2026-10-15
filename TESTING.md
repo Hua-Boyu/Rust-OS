@@ -1,5 +1,39 @@
 # TESTING
 
+## Phase 9.6 safety acceptance (current)
+
+Canonical full command from the repository root:
+`python -B scripts/phase6_verify.py` (optional `--output-dir <evidence-parent>`).
+Run it in the supported notified background terminal. Freeze all source/build
+inputs until the final report exits PASS; never run another QEMU beside it.
+Evidence now lives under `test_results/phase9_6/acceptance_<UTC>_<unique>/`.
+
+In addition to inherited filesystem, paging/fault, keyboard/VGA, persistence,
+corruption, recovery and growth/OOM gates, acceptance requires B11 frame-policy,
+B18 independent wire-parser and B26 lock/refusal/rollback host families; B13
+source, emitted-code and privileged handoff fixtures; and all 44 metadata
+ELF/GRUB x 128/512 MiB scenarios. Rejected scenarios attach exclusively-owned
+media, exercise write denial, RAMFS lifecycle and bounded bootstrap OOM, and
+require whole-image hashes to match after verified process exit. Accepted modules
+have their payload hash and supervisor identity PTEs checked across real growth.
+
+Focused host commands, from C:/Users/iamsv (outside kernel Cargo config):
+
+```bash
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml
+cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_b26/Cargo.toml b26_ -- --test-threads=1
+```
+
+For a separately built production kernel, a focused guest command is:
+`python -B scripts/boot_metadata_test.py --boot both --ram 128 512 --output-dir C:/Users/iamsv/Documents/Rust-OS/test_results/phase9_6/manual_NEW`.
+The harness never builds/replaces the production kernel or accepted ISO. Host
+contracts: `python -B scripts/test_boot_metadata_harness.py`. B13 build/order is
+documented in `scripts/b13_fixture/README.md`. No live Proxmox harness is in scope.
+
+The safety report records final counts, media hashes, source freeze, footprint,
+review and retained failures. A RUNNING/partial report is never release evidence.
+Historical Phase 9.5C sections below do not override the current release index.
+
 ## Phase 9.5C final maintenance
 
 From C:/Users/iamsv, outside kernel Cargo config:

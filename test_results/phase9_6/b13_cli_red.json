@@ -1,0 +1,12 @@
+{
+  "status": "FAIL",
+  "scope": "source-level bounded model, not privileged execution",
+  "source_sha256": "6e4e767938c8f0cfc0099d65d701559c02f062fb5978b6a53adac7bc96d313c4",
+  "tests_run": 1,
+  "failures": [
+    {
+      "test": "test_interrupts_disabled_before_stack_setup (__main__.BootHandoff.test_interrupts_disabled_before_stack_setup)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 41, in test_interrupts_disabled_before_stack_setup\n    self.assertEqual(instructions[0], \"cli\", \"CLI must precede stack/ABI work\")\nAssertionError: 'mov $stack_top, %esp' != 'cli'\n- mov $stack_top, %esp\n+ cli\n : CLI must precede stack/ABI work\n"
+    }
+  ]
+}

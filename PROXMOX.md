@@ -1,5 +1,21 @@
 # PROXMOX DEPLOYMENT
 
+## Phase 9.6 — read-only inventory, no deployment
+
+Fresh read-only configuration/status GETs confirmed VM 103 `rosti-dev` running
+on `pve`, 512 MiB, one vCPU, SeaBIOS/pc. Its only media remains
+`local:iso/rosti_phase7_20261012T181123Z.iso,media=cdrom,size=9204K` on ide2;
+no persistent data disk is configured. Config digest remains
+`c0253f4f9bc55e6c3f222dcc893833cc46157a4b`.
+
+Phase 9.6 verification is **local QEMU only**, not a remote deployment. No VM
+reset/restart/ISO change, upload, disk attachment/format, host partition, storage
+pool or unrelated service change occurred. Existing live harnesses may reset
+VM 103 and must not be invoked without separate authorization. Historical
+deployment notes below do not authorize deploying the new safety image.
+
+See `docs/PHASE9_6_SAFETY_HARDENING.md` for current local artifact identity.
+
 ## Phase 9.5C boundary
 
 No Proxmox API/SSH action, upload, deployment, restart, reset or storage mutation

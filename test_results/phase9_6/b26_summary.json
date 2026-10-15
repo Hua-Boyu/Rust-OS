@@ -1,0 +1,41 @@
+{
+  "status": "HOST_VERIFIED_GUEST_PENDING",
+  "scope": "B26 guard-held heap operations, unpublished-map rollback, growth-claim rollback, repeated prepare rejection, host harness compilation",
+  "production_files": ["src/memory/mod.rs", "src/memory/paging.rs"],
+  "additional_shared_edit": {
+    "file": "tests_kernel/src/lib.rs",
+    "change": "Add crate-root cfg(test) and explanatory comment only; other simultaneous edits belong to parent/B18."
+  },
+  "new_files": ["tests_b26/Cargo.toml", "tests_b26/Cargo.lock", "tests_b26/README.md", "tests_b26/src/lib.rs", "tests_b26/src/growth_tests.rs", "tests_b26/src/validation_tests.rs"],
+  "red_evidence": {
+    "b26_red_directory.json": "Expected zero guard-held heap operations; observed one allocation and one deallocation before the fix. Concurrent B11 RED also appears in this retained run.",
+    "b26_red_growth_missing_map.json": "Missing PAGE_MAP consumed one reserved growth frame, allocated 1 versus expected 0.",
+    "b26_red_growth_map_conflict.json": "Mapping conflict leaked claimed growth frame, allocated 5 versus expected 4.",
+    "b26_red_validation.json": "Validation failure leaked directory plus table, allocated 2 versus expected 0.",
+    "b26_red_reprepare.json": "Repeated successful prepare returned Ok instead of rejecting replacement."
+  },
+  "verified_results": {
+    "b26_green_complete.json": {"exit_code": 0, "passed": 5, "failed": 0, "ignored": 0, "filtered_out": 13},
+    "b26_host_complete.json": {"exit_code": 0, "passed": 192, "failed": 0, "ignored": 2, "filtered_out": 0},
+    "b26_paging_regression.json": {"exit_code": 0, "passed": 10, "failed": 0, "ignored": 0, "filtered_out": 143}
+  },
+  "instrumentation_limits": [
+    "Directory exhaustion watches every heap allocation and deallocation while FRAME_ALLOC is locked.",
+    "Partial-build and validation probes filter production table/error backing layouts because cfg(test) MIRROR HashMap/Vec storage allocates only on hosts.",
+    "Run B26 host tests with --test-threads=1; only its final boot-lifecycle fixture publishes PAGE_MAP."
+  ],
+  "interfaces_and_remaining_work": [
+    "build_identity_map_in_place borrows table Vec backing on failure and transfers it without heap operations on success. The old owning build_identity_map is retained only as an unlocked-caller compatibility wrapper.",
+    "Growth rollback relies on the frame agent's corrected growth-aware free(): allocated returns to reserved growth-only capacity, never normal free capacity.",
+    "Parent must integrate copied B18 reservations into prepare's frame initialization via init_with_reservations before allocating page tables; prepare currently calls init and would overwrite earlier reservations.",
+    "Published PAGE_MAP cannot be replaced through prepare; repeated calls return paging already prepared before resetting frames.",
+    "Bootstrap heap OOM remains explicitly unsupported by the Vec-based prepare API. Table backing and error diagnostics remain infallible allocations outside the frame guard; scalar/fixed-capacity error API needs caller coordination.",
+    "Parent owns guest forced-table-exhaustion/recovery fixture and QEMU authorization. Run that fixture before successful map publication."
+  ],
+  "source_sha256_at_host_verification": {
+    "src/memory/mod.rs": "b9169ee5754861e3611787d62ecd0baf06935a1e00a952af883c22656a883b09",
+    "src/memory/paging.rs": "1ad01b0bfa98c09eccfd4def8f10c3415be342405da3825ec0d76fb9b6642154"
+  },
+  "constraints_observed": {"qemu_run": false, "commits_created": false, "remote_actions": false, "historical_artifacts_modified": false},
+  "notes": "Earlier broad host failures during parallel B11/B18 RED cycles are retained in b26_host_regression.json, b26_host_isolated.json and b26_host_final.json; latest complete host run is passing. Existing host warnings remain."
+}

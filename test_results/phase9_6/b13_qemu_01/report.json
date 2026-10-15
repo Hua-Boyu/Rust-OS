@@ -1,0 +1,21 @@
+{
+  "status": "FAIL",
+  "qemu_status": "NOT_RUN",
+  "inspection": {
+    "status": "PASS",
+    "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\b13-boot-fixture",
+    "kernel_sha256": "932695481e480b619af3912155617ff61ef768035e2f671769b2c7ccd5971fd4",
+    "assembly_path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\build\\b13-boot-fixture\\542259901f15da62\\out\\b13_boot_fixture.s",
+    "assembly_sha256": "dad7ebb886924dbb5f63506882d4491903c8b5a4e676072ba4ac3d82680b0d04",
+    "llvm_ir_path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\build\\b13-boot-fixture\\542259901f15da62\\out\\b13_boot_fixture.ll",
+    "start_assembly": "\n\t# multiboot specifies that we boot into 32-bit protected mode\n\t# Keep IRQs masked until Rust has installed the descriptor tables and PIC.\n\tcli\n\t# Multiboot leaves DF undefined; the i686 Rust/C ABI requires it clear.\n\tcld\n\n\t# setup the stack\n\tmovl\t$stack_top, %esp\n\n\t# Provide 16-byte pre-CALL alignment (target data-layout S128), even though\n\t# the current soft-float i686-none compiler may use only 4-byte alignment.\n\t# Reserve 8 bytes before the two 4-byte args; callee entry ESP is 12 mod 16.\n\tsubl\t$8, %esp\n\n\t# push multiboot info as args to kernel_main\n\t# reversed calling order: last argument first\n\tpushl\t%ebx\t# addr of multiboot info struct\n\tpushl\t%eax\t# multiboot magic number\n\n\t# enter the kernel\n\tcalll\tkernel_main\n\n\t# put the computer into a loop if kernel exits\n\tcli\n.Ltmp0:\n\thlt\n\tjmp\t.Ltmp0\n\n\t# set size of _start symbol to current location - starting location\n.Ltmp1:\n\t",
+    "start_machine_hex": "fafcbc0070200083ec085350e82b000000faf4ebfd",
+    "stack_top": 2125824,
+    "stack_bytes": 16384,
+    "abi_probe_assembly": "\n.Lfunc_begin2:\n\t.loc\t1 87 0\n\t.cfi_startproc\n\tpushl\t%ebx\n\t.cfi_def_cfa_offset 8\n\tsubl\t$16, %esp\n\t.cfi_def_cfa_offset 24\n\t.cfi_offset %ebx, -8\n\tcalll\t.L2$pb\n\t.cfi_adjust_cfa_offset 4\n.L2$pb:\n\tpopl\t%ebx\n\t.cfi_adjust_cfa_offset -4\n.Ltmp10:\n\taddl\t$_GLOBAL_OFFSET_TABLE_+(.Ltmp10-.L2$pb), %ebx\n\tmovl\t28(%esp), %eax\n\tmovl\t24(%esp), %ecx\n.Ltmp11:\n\t.loc\t1 88 5 prologue_end\n\tmovl\t%ecx, (%esp)\n\tmovl\t%eax, 4(%esp)\n\tcalll\tb13_sink@PLT\n\tmovl\t%eax, 8(%esp)\n\tmovl\t$1, 12(%esp)\n.Ltmp12:\n\t.file\t4 \"C:\\\\Users\\\\iamsv\\\\.rustup\\\\toolchains\\\\nightly-x86_64-pc-windows-msvc\\\\lib\\\\rustlib\\\\src\\\\rust\\\\library\\\\core\" \"src\\\\num\\\\uint_macros.rs\"\n\t.loc\t4 2676 13\n\taddl\t$1, %eax\n.Ltmp13:\n\t.loc\t1 89 2 epilogue_begin\n\taddl\t$16, %esp\n\t.cfi_def_cfa_offset 8\n\tpopl\t%ebx\n\t.cfi_def_cfa_offset 4\n\tretl\n.Ltmp14:\n",
+    "abi_finding": "Current soft-float i686-unknown-none caller pushes EBX (4 bytes) and subtracts 16 before external CALL: only 4-byte stack alignment is enforced despite S128. Bootstrap now deliberately provides stronger 16-byte pre-CALL alignment; raw callee ESP=12 mod16.",
+    "pre_call_esp_mod16": 0,
+    "callee_esp_mod16": 12
+  },
+  "error": "RuntimeError: Entry fixture failed: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_qemu_01\\fixture_128\\report.json: AssertionError: Missing ordered markers/debug bytes or expected exit"
+}

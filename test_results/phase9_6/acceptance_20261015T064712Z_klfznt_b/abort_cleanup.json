@@ -1,0 +1,5 @@
+{
+  "reason": "Stopped known-failed metadata matrix: GRUB fixture program headers above loader search window",
+  "remaining_owned_pids": [],
+  "local_qemu_remaining": []
+}

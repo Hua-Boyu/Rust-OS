@@ -1,0 +1,79 @@
+{
+  "status": "FAIL",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "entry": "_start",
+  "memory_mib": 128,
+  "cleanup": true,
+  "kernel_sha256": "022d124ea241ef06a2a0022f20f861de82a2342db9e5b5b5d82f07c5343192cb",
+  "command": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-cdrom",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\b13_grub_stage_14cd43935f.iso",
+    "-boot",
+    "d",
+    "-m",
+    "128",
+    "-display",
+    "none",
+    "-no-reboot",
+    "-monitor",
+    "none",
+    "-nic",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_grub_01\\grub_entry_128\\serial.txt",
+    "-debugcon",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_grub_01\\grub_entry_128\\debugcon.txt",
+    "-device",
+    "isa-debug-exit,iobase=0xf4,iosize=0x04",
+    "-d",
+    "int,guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_grub_01\\grub_entry_128\\qemu.log",
+    "-S",
+    "-gdb",
+    "tcp:127.0.0.1:27414"
+  ],
+  "before": {
+    "eax": 732803074,
+    "ecx": 0,
+    "edx": 0,
+    "ebx": 65536,
+    "esp": 524032,
+    "ebp": 0,
+    "esi": 0,
+    "edi": 0,
+    "eip": 2121536,
+    "eflags": 70
+  },
+  "after": {
+    "eax": 732803074,
+    "ecx": 0,
+    "edx": 0,
+    "ebx": 65536,
+    "esp": 524032,
+    "ebp": 0,
+    "esi": 0,
+    "edi": 0,
+    "eip": 2121536,
+    "eflags": 70
+  },
+  "mutations": [
+    {
+      "observed_bootinfo": {
+        "address": 65536,
+        "flags": 6759,
+        "flags_hex": "0x1a67",
+        "mmap_address": 65704,
+        "mmap_length": 144,
+        "header_hex": "671a00007f02000080fb0100ffffffe07800010000000000000000001600000028000000380101001400000090000000a80001000000000000000000000000007c00010000000000a8040100a80601000300ffff00604f0000800b0000000000a000000050000000190000001002000000000000"
+      }
+    }
+  ],
+  "serial": "ROSTI: entered kernel_main\nDBG: alloc init\nROSTI: boot metadata rejected: Flags; RAM-only recovery\nROSTI: block probe: no device\nROSTI: boot complete\nROSTI OS\n32-bit Rust Experimental Kernel\n\nMemory initialization: OK\nGDT: OK\nIDT: OK\nPIC: OK\nKeyboard: Ready\n\nrosti>",
+  "debugcon": "",
+  "observed_exit": null,
+  "error": "AssertionError: Missing ordered markers/debug bytes or expected exit",
+  "final_exit": 1,
+  "elapsed_s": 30.031000000002678
+}

@@ -1,0 +1,53 @@
+{
+  "overall": "FAIL",
+  "checks": [
+    {
+      "name": "source kernel ELF validated; no production build performed",
+      "pass": true
+    },
+    {
+      "name": "iso/128/nomodule",
+      "pass": false
+    },
+    {
+      "name": "complete requested matrix",
+      "pass": true
+    },
+    {
+      "name": "all guest checks pass",
+      "pass": false
+    },
+    {
+      "name": "invocation completed without setup/workload failure",
+      "pass": false
+    },
+    {
+      "name": "production ELF unchanged",
+      "pass": true,
+      "sha256": "8a72342b4afc14e2d6f87c8758aea2869963c4dabea4e14dd22a5f3c149a7fec"
+    },
+    {
+      "name": "owned dist staging removed",
+      "pass": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "nomodule",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "FAIL",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\grub_entry_diagnostic\\boot_metadata_hn4fu76h\\iso_128_nomodule\\report.json"
+    }
+  ],
+  "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\grub_entry_diagnostic\\boot_metadata_hn4fu76h",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "kernel_sha256": "8a72342b4afc14e2d6f87c8758aea2869963c4dabea4e14dd22a5f3c149a7fec",
+  "owned_stage": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\boot_metadata_zgao2a8t",
+  "expected_scenarios": 1,
+  "error": "AssertionError: all guest checks pass",
+  "elapsed_s": 33.063,
+  "scenario_count": 1,
+  "check_count": 7,
+  "pass_count": 4
+}

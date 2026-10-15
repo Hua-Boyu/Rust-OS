@@ -1,5 +1,32 @@
 # BUGFIXES
 
+## Phase 9.6 safety prerequisites (current)
+
+- **B11:** competing reservations now deny both ordinary and exact-slot growth
+  allocation. Growth release/map failure restores growth-only ownership and
+  exact accounting; blocked slots are not skipped. One-byte/order/overflow,
+  independent union-oracle and real module/growth regressions cover the policy.
+- **B13:** CLI/CLD and deliberate stack/argument placement establish the actual
+  Rust entry contract. Naked hostile-handoff, emitted-code and ELF/GRUB fixtures
+  verify it without inferring peak stack usage from a prologue.
+- **B18:** bounded fallible inventory checks source spans before reads, validates
+  complete mmap/module/string metadata and pins accepted buffers until reboot.
+  The a.out leading size word and final partial frame are now reserved too.
+  Malformed boot gates persistent storage off while independent RAMFS survives.
+  Recovery mem diagnostics no longer disappear when boot RAM totals are absent.
+- **B26:** borrowed backing, static errors and allocation-free validation remove
+  guard-held heap allocation/destruction and fallback error allocation. All
+  unpublished paging frames return on failure; retry slots are cleared and
+  published maps cannot be replaced. Allocation-refusal and interleaved-owner
+  retries supplement lock-watchdog and guest frame-exhaustion tests.
+- **Adjacent:** permanent module/metadata/table identity aliases reject unmap;
+  usable ranges beginning in growth still validate their later tail. New B13
+  transport EOF/close failures cannot spin forever or skip owned-process reap.
+
+Exact acceptance status/evidence and residual limitations are in
+`docs/PHASE9_6_SAFETY_HARDENING.md`. This does not fix B09 capacity loss or broadly
+close the historical trap, stack, PageMap aliasing and public-API findings below.
+
 ## Phase 9.5C unnecessary preservation transfers
 
 - Full old-block preservation reads ran even when all live old bytes were

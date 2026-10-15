@@ -1,0 +1,9 @@
+{
+  "stage": "GREEN",
+  "command": "rustc +nightly --edition=2024 --test C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src/b11_standalone.rs -o C:/Users/iamsv/Documents/Rust-OS/test_results/phase9_6/b11_standalone.exe && C:/Users/iamsv/Documents/Rust-OS/test_results/phase9_6/b11_standalone.exe --nocapture",
+  "result": {
+    "output": "running 5 tests\ntest memory::frame::b11_tests::b11_bootinfo_span_overflow_never_panics_or_wraps ... ok\ntest memory::frame::b11_tests::b11_boot_and_bootstrap_heap_override_growth_reservation ... ok\ntest memory::frame::b11_tests::b11_explicit_boot_spans_deny_all_touched_frames_and_dedupe_accounting ... ok\ntest memory::frame::b11_tests::b11_invalid_explicit_span_fails_closed_even_after_reinitialization ... ok\ntest memory::frame::b11_tests::b11_competing_mmap_reservations_deny_growth_in_any_order ... ok\n\ntest result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "exit_code": 0,
+    "error": null
+  }
+}

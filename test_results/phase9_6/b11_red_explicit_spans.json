@@ -1,0 +1,10 @@
+{
+  "stage": "RED",
+  "note": "New reservation API missing; rustc E0599, not runtime assertion",
+  "command": "rustc +nightly --edition=2024 --test C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src/b11_standalone.rs -o C:/Users/iamsv/Documents/Rust-OS/test_results/phase9_6/b11_standalone.exe && C:/Users/iamsv/Documents/Rust-OS/test_results/phase9_6/b11_standalone.exe --nocapture",
+  "result": {
+    "output": "error[E0599]: no method named `init_with_reservations` found for struct `frame::FrameAllocator` in the current scope\n  --> C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src\\memory\\..\\..\\..\\src\\memory\\..\\..\\tests_kernel\\src\\b11_frame_tests.rs:8:16\n   |\n 8 |     assert!(fa.init_with_reservations(&[entry(g, 12288, 1)], 0x10000, 0x20000, 0x21000, &ranges));\n   |                ^^^^^^^^^^^^^^^^^^^^^^ method not found in `frame::FrameAllocator`\n   |\n  ::: C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src\\memory\\..\\..\\..\\src\\memory\\frame.rs:75:1\n   |\n75 | pub struct FrameAllocator {\n   | ------------------------- method `init_with_reservations` not found for this struct\n\nerror[E0599]: no method named `init_with_reservations` found for struct `frame::FrameAllocator` in the current scope\n  --> C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src\\memory\\..\\..\\..\\src\\memory\\..\\..\\tests_kernel\\src\\b11_frame_tests.rs:23:17\n   |\n23 |     assert!(!fa.init_with_reservations(&[entry(g, 4096, 1)], 0x10000, 0x20000, 0x21000, &[(g + 1, g)]));\n   |                 ^^^^^^^^^^^^^^^^^^^^^^ method not found in `frame::FrameAllocator`\n   |\n  ::: C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src\\memory\\..\\..\\..\\src\\memory\\frame.rs:75:1\n   |\n75 | pub struct FrameAllocator {\n   | ------------------------- method `init_with_reservations` not found for this struct\n\nerror: aborting due to 2 previous errors\n\nFor more information about this error, try `rustc --explain E0599`.",
+    "exit_code": 1,
+    "error": null
+  }
+}

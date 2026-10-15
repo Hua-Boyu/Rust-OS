@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "entry": "_start",
+  "memory_mib": 128,
+  "cleanup": true,
+  "kernel_sha256": "022d124ea241ef06a2a0022f20f861de82a2342db9e5b5b5d82f07c5343192cb",
+  "command": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+    "-m",
+    "128",
+    "-display",
+    "none",
+    "-no-reboot",
+    "-monitor",
+    "none",
+    "-nic",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_qemu_03\\production_128\\serial.txt",
+    "-debugcon",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_qemu_03\\production_128\\debugcon.txt",
+    "-device",
+    "isa-debug-exit,iobase=0xf4,iosize=0x04",
+    "-d",
+    "int,guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_qemu_03\\production_128\\qemu.log",
+    "-S",
+    "-gdb",
+    "tcp:127.0.0.1:21219"
+  ],
+  "before": {
+    "eax": 732803074,
+    "ecx": 2121536,
+    "edx": 66833,
+    "ebx": 38144,
+    "esp": 28432,
+    "ebp": 0,
+    "esi": 0,
+    "edi": 8192,
+    "eip": 2121536,
+    "eflags": 6
+  },
+  "after": {
+    "eax": 732803074,
+    "ecx": 2121536,
+    "edx": 66833,
+    "ebx": 38144,
+    "esp": 589827,
+    "ebp": 0,
+    "esi": 0,
+    "edi": 8192,
+    "eip": 2121536,
+    "eflags": 1030
+  },
+  "mutations": [
+    {
+      "registers": {
+        "esp": 589827,
+        "eflags": 1030
+      }
+    }
+  ],
+  "serial": "ROSTI: entered kernel_main\nDBG: alloc init\nDBG: mmap print\nDBG: mmap printed\nDBG: mmap parsed\nDBG: mem info set\nDBG: frame init start\nDBG: frame lock acquired\nDBG: init entered\nDBG: frame init passes done\nDBG: frame init done\nDBG: page tables built\nROSTI: paging enabled (CR0.PG, identity map)\nROSTI: block probe: no device\nROSTI: boot complete\nROSTI OS\n32-bit Rust Experimental Kernel\n\nMemory initialization: OK\nGDT: OK\nIDT: OK\nPIC: OK\nKeyboard: Ready\n\nrosti>",
+  "debugcon": "",
+  "observed_exit": null,
+  "final_exit": 1,
+  "elapsed_s": 0.5319999999992433
+}

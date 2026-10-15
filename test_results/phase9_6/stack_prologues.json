@@ -1,0 +1,74 @@
+{
+  "kernel_sha256": "8a72342b4afc14e2d6f87c8758aea2869963c4dabea4e14dd22a5f3c149a7fec",
+  "method": "WSL objdump read-only disassembly of production ELF",
+  "scope": "Fixed prefix only, excluding return address, callees, transient PIC call push, interrupts and dynamic stack. NOT peak stack or total call-chain headroom.",
+  "boot_stack_bytes": 16384,
+  "functions": [
+    {
+      "symbol": "_RNvCsiGpFisFMzhI_6kernel19prepare_boot_memory",
+      "symbol_bytes": 2264,
+      "observed_fixed_prologue_bytes": 576,
+      "saved_register_pushes": 4,
+      "stack_subtractions": [
+        560
+      ],
+      "disassembly_prefix": [
+        "  206260:\t55                   \tpush   %ebp",
+        "  206261:\t53                   \tpush   %ebx",
+        "  206262:\t57                   \tpush   %edi",
+        "  206263:\t56                   \tpush   %esi",
+        "  206264:\t81 ec 30 02 00 00    \tsub    $0x230,%esp",
+        "  20626a:\te8 00 00 00 00       \tcall   20626f <_RNvCsiGpFisFMzhI_6kernel19prepare_boot_memory+0xf>"
+      ]
+    },
+    {
+      "symbol": "_RINvNtNtCsiGpFisFMzhI_6kernel9multiboot9inventory11parse_innerNCNvB2_13from_physical0EB6_",
+      "symbol_bytes": 13650,
+      "observed_fixed_prologue_bytes": 2080,
+      "saved_register_pushes": 4,
+      "stack_subtractions": [
+        2064
+      ],
+      "disassembly_prefix": [
+        "  209670:\t55                   \tpush   %ebp",
+        "  209671:\t53                   \tpush   %ebx",
+        "  209672:\t57                   \tpush   %edi",
+        "  209673:\t56                   \tpush   %esi",
+        "  209674:\t81 ec 10 08 00 00    \tsub    $0x810,%esp",
+        "  20967a:\te8 00 00 00 00       \tcall   20967f <_RINvNtNtCsiGpFisFMzhI_6kernel9multiboot9inventory11parse_innerNCNvB2_13from_physical0EB6_+0xf>"
+      ]
+    },
+    {
+      "symbol": "_RNvNtCsiGpFisFMzhI_6kernel6memory7prepare",
+      "symbol_bytes": 2298,
+      "observed_fixed_prologue_bytes": 924,
+      "saved_register_pushes": 4,
+      "stack_subtractions": [
+        908
+      ],
+      "disassembly_prefix": [
+        "  228ad0:\t55                   \tpush   %ebp",
+        "  228ad1:\t53                   \tpush   %ebx",
+        "  228ad2:\t57                   \tpush   %edi",
+        "  228ad3:\t56                   \tpush   %esi",
+        "  228ad4:\t81 ec 8c 03 00 00    \tsub    $0x38c,%esp",
+        "  228ada:\te8 00 00 00 00       \tcall   228adf <_RNvNtCsiGpFisFMzhI_6kernel6memory7prepare+0xf>"
+      ]
+    },
+    {
+      "symbol": "kernel_main",
+      "symbol_bytes": 2473,
+      "observed_fixed_prologue_bytes": 360,
+      "saved_register_pushes": 2,
+      "stack_subtractions": [
+        352
+      ],
+      "disassembly_prefix": [
+        "  206b40:\t53                   \tpush   %ebx",
+        "  206b41:\t56                   \tpush   %esi",
+        "  206b42:\t81 ec 60 01 00 00    \tsub    $0x160,%esp",
+        "  206b48:\te8 00 00 00 00       \tcall   206b4d <kernel_main+0xd>"
+      ]
+    }
+  ]
+}

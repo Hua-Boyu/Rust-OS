@@ -1,0 +1,59 @@
+{
+  "overall": "PASS",
+  "checks": [
+    {
+      "name": "source kernel ELF validated; no production build performed",
+      "pass": true
+    },
+    {
+      "name": "iso/128/nomodule",
+      "pass": true
+    },
+    {
+      "name": "iso/128/invalidmagic",
+      "pass": true
+    },
+    {
+      "name": "complete requested matrix",
+      "pass": true
+    },
+    {
+      "name": "all guest checks pass",
+      "pass": true
+    },
+    {
+      "name": "production ELF unchanged",
+      "pass": true,
+      "sha256": "8a72342b4afc14e2d6f87c8758aea2869963c4dabea4e14dd22a5f3c149a7fec"
+    },
+    {
+      "name": "owned dist staging removed",
+      "pass": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "nomodule",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\grub_fixture_final_green\\boot_metadata_et4q7oi6\\iso_128_nomodule\\report.json"
+    },
+    {
+      "name": "invalidmagic",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\grub_fixture_final_green\\boot_metadata_et4q7oi6\\iso_128_invalidmagic\\report.json"
+    }
+  ],
+  "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\grub_fixture_final_green\\boot_metadata_et4q7oi6",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "kernel_sha256": "8a72342b4afc14e2d6f87c8758aea2869963c4dabea4e14dd22a5f3c149a7fec",
+  "owned_stage": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\boot_metadata_6bpy702_",
+  "expected_scenarios": 2,
+  "elapsed_s": 30.609,
+  "scenario_count": 2,
+  "check_count": 7,
+  "pass_count": 7
+}

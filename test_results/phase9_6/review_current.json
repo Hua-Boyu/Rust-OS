@@ -1,0 +1,66 @@
+{
+  "passed": false,
+  "review_type": "independent read-only static safety review",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "base_commit": "17de9fd",
+  "scope": ["src/boot_inventory.rs", "src/main.rs", "src/multiboot.rs", "src/memory/mod.rs", "src/memory/frame.rs", "src/memory/paging.rs", "src/memory/review_r1_tests.rs", "tests_kernel/src/b11_frame_tests.rs", "tests_kernel/src/b18_inventory_tests.rs", "tests_kernel/src/b18_outcome_tests.rs", "tests_b26/src/lib.rs", "tests_b26/src/validation_tests.rs", "tests_b26/src/growth_tests.rs"],
+  "excluded": ["Known global parser outcome unsafe-static issue being fixed by parent", "Builds, test execution, QEMU, commits, and source edits"],
+  "findings": [
+    {
+      "id": "CURRENT-R1",
+      "severity": "P1",
+      "blocker": "B18/B11 accepted metadata lifetime",
+      "file": "src/boot_inventory.rs",
+      "lines": "272-283",
+      "title": "a.out symbol reservation omits its leading size word",
+      "detail": "For Multiboot bit 4, addr points at the leading four-byte symbol-array size, not the first nlist entry. tabsize counts the array; strsize includes the string-section size word. Reserving only tabsize + strsize is four bytes short. This can leave a live final frame available to the frame allocator, and can miss a forbidden-range intersection. For example addr=0x300fc8, tabsize=24, strsize=32 currently reserves through 0x301000, while the actual end is 0x301004. The next frame can then be reused despite owning symbol bytes.",
+      "smallest_correction": "Reject bit 4 as unsupported, or checked-add the leading four-byte word to the a.out byte span and validate/reserve the whole range. Validate its reserved field if accepting this feature.",
+      "test_gap": "tests_kernel/src/b18_inventory_tests.rs:487-498 currently expects the short reservation. Correct the oracle, and add a page-boundary tail fixture plus a final-four-byte reserved/kernel/growth intersection case.",
+      "reference": "https://www.gnu.org/software/grub/manual/multiboot/html_node/Boot-information-format.html",
+      "verification": "Static code inspection, official-spec web-search text, and Python boundary arithmetic; no kernel/test execution."
+    },
+    {
+      "id": "CURRENT-R2",
+      "severity": "P1",
+      "blocker": "B26 error-path frame ownership",
+      "file": "src/memory/paging.rs",
+      "lines": "423-432",
+      "title": "Borrowed backing retains freed frame addresses after failed construction",
+      "detail": "Partial-exhaustion cleanup frees table frames but leaves their nonzero addresses in caller-owned tables. Reusing the advertised retained backing can make subsequent failure cleanup free frames now owned by another allocation, including a retry's directory, and can double-free the directory. Concrete trace: first attempt with frames A/B allocates directory A and table B then fails, leaving tables[0]=B and freeing both. Another owner allocates A then B. A later attempt allocates a new directory C but has no table frame; cleanup frees stale B despite the other owner still using it. Fresh tables in the existing B26 loop hide this. review_r1_tests explicitly calls tables.fill(0) before retry, masking the production ownership defect.",
+      "smallest_correction": "On failed build, clear every occupied table slot as it is freed (for example mem::replace(slot, 0)), and ensure cleanup only visits frames owned by this attempt. Document/enforce initially zeroed length-1024 backing, or validate it before allocating the directory.",
+      "test_gap": "Reuse the identical tables Vec after failure without manually clearing it; interleave unrelated allocations before the retry, then force another failure and assert those owners remain allocated and invalid/double-free counts stay zero.",
+      "verification": "Static ownership trace only. The production prepare path currently creates fresh backing, so the demonstrated corruption requires reuse of the new in-place builder API."
+    },
+    {
+      "id": "CURRENT-R3",
+      "severity": "P1",
+      "blocker": "B18 whole-boot allocation-failure recovery",
+      "file": "src/memory/mod.rs",
+      "lines": "150-164,178-183",
+      "related_locations": ["src/memory/mod.rs:55-96", "src/memory/paging.rs:485-505"],
+      "title": "Fallible backing failures are converted into allocating errors",
+      "detail": "A try_reserve_exact failure is immediately converted with vec![message], which itself allocates. required_regions and validate_mapping also grow Vecs infallibly. Thus actual bootstrap-heap exhaustion after a successfully parsed inventory can still enter alloc_error_handler instead of returning to the promised independent RAMFS recovery path. Unlocking before allocation fixes B26 lock inversion but does not satisfy B18 fallible recovery; the function comment acknowledges this unresolved behavior.",
+      "smallest_correction": "Return a scalar/static MemoryPrepareError (or bounded fixed diagnostics), propagate it without allocating, and make required-region/mapping validation allocation-free or fully fallible. Alternatively prove and reserve a complete worst-case bootstrap budget before this phase; parser fallibility alone is insufficient.",
+      "test_gap": "Inject allocator refusal at pin backing, table backing, required-region collection, and missing-diagnostic collection. Verify no fallback error allocation/panic and no published map/live paging frames. Existing B26 instrumentation counts operations under the frame lock; it does not inject heap OOM.",
+      "verification": "Static control-flow inspection; no allocator fault injection executed."
+    }
+  ],
+  "positive_observations": [
+    "Growth eligibility now requires complete usable coverage, independent competing-reservation denial, and no live growth claim; growth rollback restores reserved rather than general free capacity.",
+    "Production prepare retains table/pin backing across the frame guard and releases unpublished paging frames before unlocked backing destruction. No additional production heap-under-frame-lock operation was found in these inspected paths.",
+    "Owned page-rounded boot pins and current page-structure identity-alias rejection address the prior ordinary module/metadata unmap lifetime hole.",
+    "Sparse-source wire tests cover malformed map boundaries, reserved precedence, optional metadata and VBE interface ownership; these were inspected, not executed."
+  ],
+  "adjacent_existing_issue_not_counted": "src/memory/mod.rs:222-223 returns a static shared PageMap reference while heap_grow_frame:242 mutates the same object. The phase document already tracks this separately as B19; this review does not reclassify it as a newly discovered B11/B18/B26 regression.",
+  "snapshot_sha256": {
+    "src/boot_inventory.rs": "d15935d0edeeaa3a99a8d8bf3a0b0bd105af814f31bcae4bc8a945636608e737",
+    "src/main.rs": "4585a09c56f9689bbfe0fd7be81ab8d0a68302ca0ddd67de971b9b1ee1a88425",
+    "src/multiboot.rs": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+    "src/memory/mod.rs": "1d76baf920fe5c7d0a33696c7fc940aee768ad3e4e493db31dea39ec44a1a886",
+    "src/memory/frame.rs": "61918dfe17e017708d4c3bf58a9cd602645faa277ff74739c59ea56bb9ede2d7",
+    "src/memory/paging.rs": "21d786b4dc575ff5ef3b927c93eba175957cccc37ca0965e6f8137f132f4c33e"
+  },
+  "limitations": ["Working tree is concurrently changing; line numbers and hashes identify inspected source snapshots, not a frozen acceptance run.", "No build, test binary, QEMU or commit was run, as requested.", "Direct GNU documentation fetch failed because extraction backend was unavailable and terminal networking was unreachable; official GNU spec text was available through web_search."],
+  "created_files": ["test_results/phase9_6/review_current.json"],
+  "modified_source_files": []
+}

@@ -1,0 +1,169 @@
+{
+  "status": "PASS",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "iso": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\b13_grub_stage_ac2fbc86dc.iso",
+  "canonical_iso_before": "5294625001799bfb5bdac7d6c01d95f7332b1e0255dc65927a1aff2c900e3331",
+  "kernel_sha256": "cdea2baa0f8b36f2cac1dce625e85764ceeb08f3b9a697f029e87d4da2276b84",
+  "iso_sha256": "80a93f03c2db61b09db84253f6e463ec81b822d674ef3e384bade7307e29d0e8",
+  "entry_observations": [
+    {
+      "status": "PASS",
+      "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+      "entry": "_start",
+      "memory_mib": 128,
+      "cleanup": true,
+      "kernel_sha256": "cdea2baa0f8b36f2cac1dce625e85764ceeb08f3b9a697f029e87d4da2276b84",
+      "command": [
+        "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+        "-cdrom",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\b13_grub_stage_ac2fbc86dc.iso",
+        "-boot",
+        "d",
+        "-m",
+        "128",
+        "-display",
+        "none",
+        "-no-reboot",
+        "-monitor",
+        "none",
+        "-nic",
+        "none",
+        "-serial",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_grub_continuation\\grub_entry_128\\serial.txt",
+        "-debugcon",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_grub_continuation\\grub_entry_128\\debugcon.txt",
+        "-device",
+        "isa-debug-exit,iobase=0xf4,iosize=0x04",
+        "-d",
+        "int,guest_errors",
+        "-D",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_grub_continuation\\grub_entry_128\\qemu.log",
+        "-S",
+        "-gdb",
+        "tcp:127.0.0.1:20277"
+      ],
+      "before": {
+        "eax": 732803074,
+        "ecx": 0,
+        "edx": 0,
+        "ebx": 65536,
+        "esp": 524032,
+        "ebp": 0,
+        "esi": 0,
+        "edi": 0,
+        "eip": 2121968,
+        "eflags": 70
+      },
+      "after": {
+        "eax": 732803074,
+        "ecx": 0,
+        "edx": 0,
+        "ebx": 65536,
+        "esp": 524032,
+        "ebp": 0,
+        "esi": 0,
+        "edi": 0,
+        "eip": 2121968,
+        "eflags": 70
+      },
+      "mutations": [
+        {
+          "observed_bootinfo": {
+            "address": 65536,
+            "flags": 6759,
+            "flags_hex": "0x1a67",
+            "mmap_address": 65704,
+            "mmap_length": 144,
+            "header_hex": "671a00007f02000080fb0100ffffffe07800010000000000000000001600000028000000380101001400000090000000a80001000000000000000000000000007c00010000000000a8040100a80601000300ffff00604f0000800b0000000000a000000050000000190000001002000000000000"
+          }
+        }
+      ],
+      "serial": "ROSTI: entered kernel_main\nDBG: alloc init\nDBG: mmap print\nDBG: mmap printed\nDBG: mmap parsed\nDBG: mem info set\nDBG: frame init start\nDBG: frame lock acquired\nDBG: init entered\nDBG: frame init passes done\nDBG: frame init done\nDBG: page tables built\nROSTI: paging enabled (CR0.PG, identity map)\nROSTI: block probe: no device\nROSTI: boot complete\nROSTI OS\n32-bit Rust Experimental Kernel\n\nMemory initialization: OK\nGDT: OK\nIDT: OK\nPIC: OK\nKeyboard: Ready\n\nrosti>",
+      "debugcon": "",
+      "observed_exit": null,
+      "final_exit": 1,
+      "elapsed_s": 1.3289999999979045
+    },
+    {
+      "status": "PASS",
+      "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+      "entry": "_start",
+      "memory_mib": 512,
+      "cleanup": true,
+      "kernel_sha256": "cdea2baa0f8b36f2cac1dce625e85764ceeb08f3b9a697f029e87d4da2276b84",
+      "command": [
+        "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+        "-cdrom",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\b13_grub_stage_ac2fbc86dc.iso",
+        "-boot",
+        "d",
+        "-m",
+        "512",
+        "-display",
+        "none",
+        "-no-reboot",
+        "-monitor",
+        "none",
+        "-nic",
+        "none",
+        "-serial",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_grub_continuation\\grub_entry_512\\serial.txt",
+        "-debugcon",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_grub_continuation\\grub_entry_512\\debugcon.txt",
+        "-device",
+        "isa-debug-exit,iobase=0xf4,iosize=0x04",
+        "-d",
+        "int,guest_errors",
+        "-D",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_grub_continuation\\grub_entry_512\\qemu.log",
+        "-S",
+        "-gdb",
+        "tcp:127.0.0.1:36995"
+      ],
+      "before": {
+        "eax": 732803074,
+        "ecx": 0,
+        "edx": 0,
+        "ebx": 65536,
+        "esp": 524032,
+        "ebp": 0,
+        "esi": 0,
+        "edi": 0,
+        "eip": 2121968,
+        "eflags": 70
+      },
+      "after": {
+        "eax": 732803074,
+        "ecx": 0,
+        "edx": 0,
+        "ebx": 65536,
+        "esp": 524032,
+        "ebp": 0,
+        "esi": 0,
+        "edi": 0,
+        "eip": 2121968,
+        "eflags": 70
+      },
+      "mutations": [
+        {
+          "observed_bootinfo": {
+            "address": 65536,
+            "flags": 6759,
+            "flags_hex": "0x1a67",
+            "mmap_address": 65704,
+            "mmap_length": 144,
+            "header_hex": "671a00007f02000080fb0700ffffffe07800010000000000000000001600000028000000380101001400000090000000a80001000000000000000000000000007c00010000000000a8040100a80601000300ffff00604f0000800b0000000000a000000050000000190000001002000000000000"
+          }
+        }
+      ],
+      "serial": "ROSTI: entered kernel_main\nDBG: alloc init\nDBG: mmap print\nDBG: mmap printed\nDBG: mmap parsed\nDBG: mem info set\nDBG: frame init start\nDBG: frame lock acquired\nDBG: init entered\nDBG: frame init passes done\nDBG: frame init done\nDBG: page tables built\nROSTI: paging enabled (CR0.PG, identity map)\nROSTI: block probe: no device\nROSTI: boot complete\nROSTI OS\n32-bit Rust Experimental Kernel\n\nMemory initialization: OK\nGDT: OK\nIDT: OK\nPIC: OK\nKeyboard: Ready\n\nrosti>",
+      "debugcon": "",
+      "observed_exit": null,
+      "final_exit": 1,
+      "elapsed_s": 1.5460000000020955
+    }
+  ],
+  "paging_report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_grub_continuation\\paging\\20261015_143000_paging\\report.json",
+  "kernel_unchanged": true,
+  "canonical_iso_after": "5294625001799bfb5bdac7d6c01d95f7332b1e0255dc65927a1aff2c900e3331"
+}

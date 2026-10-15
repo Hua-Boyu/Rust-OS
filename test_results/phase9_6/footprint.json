@@ -1,0 +1,115 @@
+{
+  "baseline": {
+    "file_bytes": 5153592,
+    "sha256": "0a5046e9d05d3642cc5876335372d298ba1bc703064774d8f0e3e972072c3248",
+    "section_bytes": {
+      "": 0,
+      ".multiboot": 12,
+      ".got": 88,
+      ".text": 610977,
+      ".rodata": 39122,
+      ".eh_frame_hdr": 28,
+      ".eh_frame": 68,
+      ".data": 92352,
+      ".got.plt": 12,
+      ".bss": 1138108,
+      ".debug_abbrev": 84488,
+      ".debug_info": 1367325,
+      ".debug_aranges": 70064,
+      ".debug_str": 1385730,
+      ".comment": 162,
+      ".debug_frame": 293192,
+      ".debug_line": 623364,
+      ".debug_ranges": 163080,
+      ".debug_loc": 11375,
+      ".symtab": 53616,
+      ".shstrtab": 212,
+      ".strtab": 344181
+    },
+    "allocated_section_bytes": 1880767,
+    "static_address_span_bytes": 1891772,
+    "initialized_allocated_bytes": 742659,
+    "selected_symbols": {
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main10FILESYSTEM": {
+        "address": 2757252,
+        "bytes": 6940
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main11DESCRIPTORS": {
+        "address": 2764192,
+        "bytes": 2328
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main7BACKEND": {
+        "address": 2766568,
+        "bytes": 21300
+      },
+      "_RNvNtCsiGpFisFMzhI_6kernel6memory11FRAME_ALLOC": {
+        "address": 2794060,
+        "bytes": 32804
+      }
+    }
+  },
+  "current": {
+    "file_bytes": 5278548,
+    "sha256": "8a72342b4afc14e2d6f87c8758aea2869963c4dabea4e14dd22a5f3c149a7fec",
+    "section_bytes": {
+      "": 0,
+      ".multiboot": 12,
+      ".got": 80,
+      ".text": 566465,
+      ".rodata": 34449,
+      ".eh_frame_hdr": 28,
+      ".eh_frame": 68,
+      ".data": 88044,
+      ".got.plt": 12,
+      ".bss": 1138112,
+      ".debug_abbrev": 85532,
+      ".debug_info": 1421100,
+      ".debug_aranges": 71480,
+      ".debug_ranges": 165416,
+      ".debug_str": 1479115,
+      ".comment": 162,
+      ".debug_frame": 300428,
+      ".debug_line": 635774,
+      ".debug_loc": 12390,
+      ".symtab": 51840,
+      ".shstrtab": 212,
+      ".strtab": 351758
+    },
+    "allocated_section_bytes": 1827270,
+    "static_address_span_bytes": 1838528,
+    "initialized_allocated_bytes": 689158,
+    "selected_symbols": {
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main10FILESYSTEM": {
+        "address": 2708164,
+        "bytes": 6940
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main11DESCRIPTORS": {
+        "address": 2715104,
+        "bytes": 2328
+      },
+      "_RNvNvCsiGpFisFMzhI_6kernel11kernel_main7BACKEND": {
+        "address": 2717480,
+        "bytes": 21300
+      },
+      "_RNvNtCsiGpFisFMzhI_6kernel6memory11FRAME_ALLOC": {
+        "address": 2745324,
+        "bytes": 32996
+      }
+    }
+  },
+  "deltas": {
+    "file_bytes": 124956,
+    "allocated_section_bytes": -53497,
+    "static_address_span_bytes": -53244,
+    "initialized_allocated_bytes": -53501
+  },
+  "section_deltas": {
+    ".text": -44512,
+    ".rodata": -4673,
+    ".data": -4308,
+    ".bss": 4
+  },
+  "peak_stack_bytes": null,
+  "peak_heap_bytes": null,
+  "scope": "ELF resident sections and static address span are distinct from debug file bytes; no high-water claim."
+}

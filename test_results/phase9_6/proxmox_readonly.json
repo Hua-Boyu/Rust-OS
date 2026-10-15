@@ -1,0 +1,16 @@
+{
+  "operation": "read-only Proxmox MCP config and current status",
+  "node": "pve",
+  "vmid": 103,
+  "name": "rosti-dev",
+  "status": "running",
+  "qmpstatus": "running",
+  "memory_mib": 512,
+  "cpus": 1,
+  "bios": "seabios",
+  "ide2": "local:iso/rosti_phase7_20261012T181123Z.iso,media=cdrom,size=9204K",
+  "configuration_digest": "c0253f4f9bc55e6c3f222dcc893833cc46157a4b",
+  "data_disk_configured": false,
+  "remote_writes_performed": false,
+  "phase9_6_deployed": false
+}

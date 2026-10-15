@@ -1,0 +1,76 @@
+{
+  "passed": false,
+  "security_concerns": [
+    {
+      "id": "B18-R1",
+      "severity": "medium",
+      "location": "src/memory/paging.rs: PageMap::unmap / is_boot_critical; src/main.rs: prepare_boot_memory",
+      "finding": "Physical pinning does not enforce the documented permanent-mapping invariant. is_boot_critical protects only kernel and VGA addresses; BootInfo, mmap, module payloads/metadata, and the identity aliases of live paging structures can be unmapped. The copied inventory is not retained in PageMap. Unmapping a page-table identity alias makes later read_entry/write_entry accesses fault even though the underlying physical frame remains allocated.",
+      "scope": "Adjacent pre-existing API weakness, not an observed B18 boot exploit; no production unmap caller was found in src.",
+      "recommendation": "Retain page-rounded protected boot spans and reject unmapping them and live paging-structure aliases, or explicitly narrow the API contract and prohibit such callers. Test partial-page module and metadata pins at the paging layer, not only in FrameAllocator."
+    }
+  ],
+  "logic_errors": [
+    {
+      "id": "B18-R2",
+      "severity": "medium",
+      "location": "src/main.rs: kernel_main rejection branch, subsequent ATA probe and filesystem mount",
+      "finding": "The new rejection diagnostic promises RAM-only recovery, but rejection is only logged and execution joins the normal ATA probe, owned-disk mount, and disk-backed shell path. No recovery-mode flag gates those operations. Rejected inventory does correctly leave PAGE_MAP absent and frame allocation uninitialized, but does not select a RAMFS-only shell.",
+      "recommendation": "If RAM-only means RAMFS-only, carry rejection status through initialization and gate disk mount/use and shell disk operations. Otherwise change the diagnostic and stated acceptance contract to bootstrap-heap-only recovery, with normal storage still enabled."
+    },
+    {
+      "id": "B18-R3",
+      "severity": "low",
+      "location": "src/boot_inventory.rs:89-100 overlaps / ram",
+      "finding": "The overlap predicate assumes nonempty intervals, while checked_mmap permits zero-length entries. A zero-length nonusable entry at an interior address of an otherwise valid metadata span satisfies overlaps and incorrectly rejects that span. FrameAllocator explicitly ignores zero-length entries, so parser and allocator disagree. Example: usable RAM containing a module plus a type-2 record with length 0 strictly inside that module causes Address rejection.",
+      "recommendation": "Ignore zero-length records in ram's denial scan or make overlaps require both intervals to be nonempty; add a fixture with zero-length reserved records inside module, descriptor-table, and string spans."
+    }
+  ],
+  "suggestions": [
+    {
+      "priority": "acceptance_gate",
+      "finding": "Production GRUB boot is unverified. The root and mmap aperture [4096, 0xa0000), rejection of framebuffer bit 12, and rejection of metadata/module placements inside the growth window are explicit supported-subset restrictions, not general Multiboot guarantees. A recovery-shell boot must not be counted as successful normal B18 initialization.",
+      "recommendation": "Before acceptance, independently verify a real GRUB boot reaches successful inventory parsing, validated paging, and usable heap growth with the actual metadata addresses/flags recorded. No build, tests, or QEMU were run in this read-only review."
+    },
+    {
+      "priority": "trust_boundary",
+      "finding": "from_physical uses copy_nonoverlapping with no fault-recovering physical accessor. The initial root/map aperture proves only numeric location; readable backing and truthful RAM records remain loader/firmware assumptions. This limitation is now explicitly documented. Within that contract, I found no callback range escaping the checked spans, no malformed-tail acceptance in checked_mmap, and no arithmetic overflow path in its bounded wire parsing.",
+      "recommendation": "Keep the trust assumption explicit in acceptance evidence; host callback fixtures cannot establish physical-read safety against lying firmware. Do not describe this as isolation from a hostile loader/firmware."
+    },
+    {
+      "priority": "coverage",
+      "finding": "B18 fixtures exercise pinning through init_with_reservations, whereas production converts inventory reservations into synthetic type-2 mmap entries and calls memory::prepare. The representations are equivalent under the current denial passes, but the production transfer is not the path exercised by accepted_inventory_pins_every_partial_frame_after_source_dropped.",
+      "recommendation": "Add a test of the exact production reservation conversion and verify all touched frames remain unavailable, including metadata discovered after modules. Include allocation failure during parsing/transfer and recovery heap exhaustion without growth."
+    },
+    {
+      "priority": "legacy_api",
+      "finding": "Production B18 uses checked_mmap and rejects the whole malformed inventory. Legacy parse_mmap still returns a valid prefix on malformed tails; find_usable_block now checks full wire framing allocation-free but intentionally skips overflowing ranges rather than rejecting every overflowing record.",
+      "recommendation": "Make legacy helpers test-only/deprecated or document their weaker semantics so future boot callers cannot bypass the checked inventory. No current production caller of those legacy helpers was found."
+    },
+    {
+      "priority": "reviewed_invariants",
+      "finding": "Parser-owned vectors use fallible bounded reservation; module/string counts fit the fixed reservation capacity; byte-exact spans are converted to page-denials by frame initialization; module/kernel/growth and module/metadata overlaps are rejected; strings include the terminating byte. VBE control/mode spans and the segment:offset interface span are pinned, APM reserves 20 bytes, a.out sizes are summed and ELF table sizes multiplied in u64, framebuffer/config-table features fail closed. Current paging validation failure releases unpublished paging frames, build failure retains Vec destruction outside the frame guard, and failed growth mapping returns the frame to growth-only reservation. Rejected inventories cannot grow the heap because PAGE_MAP is absent.",
+      "recommendation": "These are static-review conclusions, not executed test results. Retain regressions for these invariants and verify the cited hashes before relying on this verdict."
+    }
+  ],
+  "summary": "Not accepted: static parser review found no direct out-of-bounds physical callback under the documented trusted-RAM contract, but recovery-mode semantics and empty-interval handling need resolution, adjacent permanent-mapping protection is incomplete, and production GRUB boot remains unverified. Only this review JSON was created; no source was modified and no build, tests, or QEMU were executed.",
+  "review_scope": {
+    "mode": "independent read-only static code and git diff review",
+    "base_commit": "17de9fd12d31e60f7f3dcaef726f4e579871d4dd",
+    "hash_algorithm": "SHA-256 over exact on-disk bytes",
+    "snapshot_note": "Other agents edited main/multiboot/paging during review; changed sources and diffs were re-read and hashes captured again before this report. Verdict applies only to the following source snapshot."
+  },
+  "source_hashes": {
+    "src/boot_inventory.rs": "7a1764187cdc11517bb5ff4fc0fb4ed76ff3d89b4e1097febc251168296f0767",
+    "src/main.rs": "37687883e37e0308e58170a797731703eb67e433c35ef21f7caec95ad5017472",
+    "src/multiboot.rs": "ba3081a25d597e15a92dfb05adf76d6749c87b9ad555e6e75fc2d8ce82d328ef",
+    "src/memory/frame.rs": "61918dfe17e017708d4c3bf58a9cd602645faa277ff74739c59ea56bb9ede2d7",
+    "src/memory/mod.rs": "13afa933643b1dfd6cb1761af4bd5f933cf6c9e0557ea3036a6b56042e3267ab",
+    "src/memory/paging.rs": "1ad01b0bfa98c09eccfd4def8f10c3415be342405da3825ec0d76fb9b6642154",
+    "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+    "src/boot.s": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+    "linker.ld": "3abdfc294b09724d60af7036ddd684799cbcd0bf85ef368972da736db5254735",
+    "tests_kernel/src/b18_inventory_tests.rs": "0f8b2bb5a01e92d0e4735f400506f08c4611b6baf1b73a3c56b74071332d2919",
+    "tests_kernel/src/b11_frame_tests.rs": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "status": "FAIL",
+  "scope": "source-level bounded model, not privileged execution",
+  "source_sha256": "84fca7f01e2307fa968ac0e37cd5662da2928e0b64521887ccac8cdfa6d39ca2",
+  "tests_run": 3,
+  "failures": [
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=0)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=1)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=2)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=3)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=4)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=5)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=6)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=7)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=8)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=9)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=10)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=11)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=12)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=13)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=14)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    },
+    {
+      "test": "test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) (incoming_esp_residue=15)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py\", line 52, in test_pre_call_stack_is_16_byte_aligned\n    self.assertEqual(regs[\"%esp\"] % 16, 0,\nAssertionError: 8 != 0 : i686 C ABI aligns ESP before CALL, not at callee entry\n"
+    }
+  ]
+}

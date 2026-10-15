@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "security_concerns": [],
+  "logic_errors": [],
+  "suggestions": [
+    {
+      "file": "scripts/b13_fixture/README.md",
+      "lines": "6-8",
+      "message": "The documented host-symbol test requires an existing fixture ELF but precedes the build command. Document this prerequisite or build the isolated fixture before running that test on a clean checkout."
+    }
+  ],
+  "summary": "PASS: no blocking safety or logic defects found in the scoped B11 allocator and B13 bootstrap/harness changes by independent static review.",
+  "review_type": "independent static precommit review",
+  "baseline": "17de9fd12d31e60f7f3dcaef726f4e579871d4dd",
+  "scope": [
+    "src/boot.s",
+    "src/memory/frame.rs",
+    "tests_kernel/src/b11_frame_tests.rs",
+    "tests_kernel/src/b11_standalone.rs",
+    "scripts/b13_entry_inject.py",
+    "scripts/b13_boot_fixture.py",
+    "scripts/b13_grub_smoke.py",
+    "scripts/test_b13_boot.py",
+    "scripts/test_b13_entry_inject.py",
+    "scripts/b13_fixture/main.rs",
+    "scripts/b13_fixture/Cargo.toml",
+    "scripts/b13_fixture/Cargo.lock",
+    "scripts/b13_fixture/linker.ld",
+    "scripts/b13_fixture/README.md"
+  ],
+  "source_hash_algorithm": "SHA-256 of exact working-tree bytes",
+  "source_hashes": {
+    "src/boot.s": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+    "src/memory/frame.rs": "61918dfe17e017708d4c3bf58a9cd602645faa277ff74739c59ea56bb9ede2d7",
+    "tests_kernel/src/b11_frame_tests.rs": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+    "tests_kernel/src/b11_standalone.rs": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+    "scripts/b13_entry_inject.py": "3c9854ce6c0d4c9bd36f3567a1a242be7fc99f1e51824bd5acacf5491f20ae47",
+    "scripts/b13_boot_fixture.py": "2fb56cb3281301e105b8033b4618c25d74cecc52e51d7854b4774f7bb8df1132",
+    "scripts/b13_grub_smoke.py": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+    "scripts/test_b13_boot.py": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+    "scripts/test_b13_entry_inject.py": "8a16f2dbb72d07ca306d37fc7be76aadff104896b1e89eda9ca6bef306b0def5",
+    "scripts/b13_fixture/main.rs": "5192e52597f622ef41f585761472ae4c3d82147645ea4b332ad3be00c17781bc",
+    "scripts/b13_fixture/Cargo.toml": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+    "scripts/b13_fixture/Cargo.lock": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+    "scripts/b13_fixture/linker.ld": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+    "scripts/b13_fixture/README.md": "93fc91732ee617f7fce6f92abb5a3e12c772acb40698a9b4b01333f856a1cb0c"
+  },
+  "tracked_diff_sha256": "5d2e1200c2e922078024f55e36c31b1688d415675ccba7e378eebc724ba96201",
+  "verification": {
+    "all_scoped_files_read": true,
+    "tracked_diff_reviewed": true,
+    "untracked_files_reviewed_as_full_additions": true,
+    "builds_run": false,
+    "qemu_run": false,
+    "tests_run": false,
+    "reported_prior_test_results": "User reports B11 host tests, B13 four-guest fixture matrix and two-guest GRUB matrix pass; not independently rerun or certified by this static review.",
+    "scope_limit": "No untrusted-userspace security claim; caller must end frame uses before release.",
+    "source_hashes_verified": true
+  }
+}

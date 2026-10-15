@@ -1,0 +1,59 @@
+{
+  "overall": "PASS",
+  "checks": [
+    {
+      "name": "source kernel ELF validated; no production build performed",
+      "pass": true
+    },
+    {
+      "name": "elf/128/invalidmagic",
+      "pass": true
+    },
+    {
+      "name": "elf/128/frameexhaustion",
+      "pass": true
+    },
+    {
+      "name": "complete requested matrix",
+      "pass": true
+    },
+    {
+      "name": "all guest checks pass",
+      "pass": true
+    },
+    {
+      "name": "production ELF unchanged",
+      "pass": true,
+      "sha256": "3bfa31bcfc8f7520e4741ca9a297fbf5b74ac4ff18623f07a87a7ddab8fe637c"
+    },
+    {
+      "name": "owned dist staging removed",
+      "pass": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "invalidmagic",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\rejected_recovery_green\\boot_metadata_8wu6js9m\\elf_128_invalidmagic\\report.json"
+    },
+    {
+      "name": "frameexhaustion",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\rejected_recovery_green\\boot_metadata_8wu6js9m\\elf_128_frameexhaustion\\report.json"
+    }
+  ],
+  "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\rejected_recovery_green\\boot_metadata_8wu6js9m",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "kernel_sha256": "3bfa31bcfc8f7520e4741ca9a297fbf5b74ac4ff18623f07a87a7ddab8fe637c",
+  "owned_stage": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\boot_metadata_c7qpp4wj",
+  "expected_scenarios": 2,
+  "elapsed_s": 20.297,
+  "scenario_count": 2,
+  "check_count": 7,
+  "pass_count": 7
+}

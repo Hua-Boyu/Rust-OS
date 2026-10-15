@@ -1,0 +1,81 @@
+{
+  "overall": "PASS",
+  "checks": [
+    {
+      "name": "source kernel ELF validated; no production build performed",
+      "pass": true
+    },
+    {
+      "name": "elf/128/validmodule",
+      "pass": true
+    },
+    {
+      "name": "elf/128/reservedgrowth",
+      "pass": true
+    },
+    {
+      "name": "elf/512/validmodule",
+      "pass": true
+    },
+    {
+      "name": "elf/512/reservedgrowth",
+      "pass": true
+    },
+    {
+      "name": "complete requested matrix",
+      "pass": true
+    },
+    {
+      "name": "all guest checks pass",
+      "pass": true
+    },
+    {
+      "name": "production ELF unchanged",
+      "pass": true,
+      "sha256": "35599545f2e04900111ebc594e1bf146a608f57f3be7d4b61ad9f6a9df8b16d9"
+    },
+    {
+      "name": "owned dist staging removed",
+      "pass": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "validmodule",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b11_continuation\\boot_metadata_cafsno87\\elf_128_validmodule\\report.json"
+    },
+    {
+      "name": "reservedgrowth",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b11_continuation\\boot_metadata_cafsno87\\elf_128_reservedgrowth\\report.json"
+    },
+    {
+      "name": "validmodule",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b11_continuation\\boot_metadata_cafsno87\\elf_512_validmodule\\report.json"
+    },
+    {
+      "name": "reservedgrowth",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b11_continuation\\boot_metadata_cafsno87\\elf_512_reservedgrowth\\report.json"
+    }
+  ],
+  "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b11_continuation\\boot_metadata_cafsno87",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "kernel_sha256": "35599545f2e04900111ebc594e1bf146a608f57f3be7d4b61ad9f6a9df8b16d9",
+  "owned_stage": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\boot_metadata_d7xej8lp",
+  "expected_scenarios": 4,
+  "elapsed_s": 39.671,
+  "scenario_count": 4,
+  "check_count": 9,
+  "pass_count": 9
+}

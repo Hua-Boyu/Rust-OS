@@ -1,0 +1,9 @@
+{
+  "status": "FAIL",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "iso": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\b13_grub_stage_14cd43935f.iso",
+  "canonical_iso_before": "5294625001799bfb5bdac7d6c01d95f7332b1e0255dc65927a1aff2c900e3331",
+  "kernel_sha256": "022d124ea241ef06a2a0022f20f861de82a2342db9e5b5b5d82f07c5343192cb",
+  "iso_sha256": "6a3333ab0f26d3b3eb61783106d01081e14b24ec922ad398fd474baded8fc2f8",
+  "error": "RuntimeError: Entry fixture failed: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase9_6\\b13_grub_01\\grub_entry_128\\report.json: AssertionError: Missing ordered markers/debug bytes or expected exit"
+}
