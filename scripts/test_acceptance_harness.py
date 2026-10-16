@@ -147,8 +147,21 @@ class SourceFreezeTests(unittest.TestCase):
                 self.last_commands.append(command)
                 # Simulate successful gates solely to reach the real final source-freeze check.
                 output = kwargs["stdout"]
-                safety_filter = next((c for c in command if c in ("b11_", "b18_inventory_tests::", "b26_")), None)
+                safety_filter = next((c for c in command if c in ("b11_", "b18_inventory_tests::", "b26_", "phase11_permission_tests::")), None)
                 if safety_filter:
+                    if safety_filter == "phase11_permission_tests::":
+                        names = (
+                            "phase11_permissions_intersect_both_paging_levels",
+                            "phase11_unowned_user_map_is_rejected_before_table_allocation",
+                            "phase11_nonpresent_map_is_rejected_without_side_effects",
+                            "phase11_identity_maps_remain_supervisor_at_128_and_512_mib",
+                            "phase11_rejected_requests_preserve_existing_table_and_mapping",
+                        )
+                        text = (safety_output or {}).get(safety_filter,
+                            "".join(f"test memory::paging::{safety_filter}{name} ... ok\n" for name in names)
+                            + "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 265 filtered out\n")
+                        output.write(text.encode())
+                        return type("Result", (), {"returncode": 0})()
                     text = (safety_output or {}).get(safety_filter,
                         f"test safety::{safety_filter}fixture ... ok\n"
                         "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out\n")
@@ -262,10 +275,27 @@ class SourceFreezeTests(unittest.TestCase):
                 attributes.write_text("system/** text\n")
                 self.assertNotEqual(before, acceptance.source_snapshot())
 
-    def test_current_milestone_is_phase10b(self):
+    def test_current_milestone_is_only_phase11_prerequisite(self):
         self.assertEqual(self.simulate(lambda root: None), 0)
-        self.assertEqual(self.last_report["phase"], "10B")
-        self.assertRegex(self.last_report["iso"]["name"], r"^rosti_phase10b_\d{8}T\d{6}Z\.iso$")
+        self.assertEqual(self.last_report["phase"], "11A-prerequisite")
+        self.assertEqual(self.last_report["phase11_release_ready"], False)
+        self.assertRegex(self.last_report["iso"]["name"], r"^rosti_phase11a_prerequisite_\d{8}T\d{6}Z\.iso$")
+
+    def test_phase11_permission_prerequisite_gate_is_mandatory(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        commands = [c for c in self.last_commands if "phase11_permission_tests::" in c]
+        self.assertEqual(len(commands), 1)
+        self.assertIn("--test-threads=1", commands[0])
+        self.assertEqual(self.last_report["counts"]["phase11_permissions"], {"pass": 5, "fail": 0})
+
+    def test_phase11_missing_or_wrong_permission_tests_cannot_publish(self):
+        for text in ("", "test result: ok. 0 passed; 0 failed; 0 ignored\n",
+                     "test memory::paging::phase11_permission_tests::unknown ... ok\n"
+                     "test result: ok. 1 passed; 0 failed; 0 ignored\n"):
+            with self.subTest(output=text):
+                self.assertEqual(self.simulate(lambda root: None,
+                    safety_output={"phase11_permission_tests::": text}), 1)
+                self.assertEqual(self.last_versioned_count, 0)
 
     def test_production_fixture_policy_gate_is_mandatory(self):
         self.assertEqual(self.simulate(lambda root: None), 0)
@@ -284,8 +314,8 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(Path(guest[guest.index("--output-dir") + 1]).name, "phase10")
         self.assertEqual(self.last_report["counts"]["phase10_scenarios"],
                          {"pass": 4 * len(acceptance.PHASE10_CASES), "fail": 0})
-        # Full predecessor matrix remains mandatory; Phase 10 adds six gates.
-        self.assertEqual(self.last_report["gates_total"], 53)
+        # Every predecessor gate remains mandatory; prerequisite adds one.
+        self.assertEqual(self.last_report["gates_total"], 54)
         for name in scripts:
             with self.subTest(failed=name):
                 self.assertEqual(self.simulate(lambda root: None, failed_script=name), 1)

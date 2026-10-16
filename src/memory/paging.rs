@@ -26,6 +26,10 @@ use crate::utils::bits::CanManipulateBits;
 extern crate alloc;
 use alloc::vec::Vec;
 
+#[cfg(test)]
+#[path = "phase11_permission_tests.rs"]
+mod phase11_permission_tests;
+
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
 pub const ENTRY_WRITABLE: u32 = 1 << 1;
@@ -127,10 +131,7 @@ impl PageMap {
     }
 
     pub fn is_mapped(&self, linear: u64) -> bool {
-        match self.entry(linear) {
-            Some(e) => e & ENTRY_PRESENT != 0,
-            None => false,
-        }
+        self.permissions(linear).is_some_and(|p| p.present)
     }
 
     /// Check a nonempty byte span against permanent boot pins and current
@@ -167,19 +168,25 @@ impl PageMap {
             return None;
         }
         let e = self.entry(linear)?;
-        if e & ENTRY_PRESENT == 0 {
+        if !self.permissions(linear)?.present {
             return None;
         }
         Some(e as u64 & 0xFFFFF000)
     }
 
-    /// Permission flags for a page-aligned virtual address.
+    /// Effective permissions for the page containing a virtual address.
+    /// The CPU intersects PRESENT, R/W and U/S at both levels. Absent pages
+    /// grant no access, even when stale flag bits remain in either entry.
+    /// This is not a user-buffer ownership check or an execute-disable claim.
     pub fn permissions(&self, linear: u64) -> Option<PagePerms> {
         let e = self.entry(linear)?;
+        let directory_entry = read_entry(self.directory, page_dir_index(linear));
+        let effective = e & directory_entry;
+        let present = effective & ENTRY_PRESENT != 0;
         Some(PagePerms {
-            present: e & ENTRY_PRESENT != 0,
-            writable: e & ENTRY_WRITABLE != 0,
-            user: e & ENTRY_USER != 0,
+            present,
+            writable: present && effective & ENTRY_WRITABLE != 0,
+            user: present && effective & ENTRY_USER != 0,
             // NX requires PAE/long mode; this kernel uses 32-bit paging, so
             // execution cannot be restricted per page. Reported honestly.
             nx_supported: false,
@@ -191,6 +198,10 @@ impl PageMap {
     /// window, conflicting present entries, and exhaustion (allocates a page
     /// table on demand only when one is missing). Invalidates the TLB entry
     /// on success.
+    /// User mappings are unsupported by this raw kernel mapping API: they
+    /// require a separately reviewed owned-address-space contract. Never
+    /// promote an identity-map PDE to USER to approximate that contract.
+    /// Nonpresent requests are rejected; use unmap to remove a mapping.
     pub fn map(
         &mut self,
         fa: &mut FrameAllocator,
@@ -198,6 +209,10 @@ impl PageMap {
         phys_frame: u64,
         perms: &PagePerms,
     ) -> bool {
+        if perms.user || !perms.present {
+            self.stats.map_rejects += 1;
+            return false;
+        }
         if linear % PAGE_SIZE as u64 != 0 || phys_frame % PAGE_SIZE as u64 != 0 {
             self.stats.map_rejects += 1;
             return false;
@@ -237,9 +252,6 @@ impl PageMap {
         let mut entry = phys_frame as u32 | ENTRY_PRESENT;
         if perms.writable {
             entry |= ENTRY_WRITABLE;
-        }
-        if perms.user {
-            entry |= ENTRY_USER;
         }
         write_entry(self.tables[dir], idx, entry);
         self.stats.mapped_frames += 1;

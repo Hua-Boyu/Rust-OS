@@ -2,7 +2,7 @@
 """Fail-closed local acceptance. Never deploys or changes authentication.
 
 Run from the canonical repository with the existing Rust/QEMU/WSL tools.
-Evidence lives beneath test_results/phase9_6; logs and counts are real subprocess
+Evidence lives beneath test_results/phase11; logs and counts are real subprocess
 results. Preserve the currently built ISO before packaging the replacement.
 """
 import argparse
@@ -176,10 +176,11 @@ def _run_acceptance():
     parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    parent = (args.output_dir or PROJECT / "test_results" / "phase10b").resolve()
+    parent = (args.output_dir or PROJECT / "test_results" / "phase11").resolve()
     parent.mkdir(parents=True, exist_ok=True)
     run = Path(tempfile.mkdtemp(prefix=f"acceptance_{stamp}_", dir=parent))
-    report = {"phase": "10B", "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
+    report = {"phase": "11A-prerequisite", "phase11_release_ready": False,
+              "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
     features_active = False
 
     def gate(name, command, timeout=180, cwd=PROJECT):
@@ -234,6 +235,26 @@ def _run_acceptance():
                     or any(filter_name not in name for name in observed)):
                 raise RuntimeError(f"{key.upper()} safety test totals missing, empty or inconsistent")
             report["counts"][key] = {"pass": len(observed), "fail": 0}
+        # This is only the first memory-permission prerequisite, NOT CPL3
+        # acceptance. Keep the exact test identities mandatory and fail closed.
+        text = gate("Phase 11A effective permission prerequisite",
+                    ["cargo", "+nightly", "test", "--manifest-path",
+                     str(PROJECT / "tests_kernel/Cargo.toml"), "--lib",
+                     "phase11_permission_tests::", "--", "--test-threads=1"], cwd=Path.home())
+        prefix = "memory::paging::phase11_permission_tests::"
+        required_permissions = {prefix + name for name in (
+            "phase11_permissions_intersect_both_paging_levels",
+            "phase11_unowned_user_map_is_rejected_before_table_allocation",
+            "phase11_nonpresent_map_is_rejected_without_side_effects",
+            "phase11_identity_maps_remain_supervisor_at_128_and_512_mib",
+            "phase11_rejected_requests_preserve_existing_table_and_mapping",
+        )}
+        observed = re.findall(r"^test (\S+) \.\.\. ok\s*$", text, re.M)
+        totals = re.findall(r"test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored", text)
+        if (totals != [("5", "0", "0")] or len(observed) != 5
+                or set(observed) != required_permissions):
+            raise RuntimeError("Phase 11 permission prerequisite tests missing or inconsistent")
+        report["counts"]["phase11_permissions"] = {"pass": len(observed), "fail": 0}
         manifest = str(PROJECT / "crates/rostifs/Cargo.toml")
         gate("RostiFS formatting", ["cargo", "+nightly", "fmt", "--manifest-path", manifest, "--check"])
         text = gate("RostiFS host and crash recovery tests", ["cargo", "+nightly", "test", "--manifest-path", manifest, "--", "--nocapture"], timeout=300, cwd=Path.home())
@@ -441,7 +462,7 @@ def _run_acceptance():
                 if not rows or any(r.get("pass") is not True for r in rows):
                     raise RuntimeError(f"failed or empty harness results: {key}")
                 report["counts"][key] = {"pass": sum(r["pass"] for r in rows), "fail": sum(not r["pass"] for r in rows)}
-        versioned = PROJECT / "dist" / f"rosti_phase10b_{stamp}.iso"
+        versioned = PROJECT / "dist" / f"rosti_phase11a_prerequisite_{stamp}.iso"
         if versioned.exists():
             raise RuntimeError("refusing to overwrite versioned ISO")
         shutil.copy2(current_iso, versioned)
