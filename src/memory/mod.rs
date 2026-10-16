@@ -18,6 +18,7 @@ pub use paging::{GROWTH_END, GROWTH_START};
 
 extern crate alloc;
 use alloc::vec::Vec;
+use core::sync::atomic::{AtomicBool, Ordering};
 
 use crate::multiboot::MmapEntry;
 use crate::utils::mutex::SpinMutex;
@@ -34,8 +35,11 @@ fn dbg(s: &str) {
 pub static FRAME_ALLOC: SpinMutex<frame::FrameAllocator> =
     SpinMutex::new(frame::FrameAllocator::new());
 
-static mut PAGE_MAP: Option<paging::PageMap> = None;
-static mut PAGING_ENABLED: bool = false;
+// Private owner: no reference or guard is exported. Queries return owned scalars.
+// Production critical sections never allocate/drop backing or invoke callbacks.
+// Lock order is heap -> PAGE_MAP -> FRAME_ALLOC; IRQs must not acquire either.
+static PAGE_MAP: SpinMutex<Option<paging::PageMap>> = SpinMutex::new(None);
+static PAGING_ENABLED: AtomicBool = AtomicBool::new(false);
 
 /// Highest address the identity map must cover: the end of the highest usable
 /// mmap range, OR the end of the kernel image if the kernel is loaded above
@@ -135,7 +139,7 @@ fn permanent_boot_pins(
 /// Returns Ok(window_end) or the first static failure diagnostic.
 /// Boot-only, serialized by the kernel's single-owner initialization path.
 /// Once a map is published, reject reinitialization before touching the frame
-/// allocator or replacing backing exposed through page_map_ref().
+/// allocator or replacing published backing.
 /// Table/pin backing reservations are fallible and happen outside the frame
 /// guard. Failure diagnostics never allocate, including reserve failures.
 pub fn prepare(
@@ -159,6 +163,12 @@ pub fn prepare(
         .map_err(|_| "page table backing allocation failed")?;
     tables.resize(paging::PAGE_DIR_ENTRIES, 0u64);
 
+    // Recheck under exclusive ownership after unlocked resource reservation.
+    // This also serializes concurrent preparation before allocator mutation.
+    let mut owner = PAGE_MAP.lock();
+    if owner.is_some() {
+        return Err("paging already prepared");
+    }
     let (window, built) = {
         let fa = &mut FRAME_ALLOC.lock();
         dbg("DBG: frame lock acquired\n");
@@ -177,64 +187,81 @@ pub fn prepare(
     // Validation streams required regions and reports only the first failure.
     let missing = paging::first_missing_mapping(&pm, required_region_iter(entries, bootinfo_addr));
     if missing.is_none() {
-        unsafe {
-            PAGE_MAP = Some(pm);
-        }
+        *owner = Some(pm);
         Ok(window)
     } else {
         {
             let fa = &mut FRAME_ALLOC.lock();
             pm.release_unpublished_frames(fa);
         } // unlock before PageMap's Vec backing or diagnostics are dropped
+        drop(owner);
         Err(missing.unwrap())
     }
 }
 
 /// Enable paging (CR3 + CR0.PG). Only called after validation and IDT load.
 pub fn enable_paging() {
-    unsafe {
-        if let Some(pm) = (&raw const PAGE_MAP).as_ref().and_then(|o| o.as_ref()) {
+    let owner = PAGE_MAP.lock();
+    if let Some(pm) = owner.as_ref() {
+        unsafe {
             paging::enable_paging(pm);
-            PAGING_ENABLED = true;
         }
+        PAGING_ENABLED.store(true, Ordering::Release);
     }
 }
 
 pub fn paging_enabled() -> bool {
-    unsafe { PAGING_ENABLED }
+    PAGING_ENABLED.load(Ordering::Acquire)
 }
 
 pub fn page_directory() -> Option<u64> {
-    unsafe {
-        (&raw const PAGE_MAP)
-            .as_ref()
-            .and_then(|o| o.as_ref())
-            .map(|pm| pm.directory())
-    }
+    PAGE_MAP.lock().as_ref().map(|pm| pm.directory())
 }
 
-/// Shared access to the built page map (host tests + shell diagnostics).
-pub fn page_map_ref() -> Option<&'static paging::PageMap> {
-    unsafe { (&raw const PAGE_MAP).as_ref()?.as_ref() }
+/// Owned diagnostic value, safe to retain across allocation and mapping growth.
+/// This is an observation, not a lifetime pin or physical-frame authority.
+#[derive(Debug, Clone, Copy)]
+pub struct PageSnapshot {
+    pub physical_frame: Option<u64>,
+    pub permissions: Option<paging::PagePerms>,
+    pub mapped_pages: usize,
+}
+
+pub fn page_snapshot(linear: u64) -> Option<PageSnapshot> {
+    let owner = PAGE_MAP.lock();
+    let pm = owner.as_ref()?;
+    Some(PageSnapshot {
+        physical_frame: pm.translate(linear),
+        permissions: pm.permissions(linear),
+        mapped_pages: pm.stats().mapped_frames,
+    })
+}
+
+pub(crate) fn pinned_identity_span(start: u64, end: u64) -> bool {
+    PAGE_MAP
+        .lock()
+        .as_ref()
+        .is_some_and(|pm| pm.pinned_identity_span(start, end))
 }
 
 /// Present-entry count for the shell's `mem` command (copied, no lock held
 /// while printing).
 pub fn mapped_pages() -> usize {
-    match page_map_ref() {
+    match PAGE_MAP.lock().as_ref() {
         Some(pm) => pm.stats().mapped_frames,
         None => 0,
     }
 }
 
 /// Map one heap growth page: claim the identity frame at the growth slot and
-/// map it. Called from the heap growth path (heap lock held, then frame lock
+/// map it. Called from the heap growth path (heap -> map -> frame lock
 /// — the frame allocator never re-enters the heap, so the lock order is
 /// safe). Growth pages are identity-mapped (virtual == physical), which keeps
 /// heap free-list pointers valid and page-table entry writes safe.
 pub fn heap_grow_frame(slot: usize) -> Option<u64> {
+    let mut owner = PAGE_MAP.lock();
+    let pm = owner.as_mut()?;
     let fa = &mut FRAME_ALLOC.lock();
-    let pm = unsafe { (&raw mut PAGE_MAP).as_mut()?.as_mut()? };
     let frame = fa.claim_growth_frame(slot as u64)?;
     if pm.map(fa, slot as u64, frame, &paging::KERNEL_PERMS) {
         Some(frame)

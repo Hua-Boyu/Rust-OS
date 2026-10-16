@@ -53,7 +53,7 @@ pub(crate) unsafe fn copy_module(start: u64, end: u64) -> Result<Vec<u8>, CopyEr
         start,
         end,
         super::paging_enabled(),
-        |a, b| super::page_map_ref().is_some_and(|pm| pm.pinned_identity_span(a, b)),
+        super::pinned_identity_span,
         |addr, out| unsafe {
             core::ptr::copy_nonoverlapping(addr as *const u8, out.as_mut_ptr(), out.len());
         },

@@ -58,7 +58,7 @@ fn review_r1_production_prepare_pins_one_byte_module_and_metadata_partial_tails(
     ];
     assert!(prepare(&entries, 0x250fff, 0x300000, 0x310000).is_ok());
     drop(entries); // PageMap must own its pins, not borrow the boot inventory
-    let mut pm = unsafe { (&raw mut PAGE_MAP).as_mut().unwrap().take().unwrap() };
+    let mut pm = PAGE_MAP.lock().take().unwrap();
     for page in [0x210000, 0x230000, 0x231000, 0x250000, 0x251000] {
         assert_eq!(pm.translate(page), Some(page));
         assert!(!pm.unmap(page), "permanent boot pin {page:#x} was unmapped");

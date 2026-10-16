@@ -20,7 +20,7 @@ fn refused_prepare(fail_at: usize) {
             "page table backing allocation failed"
         })
     );
-    assert!(memory::page_map_ref().is_none());
+    assert!(memory::page_directory().is_none());
     assert!(!memory::FRAME_ALLOC.is_locked());
     let after = *memory::FRAME_ALLOC.lock().stats();
     assert_eq!(after.allocated_frames, before.allocated_frames);

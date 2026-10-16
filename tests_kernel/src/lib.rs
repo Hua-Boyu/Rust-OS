@@ -866,13 +866,20 @@ fn heap_growth_maps_one_page_on_demand() {
     let entries = [mmap_entry(0x10000, 0x800000, 1)];
     assert!(memory::prepare(&entries, 0x20000, 0x30000, 0x40000).is_ok());
     let slot = memory::paging::GROWTH_START;
-    let pm = memory::page_map_ref().expect("page map");
+    let before = memory::page_snapshot(slot as u64).expect("page map");
     // Growth window pages are unmapped until growth maps them.
-    assert!(!pm.is_mapped(slot as u64));
+    assert_eq!(before.physical_frame, None);
     let frame = memory::heap_grow_frame(slot).expect("growth frame");
     assert_eq!(frame, slot as u64); // identity: virtual == physical
-    assert!(pm.is_mapped(slot as u64));
-    assert_eq!(pm.translate(slot as u64), Some(frame));
+    let after = memory::page_snapshot(slot as u64).expect("page map");
+    assert_eq!(after.physical_frame, Some(frame));
+    assert_eq!(
+        before.physical_frame, None,
+        "snapshot must be an owned value"
+    );
+    assert_eq!(after.mapped_pages, before.mapped_pages + 1);
+    let perms = after.permissions.unwrap();
+    assert!(perms.present && perms.writable && !perms.user);
     // Claiming the same frame twice is rejected.
     assert!(
         memory::FRAME_ALLOC
@@ -882,7 +889,12 @@ fn heap_growth_maps_one_page_on_demand() {
     );
     // Second growth page maps independently.
     let f2 = memory::heap_grow_frame(slot + 4096).expect("growth frame 2");
-    assert_eq!(pm.translate((slot + 4096) as u64), Some(f2));
+    assert_eq!(
+        memory::page_snapshot((slot + 4096) as u64)
+            .unwrap()
+            .physical_frame,
+        Some(f2)
+    );
 }
 
 #[test]

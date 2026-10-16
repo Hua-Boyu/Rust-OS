@@ -11,7 +11,7 @@ fn b26_r3_prepare_validation_needs_only_two_fallible_backing_allocations() {
     REFUSE_AT.with(|at| at.set(0));
     let allocations = UNLOCKED_ATTEMPTS.with(|count| count.get());
     assert_eq!(result, Err("VGA framebuffer"));
-    assert!(memory::page_map_ref().is_none());
+    assert!(memory::page_directory().is_none());
     let stats = *memory::FRAME_ALLOC.lock().stats();
     assert_eq!(stats.allocated_frames, 0);
     assert_eq!(stats.free_frames, 2);

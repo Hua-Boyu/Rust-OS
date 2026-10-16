@@ -189,19 +189,17 @@ fn exercise(
     ));
     fixture.verify(3)?;
 
-    // Inspect the real page map, then release the shared view before any
-    // subsequent allocation can mutate it via the heap growth path.
+    // Only owned scalar snapshots escape paging ownership.
     let growth = crate::allocator::heap_stats().growth_pages;
-    let mapped = {
-        let pm = crate::memory::page_map_ref().ok_or(FsError::InvalidPath)?;
-        (0..growth).all(|i| {
-            let page = (crate::memory::GROWTH_START + i * 4096) as u64;
-            pm.translate(page) == Some(page)
-                && pm
-                    .permissions(page)
+    let mapped = (0..growth).all(|i| {
+        let page = (crate::memory::GROWTH_START + i * 4096) as u64;
+        crate::memory::page_snapshot(page).is_some_and(|snapshot| {
+            snapshot.physical_frame == Some(page)
+                && snapshot
+                    .permissions
                     .is_some_and(|p| p.present && p.writable && !p.user)
         })
-    };
+    });
     if !mapped {
         return Err(FsError::InvalidPath);
     }

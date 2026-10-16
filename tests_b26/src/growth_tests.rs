@@ -32,7 +32,7 @@ fn b26_growth_failure_does_not_consume_reserved_frame() {
         .lock()
         .init(&entries, 0x200000, 0x300000, 0x310000);
     // This isolated binary has not installed a PAGE_MAP.
-    assert!(memory::page_map_ref().is_none());
+    assert!(memory::page_directory().is_none());
     let before = *memory::FRAME_ALLOC.lock().stats();
     assert_eq!(memory::heap_grow_frame(g), None);
     let after = *memory::FRAME_ALLOC.lock().stats();
@@ -74,7 +74,7 @@ fn b26_growth_failure_does_not_consume_reserved_frame() {
         assert_eq!(after.double_frees, before.double_frees);
         assert!(!memory::FRAME_ALLOC.lock().is_free(g as u64));
         assert_eq!(
-            memory::page_map_ref().unwrap().translate(g as u64),
+            memory::page_snapshot(g as u64).unwrap().physical_frame,
             Some(g as u64)
         );
     }

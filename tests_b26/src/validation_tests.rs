@@ -13,7 +13,7 @@ fn b26_validation_failure_returns_directory_and_table_frames_without_locked_drop
     BACKING_ONLY.store(false, Ordering::Relaxed);
     let missing = result.unwrap_err();
     assert_eq!(missing, "VGA framebuffer");
-    assert!(memory::page_map_ref().is_none());
+    assert!(memory::page_directory().is_none());
     assert!(!memory::FRAME_ALLOC.is_locked());
     let stats = *memory::FRAME_ALLOC.lock().stats();
     assert_eq!(
