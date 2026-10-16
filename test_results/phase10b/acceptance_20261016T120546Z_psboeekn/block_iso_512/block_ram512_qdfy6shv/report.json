@@ -1,0 +1,427 @@
+{
+  "overall": "PASS",
+  "ram_mib": 512,
+  "iso": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+  "disk_dir": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase8_block_o6j4ekrv",
+  "checks": [
+    {
+      "name": "full 512-byte markers persist after guest reboot",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: QMP greeting",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: QMP exact owned image attached",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after disk",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: ATA model identified",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: 32-bit IDENTIFY capacity",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: ownership is explicit",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskread 1",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskread 1: exact output 'block: sector 1 mismatch 510 bytes'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskwrite 0",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskwrite 0: exact output 'block: write refused: media not test-owned'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskread 65552",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskread 65552: exact output 'block: LBA out of range'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskwrite 65552",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskwrite 65552: exact output 'block: LBA out of range'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskread 268435456",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskread 268435456: exact output 'block: LBA out of range'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskwrite 4294967295",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskwrite 4294967295: exact output 'block: LBA out of range'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskwrite -1",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskwrite -1: exact output 'block: usage: diskwrite <sector>'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskwrite 1",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskwrite 1: exact output 'block: wrote sector 1'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskwrite 65551",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskwrite 65551: exact output 'block: wrote sector 65551'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskread 1",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskread 1: exact output 'block: sector 1 pattern match (512 bytes)'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after disk",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: ATA model identified",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: 32-bit IDENTIFY capacity",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: ownership is explicit",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskread 1",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskread 1: exact output 'block: sector 1 pattern match (512 bytes)'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: VGA prompt after diskread 65551",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: diskread 65551: exact output 'block: sector 65551 pattern match (512 bytes)'",
+      "pass": true
+    },
+    {
+      "name": "owned_reboot: owned QEMU process terminated",
+      "pass": true
+    },
+    {
+      "name": "ownership sector 0 preserved byte-for-byte",
+      "pass": true
+    },
+    {
+      "name": "host readback verifies both complete sectors",
+      "pass": true,
+      "marker_sha256": "755929613d018a9cb308fd873b7b5b53078961f9be477d3650fa0710b350ad80"
+    },
+    {
+      "name": "full 512-byte markers persist after QEMU process restart",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: QMP greeting",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: QMP exact owned image attached",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: VGA prompt after disk",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: ATA model identified",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: 32-bit IDENTIFY capacity",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: ownership is explicit",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: VGA prompt after diskread 1",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: diskread 1: exact output 'block: sector 1 pattern match (512 bytes)'",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: VGA prompt after diskread 65551",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: diskread 65551: exact output 'block: sector 65551 pattern match (512 bytes)'",
+      "pass": true
+    },
+    {
+      "name": "owned_restart: owned QEMU process terminated",
+      "pass": true
+    },
+    {
+      "name": "absent: QMP greeting",
+      "pass": true
+    },
+    {
+      "name": "absent: ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "absent: no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "absent: VGA prompt after disk",
+      "pass": true
+    },
+    {
+      "name": "absent: disk: exact output 'block: no device (IDENTIFY failed or 28-bit addressing unsupported)'",
+      "pass": true
+    },
+    {
+      "name": "absent: VGA prompt after diskread 1",
+      "pass": true
+    },
+    {
+      "name": "absent: diskread 1: exact output 'block: no device'",
+      "pass": true
+    },
+    {
+      "name": "absent: VGA prompt after diskwrite 1",
+      "pass": true
+    },
+    {
+      "name": "absent: diskwrite 1: exact output 'block: no device'",
+      "pass": true
+    },
+    {
+      "name": "absent: VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "name": "absent: mem absent before: paging and physical frame diagnostics",
+      "pass": true
+    },
+    {
+      "name": "absent: mem absent before: no faults or invalid deallocations",
+      "pass": true
+    },
+    {
+      "name": "absent: mem absent before: heap counters parsed",
+      "pass": true
+    },
+    {
+      "name": "absent: VGA prompt after disk",
+      "pass": true
+    },
+    {
+      "name": "absent: disk: exact output 'block: no device (IDENTIFY failed or 28-bit addressing unsupported)'",
+      "pass": true
+    },
+    {
+      "name": "absent: VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "name": "absent: mem absent after: paging and physical frame diagnostics",
+      "pass": true
+    },
+    {
+      "name": "absent: mem absent after: no faults or invalid deallocations",
+      "pass": true
+    },
+    {
+      "name": "absent: mem absent after: heap counters parsed",
+      "pass": true
+    },
+    {
+      "name": "absent: absent disk diagnostics allocate no retained heap",
+      "pass": true
+    },
+    {
+      "name": "absent: owned QEMU process terminated",
+      "pass": true
+    },
+    {
+      "name": "unowned: QMP greeting",
+      "pass": true
+    },
+    {
+      "name": "unowned: ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "unowned: no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "unowned: QMP exact owned image attached",
+      "pass": true
+    },
+    {
+      "name": "unowned: VGA prompt after disk",
+      "pass": true
+    },
+    {
+      "name": "unowned: ATA model identified",
+      "pass": true
+    },
+    {
+      "name": "unowned: 32-bit IDENTIFY capacity",
+      "pass": true
+    },
+    {
+      "name": "unowned: ownership is explicit",
+      "pass": true
+    },
+    {
+      "name": "unowned: VGA prompt after diskwrite 1",
+      "pass": true
+    },
+    {
+      "name": "unowned: diskwrite 1: exact output 'block: write refused: media not test-owned'",
+      "pass": true
+    },
+    {
+      "name": "unowned: VGA prompt after diskwrite 0",
+      "pass": true
+    },
+    {
+      "name": "unowned: diskwrite 0: exact output 'block: write refused: media not test-owned'",
+      "pass": true
+    },
+    {
+      "name": "unowned: VGA prompt after diskwrite 65552",
+      "pass": true
+    },
+    {
+      "name": "unowned: diskwrite 65552: exact output 'block: LBA out of range'",
+      "pass": true
+    },
+    {
+      "name": "unowned: VGA prompt after diskread 1",
+      "pass": true
+    },
+    {
+      "name": "unowned: diskread 1: exact output 'block: sector 1 mismatch 510 bytes'",
+      "pass": true
+    },
+    {
+      "name": "unowned: VGA prompt after disk",
+      "pass": true
+    },
+    {
+      "name": "unowned: no successful writes to unowned image",
+      "pass": true
+    },
+    {
+      "name": "unowned: owned QEMU process terminated",
+      "pass": true
+    },
+    {
+      "name": "entire unowned image unchanged",
+      "pass": true,
+      "sha256": "914581202a0c931348b4232922e677f4c25ec305bc46d85075bf94d30f462f1c"
+    },
+    {
+      "name": "all checks pass",
+      "pass": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "owned_reboot",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\block_iso_512\\block_ram512_qdfy6shv\\owned_reboot\\report.json",
+      "overall": "PASS"
+    },
+    {
+      "name": "owned_restart",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\block_iso_512\\block_ram512_qdfy6shv\\owned_restart\\report.json",
+      "overall": "PASS"
+    },
+    {
+      "name": "absent",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\block_iso_512\\block_ram512_qdfy6shv\\absent\\report.json",
+      "overall": "PASS"
+    },
+    {
+      "name": "unowned",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\block_iso_512\\block_ram512_qdfy6shv\\unowned\\report.json",
+      "overall": "PASS"
+    }
+  ],
+  "elapsed_s": 33.437,
+  "check_count": 98,
+  "pass_count": 98
+}

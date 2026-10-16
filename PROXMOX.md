@@ -1,5 +1,15 @@
 # PROXMOX DEPLOYMENT
 
+## Phase 10B local closeout — no deployment
+
+Fresh read-only structured GETs of pve VM 103 show running, 512 MiB/one vCPU,
+SeaBIOS/pc, no data disk, ide2 `local:iso/rosti_phase9_6_20261015T070148Z.iso`.
+Config digest `b62712746799847955d93b221d62413affd59415`. Evidence:
+`test_results/phase10b/final_proxmox_readonly.json`. No upload, reset, ISO switch,
+VM mutation or storage change was performed. This observed Phase 9.6 state
+supersedes historical Phase 7 references below; remote media bytes were not
+rehashed. Phase 10B local acceptance is PASS 53/53; see HANDOVER.md.
+
 ## Phase 9.6 — read-only inventory, no deployment
 
 Fresh read-only configuration/status GETs confirmed VM 103 `rosti-dev` running

@@ -1,0 +1,28 @@
+{
+  "scope": "Read-only pve_get_qemu_config and pve_get_qemu_status of pve VM 103 during Phase 10B closeout; no remote mutations performed",
+  "node": "pve",
+  "vmid": 103,
+  "config": {
+    "digest": "b62712746799847955d93b221d62413affd59415",
+    "name": "rosti-dev",
+    "machine": "pc",
+    "bios": "seabios",
+    "memory": "512",
+    "cores": 1,
+    "ide2": "local:iso/rosti_phase9_6_20261015T070148Z.iso,media=cdrom,size=10158K",
+    "boot": "order=ide2",
+    "serial0": "socket",
+    "onboot": 0
+  },
+  "status": {
+    "status": "running",
+    "qmpstatus": "running",
+    "maxmem": 536870912,
+    "cpus": 1,
+    "maxdisk": 0,
+    "running-machine": "pc-i440fx-11.0+pve0"
+  },
+  "data_disk_config_keys": [],
+  "phase10_deployed": false,
+  "note": "Actual current ISO is Phase 9.6, superseding stale historical Phase 7 statements in older handovers. No claim is made about who changed it earlier or remote ISO byte hashes."
+}

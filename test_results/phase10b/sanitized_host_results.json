@@ -1,0 +1,151 @@
+{
+  "overall": "PASS",
+  "scope": "Sanitized numeric extraction from exact retained host subprocess logs. Actual gate exit statuses are independently in the acceptance report. Excluding raw formatting does not remove any test or original local evidence.",
+  "excluded_raw_logs": [
+    {
+      "path": "test_results/phase10b/acceptance_20261016T120546Z_psboeekn/03_host_tests.log",
+      "raw_sha256": "1c751b8c8d91ff5ee6b61a893297531350b76adac741932fd5cfd7edc9e0bab1",
+      "bytes": 23887,
+      "exclusion_reason": "Unmodified raw subprocess log has blank-line-at-EOF whitespace rejected by git diff --cached --check; retained locally, never rewritten",
+      "rust_test_totals": [
+        {
+          "passed": 265,
+          "failed": 0,
+          "ignored": 2
+        }
+      ],
+      "crash_model_lines": []
+    },
+    {
+      "path": "test_results/phase10b/acceptance_20261016T120546Z_psboeekn/04_phase_9_6_b11_host_safety_regressions.log",
+      "raw_sha256": "8ebc51886e8e007f45e4f6161f8cb79485b3eeeade3b365f55401da08ddab7f7",
+      "bytes": 5640,
+      "exclusion_reason": "Unmodified raw subprocess log has blank-line-at-EOF whitespace rejected by git diff --cached --check; retained locally, never rewritten",
+      "rust_test_totals": [
+        {
+          "passed": 12,
+          "failed": 0,
+          "ignored": 0
+        }
+      ],
+      "crash_model_lines": []
+    },
+    {
+      "path": "test_results/phase10b/acceptance_20261016T120546Z_psboeekn/05_phase_9_6_b18_host_safety_regressions.log",
+      "raw_sha256": "862b5120f57fcad753a64e1063e426a0b4624f392eca1f803775c37ee5dde170",
+      "bytes": 8279,
+      "exclusion_reason": "Unmodified raw subprocess log has blank-line-at-EOF whitespace rejected by git diff --cached --check; retained locally, never rewritten",
+      "rust_test_totals": [
+        {
+          "passed": 46,
+          "failed": 0,
+          "ignored": 0
+        }
+      ],
+      "crash_model_lines": []
+    },
+    {
+      "path": "test_results/phase10b/acceptance_20261016T120546Z_psboeekn/06_phase_9_6_b26_host_safety_regressions.log",
+      "raw_sha256": "1988eb0ec482e9cd6ba9d6711294daf406967b051fe448aa84ca4b60b8180beb",
+      "bytes": 2225,
+      "exclusion_reason": "Unmodified raw subprocess log has blank-line-at-EOF whitespace rejected by git diff --cached --check; retained locally, never rewritten",
+      "rust_test_totals": [
+        {
+          "passed": 9,
+          "failed": 0,
+          "ignored": 0
+        }
+      ],
+      "crash_model_lines": []
+    },
+    {
+      "path": "test_results/phase10b/acceptance_20261016T120546Z_psboeekn/08_rostifs_host_and_crash_recovery_tests.log",
+      "raw_sha256": "2d98384f3f286dbe0436fa9e2717adbd188b33cf999164caf4493a6c2bd32302",
+      "bytes": 3080,
+      "exclusion_reason": "Unmodified raw subprocess log has blank-line-at-EOF whitespace rejected by git diff --cached --check; retained locally, never rewritten",
+      "rust_test_totals": [
+        {
+          "passed": 23,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        }
+      ],
+      "crash_model_lines": [
+        "reordered pending crash cases=2328",
+        "all root-sector byte-prefix tears=4104",
+        "rejected/torn/flush crash cases=2639"
+      ]
+    },
+    {
+      "path": "test_results/phase10b/acceptance_20261016T120546Z_psboeekn/09_rostifs_host_tool_safety_and_integration.log",
+      "raw_sha256": "0a31ad30cd4fafccff5480d23af471b254cfd43252edb683c41da2df0a085279",
+      "bytes": 624,
+      "exclusion_reason": "Unmodified raw subprocess log has blank-line-at-EOF whitespace rejected by git diff --cached --check; retained locally, never rewritten",
+      "rust_test_totals": [
+        {
+          "passed": 4,
+          "failed": 0,
+          "ignored": 0
+        }
+      ],
+      "crash_model_lines": []
+    },
+    {
+      "path": "test_results/phase10b/acceptance_20261016T120546Z_psboeekn/10_rostifs_read_boundary_and_transfer_regressions.log",
+      "raw_sha256": "cda41eadebfa413f04bf48024e1609baa1891e88396470330cb848f34b49aec7",
+      "bytes": 794,
+      "exclusion_reason": "Unmodified raw subprocess log has blank-line-at-EOF whitespace rejected by git diff --cached --check; retained locally, never rewritten",
+      "rust_test_totals": [
+        {
+          "passed": 4,
+          "failed": 0,
+          "ignored": 2
+        }
+      ],
+      "crash_model_lines": []
+    },
+    {
+      "path": "test_results/phase10b/acceptance_20261016T120546Z_psboeekn/11_rostifs_write_preservation_regressions.log",
+      "raw_sha256": "b2af9e09f40e9edaec744a586b24d73549bb27f6544fcec0c1878cfd4cb829bc",
+      "bytes": 595,
+      "exclusion_reason": "Unmodified raw subprocess log has blank-line-at-EOF whitespace rejected by git diff --cached --check; retained locally, never rewritten",
+      "rust_test_totals": [
+        {
+          "passed": 3,
+          "failed": 0,
+          "ignored": 1
+        }
+      ],
+      "crash_model_lines": []
+    },
+    {
+      "path": "test_results/phase10b/final_host_serial.log",
+      "raw_sha256": "cdedd43ec866054e13cd6cc12e6d1ebf5a1869cda17bc26ca01430a70a8c2554",
+      "bytes": 23887,
+      "exclusion_reason": "Unmodified raw subprocess log has blank-line-at-EOF whitespace rejected by git diff --cached --check; retained locally, never rewritten",
+      "rust_test_totals": [
+        {
+          "passed": 265,
+          "failed": 0,
+          "ignored": 2
+        }
+      ],
+      "crash_model_lines": []
+    }
+  ]
+}

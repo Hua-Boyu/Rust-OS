@@ -1,0 +1,203 @@
+{
+  "schema": "phase10b-independent-integration-review-v1",
+  "review_id": "integration_review_02",
+  "reviewer": "independent-read-only-subagent",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "timestamp_utc": "2026-10-15T22:01:24.720031+00:00",
+  "git_head": "3423ae23b1f0911646adac5e106eee0edeb779cd",
+  "source_sha256": {
+    "src/main.rs": "85e1a8f5dc239e0f824bdc985075c1330368f6f216abf31040007fd0eda4b353",
+    "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+    "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+    "src/fs/archive.rs": "4635f185397e06b6c0ed31fbe62c5e971fb435e248b22b01da2d6bd32345a0c3",
+    "src/fs/mounted.rs": "110e89115f96cc0b14b3319373753f42d92d00a3d5576520a358cebb6cefc5db",
+    "src/fd.rs": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+    "src/fs_commands.rs": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+    "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+    "src/memory/boot_copy.rs": "449e1b57ac710153dd93123b6f2cf2fac69acd32b98e18f9c4fd72c8d2cb098c",
+    "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+    "tests_kernel/src/archive_vfs_tests.rs": "955a131339dc307e9af969a69e65c8fd438d740cf9ded7ac882e75bb2c37628f",
+    "tests_kernel/src/mount_tests.rs": "17b4d5b6e8257019ce41128d96824ca5c69832ec58fa49306ae4065107f74bf8",
+    "scripts/verify_production.py": "c6e97f1edc7ca15175f1affba6c81425b6a7400a1e12c71d2ac70b6026e5f615",
+    "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+    "scripts/phase10_initramfs_test.py": "d6718b2b88eb524500d5c36ae17f562dc2b72a0d3155166cc3923888bdbeb408",
+    "scripts/test_phase10_initramfs_harness.py": "f388f4b8be3028397c979aefb2b233dc2c62714142a8c15add2485777e94871a",
+    "scripts/phase6_verify.py": "cc58e9a6ac794b7c0d18624139e4580e6bbf19934d7d0edc7ea2c7eb6823dd01",
+    "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+    "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+    "Cargo.lock": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+    "tests_kernel/Cargo.toml": "aff91dfee7f86282b3943ae4658886caf5b211c8f7c4f5b63f9cf9f8d4ccc7e7",
+    "tests_kernel/Cargo.lock": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+    "NEXT_SESSION_PROMPT.md": "d0c65e895d7ad2aaa7545c1baa09c87ccb1804f6068a31635754a67faedaae41"
+  },
+  "verdict": "CHANGES_REQUIRED_NOT_FULL_ACCEPTANCE",
+  "passed": false,
+  "scope": {
+    "primary": [
+      "src/main.rs",
+      "src/initramfs_trust.rs",
+      "src/fs/archive.rs",
+      "src/fs/mounted.rs"
+    ],
+    "method": "Static source/test inspection plus Python AST/text checks; no Cargo, build, QEMU, source edits, deployment or git mutations. Only this new JSON artifact is written.",
+    "limitations": [
+      "Not a full allocator, boot-memory or portable-core audit.",
+      "Parent-reported builds and 257 passed / 2 ignored are context only, not independently rerun or full acceptance.",
+      "Other agents edited/formatted files during review; hashes below identify the post-format snapshot, not an acceptance source freeze."
+    ]
+  },
+  "positive_observations": [
+    {
+      "area": "unsafe static ownership",
+      "evidence": "src/main.rs:224-240,269-283,325-343",
+      "result": "Const-initialized FILESYSTEM, DESCRIPTORS, SYSTEM and disk backend avoid large by-value metadata on boot stack. One boot/main-loop owner retains exclusive borrows; no extra SYSTEM raw borrow after mount observed. This relies on documented single-entry/single-CPU/no-ISR-access invariants."
+    },
+    {
+      "area": "trust and TOCTOU",
+      "evidence": "src/initramfs_trust.rs:19-30; src/main.rs:265-283; src/system_image.rs",
+      "result": "Bounded full-byte SHA-256 checks independent compiled digest before parse/publication. Immutable owned module copy remains alive across verify/build; ArchiveFs copies payload and retains no source slices."
+    },
+    {
+      "area": "allocation and Drop",
+      "evidence": "src/fs/archive.rs:114-182; src/memory/boot_copy.rs:29-39",
+      "result": "Fallible parser/node/payload reservations stage an owned replacement; early errors drop staged buffers and preserve previous generation. No frame/VGA guard spans these call sites. Successful replacement drops previous owned Vecs in main context, not under a frame guard. Two parser indexes coexist during build (verify index and reparse index), in addition to input copy and old/new snapshots; account all peak allocations."
+    },
+    {
+      "area": "namespace transaction",
+      "evidence": "src/fs/mounted.rs:109-176",
+      "result": "Bindings and every canonical prefixed path are staged before RAM mountpoint work. Production has no fallible operation after successful mountpoint resolution. File/nonempty-directory collisions reject without publication; failure fixture rolls back only a directory created by that transaction."
+    },
+    {
+      "area": "read-only routing and disk isolation",
+      "evidence": "src/fs/mounted.rs:52-73 and Vfs methods; src/fs/archive.rs:326-352; src/fd.rs:375-408,428-433",
+      "result": "Disjoint bounded RAM/disk/system slot ranges, generation validation and no system detach/rebuild capability are sound by inspection. All direct system mutators, including old RAM mountpoint write/replace/truncate routes, deny writes. Existing FdTable checks rights before backend writes and dup only attenuates. Disk initialization remains independently gated by accepted inventory and test-owned media."
+    }
+  ],
+  "findings": [
+    {
+      "id": "IR02-R2",
+      "severity": "medium",
+      "category": "allocation-drop-recovery",
+      "locations": [
+        "src/main.rs:271-295",
+        "src/fs/archive.rs:181",
+        "src/fs/mounted.rs:94-115,149-169"
+      ],
+      "title": "Built but unpublished static ArchiveFs payload is retained after mount refusal",
+      "detail": "try_build commits allocated nodes/payload into static SYSTEM before mount_system. A collision, prefixed-path error, RAM node exhaustion or fixture mount failure returns only FsError; the exclusive static borrow is consumed and the error arm merely logs. No Drop/reset of SYSTEM releases its owned buffers. Unlike accepted boot-module physical pins (explicitly permanent), this is an unreachable heap snapshot that remains allocated throughout recovery. With a larger reviewed system image or constrained heap this unnecessarily reduces recovery headroom. No dangling-reference/UB was identified; this is resource rollback, not a trust bypass.",
+      "requested_change": "Define failure ownership explicitly: return the unpublished archive borrow on attachment error, or use a boot-only staged attach API that lets caller reset/drop the unpublished snapshot safely without manufacturing a second alias. Test heap live allocations after successful build followed by each failed mount.",
+      "verification": "Static lifetime and destructor analysis; no allocator instrumentation run.",
+      "status": "open"
+    },
+    {
+      "id": "IR02-R3",
+      "severity": "high",
+      "category": "acceptance-oracle",
+      "locations": [
+        "scripts/phase10_initramfs_test.py:65-96,341-350,run_one",
+        "scripts/test_phase10_initramfs_harness.py:MarkerContract"
+      ],
+      "title": "Negative guest cases accept the wrong recovery class and never prove publication was absent",
+      "detail": "All non-trusted cases accept the same REJECTION_ALTS, including absent-module and rejected-boot-inventory markers. Thus mount-collision, mount-failure and allocation-refusal can pass after copy/digest/metadata rejection without ever reaching the targeted operation. recovery_shell only exercises unrelated RAMFS files; it does not assert /system absent, preserve the collision file, inspect publication state, or forbid a later trusted marker. Existing marker test intentionally supplies the absent marker for every negative case, encoding this false-positive oracle.",
+      "requested_change": "Specify exact per-case outcome/error groups and relevant storage-gate state; require publication-refused marker for fixture cases and prove targeted path reached, /system absent when owned by the transaction, preexisting collision identity/content unchanged, and no trusted publication marker. Add host tests rejecting an absent/wrong-class transcript for each targeted scenario.",
+      "status": "open"
+    },
+    {
+      "id": "IR02-R5",
+      "severity": "medium",
+      "category": "resource-diagnostics",
+      "locations": [
+        "src/fs/mounted.rs:610-619",
+        "src/fs/archive.rs:317-324",
+        "scripts/phase10_initramfs_test.py:memory_diagnostics"
+      ],
+      "title": "Mounted system allocations and routing metadata have no integrated accounting route",
+      "detail": "MountedFs::stats includes RAM and optional disk only, never system.stats or system_bindings. Keeping inherited RAMFS quota/baseline semantics separate is reasonable, but there is no separate system diagnostic exposed here either. The namespace can therefore own archive payload/node allocations while integrated FS diagnostics omit them, and final guest diagnostics parse only total/free frames, not heap live/peak or system capacities. This cannot substantiate exact resource accounting or partial-construction cleanup.",
+      "requested_change": "Keep RAMFS quota accounting separate; expose bounded system payload/node/routing/peak accounting explicitly and test it. Include input copy and two live parser indexes in peak boot-import bounds; do not count retained module frames as reclaimable.",
+      "status": "open"
+    }
+  ],
+  "missing_required_tests": [
+    {
+      "area": "coexisting mounts",
+      "requirement": "Host test both attachment orders with real portable RostiBackend plus ArchiveFs, cross-boundary traversal, distinct IDs, writable disk, immutable system and independently preserved failure states. Guest trusted-system plus valid owned RostiFS persistence at both boot paths/RAM sizes.",
+      "observed_gap": "Current system tests instantiate MountedFs<RamFs> without mounting a disk; existing portable-core tests do not attach a system archive. Guest matrix attaches only corrupt media for corrupt-rostifs; that case deliberately clears module presence, so even valid-system/corrupt-disk coexistence is untested."
+    },
+    {
+      "area": "system descriptors/capabilities",
+      "requirement": "Through MountedFs+ArchiveFs verify READ/STAT/SEEK, duplicated shared offsets, denied escalation, no-WRITE PermissionDenied, explicit-WRITE backend ReadOnly, unchanged offsets and live-record counts on refusal, forged generation/slot boundaries and continued system reads across disk unmount/remount.",
+      "observed_gap": "Existing system mutator tests call Vfs directly; descriptor coverage is RAMFS/disk-only. Guest read-only commands do not replace the missing capability-mask/dup assertions."
+    },
+    {
+      "area": "mount failure boundaries",
+      "requirement": "File collision with preserved content, nonempty directory collision, mountpoint node-quota failure, canonical /system-prefix boundary success/failure, second attachment Busy, all bindings unpublished on failure and existing cwd/open/duplicated descriptors preserved.",
+      "observed_gap": "System rollback test covers only injected post-point failure with empty preexisting directory or newly created directory; valid mounts cover basic reads/traversal. No full listed boundary matrix."
+    },
+    {
+      "area": "actual allocation failure and partial Drop",
+      "requirement": "Deterministic refusal at copy allocation, verification parser, reparse index, nodes and payload with exact live-allocation/Drop accounting; guest real bounded heap pressure with recovery operations, module pins and storage policy preserved.",
+      "observed_gap": "ArchiveFs refusal tests preserve visible old snapshot; they do not count actual staged buffer deallocation. Mode3 refuses nodes before try_reserve_exact and is not real heap exhaustion. Current guest resource-exhaustion case must not be credited as physical allocator exhaustion."
+    },
+    {
+      "area": "recovery and media policy",
+      "requirement": "Each distinct recovery class at ELF/GRUB 128/512 must prove target rejection, no partial /system publication, RAMFS create/read/delete, OOM handling, keyboard/VGA/continued dispatch, explicit persistent-storage policy, and hash each attached no-write owned image before/after each refusal path.",
+      "observed_gap": "Current matrix uses no disk for most refusal cases, hashes a single corrupt image only across the aggregate, performs no bounded OOM workload in recovery_shell, and reboots after a digest failure rather than a partial construction/publication failure. Retained real-GRUB trusted positive probes are valuable but not this complete acceptance matrix."
+    }
+  ],
+  "concurrent_changes_observed": [
+    "Owned Rust files were formatted during review; final hashes are post-format.",
+    "Harness mutation command syntax was corrected during review; the earlier guard.txt-extra-argument issue is not reported as current.",
+    "Publication rejection marker was added to REJECTION_ALTS and fixture feature added to default-resolution forbidden list during review. Those narrow omissions are closed; wrong-class oracle and actual-ELF exclusion gaps remain.",
+    "Before finalizing, owner added shared exact-ELF fixture-symbol policy and corrected directory slash oracle; IR02-R1 and IR02-R4 are closed rather than current blockers."
+  ],
+  "execution": {
+    "builds_run": false,
+    "qemu_run": false,
+    "tests_run": false,
+    "static_python_checks_run": true,
+    "source_files_modified": [],
+    "artifact_created": "test_results/phase10b/integration_review_02.json"
+  },
+  "finding_count": 3,
+  "missing_test_area_count": 5,
+  "closed_during_review": [
+    {
+      "id": "IR02-R1",
+      "severity": "high",
+      "category": "production-fixture-exclusion",
+      "locations": [
+        "scripts/verify_production.py:11-24",
+        "scripts/build-proxmox-iso.py:121-131",
+        "src/main.rs:33-39",
+        "Cargo.toml:[features]"
+      ],
+      "title": "Production checks do not attest absence of the initramfs fixture in the actual ELF being packaged",
+      "detail": "verify_production now lists initramfs-failure-test in forbidden metadata features, but cargo metadata with default arguments describes default resolution rather than features of an existing target/debug/kernel. Its binary check excludes only the paging-fault text. The ISO packager likewise rejects only paging-fault text. A previously built initramfs-failure-test ELF can therefore pass these binary/packaging checks, retaining externally writable INITRAMFS_TEST_MODE and refusal/collision routes. The acceptance runner default rebuild and fixture/production hash inequality help its normal path but do not establish fixture absence from an independently supplied/stale ELF.",
+      "requested_change": "Reject INITRAMFS_TEST_MODE (or a dedicated unambiguous fixture marker) in the actual ELF before production verification and packaging; retain a host-only mocked test that default cargo metadata plus a fixture ELF fails without launching QEMU/Cargo.",
+      "verification": "Static control-flow inspection; did not execute packager or Cargo.",
+      "status": "closed_by_concurrent_owner_change_static_inspection",
+      "resolution": "verify_production.artifact_policy_checks now rejects INITRAMFS_TEST_MODE in exact payload; ISO main invokes the shared check before packaging."
+    },
+    {
+      "id": "IR02-R4",
+      "severity": "medium",
+      "category": "guest-workload",
+      "locations": [
+        "scripts/phase10_initramfs_test.py:trusted_shell",
+        "src/fs_commands.rs:160-165",
+        "scripts/fs_test.py:188-190"
+      ],
+      "title": "Trusted ls oracle omits the directory slash emitted by the real shell",
+      "detail": "trusted_shell expects ls /system to equal README.txt followed by docs, both before and after write denials. fs_commands appends / to directory names, and exact compares output after trimming only newline characters. A correct mount emits docs/ and this trusted workload fails before completing its read-only checks.",
+      "requested_change": "Expect README.txt\\ndocs/ and retain a host-only contract using actual shell output conventions rather than a mocked-out trusted_shell.",
+      "status": "closed_by_concurrent_owner_change_static_inspection",
+      "resolution": "trusted_shell now expects docs/ in both ls assertions."
+    }
+  ],
+  "closed_finding_count": 2,
+  "artifact_policy_host_only_probe": {
+    "fixture_denied": true,
+    "paging_fixture_denied": true,
+    "ordinary_probe_allowed": true
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "overall": "PASS",
+  "acceptance": "test_results/phase10b/acceptance_20261016T120546Z_psboeekn/acceptance.json",
+  "gates_passed": 53,
+  "gates_total": 53,
+  "source_inputs_rediscovered": 134,
+  "source_freeze_verified": true,
+  "phase10_scenarios": 56,
+  "phase10_check_count": 3379,
+  "phase10_child_checks": 3320,
+  "boot_counts": {
+    "128": 10,
+    "512": 10
+  },
+  "nested_reports": 159,
+  "nested_standard_reports": 154,
+  "cleanup_assertions": 200,
+  "qemu_remaining": [],
+  "iso": {
+    "name": "rosti_phase10b_20261016T120546Z.iso",
+    "path": "dist\\rosti_phase10b_20261016T120546Z.iso",
+    "sha256": "117c7b2c0a1f21dc53442a7a1c558b45b8367cb163d405d4d6ef5956596993d8",
+    "bytes": 11096064,
+    "kernel_sha256": "f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f"
+  },
+  "independent_extracted_kernel_sha256": "f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f",
+  "independent_extracted_system_sha256": "8ff3bfdc925e1b0e60441b072f4c4c0c4f6b16f68dfce0c0ff50bb609d64a6a7",
+  "historical_phase9_6_iso_unchanged": true
+}

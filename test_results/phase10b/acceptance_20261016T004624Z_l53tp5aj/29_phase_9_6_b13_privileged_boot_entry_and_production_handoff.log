@@ -1,0 +1,6 @@
+{
+  "status": "FAIL",
+  "qemu_status": "NOT_RUN",
+  "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T004624Z_l53tp5aj\\b13_qemu\\report.json",
+  "error": "RuntimeError: Entry fixture failed: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T004624Z_l53tp5aj\\b13_qemu\\fixture_512\\report.json: AssertionError: Missing ordered markers/debug bytes or expected exit"
+}

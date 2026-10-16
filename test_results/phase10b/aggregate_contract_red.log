@@ -1,0 +1,21 @@
+FF
+======================================================================
+FAIL: test_ramfs_baseline_listing_requires_exact_103_checks (__main__.SourceFreezeTests.test_ramfs_baseline_listing_requires_exact_103_checks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\scripts\test_acceptance_harness.py", line 190, in test_ramfs_baseline_listing_requires_exact_103_checks
+    self.assertEqual(self.simulate(lambda root: None, fs_checks=103), 0)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_checkout_attributes_are_frozen (__main__.SourceFreezeTests.test_checkout_attributes_are_frozen)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\scripts\test_acceptance_harness.py", line 204, in test_checkout_attributes_are_frozen
+    self.assertIn(".gitattributes", before)
+AssertionError: '.gitattributes' not found in {}
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.773s
+
+FAILED (failures=2)

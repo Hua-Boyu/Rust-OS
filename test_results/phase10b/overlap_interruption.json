@@ -1,0 +1,176 @@
+{
+  "overall": "ABORTED_OVERLAP_PRESERVED",
+  "utc": "2026-10-16T12:02:37.385499+00:00",
+  "scope": "Only verified phase6_verify task runner roots and captured descendants; no Hermes gateway/desktop agent terminated",
+  "runs": [
+    {
+      "runner": "acceptance_20261016T115632Z_t2de_xv1",
+      "root_pid": 27756,
+      "processes": [
+        {
+          "pid": 35900,
+          "create_time": 1792152151.3393924,
+          "argv": [
+            "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+            "-cdrom",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\boot_metadata_1chudatg\\128_validmodule\\fixture.iso",
+            "-boot",
+            "d",
+            "-machine",
+            "pc",
+            "-m",
+            "128",
+            "-display",
+            "none",
+            "-nic",
+            "none",
+            "-no-reboot",
+            "-monitor",
+            "none",
+            "-serial",
+            "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T115632Z_t2de_xv1\\boot_metadata\\boot_metadata_id1zejqv\\iso_128_validmodule\\serial.txt",
+            "-qmp",
+            "tcp:127.0.0.1:32524,server=on,wait=off",
+            "-d",
+            "guest_errors",
+            "-D",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T115632Z_t2de_xv1\\boot_metadata\\boot_metadata_id1zejqv\\iso_128_validmodule\\qemu_log.txt"
+          ]
+        },
+        {
+          "pid": 45832,
+          "create_time": 1792151877.3306053,
+          "argv": [
+            "C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_metadata_test.py",
+            "--boot",
+            "both",
+            "--ram",
+            "128",
+            "512",
+            "--output-dir",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T115632Z_t2de_xv1\\boot_metadata"
+          ]
+        },
+        {
+          "pid": 14584,
+          "create_time": 1792151877.3131552,
+          "argv": [
+            "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_metadata_test.py",
+            "--boot",
+            "both",
+            "--ram",
+            "128",
+            "512",
+            "--output-dir",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T115632Z_t2de_xv1\\boot_metadata"
+          ]
+        },
+        {
+          "pid": 52664,
+          "create_time": 1792151792.0578291,
+          "argv": [
+            "C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
+            "-B",
+            "scripts/phase6_verify.py"
+          ]
+        },
+        {
+          "pid": 27756,
+          "create_time": 1792151792.0323389,
+          "argv": [
+            "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+            "-B",
+            "scripts/phase6_verify.py"
+          ]
+        }
+      ]
+    },
+    {
+      "runner": "acceptance_20261016T113923Z_a014ckrm",
+      "root_pid": 48472,
+      "processes": [
+        {
+          "pid": 53300,
+          "create_time": 1792152152.545555,
+          "argv": [
+            "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+            "-cdrom",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+            "-boot",
+            "d",
+            "-machine",
+            "pc",
+            "-m",
+            "128",
+            "-display",
+            "none",
+            "-serial",
+            "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T113923Z_a014ckrm\\rostifs_iso_128\\rostifs_ram128_1179mglv\\boot3_deleted\\serial.txt",
+            "-monitor",
+            "none",
+            "-qmp",
+            "tcp:127.0.0.1:10512,server=on,wait=off",
+            "-d",
+            "guest_errors",
+            "-D",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T113923Z_a014ckrm\\rostifs_iso_128\\rostifs_ram128_1179mglv\\boot3_deleted\\qemu_log.txt",
+            "-drive",
+            "file=C:/Users/iamsv/Documents/Rust-OS/dist/phase9_rostifs_84iy3eax/owned.img,format=raw,if=ide,index=0,cache=writeback"
+          ]
+        },
+        {
+          "pid": 30360,
+          "create_time": 1792152081.8874404,
+          "argv": [
+            "C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\rostifs_test.py",
+            "--iso",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+            "--ram",
+            "128",
+            "--output-dir",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T113923Z_a014ckrm\\rostifs_iso_128"
+          ]
+        },
+        {
+          "pid": 52460,
+          "create_time": 1792152081.86458,
+          "argv": [
+            "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\rostifs_test.py",
+            "--iso",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+            "--ram",
+            "128",
+            "--output-dir",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T113923Z_a014ckrm\\rostifs_iso_128"
+          ]
+        },
+        {
+          "pid": 51588,
+          "create_time": 1792150763.6140876,
+          "argv": [
+            "C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
+            "-B",
+            "-u",
+            "scripts/phase6_verify.py"
+          ]
+        },
+        {
+          "pid": 48472,
+          "create_time": 1792150763.5868905,
+          "argv": [
+            "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+            "-B",
+            "-u",
+            "scripts/phase6_verify.py"
+          ]
+        }
+      ]
+    }
+  ],
+  "all_captured_processes_exited": true,
+  "remaining_qemu": []
+}

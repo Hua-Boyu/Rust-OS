@@ -1,0 +1,14 @@
+{
+  "overall": "PASS",
+  "scope": "Read-only sampled local QEMU ancestry against captured exact exclusive acceptance interpreter PID/create_time; OS lock additionally prevents cooperating native duplicate runners",
+  "acceptance": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\acceptance.json",
+  "owner_pid": 40348,
+  "owner_create_time": 1792152346.4075153,
+  "started_utc": "2026-10-16T12:07:54.388478+00:00",
+  "samples": 1123,
+  "sample_interval_seconds": 2,
+  "maximum_observed_qemu_count": 1,
+  "unowned_qemu_observations": [],
+  "final_acceptance_status": "PASS",
+  "limitations": "Sampling cannot exclude arbitrarily short unrelated guests or manual builds/source edits; source freeze and OS-lock checks are separate."
+}

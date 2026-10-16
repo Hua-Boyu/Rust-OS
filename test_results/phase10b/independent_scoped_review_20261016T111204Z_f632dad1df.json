@@ -1,0 +1,116 @@
+{
+  "schema": "phase10b-independent-readonly-scoped-review-v1",
+  "reviewer": "independent-trust-mount-recovery-subagent",
+  "timestamp_utc": "2026-10-16T11:12:04.229227+00:00",
+  "repository": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "git_head": "3423ae23b1f0911646adac5e106eee0edeb779cd",
+  "verdict": "NO_BLOCKING_FINDINGS_IN_REVIEWED_SCOPE",
+  "passed": true,
+  "full_acceptance_verified": false,
+  "security_concerns": [],
+  "logic_errors": [],
+  "blocking_findings": [],
+  "source_sha256": {
+    "ARCHITECTURE.md": "adb210541b20edebf92d4cf8fcb80f970ad0974c393d6d0127e0e8534956cbe1",
+    "HANDOVER.md": "017dfaed9d873b90e2b8a4680b1be1b40b9e7c82a4ca85ce5a75b8bf9789d8a5",
+    "NEXT_SESSION_PROMPT.md": "e2bcb5b5bc963fc024fdcab960718b5d611b306f0bc9c422977c814a20b9be3e",
+    "TESTING.md": "360ed856d5c76d2b8de01fa8d99aba07c9e821e3b8473a22e08ddf10a8eeb681",
+    "docs/PHASE10_INITRAMFS.md": "7fad153c537d0018695d06961f4ca8cd4dfb35d36bc573a37b18ea04f5f95779",
+    "scripts/b13_entry_inject.py": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+    "scripts/boot_metadata_test.py": "d94f158a4a53d681ce0530d98fbcf31eab1dacdb8964308128a57f39f5216c9a",
+    "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+    "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+    "scripts/fs_test.py": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+    "scripts/phase10_initramfs_test.py": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+    "scripts/phase6_verify.py": "3b75e246ee368a9c10836f90500ad639caaec90ed94f1498969d6773dea43adb",
+    "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+    "scripts/test_phase10_initramfs_harness.py": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+    "src/boot_inventory.rs": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+    "src/fs/archive.rs": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+    "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+    "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+    "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+    "src/main.rs": "e23186b691a4e48bfc95d5f1748bd37a55503290e68afef1943dff8480737e4a",
+    "src/memory/boot_copy.rs": "449e1b57ac710153dd93123b6f2cf2fac69acd32b98e18f9c4fd72c8d2cb098c",
+    "src/memory/mod.rs": "499d30f5ce201325cc13464c09eb38ad4a7261025d1f0e6de3db896e5b94f6fe",
+    "src/memory/paging.rs": "c0eba5b1b6ece0031bf5ab3c0cdef0e542fe3070f3911856573fa91ecab8c806",
+    "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+    "system/README.txt": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+    "system/docs/recovery.txt": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+    "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e"
+  },
+  "hash_method": "SHA256 of exact raw file bytes captured at review completion; all captured files checked again before evidence write. Hash inclusion does not imply full-file audit for supporting files.",
+  "changed_since_prior_review": {
+    "scripts/b13_entry_inject.py": {
+      "previous": "dd36e239991bc8f68b1dd2d8f84f5cd6bd3534e95a32e51b91011bead3ba32ff",
+      "reviewed": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b"
+    },
+    "scripts/fs_test.py": {
+      "previous": "648117bf5f1f1cdf95365b531c37003d868133ac591bf5b217796e9bacdb210f",
+      "reviewed": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b"
+    },
+    "scripts/phase6_verify.py": {
+      "previous": "c2ce1657c8ba56f0533222c2f463de1367b41e85ad2d3bf28969993e3411cb8b",
+      "reviewed": "3b75e246ee368a9c10836f90500ad639caaec90ed94f1498969d6773dea43adb"
+    }
+  },
+  "scope": [
+    "Complete digest-before-parse trust helper and pinned expected digest",
+    "Owned archive snapshot construction, caller-index revalidation, transactional replacement, fallible reserve paths, read-only mutators and forged-handle bounds",
+    "Complete mounted system publication/preflight/cleanup, routing, canonical paths, retained mountpoint mutation denial and lifetime pinning",
+    "main boot selection, permanent-copy verification, independent RAMFS fallback, allocator pressure and failed-publication fixtures",
+    "Relevant module descriptor reserved-word handling, overlap/reservation retention, permanent boot pins and identity-copy borrow boundary",
+    "Deterministic image builder and build-time digest policy; production ISO module staging",
+    "New guest matrix injection/readback, exact ordered error-class oracle, reboot fixture, scoped cleanup/media hashing and parent matrix validation",
+    "Current documentation top sections and historical-warning distinction; supporting host trust regressions read, no test execution"
+  ],
+  "static_checks": [
+    {
+      "location": "src/initramfs_trust.rs:19-30; src/main.rs:301-361",
+      "result": "Bounded immutable copy is verified against kernel policy before archive construction/publication; every supplied byte is hashed."
+    },
+    {
+      "location": "src/fs/archive.rs:114-182",
+      "result": "Public indexes are reparsed and compared before any caller-controlled slicing; construction stages separately and commits only after success."
+    },
+    {
+      "location": "src/fs/mounted.rs:118-216,503-599",
+      "result": "Fallible preflight returns owned staged bindings; unpublished archive buffers are released on failure; namespace publication is infallible after staging; routed mutations deny system writes, including old mountpoint IDs."
+    },
+    {
+      "location": "src/boot_inventory.rs:288-324,390-400; src/memory/mod.rs:100-130; src/memory/paging.rs:139-152; src/memory/boot_copy.rs:21-60",
+      "result": "Reserved descriptor word is ignored without weakening meaningful bounds/overlap checks; accepted module ranges stay reserved, rounded and identity-checked; PageMap borrow ends before fallible copy allocation."
+    },
+    {
+      "location": "scripts/phase10_initramfs_test.py:116-156,264-368,464-590; scripts/boot_metadata_test.py:179-237; scripts/phase6_verify.py:86-135",
+      "result": "Injection preserves EAX and redirects/readbacks EBX; ordered exact outcome sequence rejects mismatched refusal classes; cleanup and unchanged full-media hash participate in PASS; parent validates explicit complete unique matrix and invocation-owned children."
+    },
+    {
+      "location": "scripts/b13_entry_inject.py:114-125; scripts/fs_test.py:313-366",
+      "result": "Current diff chunks GDB writes with per-chunk readback; RAMFS cleanup now compares against captured preexisting root listing, allowing legitimate /system without dropping cleanup equality."
+    }
+  ],
+  "nonblocking_observations": [
+    {
+      "id": "S1",
+      "location": "scripts/phase10_initramfs_test.py:399-418",
+      "detail": "Optional stronger guest oracle: reread both trusted files after all six rejected mutation commands. Current guest code rechecks listing but not final file contents; direct archive/routing code denies writes and supporting host tests cover unchanged contents, so no demonstrated implementation blocker."
+    },
+    {
+      "id": "S2",
+      "location": "scripts/phase10_initramfs_test.py:78-94,129-135",
+      "detail": "Malformed/truncated guest cases deliberately require DigestMismatch, not the structural-parser rejection branch. Correctly authenticated malformed inputs are covered by host trust tests, not by this production-pinned guest matrix. Keep those claims distinct."
+    }
+  ],
+  "limits": [
+    "Read-only static review only: no QEMU, builds, cargo tests, Python unittest suites, Git-index changes, commits or external side effects.",
+    "Full acceptance is owned by another agent and was not certified or evaluated by this review; this verdict is not release approval.",
+    "Supporting paging/inventory review is limited to module-copy provenance, pins, mapping and reserved-word integration, not a general unsafe/allocator/frame audit.",
+    "No measured runtime heap/stack high-water claim; emitted capacity bound excludes allocator overhead and stack headroom.",
+    "No hardware secure boot or hostile-firmware isolation is supplied; kernel/loader backing and single-owner ring-0 assumptions remain."
+  ],
+  "files_created": [
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\independent_scoped_review_20261016T111204Z_f632dad1df.json"
+  ],
+  "source_or_docs_modified": []
+}

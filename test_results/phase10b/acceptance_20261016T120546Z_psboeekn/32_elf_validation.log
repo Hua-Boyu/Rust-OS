@@ -1,0 +1,8 @@
+PASS: ELF32 little-endian
+PASS: ET_EXEC (got 2)
+PASS: EM_386 (got 3)
+PASS: multiboot magic 0x1BADB002 within first 8192 bytes, aligned, valid checksum (['0x1000'])
+PASS: has PT_LOAD program header(s) (1)
+PASS: PT_LOAD paddr >= 0x100000 (multiboot load address)
+PASS: entry 0x24d15c inside a PT_LOAD segment
+PASS: BSS section at 0x2cb000 size 1137676 covered by PT_LOAD memsz

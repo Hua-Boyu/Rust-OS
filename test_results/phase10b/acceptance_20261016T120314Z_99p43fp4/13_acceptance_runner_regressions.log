@@ -1,0 +1,25 @@
+.E.................................
+======================================================================
+ERROR: test_os_lock_releases_after_normal_and_forced_owner_exit (__main__.AcceptanceLockTests.test_os_lock_releases_after_normal_and_forced_owner_exit) (forced=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\scripts\phase6_verify.py", line 45, in acceptance_lock
+    msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+PermissionError: [Errno 13] Permission denied
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\scripts\test_acceptance_harness.py", line 61, in test_os_lock_releases_after_normal_and_forced_owner_exit
+    with acceptance.acceptance_lock(root):
+  File "C:\Users\iamsv\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\iamsv\Documents\Rust-OS\scripts\phase6_verify.py", line 50, in acceptance_lock
+    raise AcceptanceBusy(f"acceptance already running for {project}") from error
+acceptance.AcceptanceBusy: acceptance already running for C:\Users\iamsv\AppData\Local\Temp\tmph81a91my
+
+----------------------------------------------------------------------
+Ran 35 tests in 35.897s
+
+FAILED (errors=1)

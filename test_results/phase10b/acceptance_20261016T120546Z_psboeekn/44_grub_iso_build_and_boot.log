@@ -1,0 +1,49 @@
+ELF/multiboot validation: PASS (magic at ['0x1000'], entry 0x24d15c)
+xorriso 1.5.6 : RockRidge filesystem manipulator, libburnia project.
+
+Drive current: -outdev 'stdio:/mnt/c/Users/iamsv/Documents/Rust-OS/dist/rosti.iso'
+Media current: stdio file, overwriteable
+Media status : is blank
+Media summary: 0 sessions, 0 data blocks, 0 data,  728g free
+Added to ISO image: directory '/'='/tmp/grub.35dc42'
+xorriso : UPDATE :     295 files added in 1 seconds
+Added to ISO image: directory '/'='/mnt/c/Users/iamsv/Documents/Rust-OS/dist/stage'
+xorriso : UPDATE :     300 files added in 1 seconds
+xorriso : NOTE : Copying to System Area: 512 bytes from file '/usr/lib/grub/i386-pc/boot_hybrid.img'
+xorriso : UPDATE :  34.26% done
+ISO image produced: 5418 sectors
+Written to medium : 5418 sectors at LBA 0
+Writing to 'stdio:/mnt/c/Users/iamsv/Documents/Rust-OS/dist/rosti.iso' completed successfully.
+ISO built: C:\Users\iamsv\Documents\Rust-OS\dist\rosti.iso (11096064 bytes)
+ISO boot serial output:
+ROSTI: entered kernel_main
+DBG: alloc init
+DBG: mmap print
+DBG: mmap printed
+DBG: mmap parsed
+DBG: mem info set
+DBG: frame init start
+DBG: frame lock acquired
+DBG: init entered
+DBG: frame init passes done
+DBG: frame init done
+DBG: page tables built
+ROSTI: paging enabled (CR0.PG, identity map)
+ROSTI: block probe: no device
+ROSTI: image buffer bound input=262144 indexes=17152 snapshot=266932 total=546228 excludes_allocator_overhead
+ROSTI: image timing verify_ticks=2 hz=100
+ROSTI: image timing build_ticks=0 hz=100
+ROSTI: image timing mount_ticks=2 hz=100
+ROSTI: initramfs trusted; mounted at /system
+ROSTI: boot complete
+ROSTI OS
+32-bit Rust Experimental Kernel
+
+Memory initialization: OK
+GDT: OK
+IDT: OK
+PIC: OK
+Keyboard: Ready
+
+rosti>
+ISO boot test: PASS

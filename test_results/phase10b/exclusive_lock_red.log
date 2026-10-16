@@ -1,0 +1,21 @@
+FF
+======================================================================
+FAIL: test_contending_main_refuses_before_reports_or_builds (__main__.AcceptanceLockTests.test_contending_main_refuses_before_reports_or_builds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\scripts\test_acceptance_harness.py", line 29, in test_contending_main_refuses_before_reports_or_builds
+    self.assertTrue(hasattr(acceptance, "acceptance_lock"))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_os_lock_releases_after_normal_and_forced_owner_exit (__main__.AcceptanceLockTests.test_os_lock_releases_after_normal_and_forced_owner_exit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\scripts\test_acceptance_harness.py", line 42, in test_os_lock_releases_after_normal_and_forced_owner_exit
+    self.assertTrue(hasattr(acceptance, "acceptance_lock"))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=2)

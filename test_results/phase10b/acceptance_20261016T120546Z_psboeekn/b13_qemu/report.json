@@ -1,0 +1,316 @@
+{
+  "status": "PASS",
+  "qemu_status": "PASS",
+  "inspection": {
+    "status": "PASS",
+    "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\b13-boot-fixture",
+    "kernel_sha256": "52ae72ab420fa753fe693c107d0cb082bc0a51983c6aa85716b5e98ba8cb6978",
+    "assembly_path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\build\\b13-boot-fixture\\542259901f15da62\\out\\b13_boot_fixture.s",
+    "assembly_sha256": "81cdfbb5867c3f5bd7fa08a0a8ec9706ea4cef7adbaa3af667f19db6c9f55bf0",
+    "llvm_ir_path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\build\\b13-boot-fixture\\542259901f15da62\\out\\b13_boot_fixture.ll",
+    "start_assembly": "\n\t# multiboot specifies that we boot into 32-bit protected mode\n\t# Keep IRQs masked until Rust has installed the descriptor tables and PIC.\n\tcli\n\t# Multiboot leaves DF undefined; the i686 Rust/C ABI requires it clear.\n\tcld\n\n\t# setup the stack\n\tmovl\t$stack_top, %esp\n\n\t# Provide 16-byte pre-CALL alignment (target data-layout S128), even though\n\t# the current soft-float i686-none compiler may use only 4-byte alignment.\n\t# Reserve 8 bytes before the two 4-byte args; callee entry ESP is 12 mod 16.\n\tsubl\t$8, %esp\n\n\t# push multiboot info as args to kernel_main\n\t# reversed calling order: last argument first\n\tpushl\t%ebx\t# addr of multiboot info struct\n\tpushl\t%eax\t# multiboot magic number\n\n\t# enter the kernel\n\tcalll\tkernel_main\n\n\t# put the computer into a loop if kernel exits\n\tcli\n.Ltmp0:\n\thlt\n\tjmp\t.Ltmp0\n\n\t# set size of _start symbol to current location - starting location\n.Ltmp1:\n\t",
+    "start_machine_hex": "fafcbc0070200083ec085350e837000000faf4ebfd",
+    "stack_top": 2125824,
+    "stack_bytes": 16384,
+    "abi_probe_assembly": "\n.Lfunc_begin2:\n\t.loc\t1 101 0\n\t.cfi_startproc\n\tpushl\t%ebx\n\t.cfi_def_cfa_offset 8\n\tsubl\t$16, %esp\n\t.cfi_def_cfa_offset 24\n\t.cfi_offset %ebx, -8\n\tcalll\t.L2$pb\n\t.cfi_adjust_cfa_offset 4\n.L2$pb:\n\tpopl\t%ebx\n\t.cfi_adjust_cfa_offset -4\n.Ltmp10:\n\taddl\t$_GLOBAL_OFFSET_TABLE_+(.Ltmp10-.L2$pb), %ebx\n\tmovl\t28(%esp), %eax\n\tmovl\t24(%esp), %ecx\n.Ltmp11:\n\t.loc\t1 102 5 prologue_end\n\tmovl\t%ecx, (%esp)\n\tmovl\t%eax, 4(%esp)\n\tcalll\tb13_sink@PLT\n\tmovl\t%eax, 8(%esp)\n\tmovl\t$1, 12(%esp)\n.Ltmp12:\n\t.file\t4 \"C:\\\\Users\\\\iamsv\\\\.rustup\\\\toolchains\\\\nightly-x86_64-pc-windows-msvc\\\\lib\\\\rustlib\\\\src\\\\rust\\\\library\\\\core\" \"src\\\\num\\\\uint_macros.rs\"\n\t.loc\t4 2676 13\n\taddl\t$1, %eax\n.Ltmp13:\n\t.loc\t1 103 2 epilogue_begin\n\taddl\t$16, %esp\n\t.cfi_def_cfa_offset 8\n\tpopl\t%ebx\n\t.cfi_def_cfa_offset 4\n\tretl\n.Ltmp14:\n",
+    "abi_finding": "Current soft-float i686-unknown-none caller pushes EBX (4 bytes) and subtracts 16 before external CALL: only 4-byte stack alignment is enforced despite S128. Bootstrap now deliberately provides stronger 16-byte pre-CALL alignment; raw callee ESP=12 mod16.",
+    "pre_call_esp_mod16": 0,
+    "callee_esp_mod16": 12
+  },
+  "guests": [
+    {
+      "status": "PASS",
+      "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\b13-boot-fixture",
+      "entry": "b13_handoff",
+      "memory_mib": 128,
+      "cleanup": true,
+      "kernel_sha256": "52ae72ab420fa753fe693c107d0cb082bc0a51983c6aa85716b5e98ba8cb6978",
+      "command": [
+        "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+        "-kernel",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\b13-boot-fixture",
+        "-m",
+        "128",
+        "-display",
+        "none",
+        "-no-reboot",
+        "-monitor",
+        "none",
+        "-nic",
+        "none",
+        "-serial",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\fixture_128\\serial.txt",
+        "-debugcon",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\fixture_128\\debugcon.txt",
+        "-device",
+        "isa-debug-exit,iobase=0xf4,iosize=0x04",
+        "-d",
+        "int,guest_errors",
+        "-D",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\fixture_128\\qemu.log",
+        "-S",
+        "-gdb",
+        "tcp:127.0.0.1:25310"
+      ],
+      "before": {
+        "eax": 732803074,
+        "ecx": 2101269,
+        "edx": 66833,
+        "ebx": 38144,
+        "esp": 28432,
+        "ebp": 0,
+        "esi": 0,
+        "edi": 8192,
+        "eip": 2101269,
+        "eflags": 6
+      },
+      "after": {
+        "eax": 732803074,
+        "ecx": 2101269,
+        "edx": 66833,
+        "ebx": 38144,
+        "esp": 28432,
+        "ebp": 0,
+        "esi": 2835,
+        "edi": 8192,
+        "eip": 2101269,
+        "eflags": 6
+      },
+      "mutations": [
+        {
+          "address": 2105344,
+          "bytes": "00000000"
+        },
+        {
+          "registers": {
+            "esi": 2835
+          }
+        }
+      ],
+      "serial": "",
+      "debugcon": "PPPPPPPPPPPPPPPP",
+      "observed_exit": 33,
+      "final_exit": 33,
+      "elapsed_s": 0.389999999984866
+    },
+    {
+      "status": "PASS",
+      "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\b13-boot-fixture",
+      "entry": "b13_handoff",
+      "memory_mib": 512,
+      "cleanup": true,
+      "kernel_sha256": "52ae72ab420fa753fe693c107d0cb082bc0a51983c6aa85716b5e98ba8cb6978",
+      "command": [
+        "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+        "-kernel",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\b13-boot-fixture",
+        "-m",
+        "512",
+        "-display",
+        "none",
+        "-no-reboot",
+        "-monitor",
+        "none",
+        "-nic",
+        "none",
+        "-serial",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\fixture_512\\serial.txt",
+        "-debugcon",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\fixture_512\\debugcon.txt",
+        "-device",
+        "isa-debug-exit,iobase=0xf4,iosize=0x04",
+        "-d",
+        "int,guest_errors",
+        "-D",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\fixture_512\\qemu.log",
+        "-S",
+        "-gdb",
+        "tcp:127.0.0.1:25314"
+      ],
+      "before": {
+        "eax": 732803074,
+        "ecx": 2101269,
+        "edx": 460049,
+        "ebx": 38144,
+        "esp": 28432,
+        "ebp": 0,
+        "esi": 0,
+        "edi": 8192,
+        "eip": 2101269,
+        "eflags": 6
+      },
+      "after": {
+        "eax": 732803074,
+        "ecx": 2101269,
+        "edx": 460049,
+        "ebx": 38144,
+        "esp": 28432,
+        "ebp": 0,
+        "esi": 2835,
+        "edi": 8192,
+        "eip": 2101269,
+        "eflags": 6
+      },
+      "mutations": [
+        {
+          "address": 2105344,
+          "bytes": "00000000"
+        },
+        {
+          "registers": {
+            "esi": 2835
+          }
+        }
+      ],
+      "serial": "",
+      "debugcon": "PPPPPPPPPPPPPPPP",
+      "observed_exit": 33,
+      "final_exit": 33,
+      "elapsed_s": 0.375
+    },
+    {
+      "status": "PASS",
+      "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+      "entry": "_start",
+      "memory_mib": 128,
+      "cleanup": true,
+      "kernel_sha256": "f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f",
+      "command": [
+        "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+        "-kernel",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+        "-m",
+        "128",
+        "-display",
+        "none",
+        "-no-reboot",
+        "-monitor",
+        "none",
+        "-nic",
+        "none",
+        "-serial",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\production_128\\serial.txt",
+        "-debugcon",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\production_128\\debugcon.txt",
+        "-device",
+        "isa-debug-exit,iobase=0xf4,iosize=0x04",
+        "-d",
+        "int,guest_errors",
+        "-D",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\production_128\\qemu.log",
+        "-S",
+        "-gdb",
+        "tcp:127.0.0.1:25317"
+      ],
+      "before": {
+        "eax": 732803074,
+        "ecx": 2412892,
+        "edx": 66833,
+        "ebx": 38144,
+        "esp": 28432,
+        "ebp": 0,
+        "esi": 0,
+        "edi": 8192,
+        "eip": 2412892,
+        "eflags": 6
+      },
+      "after": {
+        "eax": 732803074,
+        "ecx": 2412892,
+        "edx": 66833,
+        "ebx": 38144,
+        "esp": 589827,
+        "ebp": 0,
+        "esi": 0,
+        "edi": 8192,
+        "eip": 2412892,
+        "eflags": 1030
+      },
+      "mutations": [
+        {
+          "registers": {
+            "esp": 589827,
+            "eflags": 1030
+          }
+        }
+      ],
+      "serial": "ROSTI: entered kernel_main\nDBG: alloc init\nDBG: mmap print\nDBG: mmap printed\nDBG: mmap parsed\nDBG: mem info set\nDBG: frame init start\nDBG: frame lock acquired\nDBG: init entered\nDBG: frame init passes done\nDBG: frame init done\nDBG: page tables built\nROSTI: paging enabled (CR0.PG, identity map)\nROSTI: block probe: no device\nROSTI: initramfs absent; RAMFS recovery\nROSTI: boot complete\nROSTI OS\n32-bit Rust Experimental Kernel\n\nMemory initialization: OK\nGDT: OK\nIDT: OK\nPIC: OK\nKeyboard: Ready\n\nrosti>",
+      "debugcon": "",
+      "observed_exit": null,
+      "final_exit": 1,
+      "elapsed_s": 0.5460000000020955
+    },
+    {
+      "status": "PASS",
+      "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+      "entry": "_start",
+      "memory_mib": 512,
+      "cleanup": true,
+      "kernel_sha256": "f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f",
+      "command": [
+        "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+        "-kernel",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+        "-m",
+        "512",
+        "-display",
+        "none",
+        "-no-reboot",
+        "-monitor",
+        "none",
+        "-nic",
+        "none",
+        "-serial",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\production_512\\serial.txt",
+        "-debugcon",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\production_512\\debugcon.txt",
+        "-device",
+        "isa-debug-exit,iobase=0xf4,iosize=0x04",
+        "-d",
+        "int,guest_errors",
+        "-D",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\production_512\\qemu.log",
+        "-S",
+        "-gdb",
+        "tcp:127.0.0.1:25320"
+      ],
+      "before": {
+        "eax": 732803074,
+        "ecx": 2412892,
+        "edx": 460049,
+        "ebx": 38144,
+        "esp": 28432,
+        "ebp": 0,
+        "esi": 0,
+        "edi": 8192,
+        "eip": 2412892,
+        "eflags": 6
+      },
+      "after": {
+        "eax": 732803074,
+        "ecx": 2412892,
+        "edx": 460049,
+        "ebx": 38144,
+        "esp": 589827,
+        "ebp": 0,
+        "esi": 0,
+        "edi": 8192,
+        "eip": 2412892,
+        "eflags": 1030
+      },
+      "mutations": [
+        {
+          "registers": {
+            "esp": 589827,
+            "eflags": 1030
+          }
+        }
+      ],
+      "serial": "ROSTI: entered kernel_main\nDBG: alloc init\nDBG: mmap print\nDBG: mmap printed\nDBG: mmap parsed\nDBG: mem info set\nDBG: frame init start\nDBG: frame lock acquired\nDBG: init entered\nDBG: frame init passes done\nDBG: frame init done\nDBG: page tables built\nROSTI: paging enabled (CR0.PG, identity map)\nROSTI: block probe: no device\nROSTI: initramfs absent; RAMFS recovery\nROSTI: boot complete\nROSTI OS\n32-bit Rust Experimental Kernel\n\nMemory initialization: OK\nGDT: OK\nIDT: OK\nPIC: OK\nKeyboard: Ready\n\nrosti>",
+      "debugcon": "",
+      "observed_exit": null,
+      "final_exit": 1,
+      "elapsed_s": 0.7190000000118744
+    }
+  ]
+}

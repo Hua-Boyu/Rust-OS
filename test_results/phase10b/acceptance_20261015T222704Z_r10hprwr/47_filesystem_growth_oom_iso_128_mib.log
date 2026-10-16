@@ -1,0 +1,2 @@
+FAIL: filesystem integration; 22 commands, 53 checks; evidence: C:\Users\iamsv\Documents\Rust-OS\test_results\phase10b\acceptance_20261015T222704Z_r10hprwr\fs_iso_128\20261016_064653_ram128_nde9ia1u
+AssertionError: ls: exact output ''

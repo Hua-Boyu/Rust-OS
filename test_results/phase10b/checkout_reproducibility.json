@@ -1,0 +1,17 @@
+{
+  "overall": "PASS",
+  "method": "Fresh git checkout-index of staged tree with explicit core.autocrlf=true, running checked-out trusted_archive policy/builder against fresh checked-out system files",
+  "system_files": {
+    "system/README.txt": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+    "system/docs/recovery.txt": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5"
+  },
+  "system_archive_sha256": "8ff3bfdc925e1b0e60441b072f4c4c0c4f6b16f68dfce0c0ff50bb609d64a6a7",
+  "archive_bytes": 1024,
+  "attributes": [
+    "system/README.txt: text: unset",
+    "system/docs/recovery.txt: text: unset"
+  ],
+  "rediscovered_source_inputs": 134,
+  "metadata_change": ".gitattributes: system/** -text; byte-preserving checkout policy only, no accepted system asset/archive/digest byte changes. The new .gitattributes file is now explicitly included by source_snapshot before the full rerun.",
+  "temporary_checkout_removed": true
+}

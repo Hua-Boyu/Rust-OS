@@ -1,0 +1,30 @@
+{
+  "previous_check_count": 102,
+  "new_check_count": 103,
+  "added_check_multiplicity": {
+    "VGA prompt after ls": 1
+  },
+  "removed_check_multiplicity": {},
+  "all_four_configurations": [
+    {
+      "configuration": "fs_elf_128",
+      "count": 103
+    },
+    {
+      "configuration": "fs_elf_512",
+      "count": 103
+    },
+    {
+      "configuration": "fs_iso_128",
+      "count": 103
+    },
+    {
+      "configuration": "fs_iso_512",
+      "count": 103
+    }
+  ],
+  "regression": "exact103 accepted;102 and104 rejected; versioned ISO absent on count refusal",
+  "red": "aggregate_contract_red.log",
+  "green": "aggregate_contract_green.log",
+  "harness_tests_passed": 33
+}

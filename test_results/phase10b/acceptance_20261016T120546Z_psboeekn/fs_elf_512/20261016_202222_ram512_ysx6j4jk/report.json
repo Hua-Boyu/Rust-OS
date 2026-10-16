@@ -1,0 +1,1756 @@
+{
+  "ram_mib": 512,
+  "stress": true,
+  "checks": [
+    {
+      "check": "QMP greeting",
+      "pass": true
+    },
+    {
+      "check": "ordered boot markers",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after pwd",
+      "pass": true
+    },
+    {
+      "check": "pwd: exact output '/'",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after ls",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "check": "mem before: paging and physical frame diagnostics",
+      "pass": true
+    },
+    {
+      "check": "mem before: no faults or invalid deallocations",
+      "pass": true
+    },
+    {
+      "check": "mem before: heap counters parsed",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after mkdir docs",
+      "pass": true
+    },
+    {
+      "check": "mkdir docs: successful dispatch",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after cd docs",
+      "pass": true
+    },
+    {
+      "check": "cd docs: successful dispatch",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after pwd",
+      "pass": true
+    },
+    {
+      "check": "pwd: exact output '/docs'",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after touch hello.txt",
+      "pass": true
+    },
+    {
+      "check": "touch hello.txt: successful dispatch",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after write hello.txt Hello from Rosti OS",
+      "pass": true
+    },
+    {
+      "check": "write hello.txt Hello from Rosti OS: successful dispatch",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after cat hello.txt",
+      "pass": true
+    },
+    {
+      "check": "cat hello.txt: exact output 'Hello from Rosti OS'",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after append hello.txt !",
+      "pass": true
+    },
+    {
+      "check": "append hello.txt !: successful dispatch",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after cat hello.txt",
+      "pass": true
+    },
+    {
+      "check": "cat hello.txt: exact output 'Hello from Rosti OS!'",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after ls",
+      "pass": true
+    },
+    {
+      "check": "ls: exact output 'hello.txt'",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after stat hello.txt",
+      "pass": true
+    },
+    {
+      "check": "stat file type and exact 20-byte size",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "check": "mem live_file: paging and physical frame diagnostics",
+      "pass": true
+    },
+    {
+      "check": "mem live_file: no faults or invalid deallocations",
+      "pass": true
+    },
+    {
+      "check": "mem live_file: heap counters parsed",
+      "pass": true
+    },
+    {
+      "check": "filesystem uses real heap storage",
+      "pass": true
+    },
+    {
+      "check": "mem exposes descriptor counters",
+      "pass": true
+    },
+    {
+      "check": "file commands dispatch through the descriptor layer, close cleanly, and leave only the reserved console descriptors open",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after fdlist",
+      "pass": true
+    },
+    {
+      "check": "fdlist shows reserved console descriptors",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after rmdir /docs",
+      "pass": true
+    },
+    {
+      "check": "rmdir refuses nonempty directory",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after cat hello.txt",
+      "pass": true
+    },
+    {
+      "check": "cat hello.txt: exact output 'Hello from Rosti OS!'",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after rm hello.txt",
+      "pass": true
+    },
+    {
+      "check": "rm hello.txt: successful dispatch",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after stat hello.txt",
+      "pass": true
+    },
+    {
+      "check": "stat removed file is missing",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after cd ..",
+      "pass": true
+    },
+    {
+      "check": "cd ..: successful dispatch",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after rmdir docs",
+      "pass": true
+    },
+    {
+      "check": "rmdir docs: successful dispatch",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after pwd",
+      "pass": true
+    },
+    {
+      "check": "pwd: exact output '/'",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after ls",
+      "pass": true
+    },
+    {
+      "check": "ls: exact output ''",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after write guard safe",
+      "pass": true
+    },
+    {
+      "check": "write guard safe: successful dispatch",
+      "pass": true
+    },
+    {
+      "check": "overlong input rejected rather than partially executed",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after cat guard",
+      "pass": true
+    },
+    {
+      "check": "cat guard: exact output 'safe'",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after rm guard",
+      "pass": true
+    },
+    {
+      "check": "rm guard: successful dispatch",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "check": "mem after_cleanup: paging and physical frame diagnostics",
+      "pass": true
+    },
+    {
+      "check": "mem after_cleanup: no faults or invalid deallocations",
+      "pass": true
+    },
+    {
+      "check": "mem after_cleanup: heap counters parsed",
+      "pass": true
+    },
+    {
+      "check": "filesystem cleanup releases heap storage",
+      "pass": true
+    },
+    {
+      "check": "bounded retained heap bytes",
+      "pass": true
+    },
+    {
+      "check": "normal workflow has no allocation failures",
+      "pass": true
+    },
+    {
+      "check": "heap growth counter monotonic",
+      "pass": true
+    },
+    {
+      "check": "stress baseline FS accounting available",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after fsstress",
+      "pass": true
+    },
+    {
+      "check": "fsstress exact PASS output once",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "check": "mem after_stress: paging and physical frame diagnostics",
+      "pass": true
+    },
+    {
+      "check": "mem after_stress: no faults or invalid deallocations",
+      "pass": true
+    },
+    {
+      "check": "mem after_stress: heap counters parsed",
+      "pass": true
+    },
+    {
+      "check": "stress exercises runtime heap growth",
+      "pass": true
+    },
+    {
+      "check": "stress exercises safe OOM",
+      "pass": true
+    },
+    {
+      "check": "stress releases bounded heap storage",
+      "pass": true
+    },
+    {
+      "check": "stress FS accounting restored",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after ls",
+      "pass": true
+    },
+    {
+      "check": "ls: exact output ''",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after help",
+      "pass": true
+    },
+    {
+      "check": "help regression includes shell and filesystem commands",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after version",
+      "pass": true
+    },
+    {
+      "check": "version regression",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after cpu",
+      "pass": true
+    },
+    {
+      "check": "CPU identification survives filesystem and OOM operations",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after uptime",
+      "pass": true
+    },
+    {
+      "check": "uptime positive ticks",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after echo fs-regression",
+      "pass": true
+    },
+    {
+      "check": "echo fs-regression: exact output 'fs-regression'",
+      "pass": true
+    },
+    {
+      "check": "backspace erases VGA cell",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after echo edited",
+      "pass": true
+    },
+    {
+      "check": "backspace dispatch exactly once",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after clear",
+      "pass": true
+    },
+    {
+      "check": "clear emits no command output",
+      "pass": true
+    },
+    {
+      "check": "clear blanks VGA and retains prompt",
+      "pass": true
+    },
+    {
+      "check": "VGA prompt after pwd",
+      "pass": true
+    },
+    {
+      "check": "pwd: exact output '/'",
+      "pass": true
+    },
+    {
+      "check": "owned guest alive after workflow",
+      "pass": true
+    },
+    {
+      "check": "no serial kernel fault",
+      "pass": true
+    },
+    {
+      "check": "no QEMU triple fault",
+      "pass": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "pwd",
+      "serial_fragment": "pwd\n/\nrosti>",
+      "output": "/\n",
+      "vga": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "----- multiboot mmap -----",
+        "num entries: 6",
+        "frame allocator: 65439 frames total, 2038 reserved, 63289 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "ls",
+      "serial_fragment": "ls\nrosti>",
+      "output": "\n",
+      "vga": [
+        "",
+        "",
+        "",
+        "",
+        "----- multiboot mmap -----",
+        "num entries: 6",
+        "frame allocator: 65439 frames total, 2038 reserved, 63289 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>ls",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 1 closes 1 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63289\nAllocated frames: 129\nReserved frames: 2038\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8416 bytes\nFree: 1040160 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 1 closes 1 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63289\nAllocated frames: 129\nReserved frames: 2038\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8416 bytes\nFree: 1040160 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 65439",
+        "Free frames: 63289",
+        "Allocated frames: 129",
+        "Reserved frames: 2038",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8416 bytes",
+        "Free: 1040160 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mkdir docs",
+      "serial_fragment": "mkdir docs\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "Allocated frames: 129",
+        "Reserved frames: 2038",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8416 bytes",
+        "Free: 1040160 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>mkdir docs",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cd docs",
+      "serial_fragment": "cd docs\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8416 bytes",
+        "Free: 1040160 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>mkdir docs",
+        "ok",
+        "rosti>cd docs",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "pwd",
+      "serial_fragment": "pwd\n/docs\nrosti>",
+      "output": "/docs\n",
+      "vga": [
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8416 bytes",
+        "Free: 1040160 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>mkdir docs",
+        "ok",
+        "rosti>cd docs",
+        "ok",
+        "rosti>pwd",
+        "/docs",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "touch hello.txt",
+      "serial_fragment": "touch hello.txt\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8416 bytes",
+        "Free: 1040160 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>mkdir docs",
+        "ok",
+        "rosti>cd docs",
+        "ok",
+        "rosti>pwd",
+        "/docs",
+        "rosti>touch hello.txt",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "write hello.txt Hello from Rosti OS",
+      "serial_fragment": "write hello.txt Hello from Rosti OS\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8416 bytes",
+        "Free: 1040160 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>mkdir docs",
+        "ok",
+        "rosti>cd docs",
+        "ok",
+        "rosti>pwd",
+        "/docs",
+        "rosti>touch hello.txt",
+        "ok",
+        "rosti>write hello.txt Hello from Rosti OS",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cat hello.txt",
+      "serial_fragment": "cat hello.txt\nHello from Rosti OS\nrosti>",
+      "output": "Hello from Rosti OS\n",
+      "vga": [
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8416 bytes",
+        "Free: 1040160 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>mkdir docs",
+        "ok",
+        "rosti>cd docs",
+        "ok",
+        "rosti>pwd",
+        "/docs",
+        "rosti>touch hello.txt",
+        "ok",
+        "rosti>write hello.txt Hello from Rosti OS",
+        "ok",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "append hello.txt !",
+      "serial_fragment": "append hello.txt !\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "Used: 8416 bytes",
+        "Free: 1040160 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>mkdir docs",
+        "ok",
+        "rosti>cd docs",
+        "ok",
+        "rosti>pwd",
+        "/docs",
+        "rosti>touch hello.txt",
+        "ok",
+        "rosti>write hello.txt Hello from Rosti OS",
+        "ok",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS",
+        "rosti>append hello.txt !",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cat hello.txt",
+      "serial_fragment": "cat hello.txt\nHello from Rosti OS!\nrosti>",
+      "output": "Hello from Rosti OS!\n",
+      "vga": [
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>mkdir docs",
+        "ok",
+        "rosti>cd docs",
+        "ok",
+        "rosti>pwd",
+        "/docs",
+        "rosti>touch hello.txt",
+        "ok",
+        "rosti>write hello.txt Hello from Rosti OS",
+        "ok",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS",
+        "rosti>append hello.txt !",
+        "ok",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "ls",
+      "serial_fragment": "ls\nhello.txt\nrosti>",
+      "output": "hello.txt\n",
+      "vga": [
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>mkdir docs",
+        "ok",
+        "rosti>cd docs",
+        "ok",
+        "rosti>pwd",
+        "/docs",
+        "rosti>touch hello.txt",
+        "ok",
+        "rosti>write hello.txt Hello from Rosti OS",
+        "ok",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS",
+        "rosti>append hello.txt !",
+        "ok",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>ls",
+        "hello.txt",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "stat hello.txt",
+      "serial_fragment": "stat hello.txt\ntype: file\nsize: 20 bytes\nrosti>",
+      "output": "type: file\nsize: 20 bytes\n",
+      "vga": [
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>mkdir docs",
+        "ok",
+        "rosti>cd docs",
+        "ok",
+        "rosti>pwd",
+        "/docs",
+        "rosti>touch hello.txt",
+        "ok",
+        "rosti>write hello.txt Hello from Rosti OS",
+        "ok",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS",
+        "rosti>append hello.txt !",
+        "ok",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>ls",
+        "hello.txt",
+        "rosti>stat hello.txt",
+        "type: file",
+        "size: 20 bytes",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 3\nFS storage: 20 bytes\nFS logical bytes: 20\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 7 closes 7 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63289\nAllocated frames: 129\nReserved frames: 2038\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8444 bytes\nFree: 1040132 bytes\nFailed allocations: 0\nLive allocations: 4\nInvalid deallocs: 0\nFree blocks: 4 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 3\nFS storage: 20 bytes\nFS logical bytes: 20\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 7 closes 7 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63289\nAllocated frames: 129\nReserved frames: 2038\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8444 bytes\nFree: 1040132 bytes\nFailed allocations: 0\nLive allocations: 4\nInvalid deallocs: 0\nFree blocks: 4 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 65439",
+        "Free frames: 63289",
+        "Allocated frames: 129",
+        "Reserved frames: 2038",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8444 bytes",
+        "Free: 1040132 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 4",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "fdlist",
+      "serial_fragment": "fdlist\nfd 0 console-in rights 0 offset 0 refs 0\nfd 1 console-out rights 0 offset 0 refs 0\nfd 2 console-out rights 0 offset 0 refs 0\nrosti>",
+      "output": "fd 0 console-in rights 0 offset 0 refs 0\nfd 1 console-out rights 0 offset 0 refs 0\nfd 2 console-out rights 0 offset 0 refs 0\n",
+      "vga": [
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8444 bytes",
+        "Free: 1040132 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 4",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "rmdir /docs",
+      "serial_fragment": "rmdir /docs\nfs: directory not empty\nrosti>",
+      "output": "fs: directory not empty\n",
+      "vga": [
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8444 bytes",
+        "Free: 1040132 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 4",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cat hello.txt",
+      "serial_fragment": "cat hello.txt\nHello from Rosti OS!\nrosti>",
+      "output": "Hello from Rosti OS!\n",
+      "vga": [
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8444 bytes",
+        "Free: 1040132 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 4",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "rm hello.txt",
+      "serial_fragment": "rm hello.txt\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8444 bytes",
+        "Free: 1040132 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 4",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>rm hello.txt",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "stat hello.txt",
+      "serial_fragment": "stat hello.txt\nfs: not found\nrosti>",
+      "output": "fs: not found\n",
+      "vga": [
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8444 bytes",
+        "Free: 1040132 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 4",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>rm hello.txt",
+        "ok",
+        "rosti>stat hello.txt",
+        "fs: not found",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cd ..",
+      "serial_fragment": "cd ..\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "Used: 8444 bytes",
+        "Free: 1040132 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 4",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>rm hello.txt",
+        "ok",
+        "rosti>stat hello.txt",
+        "fs: not found",
+        "rosti>cd ..",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "rmdir docs",
+      "serial_fragment": "rmdir docs\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "Failed allocations: 0",
+        "Live allocations: 4",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>rm hello.txt",
+        "ok",
+        "rosti>stat hello.txt",
+        "fs: not found",
+        "rosti>cd ..",
+        "ok",
+        "rosti>rmdir docs",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "pwd",
+      "serial_fragment": "pwd\n/\nrosti>",
+      "output": "/\n",
+      "vga": [
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>rm hello.txt",
+        "ok",
+        "rosti>stat hello.txt",
+        "fs: not found",
+        "rosti>cd ..",
+        "ok",
+        "rosti>rmdir docs",
+        "ok",
+        "rosti>pwd",
+        "/",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "ls",
+      "serial_fragment": "ls\nrosti>",
+      "output": "\n",
+      "vga": [
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>rm hello.txt",
+        "ok",
+        "rosti>stat hello.txt",
+        "fs: not found",
+        "rosti>cd ..",
+        "ok",
+        "rosti>rmdir docs",
+        "ok",
+        "rosti>pwd",
+        "/",
+        "rosti>ls",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "write guard safe",
+      "serial_fragment": "write guard safe\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>rm hello.txt",
+        "ok",
+        "rosti>stat hello.txt",
+        "fs: not found",
+        "rosti>cd ..",
+        "ok",
+        "rosti>rmdir docs",
+        "ok",
+        "rosti>pwd",
+        "/",
+        "rosti>ls",
+        "rosti>write guard safe",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "write guard xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "serial_fragment": "write guard xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nshell: line too long; command not executed\nrosti>",
+      "output": "shell: line too long; command not executed\n",
+      "vga": [
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>rm hello.txt",
+        "ok",
+        "rosti>stat hello.txt",
+        "fs: not found",
+        "rosti>cd ..",
+        "ok",
+        "rosti>rmdir docs",
+        "ok",
+        "rosti>pwd",
+        "/",
+        "rosti>ls",
+        "rosti>write guard safe",
+        "ok",
+        "rosti>write guard xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "shell: line too long; command not executed",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cat guard",
+      "serial_fragment": "cat guard\nsafe\nrosti>",
+      "output": "safe\n",
+      "vga": [
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>rm hello.txt",
+        "ok",
+        "rosti>stat hello.txt",
+        "fs: not found",
+        "rosti>cd ..",
+        "ok",
+        "rosti>rmdir docs",
+        "ok",
+        "rosti>pwd",
+        "/",
+        "rosti>ls",
+        "rosti>write guard safe",
+        "ok",
+        "rosti>write guard xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "shell: line too long; command not executed",
+        "rosti>cat guard",
+        "safe",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "rm guard",
+      "serial_fragment": "rm guard\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "rosti>rmdir /docs",
+        "fs: directory not empty",
+        "rosti>cat hello.txt",
+        "Hello from Rosti OS!",
+        "rosti>rm hello.txt",
+        "ok",
+        "rosti>stat hello.txt",
+        "fs: not found",
+        "rosti>cd ..",
+        "ok",
+        "rosti>rmdir docs",
+        "ok",
+        "rosti>pwd",
+        "/",
+        "rosti>ls",
+        "rosti>write guard safe",
+        "ok",
+        "rosti>write guard xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "shell: line too long; command not executed",
+        "rosti>cat guard",
+        "safe",
+        "rosti>rm guard",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 13 closes 13 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63289\nAllocated frames: 129\nReserved frames: 2038\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8416 bytes\nFree: 1040160 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 13 closes 13 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63289\nAllocated frames: 129\nReserved frames: 2038\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8416 bytes\nFree: 1040160 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 65439",
+        "Free frames: 63289",
+        "Allocated frames: 129",
+        "Reserved frames: 2038",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8416 bytes",
+        "Free: 1040160 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "fsstress",
+      "serial_fragment": "fsstress\nfsstress: 4194304 data bytes verified\nfsstress: quota and real heap OOM preserve metadata/data\nfsstress: 1536 growth pages present writable supervisor identity-mapped\nfsstress: heap used 8416 -> 8416, growth 0 -> 1536, failed 0 -> 4\nfsstress: mapped pages 129503 -> 131039, FS storage 0 -> 0, nodes 1 -> 1\nfsstress: PASS\nrosti>",
+      "output": "fsstress: 4194304 data bytes verified\nfsstress: quota and real heap OOM preserve metadata/data\nfsstress: 1536 growth pages present writable supervisor identity-mapped\nfsstress: heap used 8416 -> 8416, growth 0 -> 1536, failed 0 -> 4\nfsstress: mapped pages 129503 -> 131039, FS storage 0 -> 0, nodes 1 -> 1\nfsstress: PASS\n",
+      "vga": [
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8416 bytes",
+        "Free: 1040160 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>fsstress",
+        "fsstress: 4194304 data bytes verified",
+        "fsstress: quota and real heap OOM preserve metadata/data",
+        "fsstress: 1536 growth pages present writable supervisor identity-mapped",
+        "fsstress: heap used 8416 -> 8416, growth 0 -> 1536, failed 0 -> 4",
+        "fsstress: mapped pages 129503 -> 131039, FS storage 0 -> 0, nodes 1 -> 1",
+        "fsstress: PASS",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 13 closes 13 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63289\nAllocated frames: 1665\nReserved frames: 502\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 131039\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 7340032 bytes\nUsed: 8416 bytes\nFree: 7331616 bytes\nFailed allocations: 4\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 4 (largest 6291456 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 1536\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 1\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 13 closes 13 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63289\nAllocated frames: 1665\nReserved frames: 502\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 131039\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 7340032 bytes\nUsed: 8416 bytes\nFree: 7331616 bytes\nFailed allocations: 4\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 4 (largest 6291456 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 1536\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 65439",
+        "Free frames: 63289",
+        "Allocated frames: 1665",
+        "Reserved frames: 502",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 131039",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 7340032 bytes",
+        "Used: 8416 bytes",
+        "Free: 7331616 bytes",
+        "Failed allocations: 4",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 6291456 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 1536",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "ls",
+      "serial_fragment": "ls\nrosti>",
+      "output": "\n",
+      "vga": [
+        "Free frames: 63289",
+        "Allocated frames: 1665",
+        "Reserved frames: 502",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 131039",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 7340032 bytes",
+        "Used: 8416 bytes",
+        "Free: 7331616 bytes",
+        "Failed allocations: 4",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 6291456 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 1536",
+        "",
+        "Page faults: 0",
+        "rosti>ls",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "help",
+      "serial_fragment": "help\ncommands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch cat write append rm rmdir stat fsstress fdlist disk diskwrite diskread rostifs\nrosti>",
+      "output": "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch cat write append rm rmdir stat fsstress fdlist disk diskwrite diskread rostifs\n",
+      "vga": [
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 131039",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 7340032 bytes",
+        "Used: 8416 bytes",
+        "Free: 7331616 bytes",
+        "Failed allocations: 4",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 6291456 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 1536",
+        "",
+        "Page faults: 0",
+        "rosti>ls",
+        "rosti>help",
+        "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch ca",
+        "t write append rm rmdir stat fsstress fdlist disk diskwrite diskread rostifs",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "version",
+      "serial_fragment": "version\nRosti kernel v0.1.0 (i686, multiboot v1)\nrosti>",
+      "output": "Rosti kernel v0.1.0 (i686, multiboot v1)\n",
+      "vga": [
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 131039",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 7340032 bytes",
+        "Used: 8416 bytes",
+        "Free: 7331616 bytes",
+        "Failed allocations: 4",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 6291456 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 1536",
+        "",
+        "Page faults: 0",
+        "rosti>ls",
+        "rosti>help",
+        "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch ca",
+        "t write append rm rmdir stat fsstress fdlist disk diskwrite diskread rostifs",
+        "rosti>version",
+        "Rosti kernel v0.1.0 (i686, multiboot v1)",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cpu",
+      "serial_fragment": "cpu\nrosti>",
+      "output": "cpu: GenuineIntel\n",
+      "vga": [
+        "Page directory: 0x00001000",
+        "Mapped pages: 131039",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 7340032 bytes",
+        "Used: 8416 bytes",
+        "Free: 7331616 bytes",
+        "Failed allocations: 4",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 6291456 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 1536",
+        "",
+        "Page faults: 0",
+        "rosti>ls",
+        "rosti>help",
+        "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch ca",
+        "t write append rm rmdir stat fsstress fdlist disk diskwrite diskread rostifs",
+        "rosti>version",
+        "Rosti kernel v0.1.0 (i686, multiboot v1)",
+        "rosti>cpu",
+        "cpu: GenuineIntel",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "uptime",
+      "serial_fragment": "uptime\nticks: 4201, uptime: 42 s (PIT 100 Hz)\nrosti>",
+      "output": "ticks: 4201, uptime: 42 s (PIT 100 Hz)\n",
+      "vga": [
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 7340032 bytes",
+        "Used: 8416 bytes",
+        "Free: 7331616 bytes",
+        "Failed allocations: 4",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 6291456 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 1536",
+        "",
+        "Page faults: 0",
+        "rosti>ls",
+        "rosti>help",
+        "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch ca",
+        "t write append rm rmdir stat fsstress fdlist disk diskwrite diskread rostifs",
+        "rosti>version",
+        "Rosti kernel v0.1.0 (i686, multiboot v1)",
+        "rosti>cpu",
+        "cpu: GenuineIntel",
+        "rosti>uptime",
+        "ticks: 4201, uptime: 42 s (PIT 100 Hz)",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "echo fs-regression",
+      "serial_fragment": "echo fs-regression\nfs-regression\nrosti>",
+      "output": "fs-regression\n",
+      "vga": [
+        "Kernel heap:",
+        "Current capacity: 7340032 bytes",
+        "Used: 8416 bytes",
+        "Free: 7331616 bytes",
+        "Failed allocations: 4",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 6291456 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 1536",
+        "",
+        "Page faults: 0",
+        "rosti>ls",
+        "rosti>help",
+        "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch ca",
+        "t write append rm rmdir stat fsstress fdlist disk diskwrite diskread rostifs",
+        "rosti>version",
+        "Rosti kernel v0.1.0 (i686, multiboot v1)",
+        "rosti>cpu",
+        "cpu: GenuineIntel",
+        "rosti>uptime",
+        "ticks: 4201, uptime: 42 s (PIT 100 Hz)",
+        "rosti>echo fs-regression",
+        "fs-regression",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "echo edited",
+      "serial_fragment": "echo editedx\b \b\nedited\nrosti>",
+      "output": "edited\n",
+      "vga": [
+        "Used: 8416 bytes",
+        "Free: 7331616 bytes",
+        "Failed allocations: 4",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 6291456 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 1536",
+        "",
+        "Page faults: 0",
+        "rosti>ls",
+        "rosti>help",
+        "commands: help clear version mem cpu uptime echo reboot pwd ls cd mkdir touch ca",
+        "t write append rm rmdir stat fsstress fdlist disk diskwrite diskread rostifs",
+        "rosti>version",
+        "Rosti kernel v0.1.0 (i686, multiboot v1)",
+        "rosti>cpu",
+        "cpu: GenuineIntel",
+        "rosti>uptime",
+        "ticks: 4201, uptime: 42 s (PIT 100 Hz)",
+        "rosti>echo fs-regression",
+        "fs-regression",
+        "rosti>echo edited",
+        "edited",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "clear",
+      "serial_fragment": "clear\nrosti>",
+      "output": "",
+      "vga": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "pwd",
+      "serial_fragment": "pwd\n/\nrosti>",
+      "output": "/\n",
+      "vga": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>"
+      ]
+    }
+  ],
+  "memory": {
+    "before": {
+      "used": 8416,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 3,
+      "fs_storage": 0,
+      "fs_entries": 1,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 1,
+      "fd_closes": 1,
+      "fd_denials": 0,
+      "fd_stale": 0
+    },
+    "live_file": {
+      "used": 8444,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 4,
+      "fs_storage": 20,
+      "fs_entries": 3,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 7,
+      "fd_closes": 7,
+      "fd_denials": 0,
+      "fd_stale": 0
+    },
+    "after_cleanup": {
+      "used": 8416,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 3,
+      "fs_storage": 0,
+      "fs_entries": 1,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 13,
+      "fd_closes": 13,
+      "fd_denials": 0,
+      "fd_stale": 0
+    },
+    "after_stress": {
+      "used": 8416,
+      "capacity": 7340032,
+      "growth_pages": 1536,
+      "failed_allocations": 4,
+      "live_allocations": 3,
+      "fs_storage": 0,
+      "fs_entries": 1,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 13,
+      "fd_closes": 13,
+      "fd_denials": 0,
+      "fd_stale": 0
+    }
+  },
+  "overall": "PASS",
+  "argv": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+    "-display",
+    "none",
+    "-no-reboot",
+    "-m",
+    "512",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\fs_elf_512\\20261016_202222_ram512_ysx6j4jk\\serial.txt",
+    "-monitor",
+    "none",
+    "-qmp",
+    "tcp:127.0.0.1:15520,server=on,wait=off",
+    "-d",
+    "int,guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\fs_elf_512\\20261016_202222_ram512_ysx6j4jk\\qemu_log.txt"
+  ],
+  "qemu_pid": 49404,
+  "owned_qemu_exited": true,
+  "elapsed_s": 45.906,
+  "command_count": 39,
+  "check_count": 103
+}

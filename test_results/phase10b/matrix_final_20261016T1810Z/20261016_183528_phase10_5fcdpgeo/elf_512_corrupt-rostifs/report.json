@@ -1,0 +1,1166 @@
+{
+  "ram_mib": 512,
+  "stress": false,
+  "checks": [
+    {
+      "name": "QMP greeting",
+      "pass": true
+    },
+    {
+      "name": "ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "QMP exact owned image attached",
+      "pass": true
+    },
+    {
+      "name": "no initramfs OOM fixture failure",
+      "pass": true
+    },
+    {
+      "name": "no rollback accounting failure",
+      "pass": true
+    },
+    {
+      "name": "storage gate closes only for invalid boot inventory",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: entered kernel_main',)",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: initramfs trusted; mounted at /system',)",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: boot complete',)",
+      "pass": true
+    },
+    {
+      "name": "exact outcome/error and storage policy sequence",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after pwd",
+      "pass": true
+    },
+    {
+      "name": "pwd: exact output '/'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after ls /system",
+      "pass": true
+    },
+    {
+      "name": "ls /system: exact output 'README.txt\\ndocs/'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after cat /system/README.txt",
+      "pass": true
+    },
+    {
+      "name": "cat /system/README.txt: exact output 'Rosti trusted system image'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after ls /system/docs",
+      "pass": true
+    },
+    {
+      "name": "ls /system/docs: exact output 'recovery.txt'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after cat /system/docs/recovery.txt",
+      "pass": true
+    },
+    {
+      "name": "cat /system/docs/recovery.txt: exact output 'Recovery shell is kernel-owned.'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after write /system/README.txt x",
+      "pass": true
+    },
+    {
+      "name": "write on trusted mount rejected",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after append /system/README.txt x",
+      "pass": true
+    },
+    {
+      "name": "append on trusted mount rejected",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after touch /system/guard.txt",
+      "pass": true
+    },
+    {
+      "name": "touch on trusted mount rejected",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mkdir /system/guard",
+      "pass": true
+    },
+    {
+      "name": "mkdir on trusted mount rejected",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after rm /system/README.txt",
+      "pass": true
+    },
+    {
+      "name": "rm on trusted mount rejected",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after rmdir /system/docs",
+      "pass": true
+    },
+    {
+      "name": "rmdir on trusted mount rejected",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after ls /system",
+      "pass": true
+    },
+    {
+      "name": "ls /system: exact output 'README.txt\\ndocs/'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mkdir media",
+      "pass": true
+    },
+    {
+      "name": "mkdir media: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after write /media.txt local RAMFS",
+      "pass": true
+    },
+    {
+      "name": "write /media.txt local RAMFS: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after cat /media.txt",
+      "pass": true
+    },
+    {
+      "name": "cat /media.txt: exact output 'local RAMFS'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after rm /media.txt",
+      "pass": true
+    },
+    {
+      "name": "rm /media.txt: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after stat /media.txt",
+      "pass": true
+    },
+    {
+      "name": "/media.txt: missing, not echo-only evidence",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after fdlist",
+      "pass": true
+    },
+    {
+      "name": "fdlist contains only reserved console descriptors 0/1/2",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after stat /mnt/rosti",
+      "pass": true
+    },
+    {
+      "name": "/mnt/rosti: missing, not echo-only evidence",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "name": "mem final: paging and physical frame diagnostics",
+      "pass": true
+    },
+    {
+      "name": "mem final: no faults or invalid deallocations",
+      "pass": true
+    },
+    {
+      "name": "mem final: heap counters parsed",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "name": "trusted system is accounted as mounted",
+      "pass": true
+    },
+    {
+      "name": "System nodes: parsed",
+      "pass": true
+    },
+    {
+      "name": "System nodes: nonempty trusted image accounting",
+      "pass": true
+    },
+    {
+      "name": "System logical bytes: parsed",
+      "pass": true
+    },
+    {
+      "name": "System logical bytes: nonempty trusted image accounting",
+      "pass": true
+    },
+    {
+      "name": "System payload capacity: parsed",
+      "pass": true
+    },
+    {
+      "name": "System payload capacity: nonempty trusted image accounting",
+      "pass": true
+    },
+    {
+      "name": "System metadata: parsed",
+      "pass": true
+    },
+    {
+      "name": "System metadata: nonempty trusted image accounting",
+      "pass": true
+    },
+    {
+      "name": "no initramfs OOM fixture failure",
+      "pass": true
+    },
+    {
+      "name": "no rollback accounting failure",
+      "pass": true
+    },
+    {
+      "name": "storage gate closes only for invalid boot inventory",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: entered kernel_main',)",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: initramfs trusted; mounted at /system',)",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: boot complete',)",
+      "pass": true
+    },
+    {
+      "name": "exact outcome/error and storage policy sequence",
+      "pass": true
+    },
+    {
+      "name": "owned QEMU process terminated",
+      "pass": true
+    },
+    {
+      "name": "full recovery image unchanged after process exit",
+      "pass": true
+    },
+    {
+      "name": "Phase10 scoped cleanup verified",
+      "pass": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "pwd",
+      "serial_fragment": "pwd\n/\nrosti>",
+      "output": "/\n",
+      "vga": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "----- multiboot mmap -----",
+        "num entries: 6",
+        "frame allocator: 65439 frames total, 2040 reserved, 63287 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "ls /system",
+      "serial_fragment": "ls /system\nREADME.txt\ndocs/\nrosti>",
+      "output": "README.txt\ndocs/\n",
+      "vga": [
+        "",
+        "",
+        "----- multiboot mmap -----",
+        "num entries: 6",
+        "frame allocator: 65439 frames total, 2040 reserved, 63287 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cat /system/README.txt",
+      "serial_fragment": "cat /system/README.txt\nRosti trusted system image\n\nrosti>",
+      "output": "Rosti trusted system image\n\n",
+      "vga": [
+        "num entries: 6",
+        "frame allocator: 65439 frames total, 2040 reserved, 63287 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>cat /system/README.txt",
+        "Rosti trusted system image",
+        "",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "ls /system/docs",
+      "serial_fragment": "ls /system/docs\nrecovery.txt\nrosti>",
+      "output": "recovery.txt\n",
+      "vga": [
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>cat /system/README.txt",
+        "Rosti trusted system image",
+        "",
+        "rosti>ls /system/docs",
+        "recovery.txt",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cat /system/docs/recovery.txt",
+      "serial_fragment": "cat /system/docs/recovery.txt\nRecovery shell is kernel-owned.\n\nrosti>",
+      "output": "Recovery shell is kernel-owned.\n\n",
+      "vga": [
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>cat /system/README.txt",
+        "Rosti trusted system image",
+        "",
+        "rosti>ls /system/docs",
+        "recovery.txt",
+        "rosti>cat /system/docs/recovery.txt",
+        "Recovery shell is kernel-owned.",
+        "",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "write /system/README.txt x",
+      "serial_fragment": "write /system/README.txt x\nfs: read-only filesystem\nrosti>",
+      "output": "fs: read-only filesystem\n",
+      "vga": [
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>cat /system/README.txt",
+        "Rosti trusted system image",
+        "",
+        "rosti>ls /system/docs",
+        "recovery.txt",
+        "rosti>cat /system/docs/recovery.txt",
+        "Recovery shell is kernel-owned.",
+        "",
+        "rosti>write /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "append /system/README.txt x",
+      "serial_fragment": "append /system/README.txt x\nfs: read-only filesystem\nrosti>",
+      "output": "fs: read-only filesystem\n",
+      "vga": [
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>cat /system/README.txt",
+        "Rosti trusted system image",
+        "",
+        "rosti>ls /system/docs",
+        "recovery.txt",
+        "rosti>cat /system/docs/recovery.txt",
+        "Recovery shell is kernel-owned.",
+        "",
+        "rosti>write /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>append /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "touch /system/guard.txt",
+      "serial_fragment": "touch /system/guard.txt\nfs: read-only filesystem\nrosti>",
+      "output": "fs: read-only filesystem\n",
+      "vga": [
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>cat /system/README.txt",
+        "Rosti trusted system image",
+        "",
+        "rosti>ls /system/docs",
+        "recovery.txt",
+        "rosti>cat /system/docs/recovery.txt",
+        "Recovery shell is kernel-owned.",
+        "",
+        "rosti>write /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>append /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>touch /system/guard.txt",
+        "fs: read-only filesystem",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mkdir /system/guard",
+      "serial_fragment": "mkdir /system/guard\nfs: read-only filesystem\nrosti>",
+      "output": "fs: read-only filesystem\n",
+      "vga": [
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>cat /system/README.txt",
+        "Rosti trusted system image",
+        "",
+        "rosti>ls /system/docs",
+        "recovery.txt",
+        "rosti>cat /system/docs/recovery.txt",
+        "Recovery shell is kernel-owned.",
+        "",
+        "rosti>write /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>append /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>touch /system/guard.txt",
+        "fs: read-only filesystem",
+        "rosti>mkdir /system/guard",
+        "fs: read-only filesystem",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "rm /system/README.txt",
+      "serial_fragment": "rm /system/README.txt\nfs: read-only filesystem\nrosti>",
+      "output": "fs: read-only filesystem\n",
+      "vga": [
+        "",
+        "rosti>pwd",
+        "/",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>cat /system/README.txt",
+        "Rosti trusted system image",
+        "",
+        "rosti>ls /system/docs",
+        "recovery.txt",
+        "rosti>cat /system/docs/recovery.txt",
+        "Recovery shell is kernel-owned.",
+        "",
+        "rosti>write /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>append /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>touch /system/guard.txt",
+        "fs: read-only filesystem",
+        "rosti>mkdir /system/guard",
+        "fs: read-only filesystem",
+        "rosti>rm /system/README.txt",
+        "fs: read-only filesystem",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "rmdir /system/docs",
+      "serial_fragment": "rmdir /system/docs\nfs: read-only filesystem\nrosti>",
+      "output": "fs: read-only filesystem\n",
+      "vga": [
+        "/",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>cat /system/README.txt",
+        "Rosti trusted system image",
+        "",
+        "rosti>ls /system/docs",
+        "recovery.txt",
+        "rosti>cat /system/docs/recovery.txt",
+        "Recovery shell is kernel-owned.",
+        "",
+        "rosti>write /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>append /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>touch /system/guard.txt",
+        "fs: read-only filesystem",
+        "rosti>mkdir /system/guard",
+        "fs: read-only filesystem",
+        "rosti>rm /system/README.txt",
+        "fs: read-only filesystem",
+        "rosti>rmdir /system/docs",
+        "fs: read-only filesystem",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "ls /system",
+      "serial_fragment": "ls /system\nREADME.txt\ndocs/\nrosti>",
+      "output": "README.txt\ndocs/\n",
+      "vga": [
+        "docs/",
+        "rosti>cat /system/README.txt",
+        "Rosti trusted system image",
+        "",
+        "rosti>ls /system/docs",
+        "recovery.txt",
+        "rosti>cat /system/docs/recovery.txt",
+        "Recovery shell is kernel-owned.",
+        "",
+        "rosti>write /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>append /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>touch /system/guard.txt",
+        "fs: read-only filesystem",
+        "rosti>mkdir /system/guard",
+        "fs: read-only filesystem",
+        "rosti>rm /system/README.txt",
+        "fs: read-only filesystem",
+        "rosti>rmdir /system/docs",
+        "fs: read-only filesystem",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mkdir media",
+      "serial_fragment": "mkdir media\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "Rosti trusted system image",
+        "",
+        "rosti>ls /system/docs",
+        "recovery.txt",
+        "rosti>cat /system/docs/recovery.txt",
+        "Recovery shell is kernel-owned.",
+        "",
+        "rosti>write /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>append /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>touch /system/guard.txt",
+        "fs: read-only filesystem",
+        "rosti>mkdir /system/guard",
+        "fs: read-only filesystem",
+        "rosti>rm /system/README.txt",
+        "fs: read-only filesystem",
+        "rosti>rmdir /system/docs",
+        "fs: read-only filesystem",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>mkdir media",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "write /media.txt local RAMFS",
+      "serial_fragment": "write /media.txt local RAMFS\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "rosti>ls /system/docs",
+        "recovery.txt",
+        "rosti>cat /system/docs/recovery.txt",
+        "Recovery shell is kernel-owned.",
+        "",
+        "rosti>write /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>append /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>touch /system/guard.txt",
+        "fs: read-only filesystem",
+        "rosti>mkdir /system/guard",
+        "fs: read-only filesystem",
+        "rosti>rm /system/README.txt",
+        "fs: read-only filesystem",
+        "rosti>rmdir /system/docs",
+        "fs: read-only filesystem",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>mkdir media",
+        "ok",
+        "rosti>write /media.txt local RAMFS",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cat /media.txt",
+      "serial_fragment": "cat /media.txt\nlocal RAMFS\nrosti>",
+      "output": "local RAMFS\n",
+      "vga": [
+        "rosti>cat /system/docs/recovery.txt",
+        "Recovery shell is kernel-owned.",
+        "",
+        "rosti>write /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>append /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>touch /system/guard.txt",
+        "fs: read-only filesystem",
+        "rosti>mkdir /system/guard",
+        "fs: read-only filesystem",
+        "rosti>rm /system/README.txt",
+        "fs: read-only filesystem",
+        "rosti>rmdir /system/docs",
+        "fs: read-only filesystem",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>mkdir media",
+        "ok",
+        "rosti>write /media.txt local RAMFS",
+        "ok",
+        "rosti>cat /media.txt",
+        "local RAMFS",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "rm /media.txt",
+      "serial_fragment": "rm /media.txt\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "",
+        "rosti>write /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>append /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>touch /system/guard.txt",
+        "fs: read-only filesystem",
+        "rosti>mkdir /system/guard",
+        "fs: read-only filesystem",
+        "rosti>rm /system/README.txt",
+        "fs: read-only filesystem",
+        "rosti>rmdir /system/docs",
+        "fs: read-only filesystem",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>mkdir media",
+        "ok",
+        "rosti>write /media.txt local RAMFS",
+        "ok",
+        "rosti>cat /media.txt",
+        "local RAMFS",
+        "rosti>rm /media.txt",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "stat /media.txt",
+      "serial_fragment": "stat /media.txt\nfs: not found\nrosti>",
+      "output": "fs: not found\n",
+      "vga": [
+        "fs: read-only filesystem",
+        "rosti>append /system/README.txt x",
+        "fs: read-only filesystem",
+        "rosti>touch /system/guard.txt",
+        "fs: read-only filesystem",
+        "rosti>mkdir /system/guard",
+        "fs: read-only filesystem",
+        "rosti>rm /system/README.txt",
+        "fs: read-only filesystem",
+        "rosti>rmdir /system/docs",
+        "fs: read-only filesystem",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>mkdir media",
+        "ok",
+        "rosti>write /media.txt local RAMFS",
+        "ok",
+        "rosti>cat /media.txt",
+        "local RAMFS",
+        "rosti>rm /media.txt",
+        "ok",
+        "rosti>stat /media.txt",
+        "fs: not found",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "fdlist",
+      "serial_fragment": "fdlist\nfd 0 console-in rights 0 offset 0 refs 0\nfd 1 console-out rights 0 offset 0 refs 0\nfd 2 console-out rights 0 offset 0 refs 0\nrosti>",
+      "output": "fd 0 console-in rights 0 offset 0 refs 0\nfd 1 console-out rights 0 offset 0 refs 0\nfd 2 console-out rights 0 offset 0 refs 0\n",
+      "vga": [
+        "fs: read-only filesystem",
+        "rosti>mkdir /system/guard",
+        "fs: read-only filesystem",
+        "rosti>rm /system/README.txt",
+        "fs: read-only filesystem",
+        "rosti>rmdir /system/docs",
+        "fs: read-only filesystem",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>mkdir media",
+        "ok",
+        "rosti>write /media.txt local RAMFS",
+        "ok",
+        "rosti>cat /media.txt",
+        "local RAMFS",
+        "rosti>rm /media.txt",
+        "ok",
+        "rosti>stat /media.txt",
+        "fs: not found",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "stat /mnt/rosti",
+      "serial_fragment": "stat /mnt/rosti\nfs: not found\nrosti>",
+      "output": "fs: not found\n",
+      "vga": [
+        "fs: read-only filesystem",
+        "rosti>rm /system/README.txt",
+        "fs: read-only filesystem",
+        "rosti>rmdir /system/docs",
+        "fs: read-only filesystem",
+        "rosti>ls /system",
+        "README.txt",
+        "docs/",
+        "rosti>mkdir media",
+        "ok",
+        "rosti>write /media.txt local RAMFS",
+        "ok",
+        "rosti>cat /media.txt",
+        "local RAMFS",
+        "rosti>rm /media.txt",
+        "ok",
+        "rosti>stat /media.txt",
+        "fs: not found",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>stat /mnt/rosti",
+        "fs: not found",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 3\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem nodes: 4\nSystem logical bytes: 59\nSystem payload capacity: 59 bytes\nSystem metadata: 5840 bytes (archive and routing)\nDescriptors: open 3 records 0 opens 11 closes 11 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63287\nAllocated frames: 129\nReserved frames: 2040\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 13327 bytes\nFree: 1035249 bytes\nFailed allocations: 0\nLive allocations: 5\nInvalid deallocs: 0\nFree blocks: 4 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 3\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem nodes: 4\nSystem logical bytes: 59\nSystem payload capacity: 59 bytes\nSystem metadata: 5840 bytes (archive and routing)\nDescriptors: open 3 records 0 opens 11 closes 11 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63287\nAllocated frames: 129\nReserved frames: 2040\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 13327 bytes\nFree: 1035249 bytes\nFailed allocations: 0\nLive allocations: 5\nInvalid deallocs: 0\nFree blocks: 4 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 65439",
+        "Free frames: 63287",
+        "Allocated frames: 129",
+        "Reserved frames: 2040",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 13327 bytes",
+        "Free: 1035249 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 5",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 3\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem nodes: 4\nSystem logical bytes: 59\nSystem payload capacity: 59 bytes\nSystem metadata: 5840 bytes (archive and routing)\nDescriptors: open 3 records 0 opens 11 closes 11 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63287\nAllocated frames: 129\nReserved frames: 2040\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 13327 bytes\nFree: 1035249 bytes\nFailed allocations: 0\nLive allocations: 5\nInvalid deallocs: 0\nFree blocks: 4 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 3\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem nodes: 4\nSystem logical bytes: 59\nSystem payload capacity: 59 bytes\nSystem metadata: 5840 bytes (archive and routing)\nDescriptors: open 3 records 0 opens 11 closes 11 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63287\nAllocated frames: 129\nReserved frames: 2040\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 13327 bytes\nFree: 1035249 bytes\nFailed allocations: 0\nLive allocations: 5\nInvalid deallocs: 0\nFree blocks: 4 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 65439",
+        "Free frames: 63287",
+        "Allocated frames: 129",
+        "Reserved frames: 2040",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 13327 bytes",
+        "Free: 1035249 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 5",
+        "Invalid deallocs: 0",
+        "Free blocks: 4 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    }
+  ],
+  "memory": {
+    "final": {
+      "used": 13327,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 5,
+      "fs_storage": 0,
+      "fs_entries": 3,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 11,
+      "fd_closes": 11,
+      "fd_denials": 0,
+      "fd_stale": 0
+    }
+  },
+  "overall": "PASS",
+  "case": "corrupt-rostifs",
+  "latency": {
+    "boot_s": 0.36,
+    "shell_command_s": [
+      {
+        "command": "pwd",
+        "seconds": 0.313
+      },
+      {
+        "command": "ls /system",
+        "seconds": 0.828
+      },
+      {
+        "command": "cat /system/README.txt",
+        "seconds": 1.75
+      },
+      {
+        "command": "ls /system/docs",
+        "seconds": 1.203
+      },
+      {
+        "command": "cat /system/docs/recovery.txt",
+        "seconds": 2.281
+      },
+      {
+        "command": "write /system/README.txt x",
+        "seconds": 2.0
+      },
+      {
+        "command": "append /system/README.txt x",
+        "seconds": 2.094
+      },
+      {
+        "command": "touch /system/guard.txt",
+        "seconds": 1.813
+      },
+      {
+        "command": "mkdir /system/guard",
+        "seconds": 1.5
+      },
+      {
+        "command": "rm /system/README.txt",
+        "seconds": 1.64
+      },
+      {
+        "command": "rmdir /system/docs",
+        "seconds": 1.438
+      },
+      {
+        "command": "ls /system",
+        "seconds": 0.828
+      },
+      {
+        "command": "mkdir media",
+        "seconds": 0.906
+      },
+      {
+        "command": "write /media.txt local RAMFS",
+        "seconds": 2.172
+      },
+      {
+        "command": "cat /media.txt",
+        "seconds": 1.125
+      },
+      {
+        "command": "rm /media.txt",
+        "seconds": 1.047
+      },
+      {
+        "command": "stat /media.txt",
+        "seconds": 1.219
+      },
+      {
+        "command": "fdlist",
+        "seconds": 0.531
+      },
+      {
+        "command": "stat /mnt/rosti",
+        "seconds": 1.234
+      },
+      {
+        "command": "mem",
+        "seconds": 0.5
+      },
+      {
+        "command": "mem",
+        "seconds": 0.485
+      }
+    ]
+  },
+  "recovery_image": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase10_media_8lsyk3uc\\corrupt-rostifs.img",
+  "recovery_image_before_sha256": "086b3f1c2b26530dcabf06172ed35a777488b54c59b5eb8ccf9e9e8ee80938af",
+  "argv": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+    "-machine",
+    "pc",
+    "-m",
+    "512",
+    "-display",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\matrix_final_20261016T1810Z\\20261016_183528_phase10_5fcdpgeo\\elf_512_corrupt-rostifs\\serial.txt",
+    "-monitor",
+    "none",
+    "-qmp",
+    "tcp:127.0.0.1:15182,server=on,wait=off",
+    "-d",
+    "guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\matrix_final_20261016T1810Z\\20261016_183528_phase10_5fcdpgeo\\elf_512_corrupt-rostifs\\qemu_log.txt",
+    "-no-reboot",
+    "-drive",
+    "file=C:/Users/iamsv/Documents/Rust-OS/dist/phase10_media_8lsyk3uc/corrupt-rostifs.img,format=raw,if=ide,index=0,cache=writeback",
+    "-S",
+    "-gdb",
+    "tcp:127.0.0.1:15183"
+  ],
+  "qmp_port": 15182,
+  "gdb_port": 15183,
+  "qemu_pid": 43752,
+  "entry": {
+    "eip": 2412892,
+    "eax": "0x2badb002",
+    "ebx": "0x9500"
+  },
+  "fixture": {
+    "case": "corrupt-rostifs",
+    "mode": 0,
+    "module_count": 1,
+    "payload_sha256": "8ff3bfdc925e1b0e60441b072f4c4c0c4f6b16f68dfce0c0ff50bb609d64a6a7",
+    "payload_bytes": 1024,
+    "archive_sha256": "8ff3bfdc925e1b0e60441b072f4c4c0c4f6b16f68dfce0c0ff50bb609d64a6a7",
+    "injection": [
+      {
+        "address": "0x1000100",
+        "bytes_sha256": "759def27fcfd2a39cb1c0867062a1744ed8bb7862de3b84d9f87076c07a6a6e2",
+        "length": 16
+      },
+      {
+        "address": "0x1100000",
+        "bytes_sha256": "8ff3bfdc925e1b0e60441b072f4c4c0c4f6b16f68dfce0c0ff50bb609d64a6a7",
+        "length": 1024
+      },
+      {
+        "address": "0x1000000",
+        "bytes_sha256": "35877518bafed96baaf51e14ae711ad70c263f7c0da9885c7993a74692a4a0cc",
+        "length": 16
+      },
+      {
+        "address": "0x70000",
+        "bytes_sha256": "113cf07c3d03f8ac8e2dffb92b0aea1e411ee325def4ac07d3d23378b41c5b11",
+        "length": 116
+      }
+    ]
+  },
+  "entry_eax_preserved": true,
+  "entry_ebx_redirected": true,
+  "entry_after": {
+    "eax": "0x2badb002",
+    "ebx": "0x70000"
+  },
+  "system_memory": {
+    "final": {
+      "System nodes": 4,
+      "System logical bytes": 59,
+      "System payload capacity": 59,
+      "System metadata": 5840
+    }
+  },
+  "owned_qemu_exited": true,
+  "recovery_image_after_sha256": "086b3f1c2b26530dcabf06172ed35a777488b54c59b5eb8ccf9e9e8ee80938af",
+  "check_count": 73,
+  "pass_count": 73,
+  "cleanup": true
+}

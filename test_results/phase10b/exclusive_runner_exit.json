@@ -1,0 +1,9 @@
+{
+  "overall": "PASS",
+  "pid": 40348,
+  "create_time": 1792152346.4075153,
+  "exit_code": 0,
+  "method": "Captured Windows process HANDLE, waited with WaitForSingleObject and read GetExitCodeProcess, not inferred from report status or PID disappearance",
+  "acceptance": "test_results/phase10b/acceptance_20261016T120546Z_psboeekn/acceptance.json",
+  "utc": "2026-10-16T12:48:48.247433+00:00"
+}

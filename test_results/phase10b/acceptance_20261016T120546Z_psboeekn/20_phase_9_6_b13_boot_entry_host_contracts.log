@@ -1,0 +1,8 @@
+test_direction_flag_cleared_before_rust (__main__.BootHandoff.test_direction_flag_cleared_before_rust) ... ok
+test_interrupts_disabled_before_stack_setup (__main__.BootHandoff.test_interrupts_disabled_before_stack_setup) ... ok
+test_pre_call_stack_is_16_byte_aligned (__main__.BootHandoff.test_pre_call_stack_is_16_byte_aligned) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.011s
+
+OK

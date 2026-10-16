@@ -1,0 +1,72 @@
+{
+  "scope": "Parent read-only cross-check during delegated Phase10B completion; not final acceptance certification",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "source_or_git_mutations": false,
+  "qemu_or_builds_started": false,
+  "historical_phase9_6": {
+    "acceptance_status": "PASS",
+    "iso": "dist/rosti_phase9_6_20261015T070148Z.iso",
+    "expected_sha256": "e840439338360710b775c06e489c4bc8b1bb312fc9a545d3cb0917fc9c1821ff",
+    "computed_sha256": "e840439338360710b775c06e489c4bc8b1bb312fc9a545d3cb0917fc9c1821ff",
+    "preserved": true
+  },
+  "in_progress_source_freeze": {
+    "report": "test_results/phase10b/acceptance_20261016T105259Z_3f7c1scc/acceptance.json",
+    "recorded_inputs": 133,
+    "rediscovered_inputs": 133,
+    "new": [],
+    "missing": [],
+    "changed": [],
+    "method": "Imported scripts/phase6_verify.py with python -B, called source_snapshot(), compared exact dictionary against report source_sha256; no acceptance execution",
+    "limitation": "Point-in-time check only; final acceptance and post-commit freeze must be reverified"
+  },
+  "independent_trusted_archive_interoperability": {
+    "method": "Build trusted_archive in memory, independently list and extract both files using WSL GNU cpio --to-stdout; compare exact bytes to system/ sources",
+    "archive_bytes": 1024,
+    "sha256": "8ff3bfdc925e1b0e60441b072f4c4c0c4f6b16f68dfce0c0ff50bb609d64a6a7",
+    "entries": ["README.txt", "docs", "docs/recovery.txt"],
+    "exact_content_matches": {"README.txt": 27, "docs/recovery.txt": 32},
+    "passed": true
+  },
+  "resource_snapshot_crosscheck": {
+    "method": "Independently extract historical ISO kernel with pycdlib, parse ELF32 section headers via struct, compare current production kernel with historical resource_sections.json",
+    "historical_baseline_metrics_match": true,
+    "previous_candidate_metrics_stale": true,
+    "observed_current_candidate": {
+      "sha256": "f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f",
+      "file_bytes": 5970396,
+      "allocated_bytes": 1958406,
+      "static_span_bytes": 1969164
+    },
+    "action": "Completion agent informed to refresh candidate resource report and final documentation from accepted artifact"
+  },
+  "aggregate_contract_fix_followup": {
+    "preserved_failed_run": "test_results/phase10b/acceptance_20261016T105259Z_3f7c1scc/acceptance.json",
+    "failure": "incomplete mandatory checks: fs_elf_128: 103/102",
+    "completed_runtime_gates": 53,
+    "runtime_gate_failures": 0,
+    "fs_rows_each_configuration": 103,
+    "sole_added_row_multiplicity_vs_phase9_6": {"VGA prompt after ls": 1},
+    "removed_row_multiplicity": {},
+    "other_mandatory_counts_unchanged": {"block_each_configuration": 98, "rostifs_each_configuration": 168, "paging": 20, "iso_paging": 2, "read_fault": 2, "write_fault": 2},
+    "nested_non_B13_report_validation": {"reports_passed": 154, "errors": 0, "exact_separately_validated_B13_exemptions": 5},
+    "parent_focused_regressions": {
+      "command": "python -B scripts/test_acceptance_harness.py SourceFreezeTests.test_ramfs_baseline_listing_requires_exact_103_checks SourceFreezeTests.test_checkout_attributes_are_frozen -v",
+      "passed": 2,
+      "failed": 0,
+      "exit_code": 0,
+      "checks": ["exact 103 rows accepted; missing 102 and extra 104 rejected before publication", "new checkout attributes are included in source freeze and changes alter snapshot"]
+    },
+    "limitation": "The preserved run is FAIL despite all runtime gates passing; corrected source requires a new complete frozen acceptance"
+  },
+  "standalone_phase10b_matrix": {
+    "report": "test_results/phase10b/matrix_final_20261016T1810Z/20261016_183528_phase10_5fcdpgeo/report.json",
+    "overall": "PASS",
+    "scenario_count": 56,
+    "check_count": 3379,
+    "pass_count": 3379,
+    "current_phase10_evidence_validator_passed": true,
+    "all_scenario_owned_qemu_cleanup_verified": true,
+    "limitation": "Standalone run does not replace the mandatory invocation-owned matrix in full acceptance"
+  }
+}

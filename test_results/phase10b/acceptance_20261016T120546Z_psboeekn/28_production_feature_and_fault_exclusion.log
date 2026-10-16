@@ -1,0 +1,28 @@
+{
+  "features": {
+    "kernel": [
+      "default"
+    ],
+    "rostifs": [
+      "default"
+    ]
+  },
+  "checks": [
+    {
+      "name": "kernel and portable storage resolved",
+      "pass": true
+    },
+    {
+      "name": "no production fault or host-tool features",
+      "pass": true
+    },
+    {
+      "name": "deliberate fatal-fault marker absent from ELF",
+      "pass": true
+    },
+    {
+      "name": "initramfs failure-test symbol absent from ELF",
+      "pass": true
+    }
+  ]
+}

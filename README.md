@@ -1,5 +1,41 @@
 # Rust operating system on i686
 
+## Phase 10B COMPLETE — local acceptance verified
+
+Source checkpoint: `449ed434ed5dbf1518b99821178a5fcd1d343b75` on `maintenance/phase10`.
+Full acceptance: **PASS 53/53 gates**, invocation-owned
+**56/56 initramfs scenarios, 3379/3379 matrix checks**.
+Evidence: `test_results/phase10b/acceptance_20261016T120546Z_psboeekn/acceptance.json`;
+independent closeout: `test_results/phase10b/final_verification.json`.
+All 134 source/build inputs were independently rediscovered and hash-matched.
+Scoped independent review: no blocking findings (`test_results/phase10b/independent_scoped_review_20261016T111204Z_f632dad1df.json`).
+
+Trusted complete-byte SHA-256 verification precedes parse/publication at read-only
+`/system`. The kernel is the trust anchor, not the module. Real GRUB and injected
+ELF recovery, allocator exhaustion, mount failure and reboot are covered at
+128/512 MiB. No archive code is executed; RAMFS recovery is independently owned.
+Host serial/parallel: **265 passed, zero failed, two ignored** each. Inherited
+B11/B13/B18/B26, CPU faults/paging, keyboard/VGA, growth/OOM, ATA/RostiFS and all
+9,071 modeled crash cases remain covered. Old failures below are historical.
+
+Accepted ISO: `dist\rosti_phase10b_20261016T120546Z.iso` (11096064 bytes), SHA256
+`117c7b2c0a1f21dc53442a7a1c558b45b8367cb163d405d4d6ef5956596993d8`. Independently extracted production kernel SHA256:
+`f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f`. Fixture features are excluded.
+No local QEMU remains. Historical Phase 9.6 ISO is unchanged.
+
+No Phase 10 deployment, VM/storage mutation, Phase 11, tag or history rewrite.
+Fresh read-only inspection shows VM 103 running Phase 9.6 ISO, 512 MiB/one vCPU,
+SeaBIOS/pc, no data disk; stale Phase 7 references below are historical.
+Commit/push of completed Phase 10B is explicitly authorized. Unrelated `d1/`
+and `scripts/b13_boot_fixture.py.backup` stay excluded and preserved.
+
+Limits: trusted-loader/single-owner ring-0 assumptions; no hardware secure boot
+or hostile-userspace isolation. Runtime heap/stack high-water is **unknown**.
+The 546,228-byte import capacity bound excludes allocator overhead/fragmentation
+and is not a measured peak. Guest malformed/truncated images prove digest
+rejection; authenticated structural-parser rejection is covered on the host.
+See `docs/PHASE10_INITRAMFS.md` for exact contracts and retained failures.
+
 ## Phase 9.6 — safety before new features
 
 Boot-memory hardening adds bounded fallible Multiboot inventory, reservation-

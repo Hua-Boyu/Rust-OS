@@ -1,0 +1,36 @@
+{
+  "overall": "PASS",
+  "reviewed_current_input_hashes_verified": 24,
+  "source_sha256": {
+    "scripts/b13_entry_inject.py": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+    "scripts/boot_metadata_test.py": "d94f158a4a53d681ce0530d98fbcf31eab1dacdb8964308128a57f39f5216c9a",
+    "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+    "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+    "scripts/fs_test.py": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+    "scripts/phase10_initramfs_test.py": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+    "scripts/phase6_verify.py": "64e77e53d7453daae356e1cbd801ecc3bd0ef6d6104b0e8c3da89cfd751ea08b",
+    "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+    "scripts/test_phase10_initramfs_harness.py": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+    "src/boot_inventory.rs": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+    "src/fs/archive.rs": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+    "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+    "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+    "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+    "src/main.rs": "e23186b691a4e48bfc95d5f1748bd37a55503290e68afef1943dff8480737e4a",
+    "src/memory/boot_copy.rs": "449e1b57ac710153dd93123b6f2cf2fac69acd32b98e18f9c4fd72c8d2cb098c",
+    "src/memory/mod.rs": "499d30f5ce201325cc13464c09eb38ad4a7261025d1f0e6de3db896e5b94f6fe",
+    "src/memory/paging.rs": "c0eba5b1b6ece0031bf5ab3c0cdef0e542fe3070f3911856573fa91ecab8c806",
+    "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+    "system/README.txt": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+    "system/docs/recovery.txt": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+    "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+    "scripts/test_acceptance_harness.py": "3477ec19b9b58adb9134455950282a04fbe04e4a4e901be7d074412098ce84e1",
+    ".gitattributes": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218"
+  },
+  "review_reports": [
+    "independent_scoped_review_20261016T111204Z_f632dad1df.json",
+    "independent_lock_followup_review.json"
+  ],
+  "scope": "Completion-agent hash/closure verification combining independent runtime review with newer bounded harness followup; not a new independent review or general unsafe audit",
+  "source_checkpoint": "449ed434ed5dbf1518b99821178a5fcd1d343b75"
+}

@@ -1,0 +1,500 @@
+{
+  "schema": "phase10b-independent-integration-review-v1",
+  "review_id": "integration_review_03",
+  "reviewer": "independent-read-only-followup-subagent",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "timestamp_utc": "2026-10-15T22:19:32.571645+00:00",
+  "git_head": "3423ae23b1f0911646adac5e106eee0edeb779cd",
+  "source_sha256": {
+    "Cargo.lock": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+    "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+    "scripts/b13_entry_inject.py": "dd36e239991bc8f68b1dd2d8f84f5cd6bd3534e95a32e51b91011bead3ba32ff",
+    "scripts/block_test.py": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+    "scripts/boot_metadata_test.py": "d94f158a4a53d681ce0530d98fbcf31eab1dacdb8964308128a57f39f5216c9a",
+    "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+    "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+    "scripts/fs_test.py": "648117bf5f1f1cdf95365b531c37003d868133ac591bf5b217796e9bacdb210f",
+    "scripts/phase10_initramfs_test.py": "cedc884b0a5f253160990be13bb5b108c7639a6d1361bc448a6fdf8ae22c6ab0",
+    "scripts/phase6_verify.py": "c2ce1657c8ba56f0533222c2f463de1367b41e85ad2d3bf28969993e3411cb8b",
+    "scripts/rostifs_test.py": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+    "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+    "scripts/test_acceptance_harness.py": "16c60607dd80abe49a7974a37c7305574e981d6fc4e1c6ef8a775476930718f3",
+    "scripts/test_phase10_initramfs_harness.py": "2f3d88bb90d3cbbb2167d021cbe8e7059504788e567be5e77f19bf3b59de8521",
+    "scripts/test_production_fixture_policy.py": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+    "scripts/verify_production.py": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+    "src/fd.rs": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+    "src/fs/archive.rs": "1c3d3624695096b996892fc93bd7d160d062a545f536b1d66560a0f9153af405",
+    "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+    "src/fs/vfs.rs": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+    "src/fs_commands.rs": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+    "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+    "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+    "src/main.rs": "66c4d9a20702de430915fff7c5aef71151d84a3b5c92b36ce4e591e2e271b849",
+    "src/memory/boot_copy.rs": "449e1b57ac710153dd93123b6f2cf2fac69acd32b98e18f9c4fd72c8d2cb098c",
+    "src/shell.rs": "91ebee352d478616c3685a01fd2462f61cb4110e8a294cad800fc56377731384",
+    "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+    "tests_kernel/Cargo.lock": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+    "tests_kernel/Cargo.toml": "aff91dfee7f86282b3943ae4658886caf5b211c8f7c4f5b63f9cf9f8d4ccc7e7",
+    "tests_kernel/src/archive_vfs_tests.rs": "955a131339dc307e9af969a69e65c8fd438d740cf9ded7ac882e75bb2c37628f",
+    "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+    "tests_kernel/src/mount_tests.rs": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd"
+  },
+  "verdict": "BOUNDED_FIXES_CONFIRMED_WITH_RESIDUAL_RESOURCE_EVIDENCE_NOT_FULL_ACCEPTANCE",
+  "passed": false,
+  "bounded_implementation_review_passed": true,
+  "full_acceptance": false,
+  "scope": {
+    "included": [
+      "IR02-R2 unpublished snapshot failure ownership",
+      "IR02-R3 exact guest outcome oracle and namespace refusal",
+      "IR02-R5 generic Vfs system_info and shell live counters",
+      "main real allocator OOM helper",
+      "production exact-byte fixture exclusion and checked-byte staging",
+      "strict guest matrix storage/hash/cleanup wiring",
+      "actual retained host and ELF/real-GRUB reports"
+    ],
+    "method": "Read-only Rust/Python source and test inspection, retained report/log parsing, exact SHA-256 snapshots, in-memory AST-selected marker/policy probes only. No builds, Cargo/test binaries, QEMU, source edits, documentation changes, staging or commits.",
+    "limitations": [
+      "This is not a full allocator, boot-memory, filesystem, capability or safe-API audit.",
+      "Saved guest reports predate this review and do not contain a complete source-hash freeze; current source hashes are review identities, not retroactive provenance for binaries.",
+      "Saved marker-only injected probes are not full shell/storage/cleanup acceptance reports.",
+      "No complete invocation-owned strict 56-scenario aggregate was identified in the inspected Phase10/Phase10B evidence locations.",
+      "No runtime import heap/stack high-water or complete numeric import peak budget was established."
+    ]
+  },
+  "prior_findings": [
+    {
+      "id": "IR02-R2",
+      "disposition": "closed_for_failure_ownership",
+      "remaining_source_blocker": false,
+      "locations": [
+        "src/fs/mounted.rs:97-217",
+        "src/main.rs:309-355",
+        "tests_kernel/src/mount_tests.rs:366-420,424-570"
+      ],
+      "resolution": "mount_system_inner calls prepare_system through an ordinary exclusive reborrow. Shared-borrow preflight returns owned bindings and mountpoint; prepare_system resets the unpublished ArchiveFs on every error before the static borrow can be published. Success performs only infallible binding/point/archive publication. No second raw static archive alias or destruction under frame/VGA guards is introduced.",
+      "tests_inspected": "Collision file, nonempty directory, RAM node exhaustion, overlong canonical prefix, Busy with existing system, post-point failure on owned/preexisting empty directory all verify empty snapshot capacities and preserved RAM namespace/bindings/system_point/cwd/duplicated descriptors. Exact path boundary success/refusal is covered separately.",
+      "saved_evidence": "Four ELF rollback reports (collision/failure at 128/512 MiB) have PASS, cleanup true and snapshot-release followed by the exact rejection marker. The kernel checks restored used/live counts before that marker. These probes do not exercise the complete recovery shell."
+    },
+    {
+      "id": "IR02-R3",
+      "disposition": "closed_for_wrong_class_oracle",
+      "remaining_source_blocker": false,
+      "locations": [
+        "scripts/phase10_initramfs_test.py:65-107,330-389,435-448,478-514",
+        "scripts/test_phase10_initramfs_harness.py:235-400,482-500"
+      ],
+      "resolution": "Per-case CASE_OUTCOMES use exact complete lines and an exact relevant-outcome sequence, with ordered boot markers. Publication failures must reach their precise rejection class and release/OOM marker. Any trusted marker in a negative transcript is rejected. Invalid inventory alone requires the closed storage gate and forbids device discovery/mount. Recovery checks /system absent, except collision requires the sentinel file unchanged, before and after RAMFS recovery.",
+      "probe_result": {
+        "method": "In-memory AST-selected current marker functions; no module main/import side effects or files created. Positive transcript rows here were generated from CASE_OUTCOMES, so acceptance of positives alone is not an independent wire specification; separate source tests define literal expected transcripts.",
+        "positive_transcripts_accepted": 14,
+        "wrong_class_error_gate_or_late_publication_transcripts_rejected": 52,
+        "matrix_rows": 56,
+        "unique_matrix_rows": 56
+      },
+      "qualification": "This closes the false-positive implementation, not execution of the complete guest matrix. Existing code intentionally authenticates before parsing, so malformed/truncated bytes correctly reject as DigestMismatch; they do not prove parser-stage rejection of a separately trusted malformed image."
+    },
+    {
+      "id": "IR02-R5",
+      "disposition": "partially_resolved_integrated_live_accounting_closed_peak_budget_unresolved",
+      "remaining_source_blocker": false,
+      "locations": [
+        "src/fs/vfs.rs:70-75",
+        "src/fs/mounted.rs:57-63 and Vfs::system_info override",
+        "src/fs/archive.rs:312-319",
+        "src/shell.rs:214-229",
+        "scripts/phase10_initramfs_test.py:414-448",
+        "tests_kernel/src/mount_tests.rs:403-420"
+      ],
+      "resolution": "Vfs has a default None system_info query; MountedFs forwards the generic query to separate archive stats plus system_bindings bytes. Generic mem dispatch prints nodes, logical bytes, payload capacity and archive/routing metadata without altering RAMFS quotas. The host generic-trait test verifies the same accounting route and unchanged RAM stats. Both real-GRUB shell reports show nodes=4, logical/payload=59 bytes and metadata=5840 bytes.",
+      "remaining_requirement": "Original request also asked for peak boot-import accounting including input copy and two simultaneously live parser indexes. Current shell/harness counters are live/final values, not peak. resource_sections.json explicitly leaves peak_heap_bytes and peak_stack_bytes null. Keep this part open for full resource/acceptance claims; do not present steady-state System counters or restored used/live counts as measured peak or proof of exact allocator free-span restoration."
+    },
+    {
+      "id": "IR02-R1",
+      "disposition": "remains_closed_exact_payload_fixture_exclusion",
+      "remaining_source_blocker": false,
+      "locations": [
+        "scripts/verify_production.py:11-36",
+        "scripts/build-proxmox-iso.py:68-80,127-137",
+        "scripts/test_production_fixture_policy.py:33-133"
+      ],
+      "resolution": "Both verifier and ISO entrypoint/direct build reject INITRAMFS_TEST_MODE and fatal-fault text in exact artifact bytes. build_iso stages the same captured kernel_bytes it checked, rather than rereading a potentially changed file. Ten host-only source tests include stale fixture with production metadata, direct/entrypoint packager rejection, and checked-byte staging under a mocked source change.",
+      "probe_result": "Current production ELF and previously extracted GRUB kernel both hash 7398cbb78124f7e9099b0af2cab94fa8be4c813276bcbab571c30e6d60609273 and have neither forbidden marker; current fixture ELF hashes 31f7d0b001a093eaab58481f507fb7d16c125d0504c5e78dfea96bc59cc32304 and contains INITRAMFS_TEST_MODE. AST-selected byte-policy probes accepted ordinary bytes and rejected both forbidden markers. This is not ELF contract validation or adversarial binary attestation."
+    },
+    {
+      "id": "IR02-R4",
+      "disposition": "remains_closed_shell_listing_oracle",
+      "remaining_source_blocker": false,
+      "locations": [
+        "scripts/phase10_initramfs_test.py:393-406",
+        "scripts/test_phase10_initramfs_harness.py:503-531"
+      ],
+      "resolution": "Both trusted ls assertions expect docs/. Both saved real-GRUB reports contain that exact listing and all six mutator denials."
+    }
+  ],
+  "oom_helper_review": {
+    "locations": [
+      "src/main.rs:126-161,313-344",
+      "src/fs/archive.rs:114-182"
+    ],
+    "result": "Fixed static Vec metadata avoids large boot-stack arrays. Three bounded fallible reservation tiers pressure the actual allocator, then invoke the real try_build. All pressure Vecs drop before formatting/recovery; success marker requires actual OutOfMemory, increased failed_allocs and identical before/after used and live_allocs. No synthetic fail-reserve substitution or held frame/VGA guard is present.",
+    "evidence": "rollback_resource-exhaustion_128 and _512 retain the recovered-OOM and publication-OutOfMemory sequence with cleanup true; real_oom_red is retained as FAIL and must not be counted as a pass.",
+    "limits": "Not exhaustive reserve-point fault injection. Permanent growth mappings/capacity may increase even when pressure releases; equality of used/live is not proof of identical free-list topology, allocator headers, largest block or peak usage."
+  },
+  "strict_matrix_storage_hash_cleanup_review": {
+    "locations": [
+      "scripts/phase10_initramfs_test.py:167-179,458-514,517-584",
+      "scripts/boot_metadata_test.py:179-237",
+      "scripts/phase6_verify.py:86-135"
+    ],
+    "result": "Each scenario except deliberate missing-storage creates a fresh exclusive MAGIC-plus-zero corrupt owned image; media are not reused across refusal cases. Shared runner hashes the whole image before exercise and after independently reaping the captured Popen, and fails changed/unreadable media or incomplete checks. Phase10 additionally fails close/fallback/RSP errors. Acceptance validates exact unique identities, declared counts, invocation-owned nested reports and cleanup, rather than trusting process exit alone.",
+    "host_tests_inspected": "Final harness contracts cover wrong absent/error/order/gate/late publication, release/OOM markers, collision sentinel, fresh full-image hashes and deliberate mutation, close failure fallback, RSP cleanup failure, final/bootstrap heap diagnostics and nested 56-row report integration with 52 distinct disposable media. This review did not execute that complete unittest module.",
+    "limits": [
+      "Cleanup here means owned emulator exit, not deletion of retained evidence/media.",
+      "The corrupt-media gate is not a valid mounted RostiFS persistence/coexistence test. Rejection scenarios do not uniformly assert the RostiFS rejection message or exercise raw-write policy commands.",
+      "ISO matrix boots real GRUB but injects the module descriptor at _start; separate retained real-GRUB module-directive positives establish that distinct producer path.",
+      "Current reboot-after-failure tests digest rejection followed by native no-module boot, not reboot after a partially constructed/publication failure.",
+      "Full recovery OOM workload and module-pin/growth checks are not repeated in every refusal class."
+    ]
+  },
+  "resource_import_peak_model": {
+    "status": "qualitative_components_only_not_a_measured_or_numeric_budget",
+    "simultaneously_live_components": [
+      "inventory-established physical module frames pinned until reboot (not heap and not reclaimable)",
+      "owned module byte copy",
+      "trust-verification parser index",
+      "ArchiveFs::try_build independent reparse index",
+      "old archive snapshot if using replacement API (boot static starts empty)",
+      "staged new node capacity and payload capacity",
+      "allocator headers/alignment/fragmentation and caller stack headroom"
+    ],
+    "publication_stage": "After try_build returns the reparse index has dropped; the input copy and verification index still survive until the outer scope ends. The mount preflight uses bounded stack path/binding staging. Never sum only final System payload/metadata and call it import high-water."
+  },
+  "saved_evidence": [
+    {
+      "report": "test_results/phase10b/rollback_mount-collision_128/report.json",
+      "report_sha256": "85766b7b7f5424bf40bd7e2a90ead69312da7549259d83bef2281746f42d26e4",
+      "serial_sha256": "e348826fb3a0f3218bd416d6380191ad985b2412311a6a5b41bc4a7ce9daac82",
+      "status": "PASS",
+      "cleanup": true,
+      "memory_mib": 128,
+      "kernel_sha256": "31f7d0b001a093eaab58481f507fb7d16c125d0504c5e78dfea96bc59cc32304",
+      "outcomes": [
+        "ROSTI: unpublished initramfs snapshot released",
+        "ROSTI: initramfs publication rejected: not a directory; RAMFS recovery"
+      ],
+      "scope": "ELF injected marker/accounting probe, not full shell/storage matrix; schema has no checks array"
+    },
+    {
+      "report": "test_results/phase10b/rollback_mount-collision_512/report.json",
+      "report_sha256": "1c3be249697d6a0d2eab6b93c9437894b60b7ef6d490259233940a53bb31e34d",
+      "serial_sha256": "e348826fb3a0f3218bd416d6380191ad985b2412311a6a5b41bc4a7ce9daac82",
+      "status": "PASS",
+      "cleanup": true,
+      "memory_mib": 512,
+      "kernel_sha256": "31f7d0b001a093eaab58481f507fb7d16c125d0504c5e78dfea96bc59cc32304",
+      "outcomes": [
+        "ROSTI: unpublished initramfs snapshot released",
+        "ROSTI: initramfs publication rejected: not a directory; RAMFS recovery"
+      ],
+      "scope": "ELF injected marker/accounting probe, not full shell/storage matrix; schema has no checks array"
+    },
+    {
+      "report": "test_results/phase10b/rollback_mount-failure_128/report.json",
+      "report_sha256": "82fd5e5c2bf119f751de651646dc4b73db3cd4dccd01ae39c19f2ddcf94cf8ae",
+      "serial_sha256": "3ded9a0519b564a637e8ea99ed1a1c7f61e50c9270b358b003adec6f699934e0",
+      "status": "PASS",
+      "cleanup": true,
+      "memory_mib": 128,
+      "kernel_sha256": "31f7d0b001a093eaab58481f507fb7d16c125d0504c5e78dfea96bc59cc32304",
+      "outcomes": [
+        "ROSTI: unpublished initramfs snapshot released",
+        "ROSTI: initramfs publication rejected: out of memory; RAMFS recovery"
+      ],
+      "scope": "ELF injected marker/accounting probe, not full shell/storage matrix; schema has no checks array"
+    },
+    {
+      "report": "test_results/phase10b/rollback_mount-failure_512/report.json",
+      "report_sha256": "cfa1a1b664fbfca1b91c7e9dd2dbf5ed2675441dbe46ef1658000f861163ed43",
+      "serial_sha256": "8180289417116d4046712931122d7f84d83a2fe962bf0c56dacd9219293b4d34",
+      "status": "PASS",
+      "cleanup": true,
+      "memory_mib": 512,
+      "kernel_sha256": "31f7d0b001a093eaab58481f507fb7d16c125d0504c5e78dfea96bc59cc32304",
+      "outcomes": [
+        "ROSTI: unpublished initramfs snapshot released",
+        "ROSTI: initramfs publication rejected: out of memory; RAMFS recovery"
+      ],
+      "scope": "ELF injected marker/accounting probe, not full shell/storage matrix; schema has no checks array"
+    },
+    {
+      "report": "test_results/phase10b/rollback_resource-exhaustion_128/report.json",
+      "report_sha256": "84855f09a3bbfd13a4b6baf09560dcfcbf9810570b735ef18c5dc0d8ba023c5d",
+      "serial_sha256": "438607632add3533f775133c0fdcd74fa0dac105338ee432f8d679598d0b8efd",
+      "status": "PASS",
+      "cleanup": true,
+      "memory_mib": 128,
+      "kernel_sha256": "31f7d0b001a093eaab58481f507fb7d16c125d0504c5e78dfea96bc59cc32304",
+      "outcomes": [
+        "ROSTI: initramfs real allocator OOM recovered",
+        "ROSTI: initramfs publication rejected: out of memory; RAMFS recovery"
+      ],
+      "scope": "ELF injected marker/accounting probe, not full shell/storage matrix; schema has no checks array"
+    },
+    {
+      "report": "test_results/phase10b/rollback_resource-exhaustion_512/report.json",
+      "report_sha256": "57b99441421b57e8ca8e904c69a286061623627f756e126655d08ed5727037a2",
+      "serial_sha256": "438607632add3533f775133c0fdcd74fa0dac105338ee432f8d679598d0b8efd",
+      "status": "PASS",
+      "cleanup": true,
+      "memory_mib": 512,
+      "kernel_sha256": "31f7d0b001a093eaab58481f507fb7d16c125d0504c5e78dfea96bc59cc32304",
+      "outcomes": [
+        "ROSTI: initramfs real allocator OOM recovered",
+        "ROSTI: initramfs publication rejected: out of memory; RAMFS recovery"
+      ],
+      "scope": "ELF injected marker/accounting probe, not full shell/storage matrix; schema has no checks array"
+    },
+    {
+      "report": "test_results/phase10b/real_grub_shell_128_oh4lvxne/report.json",
+      "report_sha256": "f82db0c341d225ec0f8f7b1a59094fb03cfb7bdb361f1b9c206957a2332d1ada",
+      "serial_sha256": "eb20d1ce2c4211ecb137cc6bd979d65ff0888b732a2efafda66f30c64b0be02d",
+      "status": "PASS",
+      "owned_qemu_exited": true,
+      "check_count": 37,
+      "all_checks_true": true,
+      "declared_totals_match": true,
+      "commands": [
+        {
+          "command": "mem",
+          "output": "usable memory: 130559 KB\nallocator block base: 0x2cb000\nFS nodes: 2\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem nodes: 4\nSystem logical bytes: 59\nSystem payload capacity: 59 bytes\nSystem metadata: 5840 bytes (archive and routing)\nDescriptors: open 3 records 0 opens 0 closes 0 denials 0 stale 0\nPhysical memory:\nTotal frames: 32639\nFree frames: 30585\nAllocated frames: 33\nReserved frames: 2071\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 31199\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 13407 bytes\nFree: 1035169 bytes\nFailed allocations: 0\nLive allocations: 5\nInvalid deallocs: 0\nFree blocks: 4 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n"
+        },
+        {
+          "command": "ls /system",
+          "output": "README.txt\ndocs/\n"
+        },
+        {
+          "command": "cat /system/README.txt",
+          "output": "Rosti trusted system image\n\n"
+        },
+        {
+          "command": "cat /system/docs/recovery.txt",
+          "output": "Recovery shell is kernel-owned.\n\n"
+        },
+        {
+          "command": "write /system/README.txt altered",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "append /system/README.txt x",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "touch /system/new",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "mkdir /system/new",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "rm /system/README.txt",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "rmdir /system/docs",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "cat /system/README.txt",
+          "output": "Rosti trusted system image\n\n"
+        },
+        {
+          "command": "write /recovery.txt independent",
+          "output": "ok\n"
+        },
+        {
+          "command": "cat /recovery.txt",
+          "output": "independent\n"
+        },
+        {
+          "command": "rm /recovery.txt",
+          "output": "ok\n"
+        }
+      ],
+      "memory": {
+        "trusted_boot": {
+          "used": 13407,
+          "capacity": 1048576,
+          "growth_pages": 0,
+          "failed_allocations": 0,
+          "live_allocations": 5,
+          "fs_storage": 0,
+          "fs_entries": 2,
+          "fd_open_slots": 3,
+          "fd_open_records": 0,
+          "fd_opens": 0,
+          "fd_closes": 0,
+          "fd_denials": 0,
+          "fd_stale": 0
+        }
+      },
+      "scope": "real GRUB module trusted-positive shell, not strict injected matrix"
+    },
+    {
+      "report": "test_results/phase10b/real_grub_shell_512_b4vb6tp8/report.json",
+      "report_sha256": "635f35a425c6a3b96ac36a4f3a071e97bef41feca11d62b23e309c6b6bafa3d0",
+      "serial_sha256": "ebc9bb1da3fa7186f3ccaa85fc427e519ea4d95354b7997bf824963ae694c026",
+      "status": "PASS",
+      "owned_qemu_exited": true,
+      "check_count": 37,
+      "all_checks_true": true,
+      "declared_totals_match": true,
+      "commands": [
+        {
+          "command": "mem",
+          "output": "usable memory: 523775 KB\nallocator block base: 0x2cb000\nFS nodes: 2\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem nodes: 4\nSystem logical bytes: 59\nSystem payload capacity: 59 bytes\nSystem metadata: 5840 bytes (archive and routing)\nDescriptors: open 3 records 0 opens 0 closes 0 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63289\nAllocated frames: 129\nReserved frames: 2039\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 13407 bytes\nFree: 1035169 bytes\nFailed allocations: 0\nLive allocations: 5\nInvalid deallocs: 0\nFree blocks: 4 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n"
+        },
+        {
+          "command": "ls /system",
+          "output": "README.txt\ndocs/\n"
+        },
+        {
+          "command": "cat /system/README.txt",
+          "output": "Rosti trusted system image\n\n"
+        },
+        {
+          "command": "cat /system/docs/recovery.txt",
+          "output": "Recovery shell is kernel-owned.\n\n"
+        },
+        {
+          "command": "write /system/README.txt altered",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "append /system/README.txt x",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "touch /system/new",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "mkdir /system/new",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "rm /system/README.txt",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "rmdir /system/docs",
+          "output": "fs: read-only filesystem\n"
+        },
+        {
+          "command": "cat /system/README.txt",
+          "output": "Rosti trusted system image\n\n"
+        },
+        {
+          "command": "write /recovery.txt independent",
+          "output": "ok\n"
+        },
+        {
+          "command": "cat /recovery.txt",
+          "output": "independent\n"
+        },
+        {
+          "command": "rm /recovery.txt",
+          "output": "ok\n"
+        }
+      ],
+      "memory": {
+        "trusted_boot": {
+          "used": 13407,
+          "capacity": 1048576,
+          "growth_pages": 0,
+          "failed_allocations": 0,
+          "live_allocations": 5,
+          "fs_storage": 0,
+          "fs_entries": 2,
+          "fd_open_slots": 3,
+          "fd_open_records": 0,
+          "fd_opens": 0,
+          "fd_closes": 0,
+          "fd_denials": 0,
+          "fd_stale": 0
+        }
+      },
+      "scope": "real GRUB module trusted-positive shell, not strict injected matrix"
+    }
+  ],
+  "saved_logs": {
+    "test_results/phase10b/production_gate_contract_green.log": {
+      "sha256": "b797a8eb4f1d9f5641a7c7b66b19ead433914db7def038573be0e56b65bba808",
+      "result_lines": [
+        "Ran 31 tests in 22.599s",
+        "OK"
+      ]
+    },
+    "test_results/phase10b/review_fixes_host_parallel.log": {
+      "sha256": "3a375c9d285d932e02e38ecc49257ef64cfd0c7caa4c073cdc9b3a6384c188f6",
+      "result_lines": [
+        "test result: ok. 264 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.26s"
+      ]
+    },
+    "test_results/phase10b/review_fixes_host_serial.log": {
+      "sha256": "a429dcf82e2a696ec7a8e8bc2fde1dba1c25d909110b0408ff39e4d9be94abd9",
+      "result_lines": [
+        "test result: ok. 264 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.77s"
+      ]
+    }
+  },
+  "evidence_validation": {
+    "saved_reports_inspected": 8,
+    "marker_probe_reports": 6,
+    "real_grub_shell_reports": 2,
+    "real_grub_reports_all_true_and_totals_match": true,
+    "host_log_results": "Saved review_fixes_host_parallel and serial each report 264 passed, 0 failed, 2 ignored. Saved production_gate_contract_green reports 31 tests OK; that combined log is not independent execution of the current final harness-test hash or a standalone ten-test policy report."
+  },
+  "remaining_blockers": [
+    {
+      "id": "IR03-E1",
+      "kind": "full_acceptance_evidence",
+      "blocks_bounded_implementation_review": false,
+      "detail": "A complete fresh source-frozen strict 56-scenario ELF/ISO 128/512 aggregate with exact nested counts, media hashes and cleanup is still required. Marker probes plus two trusted GRUB shell positives cannot replace it."
+    },
+    {
+      "id": "IR03-E2",
+      "kind": "residual_IR02-R5_resource_evidence",
+      "blocks_bounded_implementation_review": false,
+      "detail": "Complete numeric/observed import peak accounting and stack headroom remain unverified, including owned copy/two parser indexes/staged buffers and allocator overhead. IR02-R5 is only partially disposed, not fully closed."
+    },
+    {
+      "id": "IR03-E3",
+      "kind": "broader_prior_acceptance_requirements",
+      "blocks_bounded_implementation_review": false,
+      "detail": "Do not infer complete guest valid-disk/system coexistence, every allocation-stage Drop ledger, per-class recovery OOM, pin preservation under growth, or reboot after partial publication from the inspected bounded reports."
+    }
+  ],
+  "new_source_code_blockers": [],
+  "concurrent_hash_state": {
+    "observation": "Harness tests changed during review from 97f43618e872bd3cd199cf05d80ef117da0e133262b962c02dbccc57fdfd2cc7 to 2f3d88bb90d3cbbb2167d021cbe8e7059504788e567be5e77f19bf3b59de8521. The final 584-line version was reread in full after that change, including unmocked marker/nested-media integration and real memory-parser contracts.",
+    "main_harness_sha256": "cedc884b0a5f253160990be13bb5b108c7639a6d1361bc448a6fdf8ae22c6ab0",
+    "test_harness_sha256": "2f3d88bb90d3cbbb2167d021cbe8e7059504788e567be5e77f19bf3b59de8521",
+    "all_recorded_sources_unchanged_at_final_prewrite_hash_check": true,
+    "status": "reviewed latest observed version; hashes stable at final recheck, not an owner-declared acceptance freeze"
+  },
+  "execution": {
+    "builds_run": false,
+    "qemu_run": false,
+    "cargo_or_guest_tests_run": false,
+    "python_unittest_suite_run": false,
+    "read_only_ast_probes_run": true,
+    "source_files_modified": [],
+    "docs_modified": false,
+    "git_mutations": false,
+    "only_requested_artifact_created": "test_results/phase10b/integration_review_03.json"
+  },
+  "prior_finding_count": 5,
+  "remaining_blocker_count": 3
+}

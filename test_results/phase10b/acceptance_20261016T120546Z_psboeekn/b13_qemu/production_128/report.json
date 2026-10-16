@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "entry": "_start",
+  "memory_mib": 128,
+  "cleanup": true,
+  "kernel_sha256": "f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f",
+  "command": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+    "-m",
+    "128",
+    "-display",
+    "none",
+    "-no-reboot",
+    "-monitor",
+    "none",
+    "-nic",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\production_128\\serial.txt",
+    "-debugcon",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\production_128\\debugcon.txt",
+    "-device",
+    "isa-debug-exit,iobase=0xf4,iosize=0x04",
+    "-d",
+    "int,guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\b13_qemu\\production_128\\qemu.log",
+    "-S",
+    "-gdb",
+    "tcp:127.0.0.1:25317"
+  ],
+  "before": {
+    "eax": 732803074,
+    "ecx": 2412892,
+    "edx": 66833,
+    "ebx": 38144,
+    "esp": 28432,
+    "ebp": 0,
+    "esi": 0,
+    "edi": 8192,
+    "eip": 2412892,
+    "eflags": 6
+  },
+  "after": {
+    "eax": 732803074,
+    "ecx": 2412892,
+    "edx": 66833,
+    "ebx": 38144,
+    "esp": 589827,
+    "ebp": 0,
+    "esi": 0,
+    "edi": 8192,
+    "eip": 2412892,
+    "eflags": 1030
+  },
+  "mutations": [
+    {
+      "registers": {
+        "esp": 589827,
+        "eflags": 1030
+      }
+    }
+  ],
+  "serial": "ROSTI: entered kernel_main\nDBG: alloc init\nDBG: mmap print\nDBG: mmap printed\nDBG: mmap parsed\nDBG: mem info set\nDBG: frame init start\nDBG: frame lock acquired\nDBG: init entered\nDBG: frame init passes done\nDBG: frame init done\nDBG: page tables built\nROSTI: paging enabled (CR0.PG, identity map)\nROSTI: block probe: no device\nROSTI: initramfs absent; RAMFS recovery\nROSTI: boot complete\nROSTI OS\n32-bit Rust Experimental Kernel\n\nMemory initialization: OK\nGDT: OK\nIDT: OK\nPIC: OK\nKeyboard: Ready\n\nrosti>",
+  "debugcon": "",
+  "observed_exit": null,
+  "final_exit": 1,
+  "elapsed_s": 0.5460000000020955
+}

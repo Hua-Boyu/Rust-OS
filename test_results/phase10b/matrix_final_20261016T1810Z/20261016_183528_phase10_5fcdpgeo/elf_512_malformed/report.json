@@ -1,0 +1,755 @@
+{
+  "ram_mib": 512,
+  "stress": false,
+  "checks": [
+    {
+      "name": "QMP greeting",
+      "pass": true
+    },
+    {
+      "name": "ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "QMP exact owned image attached",
+      "pass": true
+    },
+    {
+      "name": "no initramfs OOM fixture failure",
+      "pass": true
+    },
+    {
+      "name": "no rollback accounting failure",
+      "pass": true
+    },
+    {
+      "name": "storage gate closes only for invalid boot inventory",
+      "pass": true
+    },
+    {
+      "name": "no trusted publication anywhere in refusal transcript",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: entered kernel_main',)",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: initramfs archive rejected: DigestMismatch; RAMFS recovery',)",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: boot complete',)",
+      "pass": true
+    },
+    {
+      "name": "exact outcome/error and storage policy sequence",
+      "pass": true
+    },
+    {
+      "name": "refused image never published",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after stat /system",
+      "pass": true
+    },
+    {
+      "name": "/system: missing, not echo-only evidence",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after pwd",
+      "pass": true
+    },
+    {
+      "name": "pwd: exact output '/'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mkdir recovery",
+      "pass": true
+    },
+    {
+      "name": "mkdir recovery: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after write /recovery.txt Recovery RAMFS",
+      "pass": true
+    },
+    {
+      "name": "write /recovery.txt Recovery RAMFS: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after cat /recovery.txt",
+      "pass": true
+    },
+    {
+      "name": "cat /recovery.txt: exact output 'Recovery RAMFS'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after rm /recovery.txt",
+      "pass": true
+    },
+    {
+      "name": "rm /recovery.txt: successful dispatch",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after stat /recovery.txt",
+      "pass": true
+    },
+    {
+      "name": "/recovery.txt: missing, not echo-only evidence",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after fdlist",
+      "pass": true
+    },
+    {
+      "name": "fdlist contains only reserved console descriptors 0/1/2",
+      "pass": true
+    },
+    {
+      "name": "refused image never published",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after stat /system",
+      "pass": true
+    },
+    {
+      "name": "/system: missing, not echo-only evidence",
+      "pass": true
+    },
+    {
+      "name": "recovery shell remains fault-free",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after stat /mnt/rosti",
+      "pass": true
+    },
+    {
+      "name": "/mnt/rosti: missing, not echo-only evidence",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "name": "mem final: paging and physical frame diagnostics",
+      "pass": true
+    },
+    {
+      "name": "mem final: no faults or invalid deallocations",
+      "pass": true
+    },
+    {
+      "name": "mem final: heap counters parsed",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after mem",
+      "pass": true
+    },
+    {
+      "name": "diagnostics prove no system publication",
+      "pass": true
+    },
+    {
+      "name": "no initramfs OOM fixture failure",
+      "pass": true
+    },
+    {
+      "name": "no rollback accounting failure",
+      "pass": true
+    },
+    {
+      "name": "storage gate closes only for invalid boot inventory",
+      "pass": true
+    },
+    {
+      "name": "no trusted publication anywhere in refusal transcript",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: entered kernel_main',)",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: initramfs archive rejected: DigestMismatch; RAMFS recovery',)",
+      "pass": true
+    },
+    {
+      "name": "ordered exact marker group ('ROSTI: boot complete',)",
+      "pass": true
+    },
+    {
+      "name": "exact outcome/error and storage policy sequence",
+      "pass": true
+    },
+    {
+      "name": "owned QEMU process terminated",
+      "pass": true
+    },
+    {
+      "name": "full recovery image unchanged after process exit",
+      "pass": true
+    },
+    {
+      "name": "Phase10 scoped cleanup verified",
+      "pass": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "stat /system",
+      "serial_fragment": "stat /system\nfs: not found\nrosti>",
+      "output": "fs: not found\n",
+      "vga": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "----- multiboot mmap -----",
+        "num entries: 6",
+        "frame allocator: 65439 frames total, 2040 reserved, 63287 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "pwd",
+      "serial_fragment": "pwd\n/\nrosti>",
+      "output": "/\n",
+      "vga": [
+        "",
+        "",
+        "",
+        "----- multiboot mmap -----",
+        "num entries: 6",
+        "frame allocator: 65439 frames total, 2040 reserved, 63287 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mkdir recovery",
+      "serial_fragment": "mkdir recovery\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "",
+        "----- multiboot mmap -----",
+        "num entries: 6",
+        "frame allocator: 65439 frames total, 2040 reserved, 63287 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>mkdir recovery",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "write /recovery.txt Recovery RAMFS",
+      "serial_fragment": "write /recovery.txt Recovery RAMFS\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "num entries: 6",
+        "frame allocator: 65439 frames total, 2040 reserved, 63287 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>mkdir recovery",
+        "ok",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "cat /recovery.txt",
+      "serial_fragment": "cat /recovery.txt\nRecovery RAMFS\nrosti>",
+      "output": "Recovery RAMFS\n",
+      "vga": [
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>mkdir recovery",
+        "ok",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>cat /recovery.txt",
+        "Recovery RAMFS",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "rm /recovery.txt",
+      "serial_fragment": "rm /recovery.txt\nok\nrosti>",
+      "output": "ok\n",
+      "vga": [
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>mkdir recovery",
+        "ok",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>cat /recovery.txt",
+        "Recovery RAMFS",
+        "rosti>rm /recovery.txt",
+        "ok",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "stat /recovery.txt",
+      "serial_fragment": "stat /recovery.txt\nfs: not found\nrosti>",
+      "output": "fs: not found\n",
+      "vga": [
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>mkdir recovery",
+        "ok",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>cat /recovery.txt",
+        "Recovery RAMFS",
+        "rosti>rm /recovery.txt",
+        "ok",
+        "rosti>stat /recovery.txt",
+        "fs: not found",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "fdlist",
+      "serial_fragment": "fdlist\nfd 0 console-in rights 0 offset 0 refs 0\nfd 1 console-out rights 0 offset 0 refs 0\nfd 2 console-out rights 0 offset 0 refs 0\nrosti>",
+      "output": "fd 0 console-in rights 0 offset 0 refs 0\nfd 1 console-out rights 0 offset 0 refs 0\nfd 2 console-out rights 0 offset 0 refs 0\n",
+      "vga": [
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>mkdir recovery",
+        "ok",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>cat /recovery.txt",
+        "Recovery RAMFS",
+        "rosti>rm /recovery.txt",
+        "ok",
+        "rosti>stat /recovery.txt",
+        "fs: not found",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "stat /system",
+      "serial_fragment": "stat /system\nfs: not found\nrosti>",
+      "output": "fs: not found\n",
+      "vga": [
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>mkdir recovery",
+        "ok",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>cat /recovery.txt",
+        "Recovery RAMFS",
+        "rosti>rm /recovery.txt",
+        "ok",
+        "rosti>stat /recovery.txt",
+        "fs: not found",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "stat /mnt/rosti",
+      "serial_fragment": "stat /mnt/rosti\nfs: not found\nrosti>",
+      "output": "fs: not found\n",
+      "vga": [
+        "Keyboard: Ready",
+        "",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>pwd",
+        "/",
+        "rosti>mkdir recovery",
+        "ok",
+        "rosti>write /recovery.txt Recovery RAMFS",
+        "ok",
+        "rosti>cat /recovery.txt",
+        "Recovery RAMFS",
+        "rosti>rm /recovery.txt",
+        "ok",
+        "rosti>stat /recovery.txt",
+        "fs: not found",
+        "rosti>fdlist",
+        "fd 0 console-in rights 0 offset 0 refs 0",
+        "fd 1 console-out rights 0 offset 0 refs 0",
+        "fd 2 console-out rights 0 offset 0 refs 0",
+        "rosti>stat /system",
+        "fs: not found",
+        "rosti>stat /mnt/rosti",
+        "fs: not found",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 2\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 3 closes 3 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63287\nAllocated frames: 129\nReserved frames: 2040\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8464 bytes\nFree: 1040112 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 2\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 3 closes 3 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63287\nAllocated frames: 129\nReserved frames: 2040\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8464 bytes\nFree: 1040112 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 65439",
+        "Free frames: 63287",
+        "Allocated frames: 129",
+        "Reserved frames: 2040",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8464 bytes",
+        "Free: 1040112 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "mem",
+      "serial_fragment": "mem\nusable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 2\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 3 closes 3 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63287\nAllocated frames: 129\nReserved frames: 2040\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8464 bytes\nFree: 1040112 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\nrosti>",
+      "output": "usable memory: 523775 KB\nallocator block base: 0x2cc000\nFS nodes: 2\nFS storage: 0 bytes\nFS logical bytes: 0\nFS metadata: 5888 bytes (fixed)\nSystem mount: absent\nDescriptors: open 3 records 0 opens 3 closes 3 denials 0 stale 0\nPhysical memory:\nTotal frames: 65439\nFree frames: 63287\nAllocated frames: 129\nReserved frames: 2040\nFrame rejects: double frees 0 invalid frees 0\n\nVirtual memory:\nPaging: enabled\nPage directory: 0x00001000\nMapped pages: 129503\nPage size: 4096 bytes\n\nKernel heap:\nCurrent capacity: 1048576 bytes\nUsed: 8464 bytes\nFree: 1040112 bytes\nFailed allocations: 0\nLive allocations: 3\nInvalid deallocs: 0\nFree blocks: 3 (largest 1032000 bytes)\nAlignment waste: 0 bytes\nGrowth pages: 0\n\nPage faults: 0\n",
+      "vga": [
+        "Total frames: 65439",
+        "Free frames: 63287",
+        "Allocated frames: 129",
+        "Reserved frames: 2040",
+        "Frame rejects: double frees 0 invalid frees 0",
+        "",
+        "Virtual memory:",
+        "Paging: enabled",
+        "Page directory: 0x00001000",
+        "Mapped pages: 129503",
+        "Page size: 4096 bytes",
+        "",
+        "Kernel heap:",
+        "Current capacity: 1048576 bytes",
+        "Used: 8464 bytes",
+        "Free: 1040112 bytes",
+        "Failed allocations: 0",
+        "Live allocations: 3",
+        "Invalid deallocs: 0",
+        "Free blocks: 3 (largest 1032000 bytes)",
+        "Alignment waste: 0 bytes",
+        "Growth pages: 0",
+        "",
+        "Page faults: 0",
+        "rosti>"
+      ]
+    }
+  ],
+  "memory": {
+    "final": {
+      "used": 8464,
+      "capacity": 1048576,
+      "growth_pages": 0,
+      "failed_allocations": 0,
+      "live_allocations": 3,
+      "fs_storage": 0,
+      "fs_entries": 2,
+      "fd_open_slots": 3,
+      "fd_open_records": 0,
+      "fd_opens": 3,
+      "fd_closes": 3,
+      "fd_denials": 0,
+      "fd_stale": 0
+    }
+  },
+  "overall": "PASS",
+  "case": "malformed",
+  "latency": {
+    "boot_s": 0.422,
+    "shell_command_s": [
+      {
+        "command": "stat /system",
+        "seconds": 0.984
+      },
+      {
+        "command": "pwd",
+        "seconds": 0.313
+      },
+      {
+        "command": "mkdir recovery",
+        "seconds": 1.094
+      },
+      {
+        "command": "write /recovery.txt Recovery RAMFS",
+        "seconds": 2.609
+      },
+      {
+        "command": "cat /recovery.txt",
+        "seconds": 1.328
+      },
+      {
+        "command": "rm /recovery.txt",
+        "seconds": 1.266
+      },
+      {
+        "command": "stat /recovery.txt",
+        "seconds": 1.375
+      },
+      {
+        "command": "fdlist",
+        "seconds": 0.547
+      },
+      {
+        "command": "stat /system",
+        "seconds": 0.968
+      },
+      {
+        "command": "stat /mnt/rosti",
+        "seconds": 1.204
+      },
+      {
+        "command": "mem",
+        "seconds": 0.453
+      },
+      {
+        "command": "mem",
+        "seconds": 0.437
+      }
+    ]
+  },
+  "recovery_image": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase10_media_ipobl87x\\corrupt-rostifs.img",
+  "recovery_image_before_sha256": "086b3f1c2b26530dcabf06172ed35a777488b54c59b5eb8ccf9e9e8ee80938af",
+  "argv": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+    "-machine",
+    "pc",
+    "-m",
+    "512",
+    "-display",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\matrix_final_20261016T1810Z\\20261016_183528_phase10_5fcdpgeo\\elf_512_malformed\\serial.txt",
+    "-monitor",
+    "none",
+    "-qmp",
+    "tcp:127.0.0.1:21295,server=on,wait=off",
+    "-d",
+    "guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\matrix_final_20261016T1810Z\\20261016_183528_phase10_5fcdpgeo\\elf_512_malformed\\qemu_log.txt",
+    "-no-reboot",
+    "-drive",
+    "file=C:/Users/iamsv/Documents/Rust-OS/dist/phase10_media_ipobl87x/corrupt-rostifs.img,format=raw,if=ide,index=0,cache=writeback",
+    "-S",
+    "-gdb",
+    "tcp:127.0.0.1:21296"
+  ],
+  "qmp_port": 21295,
+  "gdb_port": 21296,
+  "qemu_pid": 51936,
+  "entry": {
+    "eip": 2412892,
+    "eax": "0x2badb002",
+    "ebx": "0x9500"
+  },
+  "fixture": {
+    "case": "malformed",
+    "mode": 0,
+    "module_count": 1,
+    "payload_sha256": "2d1f7135c30aec930019f99dd7a6b9021d0deea4461c02d9876a3bcda754284e",
+    "payload_bytes": 1024,
+    "archive_sha256": "8ff3bfdc925e1b0e60441b072f4c4c0c4f6b16f68dfce0c0ff50bb609d64a6a7",
+    "injection": [
+      {
+        "address": "0x1000100",
+        "bytes_sha256": "759def27fcfd2a39cb1c0867062a1744ed8bb7862de3b84d9f87076c07a6a6e2",
+        "length": 16
+      },
+      {
+        "address": "0x1100000",
+        "bytes_sha256": "2d1f7135c30aec930019f99dd7a6b9021d0deea4461c02d9876a3bcda754284e",
+        "length": 1024
+      },
+      {
+        "address": "0x1000000",
+        "bytes_sha256": "35877518bafed96baaf51e14ae711ad70c263f7c0da9885c7993a74692a4a0cc",
+        "length": 16
+      },
+      {
+        "address": "0x70000",
+        "bytes_sha256": "113cf07c3d03f8ac8e2dffb92b0aea1e411ee325def4ac07d3d23378b41c5b11",
+        "length": 116
+      }
+    ]
+  },
+  "entry_eax_preserved": true,
+  "entry_ebx_redirected": true,
+  "entry_after": {
+    "eax": "0x2badb002",
+    "ebx": "0x70000"
+  },
+  "system_memory": {
+    "final": {
+      "mounted": false
+    }
+  },
+  "owned_qemu_exited": true,
+  "recovery_image_after_sha256": "086b3f1c2b26530dcabf06172ed35a777488b54c59b5eb8ccf9e9e8ee80938af",
+  "check_count": 52,
+  "pass_count": 52,
+  "cleanup": true
+}

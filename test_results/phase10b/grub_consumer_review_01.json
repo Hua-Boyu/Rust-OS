@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "disposition": "approve_scoped_diff",
+  "reviewed_head": "3423ae23b1f0911646adac5e106eee0edeb779cd",
+  "security_concerns": [],
+  "logic_errors": [],
+  "findings": [
+    {
+      "severity": "info",
+      "disposition": "verified",
+      "location": "src/boot_inventory.rs:298-323",
+      "finding": "Removing the reserved-word rejection is correct consumer behavior. GNU Multiboot v1 explicitly says: \"The ‘reserved’ field must be set to 0 by the boot loader and ignored by the operating system.\" Loader nonconformance does not justify OS rejection.",
+      "reference": "https://www.gnu.org/software/grub/manual/multiboot/html_node/Boot-information-format.html"
+    },
+    {
+      "severity": "info",
+      "disposition": "verified_retained",
+      "location": "src/boot_inventory.rs:186-221,288-323,390-443",
+      "finding": "All meaningful-field protections remain: bounded module count and table span before descriptor reads; checked address arithmetic and 32-bit physical ceiling; nonempty forward payload range; complete usable-RAM coverage with reserved-map precedence; kernel/growth exclusion; module/module and module/metadata overlap rejection, including metadata discovered later; bounded, validated, owned names and reservations including NUL. The reserved word is not interpreted as a pointer or length."
+    },
+    {
+      "severity": "info",
+      "disposition": "verified_retained",
+      "location": "tests_kernel/src/b18_inventory_tests.rs:304-318,618-695",
+      "finding": "The new regression compares nonzero reserved values 1, 0xfffffffc and u32::MAX against the zero baseline for module ranges, reservations and selected owned metadata, without payload reads. Existing source-drop, partial-frame pinning, free-refusal and allocator-exhaustion tests remain unchanged. Runtime execution was not performed."
+    },
+    {
+      "severity": "info",
+      "disposition": "verified",
+      "location": "scripts/phase10_grub_module_probe.py:59-89",
+      "finding": "Default positive probing now ignores reserved-word contents while retaining descriptor count, payload length/content, exact label and guest success-marker checks at both RAM sizes. Raw descriptor bytes and per-RAM observations are saved. Producer-zero checking remains an explicit opt-in, separate from OS compatibility."
+    },
+    {
+      "severity": "low",
+      "disposition": "nonblocking_suggestion",
+      "location": "scripts/phase10_grub_module_probe.py:19-21,71-74",
+      "finding": "The two reserved-policy flags can be supplied together; --expect-reserved-rejection silently takes precedence over --require-zero-reserved. Consider making them mutually exclusive to avoid an ambiguous diagnostic invocation."
+    }
+  ],
+  "upstream_source_check": "Inspected saved GRUB 2.12 multiboot_mbi.c: the module loop assigns start, end and cmdline but not pad; the preceding memset covers the information header rather than the module table.",
+  "verification": {
+    "git_diff_check": "PASS; only LF/CRLF warnings",
+    "builds_tests_qemu": "Not run, as requested",
+    "files_created_or_modified": [],
+    "limitations": [
+      "Static scoped approval only; no guest, trust, publication or release acceptance claimed.",
+      "GNU wording independently confirmed through web-search results. Full-page extraction was unavailable and direct HTTP retrieval failed with an unreachable-network error."
+    ]
+  }
+}

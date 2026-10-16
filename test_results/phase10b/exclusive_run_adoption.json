@@ -1,0 +1,53 @@
+{
+  "adopted_exact_run": "test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\acceptance.json",
+  "source_input_count": 134,
+  "all_sources_match": true,
+  "os_lock_owner_pid": 40348,
+  "ownership": "Desktop task worker won new OS-lock race; completion subagent launch refused exit2, so monitor existing exact exclusive run without competing QEMU",
+  "argv": [
+    "C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
+    "-B",
+    "scripts/phase6_verify.py"
+  ],
+  "create_time": 1792152346.4075153,
+  "ancestors": [
+    {
+      "pid": 21392,
+      "name": "python.exe",
+      "argv": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "scripts/phase6_verify.py"
+      ]
+    },
+    {
+      "pid": 41032,
+      "name": "bash.exe",
+      "argv": [
+        "C:\\Program Files\\Git\\bin\\..\\usr\\bin\\bash.exe",
+        "-lic",
+        "set +m; cd \"C:/Users/iamsv/Documents/Rust-OS\" && python -B scripts/phase6_verify.py"
+      ]
+    },
+    {
+      "pid": 16940,
+      "name": "bash.exe",
+      "argv": [
+        "C:\\Program Files\\Git\\bin\\..\\usr\\bin\\bash.exe",
+        "-lic",
+        "set +m; cd \"C:/Users/iamsv/Documents/Rust-OS\" && python -B scripts/phase6_verify.py"
+      ]
+    },
+    {
+      "pid": 44660,
+      "name": "bash.exe",
+      "argv": [
+        "C:\\Program Files\\Git\\bin\\bash.exe",
+        "-lic",
+        "set +m; cd \"C:/Users/iamsv/Documents/Rust-OS\" && python -B scripts/phase6_verify.py"
+      ]
+    }
+  ],
+  "report_status": "RUNNING",
+  "completed_gates_at_adoption": 30
+}

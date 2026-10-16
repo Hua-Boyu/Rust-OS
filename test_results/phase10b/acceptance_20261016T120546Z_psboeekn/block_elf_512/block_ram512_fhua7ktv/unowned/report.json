@@ -1,0 +1,369 @@
+{
+  "ram_mib": 512,
+  "stress": false,
+  "checks": [
+    {
+      "name": "QMP greeting",
+      "pass": true
+    },
+    {
+      "name": "ordered boot markers",
+      "pass": true
+    },
+    {
+      "name": "no boot panic/fault",
+      "pass": true
+    },
+    {
+      "name": "QMP exact owned image attached",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after disk",
+      "pass": true
+    },
+    {
+      "name": "ATA model identified",
+      "pass": true
+    },
+    {
+      "name": "32-bit IDENTIFY capacity",
+      "pass": true
+    },
+    {
+      "name": "ownership is explicit",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after diskwrite 1",
+      "pass": true
+    },
+    {
+      "name": "diskwrite 1: exact output 'block: write refused: media not test-owned'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after diskwrite 0",
+      "pass": true
+    },
+    {
+      "name": "diskwrite 0: exact output 'block: write refused: media not test-owned'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after diskwrite 65552",
+      "pass": true
+    },
+    {
+      "name": "diskwrite 65552: exact output 'block: LBA out of range'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after diskread 1",
+      "pass": true
+    },
+    {
+      "name": "diskread 1: exact output 'block: sector 1 mismatch 510 bytes'",
+      "pass": true
+    },
+    {
+      "name": "VGA prompt after disk",
+      "pass": true
+    },
+    {
+      "name": "no successful writes to unowned image",
+      "pass": true
+    },
+    {
+      "name": "owned QEMU process terminated",
+      "pass": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "disk",
+      "serial_fragment": "disk\nblock device: QEMU HARDDISK\ncapacity: 65552 sectors x 512 bytes\ntest-owned media: no\nblock stats: reads 1 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 512 protected_denials 0\nrosti>",
+      "output": "block device: QEMU HARDDISK\ncapacity: 65552 sectors x 512 bytes\ntest-owned media: no\nblock stats: reads 1 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 512 protected_denials 0\n",
+      "vga": [
+        "",
+        "----- multiboot mmap -----",
+        "num entries: 6",
+        "frame allocator: 65439 frames total, 2038 reserved, 63289 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>disk",
+        "block device: QEMU HARDDISK",
+        "capacity: 65552 sectors x 512 bytes",
+        "test-owned media: no",
+        "block stats: reads 1 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 512 p",
+        "rotected_denials 0",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "diskwrite 1",
+      "serial_fragment": "diskwrite 1\nblock: write refused: media not test-owned\nrosti>",
+      "output": "block: write refused: media not test-owned\n",
+      "vga": [
+        "num entries: 6",
+        "frame allocator: 65439 frames total, 2038 reserved, 63289 free",
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>disk",
+        "block device: QEMU HARDDISK",
+        "capacity: 65552 sectors x 512 bytes",
+        "test-owned media: no",
+        "block stats: reads 1 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 512 p",
+        "rotected_denials 0",
+        "rosti>diskwrite 1",
+        "block: write refused: media not test-owned",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "diskwrite 0",
+      "serial_fragment": "diskwrite 0\nblock: write refused: media not test-owned\nrosti>",
+      "output": "block: write refused: media not test-owned\n",
+      "vga": [
+        "paging window: 0x1ffe0000 (page tables built, validated)",
+        "hi",
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>disk",
+        "block device: QEMU HARDDISK",
+        "capacity: 65552 sectors x 512 bytes",
+        "test-owned media: no",
+        "block stats: reads 1 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 512 p",
+        "rotected_denials 0",
+        "rosti>diskwrite 1",
+        "block: write refused: media not test-owned",
+        "rosti>diskwrite 0",
+        "block: write refused: media not test-owned",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "diskwrite 65552",
+      "serial_fragment": "diskwrite 65552\nblock: LBA out of range\nrosti>",
+      "output": "block: LBA out of range\n",
+      "vga": [
+        "old idtr: Idtr { limit: 1023, base: 0 }",
+        "new idtr: Idtr { limit: 2047, base: 4063236 }",
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>disk",
+        "block device: QEMU HARDDISK",
+        "capacity: 65552 sectors x 512 bytes",
+        "test-owned media: no",
+        "block stats: reads 1 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 512 p",
+        "rotected_denials 0",
+        "rosti>diskwrite 1",
+        "block: write refused: media not test-owned",
+        "rosti>diskwrite 0",
+        "block: write refused: media not test-owned",
+        "rosti>diskwrite 65552",
+        "block: LBA out of range",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "diskread 1",
+      "serial_fragment": "diskread 1\nblock: sector 1 mismatch 510 bytes\nrosti>",
+      "output": "block: sector 1 mismatch 510 bytes\n",
+      "vga": [
+        "ps2 init enable",
+        "ROSTI OS",
+        "32-bit Rust Experimental Kernel",
+        "",
+        "Memory initialization: OK",
+        "GDT: OK",
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>disk",
+        "block device: QEMU HARDDISK",
+        "capacity: 65552 sectors x 512 bytes",
+        "test-owned media: no",
+        "block stats: reads 1 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 512 p",
+        "rotected_denials 0",
+        "rosti>diskwrite 1",
+        "block: write refused: media not test-owned",
+        "rosti>diskwrite 0",
+        "block: write refused: media not test-owned",
+        "rosti>diskwrite 65552",
+        "block: LBA out of range",
+        "rosti>diskread 1",
+        "block: sector 1 mismatch 510 bytes",
+        "rosti>"
+      ]
+    },
+    {
+      "command": "disk",
+      "serial_fragment": "disk\nblock device: QEMU HARDDISK\ncapacity: 65552 sectors x 512 bytes\ntest-owned media: no\nblock stats: reads 2 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 1024 protected_denials 2\nrosti>",
+      "output": "block device: QEMU HARDDISK\ncapacity: 65552 sectors x 512 bytes\ntest-owned media: no\nblock stats: reads 2 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 1024 protected_denials 2\n",
+      "vga": [
+        "IDT: OK",
+        "PIC: OK",
+        "Keyboard: Ready",
+        "",
+        "rosti>disk",
+        "block device: QEMU HARDDISK",
+        "capacity: 65552 sectors x 512 bytes",
+        "test-owned media: no",
+        "block stats: reads 1 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 512 p",
+        "rotected_denials 0",
+        "rosti>diskwrite 1",
+        "block: write refused: media not test-owned",
+        "rosti>diskwrite 0",
+        "block: write refused: media not test-owned",
+        "rosti>diskwrite 65552",
+        "block: LBA out of range",
+        "rosti>diskread 1",
+        "block: sector 1 mismatch 510 bytes",
+        "rosti>disk",
+        "block device: QEMU HARDDISK",
+        "capacity: 65552 sectors x 512 bytes",
+        "test-owned media: no",
+        "block stats: reads 2 writes 0 timeouts 0 device_errors 0 no_device 0 bytes 1024",
+        "protected_denials 2",
+        "rosti>"
+      ]
+    }
+  ],
+  "memory": {},
+  "overall": "PASS",
+  "argv": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+    "-machine",
+    "pc",
+    "-m",
+    "512",
+    "-display",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\block_elf_512\\block_ram512_fhua7ktv\\unowned\\serial.txt",
+    "-monitor",
+    "none",
+    "-qmp",
+    "tcp:127.0.0.1:6868,server=on,wait=off",
+    "-d",
+    "guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\block_elf_512\\block_ram512_fhua7ktv\\unowned\\qemu_log.txt",
+    "-drive",
+    "file=C:/Users/iamsv/Documents/Rust-OS/dist/phase8_block_77afzkev/unowned.raw,format=raw,if=ide,index=0,cache=writeback"
+  ],
+  "qemu_pid": 48820,
+  "query_block": [
+    {
+      "io-status": "ok",
+      "device": "ide0-hd0",
+      "locked": false,
+      "removable": false,
+      "inserted": {
+        "iops_rd": 0,
+        "detect_zeroes": "off",
+        "active": true,
+        "image": {
+          "limits": {
+            "request-alignment": 1,
+            "min-mem-alignment": 512,
+            "opt-mem-alignment": 4096,
+            "max-iov": 1024
+          },
+          "virtual-size": 33562624,
+          "filename": "C:/Users/iamsv/Documents/Rust-OS/dist/phase8_block_77afzkev/unowned.raw",
+          "format": "raw",
+          "actual-size": 33562624
+        },
+        "iops_wr": 0,
+        "ro": false,
+        "children": [
+          {
+            "node-name": "#block058",
+            "child": "file"
+          }
+        ],
+        "node-name": "#block155",
+        "backing_file_depth": 0,
+        "drv": "raw",
+        "iops": 0,
+        "bps_wr": 0,
+        "write_threshold": 0,
+        "encrypted": false,
+        "bps": 0,
+        "bps_rd": 0,
+        "cache": {
+          "no-flush": false,
+          "direct": false,
+          "writeback": true
+        },
+        "file": "C:/Users/iamsv/Documents/Rust-OS/dist/phase8_block_77afzkev/unowned.raw"
+      },
+      "qdev": "/machine/unattached/device[4]",
+      "type": "unknown"
+    },
+    {
+      "io-status": "ok",
+      "device": "ide1-cd0",
+      "locked": false,
+      "removable": true,
+      "qdev": "/machine/unattached/device[5]",
+      "tray_open": false,
+      "type": "unknown"
+    },
+    {
+      "device": "floppy0",
+      "locked": false,
+      "removable": true,
+      "qdev": "/machine/unattached/device[15]",
+      "type": "unknown"
+    }
+  ],
+  "owned_qemu_exited": true
+}

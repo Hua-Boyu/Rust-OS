@@ -1,0 +1,7 @@
+{
+  "contender_exit_code": 2,
+  "stdout": "HARNESS_BUSY: acceptance already running for C:\\Users\\iamsv\\Documents\\Rust-OS\n",
+  "stderr": "",
+  "new_reports": [],
+  "lock_owner_metadata": "{\"pid\": 40348}"
+}

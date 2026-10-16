@@ -1,0 +1,22 @@
+{
+  "schema": "phase10b-independent-harness-followup-review-v1",
+  "reviewer_session": "20261016_203206_b532ef",
+  "method": "Independent Hermes one-shot gpt-6.1-sol/openai-codex, no tool execution; reviewed exact current excerpts and supplied premise/test summary. Not full acceptance certification.",
+  "source_sha256": {
+    "scripts\\phase6_verify.py": "64e77e53d7453daae356e1cbd801ecc3bd0ef6d6104b0e8c3da89cfd751ea08b",
+    "scripts\\test_acceptance_harness.py": "3477ec19b9b58adb9134455950282a04fbe04e4a4e901be7d074412098ce84e1",
+    ".gitattributes": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218"
+  },
+  "provided_hashes_rematched_by_completion_agent": true,
+  "contextmanager_decorator_verified_by_completion_agent": true,
+  "full_acceptance_verified": false,
+  "passed": true,
+  "security_concerns": [],
+  "logic_errors": [],
+  "suggestions": [
+    "Excerpt completeness: acceptance_lock must be decorated with contextlib.contextmanager or equivalently wrapped; the displayed generator alone does not support with. This review treats that wrapping as established by your context-manager premise and reported passing tests.",
+    "Advisory: distinguish lock contention from other acquisition OSErrors so unsupported locking or filesystem failures are not misleadingly reported as another running acceptance process. The current behavior still refuses work.",
+    "Verification limit: exact length 103 rejects missing or extra aggregate rows, but cannot alone prove preservation of the original 102 checks or placement of the added VGA-prompt check after baseline ls. Those properties are accepted as supplied premises, not independently established by the excerpts."
+  ],
+  "summary": "Bounded review passes on the stated premises. The persistent lock file and OS-held handle provide cross-process exclusion through the complete pipeline, including finally-based production restoration and final evidence; contention refuses before entering _run_acceptance. Existing .gitattributes content is included in the source snapshot. The stated aggregate contract requires exactly 103 checks for each ELF/ISO workload at 128/512, with block98 and rostifs168 unchanged. Reported host tests and the live busy probe are supporting evidence supplied by you; hashes were not independently verified. This is not certification of full acceptance, which remains running."
+}

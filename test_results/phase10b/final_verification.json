@@ -1,0 +1,2281 @@
+{
+  "overall": "PASS",
+  "acceptance": "test_results/phase10b/acceptance_20261016T120546Z_psboeekn/acceptance.json",
+  "gates_passed": 53,
+  "gates_total": 53,
+  "source_inputs_rediscovered": 134,
+  "source_freeze_verified": true,
+  "phase10_scenarios": 56,
+  "phase10_check_count": 3379,
+  "phase10_child_checks": 3320,
+  "boot_counts": {
+    "128": 10,
+    "512": 10
+  },
+  "nested_reports": 159,
+  "nested_standard_reports": 154,
+  "cleanup_assertions": 200,
+  "qemu_remaining": [],
+  "iso": {
+    "name": "rosti_phase10b_20261016T120546Z.iso",
+    "path": "dist\\rosti_phase10b_20261016T120546Z.iso",
+    "sha256": "117c7b2c0a1f21dc53442a7a1c558b45b8367cb163d405d4d6ef5956596993d8",
+    "bytes": 11096064,
+    "kernel_sha256": "f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f"
+  },
+  "independent_extracted_kernel_sha256": "f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f",
+  "independent_extracted_system_sha256": "8ff3bfdc925e1b0e60441b072f4c4c0c4f6b16f68dfce0c0ff50bb609d64a6a7",
+  "historical_phase9_6_iso_unchanged": true,
+  "counts": {
+    "host": {
+      "pass": 265,
+      "fail": 0
+    },
+    "b11": {
+      "pass": 12,
+      "fail": 0
+    },
+    "b18": {
+      "pass": 46,
+      "fail": 0
+    },
+    "b26": {
+      "pass": 9,
+      "fail": 0
+    },
+    "rostifs_host": {
+      "pass": 23,
+      "fail": 0
+    },
+    "rostifs_tools": {
+      "pass": 4,
+      "fail": 0
+    },
+    "rostifs_read": {
+      "pass": 4,
+      "fail": 0
+    },
+    "rostifs_write": {
+      "pass": 3,
+      "fail": 0
+    },
+    "b13_host": {
+      "pass": 3,
+      "fail": 0
+    },
+    "b13_qemu": {
+      "pass": 4,
+      "fail": 0
+    },
+    "boot_metadata": {
+      "pass": 53,
+      "fail": 0
+    },
+    "boot_metadata_scenarios": {
+      "pass": 44,
+      "fail": 0
+    },
+    "elf": {
+      "pass": 8,
+      "fail": 0
+    },
+    "boot_128": {
+      "pass": 10,
+      "fail": 0
+    },
+    "boot_512": {
+      "pass": 10,
+      "fail": 0
+    },
+    "phase10_scenarios": {
+      "pass": 56,
+      "fail": 0
+    },
+    "block_elf_128\\block_ram128_3kg0l85n\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_3kg0l85n\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_3kg0l85n\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_3kg0l85n\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_3kg0l85n\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_fhua7ktv\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_fhua7ktv\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_fhua7ktv\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_fhua7ktv\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_fhua7ktv\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_abdlg2xe\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_abdlg2xe\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_abdlg2xe\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_abdlg2xe\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_abdlg2xe\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512_qdfy6shv\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512_qdfy6shv\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512_qdfy6shv\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512_qdfy6shv\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512_qdfy6shv\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_128_countedoverflow\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_128_frameexhaustion\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_128_headerbad\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_128_invalidmagic\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_128_mmaptruncated\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_128_module-overlap\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_128_modulein-growth\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_128_nomodule\\report.json": {
+      "pass": 33,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_128_null\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_128_reservedgrowth\\report.json": {
+      "pass": 38,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_128_validmodule\\report.json": {
+      "pass": 101,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_512_countedoverflow\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_512_frameexhaustion\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_512_headerbad\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_512_invalidmagic\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_512_mmaptruncated\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_512_module-overlap\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_512_modulein-growth\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_512_nomodule\\report.json": {
+      "pass": 33,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_512_null\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_512_reservedgrowth\\report.json": {
+      "pass": 38,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\elf_512_validmodule\\report.json": {
+      "pass": 101,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_128_countedoverflow\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_128_frameexhaustion\\report.json": {
+      "pass": 20,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_128_headerbad\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_128_invalidmagic\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_128_mmaptruncated\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_128_module-overlap\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_128_modulein-growth\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_128_nomodule\\report.json": {
+      "pass": 34,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_128_null\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_128_reservedgrowth\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_128_validmodule\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_512_countedoverflow\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_512_frameexhaustion\\report.json": {
+      "pass": 20,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_512_headerbad\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_512_invalidmagic\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_512_mmaptruncated\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_512_module-overlap\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_512_modulein-growth\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_512_nomodule\\report.json": {
+      "pass": 34,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_512_null\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_512_reservedgrowth\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_08cha6r9\\iso_512_validmodule\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": null
+    },
+    "fs_elf_128\\20261016_201932_ram128_haxrlrh0\\report.json": {
+      "pass": 103,
+      "fail": 0,
+      "commands": 39
+    },
+    "fs_elf_512\\20261016_202222_ram512_ysx6j4jk\\report.json": {
+      "pass": 103,
+      "fail": 0,
+      "commands": 39
+    },
+    "fs_iso_128\\20261016_202555_ram128_b6x1itt6\\report.json": {
+      "pass": 103,
+      "fail": 0,
+      "commands": 39
+    },
+    "fs_iso_512\\20261016_202857_ram512_ppk_sj66\\report.json": {
+      "pass": 103,
+      "fail": 0,
+      "commands": 39
+    },
+    "iso_paging\\20261016_202539_paging\\report.json": {
+      "pass": 2,
+      "fail": 0
+    },
+    "paging\\20261016_201837_paging\\report.json": {
+      "pass": 20,
+      "fail": 0
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\report.json": {
+      "pass": 3379,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_absent\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_bad-digest\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_corrupt-rostifs\\report.json": {
+      "pass": 73,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_duplicate\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_invalid-descriptor\\report.json": {
+      "pass": 58,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_malformed\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_missing-storage\\report.json": {
+      "pass": 71,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_mount-collision\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_mount-failure\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_oversize\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_reboot-after-failure\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_resource-exhaustion\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_truncated\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_128_trusted\\report.json": {
+      "pass": 73,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_absent\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_bad-digest\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_corrupt-rostifs\\report.json": {
+      "pass": 73,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_duplicate\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_invalid-descriptor\\report.json": {
+      "pass": 58,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_malformed\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_missing-storage\\report.json": {
+      "pass": 71,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_mount-collision\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_mount-failure\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_oversize\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_reboot-after-failure\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_resource-exhaustion\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_truncated\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\elf_512_trusted\\report.json": {
+      "pass": 73,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_absent\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_bad-digest\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_corrupt-rostifs\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_duplicate\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_invalid-descriptor\\report.json": {
+      "pass": 59,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_malformed\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_missing-storage\\report.json": {
+      "pass": 72,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_mount-collision\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_mount-failure\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_oversize\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_reboot-after-failure\\report.json": {
+      "pass": 75,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_resource-exhaustion\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_truncated\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_128_trusted\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_absent\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_bad-digest\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_corrupt-rostifs\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_duplicate\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_invalid-descriptor\\report.json": {
+      "pass": 59,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_malformed\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_missing-storage\\report.json": {
+      "pass": 72,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_mount-collision\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_mount-failure\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_oversize\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_reboot-after-failure\\report.json": {
+      "pass": 75,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_resource-exhaustion\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_truncated\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261016_203200_phase10_c3rlr0u2\\iso_512_trusted\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "read_fault\\20261016_200711_fault\\report.json": {
+      "pass": 2,
+      "fail": 0
+    },
+    "rostifs_elf_128\\rostifs_ram128_qqkv5twc\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_elf_128\\rostifs_ram128_qqkv5twc\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_elf_128\\rostifs_ram128_qqkv5twc\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_elf_128\\rostifs_ram128_qqkv5twc\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_128\\rostifs_ram128_qqkv5twc\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_128\\rostifs_ram128_qqkv5twc\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_512\\rostifs_ram512_si_lklk2\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_elf_512\\rostifs_ram512_si_lklk2\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_elf_512\\rostifs_ram512_si_lklk2\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_elf_512\\rostifs_ram512_si_lklk2\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_512\\rostifs_ram512_si_lklk2\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_512\\rostifs_ram512_si_lklk2\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_128\\rostifs_ram128_whzynh4v\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_iso_128\\rostifs_ram128_whzynh4v\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_iso_128\\rostifs_ram128_whzynh4v\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_iso_128\\rostifs_ram128_whzynh4v\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_128\\rostifs_ram128_whzynh4v\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_128\\rostifs_ram128_whzynh4v\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_512\\rostifs_ram512_x_xokcmh\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_iso_512\\rostifs_ram512_x_xokcmh\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_iso_512\\rostifs_ram512_x_xokcmh\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_iso_512\\rostifs_ram512_x_xokcmh\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_512\\rostifs_ram512_x_xokcmh\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_512\\rostifs_ram512_x_xokcmh\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "write_fault\\20261016_200714_fault\\report.json": {
+      "pass": 2,
+      "fail": 0
+    }
+  },
+  "report_checks": [
+    {
+      "path": "block_elf_128/block_ram128_3kg0l85n/report.json",
+      "checks": 98
+    },
+    {
+      "path": "block_elf_128/block_ram128_3kg0l85n/absent/report.json",
+      "checks": 21
+    },
+    {
+      "path": "block_elf_128/block_ram128_3kg0l85n/owned_reboot/report.json",
+      "checks": 39
+    },
+    {
+      "path": "block_elf_128/block_ram128_3kg0l85n/owned_restart/report.json",
+      "checks": 13
+    },
+    {
+      "path": "block_elf_128/block_ram128_3kg0l85n/unowned/report.json",
+      "checks": 19
+    },
+    {
+      "path": "block_elf_512/block_ram512_fhua7ktv/report.json",
+      "checks": 98
+    },
+    {
+      "path": "block_elf_512/block_ram512_fhua7ktv/absent/report.json",
+      "checks": 21
+    },
+    {
+      "path": "block_elf_512/block_ram512_fhua7ktv/owned_reboot/report.json",
+      "checks": 39
+    },
+    {
+      "path": "block_elf_512/block_ram512_fhua7ktv/owned_restart/report.json",
+      "checks": 13
+    },
+    {
+      "path": "block_elf_512/block_ram512_fhua7ktv/unowned/report.json",
+      "checks": 19
+    },
+    {
+      "path": "block_iso_128/block_ram128_abdlg2xe/report.json",
+      "checks": 98
+    },
+    {
+      "path": "block_iso_128/block_ram128_abdlg2xe/absent/report.json",
+      "checks": 21
+    },
+    {
+      "path": "block_iso_128/block_ram128_abdlg2xe/owned_reboot/report.json",
+      "checks": 39
+    },
+    {
+      "path": "block_iso_128/block_ram128_abdlg2xe/owned_restart/report.json",
+      "checks": 13
+    },
+    {
+      "path": "block_iso_128/block_ram128_abdlg2xe/unowned/report.json",
+      "checks": 19
+    },
+    {
+      "path": "block_iso_512/block_ram512_qdfy6shv/report.json",
+      "checks": 98
+    },
+    {
+      "path": "block_iso_512/block_ram512_qdfy6shv/absent/report.json",
+      "checks": 21
+    },
+    {
+      "path": "block_iso_512/block_ram512_qdfy6shv/owned_reboot/report.json",
+      "checks": 39
+    },
+    {
+      "path": "block_iso_512/block_ram512_qdfy6shv/owned_restart/report.json",
+      "checks": 13
+    },
+    {
+      "path": "block_iso_512/block_ram512_qdfy6shv/unowned/report.json",
+      "checks": 19
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/report.json",
+      "checks": 53
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_countedoverflow/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_frameexhaustion/report.json",
+      "checks": 19
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_headerbad/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_invalidmagic/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_mmaptruncated/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_module-overlap/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_modulein-growth/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_nomodule/report.json",
+      "checks": 33
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_null/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_reservedgrowth/report.json",
+      "checks": 38
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_validmodule/report.json",
+      "checks": 101
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_countedoverflow/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_frameexhaustion/report.json",
+      "checks": 19
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_headerbad/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_invalidmagic/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_mmaptruncated/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_module-overlap/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_modulein-growth/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_nomodule/report.json",
+      "checks": 33
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_null/report.json",
+      "checks": 41
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_reservedgrowth/report.json",
+      "checks": 38
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_validmodule/report.json",
+      "checks": 101
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_countedoverflow/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_frameexhaustion/report.json",
+      "checks": 20
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_headerbad/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_invalidmagic/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_mmaptruncated/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_module-overlap/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_modulein-growth/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_nomodule/report.json",
+      "checks": 34
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_null/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_reservedgrowth/report.json",
+      "checks": 39
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_validmodule/report.json",
+      "checks": 102
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_countedoverflow/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_frameexhaustion/report.json",
+      "checks": 20
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_headerbad/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_invalidmagic/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_mmaptruncated/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_module-overlap/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_modulein-growth/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_nomodule/report.json",
+      "checks": 34
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_null/report.json",
+      "checks": 42
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_reservedgrowth/report.json",
+      "checks": 39
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_validmodule/report.json",
+      "checks": 102
+    },
+    {
+      "path": "fs_elf_128/20261016_201932_ram128_haxrlrh0/report.json",
+      "checks": 103
+    },
+    {
+      "path": "fs_elf_512/20261016_202222_ram512_ysx6j4jk/report.json",
+      "checks": 103
+    },
+    {
+      "path": "fs_iso_128/20261016_202555_ram128_b6x1itt6/report.json",
+      "checks": 103
+    },
+    {
+      "path": "fs_iso_512/20261016_202857_ram512_ppk_sj66/report.json",
+      "checks": 103
+    },
+    {
+      "path": "iso_paging/20261016_202539_paging/report.json",
+      "checks": 2
+    },
+    {
+      "path": "paging/20261016_201837_paging/report.json",
+      "checks": 20
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/report.json",
+      "checks": 3379
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_absent/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_bad-digest/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_corrupt-rostifs/report.json",
+      "checks": 73
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_duplicate/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_invalid-descriptor/report.json",
+      "checks": 58
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_malformed/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_missing-storage/report.json",
+      "checks": 71
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_mount-collision/report.json",
+      "checks": 54
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_mount-failure/report.json",
+      "checks": 54
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_oversize/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_reboot-after-failure/report.json",
+      "checks": 74
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_resource-exhaustion/report.json",
+      "checks": 54
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_truncated/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_trusted/report.json",
+      "checks": 73
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_absent/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_bad-digest/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_corrupt-rostifs/report.json",
+      "checks": 73
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_duplicate/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_invalid-descriptor/report.json",
+      "checks": 58
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_malformed/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_missing-storage/report.json",
+      "checks": 71
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_mount-collision/report.json",
+      "checks": 54
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_mount-failure/report.json",
+      "checks": 54
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_oversize/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_reboot-after-failure/report.json",
+      "checks": 74
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_resource-exhaustion/report.json",
+      "checks": 54
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_truncated/report.json",
+      "checks": 52
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_trusted/report.json",
+      "checks": 73
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_absent/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_bad-digest/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_corrupt-rostifs/report.json",
+      "checks": 74
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_duplicate/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_invalid-descriptor/report.json",
+      "checks": 59
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_malformed/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_missing-storage/report.json",
+      "checks": 72
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_mount-collision/report.json",
+      "checks": 55
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_mount-failure/report.json",
+      "checks": 55
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_oversize/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_reboot-after-failure/report.json",
+      "checks": 75
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_resource-exhaustion/report.json",
+      "checks": 55
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_truncated/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_trusted/report.json",
+      "checks": 74
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_absent/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_bad-digest/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_corrupt-rostifs/report.json",
+      "checks": 74
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_duplicate/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_invalid-descriptor/report.json",
+      "checks": 59
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_malformed/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_missing-storage/report.json",
+      "checks": 72
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_mount-collision/report.json",
+      "checks": 55
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_mount-failure/report.json",
+      "checks": 55
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_oversize/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_reboot-after-failure/report.json",
+      "checks": 75
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_resource-exhaustion/report.json",
+      "checks": 55
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_truncated/report.json",
+      "checks": 53
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_trusted/report.json",
+      "checks": 74
+    },
+    {
+      "path": "read_fault/20261016_200711_fault/report.json",
+      "checks": 2
+    },
+    {
+      "path": "rostifs_elf_128/rostifs_ram128_qqkv5twc/report.json",
+      "checks": 168
+    },
+    {
+      "path": "rostifs_elf_128/rostifs_ram128_qqkv5twc/boot1_write/report.json",
+      "checks": 60
+    },
+    {
+      "path": "rostifs_elf_128/rostifs_ram128_qqkv5twc/boot2_read_delete/report.json",
+      "checks": 31
+    },
+    {
+      "path": "rostifs_elf_128/rostifs_ram128_qqkv5twc/boot3_deleted/report.json",
+      "checks": 21
+    },
+    {
+      "path": "rostifs_elf_128/rostifs_ram128_qqkv5twc/corrupt/report.json",
+      "checks": 22
+    },
+    {
+      "path": "rostifs_elf_128/rostifs_ram128_qqkv5twc/unowned/report.json",
+      "checks": 22
+    },
+    {
+      "path": "rostifs_elf_512/rostifs_ram512_si_lklk2/report.json",
+      "checks": 168
+    },
+    {
+      "path": "rostifs_elf_512/rostifs_ram512_si_lklk2/boot1_write/report.json",
+      "checks": 60
+    },
+    {
+      "path": "rostifs_elf_512/rostifs_ram512_si_lklk2/boot2_read_delete/report.json",
+      "checks": 31
+    },
+    {
+      "path": "rostifs_elf_512/rostifs_ram512_si_lklk2/boot3_deleted/report.json",
+      "checks": 21
+    },
+    {
+      "path": "rostifs_elf_512/rostifs_ram512_si_lklk2/corrupt/report.json",
+      "checks": 22
+    },
+    {
+      "path": "rostifs_elf_512/rostifs_ram512_si_lklk2/unowned/report.json",
+      "checks": 22
+    },
+    {
+      "path": "rostifs_iso_128/rostifs_ram128_whzynh4v/report.json",
+      "checks": 168
+    },
+    {
+      "path": "rostifs_iso_128/rostifs_ram128_whzynh4v/boot1_write/report.json",
+      "checks": 60
+    },
+    {
+      "path": "rostifs_iso_128/rostifs_ram128_whzynh4v/boot2_read_delete/report.json",
+      "checks": 31
+    },
+    {
+      "path": "rostifs_iso_128/rostifs_ram128_whzynh4v/boot3_deleted/report.json",
+      "checks": 21
+    },
+    {
+      "path": "rostifs_iso_128/rostifs_ram128_whzynh4v/corrupt/report.json",
+      "checks": 22
+    },
+    {
+      "path": "rostifs_iso_128/rostifs_ram128_whzynh4v/unowned/report.json",
+      "checks": 22
+    },
+    {
+      "path": "rostifs_iso_512/rostifs_ram512_x_xokcmh/report.json",
+      "checks": 168
+    },
+    {
+      "path": "rostifs_iso_512/rostifs_ram512_x_xokcmh/boot1_write/report.json",
+      "checks": 60
+    },
+    {
+      "path": "rostifs_iso_512/rostifs_ram512_x_xokcmh/boot2_read_delete/report.json",
+      "checks": 31
+    },
+    {
+      "path": "rostifs_iso_512/rostifs_ram512_x_xokcmh/boot3_deleted/report.json",
+      "checks": 21
+    },
+    {
+      "path": "rostifs_iso_512/rostifs_ram512_x_xokcmh/corrupt/report.json",
+      "checks": 22
+    },
+    {
+      "path": "rostifs_iso_512/rostifs_ram512_x_xokcmh/unowned/report.json",
+      "checks": 22
+    },
+    {
+      "path": "write_fault/20261016_200714_fault/report.json",
+      "checks": 2
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "b13_qemu/fixture_128/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "b13_qemu/fixture_512/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "b13_qemu/production_128/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "b13_qemu/production_512/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "block_elf_128/block_ram128_3kg0l85n/absent/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_elf_128/block_ram128_3kg0l85n/owned_reboot/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_elf_128/block_ram128_3kg0l85n/owned_restart/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_elf_128/block_ram128_3kg0l85n/unowned/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_elf_512/block_ram512_fhua7ktv/absent/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_elf_512/block_ram512_fhua7ktv/owned_reboot/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_elf_512/block_ram512_fhua7ktv/owned_restart/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_elf_512/block_ram512_fhua7ktv/unowned/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_iso_128/block_ram128_abdlg2xe/absent/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_iso_128/block_ram128_abdlg2xe/owned_reboot/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_iso_128/block_ram128_abdlg2xe/owned_restart/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_iso_128/block_ram128_abdlg2xe/unowned/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_iso_512/block_ram512_qdfy6shv/absent/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_iso_512/block_ram512_qdfy6shv/owned_reboot/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_iso_512/block_ram512_qdfy6shv/owned_restart/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "block_iso_512/block_ram512_qdfy6shv/unowned/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_countedoverflow/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_frameexhaustion/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_headerbad/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_invalidmagic/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_mmaptruncated/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_module-overlap/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_modulein-growth/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_nomodule/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_null/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_reservedgrowth/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_128_validmodule/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_countedoverflow/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_frameexhaustion/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_headerbad/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_invalidmagic/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_mmaptruncated/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_module-overlap/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_modulein-growth/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_nomodule/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_null/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_reservedgrowth/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/elf_512_validmodule/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_countedoverflow/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_frameexhaustion/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_headerbad/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_invalidmagic/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_mmaptruncated/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_module-overlap/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_modulein-growth/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_nomodule/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_null/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_reservedgrowth/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_128_validmodule/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_countedoverflow/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_frameexhaustion/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_headerbad/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_invalidmagic/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_mmaptruncated/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_module-overlap/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_modulein-growth/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_nomodule/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_null/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_reservedgrowth/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "boot_metadata/boot_metadata_08cha6r9/iso_512_validmodule/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "fs_elf_128/20261016_201932_ram128_haxrlrh0/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "fs_elf_512/20261016_202222_ram512_ysx6j4jk/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "fs_iso_128/20261016_202555_ram128_b6x1itt6/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "fs_iso_512/20261016_202857_ram512_ppk_sj66/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_absent/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_absent/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_bad-digest/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_bad-digest/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_corrupt-rostifs/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_corrupt-rostifs/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_duplicate/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_duplicate/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_invalid-descriptor/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_invalid-descriptor/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_malformed/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_malformed/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_missing-storage/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_missing-storage/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_mount-collision/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_mount-collision/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_mount-failure/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_mount-failure/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_oversize/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_oversize/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_reboot-after-failure/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_reboot-after-failure/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_resource-exhaustion/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_resource-exhaustion/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_truncated/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_truncated/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_trusted/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_128_trusted/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_absent/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_absent/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_bad-digest/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_bad-digest/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_corrupt-rostifs/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_corrupt-rostifs/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_duplicate/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_duplicate/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_invalid-descriptor/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_invalid-descriptor/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_malformed/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_malformed/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_missing-storage/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_missing-storage/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_mount-collision/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_mount-collision/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_mount-failure/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_mount-failure/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_oversize/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_oversize/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_reboot-after-failure/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_reboot-after-failure/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_resource-exhaustion/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_resource-exhaustion/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_truncated/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_truncated/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_trusted/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/elf_512_trusted/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_absent/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_absent/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_bad-digest/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_bad-digest/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_corrupt-rostifs/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_corrupt-rostifs/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_duplicate/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_duplicate/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_invalid-descriptor/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_invalid-descriptor/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_malformed/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_malformed/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_missing-storage/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_missing-storage/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_mount-collision/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_mount-collision/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_mount-failure/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_mount-failure/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_oversize/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_oversize/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_reboot-after-failure/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_reboot-after-failure/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_resource-exhaustion/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_resource-exhaustion/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_truncated/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_truncated/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_trusted/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_128_trusted/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_absent/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_absent/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_bad-digest/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_bad-digest/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_corrupt-rostifs/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_corrupt-rostifs/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_duplicate/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_duplicate/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_invalid-descriptor/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_invalid-descriptor/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_malformed/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_malformed/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_missing-storage/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_missing-storage/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_mount-collision/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_mount-collision/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_mount-failure/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_mount-failure/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_oversize/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_oversize/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_reboot-after-failure/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_reboot-after-failure/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_resource-exhaustion/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_resource-exhaustion/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_truncated/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_truncated/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_trusted/report.json",
+      "field": "cleanup"
+    },
+    {
+      "path": "phase10/20261016_203200_phase10_c3rlr0u2/iso_512_trusted/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_elf_128/rostifs_ram128_qqkv5twc/boot1_write/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_elf_128/rostifs_ram128_qqkv5twc/boot2_read_delete/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_elf_128/rostifs_ram128_qqkv5twc/boot3_deleted/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_elf_128/rostifs_ram128_qqkv5twc/corrupt/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_elf_128/rostifs_ram128_qqkv5twc/unowned/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_elf_512/rostifs_ram512_si_lklk2/boot1_write/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_elf_512/rostifs_ram512_si_lklk2/boot2_read_delete/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_elf_512/rostifs_ram512_si_lklk2/boot3_deleted/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_elf_512/rostifs_ram512_si_lklk2/corrupt/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_elf_512/rostifs_ram512_si_lklk2/unowned/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_iso_128/rostifs_ram128_whzynh4v/boot1_write/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_iso_128/rostifs_ram128_whzynh4v/boot2_read_delete/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_iso_128/rostifs_ram128_whzynh4v/boot3_deleted/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_iso_128/rostifs_ram128_whzynh4v/corrupt/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_iso_128/rostifs_ram128_whzynh4v/unowned/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_iso_512/rostifs_ram512_x_xokcmh/boot1_write/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_iso_512/rostifs_ram512_x_xokcmh/boot2_read_delete/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_iso_512/rostifs_ram512_x_xokcmh/boot3_deleted/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_iso_512/rostifs_ram512_x_xokcmh/corrupt/report.json",
+      "field": "owned_qemu_exited"
+    },
+    {
+      "path": "rostifs_iso_512/rostifs_ram512_x_xokcmh/unowned/report.json",
+      "field": "owned_qemu_exited"
+    }
+  ]
+}

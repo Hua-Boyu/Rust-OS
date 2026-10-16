@@ -1,0 +1,61 @@
+   Compiling tests_b26 v0.1.0 (C:\Users\iamsv\Documents\Rust-OS\tests_b26)
+error[E0433]: cannot find module or crate `alloc` in this scope
+ --> src\..\..\src\memory\boot_copy.rs:2:5
+  |
+2 | use alloc::vec::Vec;
+  |     ^^^^^ use of unresolved module or unlinked crate `alloc`
+  |
+  = help: add `extern crate alloc` to use the `alloc` crate
+
+error[E0433]: cannot find module or crate `alloc` in this scope
+  --> src\..\..\src\memory\module_access_tests.rs:42:20
+   |
+42 |     let mut pins = alloc::vec![(slot, slot + 4096)];
+   |                    ^^^^^ use of unresolved module or unlinked crate `alloc`
+
+error[E0433]: cannot find module or crate `alloc` in this scope
+  --> src\..\..\src\memory\module_access_tests.rs:40:22
+   |
+40 |     let mut tables = alloc::vec![0u64; 1024];
+   |                      ^^^^^ use of unresolved module or unlinked crate `alloc`
+
+error[E0433]: cannot find module or crate `alloc` in this scope
+  --> src\..\..\src\memory\module_access_tests.rs:15:20
+   |
+15 |     let mut pins = alloc::vec![(0x40000, 0x42000)];
+   |                    ^^^^^ use of unresolved module or unlinked crate `alloc`
+
+error[E0433]: cannot find module or crate `alloc` in this scope
+  --> src\..\..\src\memory\module_access_tests.rs:14:22
+   |
+14 |     let mut tables = alloc::vec![0u64; 1024];
+   |                      ^^^^^ use of unresolved module or unlinked crate `alloc`
+
+error[E0433]: cannot find module or crate `alloc` in this scope
+  --> src\..\..\src\memory\boot_copy.rs:69:22
+   |
+69 |         let source = alloc::vec![1, 2, 3];
+   |                      ^^^^^ use of unresolved module or unlinked crate `alloc`
+
+warning: formatting may not be suitable for sub-register argument
+   --> src\..\..\src\memory\paging.rs:585:41
+    |
+585 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+    |                                         ^^^^^                  --- for this argument
+    |
+    = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+    = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+    = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+   --> src\..\..\src\memory\paging.rs:598:41
+    |
+598 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+    |                                         ^^^^^                  --- for this argument
+    |
+    = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+    = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+For more information about this error, try `rustc --explain E0433`.
+warning: `tests_b26` (lib test) generated 2 warnings
+error: could not compile `tests_b26` (lib test) due to 6 previous errors; 2 warnings emitted

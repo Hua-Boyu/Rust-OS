@@ -1,0 +1,75 @@
+{
+  "status": "PASS",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\b13-boot-fixture",
+  "entry": "b13_handoff",
+  "memory_mib": 512,
+  "cleanup": true,
+  "kernel_sha256": "52ae72ab420fa753fe693c107d0cb082bc0a51983c6aa85716b5e98ba8cb6978",
+  "command": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\b13_fixture\\target\\debug\\b13-boot-fixture",
+    "-m",
+    "512",
+    "-display",
+    "none",
+    "-no-reboot",
+    "-monitor",
+    "none",
+    "-nic",
+    "none",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\b13_stress_20261016T1615Z\\r512_14\\serial.txt",
+    "-debugcon",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\b13_stress_20261016T1615Z\\r512_14\\debugcon.txt",
+    "-device",
+    "isa-debug-exit,iobase=0xf4,iosize=0x04",
+    "-d",
+    "int,guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\b13_stress_20261016T1615Z\\r512_14\\qemu.log",
+    "-S",
+    "-gdb",
+    "tcp:127.0.0.1:1589"
+  ],
+  "before": {
+    "eax": 732803074,
+    "ecx": 2101269,
+    "edx": 460049,
+    "ebx": 38144,
+    "esp": 28432,
+    "ebp": 0,
+    "esi": 0,
+    "edi": 8192,
+    "eip": 2101269,
+    "eflags": 6
+  },
+  "after": {
+    "eax": 732803074,
+    "ecx": 2101269,
+    "edx": 460049,
+    "ebx": 38144,
+    "esp": 28432,
+    "ebp": 0,
+    "esi": 2835,
+    "edi": 8192,
+    "eip": 2101269,
+    "eflags": 6
+  },
+  "mutations": [
+    {
+      "address": 2105344,
+      "bytes": "00000000"
+    },
+    {
+      "registers": {
+        "esi": 2835
+      }
+    }
+  ],
+  "serial": "",
+  "debugcon": "PPPPPPPPPPPPPPPP",
+  "observed_exit": 33,
+  "final_exit": 33,
+  "elapsed_s": 0.4370000000053551
+}

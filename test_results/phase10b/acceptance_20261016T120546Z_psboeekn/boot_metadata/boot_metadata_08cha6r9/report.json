@@ -1,0 +1,537 @@
+{
+  "overall": "PASS",
+  "checks": [
+    {
+      "name": "source kernel ELF validated; no production build performed",
+      "pass": true
+    },
+    {
+      "name": "elf/128/nomodule",
+      "pass": true
+    },
+    {
+      "name": "iso/128/nomodule",
+      "pass": true
+    },
+    {
+      "name": "elf/128/invalidmagic",
+      "pass": true
+    },
+    {
+      "name": "iso/128/invalidmagic",
+      "pass": true
+    },
+    {
+      "name": "elf/128/null",
+      "pass": true
+    },
+    {
+      "name": "iso/128/null",
+      "pass": true
+    },
+    {
+      "name": "elf/128/headerbad",
+      "pass": true
+    },
+    {
+      "name": "iso/128/headerbad",
+      "pass": true
+    },
+    {
+      "name": "elf/128/mmaptruncated",
+      "pass": true
+    },
+    {
+      "name": "iso/128/mmaptruncated",
+      "pass": true
+    },
+    {
+      "name": "elf/128/modulein-growth",
+      "pass": true
+    },
+    {
+      "name": "iso/128/modulein-growth",
+      "pass": true
+    },
+    {
+      "name": "elf/128/module-overlap",
+      "pass": true
+    },
+    {
+      "name": "iso/128/module-overlap",
+      "pass": true
+    },
+    {
+      "name": "elf/128/countedoverflow",
+      "pass": true
+    },
+    {
+      "name": "iso/128/countedoverflow",
+      "pass": true
+    },
+    {
+      "name": "elf/128/validmodule",
+      "pass": true
+    },
+    {
+      "name": "iso/128/validmodule",
+      "pass": true
+    },
+    {
+      "name": "elf/128/reservedgrowth",
+      "pass": true
+    },
+    {
+      "name": "iso/128/reservedgrowth",
+      "pass": true
+    },
+    {
+      "name": "elf/128/frameexhaustion",
+      "pass": true
+    },
+    {
+      "name": "iso/128/frameexhaustion",
+      "pass": true
+    },
+    {
+      "name": "elf/512/nomodule",
+      "pass": true
+    },
+    {
+      "name": "iso/512/nomodule",
+      "pass": true
+    },
+    {
+      "name": "elf/512/invalidmagic",
+      "pass": true
+    },
+    {
+      "name": "iso/512/invalidmagic",
+      "pass": true
+    },
+    {
+      "name": "elf/512/null",
+      "pass": true
+    },
+    {
+      "name": "iso/512/null",
+      "pass": true
+    },
+    {
+      "name": "elf/512/headerbad",
+      "pass": true
+    },
+    {
+      "name": "iso/512/headerbad",
+      "pass": true
+    },
+    {
+      "name": "elf/512/mmaptruncated",
+      "pass": true
+    },
+    {
+      "name": "iso/512/mmaptruncated",
+      "pass": true
+    },
+    {
+      "name": "elf/512/modulein-growth",
+      "pass": true
+    },
+    {
+      "name": "iso/512/modulein-growth",
+      "pass": true
+    },
+    {
+      "name": "elf/512/module-overlap",
+      "pass": true
+    },
+    {
+      "name": "iso/512/module-overlap",
+      "pass": true
+    },
+    {
+      "name": "elf/512/countedoverflow",
+      "pass": true
+    },
+    {
+      "name": "iso/512/countedoverflow",
+      "pass": true
+    },
+    {
+      "name": "elf/512/validmodule",
+      "pass": true
+    },
+    {
+      "name": "iso/512/validmodule",
+      "pass": true
+    },
+    {
+      "name": "elf/512/reservedgrowth",
+      "pass": true
+    },
+    {
+      "name": "iso/512/reservedgrowth",
+      "pass": true
+    },
+    {
+      "name": "elf/512/frameexhaustion",
+      "pass": true
+    },
+    {
+      "name": "iso/512/frameexhaustion",
+      "pass": true
+    },
+    {
+      "name": "complete requested matrix",
+      "pass": true
+    },
+    {
+      "name": "elf/128: live module frames reserved beyond no-module baseline",
+      "pass": true
+    },
+    {
+      "name": "elf/512: live module frames reserved beyond no-module baseline",
+      "pass": true
+    },
+    {
+      "name": "iso/128: live module frames reserved beyond no-module baseline",
+      "pass": true
+    },
+    {
+      "name": "iso/512: live module frames reserved beyond no-module baseline",
+      "pass": true
+    },
+    {
+      "name": "all guest checks pass",
+      "pass": true
+    },
+    {
+      "name": "production ELF unchanged",
+      "pass": true,
+      "sha256": "f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f"
+    },
+    {
+      "name": "owned dist staging removed",
+      "pass": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "nomodule",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_128_nomodule\\report.json"
+    },
+    {
+      "name": "nomodule",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_128_nomodule\\report.json"
+    },
+    {
+      "name": "invalidmagic",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_128_invalidmagic\\report.json"
+    },
+    {
+      "name": "invalidmagic",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_128_invalidmagic\\report.json"
+    },
+    {
+      "name": "null",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_128_null\\report.json"
+    },
+    {
+      "name": "null",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_128_null\\report.json"
+    },
+    {
+      "name": "headerbad",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_128_headerbad\\report.json"
+    },
+    {
+      "name": "headerbad",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_128_headerbad\\report.json"
+    },
+    {
+      "name": "mmaptruncated",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_128_mmaptruncated\\report.json"
+    },
+    {
+      "name": "mmaptruncated",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_128_mmaptruncated\\report.json"
+    },
+    {
+      "name": "modulein-growth",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_128_modulein-growth\\report.json"
+    },
+    {
+      "name": "modulein-growth",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_128_modulein-growth\\report.json"
+    },
+    {
+      "name": "module-overlap",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_128_module-overlap\\report.json"
+    },
+    {
+      "name": "module-overlap",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_128_module-overlap\\report.json"
+    },
+    {
+      "name": "countedoverflow",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_128_countedoverflow\\report.json"
+    },
+    {
+      "name": "countedoverflow",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_128_countedoverflow\\report.json"
+    },
+    {
+      "name": "validmodule",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_128_validmodule\\report.json"
+    },
+    {
+      "name": "validmodule",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_128_validmodule\\report.json"
+    },
+    {
+      "name": "reservedgrowth",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_128_reservedgrowth\\report.json"
+    },
+    {
+      "name": "reservedgrowth",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_128_reservedgrowth\\report.json"
+    },
+    {
+      "name": "frameexhaustion",
+      "boot": "elf",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_128_frameexhaustion\\report.json"
+    },
+    {
+      "name": "frameexhaustion",
+      "boot": "iso",
+      "ram_mib": 128,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_128_frameexhaustion\\report.json"
+    },
+    {
+      "name": "nomodule",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_512_nomodule\\report.json"
+    },
+    {
+      "name": "nomodule",
+      "boot": "iso",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_512_nomodule\\report.json"
+    },
+    {
+      "name": "invalidmagic",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_512_invalidmagic\\report.json"
+    },
+    {
+      "name": "invalidmagic",
+      "boot": "iso",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_512_invalidmagic\\report.json"
+    },
+    {
+      "name": "null",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_512_null\\report.json"
+    },
+    {
+      "name": "null",
+      "boot": "iso",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_512_null\\report.json"
+    },
+    {
+      "name": "headerbad",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_512_headerbad\\report.json"
+    },
+    {
+      "name": "headerbad",
+      "boot": "iso",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_512_headerbad\\report.json"
+    },
+    {
+      "name": "mmaptruncated",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_512_mmaptruncated\\report.json"
+    },
+    {
+      "name": "mmaptruncated",
+      "boot": "iso",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_512_mmaptruncated\\report.json"
+    },
+    {
+      "name": "modulein-growth",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_512_modulein-growth\\report.json"
+    },
+    {
+      "name": "modulein-growth",
+      "boot": "iso",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_512_modulein-growth\\report.json"
+    },
+    {
+      "name": "module-overlap",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_512_module-overlap\\report.json"
+    },
+    {
+      "name": "module-overlap",
+      "boot": "iso",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_512_module-overlap\\report.json"
+    },
+    {
+      "name": "countedoverflow",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_512_countedoverflow\\report.json"
+    },
+    {
+      "name": "countedoverflow",
+      "boot": "iso",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_512_countedoverflow\\report.json"
+    },
+    {
+      "name": "validmodule",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_512_validmodule\\report.json"
+    },
+    {
+      "name": "validmodule",
+      "boot": "iso",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_512_validmodule\\report.json"
+    },
+    {
+      "name": "reservedgrowth",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_512_reservedgrowth\\report.json"
+    },
+    {
+      "name": "reservedgrowth",
+      "boot": "iso",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_512_reservedgrowth\\report.json"
+    },
+    {
+      "name": "frameexhaustion",
+      "boot": "elf",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\elf_512_frameexhaustion\\report.json"
+    },
+    {
+      "name": "frameexhaustion",
+      "boot": "iso",
+      "ram_mib": 512,
+      "overall": "PASS",
+      "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9\\iso_512_frameexhaustion\\report.json"
+    }
+  ],
+  "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase10b\\acceptance_20261016T120546Z_psboeekn\\boot_metadata\\boot_metadata_08cha6r9",
+  "kernel": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "kernel_sha256": "f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f",
+  "owned_stage": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\boot_metadata_kfzgf421",
+  "expected_scenarios": 44,
+  "elapsed_s": 614.218,
+  "scenario_count": 44,
+  "check_count": 53,
+  "pass_count": 53
+}

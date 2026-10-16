@@ -1,0 +1,120 @@
+{
+  "baseline_phase": "9.6 accepted ISO extracted independently with pycdlib",
+  "baseline": {
+    "sha256": "8a72342b4afc14e2d6f87c8758aea2869963c4dabea4e14dd22a5f3c149a7fec",
+    "file_bytes": 5278548,
+    "allocated_bytes": 1827270,
+    "initialized_bytes": 689158,
+    "allocated_sections": {
+      ".multiboot": {
+        "address": 2097152,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".got": {
+        "address": 2097164,
+        "bytes": 80,
+        "initialized": true
+      },
+      ".text": {
+        "address": 2101248,
+        "bytes": 566465,
+        "initialized": true
+      },
+      ".rodata": {
+        "address": 2670592,
+        "bytes": 34449,
+        "initialized": true
+      },
+      ".eh_frame_hdr": {
+        "address": 2705044,
+        "bytes": 28,
+        "initialized": true
+      },
+      ".eh_frame": {
+        "address": 2705072,
+        "bytes": 68,
+        "initialized": true
+      },
+      ".data": {
+        "address": 2707456,
+        "bytes": 88044,
+        "initialized": true
+      },
+      ".got.plt": {
+        "address": 2795500,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".bss": {
+        "address": 2797568,
+        "bytes": 1138112,
+        "initialized": false
+      }
+    },
+    "static_span_bytes": 1838528
+  },
+  "candidate": {
+    "sha256": "f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f",
+    "file_bytes": 5970396,
+    "allocated_bytes": 1958406,
+    "initialized_bytes": 820730,
+    "allocated_sections": {
+      ".multiboot": {
+        "address": 2097152,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".got": {
+        "address": 2097164,
+        "bytes": 80,
+        "initialized": true
+      },
+      ".text": {
+        "address": 2101248,
+        "bytes": 688689,
+        "initialized": true
+      },
+      ".rodata": {
+        "address": 2793472,
+        "bytes": 38757,
+        "initialized": true
+      },
+      ".eh_frame_hdr": {
+        "address": 2832232,
+        "bytes": 28,
+        "initialized": true
+      },
+      ".eh_frame": {
+        "address": 2832260,
+        "bytes": 68,
+        "initialized": true
+      },
+      ".data": {
+        "address": 2834432,
+        "bytes": 93084,
+        "initialized": true
+      },
+      ".got.plt": {
+        "address": 2927516,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".bss": {
+        "address": 2928640,
+        "bytes": 1137676,
+        "initialized": false
+      }
+    },
+    "static_span_bytes": 1969164
+  },
+  "delta": {
+    "file_bytes": 691848,
+    "allocated_bytes": 131136,
+    "initialized_bytes": 131572,
+    "static_span_bytes": 130636
+  },
+  "peak_heap_bytes": null,
+  "peak_stack_bytes": null,
+  "scope": "ELF file size, SHF_ALLOC totals and address span; not runtime high-water. Debug bytes are not resident RAM. Runtime snapshots and import capacity bounds are in final guest reports."
+}

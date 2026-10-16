@@ -1,0 +1,173 @@
+{
+  "schema": "phase10b-independent-integration-review-final-v1",
+  "review_id": "integration_review_final",
+  "reviewer": "independent-read-only-followup-subagent",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "timestamp_utc": "2026-10-15T22:41:54+00:00",
+  "git_head": "3423ae23b1f0911646adac5e106eee0edeb779cd",
+  "source_sha256": {
+    "Cargo.lock": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+    "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+    "scripts/b13_entry_inject.py": "dd36e239991bc8f68b1dd2d8f84f5cd6bd3534e95a32e51b91011bead3ba32ff",
+    "scripts/block_test.py": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+    "scripts/boot_metadata_test.py": "d94f158a4a53d681ce0530d98fbcf31eab1dacdb8964308128a57f39f5216c9a",
+    "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+    "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+    "scripts/fs_test.py": "648117bf5f1f1cdf95365b531c37003d868133ac591bf5b217796e9bacdb210f",
+    "scripts/phase10_initramfs_test.py": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+    "scripts/phase6_verify.py": "c2ce1657c8ba56f0533222c2f463de1367b41e85ad2d3bf28969993e3411cb8b",
+    "scripts/rostifs_test.py": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+    "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+    "scripts/test_acceptance_harness.py": "16c60607dd80abe49a7974a37c7305574e981d6fc4e1c6ef8a775476930718f3",
+    "scripts/test_phase10_initramfs_harness.py": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+    "scripts/test_production_fixture_policy.py": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+    "scripts/verify_production.py": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+    "src/fd.rs": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+    "src/fs/archive.rs": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+    "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+    "src/fs/vfs.rs": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+    "src/fs_commands.rs": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+    "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+    "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+    "src/main.rs": "e23186b691a4e48bfc95d5f1748bd37a55503290e68afef1943dff8480737e4a",
+    "src/memory/boot_copy.rs": "449e1b57ac710153dd93123b6f2cf2fac69acd32b98e18f9c4fd72c8d2cb098c",
+    "src/shell.rs": "91ebee352d478616c3685a01fd2462f61cb4110e8a294cad800fc56377731384",
+    "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+    "tests_kernel/Cargo.lock": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+    "tests_kernel/Cargo.toml": "aff91dfee7f86282b3943ae4658886caf5b211c8f7c4f5b63f9cf9f8d4ccc7e7",
+    "tests_kernel/src/archive_vfs_tests.rs": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+    "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+    "tests_kernel/src/mount_tests.rs": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd"
+  },
+  "aggregate_source_set_sha256": "8eeee34ebd63c4bba5f53be2d66590c2b1735f066dc4d8d8f35baa407dd1d195",
+  "changed_since_integration_review_03": {
+    "scripts/phase10_initramfs_test.py": {
+      "review_03": "cedc884b0a5f253160990be13bb5b108c7639a6d1361bc448a6fdf8ae22c6ab0",
+      "current": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe"
+    },
+    "scripts/test_phase10_initramfs_harness.py": {
+      "review_03": "2f3d88bb90d3cbbb2167d021cbe8e7059504788e567be5e77f19bf3b59de8521",
+      "current": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627"
+    },
+    "src/fs/archive.rs": {
+      "review_03": "1c3d3624695096b996892fc93bd7d160d062a545f536b1d66560a0f9153af405",
+      "current": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56"
+    },
+    "src/main.rs": {
+      "review_03": "66c4d9a20702de430915fff7c5aef71151d84a3b5c92b36ce4e591e2e271b849",
+      "current": "e23186b691a4e48bfc95d5f1748bd37a55503290e68afef1943dff8480737e4a"
+    },
+    "tests_kernel/src/archive_vfs_tests.rs": {
+      "review_03": "955a131339dc307e9af969a69e65c8fd438d740cf9ded7ac882e75bb2c37628f",
+      "current": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3"
+    }
+  },
+  "verdict": "BOUNDED_REVIEW_PASSED_FULL_ACCEPTANCE_STILL_RUNNING",
+  "passed": true,
+  "bounded_implementation_review_passed": true,
+  "full_acceptance": false,
+  "full_acceptance_still_running": true,
+  "full_acceptance_note": "Frozen full acceptance run proc_0ed660498614 (python -B scripts/phase6_verify.py -> test_results/phase10b/full_acceptance_console_02.log) was still running at review time (uptime ~204s, log shows PASS lines through 'Phase 9.6 B13 injection transport contracts' with no final aggregate). Do not claim acceptance completion before that process exits; this review did not read a completed acceptance report.",
+  "scope": {
+    "included": [
+      "changes since integration_review_03: timing markers, compile-time buffer bound, B26 extern crate alloc, reboot-after-real-failed-mount fixture mode 2",
+      "trust/mount pointer ownership, lifetime, rollback, generation-checked bindings, capabilities (read-only /system, default-deny fd rights)",
+      "trust verification digest-before-parse ordering, snapshot release-before-publication"
+    ],
+    "method": "Read-only git diff/status inspection, current-source SHA-256 snapshot, source and test reading. No builds, no QEMU, no cargo/test runs, no source edits, no commits. Acceptance inputs untouched.",
+    "limitations": [
+      "Not a full allocator/boot-memory/capability/safe-API audit.",
+      "No measured runtime heap/stack high-water; the numeric buffer bound is a compile-time capacity bound (input + 2 parser indexes + fresh snapshot, explicitly excluding allocator headers/fragmentation and stack headroom).",
+      "Full acceptance evidence is the concurrently running frozen run, not evaluated here."
+    ]
+  },
+  "focus_findings": [
+    {
+      "id": "timing",
+      "disposition": "closed_accurate_granularity_claim",
+      "remaining_source_blocker": false,
+      "locations": [
+        "src/main.rs:322-379 (verify/build/mount tick emission)",
+        "src/timer.rs (TIMER_HZ=100, unchanged)"
+      ],
+      "resolution": "main emits verify_ticks/build_ticks/mount_ticks with hz=timer::TIMER_HZ (100 Hz PIT). Source comment states 10 ms granularity, not sub-millisecond precision. Measurement taken before serial formatting, no guard held across the operation. timer.rs unchanged since review_03."
+    },
+    {
+      "id": "buffer-bound",
+      "disposition": "compile_time_capacity_bound_added_not_measured_highwater",
+      "remaining_source_blocker": false,
+      "locations": [
+        "src/fs/archive.rs:maximum_snapshot_heap_bytes",
+        "src/main.rs:309-320 (image buffer bound emission)",
+        "tests_kernel/src/archive_vfs_tests.rs:boot_import_buffer_budget_includes_both_parser_indexes"
+      ],
+      "resolution": "maximum_snapshot_heap_bytes = (MAX_ARCHIVE_NODES-1)*size_of(Node)+MAX_ARCHIVE_BYTES; main prints input+indexes+snapshot total labeled 'excludes_allocator_overhead'; the new host test asserts the exact equality, total < 1 MiB, and that built-archive stats stay within the snapshot bound. This is a static capacity bound, NOT a measured runtime high-water: peak_heap/peak_stack remain unmeasured, so the numeric highwater requirement stays open as evidence, not as a source blocker."
+    },
+    {
+      "id": "B26",
+      "disposition": "closed",
+      "remaining_source_blocker": false,
+      "locations": [
+        "tests_b26/src/lib.rs"
+      ],
+      "resolution": "extern crate alloc; added alongside use std::alloc \u2014 fixes the actual acceptance compile failure for the B26 allocator test module. No unsafe introduced."
+    },
+    {
+      "id": "reboot-real-failed-mount",
+      "disposition": "closed_fixture_mode_2_real_mount_failure",
+      "remaining_source_blocker": false,
+      "locations": [
+        "src/main.rs:356-362 (fixture_mode == 2 -> mount_system_failure_fixture)",
+        "src/fs/mounted.rs:mount_system_failure_fixture/mount_system_inner fail_after_point",
+        "tests_kernel/src/mount_tests.rs:system_after_point_failure_rolls_back_only_owned_directory",
+        "scripts/test_phase10_initramfs_harness.py:reboot-after-failure transcript (release + out-of-memory rejection, then reboot with ABSENT)"
+      ],
+      "resolution": "Reboot matrix now exercises an actual post-point mount failure (fixture mode 2) followed by guest reboot with module absent on the second boot; the earlier digest-rejection substitute is superseded. Host rollback test verifies only the owned directory is rolled back, stats unchanged, system/bindings/point cleared, and a subsequent successful mount works. main's rollback accounting check (used/live equality) gates the release marker and prints rollback accounting FAILED otherwise; harness forbids the FAILED marker."
+    }
+  ],
+  "trust_mount_lifetime_review": {
+    "result": "No new security or logic regressions found in the bounded scope.",
+    "checks": [
+      "prepare_system resets the unpublished ArchiveFs on every preflight error before the static borrow can be published; success path performs only infallible publication (no second raw alias, no destruction under guards).",
+      "mount_backend/mount_rosti reject nonempty /mnt/rosti and non-directory roots; failed attach rolls back only directories created by that call; corrupt disk never formatted.",
+      "Mount bindings are generation-checked (slot+generation); stale bindings and exhausted generations (u32::MAX) are retired, never aliased; unmount blocks while cwd or any open descriptor pins disk nodes and bumps all generations on detach.",
+      "fd table: default-deny rights, snapshot-then-mutate bound() avoids overlapping borrows, offset advances only by delivered bytes; provisional generation undone on allocation failure.",
+      "/system archive is read-only across all mutator commands (verified by tests and saved GRUB shell reports); system_info accounts archive/routing separately from RAMFS.",
+      "Trust path verifies digest against system_image::EXPECTED_SHA256 before any VFS node construction; rejected inventory closes the storage gate before any device probe.",
+      "No new unsafe added in source helpers this cycle (only the pre-existing &raw static patterns and the B26 test extern crate alloc)."
+    ]
+  },
+  "security_concerns": [],
+  "logic_errors": [],
+  "new_source_code_blockers": [],
+  "remaining_evidence_gaps": [
+    {
+      "id": "IR03-E1",
+      "kind": "full_acceptance_evidence",
+      "detail": "Frozen full acceptance run still in progress at review time; completion claim deferred until proc_0ed660498614 exits and its log/report is validated."
+    },
+    {
+      "id": "IR03-E2",
+      "kind": "numeric_buffer_bound_not_measured_highwater",
+      "detail": "The emitted/verified bound is a compile-time capacity sum excluding allocator overhead, existing heap, and stack headroom; no runtime peak_heap/peak_stack measurement exists. Distinguish this bound from a measured high-water in any acceptance claim."
+    }
+  ],
+  "execution": {
+    "builds_run": false,
+    "qemu_run": false,
+    "cargo_or_guest_tests_run": false,
+    "python_unittest_suite_run": false,
+    "source_files_modified": [],
+    "docs_modified": false,
+    "git_mutations": false,
+    "acceptance_inputs_modified": false,
+    "only_requested_artifact_created": "test_results/phase10b/integration_review_final.json"
+  },
+  "prior_finding_dispositions": "IR02-R2/R3/R5, IR02-R1/R4 dispositions from integration_review_03 unchanged; IR03-E1 remains open (run in progress), IR03-E2 remains open as evidence (compile-time bound added, highwater not measured).",
+  "counts": {
+    "security_concerns": 0,
+    "logic_errors": 0,
+    "new_source_code_blockers": 0,
+    "remaining_evidence_gaps": 2
+  }
+}

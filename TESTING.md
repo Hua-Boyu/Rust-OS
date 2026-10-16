@@ -1,5 +1,97 @@
 # TESTING
 
+## Phase 10B COMPLETE — local acceptance verified
+
+Source checkpoint: `449ed434ed5dbf1518b99821178a5fcd1d343b75` on `maintenance/phase10`.
+Full acceptance: **PASS 53/53 gates**, invocation-owned
+**56/56 initramfs scenarios, 3379/3379 matrix checks**.
+Evidence: `test_results/phase10b/acceptance_20261016T120546Z_psboeekn/acceptance.json`;
+independent closeout: `test_results/phase10b/final_verification.json`.
+All 134 source/build inputs were independently rediscovered and hash-matched.
+Scoped independent review: no blocking findings (`test_results/phase10b/independent_scoped_review_20261016T111204Z_f632dad1df.json`).
+
+Trusted complete-byte SHA-256 verification precedes parse/publication at read-only
+`/system`. The kernel is the trust anchor, not the module. Real GRUB and injected
+ELF recovery, allocator exhaustion, mount failure and reboot are covered at
+128/512 MiB. No archive code is executed; RAMFS recovery is independently owned.
+Host serial/parallel: **265 passed, zero failed, two ignored** each. Inherited
+B11/B13/B18/B26, CPU faults/paging, keyboard/VGA, growth/OOM, ATA/RostiFS and all
+9,071 modeled crash cases remain covered. Old failures below are historical.
+
+Accepted ISO: `dist\rosti_phase10b_20261016T120546Z.iso` (11096064 bytes), SHA256
+`117c7b2c0a1f21dc53442a7a1c558b45b8367cb163d405d4d6ef5956596993d8`. Independently extracted production kernel SHA256:
+`f292cd2e406487ead05a2b9008e0cf6bf39d145b122f7ebac160ba4d1c53386f`. Fixture features are excluded.
+No local QEMU remains. Historical Phase 9.6 ISO is unchanged.
+
+No Phase 10 deployment, VM/storage mutation, Phase 11, tag or history rewrite.
+Fresh read-only inspection shows VM 103 running Phase 9.6 ISO, 512 MiB/one vCPU,
+SeaBIOS/pc, no data disk; stale Phase 7 references below are historical.
+Commit/push of completed Phase 10B is explicitly authorized. Unrelated `d1/`
+and `scripts/b13_boot_fixture.py.backup` stay excluded and preserved.
+
+Limits: trusted-loader/single-owner ring-0 assumptions; no hardware secure boot
+or hostile-userspace isolation. Runtime heap/stack high-water is **unknown**.
+The 546,228-byte import capacity bound excludes allocator overhead/fragmentation
+and is not a measured peak. Guest malformed/truncated images prove digest
+rejection; authenticated structural-parser rejection is covered on the host.
+See `docs/PHASE10_INITRAMFS.md` for exact contracts and retained failures.
+
+### Reproducible commands and completeness
+
+From `C:/Users/iamsv/Documents/Rust-OS`, run
+`python -B scripts/phase6_verify.py` in a notified background terminal. Freeze
+source/scripts/assets; run no competing QEMU. Exact mandatory Phase 10 rows are
+14 cases × ELF/ISO × 128/512 MiB, checked with `phase10_evidence` and all owned
+child reports. The acceptance runner's own matrix, not the separately passing
+standalone run, supplies release evidence. All 159 nested reports were
+independently read; 200 explicit cleanup assertions passed.
+Exactly 10/10 ordinary boots per RAM size passed. Mandatory RAMFS/ATA/RostiFS
+aggregates contain 103/98/168 checks each at all four boot/RAM configurations.
+
+Run host Cargo outside the kernel configuration tree:
+`cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml`.
+Add `-- --test-threads=1` for the separately verified serial run. Host-only
+contract suites exercise missing/short/failed matrices, injection cleanup and
+fixture exclusion; these cannot substitute for privileged guest execution.
+
+### Final reproducibility and exclusive-execution closure
+
+The RAMFS baseline-root listing legitimately adds one `VGA prompt after ls` row:
+all four complete workloads now have exactly 103 checks, with zero inherited
+checks removed. RED/GREEN regressions accept 103 and reject both 102 and 104
+before publication. The full runner retains exact ATA/RostiFS counts 98/168.
+
+`system/** -text` in `.gitattributes` preserves trusted asset bytes under Windows
+`core.autocrlf=true`; a fresh staged-index checkout reproduced the exact archive
+and pinned digest. No asset normalization or trust-anchor change was made.
+Attributes are now included among the 134 frozen inputs. This proves narrow
+asset-byte reproducibility, not cross-configuration raw hashes for every source.
+
+Two independently launched pipelines overlapped before the guard existed; both
+were stopped only through verified task-owned runner trees and preserved as
+ABORTED (original reports retained alongside interruption evidence). The final
+accepted run is exactly `acceptance_20261016T120546Z_psboeekn`, not whichever
+report sorts last. The desktop worker won the new lock; the completion agent
+adopted its matching frozen run, and its own contender correctly exited 2.
+
+The runner now holds a nonblocking OS lock at `dist/.phase6_acceptance.lock`
+from before report creation/builds through final production restoration. Never
+unlink that file to clear a PID: OS handle lifetime releases ownership on exit.
+Real Windows and WSL POSIX tests cover contention, normal release and forced
+owner exit; all 35 acceptance-harness host tests pass. A live canonical contender
+created no report and started no work. Native Windows venv redirectors are only
+wrappers, so forced-owner tests use the actual base interpreter. This guard
+coordinates cooperating runners on each OS; it is not a general barrier to
+manual builds, standalone QEMU or mixed-runtime/remote work.
+
+`independent_lock_followup_review.json` records a separate no-blocker excerpt
+review of the final guard/count/attribute changes. Its scope and supplied-test
+premises are explicit; the actual contextmanager decorator was also checked.
+`exclusive_runner_exit.json` records exit 0 through a captured Windows process
+HANDLE. `exclusive_process_watchdog.json` records sampled QEMU ancestry; no
+unowned guest was observed. Sampling is not continuous absence proof.
+All evidence paths above are beneath `test_results/phase10b/`.
+
 ## Phase 9.6 safety acceptance (current)
 
 Canonical full command from the repository root:
