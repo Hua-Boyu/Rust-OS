@@ -147,6 +147,19 @@ class SourceFreezeTests(unittest.TestCase):
                 self.last_commands.append(command)
                 # Simulate successful gates solely to reach the real final source-freeze check.
                 output = kwargs["stdout"]
+                prerequisite = next((c for c in command if c in (
+                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::")), None)
+                if prerequisite:
+                    names = (["heap_growth_maps_one_page_on_demand"]
+                             if prerequisite == "heap_growth_maps_one_page_on_demand" else [
+                                 "gdt::phase11_gdt_tests::phase11_gdt_nonzero_base_does_not_contaminate_access",
+                                 "gdt::phase11_gdt_tests::phase11_gdt_wire_fields_and_limit_boundaries",
+                                 "gdt::phase11_gdt_tests::phase11_gdt_privilege_presence_and_tss_type"])
+                    text = (safety_output or {}).get(prerequisite,
+                        "".join(f"test {name} ... ok\n" for name in names)
+                        + f"test result: ok. {len(names)} passed; 0 failed; 0 ignored\n")
+                    output.write(text.encode())
+                    return type("Result", (), {"returncode": 0})()
                 safety_filter = next((c for c in command if c in ("b11_", "b18_inventory_tests::", "b26_", "phase11_permission_tests::")), None)
                 if safety_filter:
                     if safety_filter == "phase11_permission_tests::":
@@ -314,8 +327,8 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(Path(guest[guest.index("--output-dir") + 1]).name, "phase10")
         self.assertEqual(self.last_report["counts"]["phase10_scenarios"],
                          {"pass": 4 * len(acceptance.PHASE10_CASES), "fail": 0})
-        # Every predecessor gate remains mandatory; prerequisite adds one.
-        self.assertEqual(self.last_report["gates_total"], 54)
+        # Every predecessor gate remains mandatory; ownership/GDT add two.
+        self.assertEqual(self.last_report["gates_total"], 56)
         for name in scripts:
             with self.subTest(failed=name):
                 self.assertEqual(self.simulate(lambda root: None, failed_script=name), 1)
@@ -508,6 +521,24 @@ class SourceFreezeTests(unittest.TestCase):
 
     def test_stable_source_can_finish(self):
         self.assertEqual(self.simulate(lambda root: None), 0)
+
+    def test_phase11_owned_snapshot_and_gdt_tests_are_mandatory(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        for filter_name in ("heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::"):
+            commands = [c for c in self.last_commands if filter_name in c]
+            self.assertEqual(len(commands), 1)
+            self.assertIn("--test-threads=1", commands[0])
+        self.assertEqual(self.last_report["counts"]["phase11_snapshot"], {"pass": 1, "fail": 0})
+        self.assertEqual(self.last_report["counts"]["phase11_gdt"], {"pass": 3, "fail": 0})
+
+    def test_phase11_prerequisite_identities_cannot_be_substituted(self):
+        for filter_name in ("heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::"):
+            for text in ("", "test result: ok. 0 passed; 0 failed; 0 ignored\n",
+                         "test impostor ... ok\ntest result: ok. 1 passed; 0 failed; 0 ignored\n"):
+                with self.subTest(filter=filter_name, text=text):
+                    self.assertEqual(self.simulate(lambda root: None,
+                        safety_output={filter_name: text}), 1)
+                    self.assertEqual(self.last_versioned_count, 0)
 
     def test_safety_fixture_build_inputs_are_frozen(self):
         for relative in ("tests_b26/src/lib.rs", "tests_b26/Cargo.toml",

@@ -255,6 +255,27 @@ def _run_acceptance():
                 or set(observed) != required_permissions):
             raise RuntimeError("Phase 11 permission prerequisite tests missing or inconsistent")
         report["counts"]["phase11_permissions"] = {"pass": len(observed), "fail": 0}
+        # B19 alias closure and descriptor encoding only: no CPL3 readiness claim.
+        for key, filter_name, required in (
+                ("phase11_snapshot", "heap_growth_maps_one_page_on_demand",
+                 {"heap_growth_maps_one_page_on_demand"}),
+                ("phase11_gdt", "phase11_gdt_tests::", {
+                    "gdt::phase11_gdt_tests::phase11_gdt_nonzero_base_does_not_contaminate_access",
+                    "gdt::phase11_gdt_tests::phase11_gdt_wire_fields_and_limit_boundaries",
+                    "gdt::phase11_gdt_tests::phase11_gdt_privilege_presence_and_tss_type",
+                })):
+            command = ["cargo", "+nightly", "test", "--manifest-path",
+                       str(PROJECT / "tests_kernel/Cargo.toml"), "--lib", filter_name,
+                       "--", "--test-threads=1"]
+            if key == "phase11_snapshot":
+                command.append("--exact")
+            text = gate(f"Phase 11A {key} prerequisite", command, cwd=Path.home())
+            observed = re.findall(r"^test (\S+) \.\.\. ok\s*$", text, re.M)
+            totals = re.findall(r"test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored", text)
+            if (totals != [(str(len(required)), "0", "0")]
+                    or len(observed) != len(required) or set(observed) != required):
+                raise RuntimeError(f"{key} prerequisite tests missing or inconsistent")
+            report["counts"][key] = {"pass": len(observed), "fail": 0}
         manifest = str(PROJECT / "crates/rostifs/Cargo.toml")
         gate("RostiFS formatting", ["cargo", "+nightly", "fmt", "--manifest-path", manifest, "--check"])
         text = gate("RostiFS host and crash recovery tests", ["cargo", "+nightly", "test", "--manifest-path", manifest, "--", "--nocapture"], timeout=300, cwd=Path.home())
