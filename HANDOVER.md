@@ -1,5 +1,46 @@
 # Rosti OS — development handover
 
+## Current — Phase 11 IN PROGRESS / NOT A RELEASE
+
+Initial HEAD `def677fac8ca662e45ad4fb40c9ddd18bfe86bd8`; verified implementation
+`d6d04c5dececf0dbf78c27e2e71760a2084786d4`, followed by this documentation
+checkpoint. Retained branch `maintenance/phase10`. No new branch: unrelated `d1/` and
+`scripts/b13_boot_fixture.py.backup` are preserved; no incompatible writer or
+parallel implementation identified. Remote branch protection was not queried.
+
+Completed first 11A prerequisite only: effective PDE+PTE permissions, refusal
+of unowned USER mappings and nonpresent map requests before allocation. No
+kernel PDE was promoted to USER; no CPL3 execution/syscall/ELF loader exists.
+Remaining prerequisites: scoped PageMap ownership (B19), owned mappings/stacks,
+GDT/TSS, explicit exception ABI and kernel continuation. Do not skip these.
+
+Last verified action: canonical runner **PASS 54/54**, actual exit 0; independent
+closeout PASS before/after implementation commit, all **135 source inputs**
+rediscovered/hash-matched, ISO kernel/archive independently extracted, no local
+QEMU remains. Host **270 passed/0 failed/2 ignored**, parallel and serial;
+harness **37 passed**. Inherited **56/56 initramfs scenarios, 3379 checks,
+9071 crash models** reran. This is labelled `11A-prerequisite`, release-ready
+false, NOT full Phase11 acceptance.
+
+Exact report: `test_results/phase11/acceptance_20261016T154710Z_q3u90_53/acceptance.json`;
+independent closeout `test_results/phase11/final_verification.json`.
+ISO `dist/rosti_phase11a_prerequisite_20261016T154710Z.iso`, SHA256
+`fa309a4ecc5b97d98ee07891597e5cffe4bf45058709ed91c8936a2fe62992a9`;
+kernel `c813429de80aa5c0d9782fcd1de76bde95566887f1f76caaf36bc85662844f4b`.
+Loaded sections +720 bytes, static span unchanged; runtime peaks/timings unknown.
+Scoped four-file independent review has no blockers; full Phase11 remains blocked
+by outstanding architecture work. Accepted Phase10B ISO/archive remain unchanged.
+
+Next exact command (read-only): `git status --short`.
+Then verify HEAD/branch/log and read `docs/PHASE11_HANDOVER.md`,
+`docs/PHASE11_DESIGN.md` and `docs/PHASE11_TOOLS.md` for the next bounded task.
+Next implementation: close retained PageMap aliases with owned/scalar snapshots
+and explicit nonreentrant mutation/frame ownership before any USER mappings.
+No push, deployment/remote operation, VM reset/storage change, tag or history
+rewrite. Phase12 is not authorized to start. Runtime peaks remain unknown.
+
+The sections below are historical Phase10B and earlier acceptance records.
+
 ## Phase 10B COMPLETE — local acceptance verified
 
 Source checkpoint: `449ed434ed5dbf1518b99821178a5fcd1d343b75` on `maintenance/phase10`.

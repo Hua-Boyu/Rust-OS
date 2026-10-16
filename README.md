@@ -1,5 +1,20 @@
 # Rust operating system on i686
 
+## Current: Phase 11 IN PROGRESS — no user execution yet
+
+First 11A prerequisite repairs effective PDE/PTE permissions and refuses
+unowned user/nonpresent map requests. Host270 pass (2 ignored), harness37 pass;
+full inherited prerequisite acceptance **PASS54/54**, actual exit0, not full
+Phase11 acceptance. Exact evidence:
+`test_results/phase11/acceptance_20261016T154710Z_q3u90_53/acceptance.json`.
+All135 frozen inputs, ISO-extracted kernel/archive and local cleanup verified.
+No Ring3 launch, TSS, syscalls, ELF loader or process lifecycle is implemented.
+Design/dependency diagram: `docs/PHASE11_DESIGN.md`; tool manifest:
+`docs/PHASE11_TOOLS.md`; status and exact next task:
+`docs/PHASE11_HANDOVER.md` and `NEXT_SESSION_PROMPT.md`.
+Existing branch retained; no push, Proxmox deployment or Phase12. All accepted
+Phase10B media/evidence below remain historical rollback checkpoints.
+
 ## Phase 10B COMPLETE — local acceptance verified
 
 Source checkpoint: `449ed434ed5dbf1518b99821178a5fcd1d343b75` on `maintenance/phase10`.

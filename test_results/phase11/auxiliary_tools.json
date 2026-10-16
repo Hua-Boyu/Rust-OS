@@ -1,0 +1,33 @@
+[
+  {
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "$PSVersionTable.PSVersion.ToString()"
+    ],
+    "exit_status": 0,
+    "output": "5.1.26100.9711\n"
+  },
+  {
+    "command": [
+      "bash",
+      "--version"
+    ],
+    "exit_status": 0,
+    "output": "GNU bash, version 5.2.21(1)-release (x86_64-pc-linux-gnu)\nCopyright (C) 2022 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis is free software; you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n"
+  },
+  {
+    "command": [
+      "rustup",
+      "--version"
+    ],
+    "exit_status": 0,
+    "output": "rustup 1.28.2 (e4f3ad6f8 2025-04-28)\ninfo: This is the version for the rustup toolchain manager, not the rustc compiler.\ninfo: The currently active `rustc` version is `rustc 1.101.0-nightly (1d81eb4ad 2026-10-07)`\n"
+  },
+  {
+    "tool": "pycdlib",
+    "version": "1.22.0",
+    "purpose": "independent read-only ISO extraction after acceptance"
+  }
+]

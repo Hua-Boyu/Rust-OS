@@ -1,0 +1,11 @@
+{
+  "review_sha256": "3b99c7c2ee1655f1aef313dd6921e9b03859fc61738b951cfa7c35b4ffb0746c",
+  "reviewed_source_matches": {
+    "src/memory/paging.rs": true,
+    "scripts/phase6_verify.py": true,
+    "scripts/test_acceptance_harness.py": true,
+    "src/memory/phase11_permission_tests.rs": true
+  },
+  "blocking_findings": 0,
+  "scope": "four-file permission prerequisite diff only; not full Phase11"
+}

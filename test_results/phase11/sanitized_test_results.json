@@ -1,0 +1,136 @@
+{
+  "host_logs": {
+    "baseline_host.log": {
+      "sha256": "848cb1e5f1520c73acc75057165f0f0864ef4f1e21e038c6d092b8c5e5eae91d",
+      "rust_summaries": [
+        "test result: ok. 265 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.20s"
+      ],
+      "python_summaries": [],
+      "expected_failure_assertions": []
+    },
+    "harness_green.log": {
+      "sha256": "aed8fb0aa3b0be03d5d4dcab0ca34181a3128020bf3b9dd8c91536d6c54058d7",
+      "rust_summaries": [],
+      "python_summaries": [
+        "Ran 37 tests in 28.380s",
+        "OK"
+      ],
+      "expected_failure_assertions": []
+    },
+    "harness_red.log": {
+      "sha256": "f558732d4c3e6e946d4b05343cddda912cdbf03d7914c60d979a52cca9a1e6ab",
+      "rust_summaries": [
+        "test result: ok. 0 passed; 0 failed; 0 ignored\\n')",
+        "test result: ok. 1 passed; 0 failed; 0 ignored\\n')"
+      ],
+      "python_summaries": [
+        "Ran 37 tests in 30.014s",
+        "FAILED (failures=6)"
+      ],
+      "expected_failure_assertions": [
+        "AssertionError: '10B' != '11A-prerequisite'",
+        "AssertionError: 53 != 54",
+        "AssertionError: 0 != 1",
+        "AssertionError: 0 != 1",
+        "AssertionError: 0 != 1",
+        "AssertionError: 0 != 1"
+      ]
+    },
+    "host_format.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rust_summaries": [],
+      "python_summaries": [],
+      "expected_failure_assertions": []
+    },
+    "host_green_parallel.log": {
+      "sha256": "1798ef1d5e1570f290c87109e8aa7c661cf38ca57f0a6a496c4e37c9b51ee800",
+      "rust_summaries": [
+        "test result: ok. 270 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.18s"
+      ],
+      "python_summaries": [],
+      "expected_failure_assertions": []
+    },
+    "host_green_serial.log": {
+      "sha256": "3cd2c0124584584418fb9299baac7511b200996cb3562aaa7acc5fb477560c94",
+      "rust_summaries": [
+        "test result: ok. 270 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.82s"
+      ],
+      "python_summaries": [],
+      "expected_failure_assertions": []
+    },
+    "nonpresent_green.log": {
+      "sha256": "3f9869c743912641bd802fae4580e1487bb362bc98228b2cdc65e90ceb1a1780",
+      "rust_summaries": [
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 267 filtered out; finished in 0.00s"
+      ],
+      "python_summaries": [],
+      "expected_failure_assertions": []
+    },
+    "nonpresent_red.log": {
+      "sha256": "976825478ea8ee9cf14074b89c695f168111f6ae6a4d7b2439aabeadce4f9b45",
+      "rust_summaries": [
+        "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 269 filtered out; finished in 0.00s"
+      ],
+      "python_summaries": [],
+      "expected_failure_assertions": [
+        "assertion failed: !pm.map(&mut fa, slot, 0x70000, &request)"
+      ]
+    },
+    "permissions_green.log": {
+      "sha256": "12933b4480ca4f75c628e7850ddd1f9586cba40c736321f45ac06b38bcf03ebe",
+      "rust_summaries": [
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 267 filtered out; finished in 0.00s"
+      ],
+      "python_summaries": [],
+      "expected_failure_assertions": []
+    },
+    "permissions_red.log": {
+      "sha256": "a43e79115ec66f778cde4597403ca55f53cdf22831ae2e3db1f37b76f058cb7a",
+      "rust_summaries": [
+        "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 267 filtered out; finished in 0.00s"
+      ],
+      "python_summaries": [],
+      "expected_failure_assertions": [
+        "assertion `left == right` failed: parent=0 leaf=1"
+      ]
+    },
+    "rust_lld_gnu_version.log": {
+      "sha256": "66dfa7eb628e582ff833e5647022bc744f6e1912f791d239c0ecb72ac2fe50c3",
+      "rust_summaries": [],
+      "python_summaries": [],
+      "expected_failure_assertions": []
+    },
+    "rust_lld_version.log": {
+      "sha256": "4d6e43f9cdca2ea0171e944cc30b8a4f09e6d4f9f46a415f90474b36f21baa97",
+      "rust_summaries": [],
+      "python_summaries": [],
+      "expected_failure_assertions": []
+    },
+    "user_map_green.log": {
+      "sha256": "f934c2b92d02139a57078ba69a358c90a92d41ec5f5fa0923e582cf6f92da869",
+      "rust_summaries": [
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 267 filtered out; finished in 0.00s"
+      ],
+      "python_summaries": [],
+      "expected_failure_assertions": []
+    },
+    "user_map_red.log": {
+      "sha256": "0a02970f82aeb840cdeef1962d4cea9b934948c0876a19dcc5dea06336c047f9",
+      "rust_summaries": [
+        "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 268 filtered out; finished in 0.00s"
+      ],
+      "python_summaries": [],
+      "expected_failure_assertions": [
+        "assertion failed: !pm.map(&mut fa, slot, 0x70000, &request)"
+      ]
+    }
+  },
+  "modeled_crash_cases": {
+    "reordered": 2328,
+    "root_prefix": 4104,
+    "rejected_torn_flush": 2639
+  },
+  "modeled_crash_total": 9071,
+  "permission_flag_combinations": 64,
+  "raw_logs": "Preserved unchanged locally; hashes above and in evidence_manifest.json"
+}

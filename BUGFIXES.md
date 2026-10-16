@@ -1,5 +1,25 @@
 # BUGFIXES
 
+## Phase 11 first prerequisite — partial B19 repair
+
+- Effective permissions no longer report a PTE's access when its PDE denies it.
+  PRESENT/RW/USER are intersected; absent grants are normalized to false.
+  Mapping/translation now respect directory presence too.
+- Raw kernel mapping refuses unsupported USER requests rather than reporting
+  user access that was never granted at the directory. No kernel PDE elevation.
+- Nonpresent requests no longer silently become present mappings; use unmap.
+- All refusals happen before allocation or entry mutation; exact ownership and
+  mapping counters tested. Three intended RED regressions and GREEN retained.
+- This does NOT resolve retained static PageMap borrows, general safe raw-frame
+  ownership, legacy exception ABI, user recovery or unguarded stacks. 11A is
+  incomplete; no syscall/ELF/user launch was introduced.
+
+Host270 passed/2 ignored and harness37 passed. Full inherited prerequisite
+acceptance PASS54/54, actual exit0; independent source/artifact/cleanup closeout
+PASS. Exact report `test_results/phase11/acceptance_20261016T154710Z_q3u90_53/acceptance.json`.
+This is not full Phase11 acceptance. See Phase11 handover/design for unresolved
+aliasing/frame ownership/exception ABI blockers; no user launch was attempted.
+
 ## Phase 10B COMPLETE — local acceptance verified
 
 Source checkpoint: `449ed434ed5dbf1518b99821178a5fcd1d343b75` on `maintenance/phase10`.

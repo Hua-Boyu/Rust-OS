@@ -1,4 +1,89 @@
-# Rosti OS — standalone post-Phase-10B continuation prompt
+# Rosti OS — standalone Phase 11 continuation prompt
+
+## Current task and safety boundary
+
+Work only in `C:/Users/iamsv/Documents/Rust-OS`, existing branch
+`maintenance/phase10`. Initial Phase11 HEAD was
+`def677fac8ca662e45ad4fb40c9ddd18bfe86bd8`; verify actual HEAD/status/log, never
+reset or infer HEAD from this text. Keep unrelated `d1/` and
+`scripts/b13_boot_fixture.py.backup`. No new branch needed without concrete
+isolation grounds. No push, tag/history rewrite, Phase12 or Proxmox mutation.
+
+Phase11 is **IN PROGRESS / NOT A RELEASE**. Only 11A's initial permission
+prerequisite is implemented: effective PDE+PTE diagnostics, fail-closed unowned
+USER/nonpresent map requests. Five mandatory host tests include all 64 P/RW/US
+combinations and supervisor identity-map inventories at 128/512 MiB. No real
+CPL3, TSS, user stack, controlled continuation, syscall or guest ELF loader yet.
+No hardware NX in non-PAE paging; do not claim W^X or CPU isolation from a host
+model. Keep all existing kernel/boot/heap/table/MMIO aliases supervisor-only.
+
+Verified implementation commit is `d6d04c5dececf0dbf78c27e2e71760a2084786d4`;
+the following documentation/evidence commit changes no frozen executable input.
+Last verified action: canonical runner **PASS 54/54**, actual process exit0;
+independent closeout PASS before/after implementation commit. All135 source
+inputs rediscovered/hash-matched;159 nested reports checked; no local QEMU.
+Host **270/0/2 ignored** parallel/serial, harness **37 passed**, explicit
+RED/GREEN logs under `test_results/phase11/`. Fresh inherited56/56 initramfs
+scenarios,3379 checks,9071 modeled crash cases passed at128/512MiB ELF/GRUB.
+Exact report `test_results/phase11/acceptance_20261016T154710Z_q3u90_53/acceptance.json`;
+closeout `test_results/phase11/final_verification.json`. Its label is
+`11A-prerequisite` with `phase11_release_ready=false`, not full Phase11 proof.
+The independent four-file diff review has no blockers; optional additional
+exact-five negative fixtures were deferred, not applied during the source freeze.
+
+ISO `dist/rosti_phase11a_prerequisite_20261016T154710Z.iso` SHA256
+`fa309a4ecc5b97d98ee07891597e5cffe4bf45058709ed91c8936a2fe62992a9`;
+independently extracted kernel SHA256
+`c813429de80aa5c0d9782fcd1de76bde95566887f1f76caaf36bc85662844f4b`.
+Archive identical to Phase10B; accepted baseline ISO unchanged. Loaded sections
++720 bytes, static span unchanged; runtime peaks and meaningful timings unknown.
+In future runs, no competing builds/QEMU or source changes while the canonical
+runner owns `dist/.phase6_acceptance.lock`. Never unlink the lock file; handle
+closure releases it. Preserve failed/incomplete evidence.
+
+Next exact command: `git status --short`.
+Then `git branch --show-current`, `git rev-parse HEAD`, `git log -5 --oneline`.
+If another acceptance run is active, discover its owner and continue it rather
+than launching a competing runner. The checkpoint run above has exited0.
+Read `docs/PHASE11_HANDOVER.md` (A–K), `docs/PHASE11_DESIGN.md`,
+`docs/PHASE11_TOOLS.md` and current opening sections of all seven standard docs.
+Load skills rosti-kernel-development, systematic-debugging,
+test-driven-development, bare-metal-kernel-qemu-testing,
+requesting-code-review and git-release-checkpoint.
+
+Next implementation after a passing prerequisite checkpoint: close retained
+static PageMap aliases with scoped/snapshot APIs and explicit mutation ownership
+before adding owned user mappings. Inspect every caller in memory/mod.rs,
+boot_copy.rs, fs_stress.rs and tests. Preserve heap -> frame lock ordering;
+neither allocate nor destroy heap backing under frame guards. Then proceed in
+PHASE11_DESIGN's dependency order through correct GDT/TSS/error-code entry ABI,
+single-context IRET/continuation and real CPU denial/recovery at both RAM sizes.
+Only after 11A passes may 11B synthetic execution, 11C syscalls, 11D bounded
+ELF32 and 11E lifecycle begin. Do not treat an old Rust stack as an IRET target.
+
+Use RED/GREEN for each slice and independent read-only review. Host command
+from `C:/Users/iamsv` (outside kernel config):
+`cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml`.
+Production `cargo build` from repo; full acceptance
+`python -B scripts/phase6_verify.py` as a notified background process, exclusively.
+Extend mandatory gates here, never hide Phase11 evidence in an optional runner.
+All inherited53 gates,56 initramfs scenarios,3379 checks and9071 crash models
+were freshly rerun at this checkpoint and must not be weakened in future work.
+
+No remote API/SSH action was performed in this Phase11 session. Historical VM103
+was 512 MiB/one vCPU/SeaBIOS, Phase9.6 ISO, no persistent data disk; do not assert
+fresh remote state or run live harnesses (they reset the VM). Preserve accepted
+media, RostiFS format1/COW/CRC/flush, `/system` trust/read-only integrity,
+generational/attenuated descriptors and independent RAMFS recovery.
+
+At each verified checkpoint update all seven docs and Phase11 A–K handover,
+retain exact source/artifact hashes and review scope, commit scoped reviewed
+passing changes only. Report partial status honestly. Full Phase11 is NOT READY
+until every requested 11A–11F guest, cleanup, isolation and review gate passes.
+
+---
+
+## Historical post-Phase10B continuation prompt (superseded)
 
 Work in `C:/Users/iamsv/Documents/Rust-OS` on `maintenance/phase10`.
 The completed Phase 10B source checkpoint is `449ed434ed5dbf1518b99821178a5fcd1d343b75`; the following

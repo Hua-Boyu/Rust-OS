@@ -1,5 +1,22 @@
 # ARCHITECTURE
 
+## Current Phase 11 prerequisite — IN PROGRESS, no CPL3
+
+`PageMap::permissions` now intersects PRESENT/RW/USER at both PDE and PTE;
+absent pages grant no access. `is_mapped`/`translate` use effective presence.
+Raw kernel `map` rejects USER and nonpresent requests before allocation;
+kernel PDEs are NOT elevated. All identity/growth aliases stay supervisor.
+This is the first 11A prerequisite, not an implemented user address space.
+Retained static PageMap aliasing, GDT/TSS/stack ownership, exception ABI and
+kernel continuation must be resolved before user execution. No NX/PAE,
+syscall, process or guest ELF loader. Concrete diagram/dependencies/proposed
+contracts: `docs/PHASE11_DESIGN.md`; actual state: `docs/PHASE11_HANDOVER.md`.
+Historical Phase10B acceptance follows; it is not Phase11 proof.
+Implementation checkpoint `d6d04c5`, prerequisite regression PASS54/54 with
+135 frozen source inputs; no new GDT/TSS/user-stack storage. Loaded sections
+grow720 bytes while static span stays unchanged; runtime peaks unknown.
+Evidence `test_results/phase11/final_verification.json` / `resource_sections.json`.
+
 ## Phase 10B COMPLETE — local acceptance verified
 
 Source checkpoint: `449ed434ed5dbf1518b99821178a5fcd1d343b75` on `maintenance/phase10`.

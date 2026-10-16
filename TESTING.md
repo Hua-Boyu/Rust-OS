@@ -1,5 +1,28 @@
 # TESTING
 
+## Current Phase 11 prerequisite — not full Phase11 acceptance
+
+Recorded TDD: effective permission diagnostic RED (PDE absent/PTE present),
+unowned USER map RED, nonpresent map RED, each followed by GREEN. Five required
+tests cover all 64 flag pairs, 128/512 MiB supervisor inventories, zero mutation
+on refused requests and preserved existing entries. Host serial/parallel:
+**270 passed, zero failed, two ignored**. Acceptance harness: **37 passed**.
+Logs: `test_results/phase11/`; this is host coverage, NOT CPL3 CPU proof.
+
+Canonical `python -B scripts/phase6_verify.py` now mandates the exact five-test
+permission gate alongside ALL inherited 53 gates. Report/artifact labels are
+`11A-prerequisite` / `rosti_phase11a_prerequisite_*`, with release-ready false.
+Full inherited prerequisite acceptance **PASS54/54**, actual exit0:
+`test_results/phase11/acceptance_20261016T154710Z_q3u90_53/acceptance.json`.
+Fresh56/56 initramfs scenarios/3379 checks,9071 crash models,44 boot-metadata
+scenarios and all inherited ELF/GRUB128/512MiB gates passed. Independent
+closeout matched135 source inputs, read159 nested reports and independently
+extracted kernel/archive; final QEMU inventory empty. See `final_verification.json`.
+Keep frozen source, nonblocking OS lock and sequential guests in future runs.
+Final Phase11 CPU scenarios in `docs/PHASE11_DESIGN.md` remain unimplemented.
+No gate was removed. Source/fixture membership and exact nested counts remain
+mandatory; this passing regression run is not a CPL3 isolation oracle.
+
 ## Phase 10B COMPLETE — local acceptance verified
 
 Source checkpoint: `449ed434ed5dbf1518b99821178a5fcd1d343b75` on `maintenance/phase10`.

@@ -1,5 +1,16 @@
 # PROXMOX DEPLOYMENT
 
+## Current Phase 11 boundary — local only, NOT deployed
+
+No Proxmox API/SSH call, upload, ISO replacement, VM reboot/reset/power action,
+disk attachment/format or storage mutation was performed this session. No fresh
+inventory is claimed. The Phase10B observations below remain historical.
+Phase11 is IN PROGRESS; only the first paging-permission prerequisite is
+implemented. Local verification does not authorize deployment. Do not invoke
+live harnesses, because they reset VM103. Existing accepted media are retained.
+Local prerequisite regression PASS54/54 is recorded in the Phase11 handover;
+it does not authorize deploying that ISO or imply complete Ring3 acceptance.
+
 ## Phase 10B local closeout — no deployment
 
 Fresh read-only structured GETs of pve VM 103 show running, 512 MiB/one vCPU,

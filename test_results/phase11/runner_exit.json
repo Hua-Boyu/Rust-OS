@@ -1,0 +1,12 @@
+{
+  "command": "python -B scripts/phase6_verify.py",
+  "terminal_session": "proc_9d8572f02fca",
+  "verification_method": "process_manage wait returned status=exited, completion_reason=exited, exit_code=0; not inferred from JSON alone",
+  "exit_code": 0,
+  "acceptance": "test_results/phase11/acceptance_20261016T154710Z_q3u90_53/acceptance.json",
+  "overall": "PASS",
+  "gates_passed": 54,
+  "gates_total": 54,
+  "scope": "11A permission prerequisite and all inherited regressions; full Phase11 remains IN PROGRESS",
+  "phase11_release_ready": false
+}
