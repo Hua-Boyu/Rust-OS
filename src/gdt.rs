@@ -1,5 +1,9 @@
 use core::arch::asm;
 
+#[cfg(test)]
+#[path = "phase11_gdt_tests.rs"]
+mod phase11_gdt_tests;
+
 #[repr(C, packed)]
 struct GdtTable {
     limit: u16,
@@ -55,7 +59,7 @@ impl GdtSegment {
         desc |= self.base as u64 & 0xff00_0000;
 
         desc <<= 32;
-        desc |= (self.base as u64) << 16;
+        desc |= ((self.base & 0x0000_ffff) as u64) << 16;
         desc |= (self.limit & 0x0000_ffff) as u64;
 
         desc
