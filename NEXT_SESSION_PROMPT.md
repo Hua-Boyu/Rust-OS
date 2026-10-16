@@ -60,6 +60,13 @@ PHASE11_DESIGN's dependency order through correct GDT/TSS/error-code entry ABI,
 single-context IRET/continuation and real CPU denial/recovery at both RAM sizes.
 Only after 11A passes may 11B synthetic execution, 11C syscalls, 11D bounded
 ELF32 and 11E lifecycle begin. Do not treat an old Rust stack as an IRET target.
+Before TSS, fix the independently reproduced nonzero-base GDT encoder defect
+at `src/gdt.rs:58` with RED/GREEN tests; current base-zero segments avoid it.
+Read the complete initial-HEAD audits saved as
+`test_results/phase11/initial_memory_audit.md` and
+`test_results/phase11/initial_entry_capability_audit.md`. Also define FPU/SIMD
+state containment and bounded user cancellation, deliberate console endpoint
+rights, descriptor inheritance semantics and directory/mount confinement.
 
 Use RED/GREEN for each slice and independent read-only review. Host command
 from `C:/Users/iamsv` (outside kernel config):

@@ -12,8 +12,8 @@
 - Current implementation HEAD: `d6d04c5dececf0dbf78c27e2e71760a2084786d4`. This documentation/evidence checkpoint follows it; resolve the documentation commit with `git rev-parse HEAD` rather than pretending a commit can embed its own hash.
 - Working-tree status at recovery: only untracked `d1/` and `scripts/b13_boot_fixture.py.backup`; neither altered. At implementation commit: only task documentation remained modified/untracked in addition to those unrelated paths. Final documentation checkpoint should leave only the two unrelated paths untracked.
 - Branching decision and justification: stay on existing maintenance branch. No incompatible implementation or independent writer identified; two delegated audits are read-only. Local upstream policy is known, remote protection unknown. No push requested. Accepted source/artifacts provide rollback; another branch offers no concrete isolation.
-- Commits and commit purposes: `d6d04c5` fixes effective permissions and unsupported map requests, adds five host regressions and one mandatory canonical gate. A separate `docs(rosti): record verified Phase 11 prerequisite and continuation` commit records tools, evidence and handover only.
-- Upstream relationship: initial HEAD equalled `origin/maintenance/phase10`; implementation is one local commit ahead, documentation adds one more. No push performed; verify actual ahead/behind counts when resuming.
+- Commits and commit purposes: `d6d04c5` fixes effective permissions and unsupported map requests, adds five host regressions and one mandatory canonical gate. `fa4eb79` records tools, evidence and handover. A documentation-only `docs(rosti): retain complete Phase 11 prerequisite audit findings` follow-up preserves the complete late-delivered architecture audits and additional pre-TSS obligations; no executable input changes.
+- Upstream relationship: initial HEAD equalled `origin/maintenance/phase10`; one implementation commit plus documentation and audit-retention commits are local only. No push performed; verify actual ahead/behind counts when resuming.
 - Unrelated files preserved: both paths above; accepted media/evidence retained.
 
 ### C. Architecture
@@ -62,6 +62,7 @@
 - No user execution allowed before effective permissions, ownership and exception/continuation safety pass real guests.
 - Known trust limitations: loader/kernel trusted, single CPU; no secure boot or NX, retained static PageMap aliasing issue and legacy exception ABI blockers.
 - Unresolved findings: see PHASE11_DESIGN.md; Phase11 release blocked.
+- Complete late-delivered initial-HEAD audits are preserved as `test_results/phase11/initial_memory_audit.md` and `initial_entry_capability_audit.md`. A documentation-only follow-up to `fa4eb79` records a verified nonzero-base GDT encoder defect (`src/gdt.rs:58`), FPU/SIMD state/cancellation policy and cross-context descriptor/confinement obligations. Base-zero current kernel descriptors are unaffected; fix/test the encoder before TSS. No frozen executable input or artifact changed, so the existing prerequisite acceptance remains applicable, not full Phase11 proof.
 
 ### I. Environment and deployment
 - Local Windows Git Bash/native Rust/QEMU and WSL GNU tools only.

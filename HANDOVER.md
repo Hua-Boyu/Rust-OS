@@ -13,6 +13,9 @@ of unowned USER mappings and nonpresent map requests before allocation. No
 kernel PDE was promoted to USER; no CPL3 execution/syscall/ELF loader exists.
 Remaining prerequisites: scoped PageMap ownership (B19), owned mappings/stacks,
 GDT/TSS, explicit exception ABI and kernel continuation. Do not skip these.
+Complete initial-HEAD audits are now retained under `test_results/phase11/initial_*_audit.md`.
+They also identify a reproduced nonzero-base GDT encoder bug at `src/gdt.rs:58`:
+current base-zero descriptors are unaffected, but fix/test it before any TSS.
 
 Last verified action: canonical runner **PASS 54/54**, actual exit 0; independent
 closeout PASS before/after implementation commit, all **135 source inputs**

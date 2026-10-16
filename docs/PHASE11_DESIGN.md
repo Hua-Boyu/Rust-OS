@@ -224,6 +224,35 @@ commits and immutable accepted media provide rollback without rewriting history.
 
 ## Read-only prerequisite audit follow-up
 
+Complete initial-HEAD audit reports are retained at
+`test_results/phase11/initial_memory_audit.md` and
+`test_results/phase11/initial_entry_capability_audit.md`. They predate `d6d04c5`;
+their PTE-only/unsupported-request findings are fixed by that checkpoint, not
+new regressions. Their remaining findings are prerequisites, not waivers.
+
+**Additional TSS blocker, independently reproduced:** `src/gdt.rs:58` inserts
+the entire `base << 16` instead of masking the low base word. Higher base bits
+can corrupt the descriptor's already-encoded access byte. With base
+`0x12345678`, limit103, access0x89, flags0, the current encoding is
+`0x12009b3456780067`; independent field packing requires `0x1200893456780067`.
+Current kernel descriptors use base0 and are unaffected. Before adding a TSS,
+write a real descriptor-encoding RED test with nonzero bases and fix this encoder;
+do not reuse it unchanged. No encoder implementation was changed in this follow-up.
+
+Other explicit pre-CPL3 obligations from the complete audits:
+- Define FPU/x87/SIMD state initialization, denial or save/restore. Soft-float
+  compiler flags constrain kernel-generated code, not hostile user instructions.
+- Bound a nonterminating foreground context through a reviewed user-origin
+  cancellation/timeout contract; never abandon kernel VFS/allocator ownership.
+- Console descriptors currently have zero rights and no open-file record;
+  add reviewed endpoint support rather than routing them through file-only writes.
+- Separate FdTables embed separate open-record arrays: do not claim shared
+  cross-context offsets without a shared registry or explicit independent opens.
+- Directory delegation needs absolute-path/parent confinement, and any future
+  unmount check must account for every context's descriptors/cwd, not just shell.
+- `KernelHeap::add_region` accepts raw numeric backing without encoded exclusive
+  ownership. Do not reuse that safe-looking API as process memory authority.
+
 Two independent source audits of initial HEAD confirmed the outstanding B19
 and trap-ABI blockers; these are not a passing review of complete Phase11.
 The narrow permission change received a separate no-blocker review, with a

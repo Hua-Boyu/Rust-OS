@@ -19,6 +19,12 @@ acceptance PASS54/54, actual exit0; independent source/artifact/cleanup closeout
 PASS. Exact report `test_results/phase11/acceptance_20261016T154710Z_q3u90_53/acceptance.json`.
 This is not full Phase11 acceptance. See Phase11 handover/design for unresolved
 aliasing/frame ownership/exception ABI blockers; no user launch was attempted.
+Late initial-HEAD audit follow-up: nonzero GDT bases can corrupt access bits
+because `src/gdt.rs:58` fails to mask the low base word. Independently reproduced,
+**not fixed**; current base-zero kernel descriptors are unaffected. This is a
+mandatory RED/GREEN prerequisite before a TSS descriptor. Full audit reports
+are retained under `test_results/phase11/initial_*_audit.md`; executable source,
+135-input freeze and accepted prerequisite artifacts remain unchanged.
 
 ## Phase 10B COMPLETE — local acceptance verified
 
