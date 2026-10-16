@@ -214,6 +214,19 @@ fn run_command(
             report!("FS storage: {} bytes", fs_stats.allocated_bytes);
             report!("FS logical bytes: {}", fs_stats.logical_bytes);
             report!("FS metadata: {} bytes (fixed)", fs_stats.metadata_bytes);
+            // Separate from writable RAMFS quotas and disk accounting. Module
+            // frame pins and transient import buffers are not reclaimable cache.
+            if let Some(system) = fs.system_info() {
+                report!("System nodes: {}", system.nodes);
+                report!("System logical bytes: {}", system.logical_bytes);
+                report!("System payload capacity: {} bytes", system.allocated_bytes);
+                report!(
+                    "System metadata: {} bytes (archive and routing)",
+                    system.metadata_bytes
+                );
+            } else {
+                report!("System mount: absent");
+            }
             let fd_stats = table.stats();
             report!(
                 "Descriptors: open {} records {} opens {} closes {} denials {} stale {}",

@@ -18,6 +18,7 @@ mod fs_commands;
 mod fs_stress;
 mod gdt;
 mod initramfs;
+mod initramfs_trust;
 mod interrupt;
 mod io;
 mod kbd;
@@ -26,8 +27,15 @@ mod multiboot;
 mod reboot;
 mod shell;
 mod storage;
+mod system_image;
 mod timer;
 mod utils;
+
+// Initialized data, not BSS: the pre-entry GDB fixture survives boot stack/BSS setup.
+#[cfg(feature = "initramfs-failure-test")]
+#[used]
+#[unsafe(no_mangle)]
+pub static mut INITRAMFS_TEST_MODE: u8 = 0xff;
 
 #[cfg(not(test))]
 global_asm!(include_str!("boot.s"), options(att_syntax));
@@ -115,6 +123,44 @@ unsafe fn prepare_boot_memory(
     Ok(selected)
 }
 
+// Privileged guest-only exhaustion probe. Fixed metadata stays off the boot stack.
+// No infallible allocation, filesystem mutation, formatting or held guard occurs
+// while pressure is live. Every buffer is released before recovery diagnostics.
+#[cfg(feature = "initramfs-failure-test")]
+fn build_under_heap_pressure(
+    archive: &mut fs::ArchiveFs,
+    index: &initramfs::Archive,
+    bytes: &[u8],
+) -> Result<(), fs::FsError> {
+    use alloc::vec::Vec;
+    static mut PRESSURE: [Vec<u8>; 768] = [const { Vec::new() }; 768];
+    // SAFETY: this test-only boot path executes once; no ISR accesses PRESSURE.
+    let pressure = unsafe { &mut *(&raw mut PRESSURE) };
+    let before = allocator::heap_stats();
+    for (group, chunk) in [32768, 1024, 32].into_iter().enumerate() {
+        for buffer in &mut pressure[group * 256..(group + 1) * 256] {
+            if buffer.try_reserve_exact(chunk).is_err() {
+                break;
+            }
+        }
+    }
+    let result = archive.try_build(index, bytes);
+    for buffer in pressure {
+        *buffer = Vec::new();
+    }
+    let after = allocator::heap_stats();
+    if result == Err(fs::FsError::OutOfMemory)
+        && after.failed_allocs > before.failed_allocs
+        && after.live_allocs == before.live_allocs
+        && after.used == before.used
+    {
+        io::serial::puts("ROSTI: initramfs real allocator OOM recovered\n");
+    } else {
+        io::serial::puts("ROSTI: initramfs OOM fixture FAILED\n");
+    }
+    result
+}
+
 #[cfg(not(test))]
 #[unsafe(no_mangle)]
 /// # Safety
@@ -161,45 +207,6 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     if memory::page_directory().is_some() {
         memory::enable_paging();
         io::serial::puts("ROSTI: paging enabled (CR0.PG, identity map)\n");
-    }
-
-    // Diagnostic-only import slice: never expose unverified files. The RAMFS
-    // shell is kernel-owned and independent of all outcomes below.
-    match boot_module {
-        BootModuleSelection::Absent => {
-            io::serial::puts("ROSTI: initramfs absent; RAMFS recovery\n")
-        }
-        BootModuleSelection::Ambiguous => {
-            io::serial::puts("ROSTI: initramfs ambiguous; RAMFS recovery\n")
-        }
-        BootModuleSelection::Selected(module) => {
-            // SAFETY: exact descriptor copied from the accepted inventory;
-            // its RAM span was checked against kernel/heap/metadata, reserved
-            // before frame allocation, and is still pinned until reboot.
-            match unsafe { memory::boot_copy::copy_module(module.range.0, module.range.1) } {
-                Ok(bytes) => match initramfs::parse(&bytes) {
-                    Ok(_archive) => {
-                        io::serial::puts("ROSTI: initramfs parsed; UNVERIFIED, not published\n")
-                    }
-                    Err(error) => {
-                        use core::fmt::Write;
-                        let _ = writeln!(
-                            io::serial::SerialWriter,
-                            "ROSTI: initramfs archive rejected: {:?}; RAMFS recovery",
-                            error
-                        );
-                    }
-                },
-                Err(error) => {
-                    use core::fmt::Write;
-                    let _ = writeln!(
-                        io::serial::SerialWriter,
-                        "ROSTI: initramfs copy rejected: {:?}; RAMFS recovery",
-                        error
-                    );
-                }
-            }
-        }
     }
 
     // stub: enable ps2 & interrupts
@@ -270,6 +277,157 @@ pub unsafe extern "C" fn kernel_main(magic: u32, info: *const multiboot::BootInf
     let descriptors = unsafe { &mut *(&raw mut DESCRIPTORS) };
     descriptors.init_console();
     let mut cwd = fs::NodeId::ROOT;
+
+    #[cfg(feature = "initramfs-failure-test")]
+    let fixture_mode = unsafe { core::ptr::read_volatile(&raw const INITRAMFS_TEST_MODE) };
+    #[cfg(feature = "initramfs-failure-test")]
+    if fixture_mode == 1 {
+        use fs::Vfs;
+        // A real pre-existing file must not be hidden or changed by attachment.
+        if let Ok(id) = filesystem.create_file(fs::NodeId::ROOT, "/system") {
+            let _ = filesystem.replace(id, b"collision sentinel");
+        }
+    }
+
+    // Authenticate the immutable owned copy before constructing any VFS nodes.
+    // Neither rejected content nor a failed mount is needed by the recovery shell.
+    match boot_module {
+        BootModuleSelection::Absent => {
+            io::serial::puts("ROSTI: initramfs absent; RAMFS recovery\n")
+        }
+        BootModuleSelection::Ambiguous => {
+            io::serial::puts("ROSTI: initramfs ambiguous; RAMFS recovery\n")
+        }
+        BootModuleSelection::Selected(module) => {
+            // SAFETY: exact descriptor copied from the accepted inventory;
+            // its RAM span was checked against kernel/heap/metadata, reserved
+            // before frame allocation, and is still pinned until reboot.
+            match unsafe { memory::boot_copy::copy_module(module.range.0, module.range.1) } {
+                Ok(bytes) => {
+                    {
+                        use core::fmt::Write;
+                        let indexes =
+                            2 * initramfs::MAX_ENTRIES * core::mem::size_of::<initramfs::Entry>();
+                        let snapshot = fs::ArchiveFs::maximum_snapshot_heap_bytes();
+                        let input = memory::boot_copy::MAX_MODULE_BYTES;
+                        let _ = writeln!(
+                            io::serial::SerialWriter,
+                            "ROSTI: image buffer bound input={} indexes={} snapshot={} total={} excludes_allocator_overhead",
+                            input,
+                            indexes,
+                            snapshot,
+                            input + indexes + snapshot
+                        );
+                    }
+                    let verify_started = timer::ticks();
+                    let verified = initramfs_trust::verify(&bytes, &system_image::EXPECTED_SHA256);
+                    let verify_ticks = timer::ticks().wrapping_sub(verify_started);
+                    // PIT observations have 10 ms granularity, not sub-tick precision.
+                    // Measure before serial formatting; no guard survives the operation.
+                    {
+                        use core::fmt::Write;
+                        let _ = writeln!(
+                            io::serial::SerialWriter,
+                            "ROSTI: image timing verify_ticks={} hz={}",
+                            verify_ticks,
+                            timer::TIMER_HZ
+                        );
+                    }
+                    match verified {
+                        Ok(index) => {
+                            // SAFETY: initialized in static storage, borrowed once at boot.
+                            // On publication MountedFs owns this exclusive borrow until reboot.
+                            static mut SYSTEM: fs::ArchiveFs = fs::ArchiveFs::empty();
+                            let archive = unsafe { &mut *(&raw mut SYSTEM) };
+                            #[cfg(feature = "initramfs-failure-test")]
+                            let before_import = allocator::heap_stats();
+                            let build_started = timer::ticks();
+                            #[cfg(feature = "initramfs-failure-test")]
+                            let built = if fixture_mode == 3 {
+                                build_under_heap_pressure(archive, &index, &bytes)
+                            } else {
+                                archive.try_build(&index, &bytes)
+                            };
+                            #[cfg(not(feature = "initramfs-failure-test"))]
+                            let built = archive.try_build(&index, &bytes);
+                            let build_ticks = timer::ticks().wrapping_sub(build_started);
+                            let mount_attempted = built.is_ok();
+                            let mount_started = timer::ticks();
+                            let result = built.and_then(|()| {
+                                #[cfg(feature = "initramfs-failure-test")]
+                                if fixture_mode == 2 {
+                                    return filesystem.mount_system_failure_fixture(archive);
+                                }
+                                filesystem.mount_system(archive)
+                            });
+                            let mount_ticks = timer::ticks().wrapping_sub(mount_started);
+                            {
+                                use core::fmt::Write;
+                                let _ = writeln!(
+                                    io::serial::SerialWriter,
+                                    "ROSTI: image timing build_ticks={} hz={}",
+                                    build_ticks,
+                                    timer::TIMER_HZ
+                                );
+                                if mount_attempted {
+                                    let _ = writeln!(
+                                        io::serial::SerialWriter,
+                                        "ROSTI: image timing mount_ticks={} hz={}",
+                                        mount_ticks,
+                                        timer::TIMER_HZ
+                                    );
+                                }
+                            }
+                            #[cfg(feature = "initramfs-failure-test")]
+                            if matches!(fixture_mode, 1 | 2) && result.is_err() {
+                                let after_import = allocator::heap_stats();
+                                if after_import.used == before_import.used
+                                    && after_import.live_allocs == before_import.live_allocs
+                                {
+                                    io::serial::puts(
+                                        "ROSTI: unpublished initramfs snapshot released\n",
+                                    );
+                                } else {
+                                    io::serial::puts(
+                                        "ROSTI: initramfs rollback accounting FAILED\n",
+                                    );
+                                }
+                            }
+                            match result {
+                                Ok(()) => io::serial::puts(
+                                    "ROSTI: initramfs trusted; mounted at /system\n",
+                                ),
+                                Err(error) => {
+                                    use core::fmt::Write;
+                                    let _ = writeln!(
+                                        io::serial::SerialWriter,
+                                        "ROSTI: initramfs publication rejected: {}; RAMFS recovery",
+                                        error
+                                    );
+                                }
+                            }
+                        }
+                        Err(error) => {
+                            use core::fmt::Write;
+                            let _ = writeln!(
+                                io::serial::SerialWriter,
+                                "ROSTI: initramfs archive rejected: {:?}; RAMFS recovery",
+                                error
+                            );
+                        }
+                    }
+                }
+                Err(error) => {
+                    use core::fmt::Write;
+                    let _ = writeln!(
+                        io::serial::SerialWriter,
+                        "ROSTI: initramfs copy rejected: {:?}; RAMFS recovery",
+                        error
+                    );
+                }
+            }
+        }
+    }
 
     // Never format at boot. Unknown/corrupt owned media fails closed while the
     // independent RAMFS recovery shell remains available. Unmarked disks are

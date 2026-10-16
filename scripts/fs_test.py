@@ -311,6 +311,9 @@ class Harness:
 
     def exercise(self):
         self.exact("pwd", "/")
+        # A trusted initramfs may publish a read-only /system at root, so cleanup
+        # must restore the pre-existing listing rather than assume an empty root.
+        baseline_root = self.command("ls").rstrip("\n")
         before = self.memory("before")
         self.success("mkdir docs")
         self.success("cd docs")
@@ -344,7 +347,7 @@ class Harness:
         self.success("cd ..")
         self.success("rmdir docs")
         self.exact("pwd", "/")
-        self.exact("ls", "")
+        self.exact("ls", baseline_root)
         self.overlong_write()
         after = self.memory("after_cleanup")
         self.check(after["used"] < live["used"], "filesystem cleanup releases heap storage")
@@ -360,7 +363,7 @@ class Harness:
             self.check(post["failed_allocations"] > after["failed_allocations"], "stress exercises safe OOM")
             self.check(post["used"] <= after["used"] + self.args.max_retained_bytes, "stress releases bounded heap storage")
             self.check(all(post.get(k) == after[k] for k in ("fs_storage", "fs_entries")), "stress FS accounting restored")
-            self.exact("ls", "")
+            self.exact("ls", baseline_root)
         out = self.command("help")
         match = re.search(r"(?m)^commands:\s*(.*)$", out)
         self.check(match is not None and all(c in match.group(1).split() for c in

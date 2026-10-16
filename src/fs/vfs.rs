@@ -68,6 +68,12 @@ impl fmt::Display for FsError {
     }
 }
 pub trait Vfs {
+    /// Separate mounted archive accounting; None when no system is attached.
+    /// Payload capacity and archive/node/routing metadata do not alter RAM quotas.
+    fn system_info(&self) -> Option<FsStats> {
+        None
+    }
+
     /// None for volatile RAM-only instances. Mounted namespace metadata_bytes
     /// includes engine state plus adapter/routing tables (static, not heap).
     fn persistent_info(&self) -> Option<rostifs::engine::MountInfo> {

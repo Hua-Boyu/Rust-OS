@@ -1,0 +1,1 @@
+Recovery shell is kernel-owned.

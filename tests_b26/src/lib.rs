@@ -2,6 +2,8 @@
 #![cfg(test)]
 #![allow(dead_code)]
 
+extern crate alloc;
+
 use std::alloc::{GlobalAlloc, Layout, System};
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 

@@ -112,10 +112,16 @@ class Gdb:
 
     def write(self, address, data):
         data = bytes(data)
-        if self.command(f"M{address:x},{len(data):x}:" + data.hex()) != "OK":
-            raise RuntimeError("GDB rejected memory write")
-        if self.read(address, len(data)) != data:
-            raise RuntimeError("Memory write readback mismatch")
+        # QEMU's gdbstub buffers cap M packets (~16 KiB) and m replies (~1 KiB
+        # of data), so write and read back in bounded chunks; every chunk keeps
+        # the strict readback verification.
+        for offset in range(0, len(data), 0x400):
+            chunk = data[offset:offset + 0x400]
+            if self.command(
+                    f"M{address + offset:x},{len(chunk):x}:" + chunk.hex()) != "OK":
+                raise RuntimeError("GDB rejected memory write")
+            if self.read(address + offset, len(chunk)) != chunk:
+                raise RuntimeError("Memory write readback mismatch")
         self.mutations.append({"address": address, "bytes": data.hex()})
 
 

@@ -298,7 +298,11 @@ where
                 let mut descriptor = [0u8; 16];
                 read(table.0 + (i * 16) as u64, &mut descriptor)?;
                 let range = (word(&descriptor, 0) as u64, word(&descriptor, 4) as u64);
-                if range.1 <= range.0 || word(&descriptor, 12) != 0 {
+                // Multiboot v1 3.3: the loader must zero reserved (+12),
+                // but the OS must ignore it. GRUB 2.12 leaves it unwritten.
+                // It is neither an address nor a length; validate all three
+                // meaningful words and retain every existing reservation.
+                if range.1 <= range.0 {
                     return Err(BootError::Module);
                 }
                 address(&inv.entries, span(range.0, range.1 - range.0)?, kernel)?;

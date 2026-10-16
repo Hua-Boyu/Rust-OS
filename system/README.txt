@@ -1,0 +1,1 @@
+Rosti trusted system image

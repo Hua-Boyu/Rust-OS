@@ -18,6 +18,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from verify_production import artifact_policy_checks
+
 PROJECT = Path(__file__).resolve().parent.parent
 # grub-mkrescue runs in WSL; the project is reachable there via /mnt/<drive>.
 WSL_PROJECT = (Path("/mnt") / PROJECT.drive[0].lower() / str(PROJECT).split(":", 1)[1].lstrip("\\/")).as_posix()
@@ -34,6 +36,7 @@ set default=0
 
 menuentry "Rosti kernel (multiboot)" {
     multiboot /boot/rosti.bin
+    module /boot/system.cpio rosti.initramfs
 }
 """
 
@@ -63,11 +66,18 @@ def validate_elf(path: Path) -> bool:
 
 
 def build_iso() -> bool:
+    kernel_bytes = KERNEL.read_bytes()
+    if not all(passed for passed, _ in artifact_policy_checks(kernel_bytes)):
+        print("FAIL: refusing to package a deliberate fault/initramfs test build; rebuild without test features")
+        return False
+    from system_image_policy import trusted_archive
+    archive = trusted_archive(PROJECT)
     DIST.mkdir(exist_ok=True)
     # Stage via Windows path; WSL sees the same tree under /mnt/c.
     stage_win = PROJECT / "dist" / "stage"
     (stage_win / "boot" / "grub").mkdir(parents=True, exist_ok=True)
-    (stage_win / "boot" / "rosti.bin").write_bytes(KERNEL.read_bytes())
+    (stage_win / "boot" / "rosti.bin").write_bytes(kernel_bytes)
+    (stage_win / "boot" / "system.cpio").write_bytes(archive)
     (stage_win / "boot" / "grub" / "grub.cfg").write_text(GRUB_CFG)
 
     r = subprocess.run(
@@ -119,8 +129,8 @@ def main():
     if not KERNEL.exists():
         print(f"FAIL: kernel binary not found: {KERNEL}")
         sys.exit(1)
-    if b"ROSTI: fault test trigger" in KERNEL.read_bytes():
-        print("FAIL: refusing to package a deliberate page-fault test build; rebuild without features")
+    if not all(passed for passed, _ in artifact_policy_checks(KERNEL.read_bytes())):
+        print("FAIL: refusing to package a deliberate fault/initramfs test build; rebuild without test features")
         sys.exit(1)
     if not validate_elf(KERNEL):
         sys.exit(1)

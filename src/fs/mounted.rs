@@ -1,5 +1,5 @@
 //! Main-context mount namespace. NodeId stays eight bytes (descriptor budget):
-//! RAM slots are 0..64, mounted bindings are 0x100..0x200. Bindings retire
+//! RAM slots are 0..64, disk bindings are 0x100..0x140; system bindings are 0x200..0x240. Bindings retire
 //! instead of wrapping and are invalidated across every unmount/remount.
 use super::*;
 #[cfg(test)]
@@ -9,6 +9,7 @@ use crate::fd::{FdTable, MAX_DESCRIPTORS};
 use core::cell::Cell;
 const MOUNT: u16 = 0x100;
 const BINDINGS: usize = 64;
+const SYSTEM: u16 = 0x200;
 #[derive(Clone, Copy)]
 struct Binding {
     node: Option<NodeId>,
@@ -20,6 +21,9 @@ struct Binding {
 pub struct MountedFs<B: Vfs + 'static = RostiBackend<'static>> {
     ram: RamFs,
     backend: Option<&'static mut B>,
+    system: Option<&'static mut ArchiveFs>,
+    system_point: Option<NodeId>,
+    system_bindings: [Cell<Binding>; BINDINGS],
     point: Option<NodeId>,
     parent: Option<NodeId>,
     bindings: [Cell<Binding>; BINDINGS],
@@ -29,6 +33,14 @@ impl<B: Vfs + 'static> MountedFs<B> {
         Self {
             ram: RamFs::new(),
             backend: None,
+            system: None,
+            system_point: None,
+            system_bindings: [const {
+                Cell::new(Binding {
+                    node: None,
+                    generation: 0,
+                })
+            }; BINDINGS],
             point: None,
             parent: None,
             bindings: [const {
@@ -42,8 +54,166 @@ impl<B: Vfs + 'static> MountedFs<B> {
     pub fn is_mounted(&self) -> bool {
         self.backend.is_some()
     }
+    /// Mounted archive node count, logical payload and allocated payload capacity.
+    /// Metadata includes ArchiveFs, its node capacity and system routing bindings;
+    /// RAMFS quotas/stats and transient import allocations remain separate.
+    pub fn system_info(&self) -> Option<FsStats> {
+        let mut info = self.system.as_deref()?.stats();
+        info.metadata_bytes += core::mem::size_of_val(&self.system_bindings);
+        Some(info)
+    }
     fn disk(id: NodeId) -> bool {
-        id.slot >= MOUNT
+        (MOUNT..MOUNT + BINDINGS as u16).contains(&id.slot)
+    }
+    fn system_id(id: NodeId) -> bool {
+        (SYSTEM..SYSTEM + BINDINGS as u16).contains(&id.slot)
+    }
+    fn archive(&self) -> Result<&ArchiveFs, FsError> {
+        self.system.as_deref().ok_or(FsError::NotFound)
+    }
+    fn system_local(&self, id: NodeId) -> Result<NodeId, FsError> {
+        self.archive()?;
+        let i = id.slot.checked_sub(SYSTEM).ok_or(FsError::NotFound)? as usize;
+        let b = self.system_bindings.get(i).ok_or(FsError::NotFound)?.get();
+        if b.generation != id.generation {
+            return Err(FsError::NotFound);
+        }
+        b.node.ok_or(FsError::NotFound)
+    }
+    fn system_bind(&self, node: NodeId) -> Result<NodeId, FsError> {
+        self.archive()?;
+        self.system_bindings
+            .iter()
+            .enumerate()
+            .find_map(|(i, cell)| {
+                let b = cell.get();
+                (b.node == Some(node)).then_some(NodeId {
+                    slot: SYSTEM + i as u16,
+                    generation: b.generation,
+                })
+            })
+            .ok_or(FsError::NotFound)
+    }
+    /// Attach a structurally valid owned ArchiveFs snapshot, VERIFIED by the
+    /// caller's trust policy. This API does not authenticate archive bytes.
+    /// Success pins exclusive static ownership until reboot; no detach exists.
+    /// Failure resets the unpublished archive, releasing its node/payload capacity.
+    /// Stage every bounded binding and canonical path before touching RAMFS.
+    /// No allocations or fallible work follow mountpoint creation/publication.
+    pub fn mount_system(&mut self, archive: &'static mut ArchiveFs) -> Result<(), FsError> {
+        self.mount_system_inner(
+            archive,
+            #[cfg(any(test, feature = "initramfs-failure-test"))]
+            false,
+        )
+    }
+    /// Deterministic guest/host rollback probe; absent from production builds.
+    #[cfg(any(test, feature = "initramfs-failure-test"))]
+    pub fn mount_system_failure_fixture(
+        &mut self,
+        archive: &'static mut ArchiveFs,
+    ) -> Result<(), FsError> {
+        self.mount_system_inner(archive, true)
+    }
+    fn mount_system_inner(
+        &mut self,
+        archive: &'static mut ArchiveFs,
+        #[cfg(any(test, feature = "initramfs-failure-test"))] fail_after_point: bool,
+    ) -> Result<(), FsError> {
+        let (staged, point) = self.prepare_system(
+            archive,
+            #[cfg(any(test, feature = "initramfs-failure-test"))]
+            fail_after_point,
+        )?;
+        for (cell, binding) in self.system_bindings.iter().zip(staged) {
+            cell.set(binding);
+        }
+        self.system_point = Some(point);
+        self.system = Some(archive);
+        Ok(())
+    }
+    // Own the staging result, never a borrow of the archive. The static wrapper
+    // can publish its exclusive borrow only after all fallible work is done.
+    fn prepare_system(
+        &mut self,
+        archive: &mut ArchiveFs,
+        #[cfg(any(test, feature = "initramfs-failure-test"))] fail_after_point: bool,
+    ) -> Result<([Binding; BINDINGS], NodeId), FsError> {
+        let result = self.preflight_system(
+            archive,
+            #[cfg(any(test, feature = "initramfs-failure-test"))]
+            fail_after_point,
+        );
+        if result.is_err() {
+            // The unpublished exclusive borrow is still ours. Drop both owned
+            // Vec backings before the static wrapper returns an error.
+            *archive = ArchiveFs::empty();
+        }
+        result
+    }
+    fn preflight_system(
+        &mut self,
+        archive: &ArchiveFs,
+        #[cfg(any(test, feature = "initramfs-failure-test"))] fail_after_point: bool,
+    ) -> Result<([Binding; BINDINGS], NodeId), FsError> {
+        if self.system.is_some() {
+            return Err(FsError::Busy);
+        }
+        let mut staged = [Binding {
+            node: None,
+            generation: 0,
+        }; BINDINGS];
+        staged[0].node = Some(archive.root());
+        let mut count = 1;
+        let mut cursor = 0;
+        while cursor < count {
+            let node = staged[cursor].node.ok_or(FsError::CorruptVolume)?;
+            let mut path = [0; MAX_PATH];
+            let len = archive.path(node, &mut path)?;
+            if node != archive.root() && len + b"/system".len() > MAX_PATH {
+                return Err(FsError::InvalidPath);
+            }
+            if archive.metadata(node)?.kind == NodeKind::Directory {
+                let mut error = None;
+                archive.list(node, &mut |_, child, _| {
+                    if staged[..count].iter().any(|b| b.node == Some(child)) {
+                        error = Some(FsError::CorruptVolume);
+                    } else if count == BINDINGS {
+                        error = Some(FsError::FilesystemFull);
+                    } else {
+                        staged[count].node = Some(child);
+                        count += 1;
+                    }
+                })?;
+                if let Some(e) = error {
+                    return Err(e);
+                }
+            }
+            cursor += 1;
+        }
+        let (point, owned) = match self.ram.lookup(NodeId::ROOT, "/system") {
+            Ok(id) => {
+                self.ram.directory(id)?;
+                let mut nonempty = false;
+                self.ram.list(id, &mut |_, _, _| nonempty = true)?;
+                if nonempty {
+                    return Err(FsError::DirectoryNotEmpty);
+                }
+                (id, false)
+            }
+            Err(FsError::NotFound) => (self.ram.create_dir(NodeId::ROOT, "/system")?, true),
+            Err(e) => return Err(e),
+        };
+        // Deterministic probe: fail after mountpoint resolution, before any
+        // publication. Undo only the directory this transaction created.
+        #[cfg(any(test, feature = "initramfs-failure-test"))]
+        if fail_after_point {
+            if owned {
+                let _ = self.ram.remove_dir(NodeId::ROOT, "/system");
+            }
+            return Err(FsError::OutOfMemory);
+        }
+        Ok((staged, point))
     }
     fn backend(&self) -> Result<&B, FsError> {
         self.backend.as_deref().ok_or(FsError::NotFound)
@@ -164,7 +334,9 @@ impl<B: Vfs + 'static> MountedFs<B> {
         Ok(())
     }
     fn enter(&self, id: NodeId) -> Result<NodeId, FsError> {
-        if self.point == Some(id) {
+        if self.system_point == Some(id) {
+            self.system_bind(self.archive()?.root())
+        } else if self.point == Some(id) {
             self.bind(self.backend()?.root())
         } else {
             Ok(id)
@@ -203,6 +375,10 @@ impl<B: Vfs + 'static> MountedFs<B> {
     }
     fn create(&mut self, cwd: NodeId, path: &str, dir: bool) -> Result<NodeId, FsError> {
         let (p, leaf) = self.parent_leaf(cwd, path)?;
+        if Self::system_id(p) {
+            self.system_local(p)?;
+            return Err(FsError::ReadOnly);
+        }
         if Self::disk(p) {
             let local = self.local(p)?;
             let b = self.backend.as_deref_mut().ok_or(FsError::NotFound)?;
@@ -254,6 +430,9 @@ impl<B: Vfs + 'static> Default for MountedFs<B> {
     }
 }
 impl<B: Vfs + 'static> Vfs for MountedFs<B> {
+    fn system_info(&self) -> Option<FsStats> {
+        MountedFs::system_info(self)
+    }
     fn persistent_info(&self) -> Option<rostifs::engine::MountInfo> {
         let mut info = self.backend.as_deref()?.persistent_info()?;
         info.metadata_bytes += core::mem::size_of_val(&self.bindings);
@@ -272,7 +451,15 @@ impl<B: Vfs + 'static> Vfs for MountedFs<B> {
         };
         for part in path.split('/').filter(|s| !s.is_empty()) {
             self.directory(current)?;
-            if Self::disk(current) {
+            if Self::system_id(current) {
+                let local = self.system_local(current)?;
+                let b = self.archive()?;
+                current = if part == ".." && local == b.root() {
+                    NodeId::ROOT
+                } else {
+                    self.system_bind(b.lookup(local, part)?)?
+                };
+            } else if Self::disk(current) {
                 let local = self.local(current)?;
                 let b = self.backend()?;
                 current = if part == ".." && local == b.root() {
@@ -296,20 +483,29 @@ impl<B: Vfs + 'static> Vfs for MountedFs<B> {
         self.create(cwd, path, true)
     }
     fn metadata(&self, id: NodeId) -> Result<Metadata, FsError> {
-        if Self::disk(id) {
+        if Self::system_id(id) {
+            self.archive()?.metadata(self.system_local(id)?)
+        } else if Self::disk(id) {
             self.backend()?.metadata(self.local(id)?)
         } else {
             self.ram.metadata(id)
         }
     }
     fn read(&self, id: NodeId, offset: usize, buf: &mut [u8]) -> Result<usize, FsError> {
-        if Self::disk(id) {
+        if Self::system_id(id) {
+            self.archive()?.read(self.system_local(id)?, offset, buf)
+        } else if Self::disk(id) {
             self.backend()?.read(self.local(id)?, offset, buf)
         } else {
             self.ram.read(id, offset, buf)
         }
     }
     fn write(&mut self, id: NodeId, offset: usize, data: &[u8]) -> Result<usize, FsError> {
+        let id = self.enter(id)?;
+        if Self::system_id(id) {
+            self.system_local(id)?;
+            return Err(FsError::ReadOnly);
+        }
         if Self::disk(id) {
             let n = self.local(id)?;
             self.backend
@@ -321,6 +517,11 @@ impl<B: Vfs + 'static> Vfs for MountedFs<B> {
         }
     }
     fn replace(&mut self, id: NodeId, data: &[u8]) -> Result<(), FsError> {
+        let id = self.enter(id)?;
+        if Self::system_id(id) {
+            self.system_local(id)?;
+            return Err(FsError::ReadOnly);
+        }
         if Self::disk(id) {
             let n = self.local(id)?;
             self.backend
@@ -332,6 +533,11 @@ impl<B: Vfs + 'static> Vfs for MountedFs<B> {
         }
     }
     fn truncate(&mut self, id: NodeId, len: usize) -> Result<(), FsError> {
+        let id = self.enter(id)?;
+        if Self::system_id(id) {
+            self.system_local(id)?;
+            return Err(FsError::ReadOnly);
+        }
         if Self::disk(id) {
             let n = self.local(id)?;
             self.backend
@@ -344,6 +550,11 @@ impl<B: Vfs + 'static> Vfs for MountedFs<B> {
     }
     fn remove_file(&mut self, cwd: NodeId, path: &str) -> Result<(), FsError> {
         let id = self.lookup(cwd, path)?;
+        let id = self.enter(id)?;
+        if Self::system_id(id) {
+            self.system_local(id)?;
+            return Err(FsError::ReadOnly);
+        }
         if Self::disk(id) {
             let n = self.local(id)?;
             let b = self.backend.as_deref_mut().ok_or(FsError::NotFound)?;
@@ -365,6 +576,11 @@ impl<B: Vfs + 'static> Vfs for MountedFs<B> {
         let id = self.lookup(cwd, path)?;
         if self.point == Some(id) || self.parent == Some(id) {
             return Err(FsError::Busy);
+        }
+        let id = self.enter(id)?;
+        if Self::system_id(id) {
+            self.system_local(id)?;
+            return Err(FsError::ReadOnly);
         }
         if Self::disk(id) {
             let n = self.local(id)?;
@@ -389,7 +605,15 @@ impl<B: Vfs + 'static> Vfs for MountedFs<B> {
         visitor: &mut dyn FnMut(&str, NodeId, NodeKind),
     ) -> Result<(), FsError> {
         let mut error = None;
-        if Self::disk(id) {
+        if Self::system_id(id) {
+            self.archive()?.list(
+                self.system_local(id)?,
+                &mut |s, n, k| match self.system_bind(n) {
+                    Ok(n) => visitor(s, n, k),
+                    Err(e) => error = Some(e),
+                },
+            )?;
+        } else if Self::disk(id) {
             self.backend()?
                 .list(self.local(id)?, &mut |s, n, k| match self.bind(n) {
                     Ok(n) => visitor(s, n, k),
@@ -404,11 +628,13 @@ impl<B: Vfs + 'static> Vfs for MountedFs<B> {
         error.map_or(Ok(()), Err)
     }
     fn path(&self, id: NodeId, buf: &mut [u8]) -> Result<usize, FsError> {
-        if !Self::disk(id) {
+        let (n, b, prefix): (NodeId, &dyn Vfs, &[u8]) = if Self::system_id(id) {
+            (self.system_local(id)?, self.archive()?, b"/system")
+        } else if Self::disk(id) {
+            (self.local(id)?, self.backend()?, b"/mnt/rosti")
+        } else {
             return self.ram.path(id, buf);
-        }
-        let n = self.local(id)?;
-        let b = self.backend()?;
+        };
         let mut tail = [0; MAX_PATH];
         let len = b.path(n, &mut tail)?;
         let suffix = if n == b.root() {
@@ -416,13 +642,12 @@ impl<B: Vfs + 'static> Vfs for MountedFs<B> {
         } else {
             &tail[..len]
         };
-        const PREFIX: &[u8] = b"/mnt/rosti";
-        let total = PREFIX.len() + suffix.len();
+        let total = prefix.len() + suffix.len();
         if total > MAX_PATH || total > buf.len() {
             return Err(FsError::InvalidPath);
         }
-        buf[..PREFIX.len()].copy_from_slice(PREFIX);
-        buf[PREFIX.len()..total].copy_from_slice(suffix);
+        buf[..prefix.len()].copy_from_slice(prefix);
+        buf[prefix.len()..total].copy_from_slice(suffix);
         Ok(total)
     }
     fn stats(&self) -> FsStats {

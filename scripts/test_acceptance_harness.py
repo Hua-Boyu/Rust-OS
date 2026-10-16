@@ -5,6 +5,7 @@ import importlib.util
 import io
 import json
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -15,9 +16,122 @@ acceptance = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(acceptance)
 
 
+class AcceptanceLockTests(unittest.TestCase):
+    def child(self, root, body):
+        source = str(Path(__file__).with_name("phase6_verify.py").resolve())
+        setup = ("import importlib.util,sys;from pathlib import Path;"
+                 f"s=importlib.util.spec_from_file_location('acceptance',{source!r});"
+                 "m=importlib.util.module_from_spec(s);s.loader.exec_module(m);"
+                 f"m.PROJECT=Path({str(root)!r});")
+        # Windows venv redirectors launch another interpreter process; killing
+        # that wrapper is not killing the lock owner. Exercise the real host.
+        return [getattr(sys, "_base_executable", sys.executable), "-B", "-u", "-c", setup + body]
+
+    def test_contending_main_refuses_before_reports_or_builds(self):
+        self.assertTrue(hasattr(acceptance, "acceptance_lock"))
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with acceptance.acceptance_lock(root):
+                result = subprocess.run(self.child(root,
+                    "m._run_acceptance=lambda:print('UNSAFE_WORK_STARTED') or 0;"
+                    "sys.exit(m.main())"), capture_output=True, text=True, timeout=15)
+            self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+            self.assertIn("acceptance already running", result.stdout)
+            self.assertNotIn("UNSAFE_WORK_STARTED", result.stdout)
+            self.assertFalse((root / "test_results").exists())
+
+    def test_os_lock_releases_after_normal_and_forced_owner_exit(self):
+        self.assertTrue(hasattr(acceptance, "acceptance_lock"))
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for forced in (False, True):
+                with self.subTest(forced=forced):
+                    owner = subprocess.Popen(self.child(root,
+                        "exec(\"with m.acceptance_lock(m.PROJECT):\\n print('LOCKED',flush=True)\\n sys.stdin.buffer.read(1)\")"),
+                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    try:
+                        self.assertEqual(owner.stdout.readline().strip(), b"LOCKED")
+                        with self.assertRaises(acceptance.AcceptanceBusy):
+                            with acceptance.acceptance_lock(root):
+                                self.fail("a second owner acquired the lock")
+                        if forced:
+                            owner.terminate()
+                        else:
+                            owner.stdin.write(b"x")
+                            owner.stdin.flush()
+                        owner.wait(timeout=15)
+                        with acceptance.acceptance_lock(root):
+                            pass
+                        self.assertTrue((root / "dist/.phase6_acceptance.lock").is_file())
+                    finally:
+                        if owner.poll() is None:
+                            owner.kill()
+                            owner.wait(timeout=15)
+                        owner.stdin.close()
+                        owner.stdout.close()
+                        owner.stderr.close()
+
+
+class Phase10EvidenceTests(unittest.TestCase):
+    def fixture(self, root, cases=("absent", "trusted")):
+        checks = [{"pass": True}]
+        scenarios = []
+        for boot in ("elf", "iso"):
+            for ram in (128, 512):
+                for case in cases:
+                    child = root / f"{boot}_{ram}_{case}" / "report.json"
+                    child.parent.mkdir(parents=True)
+                    child.write_text(json.dumps({"overall": "PASS", "checks": checks,
+                        "check_count": 1, "pass_count": 1, "cleanup": True}))
+                    scenarios.append({"boot": boot, "ram_mib": ram, "case": case,
+                        "overall": "PASS", "cleanup": True, "report": str(child)})
+        return {"overall": "PASS", "checks": checks, "check_count": 1, "pass_count": 1,
+                "scenarios": scenarios, "scenario_count": len(scenarios),
+                "expected_scenarios": len(scenarios)}
+
+    def test_explicit_complete_phase10_matrix_required(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            evidence = self.fixture(root)
+            validate = lambda report: acceptance.phase10_evidence(
+                report, root / "report.json", required_cases=("absent", "trusted"))
+            self.assertEqual(len(validate(evidence)), 8)
+            mutations = [lambda r: r.pop("overall"), lambda r: r.update(overall="RUNNING"),
+                lambda r: r.update(overall="FAIL"), lambda r: r.update(checks=[]),
+                lambda r: r.update(checks=[{"pass": 1}]),
+                lambda r: r.update(checks=[{"pass": False}]),
+                lambda r: r.pop("check_count"), lambda r: r.pop("pass_count"),
+                lambda r: r.update(check_count=True), lambda r: r.update(pass_count=2),
+                lambda r: r.pop("scenario_count"), lambda r: r.update(expected_scenarios=7),
+                lambda r: r["scenarios"].pop(),
+                lambda r: r["scenarios"].__setitem__(0, r["scenarios"][1]),
+                lambda r: r["scenarios"][0].update(case="unknown"),
+                lambda r: r["scenarios"][0].update(ram_mib="128"),
+                lambda r: r["scenarios"][0].update(overall="RUNNING"),
+                lambda r: r["scenarios"][0].pop("cleanup"),
+                lambda r: r["scenarios"][0].update(cleanup=1),
+                lambda r: r["scenarios"][0].update(report=str(root.parent / "report.json"))]
+            for index, mutate in enumerate(mutations):
+                bad = json.loads(json.dumps(evidence))
+                mutate(bad)
+                with self.subTest(mutation=index), self.assertRaises(RuntimeError):
+                    validate(bad)
+            child = Path(evidence["scenarios"][0]["report"])
+            for bad in ({"overall": "PASS", "checks": []},
+                        {"overall": "PASS", "checks": [{"pass": True}],
+                         "check_count": 1, "pass_count": 1, "cleanup": False}):
+                child.write_text(json.dumps(bad))
+                with self.subTest(child=bad), self.assertRaises(RuntimeError):
+                    validate(evidence)
+            child.unlink()
+            with self.assertRaises(RuntimeError):
+                validate(evidence)
+
+
 class SourceFreezeTests(unittest.TestCase):
     def simulate(self, mutation, omit_reports=False, boot_rows=10, read_tests=4, write_tests=3,
-                 safety_output=None, metadata_report="valid", b13_report="valid"):
+                 safety_output=None, metadata_report="valid", b13_report="valid",
+                 phase10_report="valid", failed_script=None, fs_checks=103):
         self.last_commands = []
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -45,6 +159,11 @@ class SourceFreezeTests(unittest.TestCase):
                     if "write_preservation" in command:
                         passed = write_tests
                     output.write(f"test result: ok. {passed} passed; 0 failed\n".encode())
+                if command == ["cargo", "build"]:
+                    # A real production build replaces the feature-fixture kernel.
+                    kernel = root / "target/target/debug/kernel"
+                    if kernel.exists():
+                        kernel.write_bytes(b"fixture kernel production")
                 if any(str(c).endswith("boot_test.py") for c in command):
                     folder = Path(command[command.index("--output-dir") + 1])
                     folder.mkdir(parents=True, exist_ok=True)
@@ -53,6 +172,15 @@ class SourceFreezeTests(unittest.TestCase):
                         writer.writeheader()
                         writer.writerows([{"status": "PASS"}] * boot_rows)
                 script_name = next((Path(str(c)).name for c in command if str(c).endswith(".py")), "")
+                if script_name == failed_script:
+                    return type("Result", (), {"returncode": 1})()
+                if script_name == "phase10_initramfs_test.py" and phase10_report is not None:
+                    folder = Path(command[command.index("--output-dir") + 1]) / "fixture"
+                    folder.mkdir(parents=True, exist_ok=True)
+                    evidence = Phase10EvidenceTests().fixture(folder, acceptance.PHASE10_CASES)
+                    if phase10_report != "valid":
+                        evidence = phase10_report
+                    (folder / "report.json").write_text(json.dumps(evidence))
                 if script_name == "test_b13_boot.py":
                     path = Path(command[command.index("--report") + 1])
                     path.write_text(json.dumps({"status": "PASS", "tests_run": 3, "failures": []}))
@@ -94,7 +222,7 @@ class SourceFreezeTests(unittest.TestCase):
                 if not omit_reports and script_name in ("paging_test.py", "fs_test.py", "block_test.py", "rostifs_test.py"):
                     folder = Path(command[command.index("--output-dir") + 1]) / "fixture"
                     folder.mkdir(parents=True, exist_ok=True)
-                    count = {"fs_test.py": 102, "block_test.py": 98, "rostifs_test.py": 168}.get(script_name, 2)
+                    count = {"fs_test.py": fs_checks, "block_test.py": 98, "rostifs_test.py": 168}.get(script_name, 2)
                     if script_name == "paging_test.py" and "--runs" in command:
                         count = 20
                     field = "results" if script_name == "paging_test.py" else "checks"
@@ -113,10 +241,73 @@ class SourceFreezeTests(unittest.TestCase):
             self.last_report = json.loads(reports[0].read_text())
             return code
 
-    def test_current_milestone_is_phase9_6(self):
+    def test_ramfs_baseline_listing_requires_exact_103_checks(self):
+        # Capturing the existing root listing adds one VGA-prompt check to
+        # each complete RAMFS workload. Reject both missing and extra rows.
+        self.assertEqual(self.simulate(lambda root: None, fs_checks=103), 0)
+        for count in (102, 104):
+            with self.subTest(count=count):
+                self.assertEqual(self.simulate(lambda root: None, fs_checks=count), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+
+    def test_checkout_attributes_are_frozen(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "crates").mkdir()
+            attributes = root / ".gitattributes"
+            attributes.write_text("system/** -text\n")
+            with patch.object(acceptance, "PROJECT", root):
+                before = acceptance.source_snapshot()
+                self.assertIn(".gitattributes", before)
+                attributes.write_text("system/** text\n")
+                self.assertNotEqual(before, acceptance.source_snapshot())
+
+    def test_current_milestone_is_phase10b(self):
         self.assertEqual(self.simulate(lambda root: None), 0)
-        self.assertEqual(self.last_report["phase"], "9.6")
-        self.assertRegex(self.last_report["iso"]["name"], r"^rosti_phase9_6_\d{8}T\d{6}Z\.iso$")
+        self.assertEqual(self.last_report["phase"], "10B")
+        self.assertRegex(self.last_report["iso"]["name"], r"^rosti_phase10b_\d{8}T\d{6}Z\.iso$")
+
+    def test_production_fixture_policy_gate_is_mandatory(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        self.assertTrue(any(any(str(a).endswith("test_production_fixture_policy.py") for a in command)
+                            for command in self.last_commands))
+        self.assertEqual(self.simulate(lambda root: None, failed_script="test_production_fixture_policy.py"), 1)
+
+    def test_phase10_builder_contract_and_complete_guest_gates_are_mandatory(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        scripts = ("test_build_initramfs.py", "test_phase10_initramfs_harness.py",
+                   "phase10_initramfs_test.py")
+        for name in scripts:
+            commands = [c for c in self.last_commands if any(str(a).endswith(name) for a in c)]
+            self.assertEqual(len(commands), 1, name)
+        guest = next(c for c in self.last_commands if any(str(a).endswith(scripts[-1]) for a in c))
+        self.assertEqual(Path(guest[guest.index("--output-dir") + 1]).name, "phase10")
+        self.assertEqual(self.last_report["counts"]["phase10_scenarios"],
+                         {"pass": 4 * len(acceptance.PHASE10_CASES), "fail": 0})
+        # Full predecessor matrix remains mandatory; Phase 10 adds six gates.
+        self.assertEqual(self.last_report["gates_total"], 53)
+        for name in scripts:
+            with self.subTest(failed=name):
+                self.assertEqual(self.simulate(lambda root: None, failed_script=name), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+
+    def test_missing_or_partial_phase10_report_cannot_publish(self):
+        for evidence in (None, {}, {"overall": "RUNNING", "checks": [{"pass": True}]},
+                         {"overall": "PASS", "checks": [{"pass": True}],
+                          "check_count": 1, "pass_count": 1, "scenarios": [],
+                          "scenario_count": 0, "expected_scenarios": 0}):
+            with self.subTest(evidence=evidence):
+                self.assertEqual(self.simulate(lambda root: None, phase10_report=evidence), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+
+    def test_phase10_evidence_is_frozen_through_publication(self):
+        def corrupt(root):
+            path = next((root / "test_results").glob("phase*/acceptance_*/phase10/*/elf_128_absent/report.json"))
+            evidence = json.loads(path.read_text())
+            evidence["cleanup"] = False
+            path.write_text(json.dumps(evidence))
+        self.assertEqual(self.simulate(corrupt), 1)
+        self.assertEqual(self.last_versioned_count, 0)
 
     def test_read_boundary_and_transfer_regressions_are_required(self):
         self.assertEqual(self.simulate(lambda root: None), 0)
@@ -273,6 +464,17 @@ class SourceFreezeTests(unittest.TestCase):
 
     def test_target_configuration_changed_during_acceptance_is_rejected(self):
         self.assertEqual(self.simulate(lambda root: (root / "target.json").write_text("changed\n")), 1)
+
+    def test_system_assets_with_any_extension_are_frozen(self):
+        for relative in ("system/etc/banner", "system/bin/tool.bin", "system/config.yaml",
+                         "src/initramfs/new_trust.rs"):
+            def add(root):
+                target = root / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(b"late trusted input")
+            with self.subTest(input=relative):
+                self.assertEqual(self.simulate(add), 1)
+                self.assertEqual(self.last_versioned_count, 0)
 
     def test_stable_source_can_finish(self):
         self.assertEqual(self.simulate(lambda root: None), 0)

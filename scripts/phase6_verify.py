@@ -6,6 +6,7 @@ Evidence lives beneath test_results/phase9_6; logs and counts are real subproces
 results. Preserve the currently built ISO before packaging the replacement.
 """
 import argparse
+from contextlib import contextmanager
 import csv
 import datetime
 import hashlib
@@ -21,6 +22,41 @@ import tempfile
 PROJECT = Path(__file__).resolve().parent.parent
 
 
+class AcceptanceBusy(RuntimeError):
+    """Another process owns this checkout's complete acceptance pipeline."""
+
+
+@contextmanager
+def acceptance_lock(project):
+    # Never unlink this file: replacing the inode could create two owners.
+    # OS handle lifetime releases the lock even after a crashed/terminated owner.
+    path = Path(project) / "dist/.phase6_acceptance.lock"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle = path.open("a+b")
+    try:
+        handle.seek(0, 2)
+        if handle.tell() == 0:
+            handle.write(b"\0")
+            handle.flush()
+        handle.seek(0)
+        try:
+            if os.name == "nt":
+                import msvcrt
+                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+                fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as error:
+            raise AcceptanceBusy(f"acceptance already running for {project}") from error
+        # Owner metadata is diagnostic only, never a PID-based stale-lock oracle.
+        handle.truncate(1)
+        handle.write(json.dumps({"pid": os.getpid()}).encode("ascii"))
+        handle.flush()
+        yield
+    finally:
+        handle.close()
+
+
 def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -34,7 +70,10 @@ def source_snapshot():
         paths.update(p for p in (PROJECT / directory).rglob("*")
                      if p.is_file() and p.suffix in suffixes
                      and not {"target", "__pycache__"}.intersection(p.relative_to(PROJECT / directory).parts))
-    for name in ("Cargo.toml", "Cargo.lock", "linker.ld", "target.json",
+    # Trusted system image bytes are build inputs, including extensionless and
+    # binary assets. Do not filter these by suffix.
+    paths.update(p for p in (PROJECT / "system").rglob("*") if p.is_file())
+    for name in (".gitattributes", "Cargo.toml", "Cargo.lock", "linker.ld", "target.json",
                  "rust-toolchain.toml", ".cargo/config.toml",
                  "tests_kernel/Cargo.toml", "tests_kernel/Cargo.lock",
                  "tests_kernel/.cargo/config.toml"):
@@ -70,15 +109,77 @@ def evidence_rows(evidence, path):
     return rows
 
 
-def main():
+# This explicit required set is the guest contract, not inferred from evidence.
+# Coordinate any host-only fault-injection split with the Phase 10 harness owner;
+# never silently shrink this list to match an incomplete report.
+PHASE10_CASES = (
+    "absent", "trusted", "bad-digest", "truncated", "malformed", "oversize",
+    "duplicate", "invalid-descriptor", "missing-storage", "corrupt-rostifs",
+    "mount-collision", "mount-failure", "resource-exhaustion", "reboot-after-failure",
+)
+
+
+def phase10_evidence(evidence, path, *, required_cases=PHASE10_CASES):
+    """Validate the exact matrix and invocation-owned, fully completed children."""
+    path = Path(path)
+
+    def completed(report, target):
+        rows = evidence_rows(report, target)
+        if "checks" not in report or any(
+                type(report.get(name)) is not int or report[name] != len(rows)
+                for name in ("check_count", "pass_count")):
+            raise RuntimeError(f"missing or inconsistent Phase 10 check totals: {target}")
+        return rows
+
+    completed(evidence, path)
+    if not required_cases or len(set(required_cases)) != len(required_cases):
+        raise RuntimeError("invalid Phase 10 required case contract")
+    expected = {(boot, ram, case) for boot in ("elf", "iso")
+                for ram in (128, 512) for case in required_cases}
+    scenarios = evidence.get("scenarios")
+    if (not isinstance(scenarios, list) or len(scenarios) != len(expected)
+            or any(type(evidence.get(name)) is not int or evidence[name] != len(expected)
+                   for name in ("expected_scenarios", "scenario_count"))):
+        raise RuntimeError("incomplete mandatory Phase 10 scenario totals")
+    observed = set()
+    for scenario in scenarios:
+        if not isinstance(scenario, dict):
+            raise RuntimeError("invalid Phase 10 scenario row")
+        identity = (scenario.get("boot"), scenario.get("ram_mib"), scenario.get("case"))
+        if (any(not isinstance(value, (str, int)) for value in identity)
+                or type(identity[1]) is not int or identity not in expected
+                or identity in observed or scenario.get("overall") != "PASS"
+                or scenario.get("cleanup") is not True):
+            raise RuntimeError("missing, duplicate, failed or unclean Phase 10 configuration")
+        observed.add(identity)
+        boot, ram, case = identity
+        child = path.parent / f"{boot}_{ram}_{case}" / "report.json"
+        declared = scenario.get("report")
+        if (not isinstance(declared, str) or not declared
+                or Path(declared).resolve() != child.resolve()
+                or not child.resolve().is_relative_to(path.parent.resolve())):
+            raise RuntimeError("Phase 10 guest report is not invocation-owned")
+        try:
+            guest = json.loads(child.read_text())
+        except (OSError, ValueError) as error:
+            raise RuntimeError(f"missing or unreadable Phase 10 guest report: {child}") from error
+        completed(guest, child)
+        if guest.get("cleanup") is not True:
+            raise RuntimeError(f"unverified Phase 10 guest cleanup: {child}")
+    if observed != expected:
+        raise RuntimeError("incomplete mandatory Phase 10 matrix")
+    return scenarios
+
+
+def _run_acceptance():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    parent = (args.output_dir or PROJECT / "test_results" / "phase9_6").resolve()
+    parent = (args.output_dir or PROJECT / "test_results" / "phase10b").resolve()
     parent.mkdir(parents=True, exist_ok=True)
     run = Path(tempfile.mkdtemp(prefix=f"acceptance_{stamp}_", dir=parent))
-    report = {"phase": "9.6", "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
+    report = {"phase": "10B", "timestamp_utc": stamp, "overall": "RUNNING", "gates": [], "counts": {}}
     features_active = False
 
     def gate(name, command, timeout=180, cwd=PROJECT):
@@ -160,6 +261,9 @@ def main():
         gate("RostiFS harness regressions", script("test_rostifs_harness.py"))
         gate("Phase 9.5 benchmark contracts", script("test_phase9_5_bench.py"))
         gate("Phase 9.6 boot metadata harness contracts", script("test_boot_metadata_harness.py"))
+        gate("system image policy contracts", script("test_system_image_policy.py"))
+        gate("Phase 10B initramfs builder contracts", script("test_build_initramfs.py"))
+        gate("Phase 10B initramfs harness contracts", script("test_phase10_initramfs_harness.py"))
         b13_host_path = run / "b13_host.json"
         gate("Phase 9.6 B13 boot entry host contracts",
              script("test_b13_boot.py", "--report", b13_host_path))
@@ -173,9 +277,18 @@ def main():
         gate("CPU read faults 128 and 512", script("paging_test.py", "--fault", "--output-dir", run / "read_fault"))
         gate("build write fault fixture", ["cargo", "build", "--features", "paging-write-fault-test"])
         gate("CPU write faults 128 and 512", script("paging_test.py", "--write-fault", "--output-dir", run / "write_fault"))
+        gate("build initramfs failure fixture", ["cargo", "build", "--features", "initramfs-failure-test"])
+        fixture_kernel = PROJECT / "dist" / "phase10b_fixture_kernel"
+        fixture_kernel.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(PROJECT / "target/target/debug/kernel", fixture_kernel)
+        report["phase10_fixture_kernel"] = {"path": str(fixture_kernel.relative_to(PROJECT)),
+                                            "sha256": sha256(fixture_kernel)}
         gate("production build", ["cargo", "build"])
         features_active = False
+        gate("production fixture policy contracts", script("test_production_fixture_policy.py"))
         gate("production feature and fault exclusion", script("verify_production.py"))
+        if sha256(fixture_kernel) == sha256(PROJECT / "target/target/debug/kernel"):
+            raise RuntimeError("Phase 10B fixture kernel is not feature-distinct from production")
         b13_output = run / "b13_qemu"
         gate("Phase 9.6 B13 privileged boot entry and production handoff",
              script("b13_boot_fixture.py", "--build", "--run-qemu", "--production-kernel",
@@ -273,6 +386,16 @@ def main():
             gate(f"filesystem growth OOM ISO {memory} MiB", script("fs_test.py", "--iso", current_iso, "--ram", memory, "--stress", "--output-dir", run / f"fs_iso_{memory}"), timeout=210)
             gate(f"block persistence ISO {memory} MiB", script("block_test.py", "--iso", current_iso, "--ram", memory, "--output-dir", run / f"block_iso_{memory}"), timeout=240)
             gate(f"RostiFS persistence ISO {memory} MiB", script("rostifs_test.py", "--iso", current_iso, "--ram", memory, "--output-dir", run / f"rostifs_iso_{memory}"), timeout=300)
+        phase10_output = run / "phase10"
+        gate("Phase 10B trusted initramfs guest matrix",
+             script("phase10_initramfs_test.py", "--output-dir", phase10_output), timeout=5400)
+        phase10_paths = list(phase10_output.glob("*/report.json"))
+        if len(phase10_paths) != 1:
+            raise RuntimeError("missing or ambiguous mandatory Phase 10B report")
+        phase10_path = phase10_paths[0]
+        phase10_scenarios = phase10_evidence(json.loads(phase10_path.read_text()), phase10_path)
+        report["counts"]["phase10_scenarios"] = {"pass": len(phase10_scenarios), "fail": 0}
+        phase10_digest = sha256(phase10_path)
         final_hashes = source_snapshot()
         if final_hashes != report["source_sha256"]:
             raise RuntimeError("source changed during acceptance; rerun against stable source")
@@ -280,10 +403,15 @@ def main():
             raise RuntimeError("B13 validated evidence changed during acceptance")
         if sha256(metadata_path) != metadata_digest:
             raise RuntimeError("boot metadata validated matrix changed during acceptance")
+        phase10_scenarios = phase10_evidence(json.loads(phase10_path.read_text()), phase10_path)
+        if sha256(phase10_path) != phase10_digest:
+            raise RuntimeError("Phase 10B validated matrix changed during acceptance")
         required = {"read_fault": 2, "write_fault": 2, "paging": 20, "iso_paging": 2}
         for boot in ("elf", "iso"):
             for memory in (128, 512):
-                required[f"fs_{boot}_{memory}"] = 102
+                # Capturing the pre-existing root adds one VGA-prompt check;
+                # every former assertion remains, with exact baseline cleanup.
+                required[f"fs_{boot}_{memory}"] = 103
                 required[f"block_{boot}_{memory}"] = 98
                 required[f"rostifs_{boot}_{memory}"] = 168
         for directory, expected in required.items():
@@ -313,7 +441,7 @@ def main():
                 if not rows or any(r.get("pass") is not True for r in rows):
                     raise RuntimeError(f"failed or empty harness results: {key}")
                 report["counts"][key] = {"pass": sum(r["pass"] for r in rows), "fail": sum(not r["pass"] for r in rows)}
-        versioned = PROJECT / "dist" / f"rosti_phase9_6_{stamp}.iso"
+        versioned = PROJECT / "dist" / f"rosti_phase10b_{stamp}.iso"
         if versioned.exists():
             raise RuntimeError("refusing to overwrite versioned ISO")
         shutil.copy2(current_iso, versioned)
@@ -335,6 +463,16 @@ def main():
     if "error" in report:
         print(report["error"], flush=True)
     return 0 if report["overall"] == "PASS" else 1
+
+
+def main():
+    try:
+        with acceptance_lock(PROJECT):
+            # Includes failure-fixture production restoration and final evidence.
+            return _run_acceptance()
+    except AcceptanceBusy as error:
+        print(f"HARNESS_BUSY: {error}", flush=True)
+        return 2
 
 
 if __name__ == "__main__":

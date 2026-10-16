@@ -17,6 +17,9 @@ def main():
     p.add_argument('--output-dir', type=Path, required=True)
     p.add_argument('--iso', type=Path, required=True)
     p.add_argument('--expect-reserved-rejection', action='store_true')
+    p.add_argument('--expect-trusted', action='store_true')
+    p.add_argument('--require-zero-reserved', action='store_true',
+                   help='producer conformance test only; OS ignores this word')
     a = p.parse_args()
     a.output_dir.mkdir(parents=True, exist_ok=False)
     try:
@@ -59,13 +62,17 @@ def execute(a):
         flags = struct.unpack_from('<I', header)[0]
         count, table = struct.unpack_from('<II', header, 20)
         assert flags & 8 and count == 1
-        start, end, name, reserved = struct.unpack('<4I', gdb.read(table, 16))
-        observed = dict(start=start, end=end, name_address=name, reserved=reserved, count=count, flags=flags)
+        raw = gdb.read(table, 16)
+        start, end, name, reserved = struct.unpack('<4I', raw)
+        observed = dict(start=start, end=end, name_address=name, reserved=reserved, count=count, flags=flags,
+                        raw_hex=raw.hex(), table_address=table,
+                        offsets=dict(start=0, end=4, name=8, reserved=12))
         (a.output_dir / 'observed_descriptor.json').write_text(json.dumps(observed, indent=2))
+        (a.output_dir / f'observed_descriptor_{ram}.json').write_text(json.dumps(observed, indent=2))
         if a.expect_reserved_rejection:
             assert reserved != 0, 'negative fixture requires nonzero loader reserved field'
-        else:
-            assert not reserved, f'loader reserved field is {reserved:#x}; validator requires zero'
+        elif a.require_zero_reserved:
+            assert not reserved, f'loader producer violation: reserved field is {reserved:#x}'
         assert end - start == len(expected)
         assert gdb.read(name, len(b'rosti.initramfs\0')) == b'rosti.initramfs\0'
         for off in range(0, len(expected), 512):
@@ -73,11 +80,14 @@ def execute(a):
     markers = (('ROSTI: entered kernel_main', 'ROSTI: boot metadata rejected: Module',
                 'ROSTI: storage gate closed', 'ROSTI: boot complete') if a.expect_reserved_rejection else
                ('ROSTI: entered kernel_main', 'ROSTI: paging enabled',
-                'ROSTI: initramfs parsed; UNVERIFIED, not published', 'ROSTI: boot complete'))
+                ('ROSTI: initramfs trusted; mounted at /system' if a.expect_trusted else
+                 'ROSTI: initramfs parsed; UNVERIFIED, not published'), 'ROSTI: boot complete'))
     for ram in (128, 512):
         run_injected(a.kernel, a.output_dir / f'boot_{ram}', inspect, memory=ram, boot_iso=iso,
                      serial_markers=markers)
-    report = dict(scope='real GRUB module copy/parser probe only; no trust/mount/recovery acceptance',
+    report = dict(scope=('real GRUB trusted /system publication markers; shell checks are separate' if a.expect_trusted else
+                         'real GRUB module copy/parser probe only; no trust/mount/recovery acceptance'),
+                  expected_trusted=a.expect_trusted,
                   status='PASS', expected_reserved_rejection=a.expect_reserved_rejection, iso=str(iso), iso_sha256=hashlib.sha256(iso.read_bytes()).hexdigest(),
                   kernel_sha256=hashlib.sha256(extracted.read_bytes()).hexdigest(),
                   archive_sha256=hashlib.sha256(expected).hexdigest(), ram_mib=[128, 512])

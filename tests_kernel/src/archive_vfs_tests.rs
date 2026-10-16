@@ -5,6 +5,26 @@ use crate::initramfs::{
 };
 use alloc::{format, vec, vec::Vec};
 
+#[test]
+fn boot_import_buffer_budget_includes_both_parser_indexes() {
+    let snapshot = ArchiveFs::maximum_snapshot_heap_bytes();
+    assert_eq!(
+        snapshot,
+        (MAX_ARCHIVE_NODES - 1) * core::mem::size_of::<Node>() + MAX_ARCHIVE_BYTES
+    );
+    let total = crate::memory::boot_copy::MAX_MODULE_BYTES
+        + 2 * crate::initramfs::MAX_ENTRIES * core::mem::size_of::<crate::initramfs::Entry>()
+        + snapshot;
+    // Buffer capacities only, not allocator headers, existing heap or stack.
+    assert!(total < 1024 * 1024);
+    let fs = built(&sample());
+    let stats = fs.stats();
+    assert!(
+        stats.allocated_bytes + stats.metadata_bytes - core::mem::size_of::<ArchiveFs>()
+            <= snapshot
+    );
+}
+
 fn sample() -> Vec<u8> {
     // Child-before-parent, implicit multi-level parents and explicit directory.
     fixture(&[

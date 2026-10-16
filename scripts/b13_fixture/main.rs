@@ -16,10 +16,24 @@ b13_handoff:
     cli
     mov $0x90000, %esp
     add b13_case, %esp
+    std
+    // Mask legacy PIC IRQ sources before enabling IF: STI's one-instruction
+    // shadow is consumed by the JMP, so an unmasked pending timer IRQ (vector
+    // 0x08 via the default PIC base) could otherwise be recognized at the
+    // _start destination before production CLI executes. Masking the master
+    // (IMR port 0x21) and slave (IMR port 0xA1) removes only maskable PIC
+    // IRQs; CPU exceptions, NMIs and the test's own port-output oracles are
+    // unaffected. IF=1 and DF=1 still enter _start, and production _start
+    // still executes its real CLI/CLD under the observer's pushfl check.
+    // Done before the entry-register setup so AL clobbering cannot disturb
+    // the deliberate EAX/EBX Multiboot values.
+    mov $0xff, %al
+    mov $0x21, %dx
+    out %al, %dx
+    mov $0xa1, %dx
+    out %al, %dx
     mov $0x2badb002, %eax
     mov $0x12345678, %ebx
-    std
-    // STI's interrupt shadow covers the JMP; _start must execute CLI first.
     sti
     jmp _start
 .global b13_sink

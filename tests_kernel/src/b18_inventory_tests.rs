@@ -289,16 +289,36 @@ fn module_table_must_be_backed_and_inside_validated_ram() {
     }
 }
 #[test]
-fn module_invalid_end_reserved_word_and_null_rejected() {
+fn module_invalid_end_and_null_rejected() {
     for descriptor in [
         (0x300000, 0x300000, 0, 0),
         (0x301000, 0x300000, 0, 0),
-        (0x300000, 0x301000, 0, 1),
         (0, 4096, 0, 0),
     ] {
         let mut f = Physical::new();
         f.modules(&[descriptor]);
         assert!(f.parse().is_err());
+    }
+}
+#[test]
+fn module_reserved_word_is_ignored_without_changing_owned_metadata_or_pins() {
+    let mut baseline = Physical::new();
+    baseline.modules(&[(0x300001, 0x301001, 0x400000, 0)]);
+    baseline.add(0x400000, b"rosti.initramfs\0");
+    let expected = baseline.parse().unwrap();
+    for reserved in [1, 0xfffffffc, u32::MAX] {
+        let mut f = Physical::new();
+        f.modules(&[(0x300001, 0x301001, 0x400000, reserved)]);
+        f.add(0x400000, b"rosti.initramfs\0");
+        let actual = f.parse().expect("OS must ignore the module reserved word");
+        assert_eq!(actual.modules, expected.modules);
+        assert_eq!(actual.reservations, expected.reservations);
+        assert_eq!(actual.select_initramfs(), expected.select_initramfs());
+        assert!(
+            !f.reads
+                .iter()
+                .any(|&(a, _)| (0x300001..0x301001).contains(&a))
+        );
     }
 }
 #[test]

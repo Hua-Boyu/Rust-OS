@@ -70,6 +70,10 @@ mod fs_tests;
 #[path = "../../src/initramfs.rs"]
 pub mod initramfs;
 
+#[path = "../../src/initramfs_trust.rs"]
+pub(crate) mod initramfs_trust;
+mod initramfs_trust_tests;
+
 use alloc::vec::Vec;
 use core::alloc::{GlobalAlloc, Layout};
 use utils::bits::CanManipulateBits;

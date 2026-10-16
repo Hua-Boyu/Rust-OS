@@ -181,6 +181,11 @@ impl ArchiveFs {
         *self = staged;
         Ok(())
     }
+    /// Maximum backing-buffer bytes for a fresh snapshot, excluding the fixed
+    /// object, allocator headers/fragmentation, and any previous live snapshot.
+    pub const fn maximum_snapshot_heap_bytes() -> usize {
+        (MAX_ARCHIVE_NODES - 1) * core::mem::size_of::<Node>() + MAX_ARCHIVE_BYTES
+    }
     pub fn total_payload(&self) -> usize {
         self.payload.len()
     }
