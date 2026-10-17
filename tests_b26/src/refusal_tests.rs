@@ -14,10 +14,11 @@ fn refused_prepare(fail_at: usize) {
     let attempts = ATTEMPTS.with(|count| count.get());
     assert_eq!(
         result,
-        Err(if fail_at == 1 {
-            "boot pin backing allocation failed"
-        } else {
-            "page table backing allocation failed"
+        Err(match fail_at {
+            1 => "boot pin backing allocation failed",
+            2 => "page table backing allocation failed",
+            3 => "payload registry backing allocation failed",
+            _ => unreachable!(),
         })
     );
     assert!(memory::page_directory().is_none());
@@ -42,4 +43,9 @@ fn b26_r3_pin_backing_refusal_has_no_fallback_allocation_or_frame_mutation() {
 #[test]
 fn b26_r3_table_backing_refusal_has_no_fallback_allocation_or_frame_mutation() {
     refused_prepare(2);
+}
+
+#[test]
+fn b26_phase11a2_registry_backing_refusal_has_no_fallback_allocation_or_frame_mutation() {
+    refused_prepare(3);
 }

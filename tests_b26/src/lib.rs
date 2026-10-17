@@ -41,6 +41,7 @@ pub mod memory;
 mod b26_validation;
 mod growth_tests;
 mod refusal_tests;
+mod registry_tests;
 mod retry_tests;
 mod validation_allocation_tests;
 

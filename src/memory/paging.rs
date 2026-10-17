@@ -30,10 +30,17 @@ use alloc::vec::Vec;
 #[path = "phase11_permission_tests.rs"]
 mod phase11_permission_tests;
 
+#[cfg(test)]
+#[path = "phase11a2_ownership_tests.rs"]
+mod phase11a2_ownership_tests;
+
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
 pub const ENTRY_WRITABLE: u32 = 1 << 1;
 pub const ENTRY_USER: u32 = 1 << 2;
+// Software-available PTE bit: only runtime entries own a payload registry bit.
+// Boot supervisor identity aliases must not release those references.
+const ENTRY_RUNTIME_PAYLOAD: u32 = 1 << 9;
 
 pub const PAGE_DIR_ENTRIES: usize = 1024;
 pub const PAGE_TABLE_ENTRIES: usize = 1024;
@@ -100,6 +107,15 @@ pub struct PageMap {
     tables: Vec<u64>,
     // Page-rounded permanent boot identity spans; backing is prepared unlocked.
     boot_pins: Vec<(u64, u64)>,
+    // Physical payload frames currently referenced by runtime mappings.
+    // The registry is the alias authority: a frame already mapped at any
+    // slot cannot be mapped at a second slot while the first mapping is
+    // active, and unmap releases the reference. One bit per managed frame
+    // (8 KiB, sized like the frame allocator's own bitmaps) so checks
+    // stay O(1) in the guest. Boot identity frames are established by
+    // build_identity_map and are never registered, so identity mappings
+    // are unaffected.
+    payload_bitmap: Vec<u8>,
     stats: PagingStats,
     window_end: u64,
 }
@@ -227,6 +243,27 @@ impl PageMap {
             self.stats.map_rejects += 1;
             return false;
         }
+        // Frame-ownership authority: a mapping may only reference frames the
+        // caller owns. The null frame is never owned; a frame still in the
+        // allocator's free pool has no owner and a later allocate() could
+        // hand it out a second time; the page directory and live page tables
+        // are owned by this PageMap and must never double as payload.
+        if phys_frame == 0 || fa.is_free(phys_frame) {
+            self.stats.map_rejects += 1;
+            return false;
+        }
+        if phys_frame == self.directory || self.tables.contains(&phys_frame) {
+            self.stats.map_rejects += 1;
+            return false;
+        }
+        // Alias authority: a payload frame already referenced by an active
+        // runtime mapping cannot be referenced by a second mapping. Boot
+        // identity frames are established by build_identity_map and never
+        // enter this registry, so identity mappings are unaffected.
+        if payload_bit(&self.payload_bitmap, phys_frame) {
+            self.stats.map_rejects += 1;
+            return false;
+        }
         let dir = page_dir_index(linear);
         let idx = page_table_index(linear);
         if self.tables[dir] == 0 {
@@ -249,11 +286,12 @@ impl PageMap {
             self.stats.map_rejects += 1;
             return false;
         }
-        let mut entry = phys_frame as u32 | ENTRY_PRESENT;
+        let mut entry = phys_frame as u32 | ENTRY_PRESENT | ENTRY_RUNTIME_PAYLOAD;
         if perms.writable {
             entry |= ENTRY_WRITABLE;
         }
         write_entry(self.tables[dir], idx, entry);
+        payload_set_bit(&mut self.payload_bitmap, phys_frame, true);
         self.stats.mapped_frames += 1;
         self.stats.maps += 1;
         invalidate_page(linear);
@@ -297,6 +335,10 @@ impl PageMap {
             return false;
         }
         write_entry(base, idx, 0);
+        let payload = entry as u64 & 0xFFFFF000;
+        if entry & ENTRY_RUNTIME_PAYLOAD != 0 {
+            payload_set_bit(&mut self.payload_bitmap, payload, false);
+        }
         self.stats.mapped_frames -= 1;
         self.stats.unmaps += 1;
         invalidate_page(linear);
@@ -336,6 +378,30 @@ fn is_boot_critical(linear: u64) -> bool {
         return true;
     }
     false
+}
+
+/// Bit helpers for the payload alias registry (same layout as the frame
+/// allocator's bitmaps: one bit per managed frame).
+fn payload_bit(bitmap: &[u8], frame_addr: u64) -> bool {
+    let idx = frame_addr / PAGE_SIZE as u64;
+    if idx >= bitmap.len() as u64 * 8 {
+        return false;
+    }
+    (bitmap[(idx / 8) as usize] >> (idx % 8)) & 1 != 0
+}
+
+fn payload_set_bit(bitmap: &mut [u8], frame_addr: u64, value: bool) {
+    let idx = frame_addr / PAGE_SIZE as u64;
+    if idx >= bitmap.len() as u64 * 8 {
+        return;
+    }
+    let byte = &mut bitmap[(idx / 8) as usize];
+    let mask = 1u8 << (idx % 8);
+    if value {
+        *byte |= mask;
+    } else {
+        *byte &= !mask;
+    }
 }
 
 /// Read one entry from a page table. In kernel builds this reads the physical
@@ -398,11 +464,9 @@ pub fn flush_tlb(page_map: &PageMap) {
     let _ = page_map;
 }
 
-/// Build an identity map over [0, window_end) using frames from `fa`.
-/// `tables` must be pre-allocated. This owning convenience wrapper must not
-/// be called under a frame guard: failure destroys its Vec backing. Guarded
-/// callers must use `build_identity_map_in_place` and retain backing until unlock.
-/// Returns None if the allocator is exhausted mid-build.
+/// Unlocked host-test convenience builder. Production must reserve all backing
+/// before locking and call `build_identity_map_with_backing_in_place` instead.
+#[cfg(test)]
 pub fn build_identity_map(
     fa: &mut FrameAllocator,
     window_end: u64,
@@ -411,9 +475,8 @@ pub fn build_identity_map(
     build_identity_map_in_place(fa, window_end, &mut tables)
 }
 
-/// Borrow caller-owned backing so failure cannot destroy it under a frame guard.
-/// Success transfers backing into PageMap without allocating. The caller must
-/// release the guard before dropping either the backing or the returned map.
+/// Unlocked host-test adapter retaining caller-owned table backing on failure.
+#[cfg(test)]
 pub(crate) fn build_identity_map_in_place(
     fa: &mut FrameAllocator,
     window_end: u64,
@@ -422,18 +485,35 @@ pub(crate) fn build_identity_map_in_place(
     build_identity_map_with_pins_in_place(fa, window_end, tables, &mut Vec::new())
 }
 
-/// Both backings remain caller-owned on failure, and move without allocation
-/// on success. Never drop the result or either backing under a frame guard.
+/// Unlocked host-test adapter for callers that supply permanent boot pins.
+#[cfg(test)]
 pub(crate) fn build_identity_map_with_pins_in_place(
     fa: &mut FrameAllocator,
     window_end: u64,
     tables: &mut Vec<u64>,
     boot_pins: &mut Vec<(u64, u64)>,
 ) -> Option<PageMap> {
+    let mut payload_bitmap = alloc::vec![0; PAYLOAD_BITMAP_BYTES];
+    build_identity_map_with_backing_in_place(fa, window_end, tables, boot_pins, &mut payload_bitmap)
+}
+
+pub(crate) const PAYLOAD_BITMAP_BYTES: usize = frame::MAX_FRAMES / 8;
+
+/// All backing remains caller-owned on failure and moves without allocation
+/// on success. Reserve before map/frame locks; unlock before dropping backing.
+pub(crate) fn build_identity_map_with_backing_in_place(
+    fa: &mut FrameAllocator,
+    window_end: u64,
+    tables: &mut Vec<u64>,
+    boot_pins: &mut Vec<(u64, u64)>,
+    payload_bitmap: &mut Vec<u8>,
+) -> Option<PageMap> {
     if window_end == 0
         || window_end > (1u64 << 32)
         || tables.len() != PAGE_DIR_ENTRIES
         || tables.iter().any(|&frame| frame != 0)
+        || payload_bitmap.len() != PAYLOAD_BITMAP_BYTES
+        || payload_bitmap.iter().any(|&byte| byte != 0)
     {
         return None;
     }
@@ -500,6 +580,7 @@ pub(crate) fn build_identity_map_with_pins_in_place(
         directory,
         tables: core::mem::take(tables),
         boot_pins: core::mem::take(boot_pins),
+        payload_bitmap: core::mem::take(payload_bitmap),
         stats,
         window_end,
     })

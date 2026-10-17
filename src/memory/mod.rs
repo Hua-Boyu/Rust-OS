@@ -140,7 +140,7 @@ fn permanent_boot_pins(
 /// Boot-only, serialized by the kernel's single-owner initialization path.
 /// Once a map is published, reject reinitialization before touching the frame
 /// allocator or replacing published backing.
-/// Table/pin backing reservations are fallible and happen outside the frame
+/// Table/pin/payload backing reservations are fallible and happen outside the frame
 /// guard. Failure diagnostics never allocate, including reserve failures.
 pub fn prepare(
     entries: &[MmapEntry],
@@ -162,6 +162,11 @@ pub fn prepare(
         .try_reserve_exact(paging::PAGE_DIR_ENTRIES)
         .map_err(|_| "page table backing allocation failed")?;
     tables.resize(paging::PAGE_DIR_ENTRIES, 0u64);
+    let mut payload_bitmap = Vec::new();
+    payload_bitmap
+        .try_reserve_exact(paging::PAYLOAD_BITMAP_BYTES)
+        .map_err(|_| "payload registry backing allocation failed")?;
+    payload_bitmap.resize(paging::PAYLOAD_BITMAP_BYTES, 0);
 
     // Recheck under exclusive ownership after unlocked resource reservation.
     // This also serializes concurrent preparation before allocator mutation.
@@ -174,8 +179,13 @@ pub fn prepare(
         dbg("DBG: frame lock acquired\n");
         fa.init(entries, bootinfo_addr, bump_start, bump_end);
         dbg("DBG: frame init done\n");
-        let built =
-            paging::build_identity_map_with_pins_in_place(fa, window, &mut tables, &mut boot_pins);
+        let built = paging::build_identity_map_with_backing_in_place(
+            fa,
+            window,
+            &mut tables,
+            &mut boot_pins,
+            &mut payload_bitmap,
+        );
         (window, built)
     }; // frame lock released before table backing destruction
     let pm = match built {

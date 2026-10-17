@@ -1,7 +1,7 @@
 use super::*;
 
 #[test]
-fn b26_r3_prepare_validation_needs_only_two_fallible_backing_allocations() {
+fn b26_r3_prepare_validation_needs_only_three_fallible_backing_allocations() {
     let _serial = TEST_LOCK.lock().unwrap();
     let entries = [entry(0x10000, 8192)];
     UNLOCKED_ATTEMPTS.with(|count| count.set(0));
@@ -18,7 +18,7 @@ fn b26_r3_prepare_validation_needs_only_two_fallible_backing_allocations() {
     assert_eq!(stats.invalid_frees, 0);
     assert_eq!(stats.double_frees, 0);
     assert_eq!(
-        allocations, 2,
+        allocations, 3,
         "validation and its diagnostics must not allocate"
     );
 }
