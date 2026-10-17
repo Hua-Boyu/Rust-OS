@@ -269,6 +269,14 @@ def _run_acceptance():
                         "phase11a2_reserved_and_uncovered_frames_cannot_enter_runtime_mapping",
                     )
                 }),
+                ("phase11_exception_abi", "phase11a2_abi_tests::", {
+                    "memory::paging::phase11a2_abi_tests::" + name for name in (
+                        "phase11a2_error_code_vectors_are_classified",
+                        "phase11a2_gp_error_code_is_selector_format",
+                        "phase11a2_pf_error_code_keeps_page_semantics",
+                        "phase11a2_fault_origin_reads_saved_cs_ring",
+                    )
+                }),
                 ("phase11_snapshot", "heap_growth_maps_one_page_on_demand",
                  {"heap_growth_maps_one_page_on_demand"}),
                 ("phase11_gdt", "phase11_gdt_tests::", {

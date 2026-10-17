@@ -115,15 +115,34 @@ impl InterruptTable {
         ];
         let plain_entry = Entry::new(isr_dummy_handler, 0x08, GateType::Interrupt32Bit, 0);
         let exception_handlers: [InterruptServiceRoutine; 17] = [
-            isr_exc00, isr_exc01, isr_exc02, isr_exc03, isr_exc04, isr_exc05, isr_exc06, isr_exc07,
-            isr_exc08, isr_exc09, isr_exc10, isr_exc11, isr_exc12, isr_exc13, isr_exc14, isr_exc15,
+            isr_exc00,
+            isr_exc01,
+            isr_exc02,
+            isr_exc03,
+            isr_exc04,
+            isr_exc05,
+            isr_exc06,
+            isr_exc07,
+            isr_dummy_handler,
+            isr_exc09,
+            isr_dummy_handler,
+            isr_dummy_handler,
+            isr_dummy_handler,
+            isr_dummy_handler,
+            isr_dummy_handler,
+            isr_exc15,
             isr_exc16,
         ];
         for (i, entry) in self.inner.iter_mut().enumerate() {
             let c = entry.0;
             if c.get_bits(0, 16) == 0 && c.get_bits(48, 16) == 0 {
                 *entry = if i < 32 {
-                    let isr = if i < exception_handlers.len() {
+                    let isr = if crate::memory::paging::exception_pushes_error_code(i as u8) {
+                        // Error-code vectors are installed through the
+                        // offset path in init_idt; the placeholder keeps
+                        // the array fill total and is overwritten there.
+                        isr_dummy_handler
+                    } else if i < exception_handlers.len() {
                         exception_handlers[i]
                     } else {
                         isr_exception_generic
@@ -245,8 +264,17 @@ pub fn init_idt(palloc: &mut PortAllocator) {
             .as_mut()
             .expect("interrupt table is free");
 
-        t.set_interrupt(13, isr_general_fault);
+        // Error-code exceptions take the CpuErrorFrame shape; install them
+        // through the offset path so the frame layout stays correct.
+        t.set_interrupt_offset(8, isr_exc08 as u32);
+        t.set_interrupt_offset(10, isr_exc10 as u32);
+        t.set_interrupt_offset(11, isr_exc11 as u32);
+        t.set_interrupt_offset(12, isr_exc12 as u32);
+        t.set_interrupt_offset(13, isr_general_fault as u32);
         t.set_interrupt_offset(14, isr_page_fault as u32);
+        // #AC(17) pushes an error code on this CPU contract: it must take the
+        // CpuErrorFrame shape, not the no-error reserved-range generic stub.
+        t.set_interrupt_offset(17, isr_exc17 as u32);
         t.set_interrupt(0x20, isr_timer_handler);
         t.set_interrupt(0x21, isr_keyboard_handler);
         t.load();
@@ -261,6 +289,18 @@ pub fn init_idt(palloc: &mut PortAllocator) {
 #[derive(Debug, Clone, Copy)]
 #[repr(C, packed)]
 struct PageFaultFrame {
+    error_code: u32,
+    instruction_ptr: u32,
+    code_segment: u32,
+    cpu_flags: u32,
+}
+
+// Shared frame for the other error-code exceptions (#DF/#TS/#NP/#SS/#GP):
+// identical CPU layout to #PF, but the error code is selector-format, not
+// page-format, so it must not be decoded with page semantics.
+#[derive(Debug, Clone, Copy)]
+#[repr(C, packed)]
+struct CpuErrorFrame {
     error_code: u32,
     instruction_ptr: u32,
     code_segment: u32,
@@ -319,12 +359,27 @@ fn get_idtr() -> Idtr {
     }
 }
 
-extern "x86-interrupt" fn isr_general_fault(_isf: InterruptStackFrame) {
+extern "x86-interrupt" fn isr_general_fault(frame: CpuErrorFrame) {
     // Must not use println!: the VGA writer is behind a SpinMutex that the
     // interrupted context may already hold (non-reentrant -> deadlock).
     // Interrupt-context output goes through the lockfree serial channel.
+    // #GP pushes a CPU error code (selector format): read it through
+    // CpuErrorFrame so the stack stays balanced and the code is reported
+    // raw, never decoded with page-fault bit semantics.
     use core::fmt::Write;
-    let _ = writeln!(io::serial::SerialWriter, "fault test");
+    unsafe {
+        let code = frame.error_code;
+        let rip = frame.instruction_ptr;
+        let cs = frame.code_segment;
+        let _ = writeln!(
+            io::serial::SerialWriter,
+            "general fault: error={:#010x} ring={} rip={:#010x}",
+            code,
+            crate::memory::paging::fault_ring_from_saved_cs(cs),
+            rip
+        );
+        halt_forever();
+    }
 }
 
 extern "x86-interrupt" fn isr_keyboard_handler(_isf: InterruptStackFrame) {
@@ -367,6 +422,35 @@ macro_rules! exception_handler {
     };
 }
 
+macro_rules! exception_handler_with_error {
+    ($name:ident, $vector:expr) => {
+        extern "x86-interrupt" fn $name(frame: CpuErrorFrame) {
+            // Error-code exception (#DF/#TS/#NP/#SS): the CPU pushed a
+            // selector-format error code ahead of the return address. Reading
+            // it through CpuErrorFrame keeps the stack balanced; the code is
+            // reported raw (page-fault bit semantics do not apply here).
+            unsafe {
+                use core::fmt::Write;
+                if EXCEPTION_COUNTS[$vector] == 0 {
+                    let code = frame.error_code;
+                    let rip = frame.instruction_ptr;
+                    let cs = frame.code_segment;
+                    let _ = writeln!(
+                        io::serial::SerialWriter,
+                        "CPU exception vector {:#04x} error={:#010x} ring={} rip={:#010x}",
+                        $vector,
+                        code,
+                        crate::memory::paging::fault_ring_from_saved_cs(cs),
+                        rip
+                    );
+                }
+                EXCEPTION_COUNTS[$vector] += 1;
+                halt_forever();
+            }
+        }
+    };
+}
+
 exception_handler!(isr_exc00, 0);
 exception_handler!(isr_exc01, 1);
 exception_handler!(isr_exc02, 2);
@@ -375,14 +459,15 @@ exception_handler!(isr_exc04, 4);
 exception_handler!(isr_exc05, 5);
 exception_handler!(isr_exc06, 6);
 exception_handler!(isr_exc07, 7);
-exception_handler!(isr_exc08, 8);
+exception_handler_with_error!(isr_exc08, 8);
 exception_handler!(isr_exc09, 9);
-exception_handler!(isr_exc10, 10);
-exception_handler!(isr_exc11, 11);
-exception_handler!(isr_exc12, 12);
+exception_handler_with_error!(isr_exc10, 10);
+exception_handler_with_error!(isr_exc11, 11);
+exception_handler_with_error!(isr_exc12, 12);
 exception_handler!(isr_exc13, 13);
 exception_handler!(isr_exc14, 14);
 exception_handler!(isr_exc15, 15);
+exception_handler_with_error!(isr_exc17, 17);
 exception_handler!(isr_exc16, 16);
 
 macro_rules! hw_irq_handler {

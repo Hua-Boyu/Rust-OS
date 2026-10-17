@@ -34,6 +34,10 @@ mod phase11_permission_tests;
 #[path = "phase11a2_ownership_tests.rs"]
 mod phase11a2_ownership_tests;
 
+#[cfg(test)]
+#[path = "phase11a2_abi_tests.rs"]
+mod phase11a2_abi_tests;
+
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
 pub const ENTRY_WRITABLE: u32 = 1 << 1;
@@ -88,6 +92,24 @@ pub fn decode_error_code(code: u32) -> PageFaultInfo {
         fetch: code.get_bits(4, 1) == 1,
         cr2: 0,
     }
+}
+
+// Error-code vectors on the supported 32-bit protected-mode CPU contract
+// (Intel Vol. 2, table 12): #DF(8), #TS(10), #NP(11), #SS(12), #GP(13),
+// #PF(14), #AC(17). Every other vector in 0..31 pushes no error code on
+// this CPU contract. The classification drives both the IDT stub choice
+// and the fault-frame decoding contract.
+pub fn exception_pushes_error_code(vector: u8) -> bool {
+    matches!(vector, 8 | 10 | 11 | 12 | 13 | 14 | 17)
+}
+
+// Fault-origin detection: the saved CS from the CPU frame carries the
+// privilege level of the faulting code in the selector's RPL bits (0-1);
+// the descriptor's DPL is not encoded in the selector value. Kernel-origin
+// faults (ring 0) fail closed; only ring-3 faults may transfer to a
+// kernel-owned continuation.
+pub fn fault_ring_from_saved_cs(cs: u32) -> u32 {
+    cs & 3
 }
 
 #[derive(Debug)]
