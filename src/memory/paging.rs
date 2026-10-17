@@ -243,12 +243,11 @@ impl PageMap {
             self.stats.map_rejects += 1;
             return false;
         }
-        // Frame-ownership authority: a mapping may only reference frames the
-        // caller owns. The null frame is never owned; a frame still in the
-        // allocator's free pool has no owner and a later allocate() could
-        // hand it out a second time; the page directory and live page tables
-        // are owned by this PageMap and must never double as payload.
-        if phys_frame == 0 || fa.is_free(phys_frame) {
+        // Admission prerequisite only: reserved/uncovered is not allocated.
+        // This numeric API still does not prove caller or cross-map ownership.
+        // Boot supervisor identity mappings are constructed separately and
+        // intentionally do not transfer payload ownership.
+        if !fa.is_live_allocation(phys_frame) {
             self.stats.map_rejects += 1;
             return false;
         }

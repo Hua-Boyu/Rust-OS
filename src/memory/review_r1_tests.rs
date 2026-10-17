@@ -91,12 +91,14 @@ fn review_r1_live_page_structure_identity_aliases_stay_mapped() {
         pm.unmap(0x40000),
         "ordinary identity pages remain unmap-capable"
     );
+    // Runtime payload needs a live allocation, not the one-past-usable end.
+    let payload = fa.allocate().unwrap();
     let next_table = fa.allocate().unwrap();
     assert!(fa.free(next_table));
     assert!(pm.map(
         &mut fa,
         paging::GROWTH_START as u64,
-        0x50000,
+        payload,
         &paging::KERNEL_PERMS
     ));
     assert_eq!(pm.translate(next_table), Some(next_table));

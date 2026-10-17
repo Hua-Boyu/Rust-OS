@@ -148,13 +148,24 @@ class SourceFreezeTests(unittest.TestCase):
                 # Simulate successful gates solely to reach the real final source-freeze check.
                 output = kwargs["stdout"]
                 prerequisite = next((c for c in command if c in (
-                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::")), None)
+                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::")), None)
                 if prerequisite:
                     names = (["heap_growth_maps_one_page_on_demand"]
                              if prerequisite == "heap_growth_maps_one_page_on_demand" else [
                                  "gdt::phase11_gdt_tests::phase11_gdt_nonzero_base_does_not_contaminate_access",
                                  "gdt::phase11_gdt_tests::phase11_gdt_wire_fields_and_limit_boundaries",
                                  "gdt::phase11_gdt_tests::phase11_gdt_privilege_presence_and_tss_type"])
+                    if prerequisite == "phase11a2_ownership_tests::":
+                        names = ["memory::paging::phase11a2_ownership_tests::" + name for name in (
+                            "phase11a2_null_frame_mapping_is_rejected_without_side_effects",
+                            "phase11a2_free_pool_frame_alias_is_rejected",
+                            "phase11a2_live_page_structure_alias_is_rejected_as_payload",
+                            "phase11a2_growth_claimed_frame_maps_exactly_once_and_rolls_back",
+                            "phase11a2_payload_frame_cannot_alias_two_active_slots",
+                            "phase11a2_unmapping_boot_alias_preserves_live_runtime_payload_reference",
+                            "phase11a2_unmap_then_release_restores_allocator_ownership",
+                            "phase11a2_reserved_and_uncovered_frames_cannot_enter_runtime_mapping",
+                        )]
                     text = (safety_output or {}).get(prerequisite,
                         "".join(f"test {name} ... ok\n" for name in names)
                         + f"test result: ok. {len(names)} passed; 0 failed; 0 ignored\n")
@@ -327,8 +338,8 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(Path(guest[guest.index("--output-dir") + 1]).name, "phase10")
         self.assertEqual(self.last_report["counts"]["phase10_scenarios"],
                          {"pass": 4 * len(acceptance.PHASE10_CASES), "fail": 0})
-        # Every predecessor gate remains mandatory; ownership/GDT add two.
-        self.assertEqual(self.last_report["gates_total"], 56)
+        # Preserve all 56 predecessor gates and add registry/reservation identity.
+        self.assertEqual(self.last_report["gates_total"], 57)
         for name in scripts:
             with self.subTest(failed=name):
                 self.assertEqual(self.simulate(lambda root: None, failed_script=name), 1)
@@ -530,6 +541,21 @@ class SourceFreezeTests(unittest.TestCase):
             self.assertIn("--test-threads=1", commands[0])
         self.assertEqual(self.last_report["counts"]["phase11_snapshot"], {"pass": 1, "fail": 0})
         self.assertEqual(self.last_report["counts"]["phase11_gdt"], {"pass": 3, "fail": 0})
+
+    def test_phase11_registry_reservation_prerequisite_is_mandatory(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        commands = [c for c in self.last_commands if "phase11a2_ownership_tests::" in c]
+        self.assertEqual(len(commands), 1)
+        self.assertIn("--test-threads=1", commands[0])
+        self.assertEqual(self.last_report["counts"]["phase11_registry_reservation"], {"pass": 8, "fail": 0})
+
+    def test_phase11_registry_reservation_bad_identities_cannot_publish(self):
+        for text in ("", "test result: ok. 0 passed; 0 failed; 0 ignored\n",
+                     "test impostor ... ok\ntest result: ok. 8 passed; 0 failed; 0 ignored\n"):
+            with self.subTest(text=text):
+                self.assertEqual(self.simulate(lambda root: None,
+                    safety_output={"phase11a2_ownership_tests::": text}), 1)
+                self.assertEqual(self.last_versioned_count, 0)
 
     def test_phase11_prerequisite_identities_cannot_be_substituted(self):
         for filter_name in ("heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::"):

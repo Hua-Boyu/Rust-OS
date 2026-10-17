@@ -184,3 +184,49 @@ fn phase11a2_unmap_then_release_restores_allocator_ownership() {
     assert!(pm.map(&mut fa, slot, frame, &KERNEL_PERMS));
     assert_eq!(pm.translate(slot), Some(frame));
 }
+
+#[test]
+fn phase11a2_reserved_and_uncovered_frames_cannot_enter_runtime_mapping() {
+    // Independent byte-span fixture: each policy reservation intersects the
+    // chosen page, including a one-byte pin and competing firmware coverage.
+    // Boot identity aliases remain valid; runtime admission grants no ownership.
+    for reserved in [0x20000u64, 0x30000, 0x40000, 0x50000, 0xb8000, 0x70000] {
+        let mut fa = FrameAllocator::new();
+        assert!(fa.init_with_reservations(
+            &[
+                MmapEntry {
+                    size: 20,
+                    base_addr: 0x10000,
+                    length: 0x50000,
+                    type_: 1
+                },
+                MmapEntry {
+                    size: 20,
+                    base_addr: 0x50001,
+                    length: 1,
+                    type_: 2
+                },
+            ],
+            0x20000,
+            0x30000,
+            0x31000,
+            &[(0x40001, 0x40002)],
+        ));
+        let mut pm =
+            build_identity_map(&mut fa, 0x100000, alloc::vec![0; PAGE_DIR_ENTRIES]).unwrap();
+        let before = *fa.stats();
+        let before_mapped = pm.stats().mapped_frames;
+        let before_tables = pm.stats().page_tables;
+        assert_eq!(pm.translate(reserved), Some(reserved));
+        assert!(
+            !pm.map(&mut fa, GROWTH_START as u64, reserved, &KERNEL_PERMS),
+            "reserved/uncovered {reserved:#x}"
+        );
+        assert_eq!(fa.stats().free_frames, before.free_frames);
+        assert_eq!(fa.stats().allocated_frames, before.allocated_frames);
+        assert_eq!(pm.stats().mapped_frames, before_mapped);
+        assert_eq!(pm.stats().page_tables, before_tables);
+        assert_eq!(pm.entry(GROWTH_START as u64), None);
+        assert_eq!(pm.translate(reserved), Some(reserved));
+    }
+}

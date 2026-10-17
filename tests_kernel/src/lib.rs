@@ -1026,7 +1026,7 @@ fn perf_baseline_records_latencies() {
     use core::alloc::Layout;
     // Isolated instances: host tests run in parallel, so global state is unsafe here.
     let mut fa = memory::frame::FrameAllocator::new();
-    let entries = [mmap_entry(0x10000, 0x800000, 1)];
+    let entries = [mmap_entry(0x10000, 0x1000000, 1)];
     fa.init(&entries, 0x10000, 0x11000, 0x12000);
     let mut pm = memory::paging::build_identity_map(&mut fa, 0xC0000, alloc::vec![0u64; 1024])
         .expect("build");
@@ -1045,6 +1045,11 @@ fn perf_baseline_records_latencies() {
     let frame_free_ns = t1.elapsed().as_nanos() as f64 / 1000.0;
 
     // Map/unmap latency in the growth window (1000 ops each).
+    // Establish backing authority outside the measured mapping interval.
+    for i in 0..1000 {
+        let v = memory::paging::GROWTH_START as u64 + i * 4096;
+        assert_eq!(fa.claim_growth_frame(v), Some(v));
+    }
     let t2 = std::time::Instant::now();
     for i in 0..1000 {
         let v = memory::paging::GROWTH_START as u64 + i * 4096;
@@ -1056,6 +1061,9 @@ fn perf_baseline_records_latencies() {
         assert!(pm.unmap(memory::paging::GROWTH_START as u64 + i * 4096));
     }
     let unmap_ns = t3.elapsed().as_nanos() as f64 / 1000.0;
+    for i in 0..1000 {
+        assert!(fa.free(memory::paging::GROWTH_START as u64 + i * 4096));
+    }
 
     // Heap alloc/dealloc latency: 1000 mixed-size ops on an isolated heap.
     // Region must cover the workload (~1.2 MB) so alloc never returns null.

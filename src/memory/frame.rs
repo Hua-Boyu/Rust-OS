@@ -373,6 +373,30 @@ impl FrameAllocator {
         Some(addr)
     }
 
+    /// Current allocation eligibility, not a transferable ownership capability.
+    /// In particular, not-free includes reserved and uncovered memory. Keep
+    /// those states separate before admitting a runtime payload mapping.
+    pub(super) fn is_live_allocation(&self, addr: u64) -> bool {
+        if !self.initialized || addr == 0 || addr % FRAME_SIZE as u64 != 0 {
+            return false;
+        }
+        let Some(frame) = Self::frame_of(addr) else {
+            return false;
+        };
+        if !bit(&self.covered, frame)
+            || bit(&self.ncov, frame)
+            || !bit(&self.ever, frame)
+            || bit(&self.free, frame)
+        {
+            return false;
+        }
+        if paging::in_growth_window(addr) {
+            let index = (addr as usize - paging::GROWTH_START) / FRAME_SIZE;
+            return bit(&self.growth_claimed, index);
+        }
+        true
+    }
+
     pub fn is_free(&self, addr: u64) -> bool {
         match Self::frame_of(addr) {
             Some(f) => bit(&self.free, f),

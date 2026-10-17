@@ -101,7 +101,7 @@ fn phase11_identity_maps_remain_supervisor_at_128_and_512_mib() {
             &[MmapEntry {
                 size: 20,
                 base_addr: 0x10000,
-                length: 0x300000,
+                length: 0x900000,
                 type_: 1,
             }],
             0x400000,
@@ -123,6 +123,10 @@ fn phase11_identity_maps_remain_supervisor_at_128_and_512_mib() {
             assert!(!p.nx_supported);
         }
         // Supervisor-only aliases and growth must stay denied to user.
+        assert_eq!(
+            fa.claim_growth_frame(GROWTH_START as u64),
+            Some(GROWTH_START as u64)
+        );
         assert!(pm.map(
             &mut fa,
             GROWTH_START as u64,

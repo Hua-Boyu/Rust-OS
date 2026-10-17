@@ -257,6 +257,18 @@ def _run_acceptance():
         report["counts"]["phase11_permissions"] = {"pass": len(observed), "fail": 0}
         # B19 alias closure and descriptor encoding only: no CPL3 readiness claim.
         for key, filter_name, required in (
+                ("phase11_registry_reservation", "phase11a2_ownership_tests::", {
+                    "memory::paging::phase11a2_ownership_tests::" + name for name in (
+                        "phase11a2_null_frame_mapping_is_rejected_without_side_effects",
+                        "phase11a2_free_pool_frame_alias_is_rejected",
+                        "phase11a2_live_page_structure_alias_is_rejected_as_payload",
+                        "phase11a2_growth_claimed_frame_maps_exactly_once_and_rolls_back",
+                        "phase11a2_payload_frame_cannot_alias_two_active_slots",
+                        "phase11a2_unmapping_boot_alias_preserves_live_runtime_payload_reference",
+                        "phase11a2_unmap_then_release_restores_allocator_ownership",
+                        "phase11a2_reserved_and_uncovered_frames_cannot_enter_runtime_mapping",
+                    )
+                }),
                 ("phase11_snapshot", "heap_growth_maps_one_page_on_demand",
                  {"heap_growth_maps_one_page_on_demand"}),
                 ("phase11_gdt", "phase11_gdt_tests::", {
