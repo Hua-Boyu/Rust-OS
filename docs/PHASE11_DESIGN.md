@@ -1,5 +1,34 @@
 # Phase 11 — verified dependency plan and privilege design
 
+## Current Phase 11A.2 authority checkpoint — PARTIAL
+
+Read `docs/PHASE11A2_OWNERSHIP_PLAN.md` for the staged authority design and
+`test_results/phase11a2_continuation/ownership_design_review.md` for independent
+caller/lifecycle analysis and the proposed dense-ledger resource budget.
+Only registry backing/reference repair and reservation admission are implemented.
+An allocation-state predicate is not a token, mapping pin or cross-owner ledger.
+Independent real-module probes reproduce mapped-free, cross-map alias and stale
+release failures. Do not implement USER/TSS/CPL3 until these boundaries pass.
+Also close page-table identity accessibility before runtime physical writes;
+host mirrors cannot establish that a newly selected physical table is mapped.
+Inherited exception code is now corrected for entry conventions: #AC(17) routes
+through the error-code frame shape and the host oracle matches the Intel table-12
+contract; real saved-frame/entry/exit conventions and recoverable user-fault
+continuation remain unproven.
+Current exact verification and next bounded task are in the A–K handover.
+
+## Historical registry-repair design boundary at recovery
+
+The Phase 11A.2 registry repair is detailed in
+`docs/PHASE11A2_REGISTRY_HANDOVER.md`. Registry backing is a third fallible
+unlocked reservation, borrowed through unpublished construction and transferred
+only on success. Runtime PTE bit9 distinguishes its references from inherited
+boot identity aliases. This is a bounded, single-PageMap runtime alias registry,
+not a general physical-frame ownership ledger. The remaining ownership contract
+below still blocks USER publication, TSS/CPL3 and complete Phase11 acceptance.
+Current exception ABI edits compile; recoverable #GP/user-fault return is not
+established by inherited fatal-fault fixtures.
+
 ## Current continuation: 11A PARTIAL, ownership boundary not yet complete
 
 This continuation starts at `c347a9c4375fe86dfb0a81d675b7b4603662d21c` on

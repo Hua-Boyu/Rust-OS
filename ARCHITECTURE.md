@@ -1,5 +1,33 @@
 # ARCHITECTURE
 
+## Phase 11A.2 reservation admission — PARTIAL, no CPL3
+
+The registry repair is secured in local commit `4bfbe60`. Runtime payload
+mapping now consults the allocator's private current-allocation predicate;
+reserved, uncovered, never-allocated and released frames cannot acquire a new
+runtime alias. Exact growth claims remain distinct from ordinary allocations.
+Boot supervisor identity aliases do not transfer ownership and remain unchanged.
+No new metadata allocation or lock is needed for this predicate. It is NOT a
+capability: live table roles across maps, mapping/CPU pins and stale releases
+remain unsafe. See `docs/PHASE11A2_OWNERSHIP_PLAN.md` and the current A–K handover.
+Inherited exception edits are preserved but unapproved; no TSS/user execution.
+Exception-entry conventions are now corrected and host-tested: #AC(17) routes
+through the error-code frame shape and the error-code vector oracle matches the
+Intel table-12 contract; recoverable user-fault continuation remains unproven.
+
+## Historical recovery snapshot — uncommitted registry repair at entry
+
+`docs/PHASE11A2_REGISTRY_HANDOVER.md` supersedes the historical implementation
+inventory below. Preparation reserves pin, table and payload-registry backing
+fallibly before map/frame guards. Production construction borrows that backing
+through rollback and moves it only on success. Runtime payload references use a
+bounded per-PageMap bitmap and software PTE bit9, so removing a boot supervisor
+identity alias does not release an active runtime reference. This changes no
+hardware USER permission. The bitmap is not allocator ownership: reserved-frame
+authority, release pins and cross-PageMap lifetime remain unresolved. Exception
+ABI work is present/compiling but recoverable user faults remain unproven.
+No TSS, user/transition stack, CPL3 or Phase12 was introduced.
+
 ## Current Phase 11A — PARTIAL, no CPL3
 
 PAGE_MAP is a private `SpinMutex<Option<PageMap>>`; only owned scalar

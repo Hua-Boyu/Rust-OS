@@ -1,6 +1,15 @@
 # PROXMOX DEPLOYMENT
 
-## Current Phase 11 boundary — local only, NOT deployed
+## Phase 11A.2 continuation — remote systems untouched
+
+No Proxmox API/SSH call, ISO upload, VM103 restart/reset/configuration change,
+disk/storage mutation or other-VM action was performed. Remote state was not
+freshly inspected. Only disposable local QEMU guests are authorized. The
+registry/reservation prerequisite remains PARTIAL; its passing local regression
+evidence does not authorize deploying it. No push or remote Git write occurred.
+Exact current local status: `docs/PHASE11_HANDOVER.md` (A–K).
+
+## Historical predecessor Phase 11 boundary — local only, NOT deployed
 
 The Phase11A map-alias/GDT continuation likewise made no Proxmox API/SSH call
 or remote mutation. VM103/pve state was not refreshed. All focused128/512MiB

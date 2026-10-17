@@ -1,5 +1,123 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
+## CURRENT standalone continuation — Phase 11A.2 PARTIAL, ownership next
+
+Work in `C:/Users/iamsv/Documents/Rust-OS`, existing branch `maintenance/phase10`.
+Start with `git status --short`, `git branch --show-current`, `git rev-parse HEAD`,
+`git log -12 --oneline --decorate`, `git diff --stat`, `git diff --check`.
+This continuation began at `48e76dfa096397824bc11dee137ea6287c5068f2`.
+Registry repair checkpoint: `4bfbe60a1d66152d9a8210d0bb37bd49ad082db9`.
+Reserved-frame admission + mandatory identity gate checkpoint:
+`8f02162d857ddcfae49d4f0b937474b5bd1392f6` (current HEAD). A later scoped
+documentation commit records the exception-ABI checkpoint results; inspect actual
+HEAD rather than inferring it from this text.
+Never reset or discard the dirty tree. Preserve `d1/`,
+`scripts/b13_boot_fixture.py.backup`, accepted ISOs and failed/incomplete evidence.
+
+Read first `docs/PHASE11A2_REGISTRY_HANDOVER.md`, then `HANDOVER.md`, this prompt,
+`docs/PHASE11_HANDOVER.md` (CURRENT A–K), `docs/PHASE11_DESIGN.md`,
+`docs/PHASE11_TOOLS.md`, standard architecture/testing/bugfix/deployment/README
+docs and `docs/PHASE10_INITRAMFS.md`. Load rosti-kernel-development,
+systematic-debugging, test-driven-development, bare-metal-kernel-qemu-testing,
+requesting-code-review and git-release-checkpoint skills.
+
+IMPLEMENTED: unlocked fallible registry backing, borrowed rollback, bit9 runtime
+provenance and boot-alias preservation, allocator-state reservation admission.
+Raw map rejects reserved/uncovered/never-allocated/released backing before table
+creation, and requires a live exact growth claim for growth frames. Boot identity
+aliases remain borrowed supervisor mappings. Effective PDE/PTE flags, USER refusal,
+private map/scalar snapshots and nonzero GDT base encoding remain intact.
+
+BLOCKED: true ownership. `test_results/phase11a2_continuation/ownership_blocker_probe.rs`
+compiles real memory modules and reproduces three actual failures: mapped free,
+cross-PageMap exclusive alias and stale numeric release.0/3 pass, exit101 is RED
+evidence, not a release success. No independent review approves full B19.
+Read `docs/PHASE11A2_OWNERSHIP_PLAN.md` and independent
+`test_results/phase11a2_continuation/ownership_design_review.md` before implementation.
+Design allocator-domain IDs, nonduplicable generational leases, role/map binding,
+mapping/CPU pins and revocable unpublished teardown. Dense generation/binding
+arrays would add512KiB (DESIGN ONLY); prove stack-safe static construction and
+minimum-RAM/linker boundaries before choosing that layout. Validate physical table
+identity accessibility before writes; a host mirror hides unmapped-table faults.
+Close safe numeric bypasses; snapshots/physical addresses are not capabilities.
+Borrowed aliases must not free backing; shared mappings need explicit lifetime
+or fail closed. Stale release must not free a reused generation.
+
+Keep heap -> map -> frame ordering; reserve backing before both owners and drop
+it after unlocking. No arbitrary callbacks, IRQ allocation/owner entry or fallible
+publication. Restore CPU/CR3/stack context before reclaiming dependent memory.
+Migrate the B26 growth fixture which deliberately frees a live mapping into a
+mapped-free refusal plus separately owned conflicting-PTE rollback fixture.
+Complete all15 requested ownership regression cases before USER publication.
+
+Mandatory ownership cases (RED before each targeted fix, independent oracles):
+1. Reserved-frame ownership rejection.
+2. Null or invalid frame rejection, plus virtual-page0 publication refusal.
+3. Page-table frame alias rejection, including foreign-map structures.
+4. Duplicate exclusive ownership rejection.
+5. Free-while-mapped refusal.
+6. Borrowed mapping does not transfer ownership.
+7. Explicit shared mapping reference lifetime (or reviewed fail-closed policy).
+8. Stale owner release refusal after physical-frame reuse.
+9. Failure at every allocation/reservation stage without capacity loss.
+10. Complete partial-construction rollback.
+11. Cross-PageMap duplicate ownership rejection and allocator-domain binding.
+12. Mapping teardown releases only owned resources, exactly once.
+13. Active address-space/CR3/stack/table/interrupt frames remain pinned.
+14. Exhaustion and repeated recovery with exact capacity/accounting restoration.
+15. Boot identity alias removal preserves live runtime ownership.
+
+Exception-entry conventions are now implemented and host-tested: `#AC(17)`
+routes through the error-code `CpuErrorFrame` shape, the `CPU_ERROR_CODE_VECTORS`
+oracle `{8,10,11,12,13,14,17}` and its comments are corrected, four `phase11a2_abi_tests`
+identities pass, and the mandatory `phase11_exception_abi` gate family is in
+acceptance (58 total gates). This is entry-convention correctness only: recoverable
+#GP/user-fault continuation, real CPU frame probes, GPR/segment/DF/alignment/IRET
+verification and user-origin classification remain unproven. After reviewed B19,
+implement real separate error/no-error entry conventions and CPU #GP/#PF probes,
+GPR/segments/DF/alignment/error consumption/CS-origin/conditional ESP-SS/IRET
+verification. Kernel faults stay fatal; never blindly retry user faults.
+No TSS, guarded transition stack, user payload or CPL3 execution occurred.
+
+Host Cargo from outside kernel config, e.g. `C:/Users/iamsv`:
+`cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml`.
+Also run serial `-- --test-threads=1` and independently rooted tests_b26 both ways.
+Current reservation host285/0/2 ignored, B26-root52/0, harness41 pass. Canonical
+runner now preserves56 inherited gates plus exact8 registry/reservation identity
+gate (57 total), still `11A-prerequisite`, release-ready false. Obtain final
+accepted run/exit/hash/cleanup from CURRENT A–K and closeout, not a RUNNING report.
+Focused128/512 paging and ELF/GRUB growth run sequentially. Official full command:
+`python -B scripts/phase6_verify.py --output-dir <absolute-task-evidence-parent>`,
+notified background, no competing QEMU/build/source edits. Never unlink
+`dist/.phase6_acceptance.lock`. Verify source membership/hashes, nested reports,
+strict counts, production ISO payload identity, actual exit0/finalPASS and cleanup.
+
+Do not repeat completed registry/GDT repairs. Next exact implementation: convert
+the three retained B19 RED probes to GREEN with allocator-integrated authority,
+then independent review and all required host/guest/full acceptance. Only after
+ownership and exception prerequisites pass consider TSS; no premature CPL3 demo.
+Update all11 requested handover/docs and commit only reviewed verified scopes.
+No Phase12, general ELF loader, production syscall, scheduler, push/tag/history
+rewrite, Proxmox API/SSH/deploy/restart/configuration or disk/storage action.
+VM103 rosti-dev/pve is outside mutation scope; remote inventory is historical.
+
+---
+
+## Historical prompts below — superseded by CURRENT continuation above
+
+## Latest working-tree recovery
+
+Read `docs/PHASE11A2_REGISTRY_HANDOVER.md` before the historical prompt below.
+The Phase 11A.2 ownership/exception ABI work is uncommitted. Payload registry
+backing is preallocated fallibly outside locks, and runtime PTE bit9 prevents
+boot identity unmap from releasing a live runtime reference. Actual commands
+and evidence are under `test_results/phase11a2_registry/`. The recorded canonical
+runner exited0/PASS56/56; closeout verifies139 frozen inputs, eight reviewed
+hashes and no QEMU remains. Recheck Git/source state before resuming work.
+Remaining B19 gates include reserved-frame authority, free-while-mapped and
+cross-owner lifetime; do not move to USER publication/TSS/CPL3 on inherited
+supervisor-mode success alone. Preserve all unrelated work and do not push.
+
 ## CURRENT — Phase 11A PARTIAL, owned-frame boundary next
 
 Work in `C:/Users/iamsv/Documents/Rust-OS`, branch `maintenance/phase10`.

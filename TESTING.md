@@ -1,5 +1,35 @@
 # TESTING
 
+## Phase 11A.2 reservation prerequisite — bounded, not B19 completion
+
+The reserved/uncovered admission test was observed RED (actual exit101), then
+GREEN. Its independent byte-span fixture covers boot/bump, one-byte explicit
+pins, competing firmware, VGA and uncovered backing while preserving boot aliases.
+Three inherited positive host fixtures now acquire valid payload/growth backing;
+none of their permission or table-identity assertions were removed.
+The canonical runner requires all eight registry/reservation test identities in
+one new gate, preserving all56 inherited gates. Harness negative tests refuse
+missing/empty/substituted evidence. Current exact results, source hashes and
+accepted run are in `docs/PHASE11_HANDOVER.md`.
+Standalone `test_results/phase11a2_continuation/ownership_blocker_probe.rs`
+reproduces three unresolved B19 failures against production modules. Those RED
+probes are not passing release tests, not ignored successes and not CPL3 proof.
+
+## Historical recovery tests — registry repair uncommitted at entry
+
+See `docs/PHASE11A2_REGISTRY_HANDOVER.md` for current commands and status.
+Two specific regressions were observed RED at exit101: locked registry backing
+allocation and boot-identity unmap clearing a live runtime reference. Both are
+GREEN. Main host284/0/2 ignored and B26-root51/0 pass serially/parallel; focused
+paging and eight ELF/GRUB128/512MiB growth scenarios pass. The unlocked backing
+allocation budget is explicitly three, with independent refusal tests at each
+reserve. Locked allocation/destruction and diagnostic fallback remain forbidden.
+Fresh inherited prerequisite acceptance PASS56/56, actual runner exit0; closeout
+verifies139 frozen source/build inputs,159 nested reports,280 cleanup assertions,
+ISO kernel/archive identity and no QEMU remains. Scoped review has no new repair
+blockers, with a deferred lock-observability gap. No full ownership/CPL3 claim.
+Exact paths are in the registry handover; results below are historical checkpoints.
+
 ## Current Phase 11A — PARTIAL prerequisite tests
 
 Evidence root: `test_results/phase11a_ownership/`. Owned snapshot API RED

@@ -1,5 +1,43 @@
 # Phase 11 tool manifest
 
+## Current Phase 11A.2 continuation tooling
+
+Evidence root: `test_results/phase11a2_continuation/`. `run_step.py` records
+exact commands/cwd/timestamps/logs and actual subprocess statuses, including
+intended RED exits. The standalone blocker probe compiles the real memory
+modules with `rustc +nightly --test --edition=2024`; three actual assertion
+failures are retained, not fabricated output or acceptance successes.
+The inherited sequential driver `verify_registry.py --full-acceptance` runs
+host serial/parallel, production build, focused local128/512MiB paging and
+ELF/GRUB growth before invoking the official `scripts/phase6_verify.py`.
+Its current run is `test_results/phase11a2_registry/run_20261017T175909_983725Z/`
+(58/58 PASS, exit 0, including the new mandatory exception-ABI gate family).
+It uses notified background execution; no source edits or competing QEMU may
+occur during canonical acceptance. Never unlink the acceptance lock.
+Final exact status and artifacts: `docs/PHASE11_HANDOVER.md`. The continuation
+closeout independently rediscovers input membership/hashes and extracts ISO
+payloads. No optional tools were installed; historical versions follow below.
+
+## Historical Phase 11A.2 registry-repair invocation
+
+Actual invocation:
+`python -B test_results/phase11a2_registry/verify_registry.py --full-acceptance`.
+Exact commands, working directories, timestamps, statuses, version-probe output,
+host/build logs and guest evidence are retained under
+`test_results/phase11a2_registry/run_20261017T152028_345139Z/`.
+The two RED invocations and implementation limits are recorded in
+`docs/PHASE11A2_REGISTRY_HANDOVER.md`. Main host284/0/2 ignored, B26-root51/0,
+formatting, production build, paging and focused ELF/GRUB growth have exited0.
+Fresh inherited prerequisite acceptance PASS56/56, actual runner exit0; read-only
+closeout also exits0 and verifies139 input hashes/159 nested reports/280 cleanup
+assertions, eight reviewed hashes, ISO contents and no QEMU remains. No full
+ownership/TSS/CPL3 approval is claimed. No tools were installed.
+Fresh exit0 probes record rustc1.101.0-nightly(1d81eb4ad),
+Cargo1.101.0-nightly(f3865b2a4), Git2.55.0.windows.3 and Python3.11.15 in the
+run logs. The exact QEMU `--version` command/output/status is additionally in
+`test_results/phase11a2_registry/auxiliary_tools.json`: QEMU10.2.0.
+Prior manifest entries below describe earlier checkpoints, not this tree.
+
 ## Phase 11A ownership/GDT continuation
 
 Fresh probes and exact subprocess output are recorded in

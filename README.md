@@ -1,6 +1,22 @@
 # Rust operating system on i686
 
-## Current: Phase 11A PARTIAL — no user execution yet
+## Latest: Phase 11A.2 PARTIAL — registry/reservation checkpoints and tested exception-entry conventions
+
+Registry/boot-alias repairs are locally checkpointed as `4bfbe60`; reserved-frame
+admission + mandatory identity gate as `8f02162`; exception-entry conventions as
+`b82e9b1`. Raw runtime mapping refuses
+reserved/uncovered backing unless the allocator records a current allocation or
+exact growth claim. Exception-entry conventions are corrected and host-tested
+(#AC(17) error-code frame routing, corrected vector oracle, four green ABI tests,
+mandatory acceptance gate family; 58/58 acceptance PASS). No USER permission is
+enabled. Free-while-mapped, cross-map authority and stale numeric release
+remain demonstrated blockers; recoverable #GP/user-fault continuation, TSS and
+CPL3 are not approved or complete. Current tests, source-frozen acceptance,
+artifact identity, review limits and next task: `docs/PHASE11_HANDOVER.md`;
+standalone resume: `NEXT_SESSION_PROMPT.md`. No Phase12, Proxmox deployment or
+remote Git write was performed.
+
+## Historical predecessor: Phase 11A PARTIAL — no user execution
 
 Continuation repairs retained PageMap aliases with private ownership/copied
 snapshots and fixes nonzero-base GDT descriptor encoding. Host273 pass

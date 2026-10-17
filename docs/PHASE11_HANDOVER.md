@@ -1,5 +1,163 @@
 ## Rosti OS — Phase 11 Handover
 
+## CURRENT — Phase 11A.2 reservation checkpoint committed + exception-ABI entry conventions tested / NOT A RELEASE
+
+### A. Current status
+- IMPLEMENTED: fallible registry backing/rollback and runtime PTE bit9 repair,
+  locally checkpointed at `4bfbe60`; allocator-state admission rejects reserved/uncovered
+  runtime payloads before table allocation, locally checkpointed at `8f02162` (HEAD).
+- IMPLEMENTED/TESTED: exception-entry conventions — `#AC(17)` routed through the
+  error-code `CpuErrorFrame` shape; `CPU_ERROR_CODE_VECTORS` oracle `{8,10,11,12,13,14,17}`
+  corrected with accurate Intel Vol. 2 table-12 comments; four ABI oracle tests pass;
+  mandatory `phase11_exception_abi` gate family added to acceptance (57→58 gates).
+- BLOCKED: complete B19. Three executed real-module probes fail for mapped free,
+  cross-PageMap duplicate authority and stale numeric release. This is a verified
+  partial improvement, not a safe process-memory foundation.
+- TSS and CPL3 remain DEFERRED; no user execution occurred. Exception entry
+  *shape* is tested; recoverable #GP/user-fault continuation remains unproven.
+
+### B. Git and preservation
+- Branch `maintenance/phase10`; initial HEAD
+  `48e76dfa096397824bc11dee137ea6287c5068f2`.
+- Initial worktree:13 tracked modifications and6 untracked entries. No reset,
+  stash, branch creation, merge, rebase, tag, push or history rewrite.
+- Registry-only checkpoint `4bfbe60a1d66152d9a8210d0bb37bd49ad082db9`, seven
+  source/test files. Index-only staging excluded inherited paging ABI helpers and
+  the ABI test module; working bytes were preserved. `src/interrupt.rs` and
+  `src/memory/phase11a2_abi_tests.rs` remain outside reviewed commit scope.
+- Do not confuse committed registry-only source with accepted mixed-tree inputs.
+  The exact acceptance tree is defined by its complete byte-hash manifest.
+- Unrelated `d1/`, script backup, historical ISOs and failure evidence preserved.
+
+### C. Architecture and authority
+- `FrameAllocator::is_live_allocation` is memory-private, allocation-free, and
+  checks initialized/aligned/nonzero/managed, complete coverage, competing-denial,
+  allocation history/current free state and live growth claim. This grants no
+  nonduplicable caller capability. Raw numeric APIs still require trusted callers.
+- Boot identity aliases remain borrowed supervisor mappings; runtime admission
+  does not transfer their reserved backing. Existing USER/nonpresent refusal,
+  null/free/self-table/local-duplicate checks and bit9 lifetime distinction remain.
+- Heap -> map -> frame; no allocation/backing destruction/callback under prohibited
+  owners. No IRQ enters these owners. This slice adds no lock or backing reserve.
+- Cross-map table roles, active CR3/heap/stack/IRQ pins, shared mapping reference
+  lifetime, revocable teardown and generational release remain unimplemented.
+- The null check concerns physical frame0. Raw numeric map still lacks a distinct
+  virtual-page0 publication refusal; close that boundary before any owned USER API.
+- Page-table identity accessibility is a separate prerequisite: a table's physical
+  address must be writable through the active kernel mapping before entry writes.
+
+### D. Implementation and RED/GREEN evidence
+- Reservation RED exit101 at boot-info frame0x20000; GREEN1/1. Independent span
+  fixture also covers bump, one-byte explicit pin, firmware overlap, VGA/uncovered.
+- Three positive fixtures acquired legitimate payload/growth backing; all existing
+  permission/table-identity assertions remain. The intermediate282/3/2 host failure
+  identifying those fixtures is preserved as `host_fixture_audit.log`.
+- Mandatory registry/reservation family8 adds one gate to inherited56; harness
+  RED five failed assertions, GREEN41 tests. No predecessor gate removed.
+- Real-production-module blocker probe: actual0 passed/3 failed/0 ignored, exit101.
+  These remain blockers; they are NOT counted as passing regression acceptance.
+
+### E. Tools and reproducibility
+- Existing nightly Rust/native Windows Git Bash/QEMU/WSL tooling reused; no install.
+- Actual command driver: `python -B test_results/phase11a2_registry/verify_registry.py --full-acceptance`,
+  notified background; current run `run_20261017T162309_113081Z` beneath that root.
+- Exact command/cwd/timestamps/statuses/logs are retained in `verification.json`
+  and `test_results/phase11a2_continuation/*_red.json`, `*_green.json`.
+- Never unlink `dist/.phase6_acceptance.lock`; no competing QEMU/build/source edits
+  during official acceptance. Final read-back utility is
+  `test_results/phase11a2_continuation/verify_closeout.py`.
+
+### F. Verification status
+- Recovery closeout independently matched139 accepted inputs/eight review hashes,
+  retained56/56 PASS,159 nested reports,280 cleanup assertions and ISO contents.
+- Reservation tree: host285/0/2 ignored and B26-root52/0, each serial and parallel;
+  focused sequential paging128/512 passed.
+- Exception-ABI tree (current): host285/0/2 ignored and B26-root52/0, each serial
+  and parallel; production build exit0; four `phase11a2_abi_tests` identities pass
+  serially; harness43 passed (two new ABI oracle tests).
+- Current canonical full run `run_20261017T175909_983725Z` completed **58/58 PASS,
+  actual runner exit 0**, including the new mandatory `phase11_exception_abi` gate;
+  `verification.json` records registry verification PASS. Closeout verifier updated
+  57→58 and binding validated; final closeout read-back pending the independent
+  exception-ABI review.
+
+### G. Resource accounting
+- Registry backing remains8,192 bytes/map; table slots8,192 bytes/map plus pin
+  capacity. Reservation predicate adds zero storage fields/backing allocations.
+- No TSS, process payload, user/transition stack or dynamic address-space storage.
+- `focused_memory.json` independently checks all8 ELF/GRUB128/512 cases: retained
+  heap16,536 bytes without module /16,568 with module is unchanged after growth;
+  capacity1,048,576 ->7,340,032 bytes, growth0 ->1,536 pages. Module bytes match
+  before/after, and every owned guest exited. These are not peak measurements.
+- Proposed dense generation/binding ledger costs512KiB, NOT allocated or implemented;
+  stack-safe static initialization and minimum-RAM/linker-bound review are required.
+- Runtime heap/stack peaks and transition timing remain unknown. Final section
+  accounting belongs to the exact production kernel after the runner restores it.
+
+### H. Review and limitations
+- `recovery_review.json` approves only registry static scope, rejects exception
+  checkpoint and full B19. Existing map-lock allocator-observability gap remains.
+- Exception findings: #AC17 omitted, incorrect selector-error oracle comments,
+  unproven one-aggregate x86-interrupt ABI/real frame offsets, no segment/GPR/DF/
+  alignment/IRET/user-return proof. Preserved source is not approved functionality.
+- `reservation_review.json` approves the bounded reservation/harness checkpoint
+  with no in-scope blockers; all30 reviewed source/evidence hashes independently
+  match. It expressly rejects complete B19, exception ABI, USER, TSS and CPL3.
+- Optional exact-eight malformed-summary variants and fuller rejection-counter
+  assertions remain nonblocking review suggestions, not changes to frozen inputs.
+- Separate evidence-tool review found weak focused-row/digest checks, broad B13
+  schema exemptions, summary/run binding and Python optimization hazards. Evidence
+  helpers (not frozen inputs) were hardened with4 RED/GREEN host tests: exact
+  focused identity/count/all-true rows/digests, exact B13 child equality, driver/
+  closeout/ISO/source binding and refusal of optimized Python. Historical gate
+  oracle is byte-hash pinned. Cleanup280 remains repeated true assertions, not
+  distinct guests; the official invocation-owned checks remain mandatory.
+
+### I. Deployment and inherited guarantees
+- No Proxmox API/SSH action or remote Git operation; no VM103/config/media/disk/
+  storage changes. Remote state is not freshly inspected. Local disposable guests only.
+- Trusted `/system`, SHA256, RAMFS recovery, GRUB/Multiboot/B13 and filesystem
+  format/COW/CRC/flush/capabilities are unchanged. The full inherited acceptance
+  must retain all56 initramfs scenarios and all9,071 modeled crash cases.
+
+### J. Exact next bounded task
+- Use retained RED mapped-free/cross-map/stale-release probes to implement the
+  allocator-domain authority model in `docs/PHASE11A2_OWNERSHIP_PLAN.md` and
+  `ownership_design_review.md`: nonduplicable generational leases, structure roles,
+  map binding, mapped/CPU pins, reversible unpublished lifecycle, private numeric
+  mutation routes. Review storage/stack budget before choosing dense metadata.
+- Migrate the B26 growth conflict fixture that deliberately frees a live mapping;
+  preserve its unrelated-PTE rollback oracle with separately owned backing.
+- Complete all15 required ownership cases, serial/parallel host, sequential local
+  128/512 guests, mandatory full frozen acceptance and independent review.
+- Only then repair real exception entry ABI/probes; no TSS or USER/CPL3 yet.
+
+### K. Release decision
+- NOT READY. B19 remains PARTIAL, exception ABI BLOCKED, TSS/CPL3 DEFERRED.
+- No Phase11 completion, Phase12, general ELF loader, production syscall or scheduler.
+- A later scoped documentation commit records final actual results; resolve exact
+  final HEAD with Git rather than attempting a self-referential embedded hash.
+
+---
+
+## Historical predecessor handover (superseded by current A–K above)
+
+### Latest working-tree continuation — registry backing repair
+
+The uncommitted Phase 11A.2 tree supersedes the implementation inventory below.
+Read `docs/PHASE11A2_REGISTRY_HANDOVER.md` for exact current state, commands,
+evidence and remaining ownership blockers. The registry backing is now reserved
+fallibly before ownership locks, and runtime PTE references are distinguished
+from boot identity aliases. Host284/0/2 ignored and B26-root51/0 pass in parallel
+and serially; focused paging and eight ELF/GRUB growth scenarios pass.
+Fresh inherited prerequisite acceptance PASS56/56, runner exit0; read-only
+closeout verifies139 frozen inputs/159 nested reports/280 cleanup assertions
+and eight reviewed hashes. Exact paths are in the linked registry handover.
+No full B19, TSS or CPL3 claim; one nonblocking lock-observability review gap
+is deferred. The historical acceptance below is not this changed tree's run.
+
+The A–K sections below describe the previous committed checkpoint.
+
 ### A. Current status
 - Overall status: **Phase 11A PARTIAL; NOT A RELEASE; CPL3 DISABLED**.
 - Completed continuation: private PageMap synchronization/scalar snapshots and GDT nonzero-base encoder repair. These follow the accepted effective-permission prerequisite; they do not complete physical-frame/mapping lifetime ownership.

@@ -1,6 +1,23 @@
 # BUGFIXES
 
-## Current Phase 11A — map alias and GDT encoder repair, PARTIAL
+## Phase 11A.2 registry and reservation admission — PARTIAL
+
+- Local registry checkpoint `4bfbe60` preserves fallible unlocked backing,
+  borrowed rollback and PTE bit9 boot-alias reference discrimination.
+- Runtime payload mapping no longer treats every nonfree frame as allocated.
+  The allocator-private predicate checks initialization/alignment/window,
+  complete coverage, competing reservations, allocation history/current state,
+  and a live exact growth claim when applicable; refusal precedes table creation.
+- Positive fixtures mapping an unclaimed or one-past-usable frame now obtain
+  valid backing. Existing ownership/permission assertions remain mandatory.
+- NOT FIXED: mapped free, cross-PageMap authority, stale numeric release, active
+  CPU/table lifetime and complete exception ABI. The inherited #AC(17) omission is
+  now fixed (error-code frame routing + corrected vector oracle, four host tests
+  green, mandatory acceptance gate family added); recoverable #GP/user-fault
+  continuation and real CPU frame probes remain unfixed. No TSS/CPL3.
+Current evidence, review scope and exact acceptance: `docs/PHASE11_HANDOVER.md`.
+
+## Historical predecessor Phase 11A — map alias and GDT repair, PARTIAL
 
 - Removed `page_map_ref` and raw global mutable-map access. A private mutex
   owns publication/growth; callers retain only copied diagnostic values.

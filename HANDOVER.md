@@ -1,5 +1,32 @@
 # Rosti OS — development handover
 
+## Current Phase 11A.2 continuation — PARTIAL / NOT A RELEASE
+
+Initial HEAD `48e76dfa096397824bc11dee137ea6287c5068f2`; registry-only local
+checkpoint `4bfbe60a1d66152d9a8210d0bb37bd49ad082db9`; reserved-frame admission
++ mandatory identity gate checkpoint `8f02162d857ddcfae49d4f0b937474b5bd1392f6`
+(current HEAD). Current reserved-frame admission prerequisite, exception-entry
+conventions and exact final verification are documented in
+`docs/PHASE11_HANDOVER.md` (A–K). This section supersedes the uncommitted status
+below. `docs/PHASE11A2_REGISTRY_HANDOVER.md` retains historical accepted evidence.
+No full B19: actual free-while-mapped, cross-map alias and stale numeric release
+probes remain RED. Exception-entry conventions (#AC17 error-frame routing,
+corrected error-code vector oracle) are implemented and host-tested; recoverable
+#GP/user-fault continuation remains unproven. No TSS or CPL3 execution occurred.
+Full acceptance `run_20261017T175909_983725Z` completed 58/58 PASS, exit 0
+(`11A-prerequisite`, release-ready false). No Phase12, remote write/deployment,
+push, tag or history rewrite occurred.
+
+## Historical recovery snapshot — Phase 11A.2 uncommitted at entry
+
+Read `docs/PHASE11A2_REGISTRY_HANDOVER.md` first. The payload registry's locked
+allocation and boot-alias reference-release defects are repaired. Host284/0/2
+ignored and B26-root51/0 pass both serially and in parallel; focused paging and
+ELF/GRUB growth pass at128/512MiB. Fresh inherited prerequisite acceptance
+PASS56/56, runner exit0; closeout verifies139 frozen inputs and no QEMU remains.
+Historical acceptance below is not this run. Complete physical ownership,
+TSS and CPL3 remain blocked. No new commit, push or deployment.
+
 ## Current — Phase 11A PARTIAL / NOT A RELEASE
 
 Continuation started at `c347a9c4375fe86dfb0a81d675b7b4603662d21c`, still on
