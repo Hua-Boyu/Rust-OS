@@ -1,0 +1,136 @@
+{
+  "128": {
+    "ram_mib": 128,
+    "memory": {
+      "before": {
+        "used": 8416,
+        "capacity": 1048576,
+        "growth_pages": 0,
+        "failed_allocations": 0,
+        "live_allocations": 3,
+        "fs_storage": 0,
+        "fs_entries": 1,
+        "fd_open_slots": 3,
+        "fd_open_records": 0,
+        "fd_opens": 1,
+        "fd_closes": 1,
+        "fd_denials": 0,
+        "fd_stale": 0
+      },
+      "live_file": {
+        "used": 8444,
+        "capacity": 1048576,
+        "growth_pages": 0,
+        "failed_allocations": 0,
+        "live_allocations": 4,
+        "fs_storage": 20,
+        "fs_entries": 3,
+        "fd_open_slots": 3,
+        "fd_open_records": 0,
+        "fd_opens": 7,
+        "fd_closes": 7,
+        "fd_denials": 0,
+        "fd_stale": 0
+      },
+      "after_cleanup": {
+        "used": 8416,
+        "capacity": 1048576,
+        "growth_pages": 0,
+        "failed_allocations": 0,
+        "live_allocations": 3,
+        "fs_storage": 0,
+        "fs_entries": 1,
+        "fd_open_slots": 3,
+        "fd_open_records": 0,
+        "fd_opens": 13,
+        "fd_closes": 13,
+        "fd_denials": 0,
+        "fd_stale": 0
+      },
+      "after_stress": {
+        "used": 8416,
+        "capacity": 7340032,
+        "growth_pages": 1536,
+        "failed_allocations": 4,
+        "live_allocations": 3,
+        "fs_storage": 0,
+        "fs_entries": 1,
+        "fd_open_slots": 3,
+        "fd_open_records": 0,
+        "fd_opens": 13,
+        "fd_closes": 13,
+        "fd_denials": 0,
+        "fd_stale": 0
+      }
+    },
+    "owned_qemu_exited": true,
+    "check_count": 103
+  },
+  "512": {
+    "ram_mib": 512,
+    "memory": {
+      "before": {
+        "used": 8416,
+        "capacity": 1048576,
+        "growth_pages": 0,
+        "failed_allocations": 0,
+        "live_allocations": 3,
+        "fs_storage": 0,
+        "fs_entries": 1,
+        "fd_open_slots": 3,
+        "fd_open_records": 0,
+        "fd_opens": 1,
+        "fd_closes": 1,
+        "fd_denials": 0,
+        "fd_stale": 0
+      },
+      "live_file": {
+        "used": 8444,
+        "capacity": 1048576,
+        "growth_pages": 0,
+        "failed_allocations": 0,
+        "live_allocations": 4,
+        "fs_storage": 20,
+        "fs_entries": 3,
+        "fd_open_slots": 3,
+        "fd_open_records": 0,
+        "fd_opens": 7,
+        "fd_closes": 7,
+        "fd_denials": 0,
+        "fd_stale": 0
+      },
+      "after_cleanup": {
+        "used": 8416,
+        "capacity": 1048576,
+        "growth_pages": 0,
+        "failed_allocations": 0,
+        "live_allocations": 3,
+        "fs_storage": 0,
+        "fs_entries": 1,
+        "fd_open_slots": 3,
+        "fd_open_records": 0,
+        "fd_opens": 13,
+        "fd_closes": 13,
+        "fd_denials": 0,
+        "fd_stale": 0
+      },
+      "after_stress": {
+        "used": 8416,
+        "capacity": 7340032,
+        "growth_pages": 1536,
+        "failed_allocations": 4,
+        "live_allocations": 3,
+        "fs_storage": 0,
+        "fs_entries": 1,
+        "fd_open_slots": 3,
+        "fd_open_records": 0,
+        "fd_opens": 13,
+        "fd_closes": 13,
+        "fd_denials": 0,
+        "fd_stale": 0
+      }
+    },
+    "owned_qemu_exited": true,
+    "check_count": 103
+  }
+}

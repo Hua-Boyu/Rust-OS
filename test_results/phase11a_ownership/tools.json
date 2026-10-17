@@ -1,0 +1,67 @@
+{
+  "observed_at": "2026-10-16T23:41:23.333162+00:00",
+  "commands": [
+    {
+      "command": [
+        "rustc",
+        "+nightly",
+        "-vV"
+      ],
+      "exit": 0,
+      "output": "rustc 1.101.0-nightly (1d81eb4ad 2026-10-07)\nbinary: rustc\ncommit-hash: 1d81eb4ad9cd207e3e638bd32b17ec4fce8412a6\ncommit-date: 2026-10-07\nhost: x86_64-pc-windows-msvc\nrelease: 1.101.0-nightly\nLLVM version: 23.1.3\n"
+    },
+    {
+      "command": [
+        "cargo",
+        "+nightly",
+        "-V"
+      ],
+      "exit": 0,
+      "output": "cargo 1.101.0-nightly (f3865b2a4 2026-09-29)\n"
+    },
+    {
+      "command": [
+        "cargo",
+        "+nightly",
+        "clippy",
+        "-V"
+      ],
+      "exit": 0,
+      "output": "clippy 0.1.101 (1d81eb4ad9 2026-10-07)\n"
+    },
+    {
+      "command": [
+        "git",
+        "--version"
+      ],
+      "exit": 0,
+      "output": "git version 2.55.0.windows.3\n"
+    },
+    {
+      "command": [
+        "python",
+        "--version"
+      ],
+      "exit": 0,
+      "output": "Python 3.11.15\n"
+    },
+    {
+      "command": [
+        "C:/Program Files/qemu/qemu-system-i386.exe",
+        "--version"
+      ],
+      "exit": 0,
+      "output": "QEMU emulator version 10.2.0 (v10.2.0-12105-g0f12d445bd)\nCopyright (c) 2003-2025 Fabrice Bellard and the QEMU Project developers\n"
+    },
+    {
+      "command": [
+        "wsl",
+        "bash",
+        "-lc",
+        "as --version; ld --version; grub-mkrescue --version; objdump --version; readelf --version; gdb --version"
+      ],
+      "exit": 0,
+      "output": "GNU assembler (GNU Binutils for Ubuntu) 2.42\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis program is free software; you may redistribute it under the terms of\nthe GNU General Public License version 3 or later.\nThis program has absolutely no warranty.\nThis assembler was configured for a target of `x86_64-linux-gnu'.\nGNU ld (GNU Binutils for Ubuntu) 2.42\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis program is free software; you may redistribute it under the terms of\nthe GNU General Public License version 3 or (at your option) a later version.\nThis program has absolutely no warranty.\ngrub-mkrescue (GRUB) 2.12-1ubuntu7.3\nGNU objdump (GNU Binutils for Ubuntu) 2.42\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis program is free software; you may redistribute it under the terms of\nthe GNU General Public License version 3 or (at your option) any later version.\nThis program has absolutely no warranty.\nGNU readelf (GNU Binutils for Ubuntu) 2.42\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis program is free software; you may redistribute it under the terms of\nthe GNU General Public License version 3 or (at your option) any later version.\nThis program has absolutely no warranty.\nGNU gdb (Ubuntu 15.1-1ubuntu1~24.04.1) 15.1\nCopyright (C) 2024 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n"
+    }
+  ]
+}

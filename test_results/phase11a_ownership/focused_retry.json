@@ -1,0 +1,41 @@
+[
+  {
+    "name": "paging_focused_retry",
+    "command": [
+      "python",
+      "-B",
+      "scripts/paging_test.py",
+      "--output-dir",
+      "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a_ownership\\paging_retry"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "fsstress_128",
+    "command": [
+      "python",
+      "-B",
+      "scripts/fs_test.py",
+      "--ram",
+      "128",
+      "--stress",
+      "--output-dir",
+      "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a_ownership\\fsstress128"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "fsstress_512",
+    "command": [
+      "python",
+      "-B",
+      "scripts/fs_test.py",
+      "--ram",
+      "512",
+      "--stress",
+      "--output-dir",
+      "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a_ownership\\fsstress512"
+    ],
+    "exit": 0
+  }
+]

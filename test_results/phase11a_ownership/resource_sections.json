@@ -1,0 +1,126 @@
+{
+  "baseline": {
+    "sha256": "c813429de80aa5c0d9782fcd1de76bde95566887f1f76caaf36bc85662844f4b",
+    "file_bytes": 5972404,
+    "allocated_sections": {
+      ".multiboot": {
+        "address": 2097152,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".got": {
+        "address": 2097164,
+        "bytes": 80,
+        "initialized": true
+      },
+      ".text": {
+        "address": 2101248,
+        "bytes": 689393,
+        "initialized": true
+      },
+      ".rodata": {
+        "address": 2793472,
+        "bytes": 38757,
+        "initialized": true
+      },
+      ".eh_frame_hdr": {
+        "address": 2832232,
+        "bytes": 28,
+        "initialized": true
+      },
+      ".eh_frame": {
+        "address": 2832260,
+        "bytes": 68,
+        "initialized": true
+      },
+      ".data": {
+        "address": 2834432,
+        "bytes": 93100,
+        "initialized": true
+      },
+      ".got.plt": {
+        "address": 2927532,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".bss": {
+        "address": 2928640,
+        "bytes": 1137676,
+        "initialized": false
+      }
+    },
+    "allocated_bytes": 1959126,
+    "initialized_bytes": 821450,
+    "static_span_bytes": 1969164
+  },
+  "candidate": {
+    "sha256": "a99124ecffc74d94a97fe9c4ad762b1353bb6e8d7f78c46793ae9ac698afab11",
+    "file_bytes": 5973476,
+    "allocated_sections": {
+      ".multiboot": {
+        "address": 2097152,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".got": {
+        "address": 2097164,
+        "bytes": 80,
+        "initialized": true
+      },
+      ".text": {
+        "address": 2101248,
+        "bytes": 689809,
+        "initialized": true
+      },
+      ".rodata": {
+        "address": 2793472,
+        "bytes": 38757,
+        "initialized": true
+      },
+      ".eh_frame_hdr": {
+        "address": 2832232,
+        "bytes": 28,
+        "initialized": true
+      },
+      ".eh_frame": {
+        "address": 2832260,
+        "bytes": 68,
+        "initialized": true
+      },
+      ".data": {
+        "address": 2834432,
+        "bytes": 93040,
+        "initialized": true
+      },
+      ".got.plt": {
+        "address": 2927472,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".bss": {
+        "address": 2928640,
+        "bytes": 1137676,
+        "initialized": false
+      }
+    },
+    "allocated_bytes": 1959482,
+    "initialized_bytes": 821806,
+    "static_span_bytes": 1969164
+  },
+  "delta_from_c347a9c_prerequisite": {
+    "file_bytes": 1072,
+    "allocated_bytes": 356,
+    "initialized_bytes": 356,
+    "static_span_bytes": 0
+  },
+  "peak_heap_bytes": null,
+  "peak_stack_bytes": null,
+  "cpl3_transition_latency": null,
+  "new_tss_bytes": 0,
+  "new_user_or_transition_stack_bytes": 0,
+  "new_user_payload_bytes": 0,
+  "new_page_tables": 0,
+  "new_runtime_heap_allocations_by_design": 0,
+  "gdt_wire_bytes": 24,
+  "idt_wire_bytes": 2048
+}

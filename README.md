@@ -1,6 +1,16 @@
 # Rust operating system on i686
 
-## Current: Phase 11 IN PROGRESS — no user execution yet
+## Current: Phase 11A PARTIAL — no user execution yet
+
+Continuation repairs retained PageMap aliases with private ownership/copied
+snapshots and fixes nonzero-base GDT descriptor encoding. Host273 pass
+(2 ignored), harness39 pass; focused paging and1536-page heap growth pass
+sequentially at128/512MiB. Full B19 frame/mapping lifetime, exception ABI,
+TSS/stacks and CPL3 continuation are still blockers. Current evidence/review/
+acceptance and the exact next task: `docs/PHASE11_HANDOVER.md` (A–K).
+No ELF/syscall/scheduler/Phase12, push or Proxmox deployment was introduced.
+
+### Historical permission-only checkpoint
 
 First 11A prerequisite repairs effective PDE/PTE permissions and refuses
 unowned user/nonpresent map requests. Host270 pass (2 ignored), harness37 pass;

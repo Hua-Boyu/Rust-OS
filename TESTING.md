@@ -1,6 +1,25 @@
 # TESTING
 
-## Current Phase 11 prerequisite — not full Phase11 acceptance
+## Current Phase 11A — PARTIAL prerequisite tests
+
+Evidence root: `test_results/phase11a_ownership/`. Owned snapshot API RED
+exit101 then GREEN1/1; three GDT field-decode tests RED access-byte corruption
+then GREEN3/3. Host273 passed/0 failed/2 ignored, parallel and serial; B26 full
+crate37 pass; acceptance harness39 pass (RED eight failed assertions retained).
+Two mandatory exact-identity gates extend the inherited54 to56; this does not
+add CPL3 acceptance. Focused paging128/512 passes, and each RAMFS/OOM/growth
+workload passes103 checks, including1536 writable-supervisor identity pages.
+The first relative output-path paging invocation failed in the harness; the
+absolute-path retry and original failure are retained, not conflated.
+Current canonical acceptance and independent closeout paths are in A–K handover.
+
+Current canonical result: **PASS56/56**, actual exit0, at
+`test_results/phase11a_ownership/acceptance_20261016T234702Z_x057jmpa/acceptance.json`.
+Independent closeout PASS136 frozen inputs/159 nested reports; exact previous
+gate multiset retained, production kernel/archive extracted and cleanup checked.
+All56 initramfs scenarios/3379 checks and9071 crash models reran. No CPL3 proof.
+
+### Historical permission-only acceptance (not the changed candidate)
 
 Recorded TDD: effective permission diagnostic RED (PDE absent/PTE present),
 unowned USER map RED, nonpresent map RED, each followed by GREEN. Five required

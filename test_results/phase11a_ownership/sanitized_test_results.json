@@ -1,0 +1,166 @@
+{
+  "scope": "Actual retained subprocess logs; RED exits and harness invocation error are intentional retained failures, not production PASS",
+  "logs": [
+    {
+      "name": "b19_red",
+      "exit_code": 101,
+      "log": "test_results\\phase11a_ownership\\b19_red.log",
+      "sha256": "b0b389706936153f3a91d1ee5f87b9d13d1bbc7a054ec83b883aafd16286b01a",
+      "bytes": 4427,
+      "summaries": [
+        "error[E0425]: cannot find function `page_snapshot` in module `memory`",
+        "error[E0425]: cannot find function `page_snapshot` in module `memory`",
+        "error[E0425]: cannot find function `page_snapshot` in module `memory`"
+      ]
+    },
+    {
+      "name": "b19_green",
+      "exit_code": 0,
+      "log": "test_results\\phase11a_ownership\\b19_green.log",
+      "sha256": "075b95e2c6822845a4aefd24f58a29cdce27ed044f80763cd3acbc2c9366397a",
+      "bytes": 5063,
+      "summaries": [
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 271 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "name": "b26_green",
+      "exit_code": 0,
+      "log": "test_results\\phase11a_ownership\\b26_green.log",
+      "sha256": "1e4217aea4162e91deb61fd3d1b1ce6df9f37129fba893a4b7c98faca898919c",
+      "bytes": 5319,
+      "summaries": [
+        "test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s"
+      ]
+    },
+    {
+      "name": "host_green",
+      "exit_code": 0,
+      "log": "test_results\\phase11a_ownership\\host_green.log",
+      "sha256": "deb4d350076a264285fe1d4a4c5b7e51e5695f276c73a4ae2bba6b948a0084a1",
+      "bytes": 24904,
+      "summaries": [
+        "test result: ok. 270 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.18s"
+      ]
+    },
+    {
+      "name": "gdt_red",
+      "exit_code": 101,
+      "log": "test_results\\phase11a_ownership\\gdt_red.log",
+      "sha256": "9189e306bcc81d317459ab4592eb9465162b0fa1ad08f5157de8f5deff942429",
+      "bytes": 6603,
+      "summaries": [
+        "test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 272 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "name": "gdt_green",
+      "exit_code": 0,
+      "log": "test_results\\phase11a_ownership\\gdt_green.log",
+      "sha256": "393752bc47cdfcbaf03fcc8028b74b41dd0fd328897711711d024f38fccd72f8",
+      "bytes": 5266,
+      "summaries": [
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 272 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "name": "build_green",
+      "exit_code": 0,
+      "log": "test_results\\phase11a_ownership\\build_green.log",
+      "sha256": "4c66d3c5a35c504f50bb5391cef47c8ff1e9c036b9f6570d4351f5169529f82c",
+      "bytes": 12707,
+      "summaries": []
+    },
+    {
+      "name": "harness_red",
+      "exit_code": 1,
+      "log": "test_results\\phase11a_ownership\\harness_red.log",
+      "sha256": "1855f620f0dc6501dbe660c3f37638b30046c5980ad5801f4dd6bfb6db765cc8",
+      "bytes": 5230,
+      "summaries": [
+        "FAIL: test_phase10_builder_contract_and_complete_guest_gates_are_mandatory (__main__.SourceFreezeTests.test_phase10_builder_contract_and_complete_guest_gates_are_mandatory)\r",
+        "FAIL: test_phase11_owned_snapshot_and_gdt_tests_are_mandatory (__main__.SourceFreezeTests.test_phase11_owned_snapshot_and_gdt_tests_are_mandatory)\r",
+        "FAIL: test_phase11_prerequisite_identities_cannot_be_substituted (__main__.SourceFreezeTests.test_phase11_prerequisite_identities_cannot_be_substituted) (filter='heap_growth_maps_one_page_on_demand', text='')\r",
+        "FAIL: test_phase11_prerequisite_identities_cannot_be_substituted (__main__.SourceFreezeTests.test_phase11_prerequisite_identities_cannot_be_substituted) (filter='heap_growth_maps_one_page_on_demand', text='test result: ok. 0 passed; 0 failed; 0 ignored\\n')\r",
+        "FAIL: test_phase11_prerequisite_identities_cannot_be_substituted (__main__.SourceFreezeTests.test_phase11_prerequisite_identities_cannot_be_substituted) (filter='heap_growth_maps_one_page_on_demand', text='test impostor ... ok\\ntest result: ok. 1 passed; 0 failed; 0 ignored\\n')\r",
+        "FAIL: test_phase11_prerequisite_identities_cannot_be_substituted (__main__.SourceFreezeTests.test_phase11_prerequisite_identities_cannot_be_substituted) (filter='phase11_gdt_tests::', text='')\r",
+        "FAIL: test_phase11_prerequisite_identities_cannot_be_substituted (__main__.SourceFreezeTests.test_phase11_prerequisite_identities_cannot_be_substituted) (filter='phase11_gdt_tests::', text='test result: ok. 0 passed; 0 failed; 0 ignored\\n')\r",
+        "FAIL: test_phase11_prerequisite_identities_cannot_be_substituted (__main__.SourceFreezeTests.test_phase11_prerequisite_identities_cannot_be_substituted) (filter='phase11_gdt_tests::', text='test impostor ... ok\\ntest result: ok. 1 passed; 0 failed; 0 ignored\\n')\r",
+        "Ran 39 tests in 26.332s\r",
+        "FAILED (failures=8)\r"
+      ]
+    },
+    {
+      "name": "harness_green",
+      "exit_code": 0,
+      "log": "test_results\\phase11a_ownership\\harness_green.log",
+      "sha256": "1d15f934ce7c96fd60b5ac40e898cd69f098263fbd4bc485e9196f7bb0159012",
+      "bytes": 144,
+      "summaries": [
+        "Ran 39 tests in 25.337s\r",
+        "OK\r"
+      ]
+    },
+    {
+      "name": "host_final_parallel",
+      "exit_code": 0,
+      "log": "test_results\\phase11a_ownership\\host_final_parallel.log",
+      "sha256": "e1fbaad8d245011517347c6bef48787f1641d9cd1560a2a64c213fadca0ba789",
+      "bytes": 25154,
+      "summaries": [
+        "test result: ok. 273 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.19s"
+      ]
+    },
+    {
+      "name": "host_final_serial",
+      "exit_code": 0,
+      "log": "test_results\\phase11a_ownership\\host_final_serial.log",
+      "sha256": "cddf0a904f13140c7fb7673f651465d556d5ee4ce36e2be5691773a16197f336",
+      "bytes": 25154,
+      "summaries": [
+        "test result: ok. 273 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.87s"
+      ]
+    },
+    {
+      "name": "paging_focused",
+      "exit_code": 1,
+      "log": "test_results\\phase11a_ownership\\paging_focused.log",
+      "sha256": "4cea639ba6894a806bd489f70c15e70252361f262ea0fa5dacc8553a628dc7b6",
+      "bytes": 994,
+      "summaries": [
+        "ValueError: 'test_results\\\\phase11a_ownership\\\\paging\\\\20261017_074013_paging\\\\ram_128_run_1\\\\serial.txt' is not in the subpath of 'C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS' OR one path is relative and the other is absolute.\r"
+      ]
+    },
+    {
+      "name": "paging_focused_retry",
+      "exit_code": 0,
+      "log": "test_results\\phase11a_ownership\\paging_focused_retry.log",
+      "sha256": "6aa48b324b3de5405d1bc6338ba8579a727bf0513cd28486504154b2838a8c3d",
+      "bytes": 176,
+      "summaries": [
+        "PASS: 128 MiB run 1; failed=[]\r",
+        "PASS: 512 MiB run 1; failed=[]\r"
+      ]
+    },
+    {
+      "name": "fsstress_128",
+      "exit_code": 0,
+      "log": "test_results\\phase11a_ownership\\fsstress_128.log",
+      "sha256": "7736c5cfe2693fec81ea3b4b79e4296e18aeee346ab0054d5d883cdd9c9c866d",
+      "bytes": 175,
+      "summaries": [
+        "PASS: filesystem integration; 39 commands, 103 checks; evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a_ownership\\fsstress128\\20261017_074049_ram128_529uvsc5\r"
+      ]
+    },
+    {
+      "name": "fsstress_512",
+      "exit_code": 0,
+      "log": "test_results\\phase11a_ownership\\fsstress_512.log",
+      "sha256": "bc1fd5ce1aed59c1ec4200eeb214804ffd2d70539debb5110dbf54c51cc8463d",
+      "bytes": 175,
+      "summaries": [
+        "PASS: filesystem integration; 39 commands, 103 checks; evidence: C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a_ownership\\fsstress512\\20261017_074133_ram512_0auvu79v\r"
+      ]
+    }
+  ]
+}

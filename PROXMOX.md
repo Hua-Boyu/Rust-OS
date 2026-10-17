@@ -2,6 +2,13 @@
 
 ## Current Phase 11 boundary — local only, NOT deployed
 
+The Phase11A map-alias/GDT continuation likewise made no Proxmox API/SSH call
+or remote mutation. VM103/pve state was not refreshed. All focused128/512MiB
+guests are owned local QEMU fixtures. Phase11A remains PARTIAL; no upload,
+attached-media change, reboot/reset, storage action or deployment is authorized.
+
+### Historical permission-only session boundary
+
 No Proxmox API/SSH call, upload, ISO replacement, VM reboot/reset/power action,
 disk attachment/format or storage mutation was performed this session. No fresh
 inventory is claimed. The Phase10B observations below remain historical.

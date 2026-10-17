@@ -1,0 +1,42 @@
+[
+  {
+    "name": "b19_green",
+    "command": [
+      "cargo",
+      "+nightly",
+      "test",
+      "--manifest-path",
+      "C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml",
+      "--lib",
+      "heap_growth_maps_one_page_on_demand",
+      "--",
+      "--exact"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "b26_green",
+    "command": [
+      "cargo",
+      "+nightly",
+      "test",
+      "--manifest-path",
+      "C:/Users/iamsv/Documents/Rust-OS/tests_b26/Cargo.toml",
+      "--lib",
+      "--",
+      "--test-threads=1"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "host_green",
+    "command": [
+      "cargo",
+      "+nightly",
+      "test",
+      "--manifest-path",
+      "C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml"
+    ],
+    "exit": 0
+  }
+]

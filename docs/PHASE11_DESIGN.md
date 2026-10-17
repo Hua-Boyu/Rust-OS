@@ -1,5 +1,52 @@
 # Phase 11 — verified dependency plan and privilege design
 
+## Current continuation: 11A PARTIAL, ownership boundary not yet complete
+
+This continuation starts at `c347a9c4375fe86dfb0a81d675b7b4603662d21c` on
+`maintenance/phase10`. The historical findings below describe their original
+checkpoints. The retained-reference part of B19 is now repaired: PAGE_MAP has
+a private mutex owner; no map reference, guard or caller callback is exported.
+`page_snapshot` returns Copy scalars. Boot-copy pin validation also returns a
+scalar before allocating; fsstress observes snapshots before formatting.
+Preparation reserves backing unlocked, then locks/rechecks publication before
+initializing frames. Unpublished rollback frees table frames under frame
+ownership, unlocks both owners, and only then destroys heap-backed PageMap data.
+Growth uses heap -> map -> frame, preserves exact identity slots and restores
+growth-only reservations on rejection. No IRQ may enter these ownership paths.
+Host page-table mirrors can allocate; production critical sections cannot.
+
+The GDT encoder masks the low base word before insertion. Independent byte
+decoding tests cover bases, limits, access/type/presence/DPL and flags; kernel
+CS 0x08/DS 0x10 and the three existing descriptor values remain unchanged.
+This fixes a prerequisite for a nonzero-base TSS; it does not add a TSS.
+
+### Remaining explicit ownership contract (DESIGN ONLY; blocks user mappings)
+
+1. Keep the published boot PageMap and its directory/table backing pinned until
+   reboot. A snapshot is not a pin and grants no memory authority.
+2. Replace public numeric allocate/free/map authority with nonduplicable frame
+   ownership or a private bounded ledger. A frame must have exactly one owner
+   across reserved, unpublished payload, published payload and teardown states.
+3. Distinguish borrowed permanent supervisor aliases from process-owned payload
+   mappings. PageMap owns table frames, not every identity-mapped payload frame.
+   Never infer exclusive payload ownership from a present PTE.
+4. Preallocate bounded metadata outside map/frame ownership. Validate a proposed
+   user arena and every frame/slot/pin before reserving resources; initialize
+   payload/table pages before publishing USER entries at both levels. Reject
+   null, boot, kernel, table and conflicting aliases. Do not elevate kernel PDEs.
+5. Maintain an unpublished rollback ledger; return only its allocations on any
+   failure. Publication must have no remaining fallible step. Active CPU/CR3/TSS
+   references pin mappings/stacks; teardown first restores the kernel context,
+   removes mappings and invalidates translations, then releases owned frames.
+6. Do not expose arbitrary allocating callbacks under the map owner or allow a
+   frame-held path to acquire map/heap. Existing public raw PageMap builders/map
+   and FRAME_ALLOC are still trusted-kernel APIs, NOT a safe userspace boundary.
+
+No general frame ledger, owned user mappings, exception ABI fix, TSS, guarded
+transition stack, user IRET or kernel continuation is implemented in this slice.
+The wrong returning #GP and other error-code exception conventions remain a
+mandatory blocker. CPL3 security cases and transition timings are unexecuted.
+
 ## Status and source
 
 IN PROGRESS; **not a Phase 11 release**. Initial HEAD verified as

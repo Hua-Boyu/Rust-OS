@@ -1,0 +1,50 @@
+[
+  {
+    "name": "harness_green",
+    "command": [
+      "python",
+      "-B",
+      "scripts/test_acceptance_harness.py"
+    ],
+    "cwd": null,
+    "exit": 0
+  },
+  {
+    "name": "host_final_parallel",
+    "command": [
+      "cargo",
+      "+nightly",
+      "test",
+      "--manifest-path",
+      "C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml"
+    ],
+    "cwd": "C:/Users/iamsv",
+    "exit": 0
+  },
+  {
+    "name": "host_final_serial",
+    "command": [
+      "cargo",
+      "+nightly",
+      "test",
+      "--manifest-path",
+      "C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml",
+      "--",
+      "--test-threads=1"
+    ],
+    "cwd": "C:/Users/iamsv",
+    "exit": 0
+  },
+  {
+    "name": "paging_focused",
+    "command": [
+      "python",
+      "-B",
+      "scripts/paging_test.py",
+      "--output-dir",
+      "test_results\\phase11a_ownership\\paging"
+    ],
+    "cwd": null,
+    "exit": 1
+  }
+]

@@ -1,6 +1,21 @@
 # BUGFIXES
 
-## Phase 11 first prerequisite — partial B19 repair
+## Current Phase 11A — map alias and GDT encoder repair, PARTIAL
+
+- Removed `page_map_ref` and raw global mutable-map access. A private mutex
+  owns publication/growth; callers retain only copied diagnostic values.
+- Preparation reserves backing before ownership locks, rechecks publication
+  before allocator mutation and unlocks before failed-map backing destruction.
+  Exact growth-slot reservation/rollback and heap -> frame ordering survive,
+  with the map owner between those locks.
+- Masked GDT low base word before insertion; reproduced0x9b rather than0x89
+  access contamination for base0x12345678 now passes independent byte decoding.
+  Existing flat descriptor values/selectors are unchanged; no TSS was added.
+- Complete numeric-frame/mapping ownership and the legacy error-code exception
+  ABI are still unresolved. No user execution is allowed. Test/current acceptance
+  evidence is in PHASE11_HANDOVER; previous findings below are historical.
+
+### Historical first prerequisite — partial B19 repair
 
 - Effective permissions no longer report a PTE's access when its PDE denies it.
   PRESENT/RW/USER are intersected; absent grants are normalized to false.

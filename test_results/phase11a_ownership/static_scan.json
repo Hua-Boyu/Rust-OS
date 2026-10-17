@@ -1,0 +1,19 @@
+{
+  "findings": [],
+  "scope": "Task-added Rust/Python lines only, no secret values emitted",
+  "source_hashes": {
+    "scripts/phase6_verify.py": "e38bafc743f5d0d1a3fcfba2bc7585e762ef581a865e277bdf2dda0fcede8777",
+    "scripts/test_acceptance_harness.py": "fb994c9b45329c68bf34323f1a41f8bf14c5c460057c1838f46ba7613b9a8a80",
+    "src/fs_stress.rs": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+    "src/gdt.rs": "fb6830e02a5f296e22551c5045bbd0263028520b4d334f285d2098fefa61957d",
+    "src/memory/boot_copy.rs": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+    "src/memory/mod.rs": "a078ce67853e0f60044a411432a6feb214ba3291d9fbf88b6148ee07620c4da9",
+    "src/memory/review_r1_tests.rs": "aa87c62114ac56dd6fec5b64c737aa00c3de449390ec8f995dd0eca1b80a020a",
+    "tests_b26/src/growth_tests.rs": "2d3c3455d71d62d24aaf382eb1a74178a82d6998c4e3c84fdc871eb9c1d0f332",
+    "tests_b26/src/refusal_tests.rs": "53d199d753916be4f8d5616b66ee6674cf91c41baf660da6c51db039e75459de",
+    "tests_b26/src/validation_allocation_tests.rs": "4982e3e98f2408deaa698abc79ce79e3b800f5643f7157dfb2753855f0120e84",
+    "tests_b26/src/validation_tests.rs": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+    "tests_kernel/src/lib.rs": "e541ab67df341da3dd5c764947454523be4a9e6ae756c701d2393c3891f98631",
+    "src/phase11_gdt_tests.rs": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b"
+  }
+}

@@ -1,6 +1,20 @@
 # ARCHITECTURE
 
-## Current Phase 11 prerequisite — IN PROGRESS, no CPL3
+## Current Phase 11A — PARTIAL, no CPL3
+
+PAGE_MAP is a private `SpinMutex<Option<PageMap>>`; only owned scalar
+`PageSnapshot` values escape. Map/frame locks never cross allocating formatting
+or production heap operations (boot diagnostics use lockfree serial literals).
+Preparation reserves backing first, then exclusively
+rechecks/publishes; failed validation unlocks before backing destruction.
+Growth order is heap -> map -> frame; no IRQ may enter these paths. Boot-copy
+pin checks and fsstress no longer acquire shared PageMap aliases. The GDT
+encoder masks base[15:0]; current three descriptors/CS0x08/DS0x10 are unchanged.
+See PHASE11_DESIGN's implemented-versus-proposed ownership contract. Raw frame
+authority and complete owned mapping lifetime are NOT repaired. Exception ABI,
+TSS and user entry/continuation are still absent or defective; CPL3 is blocked.
+
+### Historical permission-only prerequisite checkpoint
 
 `PageMap::permissions` now intersects PRESENT/RW/USER at both PDE and PTE;
 absent pages grant no access. `is_mapped`/`translate` use effective presence.

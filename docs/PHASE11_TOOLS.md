@@ -1,5 +1,50 @@
 # Phase 11 tool manifest
 
+## Phase 11A ownership/GDT continuation
+
+Fresh probes and exact subprocess output are recorded in
+`test_results/phase11a_ownership/tools.json`: rustc 1.101.0-nightly
+(1d81eb4ad), Cargo 1.101.0-nightly (f3865b2a4), Clippy 0.1.101,
+Git 2.55.0.windows.3, Python 3.11.15 and QEMU 10.2.0, each exit0.
+The WSL combined availability probe exited0 and printed GNU binutils2.42,
+GRUB2.12-1ubuntu7.3 and GDB15.1; its status is for the combined command,
+not independently captured statuses for each semicolon-separated program.
+No optional tool was installed. No GDB or Clippy kernel analysis is claimed.
+
+Actual verification commands/results, with logs under that same evidence root:
+- `cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml --lib heap_growth_maps_one_page_on_demand -- --exact`
+  from `C:/Users/iamsv`: RED exit101 (missing new owned snapshot API), GREEN
+  exit0, one test. Old API retained a reference across growth; new test retains
+  only the copied before-value and verifies fresh mapping/count/permission data.
+- Same manifest, `--lib phase11_gdt_tests:: -- --test-threads=1`: RED exit101,
+  three intended access-byte failures; GREEN exit0, three pass.
+- Same manifest, ordinary host tests default and `-- --test-threads=1`:
+  exit0, 273 passed/0 failed/2 ignored each. B26 full host crate exit0,37 pass.
+- `cargo build`: exit0 (`build_green.log`); `cargo fmt` and host formatting
+  applied only the changed regions; later canonical formatting is mandatory.
+- `python -B scripts/test_acceptance_harness.py`: RED exit1 (eight assertions
+  across39 tests), GREEN exit0/all39 pass. Two new mandatory exact-identity
+  gates retain all54 predecessor gates; no CPL3 acceptance claim.
+- `python -B scripts/paging_test.py --output-dir <absolute-evidence-path>`:
+  sequential128/512MiB. The initial relative output path caused a pathlib
+  `relative_to(PROJECT)` harness error after the128MiB capture, exit1; its
+  raw evidence is retained. The absolute-path retry exits0. Do not label the
+  failed invocation a kernel fault or discard it.
+- `python -B scripts/fs_test.py --ram 128|512 --stress --output-dir <absolute-path>`:
+  sequential local owned guests; exact commands/statuses in `focused_retry.json`.
+
+The canonical runner and final closeout results are recorded in the current
+A–K handover; historical tool and acceptance records below remain unchanged.
+
+Final actual command: `python -B scripts/phase6_verify.py --output-dir C:/Users/iamsv/Documents/Rust-OS/test_results/phase11a_ownership`,
+notified background, exit0, PASS56/56. `runner_exit.json` captures the real
+subprocess status and UTC start/end. Report:
+`acceptance_20261016T234702Z_x057jmpa/acceptance.json` beneath the current root.
+Read-only `python -B test_results/phase11a_ownership/verify_checkpoint.py test_results/phase11a_ownership/acceptance_20261016T234702Z_x057jmpa/acceptance.json`
+exited0:136 frozen inputs/159 nested reports/29 reviewed raw hashes/production
+ISO extraction and final QEMU absence verified. Final verification is repeated
+after the documentation commit; no source/build inputs changed during freeze.
+
 Read-only discovery at 2026-10-16T15:37:59.271844+00:00. No optional tools installed.
 Full raw commands, output and statuses: `test_results/phase11/tools.json`;
 reproducer: `python -B test_results/phase11/discover_tools.py`.

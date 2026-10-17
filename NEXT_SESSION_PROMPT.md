@@ -1,5 +1,106 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
+## CURRENT — Phase 11A PARTIAL, owned-frame boundary next
+
+Work in `C:/Users/iamsv/Documents/Rust-OS`, branch `maintenance/phase10`.
+Next exact command: `git status --short`, then `git branch --show-current`,
+`git rev-parse HEAD`, `git log -10 --oneline --decorate`, `git diff --check`.
+This continuation started at `c347a9c4375fe86dfb0a81d675b7b4603662d21c`.
+Verified code/test checkpoint is `9a2f334761ab2350e42c6bfdb94fbbc86e63ae3a`;
+the following documentation/evidence commit changes no executable input.
+Resolve the actual ending documentation HEAD from Git; do not reset/restart.
+Preserve unrelated `d1/` and `scripts/b13_boot_fixture.py.backup`.
+Stay on this branch absent a concrete isolation requirement. No push, merge,
+rebase, tag, history rewrite, deployment, remote mutation or Phase12.
+
+Load skills rosti-kernel-development, systematic-debugging,
+test-driven-development, bare-metal-kernel-qemu-testing,
+requesting-code-review and git-release-checkpoint. Read AGENTS.md if present,
+HANDOVER.md, docs/PHASE11_HANDOVER.md (A–K), docs/PHASE11_DESIGN.md,
+docs/PHASE11_TOOLS.md, ARCHITECTURE.md, TESTING.md, BUGFIXES.md, PROXMOX.md,
+README.md, docs/PHASE10_INITRAMFS.md and the preserved initial audits under
+test_results/phase11/. Current sections supersede the historical prompt below.
+
+IMPLEMENTED/TESTED/REVIEWED: effective PDE/PTE permissions and refused unsupported
+USER/nonpresent requests remain unchanged. Retained PageMap aliases are removed:
+private mutex owner, copied scalar snapshots, no exported reference/guard or
+arbitrary callback. Preparation reserves backing before ownership, rechecks
+publication before frame init, and destroys failed backing after unlocking.
+Growth is heap -> map -> frame; preserve reservation precedence/exact slots and
+growth-only rollback. No IRQ may acquire these owners. Nonzero GDT bases now
+mask the low word correctly; three independent wire-decode tests pass. Existing
+CS0x08/DS0x10 and three descriptors remain unchanged. Do not repeat these repairs.
+
+Full inherited prerequisite acceptance is PASS56/56, real notified exit0:
+`test_results/phase11a_ownership/acceptance_20261016T234702Z_x057jmpa/acceptance.json`.
+`final_verification.json` in that evidence root confirms136 rediscovered input
+hashes,159 nested reports,280 all-true cleanup assertions (not280 distinct
+guests), ISO-extracted production identity and no remaining QEMU. All predecessor
+54 gates plus exact snapshot1/GDT3 identities are mandatory. Host273/0/2 ignored
+parallel+serial; B26 full crate37 pass; Python harness39 pass. Focused paging and
+1536-page heap/OOM stress pass sequentially at128/512MiB,103 RAMFS checks each.
+Inherited56 initramfs scenarios/3379 checks/9071 crash models remain covered.
+
+Current ISO `dist/rosti_phase11a_prerequisite_20261016T234702Z.iso`, SHA256
+`874c1d93e9fcd91bd451263060298755a28d7df9571d4cde4778f7aa554ba485`;
+kernel `a99124ecffc74d94a97fe9c4ad762b1353bb6e8d7f78c46793ae9ac698afab11`.
+Archive unchanged, accepted Phase10B and previous prerequisite media preserved.
+Review `test_results/phase11a_ownership/independent_review.json` approves only
+this partial diff, no blocking regressions;29 raw reviewed hashes matched.
+It explicitly does NOT approve whole-kernel safety, full ownership, TSS or CPL3.
+Loaded sections +356 bytes versus previous prerequisite; static span unchanged.
+No new stacks/TSS/tables/user payload; runtime peaks/transition timings unknown.
+The initial relative-output-path paging harness failure is preserved; an
+absolute-path retry passed. Always resolve `--output-dir` to an absolute path.
+
+NEXT BOUNDED TASK: complete B19 physical/table/payload ownership before USER maps.
+Inspect src/memory/{mod,paging,frame}.rs, allocator.rs and callers. Start RED
+tests for null/free/reserved/table-frame aliases, stale owner release, failure
+at every reservation stage and complete rollback. Encapsulate public numeric
+FRAME_ALLOC/free/build/map authority with a bounded private ledger or genuine
+nonduplicable tokens. Separate borrowed permanent supervisor mappings from
+owned process-private payload/table backing. Snapshots grant no lifetime pin.
+Validate/reserve/initialize before publication; no fallible step after publish.
+Never free mappings/stacks while CR3/CPU/TSS depends on them. Keep heap -> map ->
+frame order; no allocations/backing drops/caller callbacks under those guards.
+Existing raw safe-looking numeric APIs are still a blocker, not a secure boundary.
+
+Then correct explicit error/no-error exception entry ABI before TSS/CPL3. #GP
+currently returns through the wrong error-code convention; #PF is fatal, not
+a reusable user recovery path. Save/restore GPRs and segments, CLD/alignment,
+classify saved CS.RPL, read user ESP/SS only for privilege transitions, and
+consume the correct error word before IRET. Kernel faults stay fatal; user
+faults must terminate through a kernel-owned continuation, not loop at fault EIP.
+Only after reviewed ownership/ABI prerequisites add minimal owned TSS/ss0/esp0,
+supervisor guarded transition stack and a test-only trusted CPL3 payload with
+controlled termination/shell restoration. No ELF loader, final syscall ABI or
+scheduler in this checkpoint. No CPL3 test has run yet. No NX in current paging;
+U/S denial also prevents CPL3 supervisor instruction fetch, but user data/stack
+cannot independently be marked NX. Define FPU/state and cancellation policy.
+
+Use tight RED -> GREEN -> sequential128/512MiB guest -> read-only review ->
+focused commit checkpoints. Host tests from `C:/Users/iamsv`:
+`cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml`.
+Production `cargo build` from repository. Full canonical acceptance:
+`python -B scripts/phase6_verify.py`, notified background, source-frozen with
+no competing build/QEMU. Never unlink dist/.phase6_acceptance.lock. Preserve
+failed runs, exact identities, final source membership/hashes, production media
+identity and owned-process cleanup. Extend mandatory gates without weakening any.
+Recheck current closeout only after runner exit with:
+`python -B test_results/phase11a_ownership/verify_checkpoint.py test_results/phase11a_ownership/acceptance_20261016T234702Z_x057jmpa/acceptance.json`.
+
+No Proxmox API/SSH action occurred; remote state is not freshly inspected.
+VM103 rosti-dev on pve is OUTSIDE mutation scope: no upload/media change,
+reset/restart, disks or host storage. Use only owned local QEMU fixtures.
+Preserve RostiFSv1/COW/CRC/flush, capability attenuation/generations, read-only
+trusted /system, independent RAMFS recovery, GRUB/Multiboot and B13 boot stack.
+Update all project docs and the A–K handover with actual results. Stop at a
+verified partial boundary if necessary. Phase11A and Phase11 remain NOT COMPLETE.
+
+---
+
+## HISTORICAL permission-only prompt (superseded)
+
 ## Current task and safety boundary
 
 Work only in `C:/Users/iamsv/Documents/Rust-OS`, existing branch

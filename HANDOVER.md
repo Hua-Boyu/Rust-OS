@@ -1,6 +1,33 @@
 # Rosti OS — development handover
 
-## Current — Phase 11 IN PROGRESS / NOT A RELEASE
+## Current — Phase 11A PARTIAL / NOT A RELEASE
+
+Continuation started at `c347a9c4375fe86dfb0a81d675b7b4603662d21c`, still on
+`maintenance/phase10`; no new branch or remote operation. The private PageMap
+owner now returns owned scalar snapshots, not retained static references.
+Heap growth is serialized heap -> map -> frame, with unlocked backing reserves
+and destruction. The GDT low-base-word encoder is corrected and three new
+independent wire-field tests pass. Host273/0/2 ignored in parallel and serial;
+acceptance-harness39 pass. Focused local QEMU paging and full1536-page growth
+stress pass at128/512MiB. Evidence: `test_results/phase11a_ownership/`.
+
+Accepted code/test HEAD: `9a2f334761ab2350e42c6bfdb94fbbc86e63ae3a`; final
+documentation commit follows. Full inherited prerequisite acceptance **PASS56/56**,
+notified exit0: `test_results/phase11a_ownership/acceptance_20261016T234702Z_x057jmpa/acceptance.json`.
+Independent closeout PASS:136 source/build hashes,159 nested reports,280 true
+cleanup assertions, production ISO extraction, unchanged archive/rollback media,
+no QEMU remains. Review approves only the partial alias/GDT diff, not full11A.
+Next exact command: `git status --short`; next implementation: RED ownership
+ledger/null/reserved/table-alias/rollback tests. See standalone continuation.
+
+This is NOT the complete B19 frame/mapping ownership solution. Raw numeric
+frame authority, owned user arena/teardown, exception error-code ABI, TSS and
+guarded stacks remain blockers. No CPL3, ELF, syscall, scheduler or Phase12 was
+enabled. Exact current review/acceptance/commits and next task are maintained
+in `docs/PHASE11_HANDOVER.md` (A–K). Do not reuse the historical54-gate result
+below as acceptance for changed source.
+
+### Historical permission-only checkpoint (superseded current status)
 
 Initial HEAD `def677fac8ca662e45ad4fb40c9ddd18bfe86bd8`; verified implementation
 `d6d04c5dececf0dbf78c27e2e71760a2084786d4`, followed by this documentation

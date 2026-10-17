@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "reviewer": "independent read-only subagent",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "base_head": "c347a9c4375fe86dfb0a81d675b7b4603662d21c",
+  "passed": true,
+  "verdict": "PASS for the deliberately partial retained-alias closure and GDT encoding diff only. No blocking regression found in the reviewed paths. Full Phase11A ownership and any TSS/CPL3 transition remain NOT APPROVED.",
+  "passed_semantics": "Static bounded-diff review, not a test execution result or whole-kernel safety approval. Inherited blockers below prohibit promotion to full Phase11A or user-mode readiness, but do not fail this authorized partial checkpoint.",
+  "scope": {
+    "full_files_read": [
+      "src/memory/mod.rs",
+      "src/memory/paging.rs",
+      "src/memory/frame.rs",
+      "src/memory/boot_copy.rs",
+      "src/fs_stress.rs",
+      "src/gdt.rs",
+      "src/phase11_gdt_tests.rs",
+      "src/memory/review_r1_tests.rs",
+      "src/memory/module_access_tests.rs",
+      "src/memory/phase11_permission_tests.rs",
+      "src/utils/mutex.rs",
+      "src/interrupt.rs",
+      "tests_kernel/src/lib.rs",
+      "tests_kernel/src/b11_frame_tests.rs",
+      "tests_kernel/Cargo.toml",
+      "tests_b26/Cargo.toml",
+      "tests_b26/src/lib.rs",
+      "tests_b26/src/growth_tests.rs",
+      "tests_b26/src/refusal_tests.rs",
+      "tests_b26/src/retry_tests.rs",
+      "tests_b26/src/validation_allocation_tests.rs",
+      "tests_b26/src/validation_tests.rs",
+      "scripts/phase6_verify.py",
+      "scripts/test_acceptance_harness.py"
+    ],
+    "partial_files_read_with_inclusive_lines": {
+      "src/allocator.rs": [
+        [
+          220,
+          344
+        ]
+      ],
+      "src/main.rs": [
+        [
+          65,
+          219
+        ]
+      ],
+      "src/shell.rs": [
+        [
+          180,
+          274
+        ]
+      ],
+      "docs/PHASE11_DESIGN.md": [
+        [
+          1,
+          65
+        ]
+      ],
+      "docs/PHASE9_5_AUDIT.md": [
+        [
+          331,
+          395
+        ]
+      ]
+    },
+    "diff": "Actual tracked staged/unstaged diff against HEAD for src, tests_b26, tests_kernel and both acceptance scripts; cached diff empty. New untracked src/phase11_gdt_tests.rs read in full separately.",
+    "diff_sha256": "8bcc9547a1de02c652b39daef3d54a3089a2113d30776ff94c331be3eeeea517",
+    "not_claimed": [
+      "whole-kernel review",
+      "review of every tests_kernel imported filesystem/boot test module",
+      "formal concurrency proof",
+      "host tests executed by reviewer",
+      "kernel build or QEMU execution",
+      "CPU CPL3 isolation or recoverable exceptions",
+      "full Phase11A completion"
+    ],
+    "excluded_and_untouched": [
+      "d1/",
+      "scripts/b13_boot_fixture.py.backup",
+      "running parent tests/processes",
+      "build outputs",
+      "remote systems"
+    ]
+  },
+  "source_hash_algorithm": "SHA-256 over raw file bytes, not normalized text",
+  "source_sha256": {
+    "src/memory/mod.rs": "a078ce67853e0f60044a411432a6feb214ba3291d9fbf88b6148ee07620c4da9",
+    "src/memory/paging.rs": "42ccf0c473c7035560356e18048aa3688d52805966c7d2054646940fec3863d4",
+    "src/memory/frame.rs": "61918dfe17e017708d4c3bf58a9cd602645faa277ff74739c59ea56bb9ede2d7",
+    "src/memory/boot_copy.rs": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+    "src/fs_stress.rs": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+    "src/gdt.rs": "fb6830e02a5f296e22551c5045bbd0263028520b4d334f285d2098fefa61957d",
+    "src/phase11_gdt_tests.rs": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+    "src/memory/review_r1_tests.rs": "aa87c62114ac56dd6fec5b64c737aa00c3de449390ec8f995dd0eca1b80a020a",
+    "src/memory/module_access_tests.rs": "d2c25e77735a96cdd58ed26129547ab057d620537050a7272079992fd8ead649",
+    "src/memory/phase11_permission_tests.rs": "c41cf74e7e0de0ed13926543ca98ed462386a0eccb710da15ec8839944cb7255",
+    "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+    "src/interrupt.rs": "611dd6424b5f865d2e69252dcf6375edf55cc7a41e1bccb8c50f94ba27b0b24b",
+    "tests_kernel/src/lib.rs": "e541ab67df341da3dd5c764947454523be4a9e6ae756c701d2393c3891f98631",
+    "tests_kernel/src/b11_frame_tests.rs": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+    "tests_kernel/Cargo.toml": "aff91dfee7f86282b3943ae4658886caf5b211c8f7c4f5b63f9cf9f8d4ccc7e7",
+    "tests_b26/Cargo.toml": "41ca6116962f44c430c88af43e238bf4ac3cfb5c351b262e039de43aae2c67d6",
+    "tests_b26/src/lib.rs": "f144dfbbb2d372c9cb44b23b452bd02a00a7b4529717499d87ec2b12f0719c5d",
+    "tests_b26/src/growth_tests.rs": "2d3c3455d71d62d24aaf382eb1a74178a82d6998c4e3c84fdc871eb9c1d0f332",
+    "tests_b26/src/refusal_tests.rs": "53d199d753916be4f8d5616b66ee6674cf91c41baf660da6c51db039e75459de",
+    "tests_b26/src/retry_tests.rs": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+    "tests_b26/src/validation_allocation_tests.rs": "4982e3e98f2408deaa698abc79ce79e3b800f5643f7157dfb2753855f0120e84",
+    "tests_b26/src/validation_tests.rs": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+    "scripts/phase6_verify.py": "e38bafc743f5d0d1a3fcfba2bc7585e762ef581a865e277bdf2dda0fcede8777",
+    "scripts/test_acceptance_harness.py": "fb994c9b45329c68bf34323f1a41f8bf14c5c460057c1838f46ba7613b9a8a80",
+    "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+    "src/main.rs": "e23186b691a4e48bfc95d5f1748bd37a55503290e68afef1943dff8480737e4a",
+    "src/shell.rs": "91ebee352d478616c3685a01fd2462f61cb4110e8a294cad800fc56377731384",
+    "docs/PHASE11_DESIGN.md": "3455e0b91b477c6815f53346c61410061ae257c05e8e9071d44e8d2aa7649116",
+    "docs/PHASE9_5_AUDIT.md": "eaa835bd4d3641c44da01bff7f4c0ec9063b3da3bf8836f566226b15d8a9d50a"
+  },
+  "blocking_findings": [],
+  "security_concerns": [],
+  "logic_errors": [],
+  "assessments": [
+    {
+      "topic": "alias and lifetime",
+      "locations": [
+        "src/memory/mod.rs:38-42,202-254,261-274",
+        "src/memory/boot_copy.rs:14-60",
+        "src/fs_stress.rs:192-209"
+      ],
+      "result": "Private mutex ownership removes the exported static shared PageMap reference and independently formed exclusive mutation alias. PageSnapshot contains Copy owned scalar fields; directory/stats/pin queries return scalars. Boot-copy validation releases map ownership before fallible allocation and raw copy. Its unsafe inventory-provenance, immutable-source and disjoint-growth requirements remain necessary. Snapshots are observations, not lifetime pins or physical authority. No scoped allocating callback is exported."
+    },
+    {
+      "topic": "lock order and guard lifetime",
+      "locations": [
+        "src/memory/mod.rs:145-200,261-274",
+        "src/allocator.rs:238-282,308-317",
+        "src/main.rs:101-115",
+        "src/shell.rs:201-211",
+        "src/interrupt.rs:273-299,330-346"
+      ],
+      "result": "Production growth follows heap -> map -> frame. Prepare reserves heap backing before map -> frame. Examined frame-held callers release guards before heap/map diagnostics or formatting. Timer/keyboard and examined exception handlers do not acquire map/frame. SpinMutex does not mask interrupts: no-IRQ/no-reentrant-allocation remains a necessary architectural constraint, not a general IRQ-safe mutex guarantee."
+    },
+    {
+      "topic": "allocation and destruction under guards",
+      "locations": [
+        "src/memory/mod.rs:154-199",
+        "src/memory/paging.rs:205-261,427-516",
+        "src/memory/frame.rs:133-241,281-374"
+      ],
+      "result": "Production reservations precede ownership. Frame operations and raw table writes allocate nothing. On recheck rejection or builder failure, owner is declared after backing and drops first; Vec destruction occurs unlocked. On validation failure the frame guard ends, then explicit drop(owner) precedes pm destruction. Success moves pm into an empty owner; remaining backing is empty. No production callback executes under the owner. cfg(test) MIRROR intentionally allocates under guards; host mirror behavior is not production allocation evidence."
+    },
+    {
+      "topic": "publication and rollback",
+      "locations": [
+        "src/memory/mod.rs:151-199,261-273",
+        "src/memory/paging.rs:108-119,433-505",
+        "tests_b26/src/growth_tests.rs:28-85",
+        "tests_b26/src/retry_tests.rs:3-35"
+      ],
+      "result": "Early unlocked publication check has an exclusive recheck before frame init. Builder exhaustion returns directory/table frames and clears table slots. Validation failure releases only unpublished paging structures and does not publish. Publication is a move with no subsequent fallible step. Growth checks map availability before claiming; map rejection restores growth-only reservation and preserves conflicting PTEs. Failed prepare reinitializes the allocator as before: boot-only initialization is not a transaction preserving arbitrary earlier allocator inventory."
+    },
+    {
+      "topic": "GDT raw encoding",
+      "locations": [
+        "src/gdt.rs:54-65,130-151",
+        "src/phase11_gdt_tests.rs:3-69"
+      ],
+      "result": "Masking the low base word prevents base bits 24..31 from OR-contaminating access byte 5. Remaining base bytes, masked 20-bit limit, flags and access occupy independent architectural positions. Independent little-endian byte decode covers nonzero/boundary bases, limits, presence, DPL, system/type and flags. Exact current null/code/data constants are asserted unchanged. Encoding an available-TSS type is not installing or operating a TSS."
+    },
+    {
+      "topic": "unchanged supervisor permissions",
+      "locations": [
+        "src/memory/paging.rs:59-61,181-193,205-261,322-327,475-496,565-585",
+        "src/memory/phase11_permission_tests.rs:23-168",
+        "tests_kernel/src/lib.rs:863-897"
+      ],
+      "result": "paging.rs and frame.rs are unchanged against HEAD. Boot PDE/PTE and growth entries remain supervisor-only. Unsupported USER/nonpresent requests still reject before table allocation. Effective PDE/PTE permission intersection, null/growth holes and CR0.WP activation are unchanged. This diff does not elevate kernel PDEs or add user mappings. Non-PAE NX remains unsupported."
+    },
+    {
+      "topic": "test adequacy and canonical acceptance",
+      "locations": [
+        "tests_kernel/src/lib.rs:863-897",
+        "tests_b26/src/lib.rs:47-141,154-215",
+        "tests_b26/src/refusal_tests.rs:3-44",
+        "tests_b26/src/validation_tests.rs:3-28",
+        "scripts/phase6_verify.py:258-278",
+        "scripts/test_acceptance_harness.py:149-162,319-335,525-541"
+      ],
+      "result": "Retained before/after snapshots exercise the former lifetime defect and assert identity, mapping count increment and supervisor permissions. B26 scalar-API substitutions preserve refusal/exhaustion/rollback accounting; publication-isolated subprocess fixtures remain. Independent byte decode is appropriate for the GDT fix. Two new gates mandate exact identities, observed multiplicity and exact passing/nonignored totals. Missing/zero/substituted evidence fails before publication. Predecessor gates and full-pipeline OS lock remain. Static method count is 39 and successful mocked-run expectation is 56 gates; neither establishes execution PASS. Tests do not prove cross-thread publication, CPU faults or remaining ownership."
+    }
+  ],
+  "inherited_blockers": [
+    {
+      "id": "B19-physical-ownership",
+      "regression": false,
+      "severity": "blocks owned address spaces and full Phase11A",
+      "locations": [
+        "src/memory/mod.rs:35-36",
+        "src/memory/frame.rs:133-142,281-343,351-374",
+        "src/memory/paging.rs:98-119,196-211,267-305,401-432"
+      ],
+      "finding": "Public numeric allocator allocate/free/init and raw PageMap builders/map/unmap remain trusted kernel APIs, not nonduplicable capabilities. No allocator identity or ownership token binds physical payload/table lifetimes. A caller can free a live numeric frame, reuse it or reset the allocator without consulting a map. Synchronizing the private global map fixes retained Rust references, not this inherited physical ownership problem.",
+      "required_before_user_mappings": "Explicit frame/table/payload ownership or bounded private ledger; active CR3/stack pins; alias validation; resource-owned publication rollback and teardown."
+    },
+    {
+      "id": "exception-entry-ABI",
+      "regression": false,
+      "severity": "blocks supported error-code exceptions, TSS/CPL3 and recovery",
+      "locations": [
+        "src/interrupt.rs:9,117-131,167-178,248-249,258-273,322-328,348-386,429-438"
+      ],
+      "finding": "Uniform one-argument x86-interrupt handlers still cover CPU error-code exceptions. Returning #GP lacks the separate error-code argument and is not a correct returning exception path. #PF embeds the hardware error word in its sole frame parameter rather than establishing a reviewed explicit error-code entry ABI. Generic exception frame storage is unimplemented. These unchanged, mostly fatal paths and ring-0 guest diagnostics do not prove CPL3 recovery.",
+      "required_before_transition": "Explicit error/no-error entry conventions, register and segment preservation, correct CPU frame and stack-switch shape, fatal-kernel versus recoverable-user policy and safe kernel continuation."
+    },
+    {
+      "id": "TSS-and-user-transition-absent",
+      "regression": false,
+      "severity": "blocks any TSS/CPL3 approval",
+      "locations": [
+        "src/gdt.rs:130-188",
+        "src/interrupt.rs:85-104,167-178",
+        "docs/PHASE11_DESIGN.md:23-48"
+      ],
+      "finding": "Only null and DPL0 code/data descriptors are installed. No TSS object, LTR, user descriptors, guarded owned transition stack, user IRET entry, syscall entry or controlled kernel continuation is implemented in the inspected paths. Source-wide searches found no TSS/LTR/user-IRET implementation. No CPL3 transition or security suite was executed by this reviewer."
+    }
+  ],
+  "unsupported_status": {
+    "full_phase11a_complete": false,
+    "phase11_release_ready": false,
+    "tss_approved": false,
+    "cpl3_approved": false,
+    "user_mappings_supported": false,
+    "recoverable_user_exceptions_supported": false,
+    "exception_abi_fixed": false,
+    "tss_or_ltr_implemented": false,
+    "guarded_transition_stack_implemented": false,
+    "user_iret_or_kernel_continuation_implemented": false,
+    "nx_supported": false
+  },
+  "suggestions": [
+    {
+      "priority": "optional follow-up before broadening concurrency",
+      "locations": [
+        "tests_b26/src/lib.rs:47-113",
+        "src/memory/mod.rs:168-199"
+      ],
+      "suggestion": "Allocator instrumentation watches FRAME_ALLOC only. Consider a test-only map-lock observation plus deterministic second-prepare recheck/failure-drop coverage for the no-heap-under-map invariant. Static production drop order currently looks correct. Thread-local paging mirrors make ordinary multi-thread fixtures unsuitable as hardware-table concurrency proof."
+    },
+    {
+      "priority": "optional harness hardening",
+      "locations": [
+        "scripts/test_acceptance_harness.py:534-541"
+      ],
+      "suggestion": "Add same-count wrong GDT identities, duplicate/extra rows and ignored-count variants. Existing parser rejects these through exact set/length/summary checks, but new negative fixtures mainly cover empty, zero and one impostor."
+    }
+  ],
+  "verification": {
+    "reviewer_ran_builds": false,
+    "reviewer_ran_host_tests": false,
+    "reviewer_ran_qemu": false,
+    "reviewer_polled_or_modified_processes": false,
+    "reviewer_modified_source": false,
+    "static_harness_test_method_count": 39,
+    "runtime_results": "Not independently executed or attested. Parent must complete focused tests and frozen full acceptance. Supplied RED/GREEN narrative is context, not reviewer execution evidence.",
+    "issues_encountered": "One read-only regex search required a corrected expression. Initial shell report-writing attempt failed parsing before executing; only this JSON artifact was written.",
+    "diff_identity_rechecked_at_report_creation": true
+  },
+  "artifact": "test_results/phase11a_ownership/independent_review.json",
+  "reviewed_at_utc": "2026-10-16T23:43:03.473193+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "scripts/phase6_verify.py",
+    "--output-dir",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a_ownership"
+  ],
+  "start_utc": "2026-10-16T23:47:02.217047+00:00",
+  "end_utc": "2026-10-17T00:28:33.369611+00:00",
+  "exit_code": 0
+}
