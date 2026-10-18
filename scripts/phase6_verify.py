@@ -253,6 +253,18 @@ def _run_acceptance():
             if (key == "b26" and
                     "growth_tests::b26_growth_failure_does_not_consume_reserved_frame" not in observed):
                 raise RuntimeError("mandatory B26 isolated growth rollback test missing")
+            if key == "b26":
+                mandatory_b26_detectors = {
+                    "memory::ownership_observation_tests::" + name for name in (
+                        "b26_detector_observes_page_map_only_allocation",
+                        "b26_detector_observes_page_map_only_destruction",
+                        "b26_detector_observes_frame_only_allocation",
+                        "b26_detector_observes_frame_only_destruction",
+                        "b26_page_map_only_attempt_is_not_classified_unlocked",
+                    )
+                }
+                if not mandatory_b26_detectors.issubset(observed):
+                    raise RuntimeError("mandatory B26 owner-only detector controls missing")
             report["counts"][key] = {"pass": len(observed), "fail": 0}
         # This is only the first memory-permission prerequisite, NOT CPL3
         # acceptance. Keep the exact test identities mandatory and fail closed.
@@ -308,6 +320,17 @@ def _run_acceptance():
                         "runtime_mapping_pin_inconsistent_runtime_mirrors_refuse_unmap",
                         "runtime_mapping_pin_table_exhaustion_does_not_pin_caller_payload",
                         "runtime_mapping_pin_empty_reset_invalidates_previous_map_domain",
+                    )
+                }),
+                # Unpublished cleanup revocation and retained structure lifetime
+                # only; no generational payload-release or CPL3 readiness claim.
+                ("phase11_structure_lifetime", "structure_lifetime_tests::", {
+                    "memory::paging::structure_lifetime_tests::" + name for name in (
+                        "structure_cleanup_repeated_release_cannot_free_reused_map_backing",
+                        "structure_cleanup_cpu_activated_map_cannot_release_structures",
+                        "structure_cleanup_inconsistent_role_refuses_before_any_release",
+                        "structure_cleanup_publication_and_cr3_reload_retain_backing",
+                        "structure_cleanup_released_map_cannot_observe_mutate_or_activate_reused_frames",
                     )
                 }),
                 ("phase11_snapshot", "heap_growth_maps_one_page_on_demand",

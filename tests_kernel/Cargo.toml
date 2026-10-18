@@ -11,6 +11,11 @@ rostifs = { path = "../crates/rostifs", features = ["host-tools"] }
 [features]
 initramfs-failure-test = []
 
+# Shared memory test sources also build in the independent B26 harness.
+# Recognize its feature spelling without enabling it or suppressing cfg checks.
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(feature, values("b26-observation"))'] }
+
 [workspace]
 
 [lib]

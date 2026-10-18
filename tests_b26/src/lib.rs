@@ -47,8 +47,8 @@ mod validation_allocation_tests;
 
 struct ObservedAllocator;
 // Observe only the invoking test thread. Other parallel tests and the Rust
-// harness may allocate while this thread owns FRAME_ALLOC; those unrelated
-// operations do not represent a frame -> heap acquisition on the owner path.
+// harness may allocate while this thread owns a memory owner guard; unrelated
+// operations do not represent an owner -> heap acquisition on the owner path.
 std::thread_local! {
     static WATCH_LOCAL: core::cell::Cell<bool> = const { core::cell::Cell::new(false) };
     // Refuse exactly one allocation, then count any unsafe fallback attempts
@@ -70,11 +70,17 @@ impl Watch {
 static BACKING_ONLY: AtomicBool = AtomicBool::new(false);
 static TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
 
+// Reused for locked heap observations AND the fallible-reservation budget.
+fn owner_locks_held() -> bool {
+    memory::ownership_locks_held()
+}
+
 fn watched(layout: Layout) -> bool {
     WATCH.load(Ordering::Relaxed)
-        && memory::FRAME_ALLOC.is_locked()
+        && owner_locks_held()
         && (!BACKING_ONLY.load(Ordering::Relaxed)
             || layout.size() == memory::paging::PAGE_DIR_ENTRIES * size_of::<u64>()
+            || layout.size() == memory::paging::PAYLOAD_BITMAP_BYTES
             || layout.size() == size_of::<&str>())
 }
 static ALLOCS: AtomicUsize = AtomicUsize::new(0);
@@ -89,7 +95,7 @@ unsafe impl GlobalAlloc for ObservedAllocator {
                 if at.get() == 0 {
                     return false;
                 }
-                if !memory::FRAME_ALLOC.is_locked() {
+                if !owner_locks_held() {
                     UNLOCKED_ATTEMPTS.with(|count| count.set(count.get() + 1));
                 }
                 ATTEMPTS.with(|count| {

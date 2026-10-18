@@ -46,6 +46,10 @@ mod runtime_table_access_tests;
 #[path = "mapping_pin_tests.rs"]
 mod mapping_pin_tests;
 
+#[cfg(test)]
+#[path = "structure_lifetime_tests.rs"]
+mod structure_lifetime_tests;
+
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
 pub const ENTRY_WRITABLE: u32 = 1 << 1;
@@ -135,6 +139,8 @@ pub struct PagingStats {
 pub struct PageMap {
     directory: u64,
     domain: u32,
+    // Published or CPU-loaded boot backing is retained until reboot.
+    retained: bool,
     tables: Vec<u64>,
     // Page-rounded permanent boot identity spans; backing is prepared unlocked.
     boot_pins: Vec<(u64, u64)>,
@@ -154,13 +160,31 @@ pub struct PageMap {
 impl PageMap {
     /// Return only paging-structure frames from an unpublished map. Borrowing
     /// keeps Vec backing alive until the caller has released its frame guard.
-    /// Call exactly once, before publication/enabling; mapped payload frames
-    /// are not owned by PageMap and must not be freed here.
-    pub(super) fn release_unpublished_frames(&self, fa: &mut FrameAllocator) {
+    /// Success revokes the map before any backing can be reused. Repeated
+    /// cleanup is refused without touching the allocator. Vec storage remains
+    /// alive for the caller to drop after unlocking.
+    pub(super) fn release_unpublished_frames(&mut self, fa: &mut FrameAllocator) -> bool {
         // This remains a prepare-failure-only helper, not general teardown.
         // Never release another domain or orphan live runtime payload pins.
-        if fa.domain() != Some(self.domain) || self.payload_bitmap.iter().any(|&byte| byte != 0) {
-            return;
+        if self.retained
+            || fa.domain() != Some(self.domain)
+            || self.payload_bitmap.iter().any(|&byte| byte != 0)
+        {
+            return false;
+        }
+        // Check the entire release set before changing any role or capacity.
+        // With exclusive allocator access, these checks make every free below
+        // infallible; a damaged mirror must not leave a half-reclaimed map.
+        let releasable = |frame| {
+            fa.is_live_allocation(frame) && fa.structure_pinned(frame) && !fa.runtime_pinned(frame)
+        };
+        if !releasable(self.directory)
+            || self
+                .tables
+                .iter()
+                .any(|&table| table != 0 && !releasable(table))
+        {
+            return false;
         }
         for &table in &self.tables {
             if table != 0 {
@@ -170,6 +194,23 @@ impl PageMap {
         }
         fa.set_structure_pin(self.directory, false);
         fa.free(self.directory);
+        self.tables.fill(0);
+        self.directory = 0;
+        self.domain = 0;
+        self.window_end = 0;
+        self.stats.page_tables = 0;
+        self.stats.mapped_frames = 0;
+        true
+    }
+
+    /// Seal before publication or any CR3 load. There is no inverse transition
+    /// until a separately reviewed CPU teardown contract exists.
+    pub(super) fn retain_for_publication(&mut self) -> bool {
+        if self.domain == 0 {
+            return false;
+        }
+        self.retained = true;
+        true
     }
 
     /// Entry for a linear address, if its page table exists.
@@ -533,7 +574,10 @@ fn invalidate_page(linear: u64) {
 }
 
 /// Flush the entire TLB (writing CR3 to itself is the canonical full flush).
-pub fn flush_tlb(page_map: &PageMap) {
+pub(super) fn flush_tlb(page_map: &mut PageMap) -> bool {
+    if !page_map.retain_for_publication() {
+        return false;
+    }
     #[cfg(not(test))]
     unsafe {
         core::arch::asm!(
@@ -544,6 +588,7 @@ pub fn flush_tlb(page_map: &PageMap) {
     }
     #[cfg(test)]
     let _ = page_map;
+    true
 }
 
 /// Unlocked host-test convenience builder. Production must reserve all backing
@@ -670,6 +715,7 @@ pub(crate) fn build_identity_map_with_backing_in_place(
     Some(PageMap {
         directory,
         domain,
+        retained: false,
         tables: core::mem::take(tables),
         boot_pins: core::mem::take(boot_pins),
         payload_bitmap: core::mem::take(payload_bitmap),
@@ -735,8 +781,11 @@ pub fn validate_mapping(
     missing_mapping_regions(page_map, required.iter().copied()).collect()
 }
 
-#[cfg(not(test))]
-pub fn enable_paging(page_map: &PageMap) {
+pub(super) fn enable_paging(page_map: &mut PageMap) -> bool {
+    if !page_map.retain_for_publication() {
+        return false;
+    }
+    #[cfg(not(test))]
     unsafe {
         core::arch::asm!(
             "mov {cr3}, %cr3",
@@ -755,10 +804,9 @@ pub fn enable_paging(page_map: &PageMap) {
         cr0 |= 1 << 16;
         core::arch::asm!("mov {v}, %cr0", v = in(reg) cr0, options(att_syntax));
     }
+    page_map.stats.enabled = true;
+    true
 }
-
-#[cfg(test)]
-pub fn enable_paging(_page_map: &PageMap) {}
 
 pub fn paging_enabled() -> bool {
     #[cfg(test)]

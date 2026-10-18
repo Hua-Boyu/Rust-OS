@@ -14,6 +14,16 @@ mod module_access_tests;
 #[cfg(test)]
 mod review_r1_tests;
 
+/// Test-only scalar observation: no owner references, guards, or callbacks escape.
+#[cfg(test)]
+pub(crate) fn ownership_locks_held() -> bool {
+    PAGE_MAP.is_locked() || FRAME_ALLOC.is_locked()
+}
+
+// Only the independently rooted allocator-instrumented B26 harness enables this.
+#[cfg(test)]
+mod ownership_observation_tests;
+
 pub use paging::{GROWTH_END, GROWTH_START};
 
 extern crate alloc;
@@ -192,7 +202,7 @@ pub fn prepare(
         };
         (window, built)
     }; // frame lock released before table backing destruction
-    let pm = match built {
+    let mut pm = match built {
         Ok(pm) => pm,
         Err(error) => {
             drop(owner);
@@ -204,6 +214,11 @@ pub fn prepare(
     // Validation streams required regions and reports only the first failure.
     let missing = paging::first_missing_mapping(&pm, required_region_iter(entries, bootinfo_addr));
     if missing.is_none() {
+        // Retain before exposure, even while CR0.PG is still clear.
+        if !pm.retain_for_publication() {
+            drop(owner);
+            return Err("page map publication refused");
+        }
         *owner = Some(pm);
         Ok(window)
     } else {
@@ -218,12 +233,11 @@ pub fn prepare(
 
 /// Enable paging (CR3 + CR0.PG). Only called after validation and IDT load.
 pub fn enable_paging() {
-    let owner = PAGE_MAP.lock();
-    if let Some(pm) = owner.as_ref() {
-        unsafe {
-            paging::enable_paging(pm);
+    let mut owner = PAGE_MAP.lock();
+    if let Some(pm) = owner.as_mut() {
+        if paging::enable_paging(pm) {
+            PAGING_ENABLED.store(true, Ordering::Release);
         }
-        PAGING_ENABLED.store(true, Ordering::Release);
     }
 }
 

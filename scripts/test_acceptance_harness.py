@@ -131,6 +131,20 @@ class Phase10EvidenceTests(unittest.TestCase):
 
 
 class SourceFreezeTests(unittest.TestCase):
+    def declared_b26_detector_names(self):
+        source = (Path(__file__).resolve().parents[1] / "src/memory/ownership_observation_tests.rs").read_text()
+        names = re.findall(r"(?m)^#\[test\]\s*\nfn (b26_\w+)\(", source)
+        self.assertEqual(len(names), 5)
+        self.assertEqual(len(set(names)), 5)
+        return ["memory::ownership_observation_tests::" + name for name in names]
+
+    def declared_structure_lifetime_names(self):
+        source = (Path(__file__).resolve().parents[1] / "src/memory/structure_lifetime_tests.rs").read_text()
+        names = re.findall(r"(?m)^#\[test\]\s*\nfn (\w+)\(", source)
+        self.assertEqual(len(names), 5)
+        self.assertEqual(len(set(names)), 5)
+        return ["memory::paging::structure_lifetime_tests::" + name for name in names]
+
     def declared_pin_names(self):
         source = (Path(__file__).resolve().parents[1] / "src/memory/mapping_pin_tests.rs").read_text()
         names = re.findall(r"(?m)^#\[test\]\s*\nfn (runtime_mapping_pin_\w+)\(", source)
@@ -165,7 +179,7 @@ class SourceFreezeTests(unittest.TestCase):
                 # Simulate successful gates solely to reach the real final source-freeze check.
                 output = kwargs["stdout"]
                 prerequisite = next((c for c in command if c in (
-                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::", "phase11a2_abi_tests::", "mapping_pin_tests::")), None)
+                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::", "phase11a2_abi_tests::", "mapping_pin_tests::", "structure_lifetime_tests::")), None)
                 if prerequisite:
                     names = (["heap_growth_maps_one_page_on_demand"]
                              if prerequisite == "heap_growth_maps_one_page_on_demand" else [
@@ -192,6 +206,8 @@ class SourceFreezeTests(unittest.TestCase):
                         )]
                     if prerequisite == "mapping_pin_tests::":
                         names = self.declared_pin_names()
+                    if prerequisite == "structure_lifetime_tests::":
+                        names = self.declared_structure_lifetime_names()
                     text = (safety_output or {}).get(prerequisite,
                         "".join(f"test {name} ... ok\n" for name in names)
                         + f"test result: ok. {len(names)} passed; 0 failed; 0 ignored\n")
@@ -212,10 +228,12 @@ class SourceFreezeTests(unittest.TestCase):
                             + "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 265 filtered out\n")
                         output.write(text.encode())
                         return type("Result", (), {"returncode": 0})()
+                    names = (["growth_tests::b26_growth_failure_does_not_consume_reserved_frame"]
+                             + self.declared_b26_detector_names() if safety_filter == "b26_"
+                             else [f"safety::{safety_filter}fixture"])
                     text = (safety_output or {}).get(safety_filter,
-                        ("test growth_tests::b26_growth_failure_does_not_consume_reserved_frame ... ok\n"
-                         if safety_filter == "b26_" else f"test safety::{safety_filter}fixture ... ok\n")
-                        + "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out\n")
+                        "".join(f"test {name} ... ok\n" for name in names)
+                        + f"test result: ok. {len(names)} passed; 0 failed; 0 ignored; 0 measured; 4 filtered out\n")
                     output.write(text.encode())
                     return type("Result", (), {"returncode": 0})()
                 if "test" in command and any(Path(str(c)).name == "Cargo.toml" and Path(str(c)).parent.name == "tests_kernel" for c in command):
@@ -371,8 +389,8 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(Path(guest[guest.index("--output-dir") + 1]).name, "phase10")
         self.assertEqual(self.last_report["counts"]["phase10_scenarios"],
                          {"pass": 4 * len(acceptance.PHASE10_CASES), "fail": 0})
-        # Preserve all 58 predecessor gates plus allocator-wide payload-pin identity.
-        self.assertEqual(self.last_report["gates_total"], 59)
+        # Preserve all 59 predecessor gates plus exact structure-lifetime identity.
+        self.assertEqual(self.last_report["gates_total"], 60)
         for name in scripts:
             with self.subTest(failed=name):
                 self.assertEqual(self.simulate(lambda root: None, failed_script=name), 1)
@@ -416,7 +434,7 @@ class SourceFreezeTests(unittest.TestCase):
                 self.assertEqual(len(commands), 1)
                 self.assertIn("--lib", commands[0])
                 self.assertTrue(any(str(c).replace("\\", "/").endswith(manifest) for c in commands[0]))
-                self.assertEqual(self.last_report["counts"][key], {"pass": 1, "fail": 0})
+                self.assertEqual(self.last_report["counts"][key], {"pass": 6 if key == "b26" else 1, "fail": 0})
 
     def test_empty_or_unobserved_host_safety_suites_cannot_publish(self):
         for filter_name in ("b11_", "b18_inventory_tests::", "b26_"):
@@ -638,6 +656,58 @@ class SourceFreezeTests(unittest.TestCase):
         wired = {prefix + ast.literal_eval(name) for name in required.generators[0].iter.elts}
         self.assertEqual(wired, set(self.declared_pin_names()))
 
+    def test_phase11_structure_lifetime_prerequisite_is_mandatory(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        commands = [c for c in self.last_commands if "structure_lifetime_tests::" in c]
+        self.assertEqual(len(commands), 1)
+        self.assertIn("--lib", commands[0])
+        self.assertIn("--test-threads=1", commands[0])
+        self.assertTrue(any(str(c).replace("\\", "/").endswith("tests_kernel/Cargo.toml")
+                            for c in commands[0]))
+        self.assertEqual(self.last_report["counts"]["phase11_structure_lifetime"], {"pass": 5, "fail": 0})
+        self.assertEqual(self.last_report["gates_total"], 60)
+
+    def test_phase11_structure_lifetime_bad_identities_cannot_publish(self):
+        names = self.declared_structure_lifetime_names()
+        def result(cases, passed=None, failed=0, ignored=0):
+            return ("".join(f"test {name} ... ok\n" for name in cases)
+                    + f"test result: ok. {len(cases) if passed is None else passed} passed; {failed} failed; {ignored} ignored\n")
+        outputs = {
+            "empty": "", "zero": result([]),
+            "one_short": result(names[:-1]),
+            "extra": result(names + ["memory::paging::structure_lifetime_tests::extra"]),
+            "duplicate": result(names[:-1] + [names[0]]),
+            "substituted": result(names[:-1] + ["memory::paging::structure_lifetime_tests::substituted"]),
+            "declared_short": result(names, passed=4),
+            "declared_extra": result(names, passed=6),
+            "missing_row": result(names[:-1], passed=5),
+            "failed": result(names, failed=1),
+            "ignored": result(names, ignored=1),
+            "missing_summary": "".join(f"test {name} ... ok\n" for name in names),
+            "duplicate_summary": result(names) + "test result: ok. 5 passed; 0 failed; 0 ignored\n",
+        }
+        for label, text in outputs.items():
+            with self.subTest(mutation=label):
+                self.assertEqual(self.simulate(lambda root: None,
+                    safety_output={"structure_lifetime_tests::": text}), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+                self.assertNotIn("phase11_structure_lifetime", self.last_report["counts"])
+
+    def test_phase11_structure_lifetime_identities_match_real_rust_declarations(self):
+        tree = ast.parse(Path(acceptance.__file__).read_text())
+        rows = [node for node in ast.walk(tree) if isinstance(node, ast.Tuple)
+                and len(node.elts) == 3 and isinstance(node.elts[0], ast.Constant)
+                and node.elts[0].value == "phase11_structure_lifetime"]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(ast.literal_eval(rows[0].elts[1]), "structure_lifetime_tests::")
+        required = rows[0].elts[2]
+        prefix = ast.literal_eval(required.elt.left)
+        wired = [prefix + ast.literal_eval(name) for name in required.generators[0].iter.elts]
+        self.assertEqual(len(wired), 5)
+        self.assertEqual(set(wired), set(self.declared_structure_lifetime_names()))
+        paging = (Path(__file__).resolve().parents[1] / "src/memory/paging.rs").read_text()
+        self.assertRegex(paging, r'#\[cfg\(test\)\]\s*#\[path = "structure_lifetime_tests.rs"\]\s*mod structure_lifetime_tests;')
+
     def test_domain_and_isolation_host_coverage_cannot_shrink(self):
         names = self.isolated_host_names()
         for removed in names:
@@ -647,6 +717,31 @@ class SourceFreezeTests(unittest.TestCase):
                 self.assertEqual(self.simulate(lambda root: None,
                     safety_output={"mandatory_host": text}), 1)
                 self.assertEqual(self.last_versioned_count, 0)
+
+    def test_b26_detector_controls_cannot_disappear_or_be_substituted(self):
+        names = self.declared_b26_detector_names()
+        growth = "growth_tests::b26_growth_failure_does_not_consume_reserved_frame"
+        cases = [[growth] + names[:-1], [growth] + names[:-1] + [names[0]],
+                 [growth] + names[:-1] + ["memory::ownership_observation_tests::b26_substituted"]]
+        cases += [[growth] + [n for n in names if n != missing] for missing in names]
+        for kept in cases:
+            text = ("".join(f"test {name} ... ok\n" for name in kept)
+                    + f"test result: ok. {len(kept)} passed; 0 failed; 0 ignored\n")
+            with self.subTest(kept=kept):
+                self.assertEqual(self.simulate(lambda root: None, safety_output={"b26_": text}), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+
+    def test_b26_detector_identities_match_real_rust_declarations(self):
+        tree = ast.parse(Path(acceptance.__file__).read_text())
+        assignments = [node for node in ast.walk(tree) if isinstance(node, ast.Assign)
+                       and any(isinstance(t, ast.Name) and t.id == "mandatory_b26_detectors"
+                               for t in node.targets)]
+        self.assertEqual(len(assignments), 1)
+        required = assignments[0].value
+        prefix = ast.literal_eval(required.elt.left)
+        names = [prefix + ast.literal_eval(n) for n in required.generators[0].iter.elts]
+        self.assertEqual(len(names), 5)
+        self.assertEqual(set(names), set(self.declared_b26_detector_names()))
 
     def test_b26_growth_isolation_coverage_cannot_shrink(self):
         text = "test safety::b26_fixture ... ok\ntest result: ok. 1 passed; 0 failed; 0 ignored\n"
