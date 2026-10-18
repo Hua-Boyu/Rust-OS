@@ -1,5 +1,17 @@
 # ARCHITECTURE
 
+## Current Phase 11A.2 — revocable unpublished structure authority (PARTIAL)
+
+`PageMap` cleanup now takes mutable authority, preflights every owned structure,
+then releases structures and revokes directory/domain/table slots without dropping
+Vec backing under either owner. Repeated cleanup rejects without allocator mutation.
+Publication and both internal CR3 writers irreversibly retain boot structures;
+no dynamic teardown exists. Global role bits are not per-map reference counts.
+The source-derived inventory is `docs/PHASE11_MEMORY_AUTHORITY.md`; current evidence
+is in `docs/PHASE11_HANDOVER.md`. Raw numeric ABA, general teardown and complete CPU
+context lifetime remain blockers. No USER/TSS/CPL3/Phase12. Sections below retain
+historical checkpoint claims and are superseded for current status.
+
 ## Latest allocator-domain payload-pin prerequisite — PARTIAL
 
 One 8,192-byte allocator bitmap pins runtime payloads across PageMaps. Checked,

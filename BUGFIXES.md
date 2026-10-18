@@ -1,5 +1,32 @@
 # BUGFIXES
 
+## Current bounded repair — stale cleanup and owner-lock observability
+
+Actual RED regressions reproduced a released PageMap freeing a newer map's reused
+directory/table frames, host-modeled activated-map cleanup, and missing-role cleanup without
+an all-before-mutation check. Mutable cleanup now revokes its numeric inventory;
+published/CPU-loaded structures are retained until reboot. Multi-table early/late
+role-fault tests require exact final accounting and successful repair/retry.
+
+| Recurring root cause | Why earlier tests missed it | Automatic prevention |
+|---|---|---|
+| Numeric identity mistaken for lifetime authority | Reset tests changed domains, but never repeated cleanup after same-domain reuse | 32 reuse cycles, revoked read/map/unmap/CR3 refusal, exact allocator and role assertions; mandatory five-test lifetime gate |
+| Call-once/unpublished comment treated as enforcement | Production failure caller used cleanup only once; host enable was a no-op | Mutable revocation plus irreversible retention at publication and both CR3-writing paths; activation/publication/reload tests |
+| Observing only FRAME_ALLOC hid map -> heap inversion | Detector stopped observing when frame guard ended although PAGE_MAP remained held | One reusable owner predicate covers both guards, allocation/destruction controls and guarded-vs-unlocked refusal budgets; five controls mandatory in B26 |
+
+The earlier bit9 boot-alias and exact-child-filter repairs remain enforced; do not
+infer ownership from translation or a successful zero-test child. Current exact
+verification is in `docs/PHASE11_HANDOVER.md`. Stale *raw allocator numeric free*
+still fails its independent probe; this repair is not complete B19. Subsequent
+sections preserve historical results, not current unresolved-defect lists.
+
+The first final read-back falsely rejected silent successful `cargo fmt --check`
+logs. Synthetic positive fixtures had emitted prose; a stale-log mutation also
+contaminated its later empty-log subcase. The reader now verifies exact format
+argv/cwd/zero exit before permitting silence, preserves nonempty checks elsewhere,
+and resets each mutation's logs. A real failure plus RED/GREEN/17 reader contracts
+are retained; kernel inputs and the passing60-gate campaign were not changed.
+
 ## Latest bounded repair — runtime payload pins and real isolated children
 
 Mapped ordinary/growth payloads cannot be freed or runtime-aliased by a second

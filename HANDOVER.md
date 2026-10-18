@@ -1,18 +1,35 @@
 # Rosti OS — development handover
 
-## Latest continuation — allocator-domain runtime payload pins, PARTIAL
+## Current — Phase 11A.2 structure lifetime, PARTIAL / NOT A RELEASE
 
-Read `docs/PHASE11A2_MAPPING_PINS_HANDOVER.md` first. It supersedes CURRENT/HEAD,
-verification and next-task statements below without rewriting historical evidence.
-The two mapped-payload blockers are boundedly repaired; stale numeric release,
-foreign structure roles, CPU/table lifetime and real exception continuation stay
-open. No TSS/CPL3/Phase 12. Check the actual completed driver and closeout status.
+Starting HEAD: `6008ea6083ec8e0dcfc703878abacc362d5bca6b`; verified source commit:
+`38b98b4658cfe118eb31e5faa1b600613750c71e`, branch `maintenance/phase10`.
+The documentation checkpoint follows it; read actual HEAD with `git rev-parse HEAD`.
+Unpublished PageMap cleanup now revokes its directory/domain/table authority;
+publication and CR3 loads retain boot structures until reboot. Both map/frame
+guards are observed by the B26 allocation/destruction detector. Independent final
+source review PASS, no blockers; this is not complete B19 or CPU teardown proof.
 
-## Latest continuation — runtime table accessibility, PARTIAL
+Previous checkpoint independently reverified: 59/59, 141 frozen inputs, host300/2,
+B26 full67. New host305/0/2 and B26 full78/0 pass serial/parallel; harness53,
+five lifetime regressions, focused128/512 paging and eight ELF/GRUB growth cases pass.
+**VERIFIED: full current driver PASS, actual exit 0; canonical acceptance 60/60**:
+`test_results/phase11a2_registry/run_20261018T054817_823884Z/verification.json`.
+Independent `final_closeout_retry.json` PASS: 143 matching frozen inputs,
+159 nested reports, 280 true cleanup assertions, extracted ISO/kernel identity,
+unchanged archive and no remaining QEMU. Those cleanup counts are not guest totals.
+The first offline read-back false-refused silent successful fmt logs; its failure
+is preserved. Exact-format binding regression and 17 reader contracts now pass.
+Never unlink the acceptance lock or reuse this acceptance for changed source.
+Current source review/evidence: `test_results/phase11a2_structure_lifetime/`.
+Inventory/contract: `docs/PHASE11_MEMORY_AUTHORITY.md`; exact status/next task:
+`docs/PHASE11_HANDOVER.md` and `NEXT_SESSION_PROMPT.md`.
 
-Read `docs/PHASE11A2_TABLE_ACCESS_HANDOVER.md` first for the current patch,
-verification, independent review and next task. It supersedes CURRENT/HEAD
-statements below. Full B19, real exception continuation, TSS and CPL3 stay blocked.
+Remaining: stale raw numeric allocation authority, complete reference/CPU-aware
+teardown, real exception continuation; USER/TSS/CPL3/Phase12 remain blocked.
+Preserve `d1/`, script backup, historical media/evidence; no remote/deployment/push.
+
+## Historical checkpoint sections (superseded current status)
 
 ## Current Phase 11A.2 continuation — PARTIAL / NOT A RELEASE
 

@@ -1,5 +1,24 @@
 # Phase 11 — verified dependency plan and privilege design
 
+## Current implemented boundary — unpublished cleanup revocation
+
+The private directory/table inventory is a release set, not a cross-map reference
+ledger. Cleanup requires a never-retained map in its live allocator domain with
+no runtime references and consistent live structure roles. It preflights the whole
+set before mutation, frees only structures, then zeroes table slots/directory/domain.
+The Vec allocations stay alive until the caller unlocks and drops them. Repeated
+cleanup rejects with no allocator mutation; revoked queries/mutations/activation
+cannot touch reused backing. `prepare` seals before publication; enable/reload seal
+before CR3. Retention has no inverse in the permanent single-core boot-map model.
+
+This closes stale PageMap cleanup, not stale numeric allocator leases, shared table
+ownership, arbitrary map-drop leaks or general CPU-aware teardown. Future teardown
+must first stop references and restore a kernel-owned CR3/stack/IRQ continuation;
+SMP additionally needs shootdown and concurrent lifetime protection, not implemented
+here. Consolidated source inventory/teardown contract: `PHASE11_MEMORY_AUTHORITY.md`.
+Current evidence: `PHASE11_HANDOVER.md`. Historical sections below are superseded
+for implementation status; USER/TSS/CPL3 and Phase12 remain blocked.
+
 ## Latest table-access prerequisite
 
 The sole published kernel-map path now checks writable supervisor identity

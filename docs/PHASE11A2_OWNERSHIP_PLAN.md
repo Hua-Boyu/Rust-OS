@@ -1,5 +1,18 @@
 # Phase 11A.2 physical authority plan — PARTIAL, no USER publication
 
+## Current bounded implementation — structure cleanup lifetime
+
+Unpublished cleanup now revokes the private directory/table/domain inventory on
+success and rejects repeat calls. All structure-role checks precede release; no
+backing is destroyed under map/frame ownership. Software publication and internal
+CR3 writes irreversibly retain boot-map structures. This is a small per-map lifecycle
+boundary, **not** per-frame generational ownership or a shared-structure ledger.
+The independent raw numeric stale-release probe remains RED. Next: generation-safe
+allocation/release authority and audited raw bypass migration, then full reference/
+CPU-aware teardown; no USER/TSS/CPL3 yet. Inventory, lifetime contract and regression
+anchors: `PHASE11_MEMORY_AUTHORITY.md`; actual results: `PHASE11_HANDOVER.md`.
+The staged broader design below remains unimplemented except where stated here.
+
 ## New bounded prerequisite — runtime payload pins, not this full ledger
 
 `docs/PHASE11A2_STRUCTURE_AUTHORITY_HANDOVER.md` is the current status/evidence pointer. A second allocator-domain bitmap `structure_pins` (8,192 bytes) now marks frames installed as paging structures; free and payload mapping refuse them, and release/rollback sites clear pins with their frees. This is shadow metadata mirroring `pm.tables`, allocator-wide and not per-map accounting.

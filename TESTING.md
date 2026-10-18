@@ -1,5 +1,33 @@
 # TESTING
 
+## Current structure-lifetime and owner-observation regressions — PARTIAL
+
+Five `structure_lifetime_tests` exercise actual reused structure addresses across
+32 cycles, revoked operations/CR3 refusal, publication/activation retention and
+early/late multi-table role-fault refusal with exact capacity/role restoration.
+Cleanup, activation and role admission were observed RED before their fixes.
+Five B26 detector controls now prove allocation/destruction observation under
+PAGE_MAP-only and FRAME_ALLOC-only guards, plus correct unlocked-attempt counting.
+One additional real rejection-path regression and existing per-reserve/refusal/
+validation regressions enforce no heap operations under either guard. Host mirrors
+still require disclosed backing-layout filtering on partial-build paths.
+
+Main host 305 passed/0 failed/2 existing ignores and full B26 78/0 pass in serial
+and parallel full-driver runs; harness 53 and final reader 17 tests pass. Exact source-frozen final
+counts, guest/ISO identities and read-back are maintained in `docs/PHASE11_HANDOVER.md`.
+The runner retains all 59 inherited gates and adds one exact-five lifetime gate;
+its existing B26 gate also requires all five source-linked detector controls.
+One-short/extra/duplicate/substituted/mismatched evidence is rejected, not accepted
+through a broad suite total. The raw stale-numeric probe is still 2 PASS/1 intentional
+FAIL, never a release success. No CPL3 or recoverable exception proof is claimed.
+Subsequent sections are historical checkpoint records.
+
+The canonical frozen run `run_20261018T054817_823884Z` completed PASS60/60,
+actual exit0; `final_closeout_retry.json` checks143 inputs and ISO/kernel/archive
+identity,159 nested reports/280 cleanup assertions and no QEMU. The first offline
+reader failure and exact-silent-format RED/GREEN remain preserved. Only exact
+successful format commands may have empty logs; all other log checks remain.
+
 ## Latest payload-pin prerequisite and isolated-child credibility
 
 Main host300/0/2 existing ignores and B26-root67/0 pass serially/parallel;

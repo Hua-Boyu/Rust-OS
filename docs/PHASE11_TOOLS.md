@@ -1,5 +1,36 @@
 # Phase 11 tool manifest
 
+## Current structure-lifetime continuation
+
+Task evidence: `test_results/phase11a2_structure_lifetime/`. `run_step.py` records
+real subprocess commands/cwd/logs/exit codes without overwriting prior runs.
+The unchanged sequential `phase11a2_registry/verify_registry.py --full-acceptance`
+driver invokes the canonical runner; its historical label grants no broader claim.
+The new task-local `verify_checkpoint.py` independently reads the resulting evidence;
+see `PHASE11_HANDOVER.md` for the exact completed invocation and verification status.
+
+Completed driver: `run_20261018T054817_823884Z`, actual exit0, canonical60/60.
+Read-back `final_closeout_retry.json` PASS and17 reader contracts preserve the
+initial false-refusal of silent successful format logs. The corrected reader
+permits emptiness only for exact successful format argv/cwd, not other commands.
+The production source freeze was unchanged. `stack_readback.py` reads actual target
+prologues into `direct_stack_final.json`; it does not measure cumulative stack use.
+
+Graphify skill and `graphifyy 0.9.64` already exist in the uv tools environment;
+Rust tree-sitter grammar and Rust symbol/call extractor are installed. Incremental
+analysis and explicit external cache roots are supported. The three ownership-core
+files total 62,666 bytes at investigation: indexing was estimated seconds to tens
+of seconds and sub-MiB/low-MiB output, not measured. Python AST/graph dependencies
+would add process memory; no runtime overhead if unused. No concrete question beat
+direct caller search, so no indexing, graph output, installation, service change,
+network extraction or repository cache was performed. A future structural run can
+read source while writing its cache/output outside this repository.
+
+No duplicate preflight script was introduced: existing OS-held acceptance locking,
+source rediscovery/freeze, tool/manifest build gates and owned-QEMU cleanup remain
+authoritative. One-off lock/QEMU/tool checks are not substitutes for those gates.
+Native QEMU is at the existing harness's explicit Program Files path, not PATH.
+
 ## Latest invocation and read-back
 
 The table-access continuation reuses `verify_registry.py --full-acceptance` at

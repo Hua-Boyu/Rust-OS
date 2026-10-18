@@ -1,19 +1,46 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
-## Newest resume point — allocator-domain runtime payload pins
+## Current resume — structure cleanup lifetime, PARTIAL
 
-Start with Git status and `docs/PHASE11A2_MAPPING_PINS_HANDOVER.md`, including the
-actual driver/closeout status. Preserve the uncommitted payload pins and inherited
-table-access guard. Remaining work is generational release/structure-role and
-CPU/table lifetime authority, then real exception continuation — not TSS/CPL3 yet.
-This supersedes the historical resume/HEAD statements below; do not reset work.
+Repository `C:/Users/iamsv/Documents/Rust-OS`, branch `maintenance/phase10`.
+Verified source checkpoint `38b98b4658cfe118eb31e5faa1b600613750c71e`; current
+HEAD is its documentation successor containing this prompt. Resolve the actual
+full HEAD with `git rev-parse HEAD`, not an older historical literal below.
+Preserve unrelated `d1/`, `scripts/b13_boot_fixture.py.backup`, media/evidence.
+Required first command: `git status --short`, then branch/HEAD/log/diff-check.
+Read current `docs/PHASE11_HANDOVER.md`, `docs/PHASE11_MEMORY_AUTHORITY.md`,
+ownership plan and the final source review in `test_results/phase11a2_structure_lifetime/`.
 
-## Latest resume point
+Completed full driver PASS, actual exit 0:
+`test_results/phase11a2_registry/run_20261018T054817_823884Z/verification.json`.
+Canonical acceptance `acceptance/acceptance_20261018T054947Z_n_dqyuzm/acceptance.json`
+is PASS60/60, preserving all59 inherited gates. Independent task-local
+`final_closeout_retry.json` PASS: 143 frozen inputs, artifacts/ISO extraction,
+159 nested reports/280 cleanup assertions, no QEMU. Host305/0/2 and full B26 78/0
+pass serial/parallel; harness53 and reader17 pass; focused128/512 paging and eight
+ELF/GRUB growth cases pass. Source review approves only this bounded lifecycle fix.
+The failed first reader is retained; empty logs are permitted only for the exact
+successful format commands, not tests/builds/guests. No kernel inputs changed.
+No tests remain pending for this checkpoint. After any source change, run focused
+host tests, sequential128/512 guests, independent review and fresh canonical
+`python -B scripts/phase6_verify.py`; never unlink its OS-held lock or overlap QEMU.
 
-Start with Git status and `docs/PHASE11A2_TABLE_ACCESS_HANDOVER.md`; it supersedes
-the CURRENT/HEAD and verification/next-task statements below. The new bounded
-runtime table-access guard is not full B19. Preserve its uncommitted patch and
-evidence; no USER/TSS/CPL3 until complete ownership and real exception ABI pass.
+Next implementation after this checkpoint: nonduplicable generation-safe allocator
+release and audited numeric bypass migration. Raw stale release remains RED; map
+cleanup revocation does not solve it. General teardown/shared/CPU lifetime remain
+open, including raw virtual-page-zero admission. Start by recompiling the retained
+`test_results/phase11a2_continuation/ownership_blocker_probe.rs` with
+`rustc +nightly --test --edition=2024` into a fresh task-owned output, then run
+`blocker_stale_numeric_release_must_be_refused --exact --test-threads=1` (expected
+RED exit101). Design a bounded private nonduplicable lease with checked identity
+exhaustion; audit all numeric release/map bypasses and prove repeated reuse and
+failure rollback. Do not add an unbudgeted dense ledger or redesign the allocator.
+#GP/#PF routing exists, but real saved-frame/GPR/segment/DF/alignment/IRET and
+recoverable user-fault proof remain required after complete ownership. No TSS/ESP0
+or CPL3 has been implemented. Do not publish USER, add TSS/CPL3, start Phase12, syscall/ELF loader/scheduler,
+push/merge/tag/rebase/rewrite history, touch pve/VM103, deploy ISO or access disks.
+
+## Historical prompts below — superseded by the current resume above
 
 ## CURRENT standalone continuation — Phase 11A.2 PARTIAL, ownership next
 

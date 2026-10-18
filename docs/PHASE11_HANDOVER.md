@@ -1,11 +1,67 @@
 ## Rosti OS — Phase 11 Handover
 
-## Latest continuation — bounded table-access prerequisite
+## Current — structure cleanup lifetime and owner observability (PARTIAL)
 
-`PHASE11A2_TABLE_ACCESS_HANDOVER.md` supersedes the CURRENT sections below with
-the current runtime guard, independent byte-scoped review, actual verification
-status and next task. Earlier acceptance remains historical for its own bytes.
-Full B19/real exception continuation/TSS/CPL3 remain blocked.
+Starting HEAD `6008ea6083ec8e0dcfc703878abacc362d5bca6b`; verified implementation
+`38b98b4658cfe118eb31e5faa1b600613750c71e`, `maintenance/phase10`. The following
+documentation checkpoint records the results; obtain actual HEAD from Git.
+The previous structure-role checkpoint was independently reverified with 59 gates,
+141 source inputs, host300/0/2 and B26 full67/0, production/ISO identity and cleanup.
+New task evidence is `test_results/phase11a2_structure_lifetime/`.
+
+IMPLEMENTED: cleanup preflights its whole private structure release set, refuses
+retained/wrong-domain/live-payload/inconsistent-role maps, releases structures once
+and revokes numeric authority without dropping Vecs under guards. `prepare` seals
+before exposure; both CR3 writers seal before CPU publication. Retention has no
+inverse. B26 observation and unlocked-attempt classification share a map-or-frame
+owner predicate, with five separately mandatory detector controls.
+
+TESTED: three primary RED failures became GREEN; five lifetime identities cover
+32 actual reuse cycles and four early/late role faults across multiple tables.
+Host305/0/2 and full B26 78/0 pass serial/parallel; harness53 and final readback
+contracts17 pass; focused128/512 paging and eight ELF/GRUB growth cases pass.
+VERIFIED: `final_source_review.json` approves the exact11-file source scope, no
+blockers, not full B19. Old reviewer hashes/evidence stay unchanged.
+
+VERIFIED PASS, actual exit 0: sequential frozen driver
+`test_results/phase11a2_registry/run_20261018T054817_823884Z/verification.json`.
+Canonical invocation: `acceptance/acceptance_20261018T054947Z_n_dqyuzm/acceptance.json`
+under that run. PASS60/60 preserves all59 inherited gates plus the exact-five
+lifetime prerequisite; B26's existing gate now requires all five detector controls.
+`final_closeout_retry.json` independently verifies143 rediscovered raw-byte inputs,
+159 nested reports,280 true cleanup assertions, exact guest matrices, production
+ISO extraction, unchanged trusted archive and no QEMU. Cardinalities do not count
+distinct guests or establish complete historical process identity.
+
+The first reader failure `final_closeout.json` is preserved: silent successful
+format commands legitimately have empty logs. The reader now binds only those two
+exceptions to exact argv/cwd/integer-zero exit; all other logs stay nonempty.
+RED/GREEN and17 contracts include wrong command/cwd/exit, empty nonformat and
+independently reset stale/empty-log subcases. No accepted source input changed and
+no full campaign was repeated. Historical reviewer pins remain immutable.
+
+ISO: `dist/rosti_phase11a_prerequisite_20261018T054947Z.iso`, SHA256
+`528ba288950d87059750f4ad37a8b94005af8eecc0c97567f0b2456f683cf04d`.
+Kernel SHA256 `8b43ae2ee1d20e40bd1754e031202a1d0085ae21de8bb6162edbea671c2ba9b9`.
+Acceptance JSON SHA256 `92397a24de25643054dc5d199dcafa3983494eb9e5b04f2dea0790ed91833109`.
+Resource delta versus preceding structure-role ISO: allocated/initialized sections
++1,280 bytes, of which .data+4; BSS/static address span unchanged, ELF file+4,784.
+No new backing reserve or allocator bitmap. Selected explicit ESP subtraction:
+cleanup104, retain8, prepare1304, enable20 bytes; not cumulative call/IRQ high-water.
+Runtime heap/stack peaks remain unknown. Evidence: `direct_stack_final.json`.
+Never unlink the acceptance lock or reuse these results for changed source.
+
+BLOCKED: raw stale numeric release (new real-module probe2 PASS/1 intentional FAIL),
+complete per-map/shared references, general teardown and full CPU context lifetime.
+Current policy retains active boot structures until reboot; no SMP work. #GP now
+uses CpuErrorFrame and #PF its error frame; real GPR/segments/DF/alignment/IRET and
+recoverable user-fault behavior remain unproven. TSS/ESP0/CPL3 NOT implemented.
+Next exact implementation: generation-safe allocation/release authority plus raw
+bypass audit, not USER mappings. Contract/inventory: `PHASE11_MEMORY_AUTHORITY.md`.
+Graphify installed/Rust-supported but skipped as direct source search was cheaper;
+details in `PHASE11_TOOLS.md`. No remote action or Phase12; preserve unrelated files.
+
+## Historical checkpoint sections — superseded for current status
 
 ## CURRENT — Phase 11A.2 reservation checkpoint committed + exception-ABI entry conventions tested / NOT A RELEASE
 
