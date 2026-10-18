@@ -1,5 +1,19 @@
 # Rust operating system on i686
 
+## Latest continuation: allocator-domain runtime payload pins — PARTIAL
+
+Mapped runtime payloads now refuse free and a second runtime PageMap reference;
+unmap requires the matching allocator. Stale numeric release and structure/CPU
+lifetime remain blockers. Current verification and superseding status:
+`docs/PHASE11A2_MAPPING_PINS_HANDOVER.md`. No TSS/CPL3 or Phase 12.
+
+## Latest continuation: runtime table-access guard, still PARTIAL
+
+A new-table candidate must retain writable supervisor identity access before
+physical-pointer writes; refusal rolls back the candidate. Full B19 and CPL3
+remain blocked. Current patch, review, tests and exact acceptance status:
+`docs/PHASE11A2_TABLE_ACCESS_HANDOVER.md` (supersedes current-status text below).
+
 ## Latest: Phase 11A.2 PARTIAL — registry/reservation checkpoints and tested exception-entry conventions
 
 Registry/boot-alias repairs are locally checkpointed as `4bfbe60`; reserved-frame

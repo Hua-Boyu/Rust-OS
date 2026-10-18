@@ -1,5 +1,12 @@
 # Phase 11 tool manifest
 
+## Latest invocation and read-back
+
+The table-access continuation reuses `verify_registry.py --full-acceptance` at
+`test_results/phase11a2_registry/run_20261017T235138_771737Z/`. Its separate
+`verify_table_access_checkpoint.py` read-back leaves older review pins intact.
+Exact current result/command/artifacts: `PHASE11A2_TABLE_ACCESS_HANDOVER.md`.
+
 ## Current Phase 11A.2 continuation tooling
 
 Evidence root: `test_results/phase11a2_continuation/`. `run_step.py` records

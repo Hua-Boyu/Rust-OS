@@ -1,5 +1,12 @@
 ## Rosti OS — Phase 11 Handover
 
+## Latest continuation — bounded table-access prerequisite
+
+`PHASE11A2_TABLE_ACCESS_HANDOVER.md` supersedes the CURRENT sections below with
+the current runtime guard, independent byte-scoped review, actual verification
+status and next task. Earlier acceptance remains historical for its own bytes.
+Full B19/real exception continuation/TSS/CPL3 remain blocked.
+
 ## CURRENT — Phase 11A.2 reservation checkpoint committed + exception-ABI entry conventions tested / NOT A RELEASE
 
 ### A. Current status

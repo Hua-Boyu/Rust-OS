@@ -1,5 +1,17 @@
 # PROXMOX DEPLOYMENT
 
+## Latest payload-pin continuation — local only, not deployed
+
+No Proxmox inventory/API/SSH/upload or VM/storage action was performed. Local
+runtime-payload pins do not authorize deployment or TSS/CPL3. Exact local evidence
+and unresolved ownership limits: `docs/PHASE11A2_MAPPING_PINS_HANDOVER.md`.
+
+## Latest table-access continuation — local only
+
+No remote inventory/API/SSH/deployment or VM/storage mutation was performed.
+The partial local guard does not authorize deployment or CPL3. Current evidence:
+`docs/PHASE11A2_TABLE_ACCESS_HANDOVER.md`.
+
 ## Phase 11A.2 continuation — remote systems untouched
 
 No Proxmox API/SSH call, ISO upload, VM103 restart/reset/configuration change,

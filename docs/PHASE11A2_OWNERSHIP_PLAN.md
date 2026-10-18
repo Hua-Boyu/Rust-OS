@@ -1,5 +1,14 @@
 # Phase 11A.2 physical authority plan — PARTIAL, no USER publication
 
+## New bounded prerequisite — runtime payload pins, not this full ledger
+
+`docs/PHASE11A2_MAPPING_PINS_HANDOVER.md` is the current status/evidence pointer.
+Allocator-wide runtime payload pins, domain-bound map/unmap and live-reset
+refusal are implemented with an 8,192-byte bitmap, not the proposed dense
+generation ledger. Stale numeric release and page-structure role/CPU lifetime
+authority remain open. The design below remains a broader plan, not implemented
+or newly budget-approved. No TSS/CPL3 may rely on the partial pins alone.
+
 ## Scope
 
 This plan is not an implementation or approval of B19. Preserve the published

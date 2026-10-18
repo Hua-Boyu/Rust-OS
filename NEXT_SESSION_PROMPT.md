@@ -1,5 +1,20 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
+## Newest resume point — allocator-domain runtime payload pins
+
+Start with Git status and `docs/PHASE11A2_MAPPING_PINS_HANDOVER.md`, including the
+actual driver/closeout status. Preserve the uncommitted payload pins and inherited
+table-access guard. Remaining work is generational release/structure-role and
+CPU/table lifetime authority, then real exception continuation — not TSS/CPL3 yet.
+This supersedes the historical resume/HEAD statements below; do not reset work.
+
+## Latest resume point
+
+Start with Git status and `docs/PHASE11A2_TABLE_ACCESS_HANDOVER.md`; it supersedes
+the CURRENT/HEAD and verification/next-task statements below. The new bounded
+runtime table-access guard is not full B19. Preserve its uncommitted patch and
+evidence; no USER/TSS/CPL3 until complete ownership and real exception ABI pass.
+
 ## CURRENT standalone continuation — Phase 11A.2 PARTIAL, ownership next
 
 Work in `C:/Users/iamsv/Documents/Rust-OS`, existing branch `maintenance/phase10`.

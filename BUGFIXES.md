@@ -1,5 +1,22 @@
 # BUGFIXES
 
+## Latest bounded repair — runtime payload pins and real isolated children
+
+Mapped ordinary/growth payloads cannot be freed or runtime-aliased by a second
+map in their allocator. Wrong-domain mutations and live resets are refused.
+Four exact-filter subprocess wrappers now select the actual libtest name and
+require one child PASS; the previous crate-prefixed filter could run zero tests.
+Stale numeric release and foreign structure roles remain unfixed. Exact current
+verification and historical qualifications: `docs/PHASE11A2_MAPPING_PINS_HANDOVER.md`.
+
+## Latest bounded repair — runtime page-table write accessibility
+
+Check a newly allocated table's identity translation and effective supervisor/RW
+permissions before zeroing or publishing it; return a refused first candidate
+without releasing payload. This fixes a host-mirror-hidden accessibility gap in
+the sole kernel-map path, not mapped-free/cross-map/stale-release ownership.
+Exact verification/limits: `docs/PHASE11A2_TABLE_ACCESS_HANDOVER.md`.
+
 ## Phase 11A.2 registry and reservation admission — PARTIAL
 
 - Local registry checkpoint `4bfbe60` preserves fallible unlocked backing,

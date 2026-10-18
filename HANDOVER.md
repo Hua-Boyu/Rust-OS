@@ -1,5 +1,19 @@
 # Rosti OS — development handover
 
+## Latest continuation — allocator-domain runtime payload pins, PARTIAL
+
+Read `docs/PHASE11A2_MAPPING_PINS_HANDOVER.md` first. It supersedes CURRENT/HEAD,
+verification and next-task statements below without rewriting historical evidence.
+The two mapped-payload blockers are boundedly repaired; stale numeric release,
+foreign structure roles, CPU/table lifetime and real exception continuation stay
+open. No TSS/CPL3/Phase 12. Check the actual completed driver and closeout status.
+
+## Latest continuation — runtime table accessibility, PARTIAL
+
+Read `docs/PHASE11A2_TABLE_ACCESS_HANDOVER.md` first for the current patch,
+verification, independent review and next task. It supersedes CURRENT/HEAD
+statements below. Full B19, real exception continuation, TSS and CPL3 stay blocked.
+
 ## Current Phase 11A.2 continuation — PARTIAL / NOT A RELEASE
 
 Initial HEAD `48e76dfa096397824bc11dee137ea6287c5068f2`; registry-only local

@@ -1,5 +1,12 @@
 # Phase 11 — verified dependency plan and privilege design
 
+## Latest table-access prerequisite
+
+The sole published kernel-map path now checks writable supervisor identity
+access before zeroing a new runtime table. It refuses the first inaccessible
+candidate and restores capacity, not allocation history. No inactive-map or B19
+authority claim follows. Current scope: `PHASE11A2_TABLE_ACCESS_HANDOVER.md`.
+
 ## Current Phase 11A.2 authority checkpoint — PARTIAL
 
 Read `docs/PHASE11A2_OWNERSHIP_PLAN.md` for the staged authority design and

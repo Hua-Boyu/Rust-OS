@@ -1,5 +1,20 @@
 # ARCHITECTURE
 
+## Latest allocator-domain payload-pin prerequisite — PARTIAL
+
+One 8,192-byte allocator bitmap pins runtime payloads across PageMaps. Checked,
+nonreused allocator domains bind map/unmap; live inventory cannot be reset.
+Unmap clears PTE/invalidate before dropping pins. Borrowed boot aliases are not
+owners. This is not generational release authority or page-structure lifetime.
+Current evidence and limits: `docs/PHASE11A2_MAPPING_PINS_HANDOVER.md`.
+
+## Latest Phase 11A.2 continuation
+
+Runtime new-table writes now require a writable supervisor identity alias before
+zeroing/publication; an inaccessible first candidate is freed and mapping refused.
+This assumes the sole published kernel map, not inactive-address-space support.
+Current verification and remaining B19 blockers: `docs/PHASE11A2_TABLE_ACCESS_HANDOVER.md`.
+
 ## Phase 11A.2 reservation admission — PARTIAL, no CPL3
 
 The registry repair is secured in local commit `4bfbe60`. Runtime payload

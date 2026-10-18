@@ -1,5 +1,12 @@
 # Phase 11A.2 registry repair — partial continuation
 
+## Latest continuation
+
+Read `PHASE11A2_TABLE_ACCESS_HANDOVER.md` before the sections below. It records
+the new runtime table-access guard and current verification, superseding stale
+HEAD/pending-review statements here without discarding historical evidence.
+This remains PARTIAL: mapped-free/cross-map/stale-release authority is unresolved.
+
 ## Current continuation: registry + reservation checkpoint committed, exception-ABI entry conventions implemented and tested
 
 Initial tree recovered at `48e76dfa096397824bc11dee137ea6287c5068f2`.

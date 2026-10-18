@@ -1,5 +1,21 @@
 # TESTING
 
+## Latest payload-pin prerequisite and isolated-child credibility
+
+Main host300/0/2 existing ignores and B26-root67/0 pass serially/parallel;
+acceptance contracts48 and closeout contracts8 pass. Four repaired isolation
+filters each run one actual child rather than silently selecting zero tests.
+The retained blocker probe is now2 PASS/1 intentional FAIL (stale numeric release).
+Exact guest acceptance, source/artifact checks and independent-review limits:
+`docs/PHASE11A2_MAPPING_PINS_HANDOVER.md` (supersedes current-status text below).
+
+## Latest Phase 11A.2 table-access tests
+
+Five `runtime_table_access_tests` cover candidate alias refusal and retry; actual
+removed-alias RED/GREEN logs are retained. Main host290/0/2 ignored and B26-root57/0
+pass serially/parallel. These host checks are not real CPU alias-refusal proof.
+Current exact acceptance status: `docs/PHASE11A2_TABLE_ACCESS_HANDOVER.md`.
+
 ## Phase 11A.2 reservation prerequisite — bounded, not B19 completion
 
 The reserved/uncovered admission test was observed RED (actual exit101), then
