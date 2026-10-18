@@ -164,9 +164,11 @@ impl PageMap {
         }
         for &table in &self.tables {
             if table != 0 {
+                fa.set_structure_pin(table, false);
                 fa.free(table);
             }
         }
+        fa.set_structure_pin(self.directory, false);
         fa.free(self.directory);
     }
 
@@ -287,7 +289,10 @@ impl PageMap {
         // This numeric API still does not prove caller or cross-map ownership.
         // Boot supervisor identity mappings are constructed separately and
         // intentionally do not transfer payload ownership.
-        if !fa.is_live_allocation(phys_frame) || fa.runtime_pinned(phys_frame) {
+        if !fa.is_live_allocation(phys_frame)
+            || fa.runtime_pinned(phys_frame)
+            || fa.structure_pinned(phys_frame)
+        {
             self.stats.map_rejects += 1;
             return false;
         }
@@ -329,6 +334,10 @@ impl PageMap {
                 return false;
             }
             zero_table(table);
+            // Install authority: pin only after installation, never at the
+            // raw allocate site, so the accessibility rollback free above
+            // (before any pin) still succeeds.
+            fa.set_structure_pin(table, true);
             self.tables[dir] = table;
             self.stats.page_tables += 1;
             let dir_entry = entry_value(table);
@@ -593,6 +602,9 @@ pub(crate) fn build_identity_map_with_backing_in_place(
     let domain = fa.domain()?;
     let directory = fa.allocate()?;
     zero_table(directory);
+    // The directory is installed before any table candidate exists; the
+    // exhaustion rollback below must clear this pin before freeing.
+    fa.set_structure_pin(directory, true);
     let mut stats = PagingStats {
         page_tables: 0,
         mapped_frames: 0,
@@ -612,17 +624,22 @@ pub(crate) fn build_identity_map_with_backing_in_place(
         let table = match fa.allocate() {
             Some(table) => table,
             None => {
+                // Clear structure authority before each rollback free; a
+                // pinned frame is refused by free() by design.
                 for frame in tables.iter_mut() {
                     if *frame != 0 {
+                        fa.set_structure_pin(*frame, false);
                         fa.free(*frame);
                         *frame = 0;
                     }
                 }
+                fa.set_structure_pin(directory, false);
                 fa.free(directory);
                 return None;
             }
         };
         zero_table(table);
+        fa.set_structure_pin(table, true);
         tables[dir] = table;
         stats.page_tables += 1;
 

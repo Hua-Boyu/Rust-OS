@@ -46,7 +46,7 @@ pub const MAX_FRAME_ADDR: u64 = 256 * 1024 * 1024;
 pub const MAX_FRAMES: usize = (MAX_FRAME_ADDR / FRAME_SIZE as u64) as usize;
 const GROWTH_BITMAP_BYTES: usize =
     ((paging::GROWTH_END - paging::GROWTH_START) / FRAME_SIZE).div_ceil(8);
-const BITMAP_FRAMES: usize = (MAX_FRAMES / 8 * 5 + GROWTH_BITMAP_BYTES).div_ceil(FRAME_SIZE);
+const BITMAP_FRAMES: usize = (MAX_FRAMES / 8 * 6 + GROWTH_BITMAP_BYTES).div_ceil(FRAME_SIZE);
 
 // Always-reserved regardless of mmap type:
 // - VGA framebuffer 0xB8000..0xBC000 (the kernel writes text directly here).
@@ -100,6 +100,10 @@ pub struct FrameAllocator {
     // Exclusive runtime payload references across all maps in this allocator.
     // Borrowed boot aliases are not pins; this is not generational authority.
     runtime_pins: [u8; MAX_FRAMES / 8],
+    // Frames installed as paging structures (directory or tables entry) by a
+    // PageMap of the current domain. Shadow metadata mirroring pm.tables;
+    // set/clear discipline at install and release sites is the invariant.
+    structure_pins: [u8; MAX_FRAMES / 8],
     domain: u32,
     stats: FrameStats,
     initialized: bool,
@@ -128,6 +132,7 @@ impl FrameAllocator {
             ncov: [0; MAX_FRAMES / 8],
             growth_claimed: [0; GROWTH_BITMAP_BYTES],
             runtime_pins: [0; MAX_FRAMES / 8],
+            structure_pins: [0; MAX_FRAMES / 8],
             domain: 0,
             stats: FrameStats {
                 total_frames: 0,
@@ -173,6 +178,7 @@ impl FrameAllocator {
         self.ncov.fill(0);
         self.growth_claimed.fill(0);
         self.runtime_pins.fill(0);
+        self.structure_pins.fill(0);
         self.stats = FrameStats {
             total_frames: 0,
             reserved_frames: 0,
@@ -350,6 +356,10 @@ impl FrameAllocator {
             self.stats.invalid_frees += 1;
             return false;
         }
+        if bit(&self.structure_pins, frame) {
+            self.stats.invalid_frees += 1;
+            return false;
+        }
         if !bit(&self.covered, frame) || !bit(&self.ever, frame) {
             // A frame is releasable only if this allocator handed it out.
             // Usable-map coverage alone also includes our reserved frames.
@@ -453,11 +463,27 @@ impl FrameAllocator {
             && Self::frame_of(addr).is_some_and(|frame| bit(&self.runtime_pins, frame))
     }
 
+    pub(super) fn structure_pinned(&self, addr: u64) -> bool {
+        self.initialized
+            && addr % FRAME_SIZE as u64 == 0
+            && Self::frame_of(addr).is_some_and(|frame| bit(&self.structure_pins, frame))
+    }
+
     /// Memory-internal commit after managed/live allocation preflight, under
     /// the same exclusive allocator borrow; never a public ownership API.
     pub(super) fn set_runtime_pin(&mut self, addr: u64, pinned: bool) {
         set_bit(
             &mut self.runtime_pins,
+            (addr / FRAME_SIZE as u64) as usize,
+            pinned,
+        );
+    }
+
+    /// Set/clear only at structure install and release sites; the bitmap
+    /// mirrors pm.tables and must not be cleared wholesale.
+    pub(super) fn set_structure_pin(&mut self, addr: u64, pinned: bool) {
+        set_bit(
+            &mut self.structure_pins,
             (addr / FRAME_SIZE as u64) as usize,
             pinned,
         );
@@ -511,6 +537,7 @@ mod domain_tests {
             let covered = fa.covered;
             let denied = fa.ncov;
             let claimed = fa.growth_claimed;
+            let structures = fa.structure_pins;
             for malformed in [false, true] {
                 let spans = if malformed {
                     [(2, 1)]
@@ -527,6 +554,7 @@ mod domain_tests {
                 assert_eq!(fa.covered, covered);
                 assert_eq!(fa.ncov, denied);
                 assert_eq!(fa.growth_claimed, claimed);
+                assert_eq!(fa.structure_pins, structures);
                 assert!(fa.runtime_pins.iter().all(|&byte| byte == 0));
             }
             assert!(fa.free(payload));
