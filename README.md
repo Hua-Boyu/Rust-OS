@@ -1,5 +1,13 @@
 # Rust operating system on i686
 
+## Latest continuation: allocator structure-role authority for page-table frames — PARTIAL
+
+Frames installed as paging structures (directory or table entries) now refuse
+free and payload mapping; release and rollback sites clear pins with their
+frees. The bitmap is allocator-wide shadow metadata, not per-map accounting.
+Current verification and superseding status:
+`docs/PHASE11A2_STRUCTURE_AUTHORITY_HANDOVER.md`. No TSS/CPL3 or Phase 12.
+
 ## Latest continuation: allocator-domain runtime payload pins — PARTIAL
 
 Mapped runtime payloads now refuse free and a second runtime PageMap reference;

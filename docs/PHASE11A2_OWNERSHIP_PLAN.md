@@ -2,7 +2,7 @@
 
 ## New bounded prerequisite — runtime payload pins, not this full ledger
 
-`docs/PHASE11A2_MAPPING_PINS_HANDOVER.md` is the current status/evidence pointer.
+`docs/PHASE11A2_STRUCTURE_AUTHORITY_HANDOVER.md` is the current status/evidence pointer. A second allocator-domain bitmap `structure_pins` (8,192 bytes) now marks frames installed as paging structures; free and payload mapping refuse them, and release/rollback sites clear pins with their frees. This is shadow metadata mirroring `pm.tables`, allocator-wide and not per-map accounting.
 Allocator-wide runtime payload pins, domain-bound map/unmap and live-reset
 refusal are implemented with an 8,192-byte bitmap, not the proposed dense
 generation ledger. Stale numeric release and page-structure role/CPU lifetime
