@@ -1,5 +1,42 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
+## Actual current checkpoint — Phase 11A.3 leases, acceptance PASS63/63
+
+Repository `C:/Users/iamsv/Documents/Rust-OS`, branch `maintenance/phase10`.
+Live HEAD/status and next command are authoritative in
+`test_results/phase11a3_generation_ownership/STATE.md`; bounded implementation,
+review, resources and evidence index: `docs/PHASE11A3_GENERATION_HANDOVER.md`.
+The candidate implements private non-Copy/non-Clone leases, the reviewed u32
+generation ledger and shared pin-aware release accounting. Production global
+frame owner is private; diagnostic copies replace external guard reads.
+Host325/0/2 and B26 full98/0 pass serial/parallel, focused generation8/6/6,
+harness56, production build and sequential128/512 paging PASS. Independent source
+review is bounded approval/no blockers, all reviewed hashes matched. The scoped
+local checkpoint contains this section; resolve actual HEAD using Git/STATE.md.
+No full B19/USER/CPL3 readiness claim. Canonical generation_full_acceptance
+completed actual exit0/explicit PASS63/63. Verify the final independent readback
+and post-commit hashes in task-local records before new semantic work. Independent
+final readback PASS/exit0 confirms145 source inputs,159 nested reports,280 true
+cleanup assertions, complete guest matrices, ISO/kernel/archive and no QEMU.
+These counts do not mean280 distinct guests. Full B19 remains PARTIAL.
+
+Next executable command (read-only, from repository root):
+`git status --short`
+
+Read actual exit/PASS, not merely a RUNNING report or expected count. Fresh
+runner adds three exact8/6/6 mandatory families and preserves inherited60 gates.
+The final independent readback binds nested evidence, rediscovered source
+membership/hashes, extracted ISO kernel, cleanup and review coverage. Current
+HEAD/worktree and exact later task: STATE.md and FINAL_REPORT.md. Next semantic
+work is a separately bounded B19 ownership-admission/reference-lifetime design
+with RED oracles, not reopening Option A or claiming complete process memory.
+No push.
+Never unlink dist/.phase6_acceptance.lock. Preserve unrelated d1/, script backup,
+historical media and all failed/aborted evidence. No pve/VM103/storage mutation,
+USER/TSS/CPL3/Phase12/ELF loader/syscalls/scheduler or allocator redesign.
+If source changes, review hashes and historical acceptance do not approve it.
+Following prompts are preserved historical instructions, not current state.
+
 ## Current resume — structure cleanup lifetime, PARTIAL
 
 Repository `C:/Users/iamsv/Documents/Rust-OS`, branch `maintenance/phase10`.

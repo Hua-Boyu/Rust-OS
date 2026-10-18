@@ -101,8 +101,7 @@ unsafe fn prepare_boot_memory(
     match memory::prepare(&entries, info, start as u64, end as u64) {
         Ok(window) => {
             let (total, reserved, free) = {
-                let fa = memory::FRAME_ALLOC.lock();
-                let s = fa.stats();
+                let s = memory::frame_stats().expect("prepared frame allocator");
                 (s.total_frames, s.reserved_frames, s.free_frames)
             };
             println!(

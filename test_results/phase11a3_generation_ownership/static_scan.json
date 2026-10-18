@@ -1,0 +1,22 @@
+{
+  "scope": "added scoped source/script lines plus complete new Rust test files; no credential files read",
+  "patterns": {
+    "literal_credential": 0,
+    "shell_true": 0,
+    "dangerous_deserialization": 0,
+    "dynamic_exec": 0
+  },
+  "review_hashes_still_match": true,
+  "source_files": [
+    "src/memory/frame.rs",
+    "src/memory/paging.rs",
+    "src/memory/mod.rs",
+    "src/memory/generation_ownership_tests.rs",
+    "src/memory/generation_boundary_tests.rs",
+    "src/main.rs",
+    "src/shell.rs",
+    "scripts/phase6_verify.py",
+    "scripts/test_acceptance_harness.py"
+  ],
+  "limitation": "pattern scan only, not proof of absence of vulnerabilities"
+}

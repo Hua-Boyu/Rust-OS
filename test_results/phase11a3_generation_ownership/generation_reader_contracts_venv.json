@@ -1,0 +1,15 @@
+{
+  "name": "generation_reader_contracts_venv",
+  "command": [
+    "C:/Users/iamsv/AppData/Local/hermes/hermes-agent/venv/Scripts/python.exe",
+    "-B",
+    "test_results/phase11a3_generation_ownership/test_verify_checkpoint.py"
+  ],
+  "cwd": "C:/Users/iamsv/Documents/Rust-OS",
+  "started_utc": "2026-10-18T10:57:33.987780+00:00",
+  "status": "EXPECTED",
+  "exit_code": 0,
+  "ended_utc": "2026-10-18T10:57:36.129583+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_reader_contracts_venv.log",
+  "totals": []
+}

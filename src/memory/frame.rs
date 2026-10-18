@@ -37,6 +37,10 @@ fn issue_domain(last: &AtomicU32) -> Option<u32> {
 #[path = "../../tests_kernel/src/b11_frame_tests.rs"]
 mod b11_tests;
 
+#[cfg(test)]
+#[path = "generation_boundary_tests.rs"]
+mod generation_boundary_tests;
+
 pub const FRAME_SIZE: usize = 4096;
 
 /// Managed address window. The kernel is 32-bit; frames above this are not
@@ -80,6 +84,32 @@ pub fn kernel_bounds() -> (u64, u64) {
     (0, 4096)
 }
 
+/// A live ownership identity for one frame handed out by this allocator.
+/// Move-only and non-copyable: fields are private and only the frame module
+/// constructs it, so a copied numeric address cannot impersonate an owner.
+/// `frame_addr()` is the accessor; the id/domain pair is the release proof.
+pub struct FrameLease {
+    addr: u64,
+    id: u32,
+    domain: u32,
+}
+
+impl FrameLease {
+    pub fn frame_addr(&self) -> u64 {
+        self.addr
+    }
+
+    /// Only negative host probes may duplicate authority; absent in production.
+    #[cfg(test)]
+    pub(super) fn duplicate_for_test(&self) -> Self {
+        Self {
+            addr: self.addr,
+            id: self.id,
+            domain: self.domain,
+        }
+    }
+}
+
 #[derive(Debug, Clone, Copy)]
 pub struct FrameStats {
     pub total_frames: usize,     // frames inside usable mmap ranges (deduped)
@@ -104,6 +134,14 @@ pub struct FrameAllocator {
     // PageMap of the current domain. Shadow metadata mirroring pm.tables;
     // set/clear discipline at install and release sites is the invariant.
     structure_pins: [u8; MAX_FRAMES / 8],
+    // Current allocation identity per managed frame (0 = no live identity).
+    // Stamped by allocate(), zeroed by every successful release path. This is
+    // the generation-safe ownership ledger: a stale lease's id can never match
+    // a reused frame's fresh identity.
+    alloc_id: [u32; MAX_FRAMES],
+    // Next identity to issue. Monotonic across domains (never reset by init),
+    // so identities never wrap and never repeat; 0 is reserved for "no owner".
+    next_id: u32,
     domain: u32,
     stats: FrameStats,
     initialized: bool,
@@ -133,6 +171,8 @@ impl FrameAllocator {
             growth_claimed: [0; GROWTH_BITMAP_BYTES],
             runtime_pins: [0; MAX_FRAMES / 8],
             structure_pins: [0; MAX_FRAMES / 8],
+            alloc_id: [0; MAX_FRAMES],
+            next_id: 1,
             domain: 0,
             stats: FrameStats {
                 total_frames: 0,
@@ -179,6 +219,7 @@ impl FrameAllocator {
         self.growth_claimed.fill(0);
         self.runtime_pins.fill(0);
         self.structure_pins.fill(0);
+        self.alloc_id.fill(0);
         self.stats = FrameStats {
             total_frames: 0,
             reserved_frames: 0,
@@ -319,28 +360,70 @@ impl FrameAllocator {
         true
     }
 
-    /// Allocate one physical frame. None on exhaustion or before init.
-    pub fn allocate(&mut self) -> Option<u64> {
+    /// Issue the next allocation identity. Monotonic across domains and
+    /// never reset by init; 0 is the permanent exhaustion sentinel, so
+    /// identities never wrap and never silently repeat.
+    fn issue_allocation_id(&mut self) -> Option<u32> {
+        let id = self.next_id;
+        if id == 0 {
+            return None;
+        }
+        self.next_id = id.checked_add(1).unwrap_or(0);
+        Some(id)
+    }
+
+    /// Shared allocation core: find a free frame, clear availability, and
+    /// stamp the ledger identity. Returns (addr, id). None on exhaustion or
+    /// before init; a refused allocation mutates nothing.
+    fn allocate_stamped(&mut self) -> Option<(u64, u32)> {
         if !self.initialized {
             return None;
         }
         for frame in 0..MAX_FRAMES {
             if bit(&self.free, frame) {
+                let Some(id) = self.issue_allocation_id() else {
+                    return None;
+                };
                 set_bit(&mut self.free, frame, false);
                 set_bit(&mut self.ever, frame, true);
+                self.alloc_id[frame] = id;
                 self.stats.free_frames -= 1;
                 self.stats.allocated_frames += 1;
-                return Some((frame as u64) * FRAME_SIZE as u64);
+                return Some(((frame as u64) * FRAME_SIZE as u64, id));
             }
         }
         None
     }
 
-    /// Free a previously allocated frame after the caller ends all uses.
-    /// Growth claims return to the growth-only reservation, never the general
-    /// free pool. Returns false (and counts the event) for double frees and
-    /// frees of frames this allocator never handed out.
-    pub fn free(&mut self, addr: u64) -> bool {
+    /// Raw numeric allocation (audited internal path): the returned address
+    /// carries no ownership proof. Safe code allocates through
+    /// `allocate_owned` and releases through `release_frame(lease)`.
+    pub(crate) fn allocate(&mut self) -> Option<u64> {
+        let Some((addr, _)) = self.allocate_stamped() else {
+            return None;
+        };
+        Some(addr)
+    }
+
+    /// Safe public allocation: returns a move-only lease carrying the live
+    /// ownership identity for the frame. None on exhaustion or before init.
+    pub fn allocate_owned(&mut self) -> Option<FrameLease> {
+        let Some((addr, id)) = self.allocate_stamped() else {
+            return None;
+        };
+        Some(FrameLease {
+            addr,
+            id,
+            domain: self.domain,
+        })
+    }
+
+    /// Shared release core: validate availability, restore accounting, and
+    /// clear the ledger identity. Growth claims return to the growth-only
+    /// reservation, never the general free pool. Returns false (and counts
+    /// the event) for double frees and frees of frames this allocator never
+    /// handed out. A refused release mutates only diagnostics.
+    fn release_by_address(&mut self, addr: u64) -> bool {
         if !self.initialized {
             return false;
         }
@@ -373,6 +456,7 @@ impl FrameAllocator {
                 return false;
             }
             set_bit(&mut self.growth_claimed, index, false);
+            self.alloc_id[frame] = 0;
             self.stats.reserved_frames += 1;
             self.stats.allocated_frames -= 1;
             return true;
@@ -386,9 +470,40 @@ impl FrameAllocator {
             return false;
         }
         set_bit(&mut self.free, frame, true);
+        self.alloc_id[frame] = 0;
         self.stats.free_frames += 1;
         self.stats.allocated_frames -= 1;
         true
+    }
+
+    /// Raw numeric release (audited internal path): the address carries no
+    /// ownership proof. Safe code releases through `release_frame(lease)`.
+    pub(crate) fn free(&mut self, addr: u64) -> bool {
+        self.release_by_address(addr)
+    }
+
+    /// Safe public release: consumes the lease by value, so a second release
+    /// of the same lease is a compile error; the ledger identity is the
+    /// runtime proof. A stale lease for a reused frame is refused, and the
+    /// current owner stays live. Refusals mutate only diagnostics.
+    pub fn release_frame(&mut self, lease: FrameLease) -> bool {
+        if !self.initialized || lease.domain != self.domain {
+            self.stats.invalid_frees += 1;
+            return false;
+        }
+        let Some(frame) = Self::frame_of(lease.addr) else {
+            self.stats.invalid_frees += 1;
+            return false;
+        };
+        if lease.id == 0 || self.alloc_id[frame] != lease.id {
+            if bit(&self.free, frame) {
+                self.stats.double_frees += 1;
+            } else {
+                self.stats.invalid_frees += 1;
+            }
+            return false;
+        }
+        self.release_by_address(lease.addr)
     }
 
     /// Claim a reserved growth-window frame for heap growth. Only frames
@@ -561,5 +676,154 @@ mod domain_tests {
             assert!(fa.init(&entries, 0x90000, 0xa0000, 0xb0000));
             assert_ne!(fa.domain, before_domain);
         }
+    }
+}
+
+#[cfg(test)]
+mod generation_ledger_tests {
+    use super::*;
+
+    fn ledger_fixture() -> FrameAllocator {
+        let mut fa = FrameAllocator::new();
+        assert!(fa.init(
+            &[MmapEntry {
+                size: 20,
+                base_addr: 0x10000,
+                length: 0x70000,
+                type_: 1,
+            }],
+            0x90000,
+            0xa0000,
+            0xb0000,
+        ));
+        fa
+    }
+
+    #[test]
+    fn generation_safe_stale_forged_lease_cannot_release_reused_frame() {
+        // The ABA sequence with a forged stale lease (module-internal only):
+        // allocate -> release -> reallocate the same frame -> the stale
+        // identity is refused and the current owner stays live.
+        let mut fa = ledger_fixture();
+        let lease = fa.allocate_owned().unwrap();
+        let addr = lease.frame_addr();
+        let stale_id = lease.id;
+        let stale_domain = lease.domain;
+        assert!(fa.release_frame(lease));
+        let current = fa.allocate_owned().unwrap();
+        assert_eq!(current.frame_addr(), addr);
+        let current_id = current.id;
+        let stale = FrameLease {
+            addr,
+            id: stale_id,
+            domain: stale_domain,
+        };
+        assert!(
+            !fa.release_frame(stale),
+            "BLOCKER: stale identity released a reused frame",
+        );
+        assert!(!fa.is_free(addr));
+        assert_eq!(fa.stats().allocated_frames, 1);
+        assert_eq!(
+            fa.alloc_id[FrameAllocator::frame_of(addr).unwrap()],
+            current_id
+        );
+        assert!(fa.release_frame(current));
+        assert!(fa.is_free(addr));
+    }
+
+    #[test]
+    fn generation_safe_double_release_by_forged_copy_is_refused() {
+        // The consumed lease cannot be reused (type-level); a forged copy of
+        // its identity proves the ledger also refuses at runtime.
+        let mut fa = ledger_fixture();
+        let lease = fa.allocate_owned().unwrap();
+        let addr = lease.frame_addr();
+        let forged = FrameLease {
+            addr: lease.addr,
+            id: lease.id,
+            domain: lease.domain,
+        };
+        assert!(fa.release_frame(lease));
+        let before_free = fa.stats().free_frames;
+        assert!(
+            !fa.release_frame(forged),
+            "BLOCKER: ledger accepted a released identity",
+        );
+        assert_eq!(fa.stats().free_frames, before_free);
+        assert_eq!(fa.stats().allocated_frames, 0);
+        assert_eq!(fa.alloc_id[FrameAllocator::frame_of(addr).unwrap()], 0);
+    }
+
+    #[test]
+    fn generation_safe_ledger_identity_never_repeats_across_cycles() {
+        // Every allocation stamps a strictly increasing identity; the ledger
+        // never reissues an id, so a stale lease can never match a reused
+        // frame even after many cycles.
+        let mut fa = ledger_fixture();
+        let mut previous_id = 0;
+        for _ in 0..16 {
+            let lease = fa.allocate_owned().unwrap();
+            assert!(lease.id > previous_id, "identities are strictly monotonic");
+            previous_id = lease.id;
+            let frame = FrameAllocator::frame_of(lease.addr).unwrap();
+            assert_eq!(fa.alloc_id[frame], lease.id);
+            assert!(fa.release_frame(lease));
+            assert_eq!(fa.alloc_id[frame], 0);
+        }
+    }
+
+    #[test]
+    fn generation_safe_identity_exhaustion_is_permanent_not_wrapping() {
+        // Documented policy: at identity exhaustion allocation returns None
+        // permanently; the ledger never wraps to a reused id.
+        let mut fa = ledger_fixture();
+        fa.next_id = u32::MAX;
+        let last = fa.allocate_owned().unwrap();
+        assert_eq!(last.id, u32::MAX);
+        assert_eq!(fa.next_id, 0);
+        assert_eq!(
+            fa.alloc_id[FrameAllocator::frame_of(last.addr).unwrap()],
+            u32::MAX
+        );
+        assert!(fa.allocate_owned().is_none());
+        assert_eq!(fa.allocate(), None);
+        assert_eq!(fa.next_id, 0);
+        // Exhaustion blocks issuing new identities, not releasing live ones.
+        assert!(fa.release_frame(last));
+        assert!(fa.allocate_owned().is_none());
+    }
+
+    #[test]
+    fn generation_safe_raw_free_path_clears_ledger_identity() {
+        // The audited raw path must not leave the ledger lying: a frame
+        // freed through raw free() has its identity cleared, and a
+        // re-allocation stamps a fresh one.
+        let mut fa = ledger_fixture();
+        let lease = fa.allocate_owned().unwrap();
+        let addr = lease.frame_addr();
+        let frame = FrameAllocator::frame_of(addr).unwrap();
+        assert_eq!(fa.alloc_id[frame], lease.id);
+        assert!(fa.free(addr));
+        assert_eq!(fa.alloc_id[frame], 0);
+        let reacquired = fa.allocate_owned().unwrap();
+        assert_eq!(reacquired.frame_addr(), addr);
+        assert_eq!(fa.alloc_id[frame], reacquired.id);
+        assert_ne!(reacquired.id, lease.id);
+        assert!(fa.release_frame(reacquired));
+    }
+
+    #[test]
+    fn generation_safe_raw_allocated_frame_has_no_lease_release_path() {
+        // A frame handed out through the raw path carries a ledger identity,
+        // but no lease exists to release it; release requires the proof, so
+        // the raw path stays audited-internal and the frame is only
+        // releasable through raw free().
+        let mut fa = ledger_fixture();
+        let addr = fa.allocate().unwrap();
+        let frame = FrameAllocator::frame_of(addr).unwrap();
+        assert_ne!(fa.alloc_id[frame], 0);
+        assert!(fa.free(addr));
+        assert_eq!(fa.alloc_id[frame], 0);
     }
 }

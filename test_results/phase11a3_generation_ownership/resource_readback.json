@@ -1,0 +1,242 @@
+{
+  "current": {
+    "sha256": "6d15c9ee180f705788af16377f77b67c91fc2de2e0d6c7ff90cca1430b234b0e",
+    "file_bytes": 6316632,
+    "allocated_sections": {
+      ".multiboot": {
+        "address": 2097152,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".got": {
+        "address": 2097164,
+        "bytes": 80,
+        "initialized": true
+      },
+      ".text": {
+        "address": 2101248,
+        "bytes": 705297,
+        "initialized": true
+      },
+      ".rodata": {
+        "address": 2809856,
+        "bytes": 39285,
+        "initialized": true
+      },
+      ".eh_frame_hdr": {
+        "address": 2849144,
+        "bytes": 28,
+        "initialized": true
+      },
+      ".eh_frame": {
+        "address": 2849172,
+        "bytes": 68,
+        "initialized": true
+      },
+      ".data": {
+        "address": 2850816,
+        "bytes": 371932,
+        "initialized": true
+      },
+      ".got.plt": {
+        "address": 3222748,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".bss": {
+        "address": 3223552,
+        "bytes": 1137676,
+        "initialized": false
+      }
+    },
+    "allocated_bytes": 2254390,
+    "initialized_bytes": 1116714,
+    "static_span_bytes": 2264076
+  },
+  "baseline": {
+    "sha256": "8b43ae2ee1d20e40bd1754e031202a1d0085ae21de8bb6162edbea671c2ba9b9",
+    "file_bytes": 6044064,
+    "allocated_sections": {
+      ".multiboot": {
+        "address": 2097152,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".got": {
+        "address": 2097164,
+        "bytes": 80,
+        "initialized": true
+      },
+      ".text": {
+        "address": 2101248,
+        "bytes": 703953,
+        "initialized": true
+      },
+      ".rodata": {
+        "address": 2805760,
+        "bytes": 39261,
+        "initialized": true
+      },
+      ".eh_frame_hdr": {
+        "address": 2845024,
+        "bytes": 28,
+        "initialized": true
+      },
+      ".eh_frame": {
+        "address": 2845052,
+        "bytes": 68,
+        "initialized": true
+      },
+      ".data": {
+        "address": 2846720,
+        "bytes": 109720,
+        "initialized": true
+      },
+      ".got.plt": {
+        "address": 2956440,
+        "bytes": 12,
+        "initialized": true
+      },
+      ".bss": {
+        "address": 2957312,
+        "bytes": 1137676,
+        "initialized": false
+      }
+    },
+    "allocated_bytes": 1990810,
+    "initialized_bytes": 853134,
+    "static_span_bytes": 1997836
+  },
+  "delta": {
+    "file_bytes": 272568,
+    "allocated_bytes": 263580,
+    "initialized_bytes": 263580,
+    "static_span_bytes": 266240
+  },
+  "section_delta": {
+    ".bss": 0,
+    ".data": 262212,
+    ".eh_frame": 0,
+    ".eh_frame_hdr": 0,
+    ".got": 0,
+    ".got.plt": 0,
+    ".multiboot": 0,
+    ".rodata": 24,
+    ".text": 1344
+  },
+  "linker_limit": {
+    "origin": 2097152,
+    "bytes": 4194304,
+    "fits": true
+  },
+  "target_owner_symbols": [
+    "00428c0c B KERNEL_END",
+    "00200000 D KERNEL_START",
+    "002b9324 0004c0ec d kernel::memory::FRAME_ALLOC",
+    "00414000 b stack_bottom",
+    "00418000 b stack_top"
+  ],
+  "disassembly_command": [
+    "wsl",
+    "--exec",
+    "objdump",
+    "-d",
+    "-C",
+    "--no-show-raw-insn",
+    "/mnt/c/Users/iamsv/Documents/Rust-OS/target/target/debug/kernel"
+  ],
+  "direct_frames": {
+    "kernel::memory::prepare": {
+      "largest_single_esp_subtract": 1304,
+      "stack_probe_reference": false,
+      "prologue": [
+        "  221420:\tpush   %ebp",
+        "  221421:\tpush   %ebx",
+        "  221422:\tpush   %edi",
+        "  221423:\tpush   %esi",
+        "  221424:\tsub    $0x518,%esp",
+        "  22142a:\tcall   22142f <kernel::memory::prepare+0xf>",
+        "  22142f:\tpop    %ebx",
+        "  221430:\tadd    $0xf18ad,%ebx",
+        "  221436:\tmov    %ebx,0xa4(%esp)",
+        "  22143d:\tmov    0x52c(%esp),%eax",
+        "  221444:\tmov    %eax,0x7c(%esp)",
+        "  221448:\tmov    %eax,0x80(%esp)"
+      ]
+    },
+    "<kernel::memory::frame::FrameAllocator>::allocate_stamped": {
+      "largest_single_esp_subtract": 88,
+      "stack_probe_reference": false,
+      "prologue": [
+        "  22fbe0:\tpush   %ebx",
+        "  22fbe1:\tpush   %esi",
+        "  22fbe2:\tsub    $0x58,%esp",
+        "  22fbe5:\tcall   22fbea <<kernel::memory::frame::FrameAllocator>::allocate_stamped+0xa>",
+        "  22fbea:\tpop    %eax",
+        "  22fbeb:\tadd    $0xe30f2,%eax",
+        "  22fbf1:\tmov    %eax,0x28(%esp)",
+        "  22fbf5:\tmov    0x64(%esp),%eax",
+        "  22fbf9:\tmov    %eax,0x2c(%esp)",
+        "  22fbfd:\tmov    %eax,0x30(%esp)",
+        "  22fc01:\tmov    0x68(%esp),%eax",
+        "  22fc05:\tmov    %eax,0x34(%esp)"
+      ]
+    },
+    "<kernel::memory::frame::FrameAllocator>::release_by_address": {
+      "largest_single_esp_subtract": 112,
+      "stack_probe_reference": false,
+      "prologue": [
+        "  2303c0:\tpush   %ebx",
+        "  2303c1:\tpush   %esi",
+        "  2303c2:\tsub    $0x70,%esp",
+        "  2303c5:\tcall   2303ca <<kernel::memory::frame::FrameAllocator>::release_by_address+0xa>",
+        "  2303ca:\tpop    %eax",
+        "  2303cb:\tadd    $0xe2912,%eax",
+        "  2303d1:\tmov    %eax,0x4c(%esp)",
+        "  2303d5:\tmov    0x80(%esp),%eax",
+        "  2303dc:\tmov    %eax,0x50(%esp)",
+        "  2303e0:\tmov    0x84(%esp),%eax",
+        "  2303e7:\tmov    %eax,0x54(%esp)",
+        "  2303eb:\tmov    0x7c(%esp),%eax"
+      ]
+    },
+    "<kernel::memory::frame::FrameAllocator>::issue_allocation_id": {
+      "largest_single_esp_subtract": 36,
+      "stack_probe_reference": false,
+      "prologue": [
+        "  2309f0:\tpush   %ebx",
+        "  2309f1:\tsub    $0x24,%esp",
+        "  2309f4:\tcall   2309f9 <<kernel::memory::frame::FrameAllocator>::issue_allocation_id+0x9>",
+        "  2309f9:\tpop    %eax",
+        "  2309fa:\tadd    $0xe22e3,%eax",
+        "  230a00:\tmov    %eax,0xc(%esp)",
+        "  230a04:\tmov    0x2c(%esp),%eax",
+        "  230a08:\tmov    %eax,0x10(%esp)",
+        "  230a0c:\tmov    0x4c0c0(%eax),%eax",
+        "  230a12:\tmov    %eax,0x14(%esp)",
+        "  230a16:\tmov    %eax,0x20(%esp)",
+        "  230a1a:\tcmp    $0x0,%eax"
+      ]
+    },
+    "<kernel::memory::frame::FrameAllocator>::init": {
+      "largest_single_esp_subtract": 552,
+      "stack_probe_reference": false,
+      "prologue": [
+        "  230ad0:\tpush   %ebp",
+        "  230ad1:\tpush   %ebx",
+        "  230ad2:\tpush   %edi",
+        "  230ad3:\tpush   %esi",
+        "  230ad4:\tsub    $0x228,%esp",
+        "  230ada:\tcall   230adf <<kernel::memory::frame::FrameAllocator>::init+0xf>",
+        "  230adf:\tpop    %eax",
+        "  230ae0:\tadd    $0xe21fd,%eax",
+        "  230ae6:\tmov    %eax,0xa4(%esp)",
+        "  230aed:\tmov    0x258(%esp),%eax",
+        "  230af4:\tmov    %eax,0xa8(%esp)",
+        "  230afb:\tmov    0x25c(%esp),%eax"
+      ]
+    }
+  },
+  "not_emitted_symbols": [],
+  "limitation": "Direct stack subtracts are not cumulative caller/IRQ high-water. FrameAllocator host size311560 measured separately; FRAME_ALLOC target symbol includes SpinMutex metadata. Lease-only APIs may be dead-stripped until production has ordinary lease callers."
+}

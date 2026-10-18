@@ -1,5 +1,19 @@
 # Rosti OS — development handover
 
+## Current — Phase 11A.3 generation-safe frame leases, PARTIAL / NOT A RELEASE
+
+Private move-only ordinary-frame leases and a262144-byte checked identity ledger
+are implemented with shared pin-aware release accounting. Production FRAME_ALLOC
+is private; exact growth and audited revoked structure inventories remain separate.
+Host325/0/2 and full B26 98/0 pass serial/parallel; generation8/6/6, harness56,
+production build and sequential128/512 paging pass. Independent source review:
+bounded approval/no blockers; not full B19 or CPU teardown. Canonical acceptance
+completed actual exit0/PASS63/63. Current commit, final readback, artifacts and next command are recorded
+in `docs/PHASE11A3_GENERATION_HANDOVER.md` and task-local `STATE.md`; historical
+60/60 below is not this changed tree's result. USER/TSS/CPL3/Phase12 remain blocked.
+No remote action, push or deployment; unrelated files/media/evidence preserved.
+Following current-status sections are historical predecessors.
+
 ## Current — Phase 11A.2 structure lifetime, PARTIAL / NOT A RELEASE
 
 Starting HEAD: `6008ea6083ec8e0dcfc703878abacc362d5bca6b`; verified source commit:

@@ -1,5 +1,22 @@
 # BUGFIXES
 
+## Phase 11A.3 — stale lease release after frame reuse
+
+Numeric addresses cannot identify allocation generations. Ordinary allocations
+now stamp nonwrapping u32 identities, carried by private nonduplicable FrameLease
+tokens and checked with allocator domain before release. A stale token cannot
+release a new owner at the same address. One shared accounting implementation
+preserves runtime/structure pin refusal and clears identity on raw release too.
+Growth claims intentionally remain separate. Production global owner access is
+replaced by copied diagnostic stats, not a public raw mutation bypass.
+
+The inherited oracle reused consumed tokens and assumed no live PageMap tables.
+Corrected tests use cfg(test)-only negative duplicates and actual capacity
+snapshots, retaining all ABA assertions. This is stale-lease closure, not safety
+of arbitrary audited raw frees or full B19. Verification, independent review,
+resources and remaining blockers: `docs/PHASE11A3_GENERATION_HANDOVER.md`.
+Following current-status sections are historical predecessors.
+
 ## Current bounded repair — stale cleanup and owner-lock observability
 
 Actual RED regressions reproduced a released PageMap freeing a newer map's reused

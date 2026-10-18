@@ -1,5 +1,18 @@
 ## Rosti OS — Phase 11 Handover
 
+## Current — Phase 11A.3 generation-safe lease checkpoint, PARTIAL
+
+The bounded ordinary-frame ledger and move-only release API are implemented;
+audited raw structure and growth operations remain separate. All seven design
+corrections are reconciled by a byte-scoped independent bounded approval with no
+blockers. Host325/0/2 and B26 full98/0 pass serial/parallel; exact generation
+families8/6/6, harness56, production build and sequential128/512 paging pass.
+Fresh canonical acceptance completed actual exit0/PASS63/63; never apply historical60/60
+to this changed tree. Final readback, source/artifact identities and exact next
+command: `PHASE11A3_GENERATION_HANDOVER.md` and task-local `STATE.md`.
+No complete B19, USER, TSS/CPL3, Phase12, general teardown or deployment approval.
+Following current-status sections are historical predecessors.
+
 ## Current — structure cleanup lifetime and owner observability (PARTIAL)
 
 Starting HEAD `6008ea6083ec8e0dcfc703878abacc362d5bca6b`; verified implementation

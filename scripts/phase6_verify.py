@@ -333,6 +333,38 @@ def _run_acceptance():
                         "structure_cleanup_released_map_cannot_observe_mutate_or_activate_reused_frames",
                     )
                 }),
+                ("phase11_generation_ownership", "generation_ownership_tests::", {
+                    "memory::paging::generation_ownership_tests::" + name for name in (
+                        "generation_safe_stale_lease_cannot_release_reused_frame",
+                        "generation_safe_double_release_of_lease_is_refused",
+                        "generation_safe_lease_transfer_then_release",
+                        "generation_safe_foreign_domain_lease_is_refused",
+                        "generation_safe_mapped_lease_release_is_refused_until_unmapped",
+                        "generation_safe_rejected_map_preserves_lease",
+                        "generation_safe_repeated_allocate_release_cycles_keep_state",
+                        "generation_safe_reset_with_live_lease_is_refused",
+                    )
+                }),
+                ("phase11_generation_ledger", "generation_ledger_tests::", {
+                    "memory::frame::generation_ledger_tests::" + name for name in (
+                        "generation_safe_stale_forged_lease_cannot_release_reused_frame",
+                        "generation_safe_double_release_by_forged_copy_is_refused",
+                        "generation_safe_ledger_identity_never_repeats_across_cycles",
+                        "generation_safe_identity_exhaustion_is_permanent_not_wrapping",
+                        "generation_safe_raw_free_path_clears_ledger_identity",
+                        "generation_safe_raw_allocated_frame_has_no_lease_release_path",
+                    )
+                }),
+                ("phase11_generation_boundaries", "generation_boundary_tests::", {
+                    "memory::frame::generation_boundary_tests::" + name for name in (
+                        "generation_boundary_structure_pin_refuses_matching_lease",
+                        "generation_boundary_reset_preserves_issuer_and_rejects_old_domain",
+                        "generation_boundary_exhaustion_survives_reset_without_capacity_loss",
+                        "generation_boundary_growth_claim_has_no_ordinary_identity",
+                        "generation_boundary_malformed_lease_preserves_current_owner",
+                        "generation_boundary_static_ledger_budget",
+                    )
+                }),
                 ("phase11_snapshot", "heap_growth_maps_one_page_on_demand",
                  {"heap_growth_maps_one_page_on_demand"}),
                 ("phase11_gdt", "phase11_gdt_tests::", {

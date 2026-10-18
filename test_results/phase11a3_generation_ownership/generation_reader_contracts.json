@@ -1,0 +1,15 @@
+{
+  "name": "generation_reader_contracts",
+  "command": [
+    "python",
+    "-B",
+    "test_results/phase11a3_generation_ownership/test_verify_checkpoint.py"
+  ],
+  "cwd": "C:/Users/iamsv/Documents/Rust-OS",
+  "started_utc": "2026-10-18T10:57:16.344151+00:00",
+  "status": "UNEXPECTED",
+  "exit_code": 1,
+  "ended_utc": "2026-10-18T10:57:18.089661+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_reader_contracts.log",
+  "totals": []
+}

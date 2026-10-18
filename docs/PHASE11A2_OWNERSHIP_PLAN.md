@@ -1,5 +1,18 @@
 # Phase 11A.2 physical authority plan — PARTIAL, no USER publication
 
+## Implemented bounded Phase 11A.3 prerequisite
+
+Option A's reviewed u32 ledger is implemented:262144 bytes plus scalar metadata,
+private move-only leases, checked nonreused issuance across init, domain checks,
+shared raw/lease pin validation/accounting and raw identity invalidation. Exact
+growth claims remain separate; production global allocator owner is private.
+This closes stale **lease** release after reuse, not arbitrary raw-number misuse
+or full mapping/CPU-aware teardown. Audited table inventories remain numeric and
+are revoked on unpublished release; published boot structures remain retained.
+Current acceptance/review/resources and next task are authoritative in
+`PHASE11A3_GENERATION_HANDOVER.md` / task-local `STATE.md`. Historical u64 cost
+and unimplemented-generation statements below refer to predecessor proposals.
+
 ## Current bounded implementation — structure cleanup lifetime
 
 Unpublished cleanup now revokes the private directory/table/domain inventory on

@@ -1,0 +1,21 @@
+{
+  "name": "generation_red_v4",
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\red_v4_predecessor\\tests_kernel\\Cargo.toml",
+    "--lib",
+    "generation_ownership_tests::",
+    "--",
+    "--test-threads=1"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "started_utc": "2026-10-18T10:25:39.983682+00:00",
+  "status": "EXPECTED",
+  "exit_code": 101,
+  "ended_utc": "2026-10-18T10:25:47.556942+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_red_v4.log",
+  "totals": []
+}

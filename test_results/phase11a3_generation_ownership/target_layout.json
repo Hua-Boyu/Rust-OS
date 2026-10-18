@@ -1,0 +1,95 @@
+{
+  "kernel_sha256": "6d15c9ee180f705788af16377f77b67c91fc2de2e0d6c7ff90cca1430b234b0e",
+  "command": [
+    "wsl",
+    "--exec",
+    "readelf",
+    "--debug-dump=info",
+    "/mnt/c/Users/iamsv/Documents/Rust-OS/target/target/debug/kernel"
+  ],
+  "actual_exit": 0,
+  "FrameAllocator_target_bytes": 311528,
+  "FrameAllocator_host_bytes": 311560,
+  "FRAME_ALLOC_target_mutex_owner_bytes": 311532,
+  "DWARF_matches": 11,
+  "snippets": [
+    [
+      " Abbrev Number: 8 (DW_TAG_structure_type)",
+      "    <1805d>   DW_AT_name        : (indirect string, offset: 0x19ec3): FrameAllocator",
+      "    <18061>   DW_AT_byte_size   : 0x4c0e8",
+      "    <18065>   DW_AT_accessibility: 1\t(public)",
+      "    <18066>   DW_AT_alignment   : 4"
+    ],
+    [
+      " Abbrev Number: 6 (DW_TAG_structure_type)",
+      "    <1e6bd>   DW_AT_name        : (indirect string, offset: 0x19ec3): FrameAllocator",
+      "    <1e6c1>   DW_AT_byte_size   : 0x4c0e8",
+      "    <1e6c5>   DW_AT_accessibility: 1\t(public)",
+      "    <1e6c6>   DW_AT_alignment   : 4"
+    ],
+    [
+      " Abbrev Number: 17 (DW_TAG_structure_type)",
+      "    <1efee>   DW_AT_name        : (indirect string, offset: 0x19ec3): FrameAllocator",
+      "    <1eff2>   DW_AT_byte_size   : 0x4c0e8",
+      "    <1eff6>   DW_AT_accessibility: 1\t(public)",
+      "    <1eff7>   DW_AT_alignment   : 4"
+    ],
+    [
+      " Abbrev Number: 16 (DW_TAG_structure_type)",
+      "    <2f112>   DW_AT_name        : (indirect string, offset: 0x19ec3): FrameAllocator",
+      "    <2f116>   DW_AT_byte_size   : 0x4c0e8",
+      "    <2f11a>   DW_AT_accessibility: 1\t(public)",
+      "    <2f11b>   DW_AT_alignment   : 4"
+    ],
+    [
+      " Abbrev Number: 10 (DW_TAG_structure_type)",
+      "    <32890>   DW_AT_name        : (indirect string, offset: 0x19ec3): FrameAllocator",
+      "    <32894>   DW_AT_byte_size   : 0x4c0e8",
+      "    <32898>   DW_AT_accessibility: 1\t(public)",
+      "    <32899>   DW_AT_alignment   : 4"
+    ],
+    [
+      " Abbrev Number: 3 (DW_TAG_structure_type)",
+      "    <33dd5>   DW_AT_name        : (indirect string, offset: 0x19ec3): FrameAllocator",
+      "    <33dd9>   DW_AT_byte_size   : 0x4c0e8",
+      "    <33ddd>   DW_AT_accessibility: 1\t(public)",
+      "    <33dde>   DW_AT_alignment   : 4"
+    ],
+    [
+      " Abbrev Number: 21 (DW_TAG_structure_type)",
+      "    <41d58>   DW_AT_name        : (indirect string, offset: 0x19ec3): FrameAllocator",
+      "    <41d5c>   DW_AT_byte_size   : 0x4c0e8",
+      "    <41d60>   DW_AT_accessibility: 1\t(public)",
+      "    <41d61>   DW_AT_alignment   : 4"
+    ],
+    [
+      " Abbrev Number: 17 (DW_TAG_structure_type)",
+      "    <44639>   DW_AT_name        : (indirect string, offset: 0x19ec3): FrameAllocator",
+      "    <4463d>   DW_AT_byte_size   : 0x4c0e8",
+      "    <44641>   DW_AT_accessibility: 1\t(public)",
+      "    <44642>   DW_AT_alignment   : 4"
+    ],
+    [
+      " Abbrev Number: 19 (DW_TAG_structure_type)",
+      "    <5b887>   DW_AT_name        : (indirect string, offset: 0x19ec3): FrameAllocator",
+      "    <5b88b>   DW_AT_byte_size   : 0x4c0e8",
+      "    <5b88f>   DW_AT_accessibility: 1\t(public)",
+      "    <5b890>   DW_AT_alignment   : 4"
+    ],
+    [
+      " Abbrev Number: 12 (DW_TAG_structure_type)",
+      "    <767b9>   DW_AT_name        : (indirect string, offset: 0x19ec3): FrameAllocator",
+      "    <767bd>   DW_AT_byte_size   : 0x4c0e8",
+      "    <767c1>   DW_AT_accessibility: 1\t(public)",
+      "    <767c2>   DW_AT_alignment   : 4"
+    ],
+    [
+      " Abbrev Number: 20 (DW_TAG_structure_type)",
+      "    <8ad6a>   DW_AT_name        : (indirect string, offset: 0x19ec3): FrameAllocator",
+      "    <8ad6e>   DW_AT_byte_size   : 0x4c0e8",
+      "    <8ad72>   DW_AT_accessibility: 1\t(public)",
+      "    <8ad73>   DW_AT_alignment   : 4"
+    ]
+  ],
+  "limitation": "Type layout, not runtime stack high-water. Production allocator is const static."
+}

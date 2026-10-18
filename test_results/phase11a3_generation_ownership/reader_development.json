@@ -1,0 +1,53 @@
+{
+  "scope": "Reader development only; not acceptance execution or checkpoint approval",
+  "status": "PASS_READER_DEVELOPMENT_ONLY",
+  "test_command": "python -B test_results/phase11a3_generation_ownership/test_verify_checkpoint.py",
+  "test_actual_exit_code": 0,
+  "test_output": "test_binding_exact_command_cwd_log_and_path (__main__.ReaderTests.test_binding_exact_command_cwd_log_and_path) ... ok\r\ntest_cleanup_process_query_requires_completion (__main__.ReaderTests.test_cleanup_process_query_requires_completion) ... ok\r\ntest_complete_nested_synthetic_matrices_and_fail_closed_mutations (__main__.ReaderTests.test_complete_nested_synthetic_matrices_and_fail_closed_mutations) ... ok\r\ntest_completion_positive (__main__.ReaderTests.test_completion_positive) ... ok\r\ntest_evidence_changed_after_read (__main__.ReaderTests.test_evidence_changed_after_read) ... ok\r\ntest_gate_multiset_positive_empty_fmt_and_mutations (__main__.ReaderTests.test_gate_multiset_positive_empty_fmt_and_mutations) ... ok\r\ntest_legacy_b13_unusual_schema_exact_children (__main__.ReaderTests.test_legacy_b13_unusual_schema_exact_children) ... ok\r\ntest_main_running_wrapper_synthetic_not_ready_and_output_hash (__main__.ReaderTests.test_main_running_wrapper_synthetic_not_ready_and_output_hash) ... ok\r\ntest_nonzero_bool_unexpected_and_bad_time_refused (__main__.ReaderTests.test_nonzero_bool_unexpected_and_bad_time_refused) ... ok\r\ntest_optimized_execution_refused_before_import_or_write (__main__.ReaderTests.test_optimized_execution_refused_before_import_or_write) ... ok\r\ntest_output_exclusive_and_exact_detached_hash (__main__.ReaderTests.test_output_exclusive_and_exact_detached_hash) ... ok\r\ntest_real_iso_extractor_with_temporary_synthetic_media (__main__.ReaderTests.test_real_iso_extractor_with_temporary_synthetic_media) ... ok\r\ntest_review_raw_hashes_and_freeze_are_not_repinned (__main__.ReaderTests.test_review_raw_hashes_and_freeze_are_not_repinned) ... ok\r\ntest_running_and_incomplete_not_failure_verdict (__main__.ReaderTests.test_running_and_incomplete_not_failure_verdict) ... ok\r\ntest_test_rows_exact_and_ignored (__main__.ReaderTests.test_test_rows_exact_and_ignored) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 15 tests in 2.033s\r\n\r\nOK",
+  "targeted_helper_actual_exit_code": 0,
+  "targeted_helper_readback": {
+    "source_input_count": 145,
+    "pre_acceptance_full_membership_and_hash_match": true,
+    "independent_review_all_raw_hashes_match": true,
+    "source_declarations": {
+      "phase11_generation_ownership": 8,
+      "phase11_generation_ledger": 6,
+      "phase11_generation_boundaries": 6
+    },
+    "reader_raw_sha256": "9b78f33577651c63fc003d7f8582765304a33e0f52d23fd23b4257b1893c02c7",
+    "test_raw_sha256": "655171cd917dc48417eb4f2089be5638311e44f0c256625049f33ecb637d0530",
+    "helper_raw_sha256": {
+      "test_results/phase11a2_structure_lifetime/verify_checkpoint.py": "b64271b148a4c1b3ae660d6d12388db64ba1eabd71c0c6c900c1d27183c4dc5c",
+      "test_results/phase11a2_continuation/evidence_validation.py": "50612066aae2001e9e883288df8f393239c39376cd5c25d9fc659ac5e375df36",
+      "test_results/phase11a2_continuation/verify_closeout.py": "db82bdc2928ffb46a6a6722cbf7dfc67d9df2a5e33f3d460607e9f942f4fa6be",
+      "test_results/phase11a2_continuation/verify_table_access_checkpoint.py": "b6034aacdc85ce3b24d6082f361e962ca0299a4c76fc4b06f6daff7639e6fcd5",
+      "test_results/phase11/verify_checkpoint.py": "56b6921bd071baecd7b5963220561e2be30f631c81427bb6d0b2308356ab5324"
+    }
+  },
+  "coverage": [
+    "Exact canonical argv/cwd/output/log binding and actual zero completion; malformed/nonzero/boolean exits rejected",
+    "RUNNING/incomplete synthetic wrapper yields NOT_READY exit 2 without reading acceptance",
+    "Exact predecessor60 plus three family multiset; empty successful exact fmt only; count and identity mutations refused",
+    "Synthetic complete 159 nested reports; 56-scenario/3379-row Phase10 and 44-scenario boot metadata, all required RAM branches; duplicate/missing/false cleanup/B13 host mutations rejected",
+    "Existing unusual B13 schema helper: exact four configurations, child equality and cleanup",
+    "Real reused ISO extraction with temporary synthetic ISO bytes; production/hash/archive drift refused",
+    "Review full raw hashes and full pre-freeze membership; exclusive output raw-byte digest; concurrent evidence drift; optimized Python rejection"
+  ],
+  "not_executed": [
+    "Actual offline checkpoint main against the active acceptance",
+    "Acceptance progress polling/waiting",
+    "Cargo, builds, Rust tests or QEMU launches",
+    "Remote operations or Git index writes"
+  ],
+  "findings": [
+    "Actual wrapper was RUNNING when inspected once for schema; no acceptance PASS/FAIL is asserted by reader development.",
+    "Reader returns 0 PASS, 1 validation failure, 2 NOT_READY; output is exclusively created and never overwritten.",
+    "Reader must run with Python having pycdlib installed; current tested interpreter provides it.",
+    "Source snapshot independently rediscovered 145 inputs and matched pre_acceptance; all 11 primary plus supplemental review raw hashes matched without repinning.",
+    "Nested report count 159 and cleanup assertion count 280 intentionally include repeated aggregate assertions, not distinct guests.",
+    "Output SHA256 is necessarily detached: reader prints exact written output-byte digest on stdout; preserve that tool output or add digest to parent manifest.",
+    "Source approval remains BOUNDED_APPROVAL; full B19, TSS, CPL3 and Phase11 release readiness remain false.",
+    "Historical helper bytes pinned; runner is imported only after matching review/freeze bytes; no acceptance runner function is executed."
+  ],
+  "remaining_parent_step": "Execute reader once after actual acceptance wrapper has exited, using exact acceptance path and a new task-root output path. Preserve stdout output_raw_sha256. No checkpoint pass has yet been produced."
+}

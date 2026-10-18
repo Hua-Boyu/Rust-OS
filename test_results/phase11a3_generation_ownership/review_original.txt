@@ -1,0 +1,36 @@
+# Design review — Option A per-frame allocation-identity ledger
+
+**VERDICT: APPROVE-WITH-CHANGES** — the ledger+lease core is sound and closes the invariants, but seven items must be corrected/specified before implementation.
+
+## Answers to specific questions
+
+**a. ABA/double-release closure: YES.** Verified against source semantics: `allocate()` stamps `alloc_id[f]=id` (id monotonic from 1), `release_frame` zeroes `alloc_id[f]` on success. ABA: alloc(id=1)→release zeroes→realloc(id=2) stamps→stale lease id=1 ≠ alloc_id=2 → refused; current owner untouched. Double-release: id≠0 after zeroing → refused; and by-value move-only consumption makes it a compile error anyway. Invariants 1–4, 7 hold.
+
+**b. 256 KiB static: ACCEPTABLE, Option A justified.** MAX_FRAMES=65,536 × u32 = 262,144 B exactly; existing bitmaps ~48 KiB (source: 6×8 KiB + growth bitmap), so total statics ≈ 296 KiB — 0.23% of a 128 MiB guest, inside the reserved kernel span (never allocatable, so the identity map covering kernel frames is harmless). The plan doc priced the u64 variant at 524,288 B; u32 halves it. Option B's ~32 KiB saves 224 KiB but introduces a table-admission failure mode into the release path (eviction/probing failure in a boot-critical, no-allocation context) and O(probe) lookup. The extra 224 KiB buys total-function O(1) and zero new failure modes — justified. The plan's "review minimum-RAM boot / emitted frames" gate still applies as a build-time check, not a design blocker.
+
+**c. Split-brain: YES, as written — required change.** `release_frame` "performs exactly the existing free() accounting" implies a *copy* of the growth-vs-ordinary dispatch (source lines 369–391). Two copies of that dispatch can drift (e.g., growth `reserved_frames += 1` vs free-pool restore). Mandate: factor free()'s validation+accounting tail into one private helper called by both raw `free` and `release_frame`; identity check is a pre-gate in `release_frame` only.
+
+**d. pub(crate) demotion: NO breakage — verified.** Production call sites are all inside the memory subtree: `src/memory/mod.rs` (lines 302/315/318/322 — heap_grow_frame rollback, unmap, allocate/free payload), `src/memory/paging.rs` builder (`fa.allocate()` at 355/648/669, frees in rollback). `main.rs`/`shell.rs` only read `FRAME_ALLOC.lock().stats()`. The other `.allocate(` hits in the grep (interrupt.rs, main.rs ports, io/ports.rs, fd.rs) are PortAllocator/fd — different types. Test crates (`tests_kernel`, `tests_b26`) include `src/memory/mod.rs` via `#[path]`, so `pub(crate)` = test-crate-visible; all their `fa.allocate()/fa.free(...)` sites compile. Precedent exists: `pub(super)` methods already used this way.
+
+**e. Lock/stack safety: CONFIRMED.** `alloc_id` is a fixed array field of `FrameAllocator` inside the static `FRAME_ALLOC` SpinMutex — no new stack temporaries (the 16 KiB bootstrap-stack rule in the plan doc is respected; note `FrameAllocator` by-value grows, but it is never moved by value — it lives in the static). `init()` adds one `.fill(0)` — allocation-free, bounded. No new lock edges; heap→M→F order untouched.
+
+**f. Test-oracle forging: ACCEPTABLE with a caveat.** The unforgeability claim is about the kernel API surface (safe code outside `frame`); module-internal forging (`domain_tests`, and `b11_frame_tests.rs` which is `#[path]`-included *inside* frame.rs) is the right way to exercise ledger validation. Note the repo already has the right separation: `generation_ownership_tests.rs` is included in **paging.rs**, outside the frame module — it cannot forge, so it is a genuine external oracle for the API contract. Caveat: never cite internal forging as evidence for the external-contract claim.
+
+## Required changes (blocking)
+
+1. **`release_frame` must run the full existing `free()` refusal chain** — alignment, `runtime_pins`, `structure_pins`, `covered`/`ever` — not just the three identity checks. As specified, a mapped payload lease would release, breaking invariants 5/6 and failing the existing `generation_safe_mapped_lease_release_is_refused` oracle.
+2. **Single shared validation/accounting helper** for `free` and `release_frame` (see c) — no duplicated growth/ordinary dispatch.
+3. **Raw `free()` must also zero `alloc_id[f]` on success** (or the design must document the orphan-identity state). Without it, a frame freed on the audited raw path keeps a stale nonzero identity; harmless for correctness (release requires lease proof, realloc overwrites), but the ledger should not lie on two paths.
+4. **The growth branch of `release_frame` is unreachable**: `init()` marks growth-window frames reserved, so `allocate()`/`allocate_owned()` never issue them, and `claim_growth_frame` issues no lease. Either drop the branch or add a growth-lease variant; as written it is dead code that invites drift with the raw growth rollback path (`mod.rs:302`).
+5. **Specify `next_id` vs `init()`**: recommend NOT resetting `next_id` on re-init (monotonic across domains; the domain check stays as belt-and-braces). If reset, the domain check alone must carry cross-domain separation — pick one, document it.
+6. **`FrameLease` needs a public accessor** (`frame_addr()`) — the oracle calls `lease.frame_addr()`; the design lists only private fields.
+7. **Test-oracle reconciliation**: `generation_ownership_tests.rs` reuses a lease after releasing it (lines 37/41, 57/59, 161/164) — under by-value consumption these are use-after-move compile errors. The compile error *is* the static proof of invariant 7; the runtime ABA/double-release oracles must be rewritten (retain the address + a module-internal forged stale lease, or a compile-fail test). This is a test-plan change, not a design flaw.
+
+## Invariant scorecard
+1 ✓ (monotonic id + free-pool gating) · 2 ✓ · 3 ✓ (a) · 4 ✓ (private fields, no Copy/Clone, `free` pub(crate)) · 5 ✓ once change 1 lands · 6 ✓ via `structure_pins` refusal · 7 ✓ (type-level + ledger) · 8 ✓ (refusals mutate only diagnostics, matching existing `free()` convention) · 9 ✓ (`checked_add`, permanent None — note this is a documented new permanent-exhaustion policy for `allocate()` too) · 10 ✓ (≈296 KiB total statics, bounded).
+
+## Summary for the parent
+- **What I did:** read `src/memory/frame.rs` (all 565 lines), both phase-11 authority docs, and enumerated every `allocate`/`free`/`claim_growth_frame` call site across `src`, `tests_kernel`, `tests_b26` (grep-verified), including the existing `generation_ownership_tests.rs` oracle already wired into `paging.rs`.
+- **Outcome:** APPROVE-WITH-CHANGES — core design closes invariants 1–4, 7–10; 7 required changes listed above (pin validation in `release_frame`, shared accounting helper, ledger zeroing on raw free, dead growth branch, `next_id`/init policy, lease accessor, oracle rewrite for by-value consumption). No blocking rejection of the model itself; 256 KiB static budget accepted.
+- **Files created/modified:** none (read-only review, as instructed).
+- **Issues:** the existing generation oracle will not compile unchanged against the by-value lease API — flagged as change 7.

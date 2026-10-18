@@ -1,0 +1,5 @@
+{
+  "scope": "Corrected oracle + unchanged predecessor frame.rs; isolated snapshot, no live source rollback",
+  "frame_sha256": "9049816bcc80f2bef858962c31a259bb5ed738572684ed6330e96e904544c8d2",
+  "oracle_sha256": "8409d5766f3f8d1a146c720aa28dcc6bb6f9c6335a53ebaa7ad3c62affaea79c"
+}

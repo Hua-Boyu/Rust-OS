@@ -1,5 +1,26 @@
 # TESTING
 
+## Phase 11A.3 generation ownership — current bounded checkpoint
+
+Host325 passed/0 failed/2 existing ignores and independently rooted full B26 98/0
+pass serial/parallel. Exact generation ownership8, internal ledger6 and boundary6
+identities pass; compile-time assertions reject Copy/Clone implementations.
+Negative runtime tokens use cfg(test)-only duplicate/forgery authority, not an
+external production duplication API. Rejected release capacity and current-owner
+cleanup are checked; refused mapping never consumes the legitimate caller lease.
+
+RED v4 uses corrected oracles against an isolated exact predecessor allocator:
+actual Cargo101/31 missing-API errors, zero runtime tests (compilation RED, not
+runtime ABA proof). The historical raw-numeric ABA probe is retained unchanged.
+Harness contracts RED (3 tests,41 failed assertions/subtests) -> GREEN56 tests;
+the existing runner now mandates three exact8/6/6 families while preserving all
+60 inherited gates. Actual canonical run completed exit0/explicit PASS63/63;
+final nested/source/artifact readback remains separately recorded. Production
+build and sequential128/512 paging passed.
+Current complete results/provenance/commands: `docs/PHASE11A3_GENERATION_HANDOVER.md`
+and `test_results/phase11a3_generation_ownership/STATE.md`. Following sections are
+historical; no host or ring0 result establishes CPL3 readiness.
+
 ## Current structure-lifetime and owner-observation regressions — PARTIAL
 
 Five `structure_lifetime_tests` exercise actual reused structure addresses across

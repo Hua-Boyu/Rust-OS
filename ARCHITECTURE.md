@@ -1,5 +1,23 @@
 # ARCHITECTURE
 
+## Phase 11A.3 — bounded generation-safe ordinary-frame release
+
+FrameAllocator owns a fixed65536-entry u32 identity ledger. Every ordinary raw or
+leased allocation stamps a nonzero checked identity; exhaustion retires issuance
+permanently across reset. FrameLease fields are private, with no Clone/Copy; public
+release consumes it and requires matching live identity/domain before shared
+release validation, including runtime/structure pins. Raw successful releases
+invalidate identity through that same helper. No heap ledger or new lock edge.
+
+Growth claims keep separate exact-address reserved accounting and identity zero.
+Audited structure inventories retain existing pins/revocation/CPU-publication
+retention, not a new lease table. FRAME_ALLOC is private in production; copied
+optional frame_stats diagnostics expose no owner. Production initialization is
+const static, never a large bootstrap-stack temporary. Measured section/stack
+impact and verification limits: `docs/PHASE11A3_GENERATION_HANDOVER.md`.
+This is not complete B19, numeric map capability admission or USER readiness.
+Following current-status sections are historical predecessors.
+
 ## Current Phase 11A.2 — revocable unpublished structure authority (PARTIAL)
 
 `PageMap` cleanup now takes mutable authority, preflights every owned structure,

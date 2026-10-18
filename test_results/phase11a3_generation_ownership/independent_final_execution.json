@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:/Users/iamsv/AppData/Local/hermes/hermes-agent/venv/Scripts/python.exe",
+    "-B",
+    "test_results/phase11a3_generation_ownership/verify_checkpoint.py",
+    "test_results/phase11a3_generation_ownership/acceptance/acceptance_20261018T103450Z_v2091tta/acceptance.json",
+    "test_results/phase11a3_generation_ownership/independent_final_readback.json"
+  ],
+  "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "started_utc": "2026-10-18T11:20:00.231295+00:00",
+  "ended_utc": "2026-10-18T11:20:02.719506+00:00",
+  "actual_exit_code": 0,
+  "stdout": "{\r\n  \"overall\": \"PASS\",\r\n  \"output\": \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\\\\test_results\\\\phase11a3_generation_ownership\\\\independent_final_readback.json\",\r\n  \"output_raw_sha256\": \"4e1a95112ead1a9524b41f61715f381de2c8294a2c425ffebe712cc7e3d811d4\",\r\n  \"error\": null\r\n}\r\n",
+  "stderr": "",
+  "output": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\independent_final_readback.json",
+  "output_raw_sha256": "4e1a95112ead1a9524b41f61715f381de2c8294a2c425ffebe712cc7e3d811d4"
+}

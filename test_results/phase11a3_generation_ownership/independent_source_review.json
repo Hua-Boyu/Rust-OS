@@ -1,0 +1,118 @@
+{
+  "review": "Independent read-only Phase11A.3 generation-safe frame lease source review",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "branch": "maintenance/phase10",
+  "head": "dde07882be6e7a96f29b9839e0b11029f7c81e26",
+  "candidate": "dirty working tree, including both untracked generation test files",
+  "verdict": "BOUNDED_APPROVAL",
+  "verdict_detail": "No security-sensitive or other blocking defect found in the reviewed generation-safe release checkpoint. This is bounded source approval, NOT full Phase 11 release approval, CPL3 readiness, guest acceptance, or a claim that all raw numeric APIs establish ownership.",
+  "security_sensitive_blockers": [],
+  "blockers": [],
+  "review_method": {
+    "full_reads": ["src/memory/frame.rs", "src/memory/paging.rs", "src/memory/mod.rs", "src/memory/generation_ownership_tests.rs", "src/memory/generation_boundary_tests.rs", "src/main.rs", "src/shell.rs", "scripts/phase6_verify.py", "scripts/test_acceptance_harness.py", "test_results/phase11a3_generation_ownership/review_original.txt", "src/memory/structure_lifetime_tests.rs"],
+    "supplemental_reads": ["tests_kernel/src/lib.rs lines 1-90, establishing independently rooted module inclusion"],
+    "git_operations": "Read branch, HEAD, status, complete scoped tracked diffs, and HEAD acceptance-runner bytes; no staging, commits, remote actions, or source writes.",
+    "read_only_computation": "Python -B independently extracted Rust test declarations, compared runner AST identities, computed raw-byte SHA256, enumerated candidate frame/raw/global-owner callers, and compared the runner with HEAD after removing the three added tuples.",
+    "not_executed": ["Cargo", "build", "QEMU", "Rust tests", "Python acceptance harness tests", "actual acceptance runner"],
+    "test_evidence_limit": "Tests were reviewed for semantics, not executed by this reviewer. Parent-provided earlier pass counts are context only and are not independently attested here.",
+    "writes": ["test_results/phase11a3_generation_ownership/independent_source_review.json"],
+    "unrelated_untracked_items": "git status also showed d1/ and scripts/b13_boot_fixture.py.backup; these are outside the requested candidate source scope and were not modified or treated as release evidence."
+  },
+  "design_review_reconciliation": [
+    {"correction": 1, "status": "SATISFIED", "evidence": "frame.rs:489-506 checks initialization, domain, managed frame index and nonzero matching identity, then invokes release_by_address. frame.rs:426-476 independently enforces alignment, runtime pins, structure pins, covered/ever and current ordinary/growth release state. A matching identity cannot bypass the existing pin refusal chain. Malformed-lease and structure-pin boundary probes cover these preconditions; the paging ownership fixture covers a real modeled runtime mapping."},
+    {"correction": 2, "status": "SATISFIED", "evidence": "Both pub(crate) free and public by-value release_frame delegate to the single private release_by_address implementation. There is no second copy of ordinary/growth accounting."},
+    {"correction": 3, "status": "SATISFIED", "evidence": "release_by_address zeroes alloc_id on both successful ordinary release and growth rollback. The raw-free ledger test checks zero then fresh reallocation identity."},
+    {"correction": 4, "status": "SATISFIED_WITH_EXPLICIT_SCOPE", "evidence": "No growth-lease variant or separate dead growth-release implementation was introduced. Ordinary allocation only selects the free bitmap, while init reserves the entire growth window. claim_growth_frame remains a separate raw exact-address internal production path and does not stamp an ordinary identity. The shared helper's growth arm remains necessary for raw rollback, not a promise that ordinary leases can own growth frames. generation_boundary_growth_claim_has_no_ordinary_identity asserts zero identity, refusal of forged ordinary leases, reservation restoration and retry."},
+    {"correction": 5, "status": "SATISFIED", "evidence": "next_id is initialized only by new, advances with checked_add, issues MAX once, then permanently remains zero. init clears alloc_id but never resets next_id. Domain issuance is independently nonwrapping through AtomicU32 try_update. Live ordinary/growth inventory refuses reset before mutation; cross-allocator domain checks prevent identical per-instance identities from authorizing foreign release. Boundary tests retain exhausted issuer state across reset and reject stale-domain leases after same-address reuse."},
+    {"correction": 6, "status": "SATISFIED", "evidence": "FrameLease::frame_addr(&self) exposes only the numeric observation; addr/id/domain remain private."},
+    {"correction": 7, "status": "SATISFIED", "evidence": "Release consumes FrameLease by value. Rewritten runtime probes use explicit cfg(test)-only duplicates or frame-module construction rather than use-after-move. The paging-side test module has negative Copy/Clone trait assertions and a by-value transfer probe. Forged duplicates are explicitly labeled test authority, not proof that production can forge leases."}
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "classification": "PASS",
+      "topic": "Lease authority and ABA",
+      "details": "FrameLease has private fields, no Copy/Clone implementation, and no production duplicate constructor. FrameAllocator has no Clone/Copy implementation. allocate_owned and audited raw allocate share allocate_stamped, so every successful ordinary allocation receives a fresh live alloc_id. On stale release the identity mismatch is rejected before shared release accounting; on valid release the identity is cleared. Same-address reuse receives a new identity. Allocation refusal before initialization, lack of free capacity or identity exhaustion does not decrement capacity or stamp an identity. This closes stale-lease release, not stale-address use by audited raw callers."
+    },
+    {
+      "id": "F2",
+      "classification": "PASS_WITH_APPROVED_SEMANTIC_LIMIT",
+      "topic": "Pins and consumed refusal",
+      "details": "Runtime/structure pins are checked by the shared release helper, and neither identity nor capacity changes on those refusals. Runtime unmap clears the PTE and invalidates before releasing the payload pin. A false by-value release still consumes the caller's lease; without a retained test duplicate or internal cleanup authority this can leak a frame. That is the explicitly approved API contract, not a use-after-free and not a blocker. Tests deliberately retain their original authority while submitting only test duplicates to refusal cases."
+    },
+    {
+      "id": "F3",
+      "classification": "PASS",
+      "topic": "Audited raw caller closure",
+      "details": "Production raw allocate/free calls are confined to memory/paging construction, rollback and unpublished cleanup, plus memory/mod.rs failed growth mapping rollback. Other main/interrupt allocate calls target PortAllocator, not frames. Runtime table accessibility refusal frees only its freshly acquired unpinned table candidate. Builder failure clears table/directory structure pins before freeing its own inventory. Unpublished cleanup preflights the full owned structure set, rejects retained/foreign/runtime-bearing maps, clears pins, frees and revokes directory/domain/table inventory. Repeated cleanup cannot regain authority after reuse. Publication, initial CR3 activation and CR3 reload seal retained backing permanently. Raw ownership remains an audited internal invariant as allowed; no full structure-token redesign is required for this checkpoint."
+    },
+    {
+      "id": "F4",
+      "classification": "PASS",
+      "topic": "Production owner privacy and lock order",
+      "details": "FRAME_ALLOC is private in cfg(not(test)); only cfg(test) exports pub(crate) owner access for independently rooted observation fixtures. main.rs and shell.rs now receive Option<Copy FrameStats> through frame_stats, not guards or references. The helper performs no formatting, heap operation or callback while holding the frame owner. Existing production lock order remains heap -> PAGE_MAP -> FRAME_ALLOC; new ledger operations are fixed-array/scalar work and add no locks. Module descendants still have internal authority under Rust privacy rules, as intended."
+    },
+    {
+      "id": "F5",
+      "classification": "PASS_WITH_RUNTIME_VERIFICATION_PENDING",
+      "topic": "Bounded memory and stack",
+      "details": "The fixed u32 ledger contains 65536 entries; independently computed ledger storage is 262144 bytes. Production FrameAllocator::new usage is solely const initialization of the static mutex owner; init uses fill on existing storage and adds no allocator-sized local or heap allocation. Host tests create large allocator values on host test stacks and are not boot-stack evidence. The boundary test sets a 320 KiB host structure bound. Parent reports 311560 host bytes; this review did not remeasure type layout or target stack frames. Target compiler emission, minimum-RAM boot and caller/IRQ stack headroom remain acceptance obligations, not proven by these reads."
+    },
+    {
+      "id": "F6",
+      "classification": "PASS",
+      "topic": "Exact acceptance families and inherited gates",
+      "details": "Independent AST/source extraction found exact unique generation family sizes 8 ownership / 6 ledger / 6 boundaries, with all runner names matching actual Rust declarations. All three modules are cfg(test)-included at the required frame/paging paths. Runner uses separate tests_kernel --lib filtered invocations with --test-threads=1. It requires a single exact nonfailed/nonignored summary, exact row count and exact identity set, so duplicates/substitution/extra/short rows fail. Removing just the three new tuples makes current phase6_verify.py text exactly equal to HEAD. Therefore every predecessor runner operation remains unchanged and the expected successful gate count increases from the supplied historical 60 to 63. This is source preservation and expected cardinality, not an observed 63-gate runtime pass."
+    },
+    {
+      "id": "F7",
+      "classification": "PASS",
+      "topic": "Independent harness contracts",
+      "details": "The new declaration oracle reads actual Rust source and asserts unique 8/6/6 declarations rather than echoing guessed runner names. Its AST comparison verifies runner filter/prefix/identities. Simulation checks mandatory execution and expected counts, and malformed-output cases reject empty/zero/short/extra/duplicate/substitute identities, mismatched totals, missing rows, failed/ignored tests, missing summary and doubled output before versioned ISO publication. Existing safety, owner detector, structure lifetime, source freeze, OS lock and guest evidence validation paths remain present. These mocks establish runner behavior when executed, not hardware or Rust runtime behavior merely from source."
+    }
+  ],
+  "nonblocking_suggestions": [
+    {
+      "id": "S1",
+      "location": "src/memory/frame.rs:485-506",
+      "suggestion": "Document explicitly in release_frame rustdoc that even a refused release consumes the lease and may leave a permanently allocated frame; callers should unmap/check ownership before attempting release. Consider #[must_use] on FrameLease to warn on accidentally discarded authority. Neither changes the approved by-value semantics."
+    },
+    {
+      "id": "S2",
+      "location": "src/memory/frame.rs:137-140 and 421-425",
+      "suggestion": "Clarify the alloc_id comment as ordinary-allocation identity metadata: raw growth claims intentionally have id zero while live. The shared growth rollback branch is valid, but ordinary release_frame cannot reach it through a legitimately issued lease."
+    },
+    {
+      "id": "S3",
+      "location": "src/memory/generation_ownership_tests.rs:6-20 and cfg(test) duplicate hook",
+      "suggestion": "As a later strengthening, add production-context compile-fail checks for literal construction, Clone/Copy, raw release visibility and reuse after a consuming call. Current negative trait assertions and private production source establish the intended surface on inspection, but runtime forged-token probes must not be presented as external unforgeability tests."
+    },
+    {
+      "id": "S4",
+      "location": "src/memory/frame.rs FrameStats diagnostics",
+      "suggestion": "Keep the new 262144-byte ledger accounting separate from bitmap_frames, whose current meaning remains bitmap-only. Existing rejection counters use unchecked += 1; saturation can be a later diagnostic hardening task to avoid debug overflow panic/release wrap under extreme repeated refusal. This inherited counter policy does not permit stale release and is not a blocker for the bounded checkpoint."
+    }
+  ],
+  "remaining_release_obligations": [
+    "Parent must complete and preserve actual host, independently rooted B26, production-build and focused/canonical guest evidence against frozen reviewed bytes.",
+    "No guest success, emitted i686 stack bound, runtime high-water, actual CPU denial or 63-gate acceptance is attested by this read-only review.",
+    "Keep USER/CPL3, scheduler/teardown, full B19 and general allocator redesign outside this approval; raw numeric mapping is still not a transferable per-caller ownership capability.",
+    "Any later source changes require explicit hash-scoped supplemental review rather than replacement of these independent reviewed hashes."
+  ],
+  "reviewed_raw_sha256": {
+    "src/memory/frame.rs": "8d2a5d4933a4cf70a50dd05057275bb1935c9830a708d18cc5c679b183f0f881",
+    "src/memory/paging.rs": "857a9b923624596a2c210ba3a2ba0ce9520a2f28b98a65205d13af10f95272ba",
+    "src/memory/mod.rs": "158893320d14081c4485c204501f600cb1103d973bc8834f2806cad95d2f2c71",
+    "src/memory/generation_ownership_tests.rs": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+    "src/memory/generation_boundary_tests.rs": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+    "src/main.rs": "f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91",
+    "src/shell.rs": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+    "scripts/phase6_verify.py": "748858a1da696943cf0709dfe1b11f1e0b40b5243445a6b7c143e8cc2f65af10",
+    "scripts/test_acceptance_harness.py": "b8222558ea6a93e8a26c67bb4868a2ec886636587f8f1cb8526fc6e8daccbcb8",
+    "test_results/phase11a3_generation_ownership/review_original.txt": "40d46e6b66b0b9baeec035b20f6fe931b13b458cbbb8b3d397f3b98f6c81cd79",
+    "src/memory/structure_lifetime_tests.rs": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b"
+  },
+  "supplemental_context_raw_sha256": {
+    "tests_kernel/src/lib.rs": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133"
+  }
+}

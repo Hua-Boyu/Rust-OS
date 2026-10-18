@@ -1,5 +1,24 @@
 # Physical-memory authority — Phase 11A.2 partial inventory
 
+## Phase 11A.3 generation-safe release checkpoint
+
+Ordinary allocation now stamps a bounded u32 allocation identity; public
+`allocate_owned` returns a private-field non-Copy/non-Clone `FrameLease` and
+`release_frame` consumes that proof. Checked exhaustion is permanent across init.
+Identity/domain validation precedes the single shared raw/lease release helper,
+including runtime and structure pin refusals. Successful raw free clears identity.
+Growth claims remain exact-address reserved operations with no ordinary identity.
+Production FRAME_ALLOC is private; diagnostics copy `frame_stats()` and unlock.
+
+The audited raw structure/growth paths below remain trusted kernel internals,
+not arbitrary stale-number safety. Borrowed identity mappings grant no release
+authority; publication/CPU retention and heap -> map -> frame order are unchanged.
+Full B19, USER and general teardown remain blocked. Current verification and
+caller classifications: `PHASE11A3_GENERATION_HANDOVER.md` and task-local
+`test_results/phase11a3_generation_ownership/caller_audit.md` (repository root).
+The earlier inventory below is retained as predecessor evidence where it says
+generation-safe leases are not yet implemented.
+
 Source-derived inventory, not a claim of complete B19. Symbol names are stable
 anchors; historical initial-source call analysis is retained in
 `test_results/phase11a2_structure_lifetime/physical_authority_inventory_readonly.md`.

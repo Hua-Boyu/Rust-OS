@@ -1,0 +1,17 @@
+{
+  "name": "generation_full_acceptance",
+  "command": [
+    "python",
+    "-B",
+    "scripts/phase6_verify.py",
+    "--output-dir",
+    "C:/Users/iamsv/Documents/Rust-OS/test_results/phase11a3_generation_ownership/acceptance"
+  ],
+  "cwd": "C:/Users/iamsv/Documents/Rust-OS",
+  "started_utc": "2026-10-18T10:34:50.215193+00:00",
+  "status": "EXPECTED",
+  "exit_code": 0,
+  "ended_utc": "2026-10-18T11:19:20.173025+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_full_acceptance.log",
+  "totals": []
+}

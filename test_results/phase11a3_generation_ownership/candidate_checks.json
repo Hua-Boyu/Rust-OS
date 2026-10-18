@@ -1,0 +1,238 @@
+{
+  "status": "PASS",
+  "steps": [
+    {
+      "name": "generation_candidate_generation_ownership_tests",
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "generation_ownership_tests::",
+        "--",
+        "--test-threads=1"
+      ],
+      "cwd": "C:\\Users\\iamsv",
+      "started_utc": "2026-10-18T10:31:58.136946+00:00",
+      "status": "EXPECTED",
+      "exit_code": 0,
+      "ended_utc": "2026-10-18T10:31:58.278174+00:00",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_generation_ownership_tests.log",
+      "totals": [
+        [
+          "8",
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "name": "generation_candidate_generation_ledger_tests",
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "generation_ledger_tests::",
+        "--",
+        "--test-threads=1"
+      ],
+      "cwd": "C:\\Users\\iamsv",
+      "started_utc": "2026-10-18T10:31:58.360877+00:00",
+      "status": "EXPECTED",
+      "exit_code": 0,
+      "ended_utc": "2026-10-18T10:31:58.470264+00:00",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_generation_ledger_tests.log",
+      "totals": [
+        [
+          "6",
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "name": "generation_candidate_generation_boundary_tests",
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "generation_boundary_tests::",
+        "--",
+        "--test-threads=1"
+      ],
+      "cwd": "C:\\Users\\iamsv",
+      "started_utc": "2026-10-18T10:31:58.549410+00:00",
+      "status": "EXPECTED",
+      "exit_code": 0,
+      "ended_utc": "2026-10-18T10:31:58.653846+00:00",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_generation_boundary_tests.log",
+      "totals": [
+        [
+          "6",
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "name": "generation_candidate_tests_kernel_serial",
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "--",
+        "--test-threads=1"
+      ],
+      "cwd": "C:\\Users\\iamsv",
+      "started_utc": "2026-10-18T10:31:58.766154+00:00",
+      "status": "EXPECTED",
+      "exit_code": 0,
+      "ended_utc": "2026-10-18T10:31:59.959188+00:00",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_tests_kernel_serial.log",
+      "totals": [
+        [
+          "325",
+          "0",
+          "2"
+        ]
+      ]
+    },
+    {
+      "name": "generation_candidate_tests_kernel_parallel",
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib"
+      ],
+      "cwd": "C:\\Users\\iamsv",
+      "started_utc": "2026-10-18T10:32:00.104651+00:00",
+      "status": "EXPECTED",
+      "exit_code": 0,
+      "ended_utc": "2026-10-18T10:32:00.459840+00:00",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_tests_kernel_parallel.log",
+      "totals": [
+        [
+          "325",
+          "0",
+          "2"
+        ]
+      ]
+    },
+    {
+      "name": "generation_candidate_tests_b26_serial",
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_b26\\Cargo.toml",
+        "--lib",
+        "--",
+        "--test-threads=1"
+      ],
+      "cwd": "C:\\Users\\iamsv",
+      "started_utc": "2026-10-18T10:32:00.564433+00:00",
+      "status": "EXPECTED",
+      "exit_code": 0,
+      "ended_utc": "2026-10-18T10:32:02.757867+00:00",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_tests_b26_serial.log",
+      "totals": [
+        [
+          "98",
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "name": "generation_candidate_tests_b26_parallel",
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_b26\\Cargo.toml",
+        "--lib"
+      ],
+      "cwd": "C:\\Users\\iamsv",
+      "started_utc": "2026-10-18T10:32:02.868625+00:00",
+      "status": "EXPECTED",
+      "exit_code": 0,
+      "ended_utc": "2026-10-18T10:32:03.120061+00:00",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_tests_b26_parallel.log",
+      "totals": [
+        [
+          "98",
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "name": "generation_candidate_contracts",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "scripts/test_acceptance_harness.py"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "started_utc": "2026-10-18T10:32:03.245161+00:00",
+      "status": "EXPECTED",
+      "exit_code": 0,
+      "ended_utc": "2026-10-18T10:32:58.859205+00:00",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_contracts.log",
+      "totals": []
+    },
+    {
+      "name": "generation_candidate_production_build",
+      "command": [
+        "cargo",
+        "+nightly",
+        "build"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "started_utc": "2026-10-18T10:32:58.967612+00:00",
+      "status": "EXPECTED",
+      "exit_code": 0,
+      "ended_utc": "2026-10-18T10:33:02.979455+00:00",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_production_build.log",
+      "totals": []
+    },
+    {
+      "name": "generation_candidate_paging_128_512",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "scripts/paging_test.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\focused_paging"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "started_utc": "2026-10-18T10:33:03.093748+00:00",
+      "status": "EXPECTED",
+      "exit_code": 0,
+      "ended_utc": "2026-10-18T10:33:05.846026+00:00",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_paging_128_512.log",
+      "totals": []
+    }
+  ],
+  "started_utc": "2026-10-18T10:31:58.051397+00:00",
+  "baseline_kernel_sha256": "8b43ae2ee1d20e40bd1754e031202a1d0085ae21de8bb6162edbea671c2ba9b9",
+  "kernel_sha256": "6d15c9ee180f705788af16377f77b67c91fc2de2e0d6c7ff90cca1430b234b0e",
+  "focused_guest_report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\focused_paging\\20261018_183303_paging\\report.json",
+  "ended_utc": "2026-10-18T10:33:05.873958+00:00"
+}

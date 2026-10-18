@@ -201,14 +201,7 @@ fn run_command(
             // Copy frame stats under one guard, then release before the
             // heap guard: nested locks on the same mutex deadlock, and
             // heap allocation during printing could re-enter the heap.
-            let fa_stats = {
-                let fa = crate::memory::FRAME_ALLOC.lock();
-                if fa.is_initialized() {
-                    Some(*fa.stats())
-                } else {
-                    None
-                }
-            };
+            let fa_stats = crate::memory::frame_stats();
             let fs_stats = fs.stats();
             report!("FS nodes: {}", fs_stats.nodes);
             report!("FS storage: {} bytes", fs_stats.allocated_bytes);

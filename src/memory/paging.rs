@@ -50,6 +50,10 @@ mod mapping_pin_tests;
 #[path = "structure_lifetime_tests.rs"]
 mod structure_lifetime_tests;
 
+#[cfg(test)]
+#[path = "generation_ownership_tests.rs"]
+mod generation_ownership_tests;
+
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
 pub const ENTRY_WRITABLE: u32 = 1 << 1;

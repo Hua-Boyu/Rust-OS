@@ -1,0 +1,1417 @@
+{
+  "overall": "PASS",
+  "acceptance": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\acceptance.json",
+  "offline": true,
+  "new_acceptance_gates": 0,
+  "scope": "Generation-safe ordinary frame release prerequisite; bounded source approval only.",
+  "b19_complete": false,
+  "phase11_release_ready": false,
+  "tss_implemented": false,
+  "cpl3_executed": false,
+  "output_hash_contract": "Exact UTF-8 output-file SHA256 is detached on stdout; no self-referential digest.",
+  "reader_raw_sha256": "9b78f33577651c63fc003d7f8582765304a33e0f52d23fd23b4257b1893c02c7",
+  "helper_raw_sha256": {
+    "test_results/phase11a2_structure_lifetime/verify_checkpoint.py": "b64271b148a4c1b3ae660d6d12388db64ba1eabd71c0c6c900c1d27183c4dc5c",
+    "test_results/phase11a2_continuation/evidence_validation.py": "50612066aae2001e9e883288df8f393239c39376cd5c25d9fc659ac5e375df36",
+    "test_results/phase11a2_continuation/verify_closeout.py": "db82bdc2928ffb46a6a6722cbf7dfc67d9df2a5e33f3d460607e9f942f4fa6be",
+    "test_results/phase11a2_continuation/verify_table_access_checkpoint.py": "b6034aacdc85ce3b24d6082f361e962ca0299a4c76fc4b06f6daff7639e6fcd5",
+    "test_results/phase11/verify_checkpoint.py": "56b6921bd071baecd7b5963220561e2be30f631c81427bb6d0b2308356ab5324"
+  },
+  "source_review": {
+    "sha256": "18076b1a55df5db5877d90ffa103c900bb4868c1fb165de7befc9dd632dac02b",
+    "verdict": "BOUNDED_APPROVAL",
+    "reviewed_raw_sha256": {
+      "src/memory/frame.rs": "8d2a5d4933a4cf70a50dd05057275bb1935c9830a708d18cc5c679b183f0f881",
+      "src/memory/paging.rs": "857a9b923624596a2c210ba3a2ba0ce9520a2f28b98a65205d13af10f95272ba",
+      "src/memory/mod.rs": "158893320d14081c4485c204501f600cb1103d973bc8834f2806cad95d2f2c71",
+      "src/memory/generation_ownership_tests.rs": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+      "src/memory/generation_boundary_tests.rs": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+      "src/main.rs": "f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91",
+      "src/shell.rs": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+      "scripts/phase6_verify.py": "748858a1da696943cf0709dfe1b11f1e0b40b5243445a6b7c143e8cc2f65af10",
+      "scripts/test_acceptance_harness.py": "b8222558ea6a93e8a26c67bb4868a2ec886636587f8f1cb8526fc6e8daccbcb8",
+      "test_results/phase11a3_generation_ownership/review_original.txt": "40d46e6b66b0b9baeec035b20f6fe931b13b458cbbb8b3d397f3b98f6c81cd79",
+      "src/memory/structure_lifetime_tests.rs": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b"
+    },
+    "supplemental_context_raw_sha256": {
+      "tests_kernel/src/lib.rs": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133"
+    }
+  },
+  "nested_evidence": {
+    "nested_report_cardinality": 159,
+    "cleanup_true_assertions": 280,
+    "phase10_scenarios": 56,
+    "phase10_checks": 3379,
+    "boot_metadata_scenarios": 44,
+    "limitation": "Nested reports and duplicated cleanup assertions are NOT distinct guests or complete process history."
+  },
+  "artifacts": {
+    "iso": {
+      "name": "rosti_phase11a_prerequisite_20261018T103450Z.iso",
+      "path": "dist\\rosti_phase11a_prerequisite_20261018T103450Z.iso",
+      "sha256": "9d1d92052dbc30464c6897810bcabffd0ad2ea4d788589168cdfc32a17b7074b",
+      "bytes": 11442176,
+      "kernel_sha256": "6d15c9ee180f705788af16377f77b67c91fc2de2e0d6c7ff90cca1430b234b0e"
+    },
+    "rollback_iso": {
+      "path": "dist\\rosti_preserved_528ba288950d8705.iso",
+      "sha256": "528ba288950d87059750f4ad37a8b94005af8eecc0c97567f0b2456f683cf04d"
+    },
+    "kernel_sha256": "6d15c9ee180f705788af16377f77b67c91fc2de2e0d6c7ff90cca1430b234b0e",
+    "archive_sha256": "8ff3bfdc925e1b0e60441b072f4c4c0c4f6b16f68dfce0c0ff50bb609d64a6a7",
+    "pycdlib_raw_sha256": {
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\dates.py": "26b790b05a79d2389b29e32db28c0cbf04914ab6334ecd8b20ce6adcb1ac99cc",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\dr.py": "db0bb83123aeaa596a79a8d99fee1ecbf830607199b35a0fd6f33a8d6501bcf5",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\eltorito.py": "e093b5fb09f98da07fda66051b7e036665debd7f4dcc1a5df2dd3d6c0de4431c",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\facade.py": "6bf7ac2e107cc4a5c9294b35f9b27582a0a0123e6e78d76d190cf589af2485b2",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\headervd.py": "749ddedc87eb9a74ff6ff633090d3817cf91c5ebb4bf724a69596270f1e79f17",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\inode.py": "9979e422305609bfb47607f5e45fdb8dbace6255f8ccfd9e7b34a74a568e9380",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\inplaceeditor.py": "59ba816d8178ce80b3c9eedba22f9edb089c44b05c700cedda3e8399f42aa404",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\isohybrid.py": "7664b3d4d9153212dd8ebe47b0cfd19030ae262e8b1e89afad8adc1470b90341",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\path_table_record.py": "41f555ab335b5af3c75856e2e3b53a40c952f0d61b1b73d464352d04166cccad",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\pycdlib.py": "8e13fe38e86dc9cff2c371bdaddcbb2dbe50a0a99777b90591f70aee9d02a7e9",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\pycdlibexception.py": "55630b63c39d3906e112af6e277984a1480e3a351a7a2d0a3cd4e8e94a381da9",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\pycdlibio.py": "995e67e2b7216b7ae3e2577315e51aa8efb56b54d3e0f18eea708202a4d84acc",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\rockridge.py": "364792c7aaaee2283b0527ac76cd462e102519eeaa04357b37c17fa372b06fd8",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\udf.py": "60ff7eb3441d63bf1c4dd4704bf4be6996cb0cdcd9b6fd5954b324c5f29b07f2",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\utils.py": "84abbbe6082b93f4c57d4f0c8ace4f31c4cf8f3b24fd6d14538dcf0f72b84f43",
+      "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\__init__.py": "7ebb91a944272917feea4f1415339d660e28a6321c0fcfe8985faa4a145ed254"
+    }
+  },
+  "local_qemu_remaining": [],
+  "gates_total": 63,
+  "source_sha256": {
+    ".cargo/config.toml": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+    ".gitattributes": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218",
+    "Cargo.lock": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+    "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+    "crates/rostifs/Cargo.lock": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb",
+    "crates/rostifs/Cargo.toml": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920",
+    "crates/rostifs/src/additional_tests.rs": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df",
+    "crates/rostifs/src/bin/mkrostifs.rs": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252",
+    "crates/rostifs/src/bin/rostifs-inspect.rs": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c",
+    "crates/rostifs/src/bin/rostifsck.rs": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36",
+    "crates/rostifs/src/bin/support/mod.rs": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041",
+    "crates/rostifs/src/block.rs": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06",
+    "crates/rostifs/src/checksum.rs": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e",
+    "crates/rostifs/src/crash_tests.rs": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9",
+    "crates/rostifs/src/engine.rs": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a",
+    "crates/rostifs/src/format.rs": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700",
+    "crates/rostifs/src/lib.rs": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31",
+    "crates/rostifs/src/occupancy_tests.rs": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42",
+    "crates/rostifs/src/vfs.rs": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713",
+    "crates/rostifs/tests/host_tools.rs": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b",
+    "crates/rostifs/tests/read_performance.rs": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29",
+    "crates/rostifs/tests/write_preservation.rs": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9",
+    "linker.ld": "3abdfc294b09724d60af7036ddd684799cbcd0bf85ef368972da736db5254735",
+    "rust-toolchain.toml": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95",
+    "scripts/b13_boot_fixture.py": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef",
+    "scripts/b13_entry_inject.py": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+    "scripts/b13_fixture/Cargo.lock": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+    "scripts/b13_fixture/Cargo.toml": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+    "scripts/b13_fixture/linker.ld": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+    "scripts/b13_fixture/main.rs": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a",
+    "scripts/b13_grub_smoke.py": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+    "scripts/b13_stress_replay.py": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e",
+    "scripts/backspace_test.py": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+    "scripts/block_test.py": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+    "scripts/boot_metadata_test.py": "d94f158a4a53d681ce0530d98fbcf31eab1dacdb8964308128a57f39f5216c9a",
+    "scripts/boot_test.py": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+    "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+    "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+    "scripts/deploy-proxmox.py": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+    "scripts/fs_test.py": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+    "scripts/keyboard_test.py": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+    "scripts/live_phase5_check.py": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+    "scripts/mem_probe.py": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+    "scripts/paging_test.py": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+    "scripts/phase10_grub_module_probe.py": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b",
+    "scripts/phase10_initramfs_test.py": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+    "scripts/phase10_module_probe.py": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800",
+    "scripts/phase10_repro_one.py": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d",
+    "scripts/phase6_verify.py": "748858a1da696943cf0709dfe1b11f1e0b40b5243445a6b7c143e8cc2f65af10",
+    "scripts/phase9_5_bench.py": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4",
+    "scripts/qemu_boot_test.sh": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699",
+    "scripts/rostifs_test.py": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+    "scripts/run_tests.sh": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8",
+    "scripts/sendkey_probe.py": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+    "scripts/stability_probe.sh": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8",
+    "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+    "scripts/test_acceptance_harness.py": "b8222558ea6a93e8a26c67bb4868a2ec886636587f8f1cb8526fc6e8daccbcb8",
+    "scripts/test_b13_boot.py": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+    "scripts/test_b13_entry_inject.py": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2",
+    "scripts/test_boot_metadata_harness.py": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267",
+    "scripts/test_build_initramfs.py": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b",
+    "scripts/test_fs_harness.py": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+    "scripts/test_phase10_initramfs_harness.py": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+    "scripts/test_phase9_5_bench.py": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476",
+    "scripts/test_production_fixture_policy.py": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+    "scripts/test_rostifs_harness.py": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac",
+    "scripts/test_system_image_policy.py": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d",
+    "scripts/validate_elf.py": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+    "scripts/verify_production.py": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+    "scripts/verify_proxmox_backspace.py": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+    "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+    "src/block.rs": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+    "src/boot.s": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+    "src/boot_inventory.rs": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+    "src/cpu.rs": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+    "src/fd.rs": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+    "src/fs/archive.rs": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+    "src/fs/mod.rs": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+    "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+    "src/fs/rosti.rs": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+    "src/fs/vfs.rs": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+    "src/fs_commands.rs": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+    "src/fs_stress.rs": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+    "src/gdt.rs": "fb6830e02a5f296e22551c5045bbd0263028520b4d334f285d2098fefa61957d",
+    "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+    "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+    "src/interrupt.rs": "98b7d296ee393978bc3e15225037cf47823cf528a29aabd07b39ff9a52faa76f",
+    "src/io/mod.rs": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+    "src/io/ports.rs": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+    "src/io/serial.rs": "095d91d330fb82fb8893db9ed39dda36fccb69becc8339090c98cafa3fcda58c",
+    "src/io/vga.rs": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+    "src/kbd.rs": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+    "src/main.rs": "f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91",
+    "src/memory/boot_copy.rs": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+    "src/memory/frame.rs": "8d2a5d4933a4cf70a50dd05057275bb1935c9830a708d18cc5c679b183f0f881",
+    "src/memory/generation_boundary_tests.rs": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+    "src/memory/generation_ownership_tests.rs": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+    "src/memory/mapping_pin_tests.rs": "22e303442b0f345e710ad75cc7fb01a0e39b1d7a18f8a30d7fbd96a16e4116ce",
+    "src/memory/mod.rs": "158893320d14081c4485c204501f600cb1103d973bc8834f2806cad95d2f2c71",
+    "src/memory/module_access_tests.rs": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+    "src/memory/ownership_observation_tests.rs": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+    "src/memory/paging.rs": "857a9b923624596a2c210ba3a2ba0ce9520a2f28b98a65205d13af10f95272ba",
+    "src/memory/phase11_permission_tests.rs": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+    "src/memory/phase11a2_abi_tests.rs": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+    "src/memory/phase11a2_ownership_tests.rs": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+    "src/memory/review_r1_tests.rs": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+    "src/memory/runtime_table_access_tests.rs": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+    "src/memory/structure_lifetime_tests.rs": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+    "src/multiboot.rs": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+    "src/phase11_gdt_tests.rs": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+    "src/reboot.rs": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+    "src/shell.rs": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+    "src/storage.rs": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+    "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+    "src/timer.rs": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+    "src/utils/bits.rs": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+    "src/utils/mod.rs": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+    "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+    "system/docs/recovery.txt": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+    "system/README.txt": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+    "target.json": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+    "tests_b26/Cargo.lock": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e",
+    "tests_b26/Cargo.toml": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3",
+    "tests_b26/src/growth_tests.rs": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16",
+    "tests_b26/src/lib.rs": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+    "tests_b26/src/refusal_tests.rs": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706",
+    "tests_b26/src/registry_tests.rs": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111",
+    "tests_b26/src/retry_tests.rs": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+    "tests_b26/src/validation_allocation_tests.rs": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70",
+    "tests_b26/src/validation_tests.rs": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+    "tests_kernel/.cargo/config.toml": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53",
+    "tests_kernel/Cargo.lock": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+    "tests_kernel/Cargo.toml": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+    "tests_kernel/src/archive_vfs_tests.rs": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+    "tests_kernel/src/b11_frame_tests.rs": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+    "tests_kernel/src/b11_standalone.rs": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+    "tests_kernel/src/b18_inventory_tests.rs": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b",
+    "tests_kernel/src/b18_outcome_tests.rs": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0",
+    "tests_kernel/src/block_tests.rs": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430",
+    "tests_kernel/src/fs_tests.rs": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+    "tests_kernel/src/initramfs_tests.rs": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+    "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+    "tests_kernel/src/lib.rs": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133",
+    "tests_kernel/src/maintenance_measurements.rs": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f",
+    "tests_kernel/src/mount_tests.rs": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd"
+  },
+  "source_input_count": 145,
+  "counts": {
+    "host": {
+      "pass": 325,
+      "fail": 0
+    },
+    "b11": {
+      "pass": 12,
+      "fail": 0
+    },
+    "b18": {
+      "pass": 46,
+      "fail": 0
+    },
+    "b26": {
+      "pass": 18,
+      "fail": 0
+    },
+    "phase11_permissions": {
+      "pass": 5,
+      "fail": 0
+    },
+    "phase11_registry_reservation": {
+      "pass": 8,
+      "fail": 0
+    },
+    "phase11_exception_abi": {
+      "pass": 4,
+      "fail": 0
+    },
+    "phase11_runtime_pins": {
+      "pass": 8,
+      "fail": 0
+    },
+    "phase11_structure_lifetime": {
+      "pass": 5,
+      "fail": 0
+    },
+    "phase11_generation_ownership": {
+      "pass": 8,
+      "fail": 0
+    },
+    "phase11_generation_ledger": {
+      "pass": 6,
+      "fail": 0
+    },
+    "phase11_generation_boundaries": {
+      "pass": 6,
+      "fail": 0
+    },
+    "phase11_snapshot": {
+      "pass": 1,
+      "fail": 0
+    },
+    "phase11_gdt": {
+      "pass": 3,
+      "fail": 0
+    },
+    "rostifs_host": {
+      "pass": 23,
+      "fail": 0
+    },
+    "rostifs_tools": {
+      "pass": 4,
+      "fail": 0
+    },
+    "rostifs_read": {
+      "pass": 4,
+      "fail": 0
+    },
+    "rostifs_write": {
+      "pass": 3,
+      "fail": 0
+    },
+    "b13_host": {
+      "pass": 3,
+      "fail": 0
+    },
+    "b13_qemu": {
+      "pass": 4,
+      "fail": 0
+    },
+    "boot_metadata": {
+      "pass": 53,
+      "fail": 0
+    },
+    "boot_metadata_scenarios": {
+      "pass": 44,
+      "fail": 0
+    },
+    "elf": {
+      "pass": 8,
+      "fail": 0
+    },
+    "boot_128": {
+      "pass": 10,
+      "fail": 0
+    },
+    "boot_512": {
+      "pass": 10,
+      "fail": 0
+    },
+    "phase10_scenarios": {
+      "pass": 56,
+      "fail": 0
+    },
+    "block_elf_128\\block_ram128_h0o2dbut\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_h0o2dbut\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_h0o2dbut\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_h0o2dbut\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_128\\block_ram128_h0o2dbut\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_s6wn8kl_\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_s6wn8kl_\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_s6wn8kl_\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_s6wn8kl_\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_elf_512\\block_ram512_s6wn8kl_\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_56fkrxps\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_56fkrxps\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_56fkrxps\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_56fkrxps\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_128\\block_ram128_56fkrxps\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512__cb0nlwm\\report.json": {
+      "pass": 98,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512__cb0nlwm\\absent\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512__cb0nlwm\\owned_reboot\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512__cb0nlwm\\owned_restart\\report.json": {
+      "pass": 13,
+      "fail": 0,
+      "commands": null
+    },
+    "block_iso_512\\block_ram512__cb0nlwm\\unowned\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_countedoverflow\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_frameexhaustion\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_headerbad\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_invalidmagic\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_mmaptruncated\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_module-overlap\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_modulein-growth\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_nomodule\\report.json": {
+      "pass": 33,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_null\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_reservedgrowth\\report.json": {
+      "pass": 38,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_validmodule\\report.json": {
+      "pass": 101,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_countedoverflow\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_frameexhaustion\\report.json": {
+      "pass": 19,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_headerbad\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_invalidmagic\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_mmaptruncated\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_module-overlap\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_modulein-growth\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_nomodule\\report.json": {
+      "pass": 33,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_null\\report.json": {
+      "pass": 41,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_reservedgrowth\\report.json": {
+      "pass": 38,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_validmodule\\report.json": {
+      "pass": 101,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_countedoverflow\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_frameexhaustion\\report.json": {
+      "pass": 20,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_headerbad\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_invalidmagic\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_mmaptruncated\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_module-overlap\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_modulein-growth\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_nomodule\\report.json": {
+      "pass": 34,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_null\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_reservedgrowth\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_validmodule\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_countedoverflow\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_frameexhaustion\\report.json": {
+      "pass": 20,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_headerbad\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_invalidmagic\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_mmaptruncated\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_module-overlap\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_modulein-growth\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_nomodule\\report.json": {
+      "pass": 34,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_null\\report.json": {
+      "pass": 42,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_reservedgrowth\\report.json": {
+      "pass": 39,
+      "fail": 0,
+      "commands": null
+    },
+    "boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_validmodule\\report.json": {
+      "pass": 102,
+      "fail": 0,
+      "commands": null
+    },
+    "fs_elf_128\\20261018_184925_ram128_t2lu64tt\\report.json": {
+      "pass": 103,
+      "fail": 0,
+      "commands": 39
+    },
+    "fs_elf_512\\20261018_185220_ram512_xtacvxg5\\report.json": {
+      "pass": 103,
+      "fail": 0,
+      "commands": 39
+    },
+    "fs_iso_128\\20261018_185600_ram128_sn05ezjg\\report.json": {
+      "pass": 103,
+      "fail": 0,
+      "commands": 39
+    },
+    "fs_iso_512\\20261018_185906_ram512_0sw6wr91\\report.json": {
+      "pass": 103,
+      "fail": 0,
+      "commands": 39
+    },
+    "iso_paging\\20261018_185543_paging\\report.json": {
+      "pass": 2,
+      "fail": 0
+    },
+    "paging\\20261018_184828_paging\\report.json": {
+      "pass": 20,
+      "fail": 0
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\report.json": {
+      "pass": 3379,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_absent\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_bad-digest\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_corrupt-rostifs\\report.json": {
+      "pass": 73,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_duplicate\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_invalid-descriptor\\report.json": {
+      "pass": 58,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_malformed\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_missing-storage\\report.json": {
+      "pass": 71,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_mount-collision\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_mount-failure\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_oversize\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_reboot-after-failure\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_resource-exhaustion\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_truncated\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_trusted\\report.json": {
+      "pass": 73,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_absent\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_bad-digest\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_corrupt-rostifs\\report.json": {
+      "pass": 73,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_duplicate\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_invalid-descriptor\\report.json": {
+      "pass": 58,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_malformed\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_missing-storage\\report.json": {
+      "pass": 71,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_mount-collision\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_mount-failure\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_oversize\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_reboot-after-failure\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_resource-exhaustion\\report.json": {
+      "pass": 54,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_truncated\\report.json": {
+      "pass": 52,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_trusted\\report.json": {
+      "pass": 73,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_absent\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_bad-digest\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_corrupt-rostifs\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_duplicate\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_invalid-descriptor\\report.json": {
+      "pass": 59,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_malformed\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_missing-storage\\report.json": {
+      "pass": 72,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_mount-collision\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_mount-failure\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_oversize\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_reboot-after-failure\\report.json": {
+      "pass": 75,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_resource-exhaustion\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_truncated\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_trusted\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_absent\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_bad-digest\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_corrupt-rostifs\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_duplicate\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_invalid-descriptor\\report.json": {
+      "pass": 59,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_malformed\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_missing-storage\\report.json": {
+      "pass": 72,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_mount-collision\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_mount-failure\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_oversize\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_reboot-after-failure\\report.json": {
+      "pass": 75,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_resource-exhaustion\\report.json": {
+      "pass": 55,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_truncated\\report.json": {
+      "pass": 53,
+      "fail": 0,
+      "commands": null
+    },
+    "phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_trusted\\report.json": {
+      "pass": 74,
+      "fail": 0,
+      "commands": null
+    },
+    "read_fault\\20261018_183630_fault\\report.json": {
+      "pass": 2,
+      "fail": 0
+    },
+    "rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_128\\rostifs_ram128_5y1rusc_\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_iso_128\\rostifs_ram128_5y1rusc_\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_iso_128\\rostifs_ram128_5y1rusc_\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_iso_128\\rostifs_ram128_5y1rusc_\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_128\\rostifs_ram128_5y1rusc_\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_128\\rostifs_ram128_5y1rusc_\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\report.json": {
+      "pass": 168,
+      "fail": 0,
+      "commands": null
+    },
+    "rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\boot1_write\\report.json": {
+      "pass": 60,
+      "fail": 0,
+      "commands": 23
+    },
+    "rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\boot2_read_delete\\report.json": {
+      "pass": 31,
+      "fail": 0,
+      "commands": 12
+    },
+    "rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\boot3_deleted\\report.json": {
+      "pass": 21,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\corrupt\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\unowned\\report.json": {
+      "pass": 22,
+      "fail": 0,
+      "commands": 7
+    },
+    "write_fault\\20261018_183634_fault\\report.json": {
+      "pass": 2,
+      "fail": 0
+    }
+  },
+  "actual_wrapper_exit_code": 0,
+  "predecessor_acceptance_sha256": "92397a24de25643054dc5d199dcafa3983494eb9e5b04f2dea0790ed91833109",
+  "evidence_raw_sha256": {
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\__init__.py": "7ebb91a944272917feea4f1415339d660e28a6321c0fcfe8985faa4a145ed254",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\dates.py": "26b790b05a79d2389b29e32db28c0cbf04914ab6334ecd8b20ce6adcb1ac99cc",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\dr.py": "db0bb83123aeaa596a79a8d99fee1ecbf830607199b35a0fd6f33a8d6501bcf5",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\eltorito.py": "e093b5fb09f98da07fda66051b7e036665debd7f4dcc1a5df2dd3d6c0de4431c",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\facade.py": "6bf7ac2e107cc4a5c9294b35f9b27582a0a0123e6e78d76d190cf589af2485b2",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\headervd.py": "749ddedc87eb9a74ff6ff633090d3817cf91c5ebb4bf724a69596270f1e79f17",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\inode.py": "9979e422305609bfb47607f5e45fdb8dbace6255f8ccfd9e7b34a74a568e9380",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\inplaceeditor.py": "59ba816d8178ce80b3c9eedba22f9edb089c44b05c700cedda3e8399f42aa404",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\isohybrid.py": "7664b3d4d9153212dd8ebe47b0cfd19030ae262e8b1e89afad8adc1470b90341",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\path_table_record.py": "41f555ab335b5af3c75856e2e3b53a40c952f0d61b1b73d464352d04166cccad",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\pycdlib.py": "8e13fe38e86dc9cff2c371bdaddcbb2dbe50a0a99777b90591f70aee9d02a7e9",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\pycdlibexception.py": "55630b63c39d3906e112af6e277984a1480e3a351a7a2d0a3cd4e8e94a381da9",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\pycdlibio.py": "995e67e2b7216b7ae3e2577315e51aa8efb56b54d3e0f18eea708202a4d84acc",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\rockridge.py": "364792c7aaaee2283b0527ac76cd462e102519eeaa04357b37c17fa372b06fd8",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\udf.py": "60ff7eb3441d63bf1c4dd4704bf4be6996cb0cdcd9b6fd5954b324c5f29b07f2",
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\pycdlib\\utils.py": "84abbbe6082b93f4c57d4f0c8ace4f31c4cf8f3b24fd6d14538dcf0f72b84f43",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase10b_fixture_kernel": "16eaab29311513e8d35926ee82a7b0fdcf94d23c70e2608dbb4b3f89e3a4c5a8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso": "9d1d92052dbc30464c6897810bcabffd0ad2ea4d788589168cdfc32a17b7074b",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti_phase11a_prerequisite_20261018T054947Z.iso": "528ba288950d87059750f4ad37a8b94005af8eecc0c97567f0b2456f683cf04d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti_phase11a_prerequisite_20261018T103450Z.iso": "9d1d92052dbc30464c6897810bcabffd0ad2ea4d788589168cdfc32a17b7074b",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti_preserved_528ba288950d8705.iso": "528ba288950d87059750f4ad37a8b94005af8eecc0c97567f0b2456f683cf04d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\phase6_verify.py": "748858a1da696943cf0709dfe1b11f1e0b40b5243445a6b7c143e8cc2f65af10",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_acceptance_harness.py": "b8222558ea6a93e8a26c67bb4868a2ec886636587f8f1cb8526fc6e8daccbcb8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\main.rs": "f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\memory\\frame.rs": "8d2a5d4933a4cf70a50dd05057275bb1935c9830a708d18cc5c679b183f0f881",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\memory\\generation_boundary_tests.rs": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\memory\\generation_ownership_tests.rs": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\memory\\mod.rs": "158893320d14081c4485c204501f600cb1103d973bc8834f2806cad95d2f2c71",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\memory\\paging.rs": "857a9b923624596a2c210ba3a2ba0ce9520a2f28b98a65205d13af10f95272ba",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\memory\\structure_lifetime_tests.rs": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\shell.rs": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel": "6d15c9ee180f705788af16377f77b67c91fc2de2e0d6c7ff90cca1430b234b0e",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11\\verify_checkpoint.py": "56b6921bd071baecd7b5963220561e2be30f631c81427bb6d0b2308356ab5324",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\evidence_validation.py": "50612066aae2001e9e883288df8f393239c39376cd5c25d9fc659ac5e375df36",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_tests_b26_parallel.log": "15cd4fcee78466edc3bfd10a06ced43f759220a7b725f0b70e5ba56acc8e9796",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_tests_b26_serial.log": "c7e4b85c89038e68aba2b7da6688bde7b10f870399eb720c73a05b26b7fc54d7",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_tests_kernel_parallel.log": "3cb89dc912b924a2d05625b5ad3777da2fddd8ef997c87ee35d66151e68ed9db",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_candidate_tests_kernel_serial.log": "6432aad407bc449f61eea2b300c818a328828d5a91ce5c6b067d06c6f723cea6",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_full_acceptance.json": "663cd7bd8f1b03edceefa3dafacba335b5eb48b38b5346c6f25872a6aaedbb61",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\generation_full_acceptance.log": "ac8b2d9d02f0a3f5e01a9a926051ad8259eb1b062f2a94f79cf3d56613d72f2f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\verify_closeout.py": "db82bdc2928ffb46a6a6722cbf7dfc67d9df2a5e33f3d460607e9f942f4fa6be",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\verify_table_access_checkpoint.py": "b6034aacdc85ce3b24d6082f361e962ca0299a4c76fc4b06f6daff7639e6fcd5",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_registry\\run_20261018T054817_823884Z\\acceptance\\acceptance_20261018T054947Z_n_dqyuzm\\acceptance.json": "92397a24de25643054dc5d199dcafa3983494eb9e5b04f2dea0790ed91833109",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_structure_lifetime\\verify_checkpoint.py": "b64271b148a4c1b3ae660d6d12388db64ba1eabd71c0c6c900c1d27183c4dc5c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\01_kernel_formatting.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\02_host_formatting.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\03_host_tests.log": "80beaa13fef9d681a56cbe5d1750105b171632a427a3ca556b66e4682f36b3d6",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\04_phase_9_6_b11_host_safety_regressions.log": "1469601c6d5fa0fa45d5e65dd41aa96b0941982c94fb3030e624610dc55ff81e",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\05_phase_9_6_b18_host_safety_regressions.log": "1b52391e93dc997ed968b9ab3dcda1e397cf984774fb8331843db2b1aa5cd54c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\06_phase_9_6_b26_host_safety_regressions.log": "26124ed512a0722a530e4a8aa83d3e3c2dbb4bbb0f0f1365180ead30ea6b45c8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\07_phase_11a_effective_permission_prerequisite.log": "4f6cd1f253cd209fd92431f5978111051da1247181b1b17506eaf73fad4d94b1",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\08_phase_11a_phase11_registry_reservation_prerequisite.log": "e304420fc4e60881c137a69f12733fb9adf445b55aaa6ebce4c1151b2e769e91",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\09_phase_11a_phase11_exception_abi_prerequisite.log": "f86089d3c96d37ee9bfa9b13f00b05d82c9e5198021434f5e6dc190176ace439",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\10_phase_11a_phase11_runtime_pins_prerequisite.log": "056c7a1e589895fd52242ede5ca4f689aa6271d28b6321cbabf6b17e58f76de9",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\11_phase_11a_phase11_structure_lifetime_prerequisite.log": "62ff87b9a177295c809f8026712e10fc875f3e7383453dd1b1f079857edcbbac",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\12_phase_11a_phase11_generation_ownership_prerequisite.log": "65afdfb206f3cf91d7a3e27673bdce6883daf56fa48b38190b426ce0ff82a7e3",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\13_phase_11a_phase11_generation_ledger_prerequisite.log": "8193ba001cda65d920cd84ae890f8c07ff595e444c8a974b5355ffba0539e543",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\14_phase_11a_phase11_generation_boundaries_prerequisite.log": "016d33d682936ab97aeb1c4df98908a31165e7f203dc869052ebeba5a3772860",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\15_phase_11a_phase11_snapshot_prerequisite.log": "c1c6e7de514f98047c27108a80c4cff6e8e1ae61615cdd2a4a7798fc97800b4c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\16_phase_11a_phase11_gdt_prerequisite.log": "f758c48486b4a47aaa1b7ab9cee3c397aabce0f2428f3e3286ba9f6932ca872c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\17_rostifs_formatting.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\18_rostifs_host_and_crash_recovery_tests.log": "e2be2f1d133aec9e2f468276180919c889a8bf5885ff824d64c4b192f2dbbff7",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\19_rostifs_host_tool_safety_and_integration.log": "b51b8a7ba20d0a3faa548421f45b070a2319938f7ad232ca340ed52c6b572639",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\20_rostifs_read_boundary_and_transfer_regressions.log": "7a522b02c0e3fd4d8fb4a374ba03c5d0edf3bd2dca798bf149de0ed78c90ab57",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\21_rostifs_write_preservation_regressions.log": "7a91183557cc1e1a6e0fc723f18f64d6177bb67fb2f090ae96cb58ee75fa354e",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\22_python_media_reader_regressions.log": "09a33835eb27cae91e1addf50fd936eb545e5ed151b99f2ea70e0f916fde306f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\23_acceptance_runner_regressions.log": "25effecbb90e36a0c56eb2d98271682f629040af96bf6ae2d73a07f401db40b4",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\24_rostifs_harness_regressions.log": "f960423dd004f4ba2ee52f4077d5b8261cf3a2a3de2b45548945a434ef5ff8da",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\25_phase_9_5_benchmark_contracts.log": "540107b6d1ca08f6210f7c4c3f2fecdbfd499b35f10e824165f8b21506e4ded6",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\26_phase_9_6_boot_metadata_harness_contracts.log": "3c60951cd061cdd18e703a6a0a1682a3f2a0e12b8652a996910a70aae22c4b8d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\27_system_image_policy_contracts.log": "f1b47c04cf0bee9d0970d83631aed53486c4c090a971da3fa3e366dcf9d927e1",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\28_phase_10b_initramfs_builder_contracts.log": "eb3d20d1ff06f1b647cea1b88b489e39118ea3427fe02fa1532c2d56b1318ea6",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\29_phase_10b_initramfs_harness_contracts.log": "5124eab9c505cbf6fb17619f36fc5f5011b8cd535c67e1743e05198d20e84788",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\30_phase_9_6_b13_boot_entry_host_contracts.log": "ca3c2e92ea145dc34a6287ea390ca3d41003ad4f3ff8ea04bf8864d582df6305",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\31_build_read_fault_fixture.log": "13a2ca2c2e4fea83ce4efeabb15d03ef935127636c4902b3a001226cf3bf145f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\32_cpu_read_faults_128_and_512.log": "675d47eedcfbbb3ed33f633661f9b58700848569d86312cc59b7c300948ceee9",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\33_build_write_fault_fixture.log": "c8cf3d9a51cf884c3dc83776553cbd369131e25df1cece6204962be8246cbba1",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\34_cpu_write_faults_128_and_512.log": "c5589e668c90282fc55043f7d69473c3b7634cf416999bbdf35136c7de04d355",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\35_build_initramfs_failure_fixture.log": "70a2e820d317a62f9a2bb9fa4686d1c82e11bffe50589d88249e7de6aec9fc2e",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\36_production_build.log": "290a0990cb1e3dc5aa9bb909bf3248405f93fefdb7c1baa0dace4e5b8674b949",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\37_production_fixture_policy_contracts.log": "707c73d5088328c9dad0ac6a9494eeb8bb89ac83aac18378c92958d8b0add78d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\38_production_feature_and_fault_exclusion.log": "6a449ef9a82f1098b33db65a701723ecb1441fc3f3545b2a6fe26bc6f46d7fc8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\39_phase_9_6_b13_privileged_boot_entry_and_production_handoff.log": "57b42c81092a2c73031266424fe5f7227fa2fb04db357ebada9ba6dcaf71fef5",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\40_phase_9_6_b13_injection_transport_contracts.log": "3d760113448f88bb422ece821853fbcc01c87134435d13de7b94fec67c1b330c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\41_phase_9_6_integrated_boot_metadata_elf_and_grub_safety.log": "92bc218355d1d90ca0cf1dbafbd16d8f341c592624ca7844c2490d82d6951dd8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\42_elf_validation.log": "bb68c8e6264f60c2385fe0865801061c24dbac0caf79a6cfbbcbcda9b466cbdd",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\43_ten_elf_boots_128_mib.log": "140ba87236ca9131699047cbde515ad6291301b11792821aaa1e806711305951",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\44_ten_elf_boots_512_mib.log": "b4411b987292748566da02001614c77adcbd937fa669c0517e68986b481b06b6",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\45_paging_stability_twenty_elf_boots.log": "5fce8472fed98d6980078d1cc8ec9068d61fd090190f00c40fb2675d0eecce3c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\46_keyboard_integration.log": "06545e0b3a51ee9423ea4db4536cf9654cc0efea5ad06f665e89c351fae79ff4",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\47_vga_backspace_elf.log": "df12251749b178a0aa88155d493d48a5f1f7d9087dd037a2c90efc11d38f85cb",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\48_filesystem_growth_oom_elf_128_mib.log": "631c7658f9d228602f69991e05c6c804af6359e4ed540aa3ba8e9c5020ec716e",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\49_block_persistence_elf_128_mib.log": "9383a12092ff8cbfeb4a623eb2ae5706c2871a423f15f2bf8e383397e4f7cf0b",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\50_rostifs_persistence_elf_128_mib.log": "3863993ff3bcb2f8f3b7c196b5301a9a76896642c3e0f65e9592cc05b6863789",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\51_filesystem_growth_oom_elf_512_mib.log": "35689639e15eb017c3812f51f6700b58c4e76406acfccdeb5efc7213a388a9e9",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\52_block_persistence_elf_512_mib.log": "1174761ca80c7189d66f7f4edf123f2473a00876a89dd60506313332cb7f1bd4",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\53_rostifs_persistence_elf_512_mib.log": "4d52ac8cbf7f1810872f3b475736901e99c0c0671b80af4f514da9af834b98dd",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\54_grub_iso_build_and_boot.log": "51539ac8ad8fc77c04dd2e84da88e1fa28b605fc1de5335cada1ab3a273e0b6a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\55_iso_paging_128_and_512.log": "f955237d119d245523edafb8ebbdebb015cfd0bf07439d1fe2ee1795909c13bf",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\56_vga_backspace_iso.log": "3508a23bca535adb57f2928b6123fbb9f2ef5892c0a9a8405fe9c8e3d4049517",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\57_filesystem_growth_oom_iso_128_mib.log": "b12333f56d0dd357903f82035c836113ce4c5006d8acc6e53ad6d95719b54659",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\58_block_persistence_iso_128_mib.log": "13579e7619885eb3a56ed091b39236873acb396962f5fdd95718ba20b9c92861",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\59_rostifs_persistence_iso_128_mib.log": "7ddd6664bcf6b9c28902e98acaa5c992a6bcf650bc7f34e9520646837c0dcf6a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\60_filesystem_growth_oom_iso_512_mib.log": "9fac3cc3ab5d76c6d9e242a798c1ecabba6ca401a57c3ab8bea202d97bb8a16b",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\61_block_persistence_iso_512_mib.log": "9b99a4ab5f721ec796ee8983569475823e472c9fd023643a25d97a1af1a09fdb",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\62_rostifs_persistence_iso_512_mib.log": "72b40a06e4738d564b46ff6270c30397be286428ee1ff1a4dff6b0178515ccf5",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\63_phase_10b_trusted_initramfs_guest_matrix.log": "c2608c14b7d86ce9ff8614217d18083b326eb71cf3e409cb6add44f7ea41223f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\acceptance.json": "a1a5415e495800928a3dfa4c1867a763fce555b900bb81dec14dffa83dabc539",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\b13_host.json": "101d749088f4e100f9e7b82172ef8fb72272ec651093d9e0ed874322a388eae6",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\b13_qemu\\fixture_128\\report.json": "2738712ee3884e7513a31f1b52be7ab137677bfc58f28a6548fd4f7576007774",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\b13_qemu\\fixture_512\\report.json": "623eac8bf9a5b186c70953f77343a77f1dead0a49042e62293c0b587de7208a8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\b13_qemu\\production_128\\report.json": "8576777f94ea5b773b31bc4766340853e7f7a411522aa228f9bc6ec94e3f3133",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\b13_qemu\\production_512\\report.json": "fe722319b1bbb57e659692882db9212a86acfc27d8ca5fc53d82717e1355b8ed",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\b13_qemu\\report.json": "ee79cf6a1acffb9e44e39b7478f87200f074a0a34d01ba8035a7dce9c3561d08",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_elf_128\\block_ram128_h0o2dbut\\absent\\report.json": "f38c58788a737a45341388371ad8107e6c9a507a0cd8169787dcdd582a657304",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_elf_128\\block_ram128_h0o2dbut\\owned_reboot\\report.json": "de31b4719f2ac93d9ce947cacfbd68f18a4b189398c367d37b2c70fc70519786",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_elf_128\\block_ram128_h0o2dbut\\owned_restart\\report.json": "8837dc6b6e3ef04a4551d54747aaa5d490004ee80604e7095be3148fa9977fc8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_elf_128\\block_ram128_h0o2dbut\\report.json": "f5bcda843d8b63070d80bd9fa28f96e0fd602be2faf56acf4cfc866bcfc424a7",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_elf_128\\block_ram128_h0o2dbut\\unowned\\report.json": "98088c366ed5913a800a3d645fb16ee82594d78c23bab53bf9fc108c782a68b7",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_elf_512\\block_ram512_s6wn8kl_\\absent\\report.json": "3a53ca1f7de1a145b11eeb2f7c7ddcbbf1723c8a3d8ad0c4301f6be797a0c3a3",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_elf_512\\block_ram512_s6wn8kl_\\owned_reboot\\report.json": "2ec53f4c57dfc72bb5a7d809b480b298475705c12d3f57499225757248baf30a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_elf_512\\block_ram512_s6wn8kl_\\owned_restart\\report.json": "1716fcbded0d66abd39b64feef9921a5d52324d2ec366a08e7c2aaf9ff9e6f87",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_elf_512\\block_ram512_s6wn8kl_\\report.json": "049ffd9263df3aba28d8d8815c80b7ca50fc190e5e2315a73d381c74a4bcacef",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_elf_512\\block_ram512_s6wn8kl_\\unowned\\report.json": "9e24b29d394c237a2943cd732d7acd5871e7ab82b951fe8048643e2ca210636e",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_iso_128\\block_ram128_56fkrxps\\absent\\report.json": "547d91fa0f5be8b6d6d1bcd4f4897a303eb632b4ebc857300599d9211c2c6eff",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_iso_128\\block_ram128_56fkrxps\\owned_reboot\\report.json": "e1047454d309957bf333909cd3e62ede77713410edddedbe850780bf535ce1e6",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_iso_128\\block_ram128_56fkrxps\\owned_restart\\report.json": "ae25b04336f6659545ee7bf7476e6778ece27640f4f890e7d43f1d70d818bcf2",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_iso_128\\block_ram128_56fkrxps\\report.json": "cad3c6493740d0e96f3599fa07c0a2bb3071d24858d24196733d4d1c59149c3a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_iso_128\\block_ram128_56fkrxps\\unowned\\report.json": "9099e738eef6d1f5253fe81f24305c3bfc0bc538090e60b26a26d422ddedb3f8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_iso_512\\block_ram512__cb0nlwm\\absent\\report.json": "bb42a1dc8b4fc1621d2f6e47196090ca6769c280409b0310abb9cece818d8404",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_iso_512\\block_ram512__cb0nlwm\\owned_reboot\\report.json": "1c82ec15b4bd206721ae04ec981ff4cb74e4ea432f1000b3e69b5424a70ee148",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_iso_512\\block_ram512__cb0nlwm\\owned_restart\\report.json": "1696fe866400ba20e869c589fbd9c3b2757d89eb49ca2e601d9acd2a09f79f19",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_iso_512\\block_ram512__cb0nlwm\\report.json": "078e8d1d2f9ee5748711affe9c2ca3450b0ddd188223ddaa48d126a13ead36f9",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\block_iso_512\\block_ram512__cb0nlwm\\unowned\\report.json": "f16d2666ee7105d26dbb875307703931e9f0e260e2c4f5e411f23a6531a8e787",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_128\\boot_results.csv": "acbacdb5447bf575629c31960ba384ab08577bf43ea0f9625e9aac94ee29c13c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_512\\boot_results.csv": "8f4bcfac4106bea1ebc24900626cc326273a8158bd42e6d78ac7e2c3ddd254af",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_countedoverflow\\report.json": "f345e54b2e647dda0b97b7732d1405d3c8c075d4a0930829914d59228a29ea3d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_frameexhaustion\\report.json": "c39d6a1dc885f8a2931f0ac1ebdd59f3a8bfa30ab7bd6a351c0251a79e4f6c1a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_headerbad\\report.json": "259103488147ac463f18bc788a229c31759b640c198134358401e0858e0d479f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_invalidmagic\\report.json": "9523979014446d4f73b8939604a35f31887299fe0f3e6fcd8735fff048a7e36d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_mmaptruncated\\report.json": "b702bb9ea6284d831aa90319074890c78bc4337f1d4f8f9caff26296f48e605b",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_module-overlap\\report.json": "b2797803449f3f1d8ec1f9b17bb6bfa5ef33df3830deb197e3d469543cc2efdc",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_modulein-growth\\report.json": "6865e2ca07cc0fefb84c8783934750b314f28ece8443b8fbc506fe2872e6506e",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_nomodule\\report.json": "5ecef90da355af0d60fe32fcc7b69cc8bd9a06740273e556939a911f32799c8f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_null\\report.json": "c158d1ee6d60299ab7a9e6e3c88632f41ac7467fdbed16fe1871101129cfe7ed",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_reservedgrowth\\report.json": "fa7fd69849f1f6913a8d03ce46cc194eb8682e83f3b1277935c3563776a9d98a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_128_validmodule\\report.json": "81e4697a03e302339a06006f0c15621a9246f2badafe765324f637f4addd7fbb",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_countedoverflow\\report.json": "90c5027e2813bb739a9f6f1a199b010321b4af29308a8911e9baee9c2f3960e8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_frameexhaustion\\report.json": "63fae91f6871bacb5cf5c7975b1db6772828a174fe64178f467c0422d70eb6fd",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_headerbad\\report.json": "beeee01df2d7487bd55e1b825c9c4a66e1ca9740800e381167cb613f452a04af",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_invalidmagic\\report.json": "1357623bf16159db576317a92c484f77c6dd80463227c66dc4bf1ec236fd0b56",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_mmaptruncated\\report.json": "8b22a99e38018ac182f1866170faddbe5e55caeb0f473974313584f178b1fb5c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_module-overlap\\report.json": "5cf91bcbc4c0eb52d1dfc198338fce7460ed03a4b16406b625dad56ae1ff04d2",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_modulein-growth\\report.json": "bfd82e6ba4e13949f493a92802a399689486cc7918a735c32a54afea18589c93",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_nomodule\\report.json": "fcb272ff327ddc538a208e34a794f54da8a4b6e3aaf7cf81d1e3ca564b32748f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_null\\report.json": "faa4a3eade947242522d43ae0a9b38e17480e03b7005420ad3bffe04f42b4217",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_reservedgrowth\\report.json": "e3f04720c085210b9b22c7b53b17e282dbddef152e7a58458eb65ba1112ff19d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\elf_512_validmodule\\report.json": "f6e27c793506d0e96df70b6f6686b58834e63a08cfaf301015217f00bfdb4eb1",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_countedoverflow\\report.json": "10d4d44878236190055fa710e5415927c1208357c19879d811d33e63b57e909a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_frameexhaustion\\report.json": "e08db823aabbd8f2d4989d9a044fefea89083072d17ccd54f399916d377f7e39",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_headerbad\\report.json": "c552385ccb9ce56278a708ab56ba1135db51d132cde32f0b5bf52fb17a54c84f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_invalidmagic\\report.json": "48bfc58ea7db64dba136329a34a34221874f16211ad656cad413a3ea885d0ed4",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_mmaptruncated\\report.json": "9b6a3728a83af1a7a7b47658273fe93ad8bc6a9b0bc936d47ac97d8caad68146",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_module-overlap\\report.json": "b43b2c8c676b8bf51650d11af32d1f4489c198150011a46cb56ae126ba7c5d2a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_modulein-growth\\report.json": "d1f4f2cf2fe988ff314deac42ee5c718f37b1c315122dfd963fd1024e66afac0",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_nomodule\\report.json": "ee1e36ec970dacef2fb1d0e64fbb29291153154ea0574e2d31f446e264caeaff",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_null\\report.json": "373e19283a180eb8eef552d1cdb1021a5ca50c2e4ca37a4be0f8738ff871d808",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_reservedgrowth\\report.json": "62a45d389b228bf6221283aee1215a2c10a8fdcd05ef6e230b4243aee1719292",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_128_validmodule\\report.json": "d9aa3474e3a435c6c29fedf4f89e37ba5b2b17d2fe7632d95c4e6aad3b6e1460",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_countedoverflow\\report.json": "17b153fde28f0e91e11680ae44220757123a2388ce219712cb08fe2bbc735ad1",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_frameexhaustion\\report.json": "fcb81eadbbf6ebd4979fab0357de077ef07615d0e54351455157e957ba4a01f5",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_headerbad\\report.json": "6b22be26fab93d007892bb0528c4eb4a18a67f237fbcc106e4940cd81562920f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_invalidmagic\\report.json": "ce040ba5aa71cb63f6ee175ce4964e7640f9ad2ac06e25d1e9eb2e480364a22f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_mmaptruncated\\report.json": "e76a52822833f4e1f0ff111aba27825c34a0cd823aac86ad8db66a4c62735548",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_module-overlap\\report.json": "8fe2a5977af17b491884955cb88c9cc3d9d29fcd05d35463b9197ce2f360250a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_modulein-growth\\report.json": "7222a66b752f3a44122ab45977831ecad58153a27152062fc203a0558565bdb0",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_nomodule\\report.json": "5b0066404c38b0fd3237d5ee0c63d584fe04d5bc9bf591077ed7e4247ab78f7a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_null\\report.json": "a9212e8586a3e446fedaa03c5b0885007c567a230097fe332b18af14fd5d677b",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_reservedgrowth\\report.json": "3576c989990f8997321c16013b94661a7164e8c74085503ff064a86f7788cebb",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\iso_512_validmodule\\report.json": "bead0bf12a36a3be60d37c67f7d8e3b8ca24f02a44d7e0bb3c7a9ba7a7778c45",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\boot_metadata\\boot_metadata_g9cvhg3m\\report.json": "0e19585b6e28aa66a535fa1e0ce8db9baec22cc91987f39e1675e11d8aefcb4f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\fs_elf_128\\20261018_184925_ram128_t2lu64tt\\report.json": "f623aaa2147d7fc8de7b451ac5fdfe75ed396d8b6543bb1eb56d7002a89df3b6",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\fs_elf_512\\20261018_185220_ram512_xtacvxg5\\report.json": "75e0d82d6c275d5adb80221f40146b7ebe96b996b1b9741a0a0765fe1c7edb7e",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\fs_iso_128\\20261018_185600_ram128_sn05ezjg\\report.json": "7955944e8a7cc28c66d5a219d3d92c4a9eeaf8f00be6f8c0736f540e29787e71",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\fs_iso_512\\20261018_185906_ram512_0sw6wr91\\report.json": "72c7e43d0652215695439843ecd986b3503f59cb9f366c76b3aeab21053fbd9f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\iso_paging\\20261018_185543_paging\\ram_128_run_1\\serial.txt": "8193bc2fb7ebd1066a5ae3ae304805e8308b10240cbe2fd296529946fd1c03c0",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\iso_paging\\20261018_185543_paging\\ram_512_run_1\\serial.txt": "8193bc2fb7ebd1066a5ae3ae304805e8308b10240cbe2fd296529946fd1c03c0",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\iso_paging\\20261018_185543_paging\\report.json": "51c9e1a1f941428b3bc6bad1879c5850b0c17e94a9be35f8ebda4daa42a8b85b",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_128_run_1\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_128_run_10\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_128_run_2\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_128_run_3\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_128_run_4\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_128_run_5\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_128_run_6\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_128_run_7\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_128_run_8\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_128_run_9\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_512_run_1\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_512_run_10\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_512_run_2\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_512_run_3\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_512_run_4\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_512_run_5\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_512_run_6\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_512_run_7\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_512_run_8\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\ram_512_run_9\\serial.txt": "ca0145801c06fa3081b25ce192439b1ab6174c8eecd87cda87e11312eeb7149c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\paging\\20261018_184828_paging\\report.json": "69c0fdb85e858fcb47dbb7f2195404164358c4e17268148272a0176ae96edba4",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_absent\\report.json": "1fe2061ef39020df0efc5b4c67647b34d085dd63e8b0a310e02095ae1ecfdf8f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_bad-digest\\report.json": "29d1cc0e23cbd3087d2c379f2163f1b2226762cdb66f555933414bc1b8aa07ea",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_corrupt-rostifs\\report.json": "a175bc6ae11000791a34eaf4d9e18ff8278b34e6a6350868e55b6a2ad9f3e2bd",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_duplicate\\report.json": "d8d07b8a868d7ecd90e61dd56c569ce278f8ab148f5507e1290ff19153aa31c7",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_invalid-descriptor\\report.json": "20205108821e6b8d9556fd5bdb936d24cb322bc63b4cbb19eadd7391c096e9ee",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_malformed\\report.json": "82d46df6ae5709e72377208ade17be2990be2b56e7d288fcf55ff2c929ea61e2",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_missing-storage\\report.json": "ac45bc11fa478fa13435720de790f25ec2809d5f8d82675e97c50fa05232e401",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_mount-collision\\report.json": "c57542cbae8d89b186039094040f8e4015bd3c727efa1effbc2d95f989d2b6cc",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_mount-failure\\report.json": "f8dfe8b78f4f20eea4ed67ab063e30c80090720837a75b623c3237551cc2de2a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_oversize\\report.json": "3e042010a589cacec46b9632f375533dcc601d1eb5429d336c4a0b5a39d6e613",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_reboot-after-failure\\report.json": "6a646f4d70d6038c7420a6e348a194ef98f9c139acfe33f54249bca7baed9107",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_resource-exhaustion\\report.json": "574dfdf60b15123fa000620471ab0c6c027c2309bcdf9c246a08827bdb35a61d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_truncated\\report.json": "2a01fabe4cea678d8b5a40394c4068035057cf1e750cc5de1386eeec6fb5ebb6",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_128_trusted\\report.json": "500d232966b0aa61dcb22c39db8297bf5a09ecd737d6ba76d86dc679ec232708",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_absent\\report.json": "0f08aad326f17c5c9b0697050eb7f10fca3147475ad9ee2ce7fb733568bd2c11",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_bad-digest\\report.json": "3aff573ca515a74116063312999bd35044aceee0a219dd3ddeae2c0efd931f9d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_corrupt-rostifs\\report.json": "99845757ad4a17999eb22b5a561120768c699fe7751b3d38ba2dd9c3c4d59d62",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_duplicate\\report.json": "a9076ca790ac943d20adc5681838d1cdd80f6a8ca7a23d612a166c071c1929ec",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_invalid-descriptor\\report.json": "cb1885da9c8671491d14bac5e8f3f6a43b6ac4a2b5d3e9e66a5a14967b9ef7a4",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_malformed\\report.json": "db6c891764c7c55ba9ff60b787e7972ea337d716ac0b9d33e52ad13230599783",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_missing-storage\\report.json": "e29bf3b067429973821bf44e7e79f17bd664e68cc3e0f38579b025f72b5576bd",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_mount-collision\\report.json": "e9c6613e6ea68b8cce7a5cc9dd0f681f952b919df359f0298aa298fc4656f2d3",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_mount-failure\\report.json": "02dada042c473a139f010059bd07af721f02a3a037df761a2d59f08c6f207b81",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_oversize\\report.json": "1f89273809a9e15737b12bde2487a793e7d81a315c9d68e230566c99f06d88b4",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_reboot-after-failure\\report.json": "e2a14a2efa643e89c475b92111f350dc562da80e6ef11ba575980d3360b36109",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_resource-exhaustion\\report.json": "0f6682d416bf40c8c92eaeb8fef949d3915fe2977fd531d467e22db3f32e92b8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_truncated\\report.json": "6bb94e1dfe935de8bb3d69ad744c134f7e218f843a981277fb729b3c68d0b249",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\elf_512_trusted\\report.json": "967559e91648d9dabd69cbad3dad2eba81b8798a805bb59dd29f3c2a4a939cd5",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_absent\\report.json": "528800cc3e0b4a643fb30aff2fc0304090b3e2ba2b7bbf13140c60a238cba883",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_bad-digest\\report.json": "33b0f976b229942d30dd8adb649e3b649c3f6d13c4eb92f4dbe0fab15e1ded31",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_corrupt-rostifs\\report.json": "67d271aedc0184a52ccbb3cafedf9112c1b71d6c1de3c2d38085a13e36a132de",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_duplicate\\report.json": "94cd567b5c05c56178b2a5c5488244c54fdd152c03b375c1ec42d3089da9c21c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_invalid-descriptor\\report.json": "7c2401cb6b5b9a360dbe6329696f4eb8c13c41699ac8d2c682d0259eb1f2db6d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_malformed\\report.json": "a59225f5dd96b59d50bc13901b977c98889f13b72848cc73f58e245ffbe71a5e",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_missing-storage\\report.json": "30f8f36e58f80c8cb6e0813676122911b88d243ccd993456fac6a007b2714b38",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_mount-collision\\report.json": "dd1dfdb14044399ca334115345f0a040bcf4fd5a6700d6cda4428e8c0b970fc8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_mount-failure\\report.json": "d3101f1d11d99980ceaca401b535cf815b34b80b31a36fe7e4dfa7de02180387",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_oversize\\report.json": "41afd9c3fed99ed3fd24ebc6bb5e69b3a8520559927ae7cc78103ba204b5d9fa",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_reboot-after-failure\\report.json": "bd9dcd9f6da3ebb506ea1bbbcf72e3d833121bed3821a61b5e4513993d30e64b",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_resource-exhaustion\\report.json": "e4a6f41f5467d880f999b1120a64dcaa9eca70951bd468dc9e7bf734ea55b9bb",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_truncated\\report.json": "74e13f154cf53535981334052b68e600757ce0742a00f1d4bb2b08721529a4ab",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_128_trusted\\report.json": "1e7dc943533559038903cb2d19a6e145447674a5455cde4e02c3513177e1f3f7",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_absent\\report.json": "a4c8bdd7d2787217a99132cbbf2a770203308d222f42001b95d15bae2b77b390",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_bad-digest\\report.json": "629ab322c6f0bf80dcd4bc733811625e74bda2914788de8e20eefbfac778d167",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_corrupt-rostifs\\report.json": "d4b8043cac960564136da6ffaa17805c16bf6fa858d0899e2787b262afc76d8c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_duplicate\\report.json": "14f1773bd59a296ce93bc1f6ec0d22a101c44aded61fbbc35c00171d84cb6c82",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_invalid-descriptor\\report.json": "692d18366c8c9ddcbd6fa26bf106c1f1a7e5b4cda2241eaad453080f6aeef19d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_malformed\\report.json": "78d2baa775efd434e918198161f0460c69d46a8611d4ed5ed140b193582319cb",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_missing-storage\\report.json": "64ed72a9a22202a2b69e81a23a3c0012403bec2e2dcb85bf39b62e3f9eb680f8",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_mount-collision\\report.json": "ecea42700c0647229ef2e91d08b90a39de7ca26706557a7619d922a46652a7fa",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_mount-failure\\report.json": "fa6b2d748dbf6b3766a70a0067561eb8d0fa5c29c38e010f8d76442fe942fd05",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_oversize\\report.json": "801acaf4e7f3a5eb94e5f1b7299924cd84fbcd5abb319b467e7c6c8d72134d64",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_reboot-after-failure\\report.json": "42cf31c2747b7759c26e02f24130363c46626153a9e47e79e8f53ebe72f71985",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_resource-exhaustion\\report.json": "f15d46a7d543a03acbffe23a49662b9e9e71c9752a080c77cfba13bb4cca0a72",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_truncated\\report.json": "d596ee160158286119056170d3bc6e2b35cf76a4214db9f99d0522dca5482c83",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\iso_512_trusted\\report.json": "f8c435361cd5f580ab581b21bd5057305bb0b3f3b7a32bd4cc28aafdcb119000",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\phase10\\20261018_190215_phase10_9jkq4fpu\\report.json": "bac94fb99af4c73a17df1c63e5718c19cec4d9326d5d3803b4383ca9a0a896d1",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\read_fault\\20261018_183630_fault\\ram_128_run_1\\serial.txt": "efd72491d076f402c5c1f0071040b56060ba3633fcbd42249795a45949ad267d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\read_fault\\20261018_183630_fault\\ram_512_run_1\\serial.txt": "efd72491d076f402c5c1f0071040b56060ba3633fcbd42249795a45949ad267d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\read_fault\\20261018_183630_fault\\report.json": "c2cbfc16cfafb7c993e42281f7cebca6896e92b7a29a0ec9e274924ac4b966f3",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\boot1_write\\report.json": "089ba618f368ac5f3ef070d0a4a9b091ea7af8e249eebee3be025f322fe5d215",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\boot2_read_delete\\report.json": "cb15cfd464a7dacf1eeeebd83cb816b027dfa5c46ddb7b8ccd4bb112523a0652",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\boot3_deleted\\report.json": "a9dab545d58d88dfadd733e6a4abf1a9377edfcaf645135b1788d30bc8b23028",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\corrupt\\report.json": "c60b8395c411002ef6530d1c019ba820dd20920eef587be553e3bb36bd52e858",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\report.json": "bb42fe3ab52eae47f6cdcce71fa3cb19fecfa6454a17d49afd21a9de35899662",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_128\\rostifs_ram128_6zz_xpo6\\unowned\\report.json": "b5c964b9b6f24d8529dd97444dbcbe10a65644aa12104b3f50b69badc68a6450",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\boot1_write\\report.json": "29ef5c3bd60ded078d85d55d1e89ef02003a0e07bbc04922e9615eeabd95ea49",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\boot2_read_delete\\report.json": "45e338682fe75a6c61b4d5e9ff3360569c609847bb568a4dcf7733b7a0f3395c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\boot3_deleted\\report.json": "a3e8a5df8a4366b088270a1f2d0fd95911e93df5bc755c6bedfe89936303ae84",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\corrupt\\report.json": "282d15bced92b11e9ed858f33007d931ffcb09c0eae1989774bf861915ec8e9c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\report.json": "d01b8cbb106432d2288e50b51d89f1c1c3fec63b454fd9e68aa1bc0a373a7745",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_elf_512\\rostifs_ram512_1ydc5xmj\\unowned\\report.json": "a6cc9abf24051b9a94e454ecd396886e1d74fef3e399e80376369b912fbfba2e",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_128\\rostifs_ram128_5y1rusc_\\boot1_write\\report.json": "4524a9ff57e3897d232f6839201fdcae064b31ea6e7dc00abbfa0fbeb0f55f26",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_128\\rostifs_ram128_5y1rusc_\\boot2_read_delete\\report.json": "3425cc570a40626aebfda3b0626c7c4053e010275fd257787ffc74451ff79a22",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_128\\rostifs_ram128_5y1rusc_\\boot3_deleted\\report.json": "f941ba2097423bf72ffb7927cf1f24b467f748645fc2d48926596a4ad6990631",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_128\\rostifs_ram128_5y1rusc_\\corrupt\\report.json": "0ba66b428152294ff9fb4e09aca561f810ffce04abc989d8faaa2643f8151818",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_128\\rostifs_ram128_5y1rusc_\\report.json": "042e00e14e0e049dc8258add38100de395e62117840d586f0d55d084eac4be88",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_128\\rostifs_ram128_5y1rusc_\\unowned\\report.json": "3e2406ab9eb115877eb95ee8105561e4c2d9275f6365acaccabb6a4ad79f60fe",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\boot1_write\\report.json": "d9a892041740a55643fd293d9659b69a7ede4a782869e75bd14112cb4d9e21df",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\boot2_read_delete\\report.json": "15ee132342455ff3a3f64607d1e4d338bbc3f061ee8cfc0db919026945298a78",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\boot3_deleted\\report.json": "b065950245c9faf4c56ab69945da43e625d8cb759ffa47cd364c5ebb14c1f952",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\corrupt\\report.json": "9380e09e080166e8cd7e60efdba0aab2170b9685259452e9eb1c59686754c90c",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\report.json": "1171dd9cddfb9c312c3473e8e79f606403a2307f7a39e4948645db66aa1e5736",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\rostifs_iso_512\\rostifs_ram512_3l9d4_7w\\unowned\\report.json": "0fb002b5d50546bb09db2541e9b3e37dd7a2c158eca2834155c6f30b337eda11",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\write_fault\\20261018_183634_fault\\ram_128_run_1\\serial.txt": "b298e4c251523faee68868a31f62d99e9aec749b99ce75c76e1ef202e7ebc2a9",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\write_fault\\20261018_183634_fault\\ram_512_run_1\\serial.txt": "b298e4c251523faee68868a31f62d99e9aec749b99ce75c76e1ef202e7ebc2a9",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\acceptance\\acceptance_20261018T103450Z_v2091tta\\write_fault\\20261018_183634_fault\\report.json": "604cd13f6e6122670cd373f09f2e9b0fccb93c2b949a2154ceb813a3a403cf8f",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\candidate_checks.json": "c7d89bcb51616108267f50c01dad2114d2c88f993476cba4f9ba4017dfc3ff9a",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\generation_candidate_tests_b26_parallel.json": "2e7a86ee5ebcf3a406e4d12a19c480911610a0632b543417bbbfe3fb8de81627",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\generation_candidate_tests_b26_parallel.log": "15cd4fcee78466edc3bfd10a06ced43f759220a7b725f0b70e5ba56acc8e9796",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\generation_candidate_tests_b26_serial.json": "6ce476fc5ac977350c32c208d494a4bfd41f4ba37ff904480e15b22e163ff780",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\generation_candidate_tests_b26_serial.log": "c7e4b85c89038e68aba2b7da6688bde7b10f870399eb720c73a05b26b7fc54d7",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\generation_candidate_tests_kernel_parallel.json": "d03402d0acb6f2a6221ab694c7a1d611efd33a16aec03db032297d4145cf02e4",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\generation_candidate_tests_kernel_parallel.log": "3cb89dc912b924a2d05625b5ad3777da2fddd8ef997c87ee35d66151e68ed9db",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\generation_candidate_tests_kernel_serial.json": "f058d26a14201ec5347c611ff56b63b970d3cb6867f553d194dda549e3dc4a09",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\generation_candidate_tests_kernel_serial.log": "6432aad407bc449f61eea2b300c818a328828d5a91ce5c6b067d06c6f723cea6",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\independent_source_review.json": "18076b1a55df5db5877d90ffa103c900bb4868c1fb165de7befc9dd632dac02b",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\pre_acceptance.json": "e41160c3b973c5e78c270c204fdf6cd7659546fb51221b886728d31611e8aec1",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\review_original.txt": "40d46e6b66b0b9baeec035b20f6fe931b13b458cbbb8b3d397f3b98f6c81cd79",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a3_generation_ownership\\verify_checkpoint.py": "9b78f33577651c63fc003d7f8582765304a33e0f52d23fd23b4257b1893c02c7",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\src\\lib.rs": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133"
+  }
+}

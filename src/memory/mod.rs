@@ -42,8 +42,18 @@ fn dbg(s: &str) {
     let _ = s;
 }
 
-pub static FRAME_ALLOC: SpinMutex<frame::FrameAllocator> =
+#[cfg(not(test))]
+static FRAME_ALLOC: SpinMutex<frame::FrameAllocator> = SpinMutex::new(frame::FrameAllocator::new());
+// Independently rooted lock-order fixtures need the owner; production does not.
+#[cfg(test)]
+pub(crate) static FRAME_ALLOC: SpinMutex<frame::FrameAllocator> =
     SpinMutex::new(frame::FrameAllocator::new());
+
+/// Copy diagnostics and release the owner before callers can format/allocate.
+pub fn frame_stats() -> Option<frame::FrameStats> {
+    let fa = FRAME_ALLOC.lock();
+    fa.is_initialized().then(|| *fa.stats())
+}
 
 // Private owner: no reference or guard is exported. Queries return owned scalars.
 // Production critical sections never allocate/drop backing or invoke callbacks.
