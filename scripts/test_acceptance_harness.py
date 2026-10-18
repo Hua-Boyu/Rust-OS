@@ -1,9 +1,11 @@
 """Acceptance source-freeze regressions; subprocesses are fixtures, not live gates."""
 import contextlib
+import ast
 import csv
 import importlib.util
 import io
 import json
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -129,6 +131,21 @@ class Phase10EvidenceTests(unittest.TestCase):
 
 
 class SourceFreezeTests(unittest.TestCase):
+    def declared_pin_names(self):
+        source = (Path(__file__).resolve().parents[1] / "src/memory/mapping_pin_tests.rs").read_text()
+        names = re.findall(r"(?m)^#\[test\]\s*\nfn (runtime_mapping_pin_\w+)\(", source)
+        self.assertEqual(len(names), 8)
+        return ["memory::paging::mapping_pin_tests::" + name for name in names]
+
+    def isolated_host_names(self):
+        return [
+            "b18_outcome_tests::rejected_boot_outcome_is_recorded_once_and_visible_before_shell",
+            "b18_outcome_tests::storage_gate_is_closed_when_boot_metadata_is_rejected",
+            "memory::review_r1_tests::review_r1_production_prepare_pins_one_byte_module_and_metadata_partial_tails",
+            "memory::frame::domain_tests::runtime_pin_domain_issuer_retires_at_maximum_without_wrap",
+            "memory::frame::domain_tests::runtime_pin_both_reset_entries_preserve_every_live_inventory_field",
+        ]
+
     def simulate(self, mutation, omit_reports=False, boot_rows=10, read_tests=4, write_tests=3,
                  safety_output=None, metadata_report="valid", b13_report="valid",
                  phase10_report="valid", failed_script=None, fs_checks=103):
@@ -148,7 +165,7 @@ class SourceFreezeTests(unittest.TestCase):
                 # Simulate successful gates solely to reach the real final source-freeze check.
                 output = kwargs["stdout"]
                 prerequisite = next((c for c in command if c in (
-                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::", "phase11a2_abi_tests::")), None)
+                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::", "phase11a2_abi_tests::", "mapping_pin_tests::")), None)
                 if prerequisite:
                     names = (["heap_growth_maps_one_page_on_demand"]
                              if prerequisite == "heap_growth_maps_one_page_on_demand" else [
@@ -173,6 +190,8 @@ class SourceFreezeTests(unittest.TestCase):
                             "phase11a2_pf_error_code_keeps_page_semantics",
                             "phase11a2_fault_origin_reads_saved_cs_ring",
                         )]
+                    if prerequisite == "mapping_pin_tests::":
+                        names = self.declared_pin_names()
                     text = (safety_output or {}).get(prerequisite,
                         "".join(f"test {name} ... ok\n" for name in names)
                         + f"test result: ok. {len(names)} passed; 0 failed; 0 ignored\n")
@@ -194,11 +213,18 @@ class SourceFreezeTests(unittest.TestCase):
                         output.write(text.encode())
                         return type("Result", (), {"returncode": 0})()
                     text = (safety_output or {}).get(safety_filter,
-                        f"test safety::{safety_filter}fixture ... ok\n"
-                        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out\n")
+                        ("test growth_tests::b26_growth_failure_does_not_consume_reserved_frame ... ok\n"
+                         if safety_filter == "b26_" else f"test safety::{safety_filter}fixture ... ok\n")
+                        + "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out\n")
                     output.write(text.encode())
                     return type("Result", (), {"returncode": 0})()
-                if "test" in command:
+                if "test" in command and any(Path(str(c)).name == "Cargo.toml" and Path(str(c)).parent.name == "tests_kernel" for c in command):
+                    names = self.isolated_host_names()
+                    text = (safety_output or {}).get("mandatory_host",
+                        "".join(f"test {name} ... ok\n" for name in names)
+                        + f"test result: ok. {len(names)} passed; 0 failed; 0 ignored\n")
+                    output.write(text.encode())
+                elif "test" in command:
                     passed = read_tests if "read_performance" in command else 1
                     if "write_preservation" in command:
                         passed = write_tests
@@ -345,8 +371,8 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(Path(guest[guest.index("--output-dir") + 1]).name, "phase10")
         self.assertEqual(self.last_report["counts"]["phase10_scenarios"],
                          {"pass": 4 * len(acceptance.PHASE10_CASES), "fail": 0})
-        # Preserve all 56 predecessor gates plus registry/reservation and exception-ABI identity.
-        self.assertEqual(self.last_report["gates_total"], 58)
+        # Preserve all 58 predecessor gates plus allocator-wide payload-pin identity.
+        self.assertEqual(self.last_report["gates_total"], 59)
         for name in scripts:
             with self.subTest(failed=name):
                 self.assertEqual(self.simulate(lambda root: None, failed_script=name), 1)
@@ -578,6 +604,54 @@ class SourceFreezeTests(unittest.TestCase):
                 self.assertEqual(self.simulate(lambda root: None,
                     safety_output={"phase11a2_abi_tests::": text}), 1)
                 self.assertEqual(self.last_versioned_count, 0)
+
+    def test_phase11_runtime_pin_prerequisite_is_mandatory(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        commands = [c for c in self.last_commands if "mapping_pin_tests::" in c]
+        self.assertEqual(len(commands), 1)
+        self.assertIn("--test-threads=1", commands[0])
+        self.assertEqual(self.last_report["counts"]["phase11_runtime_pins"], {"pass": 8, "fail": 0})
+
+    def test_phase11_runtime_pin_bad_identities_cannot_publish(self):
+        names = self.declared_pin_names()
+        first = names[0]
+        def result(cases):
+            return "".join(f"test {name} ... ok\n" for name in cases) + f"test result: ok. {len(cases)} passed; 0 failed; 0 ignored\n"
+        for text in ("", "test result: ok. 0 passed; 0 failed; 0 ignored\n",
+                     "test impostor ... ok\ntest result: ok. 8 passed; 0 failed; 0 ignored\n",
+                     result([first] * 8), result(names[:-1]),
+                     result(names + ["memory::paging::mapping_pin_tests::extra"]),
+                     result(names[:-1] + ["memory::paging::mapping_pin_tests::substituted"])):
+            with self.subTest(text=text):
+                self.assertEqual(self.simulate(lambda root: None,
+                    safety_output={"mapping_pin_tests::": text}), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+
+    def test_phase11_runtime_pin_identities_match_real_rust_declarations(self):
+        tree = ast.parse(Path(acceptance.__file__).read_text())
+        rows = [node for node in ast.walk(tree) if isinstance(node, ast.Tuple)
+                and len(node.elts) == 3 and isinstance(node.elts[0], ast.Constant)
+                and node.elts[0].value == "phase11_runtime_pins"]
+        self.assertEqual(len(rows), 1)
+        required = rows[0].elts[2]
+        prefix = ast.literal_eval(required.elt.left)
+        wired = {prefix + ast.literal_eval(name) for name in required.generators[0].iter.elts}
+        self.assertEqual(wired, set(self.declared_pin_names()))
+
+    def test_domain_and_isolation_host_coverage_cannot_shrink(self):
+        names = self.isolated_host_names()
+        for removed in names:
+            with self.subTest(removed=removed):
+                kept = [name for name in names if name != removed]
+                text = "".join(f"test {name} ... ok\n" for name in kept) + f"test result: ok. {len(kept)} passed; 0 failed; 0 ignored\n"
+                self.assertEqual(self.simulate(lambda root: None,
+                    safety_output={"mandatory_host": text}), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+
+    def test_b26_growth_isolation_coverage_cannot_shrink(self):
+        text = "test safety::b26_fixture ... ok\ntest result: ok. 1 passed; 0 failed; 0 ignored\n"
+        self.assertEqual(self.simulate(lambda root: None, safety_output={"b26_": text}), 1)
+        self.assertEqual(self.last_versioned_count, 0)
 
     def test_phase11_prerequisite_identities_cannot_be_substituted(self):
         for filter_name in ("heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::"):

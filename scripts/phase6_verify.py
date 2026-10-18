@@ -216,6 +216,22 @@ def _run_acceptance():
         match = re.search(r"test result: ok\. (\d+) passed; (\d+) failed", text)
         if not match:
             raise RuntimeError("host test totals not found")
+        # Pin the domain and isolated-child regressions even if the broad suite
+        # grows or unrelated test families continue to pass.
+        mandatory_host = {
+            "b18_outcome_tests::rejected_boot_outcome_is_recorded_once_and_visible_before_shell",
+            "b18_outcome_tests::storage_gate_is_closed_when_boot_metadata_is_rejected",
+            "memory::review_r1_tests::review_r1_production_prepare_pins_one_byte_module_and_metadata_partial_tails",
+            "memory::frame::domain_tests::runtime_pin_domain_issuer_retires_at_maximum_without_wrap",
+            "memory::frame::domain_tests::runtime_pin_both_reset_entries_preserve_every_live_inventory_field",
+        }
+        observed_host = re.findall(r"^test (\S+) \.\.\. ok\s*$", text, re.M)
+        totals_host = re.findall(r"test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored", text)
+        if (len(totals_host) != 1 or totals_host[0][1] != "0"
+                or len(observed_host) != int(totals_host[0][0])
+                or len(set(observed_host)) != len(observed_host)
+                or not mandatory_host.issubset(observed_host)):
+            raise RuntimeError("mandatory domain/isolation host coverage missing or inconsistent")
         report["counts"]["host"] = {"pass": int(match[1]), "fail": int(match[2])}
         # Separate filtered invocations prove every Phase 9.6 safety family ran;
         # a successful broad suite (or a renamed-away filter) cannot substitute.
@@ -234,6 +250,9 @@ def _run_acceptance():
                     or len(set(observed)) != len(observed)
                     or any(filter_name not in name for name in observed)):
                 raise RuntimeError(f"{key.upper()} safety test totals missing, empty or inconsistent")
+            if (key == "b26" and
+                    "growth_tests::b26_growth_failure_does_not_consume_reserved_frame" not in observed):
+                raise RuntimeError("mandatory B26 isolated growth rollback test missing")
             report["counts"][key] = {"pass": len(observed), "fail": 0}
         # This is only the first memory-permission prerequisite, NOT CPL3
         # acceptance. Keep the exact test identities mandatory and fail closed.
@@ -275,6 +294,20 @@ def _run_acceptance():
                         "phase11a2_gp_error_code_is_selector_format",
                         "phase11a2_pf_error_code_keeps_page_semantics",
                         "phase11a2_fault_origin_reads_saved_cs_ring",
+                    )
+                }),
+                # Allocator-wide runtime payload pins only, not generational
+                # release authority, foreign structure roles, or CPL3 readiness.
+                ("phase11_runtime_pins", "mapping_pin_tests::", {
+                    "memory::paging::mapping_pin_tests::" + name for name in (
+                        "runtime_mapping_pin_refuses_free_of_ordinary_and_growth_payloads",
+                        "runtime_mapping_pin_live_allocator_reset_is_nonmutating",
+                        "runtime_mapping_pin_foreign_allocator_cannot_mutate_map",
+                        "runtime_mapping_pin_cross_map_exclusion_and_boot_alias_preservation",
+                        "runtime_mapping_pin_foreign_unmap_and_release_leave_both_domains_intact",
+                        "runtime_mapping_pin_inconsistent_runtime_mirrors_refuse_unmap",
+                        "runtime_mapping_pin_table_exhaustion_does_not_pin_caller_payload",
+                        "runtime_mapping_pin_empty_reset_invalidates_previous_map_domain",
                     )
                 }),
                 ("phase11_snapshot", "heap_growth_maps_one_page_on_demand",

@@ -38,6 +38,14 @@ mod phase11a2_ownership_tests;
 #[path = "phase11a2_abi_tests.rs"]
 mod phase11a2_abi_tests;
 
+#[cfg(test)]
+#[path = "runtime_table_access_tests.rs"]
+mod runtime_table_access_tests;
+
+#[cfg(test)]
+#[path = "mapping_pin_tests.rs"]
+mod mapping_pin_tests;
+
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
 pub const ENTRY_WRITABLE: u32 = 1 << 1;
@@ -126,6 +134,7 @@ pub struct PagingStats {
 
 pub struct PageMap {
     directory: u64,
+    domain: u32,
     tables: Vec<u64>,
     // Page-rounded permanent boot identity spans; backing is prepared unlocked.
     boot_pins: Vec<(u64, u64)>,
@@ -148,6 +157,11 @@ impl PageMap {
     /// Call exactly once, before publication/enabling; mapped payload frames
     /// are not owned by PageMap and must not be freed here.
     pub(super) fn release_unpublished_frames(&self, fa: &mut FrameAllocator) {
+        // This remains a prepare-failure-only helper, not general teardown.
+        // Never release another domain or orphan live runtime payload pins.
+        if fa.domain() != Some(self.domain) || self.payload_bitmap.iter().any(|&byte| byte != 0) {
+            return;
+        }
         for &table in &self.tables {
             if table != 0 {
                 fa.free(table);
@@ -247,6 +261,10 @@ impl PageMap {
         phys_frame: u64,
         perms: &PagePerms,
     ) -> bool {
+        if fa.domain() != Some(self.domain) {
+            self.stats.map_rejects += 1;
+            return false;
+        }
         if perms.user || !perms.present {
             self.stats.map_rejects += 1;
             return false;
@@ -269,7 +287,7 @@ impl PageMap {
         // This numeric API still does not prove caller or cross-map ownership.
         // Boot supervisor identity mappings are constructed separately and
         // intentionally do not transfer payload ownership.
-        if !fa.is_live_allocation(phys_frame) {
+        if !fa.is_live_allocation(phys_frame) || fa.runtime_pinned(phys_frame) {
             self.stats.map_rejects += 1;
             return false;
         }
@@ -295,6 +313,21 @@ impl PageMap {
                     return false;
                 }
             };
+            // Runtime table writes use physical addresses as virtual pointers.
+            // The current kernel map must still provide a writable supervisor
+            // identity alias before zero_table can touch the candidate. A host
+            // mirror alone cannot establish that accessibility. Fail closed on
+            // the first candidate; do not retain inaccessible allocations while
+            // searching or consume caller payload on this refusal.
+            if self.translate(table) != Some(table)
+                || !self
+                    .permissions(table)
+                    .is_some_and(|p| p.present && p.writable && !p.user)
+            {
+                fa.free(table);
+                self.stats.map_rejects += 1;
+                return false;
+            }
             zero_table(table);
             self.tables[dir] = table;
             self.stats.page_tables += 1;
@@ -311,8 +344,11 @@ impl PageMap {
         if perms.writable {
             entry |= ENTRY_WRITABLE;
         }
-        write_entry(self.tables[dir], idx, entry);
+        // All refusals are complete. Commit the allocator-wide reference and
+        // its local mirror before publishing the PTE; no fallible work follows.
+        fa.set_runtime_pin(phys_frame, true);
         payload_set_bit(&mut self.payload_bitmap, phys_frame, true);
+        write_entry(self.tables[dir], idx, entry);
         self.stats.mapped_frames += 1;
         self.stats.maps += 1;
         invalidate_page(linear);
@@ -323,7 +359,12 @@ impl PageMap {
     /// Unmap a page-aligned virtual address. Rejects absent pages and
     /// boot-critical regions (kernel image, VGA, multiboot structures), which
     /// must stay mapped for the kernel to run.
-    pub fn unmap(&mut self, linear: u64) -> bool {
+    pub fn unmap(&mut self, fa: &mut FrameAllocator, linear: u64) -> bool {
+        // Domain mismatch must fail before any paging-structure dereference.
+        if fa.domain() != Some(self.domain) {
+            self.stats.unmap_rejects += 1;
+            return false;
+        }
         if linear % PAGE_SIZE as u64 != 0 || linear >= (1u64 << 32) {
             self.stats.unmap_rejects += 1;
             return false;
@@ -355,15 +396,26 @@ impl PageMap {
             self.stats.unmap_rejects += 1;
             return false;
         }
-        write_entry(base, idx, 0);
         let payload = entry as u64 & 0xFFFFF000;
+        if entry & ENTRY_RUNTIME_PAYLOAD != 0
+            && (!fa.is_live_allocation(payload)
+                || !fa.runtime_pinned(payload)
+                || !payload_bit(&self.payload_bitmap, payload))
+        {
+            self.stats.unmap_rejects += 1;
+            return false;
+        }
+        write_entry(base, idx, 0);
+        // End CPU translation before returning release eligibility. Boot
+        // aliases have no runtime ownership and never clear either pin mirror.
+        invalidate_page(linear);
+        self.stats.tlb_invalidation += 1;
         if entry & ENTRY_RUNTIME_PAYLOAD != 0 {
             payload_set_bit(&mut self.payload_bitmap, payload, false);
+            fa.set_runtime_pin(payload, false);
         }
         self.stats.mapped_frames -= 1;
         self.stats.unmaps += 1;
-        invalidate_page(linear);
-        self.stats.tlb_invalidation += 1;
         true
     }
 
@@ -538,6 +590,7 @@ pub(crate) fn build_identity_map_with_backing_in_place(
     {
         return None;
     }
+    let domain = fa.domain()?;
     let directory = fa.allocate()?;
     zero_table(directory);
     let mut stats = PagingStats {
@@ -599,6 +652,7 @@ pub(crate) fn build_identity_map_with_backing_in_place(
 
     Some(PageMap {
         directory,
+        domain,
         tables: core::mem::take(tables),
         boot_pins: core::mem::take(boot_pins),
         payload_bitmap: core::mem::take(payload_bitmap),

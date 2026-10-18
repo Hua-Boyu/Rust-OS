@@ -23,8 +23,8 @@ fn module_access_requires_every_page_identity_mapped_and_pinned() {
     assert!(!pm.pinned_identity_span(0x40000, 0x40000));
     assert!(!pm.pinned_identity_span(0x42000, 0x40000));
     assert!(!pm.pinned_identity_span(0x40000, u64::MAX));
-    assert!(!pm.unmap(0x40000));
-    assert!(!pm.unmap(0x41000));
+    assert!(!pm.unmap(&mut fa, 0x40000));
+    assert!(!pm.unmap(&mut fa, 0x41000));
 }
 
 #[test]
@@ -48,5 +48,5 @@ fn pins_alone_do_not_grant_missing_or_nonidentity_access() {
     assert_ne!(slot, other);
     assert!(pm.map(&mut fa, slot, other, &paging::KERNEL_PERMS));
     assert!(!pm.pinned_identity_span(slot, slot + 1));
-    assert!(!pm.unmap(slot));
+    assert!(!pm.unmap(&mut fa, slot));
 }

@@ -13,14 +13,16 @@ fn rejected_boot_outcome_is_recorded_once_and_visible_before_shell() {
                 "--exact",
                 &format!(
                     "{}::rejected_boot_outcome_is_recorded_once_and_visible_before_shell",
-                    module_path!()
+                    module_path!().split_once("::").unwrap().1
                 ),
             ])
             .env(CHILD, "1")
             .output()
             .unwrap();
         assert!(
-            output.status.success(),
+            output.status.success()
+                && String::from_utf8_lossy(&output.stdout)
+                    .contains("test result: ok. 1 passed; 0 failed; 0 ignored;"),
             "{}",
             String::from_utf8_lossy(&output.stdout)
         );
@@ -51,14 +53,16 @@ fn storage_gate_is_closed_when_boot_metadata_is_rejected() {
                 "--exact",
                 &format!(
                     "{}::storage_gate_is_closed_when_boot_metadata_is_rejected",
-                    module_path!()
+                    module_path!().split_once("::").unwrap().1
                 ),
             ])
             .env(CHILD, "1")
             .output()
             .unwrap();
         assert!(
-            output.status.success(),
+            output.status.success()
+                && String::from_utf8_lossy(&output.stdout)
+                    .contains("test result: ok. 1 passed; 0 failed; 0 ignored;"),
             "{}",
             String::from_utf8_lossy(&output.stdout)
         );

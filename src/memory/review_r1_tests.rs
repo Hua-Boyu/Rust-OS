@@ -33,19 +33,20 @@ fn review_r1_production_prepare_pins_one_byte_module_and_metadata_partial_tails(
     // (including B26's boot lifecycle test), even under parallel test execution.
     const CHILD: &str = "RUST_OS_MAPPING_PINS_REVIEW_CHILD";
     if std::env::var_os(CHILD).is_none() {
+        let qualified = concat!(
+            module_path!(),
+            "::review_r1_production_prepare_pins_one_byte_module_and_metadata_partial_tails"
+        );
+        let test_name = qualified.split_once("::").unwrap().1;
         let output = std::process::Command::new(std::env::current_exe().unwrap())
-            .args([
-                "--exact",
-                concat!(
-                    module_path!(),
-                    "::review_r1_production_prepare_pins_one_byte_module_and_metadata_partial_tails"
-                ),
-            ])
+            .args(["--exact", test_name])
             .env(CHILD, "1")
             .output()
             .unwrap();
         assert!(
-            output.status.success(),
+            output.status.success()
+                && String::from_utf8_lossy(&output.stdout)
+                    .contains("test result: ok. 1 passed; 0 failed; 0 ignored;"),
             "{}",
             String::from_utf8_lossy(&output.stdout)
         );
@@ -59,12 +60,16 @@ fn review_r1_production_prepare_pins_one_byte_module_and_metadata_partial_tails(
     assert!(prepare(&entries, 0x250fff, 0x300000, 0x310000).is_ok());
     drop(entries); // PageMap must own its pins, not borrow the boot inventory
     let mut pm = PAGE_MAP.lock().take().unwrap();
+    let mut fa = FRAME_ALLOC.lock();
     for page in [0x210000, 0x230000, 0x231000, 0x250000, 0x251000] {
         assert_eq!(pm.translate(page), Some(page));
-        assert!(!pm.unmap(page), "permanent boot pin {page:#x} was unmapped");
+        assert!(
+            !pm.unmap(&mut fa, page),
+            "permanent boot pin {page:#x} was unmapped"
+        );
     }
     assert!(
-        pm.unmap(0x240000),
+        pm.unmap(&mut fa, 0x240000),
         "non-pinned identity page remains mutable"
     );
 }
@@ -78,17 +83,17 @@ fn review_r1_live_page_structure_identity_aliases_stay_mapped() {
     let directory = pm.directory();
     assert_eq!(pm.translate(directory), Some(directory));
     assert!(
-        !pm.unmap(directory),
+        !pm.unmap(&mut fa, directory),
         "live directory identity alias must be permanent"
     );
     let table = directory + 4096; // first-fit allocator's immediately following frame
     assert_eq!(pm.translate(table), Some(table));
     assert!(
-        !pm.unmap(table),
+        !pm.unmap(&mut fa, table),
         "live table identity alias must be permanent"
     );
     assert!(
-        pm.unmap(0x40000),
+        pm.unmap(&mut fa, 0x40000),
         "ordinary identity pages remain unmap-capable"
     );
     // Runtime payload needs a live allocation, not the one-past-usable end.
@@ -103,7 +108,7 @@ fn review_r1_live_page_structure_identity_aliases_stay_mapped() {
     ));
     assert_eq!(pm.translate(next_table), Some(next_table));
     assert!(
-        !pm.unmap(next_table),
+        !pm.unmap(&mut fa, next_table),
         "runtime-created live tables are protected too"
     );
 }
@@ -130,8 +135,8 @@ fn review_r1_pin_backing_retained_on_failure_and_moved_on_success() {
             .unwrap();
     assert_eq!(pins.capacity(), 0);
     assert_eq!(tables.capacity(), 0);
-    assert!(!pm.unmap(0x20000));
-    assert!(!pm.unmap(0x21000));
+    assert!(!pm.unmap(&mut fa, 0x20000));
+    assert!(!pm.unmap(&mut fa, 0x21000));
     assert!(paging::validate_mapping(&pm, &[]).is_empty());
 }
 

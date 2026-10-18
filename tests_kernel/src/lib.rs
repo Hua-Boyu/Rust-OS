@@ -823,14 +823,14 @@ fn paging_map_unmap_translate_and_rejects() {
     assert!(p.present && !p.writable && !p.user && !p.nx_supported);
 
     // Unmap works; unmapping an absent page is rejected.
-    assert!(pm.unmap(slot));
+    assert!(pm.unmap(&mut fa, slot));
     assert!(!pm.is_mapped(slot as u64));
     assert_eq!(pm.translate(slot), None);
-    assert!(!pm.unmap(slot));
+    assert!(!pm.unmap(&mut fa, slot));
     assert_eq!(pm.stats().unmap_rejects, 1);
 
     // Boot-critical regions cannot be unmapped.
-    assert!(!pm.unmap(0xB8000));
+    assert!(!pm.unmap(&mut fa, 0xB8000));
     assert_eq!(pm.stats().unmap_rejects, 2);
 
     // TLB invalidation counted on every successful change (2 maps + 1 unmap).
@@ -1058,7 +1058,7 @@ fn perf_baseline_records_latencies() {
     let map_ns = t2.elapsed().as_nanos() as f64 / 1000.0;
     let t3 = std::time::Instant::now();
     for i in 0..1000 {
-        assert!(pm.unmap(memory::paging::GROWTH_START as u64 + i * 4096));
+        assert!(pm.unmap(&mut fa, memory::paging::GROWTH_START as u64 + i * 4096));
     }
     let unmap_ns = t3.elapsed().as_nanos() as f64 / 1000.0;
     for i in 0..1000 {

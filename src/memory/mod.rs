@@ -177,20 +177,27 @@ pub fn prepare(
     let (window, built) = {
         let fa = &mut FRAME_ALLOC.lock();
         dbg("DBG: frame lock acquired\n");
-        fa.init(entries, bootinfo_addr, bump_start, bump_end);
-        dbg("DBG: frame init done\n");
-        let built = paging::build_identity_map_with_backing_in_place(
-            fa,
-            window,
-            &mut tables,
-            &mut boot_pins,
-            &mut payload_bitmap,
-        );
+        let built = if fa.init(entries, bootinfo_addr, bump_start, bump_end) {
+            dbg("DBG: frame init done\n");
+            paging::build_identity_map_with_backing_in_place(
+                fa,
+                window,
+                &mut tables,
+                &mut boot_pins,
+                &mut payload_bitmap,
+            )
+            .ok_or("frame exhaustion during page table build")
+        } else {
+            Err("frame allocator initialization refused")
+        };
         (window, built)
     }; // frame lock released before table backing destruction
     let pm = match built {
-        Some(pm) => pm,
-        None => return Err("frame exhaustion during page table build"),
+        Ok(pm) => pm,
+        Err(error) => {
+            drop(owner);
+            return Err(error);
+        }
     };
     dbg("DBG: page tables built\n");
 
@@ -279,6 +286,26 @@ pub fn heap_grow_frame(slot: usize) -> Option<u64> {
         // Growth-aware free restores reserved ownership, never ordinary free
         // capacity. Keep the pre-existing PTE untouched on a map rejection.
         fa.free(frame);
+        None
+    }
+}
+
+/// Host-only fixture: safely replace a mapped growth page with a distinct
+/// acquired payload, so a later exact growth claim meets a real PTE conflict.
+/// No production mapping/unmapping API is exposed by this test setup.
+#[cfg(test)]
+pub(crate) fn replace_growth_with_test_conflict(slot: usize) -> Option<u64> {
+    let mut owner = PAGE_MAP.lock();
+    let pm = owner.as_mut()?;
+    let fa = &mut FRAME_ALLOC.lock();
+    if !pm.unmap(fa, slot as u64) || !fa.free(slot as u64) {
+        return None;
+    }
+    let payload = fa.allocate()?;
+    if pm.map(fa, slot as u64, payload, &paging::KERNEL_PERMS) {
+        Some(payload)
+    } else {
+        fa.free(payload);
         None
     }
 }

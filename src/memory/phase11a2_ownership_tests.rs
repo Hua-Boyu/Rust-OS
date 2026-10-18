@@ -115,7 +115,7 @@ fn phase11a2_growth_claimed_frame_maps_exactly_once_and_rolls_back() {
     // A second map of the same slot is a conflict, never an overwrite.
     assert!(!pm.map(&mut fa, slot, frame, &KERNEL_PERMS));
     // Unmap then free returns the frame to the growth reservation only.
-    assert!(pm.unmap(slot));
+    assert!(pm.unmap(&mut fa, slot));
     assert_eq!(pm.translate(slot), None);
     assert!(fa.free(frame));
     // The frame returns to the growth-only reservation, restoring the
@@ -140,7 +140,7 @@ fn phase11a2_payload_frame_cannot_alias_two_active_slots() {
     assert_eq!(pm.stats().page_tables, before_tables);
     assert_eq!(pm.translate(slot_b), None);
     // Releasing the first reference permits re-mapping the frame elsewhere.
-    assert!(pm.unmap(slot_a));
+    assert!(pm.unmap(&mut fa, slot_a));
     assert!(pm.map(&mut fa, slot_b, frame, &KERNEL_PERMS));
     assert_eq!(pm.translate(slot_b), Some(frame));
 }
@@ -155,11 +155,11 @@ fn phase11a2_unmapping_boot_alias_preserves_live_runtime_payload_reference() {
     assert!(pm.map(&mut fa, slot_a, frame, &KERNEL_PERMS));
     // The preexisting supervisor identity mapping is not the runtime owner.
     // Removing it must not release the runtime reference at slot_a.
-    assert!(pm.unmap(frame));
+    assert!(pm.unmap(&mut fa, frame));
     assert_eq!(pm.translate(slot_a), Some(frame));
     assert!(!pm.map(&mut fa, slot_b, frame, &KERNEL_PERMS));
     assert_eq!(pm.translate(slot_b), None);
-    assert!(pm.unmap(slot_a));
+    assert!(pm.unmap(&mut fa, slot_a));
     assert!(pm.map(&mut fa, slot_b, frame, &KERNEL_PERMS));
 }
 
@@ -174,7 +174,7 @@ fn phase11a2_unmap_then_release_restores_allocator_ownership() {
     assert_eq!(pm.translate(slot), Some(frame));
     // While mapped, the frame is not available to the allocator.
     assert!(!fa.is_free(frame));
-    assert!(pm.unmap(slot));
+    assert!(pm.unmap(&mut fa, slot));
     assert_eq!(pm.translate(slot), None);
     assert!(fa.free(frame));
     assert_eq!(pm.stats().unmaps, 1);

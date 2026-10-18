@@ -19,6 +19,19 @@
 use crate::memory::dbg;
 use crate::memory::paging;
 use crate::multiboot::MmapEntry;
+use core::sync::atomic::{AtomicU32, Ordering};
+
+// Allocator addresses are movable, and reset must not reuse an old domain.
+// Zero is never issued; exhaustion is permanent rather than wrapping to one.
+static LAST_DOMAIN: AtomicU32 = AtomicU32::new(0);
+
+fn issue_domain(last: &AtomicU32) -> Option<u32> {
+    last.try_update(Ordering::Relaxed, Ordering::Relaxed, |value| {
+        value.checked_add(1)
+    })
+    .ok()
+    .and_then(|previous| previous.checked_add(1))
+}
 
 #[cfg(test)]
 #[path = "../../tests_kernel/src/b11_frame_tests.rs"]
@@ -33,7 +46,7 @@ pub const MAX_FRAME_ADDR: u64 = 256 * 1024 * 1024;
 pub const MAX_FRAMES: usize = (MAX_FRAME_ADDR / FRAME_SIZE as u64) as usize;
 const GROWTH_BITMAP_BYTES: usize =
     ((paging::GROWTH_END - paging::GROWTH_START) / FRAME_SIZE).div_ceil(8);
-const BITMAP_FRAMES: usize = (MAX_FRAMES / 8 * 4 + GROWTH_BITMAP_BYTES).div_ceil(FRAME_SIZE);
+const BITMAP_FRAMES: usize = (MAX_FRAMES / 8 * 5 + GROWTH_BITMAP_BYTES).div_ceil(FRAME_SIZE);
 
 // Always-reserved regardless of mmap type:
 // - VGA framebuffer 0xB8000..0xBC000 (the kernel writes text directly here).
@@ -84,6 +97,10 @@ pub struct FrameAllocator {
     covered: [u8; MAX_FRAMES / 8],
     ncov: [u8; MAX_FRAMES / 8],
     growth_claimed: [u8; GROWTH_BITMAP_BYTES],
+    // Exclusive runtime payload references across all maps in this allocator.
+    // Borrowed boot aliases are not pins; this is not generational authority.
+    runtime_pins: [u8; MAX_FRAMES / 8],
+    domain: u32,
     stats: FrameStats,
     initialized: bool,
 }
@@ -110,6 +127,8 @@ impl FrameAllocator {
             covered: [0; MAX_FRAMES / 8],
             ncov: [0; MAX_FRAMES / 8],
             growth_claimed: [0; GROWTH_BITMAP_BYTES],
+            runtime_pins: [0; MAX_FRAMES / 8],
+            domain: 0,
             stats: FrameStats {
                 total_frames: 0,
                 reserved_frames: 0,
@@ -133,19 +152,27 @@ impl FrameAllocator {
     /// Initialize from parsed mmap entries. Allocation-free.
     /// `bootinfo_addr` is the address of the multiboot info struct;
     /// `bump_start`/`bump_end` are the bump allocator's segment bounds.
+    /// A live allocator or exhausted domain issuer is refused without mutation.
     pub fn init(
         &mut self,
         entries: &[MmapEntry],
         bootinfo_addr: u64,
         bump_start: u64,
         bump_end: u64,
-    ) {
+    ) -> bool {
+        if self.stats.allocated_frames != 0 {
+            return false;
+        }
+        let Some(domain) = issue_domain(&LAST_DOMAIN) else {
+            return false;
+        };
         dbg("DBG: init entered\n");
         self.free.fill(0);
         self.ever.fill(0);
         self.covered.fill(0);
         self.ncov.fill(0);
         self.growth_claimed.fill(0);
+        self.runtime_pins.fill(0);
         self.stats = FrameStats {
             total_frames: 0,
             reserved_frames: 0,
@@ -237,12 +264,15 @@ impl FrameAllocator {
         }
 
         self.initialized = true;
+        self.domain = domain;
         dbg("DBG: frame init passes done\n");
+        true
     }
 
     /// Initialize with additional pinned boot/module/page-table byte spans.
     /// Spans are half-open; empty spans do nothing, any reversed span fails
-    /// closed and leaves the allocator uninitialized. No allocation occurs.
+    /// closed on an empty allocator. Live state is never erased, even for
+    /// malformed reservations. No allocation occurs.
     pub fn init_with_reservations(
         &mut self,
         entries: &[MmapEntry],
@@ -251,12 +281,17 @@ impl FrameAllocator {
         bump_end: u64,
         reservations: &[(u64, u64)],
     ) -> bool {
-        if reservations.iter().any(|&(start, end)| start > end) {
-            self.init(&[], 0, 0, 0);
-            self.initialized = false;
+        if self.stats.allocated_frames != 0 {
             return false;
         }
-        self.init(entries, bootinfo_addr, bump_start, bump_end);
+        if reservations.iter().any(|&(start, end)| start > end) {
+            self.initialized = false;
+            self.domain = 0;
+            return false;
+        }
+        if !self.init(entries, bootinfo_addr, bump_start, bump_end) {
+            return false;
+        }
         for &(start, end) in reservations {
             if start == end || start >= MAX_FRAME_ADDR {
                 continue;
@@ -311,6 +346,10 @@ impl FrameAllocator {
             self.stats.invalid_frees += 1;
             return false;
         };
+        if bit(&self.runtime_pins, frame) {
+            self.stats.invalid_frees += 1;
+            return false;
+        }
         if !bit(&self.covered, frame) || !bit(&self.ever, frame) {
             // A frame is releasable only if this allocator handed it out.
             // Usable-map coverage alone also includes our reserved frames.
@@ -404,11 +443,95 @@ impl FrameAllocator {
         }
     }
 
+    pub(super) fn domain(&self) -> Option<u32> {
+        (self.initialized && self.domain != 0).then_some(self.domain)
+    }
+
+    pub(super) fn runtime_pinned(&self, addr: u64) -> bool {
+        self.initialized
+            && addr % FRAME_SIZE as u64 == 0
+            && Self::frame_of(addr).is_some_and(|frame| bit(&self.runtime_pins, frame))
+    }
+
+    /// Memory-internal commit after managed/live allocation preflight, under
+    /// the same exclusive allocator borrow; never a public ownership API.
+    pub(super) fn set_runtime_pin(&mut self, addr: u64, pinned: bool) {
+        set_bit(
+            &mut self.runtime_pins,
+            (addr / FRAME_SIZE as u64) as usize,
+            pinned,
+        );
+    }
+
     pub fn stats(&self) -> &FrameStats {
         &self.stats
     }
 
     pub fn is_initialized(&self) -> bool {
         self.initialized
+    }
+}
+
+#[cfg(test)]
+mod domain_tests {
+    use super::*;
+
+    #[test]
+    fn runtime_pin_domain_issuer_retires_at_maximum_without_wrap() {
+        let last = AtomicU32::new(u32::MAX - 1);
+        assert_eq!(issue_domain(&last), Some(u32::MAX));
+        assert_eq!(issue_domain(&last), None);
+        assert_eq!(issue_domain(&last), None);
+        assert_eq!(last.load(Ordering::Relaxed), u32::MAX);
+        let fresh = AtomicU32::new(0);
+        assert_eq!(issue_domain(&fresh), Some(1));
+        assert_eq!(issue_domain(&fresh), Some(2));
+    }
+
+    #[test]
+    fn runtime_pin_both_reset_entries_preserve_every_live_inventory_field() {
+        let entries = [MmapEntry {
+            size: 20,
+            base_addr: 0x10000,
+            length: 0x1000000,
+            type_: 1,
+        }];
+        for growth in [false, true] {
+            let mut fa = FrameAllocator::new();
+            assert!(fa.init(&entries, 0x90000, 0xa0000, 0xb0000));
+            let payload = if growth {
+                fa.claim_growth_frame(paging::GROWTH_START as u64).unwrap()
+            } else {
+                fa.allocate().unwrap()
+            };
+            let before_domain = fa.domain;
+            let before_stats = format!("{:?}", fa.stats());
+            let free = fa.free;
+            let ever = fa.ever;
+            let covered = fa.covered;
+            let denied = fa.ncov;
+            let claimed = fa.growth_claimed;
+            for malformed in [false, true] {
+                let spans = if malformed {
+                    [(2, 1)]
+                } else {
+                    [(0x20000, 0x21000)]
+                };
+                assert!(!fa.init_with_reservations(&entries, 0x90000, 0xa0000, 0xb0000, &spans));
+                assert!(!fa.init(&entries, 0x90000, 0xa0000, 0xb0000));
+                assert_eq!(fa.domain, before_domain);
+                assert!(fa.initialized);
+                assert_eq!(format!("{:?}", fa.stats()), before_stats);
+                assert_eq!(fa.free, free);
+                assert_eq!(fa.ever, ever);
+                assert_eq!(fa.covered, covered);
+                assert_eq!(fa.ncov, denied);
+                assert_eq!(fa.growth_claimed, claimed);
+                assert!(fa.runtime_pins.iter().all(|&byte| byte == 0));
+            }
+            assert!(fa.free(payload));
+            assert!(fa.init(&entries, 0x90000, 0xa0000, 0xb0000));
+            assert_ne!(fa.domain, before_domain);
+        }
     }
 }
