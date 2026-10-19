@@ -54,6 +54,10 @@ mod structure_lifetime_tests;
 #[path = "generation_ownership_tests.rs"]
 mod generation_ownership_tests;
 
+#[cfg(test)]
+#[path = "virtual_page_zero_tests.rs"]
+mod virtual_page_zero_tests;
+
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
 pub const ENTRY_WRITABLE: u32 = 1 << 1;
@@ -321,6 +325,15 @@ impl PageMap {
             return false;
         }
         if linear >= (1u64 << 32) || phys_frame >= frame::MAX_FRAME_ADDR {
+            self.stats.map_rejects += 1;
+            return false;
+        }
+        // Virtual page zero stays unmapped: the boot identity map deliberately
+        // leaves it absent so null accesses fault, and an ordinary runtime
+        // publication there would replace that faulting sentinel with an
+        // unauthorized null-virtual mapping. No accepted boot requirement maps
+        // virtual zero; supervisor identity construction is unaffected.
+        if linear == 0 {
             self.stats.map_rejects += 1;
             return false;
         }
