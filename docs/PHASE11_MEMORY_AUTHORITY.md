@@ -25,11 +25,13 @@ bootstrap policy, not a newly runtime-enforced bootstrap capability; borrowed
 aliases confer no payload ownership. Raw allocator primitives remain trusted.
 Current caller/design inventory: `test_results/phase11b19_numeric_map/`.
 
-Fresh focused9/0, host340/0/2 inherited ignores and B26full113/0 serial/parallel,
+Fresh focused9/0, host340/0/2 serial/parallel and B26full113/0 serial/parallel,
 harness59, production/fmt and focused128/512 paging pass. Independent design
-APPROVED; implementation review and fresh canonical acceptance remain pending.
-No new ledger/lock/backing allocation. No full B19/teardown/CPU lifetime/sharing/
-USER/TSS/CPL3/Phase12 approval. The case7 results below are inherited history.
+and source reviews APPROVE_BOUNDED with zero blockers. Canonical acceptance
+64/64 PASS (acceptance_20261019T133256Z_skpr6lcf) with independent final
+readback PASS; local commits 4ab6c82/571d3ff. No new ledger/lock/backing
+allocation. No full B19/teardown/CPU lifetime/sharing/USER/TSS/CPL3/Phase12
+approval. The case7 results below are inherited history.
 
 ## Phase 11 B19 case 7 — exclusive shared-mapping refusal characterization
 

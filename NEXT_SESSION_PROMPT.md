@@ -1,6 +1,6 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
-## Actual current checkpoint — Phase 11 B19 numeric-map candidate, NOT ACCEPTED
+## Actual current checkpoint — Phase 11 B19 numeric-map authority, BOUNDED VERIFIED
 
 Repository C:/Users/iamsv/Documents/Rust-OS, maintenance/phase10; starting HEAD
 ff19f948718c780ec6dbf0e3b852ef562bebb673. Read live Git then task
@@ -17,14 +17,16 @@ Independent design APPROVED, source review pending. Fresh focused9, host340/0/2,
 B26full113/0 serial/parallel, harness59, production/fmt/focused128/512 pass with
 exact runtime identity readback. Candidate148 source/build inputs; canonical
 manifest preserves63 predecessors plus one exact-nine family (candidate64).
-Fresh canonical acceptance NOT RUN; historical63/63 is NOT current approval.
+Fresh canonical acceptance 64/64 PASS exit0 (acceptance_20261019T133256Z_skpr6lcf)
+with independent final readback PASS; local commits 4ab6c82/571d3ff on
+maintenance/phase10 (HEAD 571d3ff). Historical63/63 remains not this run.
 
-Next command (repository root): `git status --short`, then read review/STATE.
-No competing builds/QEMU or source changes during acceptance; use one owned
-background canonical job plus documented process wait, never custom polling.
+Next slice: same-slot unmap/replacement mapping-generation authority (B19 item 3),
+design-first and RED-first, one boundary at a time. Next command (repository root):
+`git status --short`, then read task STATE.md and acceptance_readback.json.
 Never unlink dist/.phase6_acceptance.lock. Do not commit unreviewed/unverified
-scopes. Full B19/per-map transfer/same-slot authority/general teardown/CPU-CR3
-reclamation remain open. No shared/COW/USER/TSS/ESP0/CPL3/Phase12/syscalls/ELF/init,
+scopes. Per-map transfer/same-slot authority/general teardown/CPU-CR3 reclamation
+remain open. No shared/COW/USER/TSS/CPL3/Phase12/syscalls/ELF/init,
 remote/Proxmox/storage/disk/boot-media/deployment/push/history rewrite. Historical
 current-checkpoint sections follow, not new instructions or acceptance authority.
 

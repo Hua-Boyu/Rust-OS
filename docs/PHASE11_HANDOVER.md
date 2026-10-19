@@ -1,10 +1,11 @@
 ## Rosti OS — Phase 11 Handover
 
-## Current — Phase 11 B19 numeric-map authority candidate, NOT ACCEPTED
+## Current — Phase 11 B19 numeric-map authority checkpoint, BOUNDED VERIFIED
 
 ### A. Status
-IMPLEMENTED candidate: live lease-authenticated ordinary admission, checked exact
-growth specialization and paging-private numeric core. Canonical acceptance pending.
+VERIFIED bounded checkpoint: live lease-authenticated ordinary admission, checked
+exact growth specialization and paging-private numeric core. Canonical acceptance
+64/64 PASS with independent final readback PASS. Local commits 4ab6c82/571d3ff.
 ### B. Git and preservation
 Starting HEAD ff19f948718c780ec6dbf0e3b852ef562bebb673, maintenance/phase10.
 Current user affirmed sole writer; raw drift checks match. README/d1/backup/init
@@ -36,9 +37,10 @@ Measured direct ESP subtract: growth wrapper72, core224, heap growth108, prepare
 not cumulative caller/IRQ high-water. Ordinary API is production dead-stripped
 until it has a caller. HEAP -> PAGE_MAP -> FRAME_ALLOC unchanged.
 ### H. Review and acceptance
-Independent design APPROVE_BOUNDED_DESIGN, no blockers. Source review pending.
-One exact-nine canonical prerequisite extends inherited63 gates to candidate64;
-full current canonical acceptance NOT RUN. Historical63/63 cannot approve this tree.
+Independent design APPROVE_BOUNDED_DESIGN and source review APPROVE_BOUNDED,
+both zero blockers. Exact-nine canonical prerequisite gate; canonical acceptance
+64/64 PASS exit0 (acceptance_20261019T133256Z_skpr6lcf); readback_acceptance.py
+PASS with inherited63+1 Counter equality, ISO/kernel/archive identity, zero QEMU.
 ### I. Failures and recovery
 First focused run overflowed the Windows test thread from two large by-value
 allocator fixture returns. Larger-stack diagnostic passed; direct second-owner
