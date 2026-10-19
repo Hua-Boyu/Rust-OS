@@ -62,6 +62,10 @@ mod virtual_page_zero_tests;
 #[path = "numeric_map_authority_tests.rs"]
 mod numeric_map_authority_tests;
 
+#[cfg(test)]
+#[path = "unmap_authority_tests.rs"]
+mod unmap_authority_tests;
+
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
 pub const ENTRY_WRITABLE: u32 = 1 << 1;
@@ -473,10 +477,45 @@ impl PageMap {
         true
     }
 
-    /// Unmap a page-aligned virtual address. Rejects absent pages and
-    /// boot-critical regions (kernel image, VGA, multiboot structures), which
-    /// must stay mapped for the kernel to run.
-    pub fn unmap(&mut self, fa: &mut FrameAllocator, linear: u64) -> bool {
+    /// Unmap a runtime payload mapping using borrowed current ownership
+    /// authority. The lease must be live in this allocator domain and its
+    /// frame must be exactly the payload the slot's PTE references; a stale
+    /// lease for a replaced same-slot mapping is refused without mutation.
+    pub fn unmap_owned(
+        &mut self,
+        fa: &mut FrameAllocator,
+        linear: u64,
+        lease: &frame::FrameLease,
+    ) -> bool {
+        if fa.domain() != Some(self.domain) || !fa.owns_live_lease(lease) {
+            self.stats.unmap_rejects += 1;
+            return false;
+        }
+        self.unmap_authorized(fa, linear, Some(lease.frame_addr()))
+    }
+
+    /// Audited legacy numeric unmap for host fixtures only, absent in
+    /// production. Exercises the shared structural checks without lease
+    /// authentication; same precedent as the accepted legacy map adapter.
+    #[cfg(test)]
+    pub(crate) fn unmap(&mut self, fa: &mut FrameAllocator, linear: u64) -> bool {
+        self.unmap_authorized(fa, linear, None)
+    }
+
+    /// Private unmap core for the checked authority entry points above.
+    /// `expected_payload` (when present) must equal the PTE payload frame,
+    /// binding the operation to the current slot mapping. Unmap a page-aligned
+    /// virtual address. Rejects absent pages and boot-critical regions (kernel
+    /// image, VGA, multiboot structures), which must stay mapped for the
+    /// kernel to run. Retains every pre-existing check: domain, alignment,
+    /// window, boot-critical and structure/boot-pin refusals, present,
+    /// payload-consistency.
+    fn unmap_authorized(
+        &mut self,
+        fa: &mut FrameAllocator,
+        linear: u64,
+        expected_payload: Option<u64>,
+    ) -> bool {
         // Domain mismatch must fail before any paging-structure dereference.
         if fa.domain() != Some(self.domain) {
             self.stats.unmap_rejects += 1;
@@ -519,6 +558,14 @@ impl PageMap {
                 || !fa.runtime_pinned(payload)
                 || !payload_bit(&self.payload_bitmap, payload))
         {
+            self.stats.unmap_rejects += 1;
+            return false;
+        }
+        // Same-slot authority: the lease-authorized entry point requires the
+        // current PTE payload to be exactly the frame the caller possesses.
+        // A stale lease for a replaced mapping never matches the fresh
+        // allocation identity and is refused before any mutation.
+        if expected_payload.is_some() && expected_payload != Some(payload) {
             self.stats.unmap_rejects += 1;
             return false;
         }

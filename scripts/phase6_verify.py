@@ -349,6 +349,16 @@ def _run_acceptance():
                         "numeric_map_growth_specialization_cannot_admit_ordinary_backing",
                     )
                 }),
+                # Same-slot unmap authority only: lease-authenticated unmap,
+                # stale-generation/foreign-domain refusal, production numeric
+                # unmap refused outside cfg(test). No teardown/CPU claim.
+                ("phase11_unmap_authority", "unmap_authority_tests::", {
+                    "memory::paging::unmap_authority_tests::" + name for name in (
+                        "unmap_authority_production_api_rejects_numeric_and_private_core_calls",
+                        "unmap_authority_stale_lease_cannot_unmap_replacement_mapping",
+                        "unmap_authority_stale_generation_and_foreign_domain_refuse_without_mutation",
+                    )
+                }),
                 ("phase11_generation_ownership", "generation_ownership_tests::", {
                     "memory::paging::generation_ownership_tests::" + name for name in (
                         "generation_safe_stale_lease_cannot_release_reused_frame",
