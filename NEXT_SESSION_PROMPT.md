@@ -1,27 +1,27 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
-## Actual current checkpoint — Phase 11A.3 leases, acceptance PASS63/63
+## Actual current checkpoint — Phase 11B19 virtual-page-zero admission, acceptance PASS63/63
 
 Repository `C:/Users/iamsv/Documents/Rust-OS`, branch `maintenance/phase10`.
 Live HEAD/status and next command are authoritative in
-`test_results/phase11a3_generation_ownership/STATE.md`; bounded implementation,
-review, resources and evidence index: `docs/PHASE11A3_GENERATION_HANDOVER.md`.
-The candidate implements private non-Copy/non-Clone leases, the reviewed u32
-generation ledger and shared pin-aware release accounting. Production global
-frame owner is private; diagnostic copies replace external guard reads.
-Host325/0/2 and B26 full98/0 pass serial/parallel, focused generation8/6/6,
-harness56, production build and sequential128/512 paging PASS. Independent source
-review is bounded approval/no blockers, all reviewed hashes matched. The scoped
-local checkpoint contains this section; resolve actual HEAD using Git/STATE.md.
-No full B19/USER/CPL3 readiness claim. Canonical generation_full_acceptance
-completed actual exit0/explicit PASS63/63. Verify the final independent readback
-and post-commit hashes in task-local records before new semantic work. Independent
-final readback PASS/exit0 confirms145 source inputs,159 nested reports,280 true
-cleanup assertions, complete guest matrices, ISO/kernel/archive and no QEMU.
-These counts do not mean280 distinct guests. Full B19 remains PARTIAL.
+`test_results/phase11b19_vpz_admission/STATE.md`; bounded implementation,
+review, resources and evidence index: that directory's `FINAL_REPORT.md`
+and `docs/PHASE11_HANDOVER.md` current section. HEAD is now
+1aa2e77125a9b69a642e6da53d39294517da7484. The accepted slice adds a
+fail-closed refusal of ordinary runtime mappings at virtual page zero
+(side-effect-free, counted as map_rejects) plus three vpz_* oracles;
+FrameLease, pins and allocator-domain rules are unchanged. Host328/0/2
+and B26 101/0 pass serial/parallel; canonical acceptance PASS63/63 bound
+to reviewed hashes. No full B19/USER/CPL3 readiness claim.
 
 Next executable command (read-only, from repository root):
 `git status --short`
+
+Next semantic work is the next bounded B19 slice — shared-mapping admission
+(explicit bounded reference lifetime or fail-closed refusal), starting with a
+RED oracle against the current payload-bitmap exclusion — not reopening the
+vpz slice or claiming complete process memory.
+No push.
 
 Read actual exit/PASS, not merely a RUNNING report or expected count. Fresh
 runner adds three exact8/6/6 mandatory families and preserves inherited60 gates.

@@ -1,6 +1,23 @@
 ## Rosti OS — Phase 11 Handover
 
-## Current — Phase 11A.3 generation-safe lease checkpoint, PARTIAL
+## Current — Phase 11B19 virtual-page-zero admission checkpoint, PARTIAL
+
+The bounded fail-closed admission refusal is implemented: PageMap::map rejects
+ordinary payload mapping at linear==0 (counted map_rejects, side-effect-free),
+preserving the faulting-null boot invariant; no production path maps virtual
+zero (growth slots start 0x800_000). Three focused oracles (vpz_*) added.
+Host328/0/2 and B26 full101/0 pass serial/parallel; production build and
+sequential128/512 paging PASS. Fresh canonical acceptance completed actual
+exit0/PASS63/63 bound to reviewed bytes (paging.rs b5b9960c…, vpz tests
+22d84687…); never apply historical63/63-at-ba67987 to this tree. Independent
+review: BOUNDED_APPROVAL, zero blockers, hashes matched. Local commit
+1aa2e77125a9b69a642e6da53d39294517da7484. Full B19 remains PARTIAL: shared
+mapping, per-map ownership transfer, CPU/CR3 teardown lifetime still open.
+Evidence root: `test_results/phase11b19_vpz_admission/` (STATE.md, FINAL_REPORT.md).
+No complete B19, USER, TSS/CPL3, Phase12, general teardown or deployment approval.
+Following current-status sections are historical predecessors.
+
+## Historical current — Phase 11A.3 generation-safe lease checkpoint, PARTIAL
 
 The bounded ordinary-frame ledger and move-only release API are implemented;
 audited raw structure and growth operations remain separate. All seven design
