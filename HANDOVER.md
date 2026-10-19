@@ -1,5 +1,29 @@
 # Rosti OS — development handover
 
+## Current — Phase 11 B19 same-slot unmap authority checkpoint, BOUNDED VERIFIED
+
+Runtime unmap now requires `PageMap::unmap_owned(fa, linear, &FrameLease)`: the
+borrowed lease is authenticated against the live allocator domain, nonzero
+allocation identity and current generation before any PTE clear; refusal retains
+the mapping, pins and allocator state. The numeric `PageMap::unmap` adapter and
+the shared `unmap_authorized` core are cfg(test)/private respectively; the
+production-cfg probe `scripts/unmap_api_probe.rs` compiles only the lease entry
+point and rejects numeric/private-core calls. A stale lease cannot remove a
+replacement mapping at the same slot; foreign-domain and stale-generation leases
+refuse without mutation. No mapping token, generation table or new metadata was
+introduced; per-PageMap binding is by construction.
+Fresh focused3/0, host343/0/2 and B26full116/0 serial/parallel, harness62,
+production/fmt and focused128/512 paging pass with exact identity readback;
+inherited test identities preserved. Runtime RED preserved:
+`unmap_authority_red_02` Case A FAILED against baseline 04e4b31 before the fix.
+Independent design and candidate reviews APPROVE with zero blockers. Canonical
+acceptance 65/65 PASS exit0 (acceptance_20261019T161350Z_fo8p107g) with
+independent final readback PASS; local commits ab2b501 + docs checkpoint.
+Task `test_results/phase11b19_unmap_authority/STATE.md` / FINAL_REPORT.md governs
+live status and continuation. Starting HEAD 04e4b312e334670f220a70bda535e2b660d6ee8b;
+preserve unrelated README/d1/backup/init doc. No USER/TSS/CPL3/Phase12/remote/
+deployment/push. Following blocks are historical predecessors.
+
 ## Current — Phase 11 B19 numeric-map authority checkpoint, BOUNDED VERIFIED
 
 Ordinary payload publication now requires borrowed FrameLease with current domain,

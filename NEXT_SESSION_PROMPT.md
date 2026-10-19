@@ -1,5 +1,42 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
+## Actual current checkpoint — Phase 11 B19 same-slot unmap authority, BOUNDED VERIFIED
+
+Repository C:/Users/iamsv/Documents/Rust-OS, maintenance/phase10; starting HEAD
+04e4b312e334670f220a70bda535e2b660d6ee8b. Read live Git then task
+`test_results/phase11b19_unmap_authority/STATE.md`, FINAL_REPORT.md and complete
+reviews. Re-establish writer ownership on resumption; two raw-hash snapshots
+matched before edits this session. Preserve README.md/d1/backup/init-document
+actual bytes. Never reset/stash broadly.
+
+Candidate implements PageMap::unmap_owned(fa, linear, &FrameLease) validating
+live allocator domain/identity/generation before any PTE clear; refusal retains
+mapping, pins and allocator state. unmap_authorized is paging-private; numeric
+unmap adapter is cfg(test)-only; production-cfg probe scripts/unmap_api_probe.rs
+compiles only the lease entry point. No mapping token/generation table/new
+metadata; per-PageMap binding by construction. First changes were tests/API
+fixtures; runtime RED unmap_authority_red_02 Case A preserved FAILED against
+baseline before the fix.
+Independent design and candidate reviews APPROVE with zero blockers. Fresh
+focused3, host343/0/2, B26full116/0 serial/parallel, harness62, production/fmt/
+focused128/512 pass with exact runtime identity readback; inherited identities
+preserved. Candidate150 source/build inputs; canonical manifest preserves 64
+predecessors plus one exact-three family (candidate65). Fresh canonical
+acceptance 65/65 PASS exit0 (acceptance_20261019T161350Z_fo8p107g) with
+independent final readback PASS; local commits ab2b501 + docs checkpoint on
+maintenance/phase10. Historical64/64 remains not this run.
+
+Next slice: per-PageMap ownership transfer beyond this enforceable boundary, or
+general teardown/CPU-CR3 lifetime as a reviewed design checkpoint only — design-
+first and RED-first, one boundary at a time. Next command (repository root):
+`git status --short`, then read task STATE.md and acceptance_readback.json.
+Never unlink dist/.phase6_acceptance.lock. Do not commit unreviewed/unverified
+scopes. Do not reopen accepted numeric-map admission, FrameLease, case7 sharing
+or virtual-page-zero behavior without a reproduced regression. No shared/COW/
+USER/TSS/CPL3/Phase12/syscalls/ELF/init, remote/Proxmox/storage/disk/boot-
+media/deployment/push/history rewrite. Historical current-checkpoint sections
+follow, not new instructions or acceptance authority.
+
 ## Actual current checkpoint — Phase 11 B19 numeric-map authority, BOUNDED VERIFIED
 
 Repository C:/Users/iamsv/Documents/Rust-OS, maintenance/phase10; starting HEAD

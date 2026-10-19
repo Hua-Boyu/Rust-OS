@@ -1,5 +1,66 @@
 ## Rosti OS — Phase 11 Handover
 
+## Current — Phase 11 B19 same-slot unmap authority checkpoint, BOUNDED VERIFIED
+
+### A. Status
+VERIFIED bounded checkpoint: lease-authenticated runtime unmap with live
+allocator domain/identity/generation validation before any PTE clear; numeric
+unmap adapter is cfg(test)-only. Canonical acceptance 65/65 PASS with
+independent final readback PASS. Local commits ab2b501 + docs checkpoint on
+maintenance/phase10 (starting HEAD 04e4b31).
+### B. Git and preservation
+Starting HEAD 04e4b312e334670f220a70bda535e2b660d6ee8b, maintenance/phase10.
+Two raw-hash snapshots matched before edits; no competing writer observed.
+README/d1/backup/init document untouched. No remote/deployment/history rewrite/push.
+### C. Authority boundary
+`unmap_owned(fa, linear, &FrameLease)` authenticates the borrowed lease against
+the live allocator domain, nonzero allocation identity and current generation
+before clearing the PTE; refusal retains mapping, pins, and allocator state.
+`unmap_authorized` is paging-private; numeric `unmap` exists only under cfg(test).
+Per-PageMap binding is by construction: the operation mutates only the PageMap
+instance receiving the call; no cross-PageMap authority can reach another map.
+No mapping token or generation table introduced.
+### D. RED and tests
+Runtime RED preserved: unmap_authority_red_02 Case A (stale lease removing
+replacement mapping) FAILED against baseline 04e4b31 before the fix; GREEN after.
+Three exact identities: stale-lease replacement refusal, stale-generation/
+foreign-domain refusal without mutation, production-API compile oracle rejecting
+numeric and private-core calls (probe scripts/unmap_api_probe.rs compiles only
+the lease entry point under production cfg).
+### E. Environment and evidence
+Windows11/Git Bash, host Cargo child CWD C:/Users/iamsv, nightly MSVC host.
+Evidence: `test_results/phase11b19_unmap_authority/STATE.md` and FINAL_REPORT.md.
+Existing positional run_step recorder retained; all failed runs preserved.
+### F. Fresh verification
+Focused3, host343/0/2 and independently rooted B26full116/0 both serial/parallel;
+exact full membership preserves every predecessor identity plus the three new
+identities. Harness62, production and format pass. Focused production paging
+128/512 pass; not a guest ordinary-lease proof.
+### G. Resources and locks
+No new persistent metadata/lock/reserve; lease metadata inspected during
+admission/unmap only, never stored. HEAP -> PAGE_MAP -> FRAME_ALLOC unchanged;
+guards released in reverse order; refusal paths preserve caller ownership.
+### H. Review and acceptance
+Independent design review and independent candidate review both APPROVE with
+zero blockers (artifacts in the task root). Exact-three canonical prerequisite
+gate; canonical acceptance 65/65 PASS exit0 (acceptance_20261019T161350Z_fo8p107g);
+readback_acceptance.py PASS with inherited64+1 Counter equality, ISO/kernel/
+archive identity, zero QEMU.
+### I. Failures and recovery
+Fixture compile errors (assert typo, lease moved before borrow) fixed with the
+established duplicate_for_test test-only pattern; red_01/red_02 preserved.
+Harness RED3/15 -> GREEN62 across three gate-count corrections. No production
+workaround.
+### J. Deferred
+Per-PageMap ownership transfer beyond this boundary, general teardown, CPU/CR3
+lifetime, exception continuation; no shared/COW/USER/TSS/CPL3/Phase12/ELF/
+syscalls/init.
+### K. Exact continuation
+Read task STATE and complete reviews. Next command from repository root:
+`git status --short`. Do not start acceptance until review blockers resolve and
+source/build inputs are frozen. Never unlink dist/.phase6_acceptance.lock.
+The following current-status blocks are historical predecessors.
+
 ## Current — Phase 11 B19 numeric-map authority checkpoint, BOUNDED VERIFIED
 
 ### A. Status

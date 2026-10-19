@@ -1,5 +1,30 @@
 # Physical-memory authority — Phase 11A.2 partial inventory
 
+## Phase 11 B19 same-slot unmap authority — BOUNDED VERIFIED
+
+Runtime unmap now requires `PageMap::unmap_owned(fa, linear, &FrameLease)`: the
+borrowed lease is authenticated against the live allocator domain, nonzero
+allocation identity and current generation before any PTE clear; refusal retains
+the mapping, pins and allocator state. The numeric `PageMap::unmap` adapter and
+the shared `unmap_authorized` core are cfg(test)/private respectively; the
+production-cfg probe `scripts/unmap_api_probe.rs` compiles only the lease entry
+point and rejects numeric/private-core calls. A stale lease cannot remove a
+replacement mapping at the same slot; foreign-domain and stale-generation leases
+refuse without mutation. No mapping token, generation table or new metadata was
+introduced; per-PageMap binding is by construction (the operation mutates only
+the PageMap instance receiving the call).
+
+Fresh focused3/0, host343/0/2 and B26full116/0 serial/parallel, harness62,
+production/fmt and focused128/512 paging pass with exact identity readback;
+inherited test identities preserved. Runtime RED preserved:
+`unmap_authority_red_02` Case A FAILED against baseline 04e4b31 before the fix.
+Independent design and candidate reviews APPROVE with zero blockers. Canonical
+acceptance 65/65 PASS exit0 (acceptance_20261019T161350Z_fo8p107g) with
+independent final readback PASS; local commits ab2b501 + docs checkpoint.
+Case7 unmap semantics below are inherited history. Per-PageMap ownership
+transfer, general teardown, CPU/CR3 lifetime and exception continuation remain
+open; no shared/COW/USER/TSS/CPL3/Phase12 claim.
+
 ## Phase 11 B19 numeric-map authority — candidate, acceptance pending
 
 Ordinary runtime publication now uses `PageMap::map_owned(fa, virtual,
