@@ -165,8 +165,9 @@ class SourceFreezeTests(unittest.TestCase):
 
     def declared_pin_names(self):
         source = (Path(__file__).resolve().parents[1] / "src/memory/mapping_pin_tests.rs").read_text()
-        names = re.findall(r"(?m)^#\[test\]\s*\nfn (runtime_mapping_pin_\w+)\(", source)
-        self.assertEqual(len(names), 8)
+        names = re.findall(r"(?m)^#\[test\]\s*\nfn (\w+)\(", source)
+        self.assertEqual(len(names), 11)
+        self.assertEqual(len(set(names)), 11)
         return ["memory::paging::mapping_pin_tests::" + name for name in names]
 
     def isolated_host_names(self):
@@ -649,7 +650,7 @@ class SourceFreezeTests(unittest.TestCase):
         commands = [c for c in self.last_commands if "mapping_pin_tests::" in c]
         self.assertEqual(len(commands), 1)
         self.assertIn("--test-threads=1", commands[0])
-        self.assertEqual(self.last_report["counts"]["phase11_runtime_pins"], {"pass": 8, "fail": 0})
+        self.assertEqual(self.last_report["counts"]["phase11_runtime_pins"], {"pass": 11, "fail": 0})
 
     def test_phase11_runtime_pin_bad_identities_cannot_publish(self):
         names = self.declared_pin_names()
@@ -657,8 +658,8 @@ class SourceFreezeTests(unittest.TestCase):
         def result(cases):
             return "".join(f"test {name} ... ok\n" for name in cases) + f"test result: ok. {len(cases)} passed; 0 failed; 0 ignored\n"
         for text in ("", "test result: ok. 0 passed; 0 failed; 0 ignored\n",
-                     "test impostor ... ok\ntest result: ok. 8 passed; 0 failed; 0 ignored\n",
-                     result([first] * 8), result(names[:-1]),
+                     "test impostor ... ok\ntest result: ok. 11 passed; 0 failed; 0 ignored\n",
+                     result([first] * len(names)), result(names[:-1]),
                      result(names + ["memory::paging::mapping_pin_tests::extra"]),
                      result(names[:-1] + ["memory::paging::mapping_pin_tests::substituted"])):
             with self.subTest(text=text):
@@ -676,6 +677,12 @@ class SourceFreezeTests(unittest.TestCase):
         prefix = ast.literal_eval(required.elt.left)
         wired = {prefix + ast.literal_eval(name) for name in required.generators[0].iter.elts}
         self.assertEqual(wired, set(self.declared_pin_names()))
+        self.assertEqual(len(wired), 11)
+        self.assertTrue({prefix + name for name in (
+            "shared_mapping_same_and_cross_map_refusal_is_state_atomic",
+            "shared_mapping_table_failure_then_retry_preserves_lease_and_capacity",
+            "shared_mapping_retained_lease_remap_refuses_old_and_foreign_unmap",
+        )}.issubset(wired))
 
     def test_phase11_structure_lifetime_prerequisite_is_mandatory(self):
         self.assertEqual(self.simulate(lambda root: None), 0)

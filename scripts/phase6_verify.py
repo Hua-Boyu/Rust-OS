@@ -320,6 +320,9 @@ def _run_acceptance():
                         "runtime_mapping_pin_inconsistent_runtime_mirrors_refuse_unmap",
                         "runtime_mapping_pin_table_exhaustion_does_not_pin_caller_payload",
                         "runtime_mapping_pin_empty_reset_invalidates_previous_map_domain",
+                        "shared_mapping_same_and_cross_map_refusal_is_state_atomic",
+                        "shared_mapping_table_failure_then_retry_preserves_lease_and_capacity",
+                        "shared_mapping_retained_lease_remap_refuses_old_and_foreign_unmap",
                     )
                 }),
                 # Unpublished cleanup revocation and retained structure lifetime
