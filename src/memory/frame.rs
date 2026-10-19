@@ -418,6 +418,25 @@ impl FrameAllocator {
         })
     }
 
+    /// Authenticate borrowed ordinary ownership against the live ledger.
+    /// A retained Rust value alone is insufficient after audited raw release.
+    /// Allocation-free and diagnostic-free; payload role/pins are checked by
+    /// the mapping core under the same exclusive allocator borrow.
+    pub(super) fn owns_live_lease(&self, lease: &FrameLease) -> bool {
+        if !self.initialized
+            || lease.domain != self.domain
+            || lease.id == 0
+            || paging::in_growth_window(lease.addr)
+            || !self.is_live_allocation(lease.addr)
+        {
+            return false;
+        }
+        let Some(frame) = Self::frame_of(lease.addr) else {
+            return false;
+        };
+        self.alloc_id[frame] == lease.id
+    }
+
     /// Shared release core: validate availability, restore accounting, and
     /// clear the ledger identity. Growth claims return to the growth-only
     /// reservation, never the general free pool. Returns false (and counts

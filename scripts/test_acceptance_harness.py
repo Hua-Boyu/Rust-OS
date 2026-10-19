@@ -131,6 +131,53 @@ class Phase10EvidenceTests(unittest.TestCase):
 
 
 class SourceFreezeTests(unittest.TestCase):
+    def declared_numeric_map_names(self):
+        source = (Path(__file__).resolve().parents[1] / "src/memory/numeric_map_authority_tests.rs").read_text()
+        names = re.findall(r"(?m)^#\[test\]\s*\nfn (\w+)\(", source)
+        self.assertEqual(len(names), 9)
+        self.assertEqual(len(set(names)), 9)
+        return ["memory::paging::numeric_map_authority_tests::" + name for name in names]
+
+    def test_numeric_map_authority_prerequisite_is_mandatory(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        commands = [c for c in self.last_commands if "numeric_map_authority_tests::" in c]
+        self.assertEqual(len(commands), 1)
+        self.assertIn("--lib", commands[0])
+        self.assertIn("--test-threads=1", commands[0])
+        self.assertEqual(self.last_report["counts"]["phase11_numeric_map"], {"pass": 9, "fail": 0})
+
+    def test_numeric_map_authority_bad_identities_cannot_publish(self):
+        names = self.declared_numeric_map_names()
+        def result(rows, passed=None, failed=0, ignored=0):
+            return ("".join(f"test {name} ... ok\n" for name in rows)
+                    + f"test result: ok. {len(rows) if passed is None else passed} passed; {failed} failed; {ignored} ignored\n")
+        outputs = ["", result([]), result(names[:-1]), result(names + [names[0] + "_extra"]),
+                   result(names[:-1] + [names[0]]), result(names[:-1] + [names[0] + "_substitute"]),
+                   result(names, 8), result(names, 10), result(names[:-1], 9),
+                   result(names, failed=1), result(names, ignored=1),
+                   "".join(f"test {name} ... ok\n" for name in names), result(names) + result(names)]
+        for text in outputs:
+            with self.subTest(text=text):
+                self.assertEqual(self.simulate(lambda root: None,
+                    safety_output={"numeric_map_authority_tests::": text}), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+                self.assertNotIn("phase11_numeric_map", self.last_report["counts"])
+
+    def test_numeric_map_authority_identities_match_real_declarations(self):
+        tree = ast.parse(Path(acceptance.__file__).read_text())
+        rows = [node for node in ast.walk(tree) if isinstance(node, ast.Tuple)
+                and len(node.elts) == 3 and isinstance(node.elts[0], ast.Constant)
+                and node.elts[0].value == "phase11_numeric_map"]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(ast.literal_eval(rows[0].elts[1]), "numeric_map_authority_tests::")
+        required = rows[0].elts[2]
+        prefix = ast.literal_eval(required.elt.left)
+        wired = [prefix + ast.literal_eval(n) for n in required.generators[0].iter.elts]
+        self.assertEqual(len(wired), 9)
+        self.assertEqual(set(wired), set(self.declared_numeric_map_names()))
+        fixture = Path(__file__).with_name("numeric_map_api_probe.rs")
+        self.assertIn(fixture.relative_to(acceptance.PROJECT).as_posix(), acceptance.source_snapshot())
+
     def declared_generation_families(self):
         root = Path(__file__).resolve().parents[1]
         families = {}
@@ -198,7 +245,7 @@ class SourceFreezeTests(unittest.TestCase):
                 # Simulate successful gates solely to reach the real final source-freeze check.
                 output = kwargs["stdout"]
                 prerequisite = next((c for c in command if c in (
-                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::", "phase11a2_abi_tests::", "mapping_pin_tests::", "structure_lifetime_tests::", "generation_ownership_tests::", "generation_ledger_tests::", "generation_boundary_tests::")), None)
+                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::", "phase11a2_abi_tests::", "mapping_pin_tests::", "structure_lifetime_tests::", "numeric_map_authority_tests::", "generation_ownership_tests::", "generation_ledger_tests::", "generation_boundary_tests::")), None)
                 if prerequisite:
                     names = (["heap_growth_maps_one_page_on_demand"]
                              if prerequisite == "heap_growth_maps_one_page_on_demand" else [
@@ -227,6 +274,8 @@ class SourceFreezeTests(unittest.TestCase):
                         names = self.declared_pin_names()
                     if prerequisite == "structure_lifetime_tests::":
                         names = self.declared_structure_lifetime_names()
+                    if prerequisite == "numeric_map_authority_tests::":
+                        names = self.declared_numeric_map_names()
                     if prerequisite.startswith("generation_"):
                         names = next(names for filter_name, names in self.declared_generation_families().values()
                                      if filter_name == prerequisite)
@@ -411,8 +460,8 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(Path(guest[guest.index("--output-dir") + 1]).name, "phase10")
         self.assertEqual(self.last_report["counts"]["phase10_scenarios"],
                          {"pass": 4 * len(acceptance.PHASE10_CASES), "fail": 0})
-        # Preserve all 60 predecessor gates plus three exact generation families.
-        self.assertEqual(self.last_report["gates_total"], 63)
+        # Preserve all 63 predecessor gates plus exact numeric-map authority.
+        self.assertEqual(self.last_report["gates_total"], 64)
         for name in scripts:
             with self.subTest(failed=name):
                 self.assertEqual(self.simulate(lambda root: None, failed_script=name), 1)
@@ -693,7 +742,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertTrue(any(str(c).replace("\\", "/").endswith("tests_kernel/Cargo.toml")
                             for c in commands[0]))
         self.assertEqual(self.last_report["counts"]["phase11_structure_lifetime"], {"pass": 5, "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 63)
+        self.assertEqual(self.last_report["gates_total"], 64)
 
     def test_phase11_structure_lifetime_bad_identities_cannot_publish(self):
         names = self.declared_structure_lifetime_names()
@@ -744,7 +793,7 @@ class SourceFreezeTests(unittest.TestCase):
             self.assertIn("--lib", commands[0])
             self.assertIn("--test-threads=1", commands[0])
             self.assertEqual(self.last_report["counts"][key], {"pass": len(names), "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 63)
+        self.assertEqual(self.last_report["gates_total"], 64)
 
     def test_phase11_generation_bad_identities_cannot_publish(self):
         for key, (filter_name, names) in self.declared_generation_families().items():

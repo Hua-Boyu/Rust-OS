@@ -58,6 +58,10 @@ mod generation_ownership_tests;
 #[path = "virtual_page_zero_tests.rs"]
 mod virtual_page_zero_tests;
 
+#[cfg(test)]
+#[path = "numeric_map_authority_tests.rs"]
+mod numeric_map_authority_tests;
+
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
 pub const ENTRY_WRITABLE: u32 = 1 << 1;
@@ -296,6 +300,52 @@ impl PageMap {
         })
     }
 
+    /// Publish an ordinary payload using borrowed current ownership authority.
+    /// The lease stays caller-owned; runtime pins protect backing after this
+    /// temporary borrow ends. No lease reference is stored in the PageMap.
+    pub fn map_owned(
+        &mut self,
+        fa: &mut FrameAllocator,
+        linear: u64,
+        lease: &frame::FrameLease,
+        perms: &PagePerms,
+    ) -> bool {
+        if fa.domain() != Some(self.domain) || !fa.owns_live_lease(lease) {
+            self.stats.map_rejects += 1;
+            return false;
+        }
+        self.map_authorized(fa, linear, lease.frame_addr(), perms)
+    }
+
+    /// Audited heap-only category: a live exact growth claim, identity mapped
+    /// with fixed supervisor permissions. Cannot select ordinary backing.
+    pub(super) fn map_growth_claim(&mut self, fa: &mut FrameAllocator, slot: u64) -> bool {
+        if fa.domain() != Some(self.domain)
+            || !in_growth_window(slot)
+            || !fa.is_live_allocation(slot)
+        {
+            self.stats.map_rejects += 1;
+            return false;
+        }
+        self.map_authorized(fa, slot, slot, &KERNEL_PERMS)
+    }
+
+    /// Explicit legacy numeric fault-injection authority, absent in production.
+    /// These fixtures exercise the common checks, not lease authentication.
+    #[cfg(test)]
+    pub(crate) fn map(
+        &mut self,
+        fa: &mut FrameAllocator,
+        linear: u64,
+        phys_frame: u64,
+        perms: &PagePerms,
+    ) -> bool {
+        self.map_authorized(fa, linear, phys_frame, perms)
+    }
+
+    /// Private publication core for the checked authority entry points above.
+    /// Paging descendants can reach private items; all fixture descendants
+    /// remain cfg(test). Bootstrap borrowed identity construction is separate.
     /// Map `frame` (must be page-aligned and inside the managed window) to
     /// `linear`. Rejects: unaligned addresses, addresses outside the paging
     /// window, conflicting present entries, and exhaustion (allocates a page
@@ -305,7 +355,7 @@ impl PageMap {
     /// require a separately reviewed owned-address-space contract. Never
     /// promote an identity-map PDE to USER to approximate that contract.
     /// Nonpresent requests are rejected; use unmap to remove a mapping.
-    pub fn map(
+    fn map_authorized(
         &mut self,
         fa: &mut FrameAllocator,
         linear: u64,
@@ -343,8 +393,8 @@ impl PageMap {
             self.stats.map_rejects += 1;
             return false;
         }
-        // Admission prerequisite only: reserved/uncovered is not allocated.
-        // This numeric API still does not prove caller or cross-map ownership.
+        // Authority was authenticated by the selected checked entry point;
+        // preserve allocation eligibility and exclusive payload-role checks.
         // Boot supervisor identity mappings are constructed separately and
         // intentionally do not transfer payload ownership.
         if !fa.is_live_allocation(phys_frame)

@@ -336,6 +336,19 @@ def _run_acceptance():
                         "structure_cleanup_released_map_cannot_observe_mutate_or_activate_reused_frames",
                     )
                 }),
+                ("phase11_numeric_map", "numeric_map_authority_tests::", {
+                    "memory::paging::numeric_map_authority_tests::" + name for name in (
+                        "numeric_map_production_api_rejects_numeric_and_private_core_calls",
+                        "numeric_map_live_lease_borrow_pins_until_unmap",
+                        "numeric_map_stale_reused_identity_is_state_atomic",
+                        "numeric_map_foreign_domain_is_state_atomic",
+                        "numeric_map_released_identity_is_state_atomic",
+                        "numeric_map_refusal_retains_lease_for_conflict_and_permissions",
+                        "numeric_map_exhaustion_retains_lease_and_allows_retry",
+                        "numeric_map_existing_runtime_pin_refuses_second_map",
+                        "numeric_map_growth_specialization_cannot_admit_ordinary_backing",
+                    )
+                }),
                 ("phase11_generation_ownership", "generation_ownership_tests::", {
                     "memory::paging::generation_ownership_tests::" + name for name in (
                         "generation_safe_stale_lease_cannot_release_reused_frame",

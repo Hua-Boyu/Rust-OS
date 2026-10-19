@@ -304,7 +304,7 @@ pub fn heap_grow_frame(slot: usize) -> Option<u64> {
     let pm = owner.as_mut()?;
     let fa = &mut FRAME_ALLOC.lock();
     let frame = fa.claim_growth_frame(slot as u64)?;
-    if pm.map(fa, slot as u64, frame, &paging::KERNEL_PERMS) {
+    if pm.map_growth_claim(fa, slot as u64) {
         Some(frame)
     } else {
         // Growth-aware free restores reserved ownership, never ordinary free
