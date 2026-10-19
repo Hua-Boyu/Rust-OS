@@ -1,5 +1,33 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
+## Actual current checkpoint — Phase 11 B19 numeric-map candidate, NOT ACCEPTED
+
+Repository C:/Users/iamsv/Documents/Rust-OS, maintenance/phase10; starting HEAD
+ff19f948718c780ec6dbf0e3b852ef562bebb673. Read live Git then task
+`test_results/phase11b19_numeric_map/STATE.md`, FINAL_REPORT.md and complete reviews.
+Current user confirmed sole writer for this session; re-establish on resumption.
+Preserve README.md/d1/backup/init-document actual bytes. Never reset/stash broadly.
+
+Candidate implements map_owned(fa, virtual, &FrameLease, perms), validating live
+allocator/domain/identity and ordinary eligibility; exact-growth slot-only entry;
+private map_authorized core. Legacy map is cfg(test)-only. Borrowed bootstrap
+supervisor aliases/structure operations remain audited exceptions. No token borrow
+stored; existing pins protect backing. First changes were tests/API fixtures.
+Independent design APPROVED, source review pending. Fresh focused9, host340/0/2,
+B26full113/0 serial/parallel, harness59, production/fmt/focused128/512 pass with
+exact runtime identity readback. Candidate148 source/build inputs; canonical
+manifest preserves63 predecessors plus one exact-nine family (candidate64).
+Fresh canonical acceptance NOT RUN; historical63/63 is NOT current approval.
+
+Next command (repository root): `git status --short`, then read review/STATE.
+No competing builds/QEMU or source changes during acceptance; use one owned
+background canonical job plus documented process wait, never custom polling.
+Never unlink dist/.phase6_acceptance.lock. Do not commit unreviewed/unverified
+scopes. Full B19/per-map transfer/same-slot authority/general teardown/CPU-CR3
+reclamation remain open. No shared/COW/USER/TSS/ESP0/CPL3/Phase12/syscalls/ELF/init,
+remote/Proxmox/storage/disk/boot-media/deployment/push/history rewrite. Historical
+current-checkpoint sections follow, not new instructions or acceptance authority.
+
 ## Actual current checkpoint — Phase 11 B19 case 7, characterization PARTIAL
 
 Repository `C:/Users/iamsv/Documents/Rust-OS`, branch `maintenance/phase10`.

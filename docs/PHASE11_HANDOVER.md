@@ -1,5 +1,58 @@
 ## Rosti OS — Phase 11 Handover
 
+## Current — Phase 11 B19 numeric-map authority candidate, NOT ACCEPTED
+
+### A. Status
+IMPLEMENTED candidate: live lease-authenticated ordinary admission, checked exact
+growth specialization and paging-private numeric core. Canonical acceptance pending.
+### B. Git and preservation
+Starting HEAD ff19f948718c780ec6dbf0e3b852ef562bebb673, maintenance/phase10.
+Current user affirmed sole writer; raw drift checks match. README/d1/backup/init
+document are untouched. No remote/deployment/history rewrite/push. No commit yet.
+### C. Authority boundary
+`map_owned` borrows, checks allocator/map/lease domain plus live nonzero generation
+and ordinary eligibility, then preserves all existing role/pin/permission checks.
+`map_growth_claim(fa, slot)` fixes physical==virtual growth and supervisor perms.
+Legacy numeric map exists only under cfg(test). Audited bootstrap borrowed aliases
+and structure ownership remain privileged exceptions, not ordinary payload leases.
+### D. RED and tests
+Production-cfg numeric-only call compiled0 when rejection was expected (API RED).
+Missing proposed methods produced Cargo101/16 exact E0599, zero runtime tests.
+New nine identities cover borrowed lifecycle, stale/raw-reused identity, matching-
+address foreign domain, refusal/exhaustion/pins and semantic growth restrictions;
+production metadata controls reject absent map/private core/numeric-as-lease.
+### E. Environment and evidence
+Windows11/Git Bash, host Cargo child CWD C:/Users/iamsv, nightly MSVC host.
+Evidence: `test_results/phase11b19_numeric_map/STATE.md` and FINAL_REPORT.md.
+Existing positional run_step recorder retained; all failed runs preserved.
+### F. Fresh verification
+Focused9, host340/0/2 and independently rooted B26full113/0 both serial/parallel;
+exact full membership preserves every predecessor identity. Harness59, production
+and format pass. Focused production paging128/512 pass; not guest ordinary-lease proof.
+### G. Resources and locks
+No new persistent metadata/lock/reserve. ELF sections +320 bytes (.text+304,
+.data+16), file+588, BSS/static span unchanged versus accepted case7 ISO kernel.
+Measured direct ESP subtract: growth wrapper72, core224, heap growth108, prepare1304;
+not cumulative caller/IRQ high-water. Ordinary API is production dead-stripped
+until it has a caller. HEAP -> PAGE_MAP -> FRAME_ALLOC unchanged.
+### H. Review and acceptance
+Independent design APPROVE_BOUNDED_DESIGN, no blockers. Source review pending.
+One exact-nine canonical prerequisite extends inherited63 gates to candidate64;
+full current canonical acceptance NOT RUN. Historical63/63 cannot approve this tree.
+### I. Failures and recovery
+First focused run overflowed the Windows test thread from two large by-value
+allocator fixture returns. Larger-stack diagnostic passed; direct second-owner
+initialization fixed the fixture and default-stack full suites pass. No production
+stack workaround or enlarged global stack setting. Harness RED3/15 -> GREEN59.
+### J. Deferred
+Same-slot unmap/replacement generation, complete per-map transfer, shared/COW,
+general teardown and CPU/CR3 lifetime; no USER/TSS/ESP0/CPL3/Phase12/ELF/syscalls/init.
+### K. Exact continuation
+Read task STATE and complete review. Next command from repository root:
+`git status --short`. Do not start acceptance until review blockers resolve and
+148 source/build inputs are frozen. Never unlink dist/.phase6_acceptance.lock.
+The following current-status blocks are historical predecessors.
+
 ## Current — Phase 11 B19 case 7 characterization checkpoint, PARTIAL
 
 Starting HEAD917995471bbb57524c6edddbc243d3982c973556, maintenance/phase10.

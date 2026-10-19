@@ -1,5 +1,21 @@
 # Rosti OS — development handover
 
+## Current — Phase 11 B19 numeric-map authority candidate, NOT ACCEPTED
+
+Ordinary payload publication now requires borrowed FrameLease with current domain,
+generation and live-allocation validation (`map_owned`). Exact heap growth uses
+checked slot-only identity mapping; numeric publication core is paging-private,
+and legacy numeric fixture adapter is cfg(test)-only. Audited bootstrap supervisor
+aliases/structures remain separate. No shared ownership, general teardown or CPU
+lifetime claim. Independent design APPROVED; implementation review/canonical
+acceptance pending. Fresh focused9, host340/0/2 and B26full113/0 serial/parallel,
+harness59, production/fmt and focused128/512 paging pass. Candidate64 canonical
+gates preserve inherited63 plus exact-nine admission family; full run NOT RUN.
+Task `test_results/phase11b19_numeric_map/STATE.md` / FINAL_REPORT.md governs live
+status and continuation. Starting HEAD ff19f948718c780ec6dbf0e3b852ef562bebb673;
+no new commit yet. Preserve unrelated README/d1/backup/init doc. No USER/TSS/CPL3/
+Phase12/remote/deployment/push. Following blocks are historical predecessors.
+
 ## Current — Phase 11 B19 case 7, fail-closed sharing characterization (PARTIAL)
 
 Three new runtime CHARACTERIZATION tests cover exact-state same/cross-map alias

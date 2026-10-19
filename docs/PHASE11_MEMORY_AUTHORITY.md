@@ -1,5 +1,36 @@
 # Physical-memory authority — Phase 11A.2 partial inventory
 
+## Phase 11 B19 numeric-map authority — candidate, acceptance pending
+
+Ordinary runtime publication now uses `PageMap::map_owned(fa, virtual,
+&FrameLease, perms)`. The borrowed token is authenticated against initialized
+allocator/domain, aligned nonzero managed ordinary backing, current nonzero
+allocation identity and live allocation eligibility. A Rust reference alone is
+not authority. Validation precedes table/PTE access; refusal retains the lease.
+Existing runtime and structure pins, permission/null/alias checks and rollback
+remain in the paging-private `map_authorized` core. No lease reference is stored;
+runtime pins continue protecting backing after the temporary borrow ends.
+
+The only production runtime numeric caller, `memory::heap_grow_frame`, now uses
+slot-only `map_growth_claim`: exact live growth-window identity backing and fixed
+supervisor permissions. It cannot choose ordinary payload backing. The old `map`
+adapter exists only under cfg(test) for explicitly privileged legacy fixtures.
+Crate visibility is not the security argument: semantic authority checks and a
+production-cfg compile oracle close the ordinary accessible numeric interface.
+Paging descendants remain trusted; existing fixture descendants are cfg(test).
+
+Explicit audited exceptions remain: bootstrap borrowed supervisor identity builder,
+structure allocation/inventory and exact growth claims. The builder is trusted
+bootstrap policy, not a newly runtime-enforced bootstrap capability; borrowed
+aliases confer no payload ownership. Raw allocator primitives remain trusted.
+Current caller/design inventory: `test_results/phase11b19_numeric_map/`.
+
+Fresh focused9/0, host340/0/2 inherited ignores and B26full113/0 serial/parallel,
+harness59, production/fmt and focused128/512 paging pass. Independent design
+APPROVED; implementation review and fresh canonical acceptance remain pending.
+No new ledger/lock/backing allocation. No full B19/teardown/CPU lifetime/sharing/
+USER/TSS/CPL3/Phase12 approval. The case7 results below are inherited history.
+
 ## Phase 11 B19 case 7 — exclusive shared-mapping refusal characterization
 
 Current policy remains **one exclusive runtime mapping per live payload frame**,
