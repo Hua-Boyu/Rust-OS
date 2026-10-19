@@ -1,5 +1,37 @@
 # Physical-memory authority — Phase 11A.2 partial inventory
 
+## Phase 11 B19 case 7 — exclusive shared-mapping refusal characterization
+
+Current policy remains **one exclusive runtime mapping per live payload frame**,
+allocator-wide across PageMaps. Unsupported sharing fails closed; no refcount or
+new allocator metadata is introduced. Borrowed supervisor boot identity aliases
+are translations, not runtime ownership. Rejected maps retain the caller lease,
+do not publish a PTE/acquire backing or pins, and increment only map_rejects.
+Successful unmap clears the PTE/invalidate before releasing its matching pin;
+it does not release the caller's allocation or reclaim empty runtime tables.
+
+Three CHARACTERIZATION tests in mapping_pin_tests exercise same/cross-map
+refusal, real table-exhaustion rollback followed by valid retry, and retained
+FrameLease A->unmap->B with absent-old-slot/foreign-domain unmap refusal. Owned
+snapshots check every allocator diagnostic, all global runtime/structure pins,
+the local payload bitmap, all installed PDE/PTE entries and map/TLB counters.
+Final unpublished-fixture cleanup restores baseline capacity and diagnostics;
+this is not general PageMap/CPU teardown. Ordinary leases cannot originate in
+the reserved growth window under init/allocate_stamped; optional D is NOT REACHABLE.
+
+Host331/0/2 and independently rooted B26full104/0 pass serial/parallel; exact11
+runtime-pin identities and acceptance-harness56 pass; production/focused128/512
+paging pass. Independent candidate review APPROVES the bounded characterization;
+fresh canonical acceptance completed exit0/PASS63/63. Offline readback verifies
+146 frozen inputs, production ISO/kernel/archive identity and no QEMU. Independent
+final readback APPROVES the bounded checkpoint. Local commit identities and exact state:
+`test_results/phase11b19_shared_mapping/STATE.md` and its continuation directory.
+
+Numeric map admission still does not authenticate lease ownership or arbitrary
+same-slot replacement/unmap generations. CPU/CR3 lifetime, general teardown,
+shared ownership/COW, USER/TSS/CPL3 and Phase12 remain deferred/blocked. No
+production memory implementation changed in case7. Historical inventory follows.
+
 ## Phase 11A.3 generation-safe release checkpoint
 
 Ordinary allocation now stamps a bounded u32 allocation identity; public

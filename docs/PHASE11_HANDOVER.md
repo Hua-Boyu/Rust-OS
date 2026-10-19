@@ -1,5 +1,47 @@
 ## Rosti OS — Phase 11 Handover
 
+## Current — Phase 11 B19 case 7 characterization checkpoint, PARTIAL
+
+Starting HEAD917995471bbb57524c6edddbc243d3982c973556, maintenance/phase10.
+The operator explicitly affirmed sole-writer ownership; two raw-hash snapshots
+matched and no contradictory live writer was identified. Preserve inherited
+README.md edits, d1/, script backup and the separate init architecture document.
+
+IMPLEMENTED: three CHARACTERIZATION tests, no production correction/refcounts.
+A: same-map and cross-map duplicate refusal with exact allocator/pin/PDE/PTE/
+map/TLB snapshots. B: actual table exhaustion, retained-lease valid retry and
+complete final cleanup. C: A-unmap-B lifecycle; old absent slot and foreign
+allocator cannot remove B; correct unmap permits exactly one lease release.
+D: NOT REACHABLE through ordinary allocation in the reserved growth window.
+
+TESTED: focused11/0/0; host331/0/2 existing ignores and B26full104/0/0, each
+serial/parallel with exact libtest-list membership; harness56; production build;
+focused paging128/512 MiB. Existing mandatory phase11_runtime_pins family now
+requires all eleven exact identities; all inherited63 gate names remain.
+Clef recommended extend_existing (p0.9725), advisory only. Harness01 failed due
+old prefix-only declaration discovery; corrected harness02 passes, failure kept.
+No runtime kernel RED was reproduced/manufactured; no production GREEN claimed.
+
+VERIFICATION STATUS: independent candidate APPROVAL, no blocking findings.
+Fresh source-frozen canonical acceptance completed actual exit0/PASS63/63:
+`acceptance/acceptance_20261019T110519Z_v70j7rsk/acceptance.json` under the
+continuation root below. Offline readback PASS:146 rediscovered source/build
+inputs,159 nested reports,280 true cleanup-field assertions, exact inherited63
+gate membership and eleven runtime-pin identities, ISO/kernel/archive identity
+and no remaining QEMU. Counts of reports/cleanup fields are not distinct guest
+totals or complete process history. Independent final readback APPROVES this
+bounded checkpoint; local commit identities are recorded in task STATE. Full evidence:
+`test_results/phase11b19_shared_mapping/continuation_20261019T105410Z/`;
+current HEAD/status/next exact command: task STATE.md. The A–K handover below is
+retained unchanged as historical organization, not current completion authority.
+
+DEFERRED/BLOCKED: numeric map/lease caller authority and arbitrary same-slot
+replacement generations, complete per-map transfer, shared ownership, general
+teardown and CPU/CR3 lifetime. No USER/TSS/ESP0/CPL3/Phase12/syscalls/ELF/init,
+push, remote changes, deployment, boot-media changes or physical-disk access.
+Next planned slice is numeric-map authority only after this checkpoint closes;
+do not start it automatically. Following checkpoint results are historical.
+
 ## Current — Phase 11B19 virtual-page-zero admission checkpoint, PARTIAL
 
 The bounded fail-closed admission refusal is implemented: PageMap::map rejects

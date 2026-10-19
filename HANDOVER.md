@@ -1,5 +1,26 @@
 # Rosti OS — development handover
 
+## Current — Phase 11 B19 case 7, fail-closed sharing characterization (PARTIAL)
+
+Three new runtime CHARACTERIZATION tests cover exact-state same/cross-map alias
+refusal, table-exhaustion rollback/retry, and retained-lease A-unmap-B with
+old-slot/foreign-domain unmap refusal. No production behavior changed; no runtime
+RED manufactured, refcount or allocator metadata added. Optional growth-versus-
+ordinary-lease state is NOT REACHABLE under the allocation contract.
+Host331/0/2 and B26full104/0/0 pass serial/parallel; focused11, harness56,
+production build and focused128/512 paging pass. Existing exact runtime-pin gate
+extends8->11 without duplicating gates; inherited63 gate names retained.
+Independent candidate APPROVAL; fresh canonical acceptance exit0/PASS63/63.
+Offline readback PASS146 inputs/159 reports/280 cleanup assertions, exact gate
+membership and ISO/kernel/archive identity, no QEMU. Those are evidence counts,
+not distinct guest totals. Final independent readback APPROVES this bounded
+checkpoint; local commit identities are recorded in task STATE.
+See `docs/PHASE11_HANDOVER.md` and `test_results/phase11b19_shared_mapping/STATE.md`.
+User affirmed sole writer; preserve unrelated README.md/d1/backup/init document.
+Full B19/Phase11 remain incomplete; numeric-map authority is the next planned
+slice, not started. No shared ownership/general teardown/USER/TSS/CPL3/Phase12,
+push or deployment. Earlier current sections below are historical checkpoints.
+
 ## Current — Phase 11A.3 generation-safe frame leases, PARTIAL / NOT A RELEASE
 
 Private move-only ordinary-frame leases and a262144-byte checked identity ledger

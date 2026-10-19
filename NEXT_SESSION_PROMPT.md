@@ -1,5 +1,40 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
+## Actual current checkpoint — Phase 11 B19 case 7, characterization PARTIAL
+
+Repository `C:/Users/iamsv/Documents/Rust-OS`, branch `maintenance/phase10`.
+Read live Git state plus `test_results/phase11b19_shared_mapping/STATE.md` and
+`FINAL_REPORT.md`; continuation evidence is `continuation_20261019T105410Z/`.
+Starting HEAD917995471bbb57524c6edddbc243d3982c973556; resolve final HEAD with Git.
+User explicitly affirmed sole-writer ownership for this session, subject to live
+contradictions. Re-establish ownership after resumption; never infer it from
+stable hashes or absent compilers alone. Preserve README.md edit, d1/, backup
+and docs/ROSTI_INIT_ARCHITECTURE.md. No broad staging or source normalization.
+
+A/B/C CHARACTERIZATION pass: same/cross-map refusal, exhaustion/valid retry,
+retained lease A-unmap-B then old-slot/foreign unmap refusal with exact state
+checks and complete fixture cleanup. D ordinary lease in growth window is NOT
+REACHABLE. No production change/runtime RED/refcounts. Exact mandatory runtime-
+pin family extends8->11; inherited63 gates retained. Host331/0/2 and B26full104/0
+pass serial/parallel; focused11/harness56/production/focused128/512 paging pass.
+Independent candidate APPROVAL; fresh canonical acceptance completed exit0/
+PASS63/63, exact run acceptance_20261019T110519Z_v70j7rsk under continuation/
+acceptance. Offline readback PASS146 inputs/159 reports/280 cleanup assertions,
+production ISO/kernel/archive identity and no QEMU. These are evidence counts,
+not distinct guest totals. Final independent readback APPROVES this bounded
+checkpoint; consult STATE for local commit identities and exact final HEAD.
+Historical63/63 alone is not current approval.
+
+Next executable command (repository root): `git status --short`.
+The next planned bounded slice is numeric-map authority; do not start it
+automatically or reopen accepted FrameLease/pin/VPZ work without regression.
+Numeric same-slot replacement protection, shared ownership, general teardown,
+CPU/CR3 reclamation and complete B19 are NOT proved. No USER/TSS/ESP0/CPL3,
+Phase12/ELF/syscalls/scheduler/init, push/merge/tag/rebase/history rewrite,
+Proxmox mutation, deployment/boot-media modification or physical-disk access.
+Never unlink `dist/.phase6_acceptance.lock` or kill foreign processes. Following
+opening sections are preserved historical checkpoints, not current instructions.
+
 ## Actual current checkpoint — Phase 11B19 virtual-page-zero admission, acceptance PASS63/63
 
 Repository `C:/Users/iamsv/Documents/Rust-OS`, branch `maintenance/phase10`.
