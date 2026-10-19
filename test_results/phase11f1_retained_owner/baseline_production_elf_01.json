@@ -1,0 +1,16 @@
+{
+  "name": "../phase11f1_retained_owner/baseline_production_elf_01",
+  "command": [
+    "python",
+    "-B",
+    "scripts/validate_elf.py",
+    "target/target/debug/kernel"
+  ],
+  "cwd": "C:/Users/iamsv/Documents/Rust-OS",
+  "started_utc": "2026-10-19T22:57:40.342300+00:00",
+  "status": "EXPECTED",
+  "exit_code": 0,
+  "ended_utc": "2026-10-19T22:57:40.424162+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\..\\phase11f1_retained_owner\\baseline_production_elf_01.log",
+  "totals": []
+}

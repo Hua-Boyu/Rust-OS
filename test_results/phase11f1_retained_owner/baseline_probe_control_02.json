@@ -1,0 +1,28 @@
+{
+  "name": "../phase11f1_retained_owner/baseline_probe_control_02",
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:/Users/iamsv/Documents/Rust-OS/test_results/phase11f1_retained_owner/fixtures/host_snapshot/Cargo.toml",
+    "--lib",
+    "memory::paging::retained_owner_baseline_tests::f1_baseline_characterization_ordinary_map_unmap_release_remain_valid",
+    "--",
+    "--exact",
+    "--test-threads=1"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "started_utc": "2026-10-19T23:00:49.934878+00:00",
+  "status": "EXPECTED",
+  "exit_code": 0,
+  "ended_utc": "2026-10-19T23:00:56.194264+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\..\\phase11f1_retained_owner\\baseline_probe_control_02.log",
+  "totals": [
+    [
+      "1",
+      "0",
+      "0"
+    ]
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "../phase11f1_retained_owner/baseline_format_01",
+  "command": [
+    "cargo",
+    "fmt",
+    "--check"
+  ],
+  "cwd": "C:/Users/iamsv/Documents/Rust-OS",
+  "started_utc": "2026-10-19T23:03:27.050250+00:00",
+  "status": "EXPECTED",
+  "exit_code": 0,
+  "ended_utc": "2026-10-19T23:03:27.685472+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\..\\phase11f1_retained_owner\\baseline_format_01.log",
+  "totals": []
+}

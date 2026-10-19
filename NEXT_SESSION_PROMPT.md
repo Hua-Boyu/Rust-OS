@@ -1,5 +1,22 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
+## Current F1 checkpoint — PARTIAL / DESIGN STOP, not implemented
+
+F1-only implementation is authorized; do not implement F2-F5. Recover live Git and
+`test_results/phase11f1_retained_owner/STATE.md`, FINAL_REPORT.md, design.md and
+both complete independent verdicts. No production owner or freeze exists yet.
+Two isolated exact-one runtime REDs prove current structure retention permits
+owned unmap and unpinned unpublished owned release; a normal-use characterization
+passes. Failed compilation is separately retained and is not runtime RED.
+Unchanged-baseline host343/0/2 and B26116/0 pass serial/parallel with identity
+readback; baseline build/ELF pass. No F1 GREEN/guest/canonical acceptance.
+Resolve a concrete finite manifest/metadata shape, joint seal/alternate CR3 gate
+and nonreturning terminal wrapper in a revised independent design review BEFORE
+production edits. A 12-frame ceiling is only a conditional recommendation, not
+safe stack headroom or implementation approval. Later F3/F4 extend Preparing on
+fresh boots; never reopen Sealed. Preserve all unrelated work and the acceptance
+lock; no USER/TSS/CPL3/general teardown/remote/deployment/push. Historical pointers follow.
+
 Current design-only resume pointer: read live Git and
 `test_results/phase11b19_closure_design/STATE.md`, FINAL_REPORT.md and complete
 independent review, then **B19 Closure and First Ring-3 Smoke Entry Criteria** in

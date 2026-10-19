@@ -1,5 +1,18 @@
 # Rosti OS — development handover
 
+## Current — F1 retained-owner attempt, PARTIAL / DESIGN STOP
+
+Read `test_results/phase11f1_retained_owner/STATE.md`, FINAL_REPORT.md and complete
+boundary/budget verdicts. F1 implementation was authorized, but no production
+owner/seal was implemented: concrete manifest/metadata, joint irreversible seal
+and terminal wrapper design remain unapproved. Two isolated baseline runtime
+missing-policy probes fail as intended (owned unmap and unpublished owned release);
+ordinary mapping/release characterization passes. Fresh unchanged-baseline
+host343/0/2 and B26116/0 pass serial/parallel with exact identities; build/ELF pass.
+No F1 GREEN, guest or canonical acceptance; conditional 12-frame policy ceiling
+is not stack-safety proof. Resume F1 only; no F2-F5/USER/TSS/CPL3/teardown/push.
+Protected README/d1/backup/init-document bytes are preserved. Historical blocks follow.
+
 Documentation-only first-smoke design: `docs/PHASE11_MEMORY_AUTHORITY.md`,
 **B19 Closure and First Ring-3 Smoke Entry Criteria**; review/commit status in
 `test_results/phase11b19_closure_design/STATE.md`. Five proposed bounded slices;

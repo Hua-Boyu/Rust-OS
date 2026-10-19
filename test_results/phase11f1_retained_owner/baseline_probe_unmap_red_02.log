@@ -1,0 +1,139 @@
+warning: unused import: `crate::println`
+  --> C:\Users\iamsv\Documents\Rust-OS\src\multiboot.rs:10:5
+   |
+10 | use crate::println;
+   |     ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: formatting may not be suitable for sub-register argument
+   --> C:\Users\iamsv\Documents\Rust-OS\test_results\phase11f1_retained_owner\fixtures\host_snapshot\paging.rs:932:41
+    |
+932 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+    |                                         ^^^^^                  --- for this argument
+    |
+    = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+    = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+    = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+   --> C:\Users\iamsv\Documents\Rust-OS\test_results\phase11f1_retained_owner\fixtures\host_snapshot\paging.rs:945:41
+    |
+945 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+    |                                         ^^^^^                  --- for this argument
+    |
+    = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+    = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+warning: unused variable: `port_in`
+  --> C:\Users\iamsv\Documents\Rust-OS\src\io\ports.rs:72:28
+   |
+72 | pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `port_in`
+  --> C:\Users\iamsv\Documents\Rust-OS\src\io\ports.rs:85:28
+   |
+85 | pub unsafe fn lockfree_inw(port_in: u16) -> u16 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+
+warning: unused variable: `port_out`
+   --> C:\Users\iamsv\Documents\Rust-OS\src\io\ports.rs:110:29
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> C:\Users\iamsv\Documents\Rust-OS\src\io\ports.rs:110:44
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `port_out`
+   --> C:\Users\iamsv\Documents\Rust-OS\src\io\ports.rs:119:29
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> C:\Users\iamsv\Documents\Rust-OS\src\io\ports.rs:119:44
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `frame`
+   --> C:\Users\iamsv\Documents\Rust-OS\src\allocator.rs:272:33
+    |
+272 |                     if let Some(frame) = crate::memory::heap_grow_frame(slot) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_frame`
+
+warning: unused variable: `t0`
+   --> lib.rs:264:18
+    |
+264 |     let (b0, l0, t0) = (e0.base_addr, e0.length, e0.type_);
+    |                  ^^ help: if this is intentional, prefix it with an underscore: `_t0`
+
+warning: function `ownership_locks_held` is never used
+  --> C:\Users\iamsv\Documents\Rust-OS\test_results\phase11f1_retained_owner\fixtures\host_snapshot\memory_mod.rs:24:15
+   |
+24 | pub(crate) fn ownership_locks_held() -> bool {
+   |               ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `pinned_identity_span` is never used
+   --> C:\Users\iamsv\Documents\Rust-OS\test_results\phase11f1_retained_owner\fixtures\host_snapshot\memory_mod.rs:287:15
+    |
+287 | pub(crate) fn pinned_identity_span(start: u64, end: u64) -> bool {
+    |               ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `replace_growth_with_test_conflict` is never used
+   --> C:\Users\iamsv\Documents\Rust-OS\test_results\phase11f1_retained_owner\fixtures\host_snapshot\memory_mod.rs:327:15
+    |
+327 | pub(crate) fn replace_growth_with_test_conflict(slot: usize) -> Option<u64> {
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: static `KERNEL_START` is never used
+  --> C:\Users\iamsv\Documents\Rust-OS\src\memory\frame.rs:71:8
+   |
+71 | static KERNEL_START: u32 = 0;
+   |        ^^^^^^^^^^^^
+
+warning: static `KERNEL_END` is never used
+  --> C:\Users\iamsv\Documents\Rust-OS\src\memory\frame.rs:73:8
+   |
+73 | static KERNEL_END: u32 = 0;
+   |        ^^^^^^^^^^
+
+warning: feature `abi_x86_interrupt` is declared but not used
+ --> lib.rs:7:12
+  |
+7 | #![feature(abi_x86_interrupt)]
+  |            ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_features)]` (part of `#[warn(unused)]`) on by default
+
+warning: `f1_baseline_fixture` (lib test) generated 17 warnings (run `cargo fix --lib -p f1_baseline_fixture --tests` to apply 9 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s
+     Running unittests lib.rs (Documents\Rust-OS\test_results\phase11f1_retained_owner\fixtures\host_snapshot\target\debug\build\f1_baseline_fixture/1c21267f6e1fd077\out\f1_baseline_fixture-1c21267f6e1fd077.exe)
+
+running 1 test
+test memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_owned_unmap ... FAILED
+
+failures:
+
+---- memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_owned_unmap stdout ----
+
+thread 'memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_owned_unmap' (56248) panicked at C:\Users\iamsv\Documents\Rust-OS\test_results\phase11f1_retained_owner\fixtures\retained_owner_baseline_tests.rs:111:5:
+F1 MISSING POLICY: structure retention still permits owned unmap
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_owned_unmap
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 347 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `--lib`

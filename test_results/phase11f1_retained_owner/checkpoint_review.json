@@ -1,0 +1,864 @@
+{
+  "schema_version": 1,
+  "review_kind": "Independent pre-commit readback of partial F1 baseline-runtime-RED/documentation checkpoint, not F1 implementation approval",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "observed_head": "b765abcc1350323357accf3623aec42a6185494c",
+  "verdict": "APPROVE_EXACT_BLOB_SCOPED_LOCAL_PARTIAL_DOCS_AND_BASELINE_RED_EVIDENCE_CHECKPOINT_ONLY",
+  "partial_docs_evidence_local_commit_approved": true,
+  "partial_checkpoint_blockers": [],
+  "full_f1_design_approved": false,
+  "candidate_source_approved": false,
+  "f1_implemented": false,
+  "f1_complete": false,
+  "canonical_acceptance_exists_for_this_checkpoint": false,
+  "guest_evidence_exists_for_this_checkpoint": false,
+  "cpl3_ready": false,
+  "approval_scope": {
+    "approved": "A scoped LOCAL documentation/evidence commit of the 50 paths named in checkpoint_paths.json plus that exact checkpoint_paths.json and this reviewer-authored verdict. Approval explicitly covers the exact git_normalized_blob_oid for each of the 51 preexisting proposed paths in reviewed_file_identities, including normalized Windows CRLF documentation/evidence blobs; it is not limited to raw working bytes and does not repin historical independent reviews.",
+    "proposed_manifest_paths": 50,
+    "proposed_paths_including_checkpoint_paths_json": 51,
+    "verdict_self_identity": "This artifact is additionally approved as the sole reviewer-authored write. Its raw/content/blob identity cannot be embedded in itself without circularity. Parent must hash/read this complete artifact, preserve its exact bytes, and require the separate independent post-commit readback to pin its actual committed blob. No permission to edit this verdict is granted.",
+    "conditions": [
+      "Stage only these exact normalized blobs plus this verdict; never include protected work, production sources, generated target directories, binaries, ISO/media or the four explicitly excluded live records.",
+      "Any content change to an approved path beyond the explicitly recorded raw-to-Git newline normalization invalidates approval for that changed blob and requires supplemental independent coverage.",
+      "Parent must read this complete saved verdict before committing and obtain separate independent post-commit readback of actual commit membership, exact blob identities and preservation. This is pre-commit approval, not proof a commit exists.",
+      "No push, merge, rebase, tag, deployment, acceptance execution, guest or F1/F2-F5 implementation is authorized by this review."
+    ],
+    "excluded_live_records": [
+      "FINAL_REPORT.md",
+      "STATE.md",
+      "evidence_manifest.json",
+      "initial_raw_hashes.json"
+    ],
+    "excluded_live_records_note": "Read and raw/blob-pinned for review/provenance, deliberately excluded from this scoped commit per parent steering to avoid final-HEAD self-reference and protected-path inventory disclosure. Later closeout edits are not silently covered by this approval."
+  },
+  "reviewed_material": {
+    "complete_task_documents": [
+      "FINAL_REPORT.md",
+      "STATE.md",
+      "design.md",
+      "decisions.md",
+      "rabbit_holes.md",
+      "independent_boundary_review.json",
+      "independent_budget_review.json",
+      "fixture_manifest.json",
+      "baseline_identity_readback.json",
+      "baseline_probe_readback.json",
+      "baseline_memory.json",
+      "recovery.json",
+      "evidence_manifest.json",
+      "checkpoint_paths.json"
+    ],
+    "doc4": "Inspected actual git diff for exactly the four authorized documents; all hunks insert current partial status immediately after the heading. Historical text is preserved.",
+    "fixture": "Read the actual full test fixture and actual copied-root differences. Verified normalized source-body equality after removing only module path attributes and the exact appended cfg(test) probe registration. Cargo manifest differs only in package name, original dependency location and lib-root relocation.",
+    "logs": "Read actual full baseline host/B26 serial/parallel/list, probe *_02, failed control_01, baseline production build/ELF and production/probe format files; independently parsed test identity multisets and checked report exits. No builds/tests/QEMU were run by this reviewer."
+  },
+  "preservation": {
+    "initial_raw_hashes_members": 3325,
+    "missing_initial_files": 0,
+    "changed_initial_paths": [
+      "HANDOVER.md",
+      "NEXT_SESSION_PROMPT.md",
+      "docs/PHASE11_HANDOVER.md",
+      "docs/PHASE11_MEMORY_AUTHORITY.md"
+    ],
+    "other_initial_files_raw_identical": 3321,
+    "protected_work_preserved": true,
+    "protected_work_note": "All initial protected README/d1/init-document/backup files are covered by the same raw-hash comparison. No protected contents were printed. Their inherited dirty/untracked status is not treated as task edits.",
+    "doc4": {
+      "docs/PHASE11_MEMORY_AUTHORITY.md": {
+        "tail_identical": true,
+        "initial_bytes_reconstructed": true,
+        "crlf_count": 0,
+        "bare_lf_count": 472
+      },
+      "docs/PHASE11_HANDOVER.md": {
+        "tail_identical": true,
+        "initial_bytes_reconstructed": true,
+        "crlf_count": 0,
+        "bare_lf_count": 534
+      },
+      "HANDOVER.md": {
+        "tail_identical": true,
+        "initial_bytes_reconstructed": true,
+        "crlf_count": 873,
+        "bare_lf_count": 0
+      },
+      "NEXT_SESSION_PROMPT.md": {
+        "tail_identical": true,
+        "initial_bytes_reconstructed": true,
+        "crlf_count": 640,
+        "bare_lf_count": 0
+      }
+    },
+    "historical_tails": "For every doc, removed only the newly inserted current section, restored its original LF/CRLF convention, and reproduced the exact initial raw SHA256. Thus both historical text and its original raw newline convention remain intact.",
+    "accepted_source_inputs": 150,
+    "accepted_source_hash_drift": [],
+    "historical_acceptance_sha256": "141c73b5d09304ceea33f597128bd6f4cbba8a4ccebc7c2d37d34c88c4620f4d",
+    "historical_acceptance_hash_matches": true,
+    "historical_gate_rows": 65,
+    "historical_gate_multiset_matches_recovery": true,
+    "historical_acceptance_limit": "150 hashes/65 gates are provenance only; no old PASS is promoted to new acceptance. git diff HEAD shows no live src/tests_kernel/tests_b26/Cargo/acceptance-script input changes.",
+    "git_index_at_review": "Empty staged diff; reviewer performed no staging or commit.",
+    "scoped_diff_check_with_cr_at_eol_exit": 0
+  },
+  "fixture_verification": {
+    "copied_body_comparisons": {
+      "tests_kernel/src/lib.rs": {
+        "body_identical_after_removing_only_path_attributes_and_appended_test_registration": true
+      },
+      "src/memory/mod.rs": {
+        "body_identical_after_removing_only_path_attributes_and_appended_test_registration": true
+      },
+      "src/memory/paging.rs": {
+        "body_identical_after_removing_only_path_attributes_and_appended_test_registration": true
+      }
+    },
+    "cargo_only_expected_relocations": true,
+    "original_module_path_attributes_existing": 39,
+    "actual_original_frame_source": "src/memory/frame.rs",
+    "actual_original_frame_source_sha256": "9a443ab069767c9b2c3b02befcb98c07419fa3a67929092c3eb6b7677d9d671e",
+    "original_frame_source_used_directly": true,
+    "manifest_original_and_current_hashes_all_match": true,
+    "compile_fix": "Reinstating only the removed dereference in let p = pm.stats() reproduces the initial_generated_sha256 of retained_owner_baseline_tests.rs exactly. No production type trait, assertion, expected outcome or body was changed to obtain control GREEN.",
+    "adapter": "baseline_structure_retention_only calls only assert!(pm.retain_for_publication()); it is plainly named/commented as baseline missing-policy observation, not a real smoke seal.",
+    "snapshot_contract": "Owned per-instance host snapshots cover all FrameStats fields, all PagingStats fields (enabled separately), directory/domain/retained/window/table inventory, all PDE/PTE entries of installed structures, runtime/structure pins, payload registry and tested lease live/free state. Snapshots allocate only in unlocked local host fixtures. They are not a claim of bytewise equality of every allocator/PageMap private field or hardware state.",
+    "probe_semantics": "Unmap first establishes legitimate mapped/live/pinned authority, then the bool refusal assertion fails because baseline unmap succeeds. Release uses an independently acquired, unpinned/unmapped nonstructure live lease and test-only duplicate authority while retaining the legitimate token; its bool refusal assertion fails because baseline release succeeds. Each captures after-state before asserting. Neither RED reaches a successful unchanged-state assertion; reports explicitly disclaim that result.",
+    "characterization": "Without retention adapter, legitimate ordinary map/unmap/release succeeds, one additional installed table frame is accounted, and unpublished cleanup restores allocated_frames to zero. This is not a candidate policy GREEN.",
+    "scope_limit": "Reproduction crate intentionally contains failing tests and remains isolated outside canonical live compilation. Absolute module/dependency paths bind reproduction to the disclosed original local repository, not a portable standalone package or synthesized ownership model."
+  },
+  "runtime_probe_readback": {
+    "declared_list_membership_exact": true,
+    "listed": [
+      "memory::paging::retained_owner_baseline_tests::f1_baseline_characterization_ordinary_map_unmap_release_remain_valid",
+      "memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_owned_unmap",
+      "memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_unpublished_owned_release"
+    ],
+    "runs": [
+      {
+        "run": "baseline_probe_control_02",
+        "identity": "memory::paging::retained_owner_baseline_tests::f1_baseline_characterization_ordinary_map_unmap_release_remain_valid",
+        "cargo_exit": 0,
+        "result": "ok",
+        "exact_one_executed": true,
+        "intended_diagnostic": null
+      },
+      {
+        "run": "baseline_probe_unmap_red_02",
+        "identity": "memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_owned_unmap",
+        "cargo_exit": 101,
+        "result": "FAILED",
+        "exact_one_executed": true,
+        "intended_diagnostic": "F1 MISSING POLICY: structure retention still permits owned unmap"
+      },
+      {
+        "run": "baseline_probe_release_red_02",
+        "identity": "memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_unpublished_owned_release",
+        "cargo_exit": 101,
+        "result": "FAILED",
+        "exact_one_executed": true,
+        "intended_diagnostic": "F1 MISSING POLICY: structure retention still permits unpublished owned release"
+      }
+    ],
+    "failed_setup_control_01": {
+      "cargo_exit": 101,
+      "compiler_error": "E0507 moving PagingStats out of shared reference",
+      "executed_tests": 0,
+      "runtime_red": false
+    },
+    "candidate_green_claimed": false
+  },
+  "baseline_suites": {
+    "host": {
+      "listed": 345,
+      "unique": 345,
+      "runs": {
+        "serial": {
+          "identity_count": 345,
+          "counts": {
+            "ok": 343,
+            "ignored": 2
+          },
+          "membership_exact": true,
+          "summary": [
+            "test result: ok. 343 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 9.33s"
+          ],
+          "ignored": [
+            "maintenance_measurements::measured_frame_scan_states",
+            "maintenance_measurements::measured_heap_capacity_loss"
+          ]
+        },
+        "parallel": {
+          "identity_count": 345,
+          "counts": {
+            "ok": 343,
+            "ignored": 2
+          },
+          "membership_exact": true,
+          "summary": [
+            "test result: ok. 343 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 1.35s"
+          ],
+          "ignored": [
+            "maintenance_measurements::measured_frame_scan_states",
+            "maintenance_measurements::measured_heap_capacity_loss"
+          ]
+        }
+      }
+    },
+    "b26": {
+      "listed": 116,
+      "unique": 116,
+      "runs": {
+        "serial": {
+          "identity_count": 116,
+          "counts": {
+            "ok": 116
+          },
+          "membership_exact": true,
+          "summary": [
+            "test result: ok. 116 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.06s"
+          ],
+          "ignored": []
+        },
+        "parallel": {
+          "identity_count": 116,
+          "counts": {
+            "ok": 116
+          },
+          "membership_exact": true,
+          "summary": [
+            "test result: ok. 116 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.39s"
+          ],
+          "ignored": []
+        }
+      }
+    }
+  },
+  "baseline_production": {
+    "build_report_exit": 0,
+    "elf_validation_report_exit": 0,
+    "baseline_format_report_exit": 0,
+    "probe_format_report_exit": 0,
+    "format_empty_logs_consistent_with_exit_zero": true,
+    "independent_elf32_parser": {
+      "sha256": "1304df61d0649a21eb091e71e45c37d34ed7e574e448f42cde6608be89501c2a",
+      "file_bytes": 6317300,
+      "allocated_sections": [
+        {
+          "name": ".multiboot",
+          "type": 1,
+          "flags": 3,
+          "address": 2097152,
+          "bytes": 12
+        },
+        {
+          "name": ".got",
+          "type": 1,
+          "flags": 3,
+          "address": 2097164,
+          "bytes": 80
+        },
+        {
+          "name": ".text",
+          "type": 1,
+          "flags": 6,
+          "address": 2101248,
+          "bytes": 705729
+        },
+        {
+          "name": ".rodata",
+          "type": 1,
+          "flags": 50,
+          "address": 2809856,
+          "bytes": 39285
+        },
+        {
+          "name": ".eh_frame_hdr",
+          "type": 1,
+          "flags": 2,
+          "address": 2849144,
+          "bytes": 28
+        },
+        {
+          "name": ".eh_frame",
+          "type": 1,
+          "flags": 2,
+          "address": 2849172,
+          "bytes": 68
+        },
+        {
+          "name": ".data",
+          "type": 1,
+          "flags": 3,
+          "address": 2850816,
+          "bytes": 371964
+        },
+        {
+          "name": ".got.plt",
+          "type": 1,
+          "flags": 3,
+          "address": 3222780,
+          "bytes": 12
+        },
+        {
+          "name": ".bss",
+          "type": 8,
+          "flags": 3,
+          "address": 3223552,
+          "bytes": 1137676
+        }
+      ],
+      "allocated_section_bytes": 2254854,
+      "allocated_span": 2264076
+    },
+    "all_recorded_sections_sizes_and_addresses_match": true,
+    "measurement_limit": "Current target ELF raw SHA256 and every allocated section row, .data/.bss size, section-byte sum and virtual span match baseline_memory.json. This is a baseline-only emitted ELF measurement, not a candidate comparison, stack high-water or guest resource measurement. No actual F1 implementation exists, so no implemented F1 owner/stack delta can be certified.",
+    "bootstrap_stack_bytes": 16384,
+    "caller_irq_nmi_df_stack_high_water": null,
+    "f1_minimum_ram_deltas": null,
+    "guest_tests": "NOT RUN / absent for this checkpoint"
+  },
+  "design_and_claims_assessment": {
+    "status_truthful": true,
+    "conditional_twelve_frames": "The budget verdict conditionally recommends an incremental ceiling, not minimum sufficient architecture, actual commitment, safe stack headroom, candidate approval or total RAM usage. Two initial frame roles are a subset of twelve, not fourteen; absent guards consume virtual reservations, not frame allocations. Current reports/docs preserve all these distinctions.",
+    "concrete_metadata": "Fixed owner/descriptor/diagnostic shapes and actual target sizes remain unresolved. The finite frame recommendation does not cure unspecified concrete metadata or prove installable privileged ranges using existing tables.",
+    "real_freeze": "Current retain_for_publication protects structure lifetime only. No real one-shot latch, owner, joint serialized fail-before-side-effect frame/map freeze, allocation manifest or terminal lifecycle is implemented.",
+    "alternate_cr3": "Source-boundary review explicitly requires a dominating prohibition of alternate-map CR3 activation, not merely an active PageMap local bit; actual active-CR3 agreement still requires future implementation/hardware evidence.",
+    "terminal_wrapper": "Dedicated nonreturning wrapper, guard release before lockfree diagnostics/halt, no shell/heap/reboot continuation, and terminal partial-failure retention remain genuine STOP obligations, not claims of current behavior.",
+    "reviews": "Both full saved independent verdicts were read. Their original source pins remain intact, including old authority-document hashes. Those old reviews are not repinned as approval of changed docs. This verdict independently covers the present doc/evidence raw and normalized identities only.",
+    "stale_provisional_header": "design.md retains its original pending-review draft header. decisions.md, live STATE, FINAL_REPORT and doc4 explicitly record actual reviews and DESIGN STOP; this historical draft is not represented as approved/current implementation design.",
+    "overclaim_finding": "No material candidate GREEN, F1 completion, canonical acceptance, CPU/guest, stack sufficiency or hardware lifetime overclaim found in the reviewed current additions and reports. Historical accepted tails remain clearly labeled historical."
+  },
+  "unresolved_f1_blockers_not_partial_commit_blockers": [
+    {
+      "id": "F1-CONCRETE-MANIFEST",
+      "blocker": "Independently approved finite concrete manifest/metadata/descriptor/diagnostic and guarded-range/table integration design is missing; twelve frames alone is not the complete inventory."
+    },
+    {
+      "id": "F1-JOINT-FREEZE",
+      "blocker": "No singleton one-shot owner/latch or jointly serialized allocator/map seal at every real mutation, reset, pin, allocation, release, rollback and raw helper boundary."
+    },
+    {
+      "id": "F1-ALTERNATE-CR3",
+      "blocker": "No dominating activation prohibition for a different/fresh PageMap and no real active-CR3 preflight/preservation proof."
+    },
+    {
+      "id": "F1-TERMINAL",
+      "blocker": "No dedicated terminal nonreturning invocation, retained real partial failures, no-retry/reset proof or post-guard lockfree terminal observation."
+    },
+    {
+      "id": "F1-CANDIDATE-EVIDENCE",
+      "blocker": "No A-F candidate runtime GREEN, emitted owner/frame accounting or production-reachable Ring-0 F1 fixtures at 128/512 MiB. Existing two REDs and ordinary control cannot substitute."
+    },
+    {
+      "id": "F1-ACCEPTANCE",
+      "blocker": "No candidate source review, source-frozen canonical acceptance, or independent completed implementation readback. F2-F5 and entry remain blocked; no TSS/USER/CPL3 readiness."
+    }
+  ],
+  "identity_method": "Raw SHA256 = hashlib.sha256(Path.read_bytes()). Git-normalized OIDs = actual git hash-object --path=<exact repo-relative path> --stdin without -w, verified against SHA1(blob header + CRLF-to-LF normalized content). Normalized content SHA256 and lengths separately recorded. No Git objects, index or configs were written. core.autocrlf=true; system/** -text is irrelevant to approved text paths. Raw/normalized mismatch on Windows is explicitly covered, not silently skipped.",
+  "reviewed_file_identities": {
+    "HANDOVER.md": {
+      "raw_sha256": "9d0c74aa3c80188aae692e2b4b76d6e94837205f340ce4a1fdc2b464295e3538",
+      "raw_bytes": 57002,
+      "git_normalized_blob_oid": "490c7177420a7515a02b0ba0ad1cb0ee57b73e0f",
+      "git_normalized_content_sha256": "c20611608ee58f22169e6e3828e02cf765a346ee7247578fa7b03cbe063c8511",
+      "git_normalized_bytes": 56129,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "NEXT_SESSION_PROMPT.md": {
+      "raw_sha256": "636dacdcd0c7fb6c04bf3a5f051842a7a4128ccf1b333efe08d5672221ab4326",
+      "raw_bytes": 42250,
+      "git_normalized_blob_oid": "93920405b6719767261211f6bfb3dfd2fa5bed6e",
+      "git_normalized_content_sha256": "196298c80dfb7a36e8280d7ee857a422b02e412fb1cf052456016e7f8e102e1a",
+      "git_normalized_bytes": 41610,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "docs/PHASE11_HANDOVER.md": {
+      "raw_sha256": "28a243d350cd3a8adcde43625adec2589d866a5782922ee57694fc0a1255c0df",
+      "raw_bytes": 48798,
+      "git_normalized_blob_oid": "27faa6abafe514f4f862df09f9ee7d3f827470b7",
+      "git_normalized_content_sha256": "28a243d350cd3a8adcde43625adec2589d866a5782922ee57694fc0a1255c0df",
+      "git_normalized_bytes": 48798,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "docs/PHASE11_MEMORY_AUTHORITY.md": {
+      "raw_sha256": "7995f3f9edd5b34837e2dc8310f7d0e5d1bb5b731d14aa040d5ff836c5a3c517",
+      "raw_bytes": 48482,
+      "git_normalized_blob_oid": "86c542fde42dd11461d0dfcd4f1590e3e3f8b54b",
+      "git_normalized_content_sha256": "7995f3f9edd5b34837e2dc8310f7d0e5d1bb5b731d14aa040d5ff836c5a3c517",
+      "git_normalized_bytes": 48482,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_b26_list_01.json": {
+      "raw_sha256": "f38f351b0be5324a1a4216119213b084e5a4d3b49c4ca92233eacc1e2ea35c9d",
+      "raw_bytes": 598,
+      "git_normalized_blob_oid": "c58886d3c8dc0f54721243a737cbd6279eeaf7b5",
+      "git_normalized_content_sha256": "19d1392afe831a8bed6d521fde799d04e14ccf62b25bf6fcad327bd42fc51b15",
+      "git_normalized_bytes": 578,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_b26_list_01.log": {
+      "raw_sha256": "3bb0706a60b986d78acff25c59a73ba5d892ba97d779a16a821cb8ec163eaedc",
+      "raw_bytes": 12896,
+      "git_normalized_blob_oid": "a0bc4422752ad3c6e426e87b20cd435861599193",
+      "git_normalized_content_sha256": "3bb0706a60b986d78acff25c59a73ba5d892ba97d779a16a821cb8ec163eaedc",
+      "git_normalized_bytes": 12896,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_b26_parallel_01.json": {
+      "raw_sha256": "dcd00cacdf16f1dedc0060cb104577c78344d1e093d5c0d462701aaa06aa7994",
+      "raw_bytes": 635,
+      "git_normalized_blob_oid": "04da59ea49e188ffa76dab56920025c72ead7813",
+      "git_normalized_content_sha256": "b8404021728a682abf080d2576cdb2d57ed3d967cd37b905a79973d443620bd1",
+      "git_normalized_bytes": 611,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_b26_parallel_01.log": {
+      "raw_sha256": "3e02f7c2cc628b2ba1ae4ef9c641e0273dde2bcb0133262586642682148e6e71",
+      "raw_bytes": 13684,
+      "git_normalized_blob_oid": "f4f3022eb516e3e45a1054a2abb57465f5d1c2cd",
+      "git_normalized_content_sha256": "3e02f7c2cc628b2ba1ae4ef9c641e0273dde2bcb0133262586642682148e6e71",
+      "git_normalized_bytes": 13684,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_b26_serial_01.json": {
+      "raw_sha256": "ebb99095403042d7a06556b471892a199640dc6abe9e9db2a3b6c711a2403d9f",
+      "raw_bytes": 667,
+      "git_normalized_blob_oid": "3bd712bae35d2ffce910e56ae92ccbd26e0216b5",
+      "git_normalized_content_sha256": "79d302d4171a924f532d599e20a8df0585fd045beb7dbd6d89472a42dd51eaf0",
+      "git_normalized_bytes": 641,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_b26_serial_01.log": {
+      "raw_sha256": "018a0ddf344ef0657ceb06ac5e271f6063797d868bf24c8fd28cb1cc805a530c",
+      "raw_bytes": 13684,
+      "git_normalized_blob_oid": "da0821bbad33be29b64d2c0e9c5991ce772ca9f7",
+      "git_normalized_content_sha256": "018a0ddf344ef0657ceb06ac5e271f6063797d868bf24c8fd28cb1cc805a530c",
+      "git_normalized_bytes": 13684,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_format_01.json": {
+      "raw_sha256": "79b0b2a9f4ec993524c3a5c8407f3f099a9df86e23a4ae6d1af25dc970ac1ec1",
+      "raw_bytes": 484,
+      "git_normalized_blob_oid": "eac6a12f1f90d6c708503a0b2a9bcae8fa540668",
+      "git_normalized_content_sha256": "4ea3095649286ff17eaae09af3ae01f68a4273279e61e11e6abdb86d85a5cbc4",
+      "git_normalized_bytes": 469,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_format_01.log": {
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_bytes": 0,
+      "git_normalized_blob_oid": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "git_normalized_content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_normalized_bytes": 0,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_host_list_01.json": {
+      "raw_sha256": "8c3c53d2508b61bfa8cbfc5dc3eb64f7ea3d1cdfe7bfd33b6bbc4a1167dcac28",
+      "raw_bytes": 603,
+      "git_normalized_blob_oid": "4f2c9d30c64cc1cdefdf4b1a9df28a5611b0bfc9",
+      "git_normalized_content_sha256": "4857e0209ec6a09d1039b3c40faa57d4ba81fd45d45bb4ee0434399226192c3f",
+      "git_normalized_bytes": 583,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_host_list_01.log": {
+      "raw_sha256": "2e8995dc65028b0be24a920ba061d608cef17a134142ba1909dd53a23952f88f",
+      "raw_bytes": 30988,
+      "git_normalized_blob_oid": "4ecc698fc40abf5e1be22a16aedc0cd2678b12f6",
+      "git_normalized_content_sha256": "2e8995dc65028b0be24a920ba061d608cef17a134142ba1909dd53a23952f88f",
+      "git_normalized_bytes": 30988,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_host_parallel_01.json": {
+      "raw_sha256": "7322f4d9977891a932c7a097f0d8247644a31775d9f327a9c10a802622718350",
+      "raw_bytes": 640,
+      "git_normalized_blob_oid": "280bb7e2a45c7dd90caf400d47d962b9a3e9a233",
+      "git_normalized_content_sha256": "7945a5d39faf8d01b370d577ae570a4467e13a1e98849e561af0a6e54d48fa65",
+      "git_normalized_bytes": 616,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_host_parallel_01.log": {
+      "raw_sha256": "bcf62982f37946c080f12c9302aad38098aeb11c10ad70d798d57a9c8d8123cf",
+      "raw_bytes": 33160,
+      "git_normalized_blob_oid": "e9beb632e751afe5ab6b7de85cdea3a29788f4dd",
+      "git_normalized_content_sha256": "bcf62982f37946c080f12c9302aad38098aeb11c10ad70d798d57a9c8d8123cf",
+      "git_normalized_bytes": 33160,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_host_serial_01.json": {
+      "raw_sha256": "ff008653632bf46b23a43614d986cde9046ec0d70e73910b49f75633faf11903",
+      "raw_bytes": 672,
+      "git_normalized_blob_oid": "1e9f664d325928a1722e2f2d34da93e94ffe8340",
+      "git_normalized_content_sha256": "84844dd68e5a16b2b60b75246a80d570a0daad5d94a815886fb76c90165023fd",
+      "git_normalized_bytes": 646,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_host_serial_01.log": {
+      "raw_sha256": "7a99e33fff3f33ee2a1c7721ddaf9c94cb305346ca8b0247c292c5460a0b7dc1",
+      "raw_bytes": 33160,
+      "git_normalized_blob_oid": "b2f6c91bfd9f255050cdc2be0f7e5d450723803c",
+      "git_normalized_content_sha256": "7a99e33fff3f33ee2a1c7721ddaf9c94cb305346ca8b0247c292c5460a0b7dc1",
+      "git_normalized_bytes": 33160,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_identity_readback.json": {
+      "raw_sha256": "67de9f2f338eb3d655d7493d4c7f0f77dc163695d14af22d701cfbab7b31d656",
+      "raw_bytes": 1348,
+      "git_normalized_blob_oid": "01e876572d906badeed4b4b30c29f907098993ba",
+      "git_normalized_content_sha256": "67de9f2f338eb3d655d7493d4c7f0f77dc163695d14af22d701cfbab7b31d656",
+      "git_normalized_bytes": 1348,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_memory.json": {
+      "raw_sha256": "f55dacc85326de776b7b1f0b37cc0e2f2a9631bd410c61c077445c8d0da75747",
+      "raw_bytes": 1544,
+      "git_normalized_blob_oid": "ba4f78f19b7f6d349cc4e109422fa47cac46483d",
+      "git_normalized_content_sha256": "f55dacc85326de776b7b1f0b37cc0e2f2a9631bd410c61c077445c8d0da75747",
+      "git_normalized_bytes": 1544,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_probe_control_01.json": {
+      "raw_sha256": "212d25859a418a3d1ce21834471e00fdef312f3d01b9e4a66877a2d670043f2f",
+      "raw_bytes": 813,
+      "git_normalized_blob_oid": "1d226b7933102a35bf25932edefbdf42e344b887",
+      "git_normalized_content_sha256": "81baacc6ba6b0faa8ce3511cdff4718d301b77df292d07b086df22f7c724810d",
+      "git_normalized_bytes": 791,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_probe_control_01.log": {
+      "raw_sha256": "17771345c624be60da38c92c64fda36209472e8b34efeb91da6da15e1549d118",
+      "raw_bytes": 5629,
+      "git_normalized_blob_oid": "b987b30e7ec065f708a0f2c52e9bf2dbd734ff27",
+      "git_normalized_content_sha256": "17771345c624be60da38c92c64fda36209472e8b34efeb91da6da15e1549d118",
+      "git_normalized_bytes": 5629,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_probe_control_02.json": {
+      "raw_sha256": "91fc566dc045422fe9fb42fe971c7b10c4d717e725ad3a8d36b5211ae9c07d2a",
+      "raw_bytes": 862,
+      "git_normalized_blob_oid": "9455d4fb5bf978d0bfcad7c4ad3214915017ac13",
+      "git_normalized_content_sha256": "87ce381349206143cbdaffcc33501681cfde83d3173ab27eded92fd88af83ebc",
+      "git_normalized_bytes": 834,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_probe_control_02.log": {
+      "raw_sha256": "0eba4ca11334f90119ecbaa2e0b42c4f032f30edd882e8975ba12f3e64ea372a",
+      "raw_bytes": 6048,
+      "git_normalized_blob_oid": "616011aca1cbcebdd5e74cfc6484128998b15b7c",
+      "git_normalized_content_sha256": "0eba4ca11334f90119ecbaa2e0b42c4f032f30edd882e8975ba12f3e64ea372a",
+      "git_normalized_bytes": 6048,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_probe_list_02.json": {
+      "raw_sha256": "670093e62d6c4cfb2d4ef434b5a4454d6b1fedd599e9a887cdddd3781ad1851d",
+      "raw_bytes": 693,
+      "git_normalized_blob_oid": "7b274131f229e65ff41b4e34a976c33a666f68c2",
+      "git_normalized_content_sha256": "b71902730bbbe06ed34f9095d11bdc09ed1a24e8277d1586085ca6c46aa6148f",
+      "git_normalized_bytes": 672,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_probe_list_02.log": {
+      "raw_sha256": "622e9da7e420d0f3e8155aa8eb21ae85d574894d0c2b8fd2ec71062375b45d69",
+      "raw_bytes": 6065,
+      "git_normalized_blob_oid": "0d5f12c78727dfe2e5b4dec06beb126dfb251d63",
+      "git_normalized_content_sha256": "622e9da7e420d0f3e8155aa8eb21ae85d574894d0c2b8fd2ec71062375b45d69",
+      "git_normalized_bytes": 6065,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_probe_readback.json": {
+      "raw_sha256": "2155bd554baa0f779607f74bd892eca930d24f41d85f89de2420982144a62cca",
+      "raw_bytes": 1933,
+      "git_normalized_blob_oid": "e9539bfe1e1f3ab7f90c0b8e5fb89412dc91d026",
+      "git_normalized_content_sha256": "2155bd554baa0f779607f74bd892eca930d24f41d85f89de2420982144a62cca",
+      "git_normalized_bytes": 1933,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_probe_release_red_02.json": {
+      "raw_sha256": "b5dfb46f90982b8c7eddbb612309e01fbd96869921ae820782bbf06af17f2c22",
+      "raw_bytes": 882,
+      "git_normalized_blob_oid": "b7d376e4c9bf163a6496debbef7aeab225d95a17",
+      "git_normalized_content_sha256": "6f43679a18ae7ff016f6ec736306a42356b19bca90f629352ed085f6ab0ce6cb",
+      "git_normalized_bytes": 854,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_probe_release_red_02.log": {
+      "raw_sha256": "6add2a4001532fbbb8383447899d2f697bf7c3bc3d9e0f72cdd0486cf041c137",
+      "raw_bytes": 6702,
+      "git_normalized_blob_oid": "dbe4a0b32284b3b8517bcf0336653afae1d685fe",
+      "git_normalized_content_sha256": "6add2a4001532fbbb8383447899d2f697bf7c3bc3d9e0f72cdd0486cf041c137",
+      "git_normalized_bytes": 6702,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_probe_unmap_red_02.json": {
+      "raw_sha256": "f6cddf96f1a180fd965e15b33d70fd294fa6738be00488b72d68561083cdaa9e",
+      "raw_bytes": 864,
+      "git_normalized_blob_oid": "8d771dd9fd04a82ad99be9cad46bfd62c6805745",
+      "git_normalized_content_sha256": "a58a152c7403aa59f2a312b9229911c1989e18d917fad8a83fffed14b47dad68",
+      "git_normalized_bytes": 836,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_probe_unmap_red_02.log": {
+      "raw_sha256": "21102f145ca0f5a61abc2d60b56be2d3ee774602d84a6be409e855b0fefcc1fd",
+      "raw_bytes": 6632,
+      "git_normalized_blob_oid": "c146340fddedc02e95d5c608ffda26baea5b6d23",
+      "git_normalized_content_sha256": "21102f145ca0f5a61abc2d60b56be2d3ee774602d84a6be409e855b0fefcc1fd",
+      "git_normalized_bytes": 6632,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_production_build_01.json": {
+      "raw_sha256": "2abb7862ef93d8eedf55156ef4b6511314c024f8aa3e7cbfb733547e6b4e9fb2",
+      "raw_bytes": 490,
+      "git_normalized_blob_oid": "9f6b4bc2bbb6e32e038599415b8eaeb5e4545ec8",
+      "git_normalized_content_sha256": "09380886ccc4876e57d0fe860642f2fcbd6780111f023fdd09e08b5f58c149da",
+      "git_normalized_bytes": 476,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_production_build_01.log": {
+      "raw_sha256": "dd2aa2244c7ab992251e7e50da69a78b25a3b9b9434a19e2658770ab6a98f2e8",
+      "raw_bytes": 16199,
+      "git_normalized_blob_oid": "ac514251fe88f8e1349b6de103642bee63bc188f",
+      "git_normalized_content_sha256": "dd2aa2244c7ab992251e7e50da69a78b25a3b9b9434a19e2658770ab6a98f2e8",
+      "git_normalized_bytes": 16199,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_production_elf_01.json": {
+      "raw_sha256": "2af371286bd1b9a107251a6e77d08c50469b622d42430daeca088853811b5afa",
+      "raw_bytes": 551,
+      "git_normalized_blob_oid": "2b758c3a722d0c4a52df257e879296b7c086dbc5",
+      "git_normalized_content_sha256": "b8d33585858078bfa7f10a792e6f04acd0b0d614805ad7d98a2d0492caf7c89d",
+      "git_normalized_bytes": 535,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/baseline_production_elf_01.log": {
+      "raw_sha256": "2df01607f22ee779d71c5829680ad8d0d77fba272df3617e7ec6d360334b9e36",
+      "raw_bytes": 383,
+      "git_normalized_blob_oid": "3102b576b8e1a0ef519c4a90f28be482a936448c",
+      "git_normalized_content_sha256": "102754da00187c91e6872601029dfcb2a91d085995bc430af80db2d1f571b198",
+      "git_normalized_bytes": 375,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/decisions.md": {
+      "raw_sha256": "2e266ec514fa7806cf92c62214af0ce8488525d5694d196e47cf9917c88308ed",
+      "raw_bytes": 4469,
+      "git_normalized_blob_oid": "7e65122ae6797604fe9219bb5be9d355a3387d49",
+      "git_normalized_content_sha256": "2e266ec514fa7806cf92c62214af0ce8488525d5694d196e47cf9917c88308ed",
+      "git_normalized_bytes": 4469,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/design.md": {
+      "raw_sha256": "c54c91baa91de5f058a27d1893c1391018c561f8cf41cbb4a9756ff187623ed4",
+      "raw_bytes": 7376,
+      "git_normalized_blob_oid": "6291d5b57919543d1381ba0451ffc57c9c8217f3",
+      "git_normalized_content_sha256": "c54c91baa91de5f058a27d1893c1391018c561f8cf41cbb4a9756ff187623ed4",
+      "git_normalized_bytes": 7376,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/fixture_manifest.json": {
+      "raw_sha256": "ee20ebe29d875d0d79565fa0ec968337959431aae293bfdce5ff9556c56cb2a2",
+      "raw_bytes": 2700,
+      "git_normalized_blob_oid": "e0fe05b3f2e3cce49a0fe44737bd1330a82dfcf1",
+      "git_normalized_content_sha256": "ee20ebe29d875d0d79565fa0ec968337959431aae293bfdce5ff9556c56cb2a2",
+      "git_normalized_bytes": 2700,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/fixtures/host_snapshot/Cargo.lock": {
+      "raw_sha256": "23cd2a41181c9486b40b4cd3b8a11b7bfafd8dd4090cf82518fa2dcdec7cede6",
+      "raw_bytes": 2663,
+      "git_normalized_blob_oid": "e36cbc1a37f73e0daf53ec8041c1541e16de24ff",
+      "git_normalized_content_sha256": "23cd2a41181c9486b40b4cd3b8a11b7bfafd8dd4090cf82518fa2dcdec7cede6",
+      "git_normalized_bytes": 2663,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/fixtures/host_snapshot/Cargo.toml": {
+      "raw_sha256": "0cb684b47039f94c8ece891944ce546d0be32f088c2231bfa63bdb8ffbb4a85f",
+      "raw_bytes": 694,
+      "git_normalized_blob_oid": "8850c441df453e3650b8dd95d28dd1830a3b1a76",
+      "git_normalized_content_sha256": "0cb684b47039f94c8ece891944ce546d0be32f088c2231bfa63bdb8ffbb4a85f",
+      "git_normalized_bytes": 694,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/fixtures/host_snapshot/lib.rs": {
+      "raw_sha256": "b1c07e43afe8635828f6ffa4084ac699d690dc24da5dffe2d4c64afc67d9e5a2",
+      "raw_bytes": 40194,
+      "git_normalized_blob_oid": "070cfc67c4d38a48a414e7b1500154f80cdcdbc8",
+      "git_normalized_content_sha256": "b1c07e43afe8635828f6ffa4084ac699d690dc24da5dffe2d4c64afc67d9e5a2",
+      "git_normalized_bytes": 40194,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/fixtures/host_snapshot/memory_mod.rs": {
+      "raw_sha256": "32ec1ec9de76cedd1e97fa5f936a09bf03ab5143e86dfe8a6acad6903a619b92",
+      "raw_bytes": 12717,
+      "git_normalized_blob_oid": "6543a273cc0fe497679b6f7602624dbdc868ce0b",
+      "git_normalized_content_sha256": "32ec1ec9de76cedd1e97fa5f936a09bf03ab5143e86dfe8a6acad6903a619b92",
+      "git_normalized_bytes": 12717,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/fixtures/host_snapshot/paging.rs": {
+      "raw_sha256": "62d153983d2d23d2b4df3cbe0dc00f61c674262ddb4d037c38e0fda33a00479e",
+      "raw_bytes": 34762,
+      "git_normalized_blob_oid": "bcc637a27fd68a8e2628ac432fd341ed01a967d8",
+      "git_normalized_content_sha256": "62d153983d2d23d2b4df3cbe0dc00f61c674262ddb4d037c38e0fda33a00479e",
+      "git_normalized_bytes": 34762,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/fixtures/retained_owner_baseline_tests.rs": {
+      "raw_sha256": "333023b042f55beac57bfd6b1f109c1ae19054d9f05f801addd5345488c9db89",
+      "raw_bytes": 5457,
+      "git_normalized_blob_oid": "ae1fd514bf93f4a71655165b62135cf3b6f3e8c0",
+      "git_normalized_content_sha256": "333023b042f55beac57bfd6b1f109c1ae19054d9f05f801addd5345488c9db89",
+      "git_normalized_bytes": 5457,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/independent_boundary_review.json": {
+      "raw_sha256": "744f47e541d6619bc05e07876e994930167ea8cfc8f0cb411c48860809368bd4",
+      "raw_bytes": 36334,
+      "git_normalized_blob_oid": "67553f9bfd8452d2be9e8aa1b7889e85c52ae5d9",
+      "git_normalized_content_sha256": "744f47e541d6619bc05e07876e994930167ea8cfc8f0cb411c48860809368bd4",
+      "git_normalized_bytes": 36334,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/independent_budget_review.json": {
+      "raw_sha256": "2b5da3cdeeda6ab2fecbb47c0a2ffcf0d13708da219608d50bb2319acaf2da29",
+      "raw_bytes": 22056,
+      "git_normalized_blob_oid": "2343e90b6aa647902e1cfff7e1167624f472d38d",
+      "git_normalized_content_sha256": "2b5da3cdeeda6ab2fecbb47c0a2ffcf0d13708da219608d50bb2319acaf2da29",
+      "git_normalized_bytes": 22056,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/probe_format_01.json": {
+      "raw_sha256": "efdc115e349c4d818359106f5f33d5f8622a59f9bbfb842cfd74979630b8a52a",
+      "raw_bytes": 614,
+      "git_normalized_blob_oid": "a98b2eda0a205022b164dcdb8759a0452bc2b67a",
+      "git_normalized_content_sha256": "388e7da1dd9a17eb99d77794e849d7468411eb655b941f6767f9a4ccefb326e8",
+      "git_normalized_bytes": 596,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/probe_format_01.log": {
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_bytes": 0,
+      "git_normalized_blob_oid": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "git_normalized_content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_normalized_bytes": 0,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/rabbit_holes.md": {
+      "raw_sha256": "da6b1d11a048001f461e12968574a83aca7db90223ff33932978b0279dcc26b5",
+      "raw_bytes": 1593,
+      "git_normalized_blob_oid": "76ad6ccce363e38467f2d4987c47e9239109ad8e",
+      "git_normalized_content_sha256": "da6b1d11a048001f461e12968574a83aca7db90223ff33932978b0279dcc26b5",
+      "git_normalized_bytes": 1593,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/recovery.json": {
+      "raw_sha256": "144266cedf413e1017f948d5a7635676a430169d81492688dc7796d1116c2fb6",
+      "raw_bytes": 3892,
+      "git_normalized_blob_oid": "b35cd01a08935fd76e3aae7ef96eb4abe9c9835a",
+      "git_normalized_content_sha256": "144266cedf413e1017f948d5a7635676a430169d81492688dc7796d1116c2fb6",
+      "git_normalized_bytes": 3892,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/checkpoint_paths.json": {
+      "raw_sha256": "66755310d9f18c73a66b8307ed150ee7947ec24a5385004d4bc5ee60718e2b09",
+      "raw_bytes": 10510,
+      "git_normalized_blob_oid": "a14875a7edeed455048e0d6406c3277ef0df4cb5",
+      "git_normalized_content_sha256": "66755310d9f18c73a66b8307ed150ee7947ec24a5385004d4bc5ee60718e2b09",
+      "git_normalized_bytes": 10510,
+      "newline_normalization_only": true,
+      "proposed_commit": true
+    },
+    "test_results/phase11f1_retained_owner/FINAL_REPORT.md": {
+      "raw_sha256": "ee6b21ed4da1a286d362bb9963bf5a07eaa7acaab28221fb3218275caf5bfbb6",
+      "raw_bytes": 11855,
+      "git_normalized_blob_oid": "f50dd1aaa4365cb43c375b0e5011f5f859f224e3",
+      "git_normalized_content_sha256": "ee6b21ed4da1a286d362bb9963bf5a07eaa7acaab28221fb3218275caf5bfbb6",
+      "git_normalized_bytes": 11855,
+      "newline_normalization_only": true,
+      "proposed_commit": false
+    },
+    "test_results/phase11f1_retained_owner/STATE.md": {
+      "raw_sha256": "a949aa48ec7165fd3229021ad609b50714ca1477463ae2e5e27f3385dd6d319c",
+      "raw_bytes": 2903,
+      "git_normalized_blob_oid": "aef259a7f136a4ba971f7f8e6992cee538af5941",
+      "git_normalized_content_sha256": "a949aa48ec7165fd3229021ad609b50714ca1477463ae2e5e27f3385dd6d319c",
+      "git_normalized_bytes": 2903,
+      "newline_normalization_only": true,
+      "proposed_commit": false
+    },
+    "test_results/phase11f1_retained_owner/evidence_manifest.json": {
+      "raw_sha256": "eb0864a9549f5e678723f28ce832522fbe2dcdee5aeba460ae816582b643ce32",
+      "raw_bytes": 9817,
+      "git_normalized_blob_oid": "23f08a4980bf8c1bfabf3db603a8073f61780922",
+      "git_normalized_content_sha256": "eb0864a9549f5e678723f28ce832522fbe2dcdee5aeba460ae816582b643ce32",
+      "git_normalized_bytes": 9817,
+      "newline_normalization_only": true,
+      "proposed_commit": false
+    },
+    "test_results/phase11f1_retained_owner/initial_raw_hashes.json": {
+      "raw_sha256": "59959033b607659be4dc1dc4e326d2bc3829cbc3040aeff41b59ec29afca379e",
+      "raw_bytes": 576275,
+      "git_normalized_blob_oid": "2a65e1c2d7aa36b9d59869ee3c20311b37d8cf0c",
+      "git_normalized_content_sha256": "59959033b607659be4dc1dc4e326d2bc3829cbc3040aeff41b59ec29afca379e",
+      "git_normalized_bytes": 576275,
+      "newline_normalization_only": true,
+      "proposed_commit": false
+    }
+  },
+  "verification_limits": [
+    "This is an independent offline pre-commit review; no tests/builds/guests were executed by reviewer. Process exits are read from actual saved invocation reports and corroborating logs, not independently witnessed live child handles.",
+    "No architectural CPU manual, emitted F1 implementation assembly, cumulative stack high-water or hardware lifetime claim is certified.",
+    "No new approval is inferred for source bytes from historical reviewers; no historical pin was modified.",
+    "Hash stability proves preserved reviewed bytes, not exclusive writer ownership or complete process history.",
+    "Only checkpoint_review.json is written by this reviewer; no source/doc/fixture edits, builds, QEMU, remote, skill changes or commit operations."
+  ],
+  "required_next_step": "Parent must read this complete saved verdict, stage only approved exact normalized blobs plus this immutable verdict, then obtain a distinct independent post-commit membership/blob/preservation readback. Full F1 remains DESIGN STOP."
+}

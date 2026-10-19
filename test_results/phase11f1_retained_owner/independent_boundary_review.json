@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "review_kind": "Independent read-only F1 authority-boundary and resource-bound design review",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "head": "b765abcc1350323357accf3623aec42a6185494c",
+  "branch": "maintenance/phase10",
+  "verdict": "REJECT_FULL_F1_COMPLETION_APPROVE_ONLY_BOUNDED_PARTIAL_DESIGN",
+  "full_f1_design_approved": false,
+  "implementation_verified": false,
+  "cpl3_ready": false,
+  "summary": "A two-frame, same-map, terminal retained-owner prerequisite can be defensible without a new per-frame CPU-lifetime ledger, provided real mutation boundaries enforce an irreversible freeze. It cannot close the documented F1 manifest requirement while future user/transition/emergency stack policy bounds remain unspecified. Current source has no proposed smoke freeze. Approval below is only of a restricted partial design, not of implementation, F1 completion, or entry.",
+  "approval_scope": {
+    "approved_in_principle": [
+      "Exactly one private statically initialized smoke owner, no exported guard/reference/callback, with first-attempt latch set before any acquisition or fallible preparation and no production reset/retry.",
+      "Exactly two fixed Option<FrameLease> slots, one future payload frame and one distinct dedicated supervisor sentinel, acquired only through the existing allocator/domain. At most two successful ordinary acquisitions, no replacement/search loop, no new PageMap/directory/table, and no dynamic owner backing.",
+      "Existing retained PAGE_MAP and CR3 identity, supervisor-only effective mappings, no USER publication, no TSS installation, no CPL3 entry, and no ordinary API relaxation.",
+      "A cooperative-kernel whole-domain paging/frame authority freeze at the actual audited mutation boundaries, rather than an additional per-frame CPU-lifetime ledger, for the terminal single-map policy only.",
+      "Any partial-preparation failure permanently consumes the one attempt and retains every successful acquisition in the static owner; no rollback, cleanup, retry, shell resumption, or successful-entry claim. An invocation wrapper must terminate nonreturningly after dropping guards."
+    ],
+    "not_approved": [
+      "Calling this partial two-frame prerequisite full F1 GREEN/completion under the current B19 document.",
+      "Inventing future stack sizes, descriptor layouts, emergency mechanisms, target owner byte sizes, or measured high-water from this source inspection.",
+      "Any existing implementation of the proposed freeze: none is present in reviewed source.",
+      "F2-F5 implementation, USER/TSS/CPL3, general teardown, recoverable continuation, new address spaces, per-map transfer, shared/COW ownership, remote work, builds, acceptance, QEMU, deployment, storage operations, or push."
+    ]
+  },
+  "blocking_findings": [
+    {
+      "id": "B1_FUTURE_POLICY_MANIFEST_MISSING",
+      "severity": "blocks_full_F1_design_approval",
+      "evidence": ["docs/PHASE11_MEMORY_AUTHORITY.md:310-321", "docs/PHASE11_MEMORY_AUTHORITY.md:362-367", "docs/PHASE11_MEMORY_AUTHORITY.md:432-435", "test_results/phase11b19_closure_design/independent_review.json:29-32,51"],
+      "finding": "F1 explicitly must declare a fixed manifest of code, user-stack, transition/emergency backing, new tables, descriptors and metadata. Zero currently acquired future stack frames is a bound on this partial implementation's acquisitions, not a nonzero policy reservation for a future smoke. A readiness=false bit does not supply a numeric future admission cap. The earlier conditional design approval explicitly approved no retained-capacity estimate.",
+      "required_resolution": "Either keep this as an explicitly incomplete F1 prerequisite and report the full F1 resource-manifest gate BLOCKED, or first supply an independently justified finite policy envelope for every future resource class (including counts for stacks/guards, descriptors/metadata and new tables). F3 may validate/refine actual layouts and measured headroom within that envelope; an exceeded envelope requires new review, not automatic expansion. No numeric future stack envelope is approved by this review."
+    },
+    {
+      "id": "B2_REAL_FREEZE_NOT_IMPLEMENTED",
+      "severity": "blocks_implementation_and_F1_acceptance",
+      "evidence": ["src/memory/frame.rs:201-361,378-418,445-556,608-624", "src/memory/paging.rs:182-229,310-335,362-477,484-583,691-705,745-838,898-922"],
+      "finding": "Present retained=true protects only unpublished structure cleanup. It does not prohibit frame allocation/free/init/growth/pin edits or map/unmap/CR3 mutation. An owner-only latch/flag cannot close these paths.",
+      "required_resolution": "Implement and independently review fail-before-side-effect guards at the listed boundaries, plus serialization of the joint seal. All privileged helper paths and alternate CR3 activation must be dominated. No approval of source safety follows from this design review."
+    },
+    {
+      "id": "B3_TERMINAL_AND_CRITICAL_SECTION_PATH_UNSPECIFIED",
+      "severity": "blocks_implementation_acceptance",
+      "evidence": ["src/memory/mod.rs:60-61,193-240,302-313", "src/allocator.rs:240-283,308-317", "src/main.rs:456-484", "src/reboot.rs:9-25", "src/utils/mutex.rs:35-46,63-66"],
+      "finding": "A sealed attempt cannot return into the production shell/heap-growth path. A second attempt must refuse before taking the owner lock, especially after terminal. New owner lock ordering, allocation-free snapshots, guard release and failure halt must be explicit. Current main ends in a returning shell poll loop, not a dedicated smoke terminal path.",
+      "required_resolution": "Provide a dedicated explicit invocation and nonreturning terminal wrapper, retain all acquisitions before any fallible check, release every guard before lockfree terminal diagnostics/halt, and prohibit shell/reboot/IRQ reentry into preparation. Demonstrate the lock order and no locked allocation/destruction in future source/tests."
+    }
+  ],
+  "resource_bound_assessment": {
+    "can_full_F1_exclude_numeric_future_stack_policy_until_F3": false,
+    "reason": "The documented F1 requirement is bounded inventory AND policy reservation. F3 may defer actual stack mechanism/layout/high-water validation, but not erase the finite admission envelope F1 promises. Unknown future stacks mean full F1 remains incomplete, not unsafe entry approved by a cap of zero.",
+    "smallest_defensible_alternative": {
+      "name": "F1 retained-owner/freeze partial checkpoint; full F1 manifest gate remains open",
+      "rationale": "This adds no fabricated stack budget and no new CPU lifetime ledger. It is a truthful subset of F1 rather than another claimed completed slice. Parent must not relabel it full F1 or alter the earlier independent review to imply approval.",
+      "exact_partial_manifest": {
+        "ordinary_frame_lease_slots": 2,
+        "maximum_successful_ordinary_acquisitions": 2,
+        "frame_bytes": 4096,
+        "maximum_incremental_ordinary_frame_bytes": 8192,
+        "slot_roles": ["future_payload_unpublished", "dedicated_supervisor_sentinel"],
+        "incremental_directories": 0,
+        "incremental_page_tables": 0,
+        "incremental_user_stack_frames": 0,
+        "incremental_transition_stack_frames": 0,
+        "incremental_emergency_stack_frames": 0,
+        "incremental_GDT_IDT_TSS_installations": 0,
+        "dynamic_owner_or_manifest_allocations": 0,
+        "maximum_new_USER_leaves": 0,
+        "future_resources_ready": false,
+        "existing_backing": "Borrow existing PAGE_MAP/domain/directory/tables/Vec backing, kernel image/boot stack and already installed descriptor resources without copying or transferring them. Boot stack allocation in src/boot.s is 16384 bytes; that is not measured available stack/headroom. Record actual map/directory/domain and inherited inventories separately from the two-frame delta.",
+        "static_owner_bytes": null,
+        "static_owner_bytes_reason": "Require exact target-layout/emitted owner storage evidence after implementation; Option<FrameLease> target layout and mutex metadata are not inferred from source.",
+        "preparation_stack_high_water": null,
+        "preparation_stack_high_water_reason": "No build or target code inspected. Must establish bounded emitted F1 call-frame use/headroom before F1 implementation acceptance; do not copy/construct FrameAllocator by value."
+      },
+      "partial_failure_inventory": [
+        "Latch/preflight failure before acquisition: zero retained leases, permanently terminal attempt.",
+        "First acquisition refused: zero retained leases; no second search or retry.",
+        "First acquired but alias validation or second acquisition refused: first lease remains retained, at most one frame.",
+        "Both acquired and any later check refused: both leases remain retained, at most two frames.",
+        "Success: two distinct ordinary leases retained; no runtime payload mapping or USER leaf published in F1."
+      ],
+      "future_complete_F1_requirement": "A later reviewed manifest must specify numeric admission caps for all future resource classes, overflow-checked total incremental retention including partial failures, and existing retained storage separately. F3/F4 must select actual ranges/identities within those caps before arming. Future source versions prepare ALL resources before the final seal: an F1 freeze is not temporarily lifted in the same boot for F3/F4."
+    },
+    "alternative_if_full_F1_completion_is_mandatory_now": "STOP for a reviewed concrete finite future policy envelope. This inspection does not justify choosing stack frame counts or emergency backing. Do not invent values merely to pass an F1 checklist. A maximum arena of 4 MiB alone does not bound privileged/emergency stack backing or prove stack sufficiency."
+  },
+  "required_boundary_audit": [
+    {
+      "boundary": "Frame initialization/reset",
+      "source": "src/memory/frame.rs:201-361",
+      "paths": ["init", "init_with_reservations"],
+      "requirement": "Refuse frozen domain before issue_domain, debug output, malformed-reservation handling, initialized/domain changes, bitmap clearing or accounting. Existing live-allocation checks alone are not a smoke seal. No reset/unseal API; no whole-value replacement of the private global owner."
+    },
+    {
+      "boundary": "Ordinary allocation and identity generation",
+      "source": "src/memory/frame.rs:366-418",
+      "paths": ["allocate_stamped", "allocate", "allocate_owned", "issue_allocation_id"],
+      "requirement": "Guard the common stamped allocation core before scan/id issuance/bitmaps/counters; wrappers cannot escape. Preserve production behavior when smoke has never been invoked. Initialization of another allocator must not give it authority to mutate the frozen active map."
+    },
+    {
+      "boundary": "Numeric and owned releases",
+      "source": "src/memory/frame.rs:445-525",
+      "paths": ["release_by_address", "free", "release_frame"],
+      "requirement": "Guard raw core AND release_frame early enough that frozen refusals do not increment diagnostics before reaching core if exact-state refusal is claimed. No availability, allocation-id or growth-claim changes. release_frame consumes a passed lease even on refusal; smoke owner must never move a retained lease into it. Negative tests must not destroy the only retained authority token."
+    },
+    {
+      "boundary": "Heap growth claims and rollback",
+      "source": "src/memory/frame.rs:534-556; src/memory/mod.rs:302-313; src/allocator.rs:269-282",
+      "paths": ["claim_growth_frame", "heap_grow_frame", "map_growth_claim", "free on mapping failure"],
+      "requirement": "Freeze must refuse claim before accounting so no failed-map rollback is needed after sealing. Check whole operation before claim and serialize sealing under PAGE_MAP then FRAME_ALLOC. Existing heap allocation may still use already mapped heap space; this is not a freeze of all heap writes. Smoke code must not allocate after seal or rely on growth succeeding."
+    },
+    {
+      "boundary": "Pin mutation",
+      "source": "src/memory/frame.rs:608-624; src/memory/paging.rs:205-212,452-472,577-579,762-826",
+      "paths": ["set_runtime_pin(true/false)", "set_structure_pin(true/false)"],
+      "requirement": "Refuse BOTH set and clear after freeze, and guard every enclosing transaction before any table write or other state change. Silently making a void setter no-op while caller continues to publish/reclaim is NOT sufficient. Preserve checked infallible commit preconditions or propagate refusal safely. No allocation-freeing helper may continue after denied pin mutation."
+    },
+    {
+      "boundary": "Map and unmap",
+      "source": "src/memory/paging.rs:310-335,362-477,484-583",
+      "paths": ["map_owned", "map_growth_claim", "map_authorized", "unmap_owned", "unmap_authorized", "cfg(test) numeric adapters"],
+      "requirement": "Guard common private mutation cores plus wrappers before diagnostics if exact-state refusal is promised; include both map-local and allocator-domain freeze consistency. Refuse before table allocation/zeroing, PDE/PTE writes, pin edits, local payload bitmap, counters or invalidation. No same-domain second PageMap may bypass a sealed active-domain restriction. Test numeric adapters must exercise the same gates, not supply production escape routes."
+    },
+    {
+      "boundary": "Unpublished cleanup and borrowed bootstrap construction",
+      "source": "src/memory/paging.rs:182-229,745-838; src/memory/mod.rs:165-240",
+      "paths": ["release_unpublished_frames", "retain_for_publication", "build_identity_map_with_backing_in_place", "prepare"],
+      "requirement": "Cleanup must refuse before clearing a role, revoking map metadata or freeing frames. Builder is a separate privileged raw-write path; refuse frozen domain at entry BEFORE directory allocation/zero_table, not merely by hoping allocation later fails. Its exhaustion cleanup must remain pre-seal only. prepare must not replace a published owner. retain_for_publication is structure lifetime only, not permission freeze, and must not become an unseal/reset path."
+    },
+    {
+      "boundary": "CR3 / CR0 activation and full flush",
+      "source": "src/memory/paging.rs:691-705,898-922; src/memory/mod.rs:244-250",
+      "paths": ["flush_tlb", "paging::enable_paging", "memory::enable_paging"],
+      "requirement": "Reject after smoke seal before retention metadata, stats, PAGING_ENABLED or asm effects. No reload, switch, enable or alternate fresh PageMap activation is permitted after seal, even a map not carrying the active map's local seal bit. Use the shared invocation seal/global activation gate or equivalent dominating owner restriction. Check the CR3 actually active at preparation/seal, not merely PAGE_MAP.directory or software PAGING_ENABLED. A read-only CR3 observation is allowed."
+    },
+    {
+      "boundary": "Raw table writes and invalidation",
+      "source": "src/memory/paging.rs:661-687,841-849",
+      "paths": ["write_entry", "zero_table", "invalidate_page"],
+      "requirement": "Private helpers lack map/domain inputs and cannot infer authority alone. All production callers must be guarded and serialized; keep them private, no callback/raw writable pointer escapes. Every future USER transaction must join this same seal. Host MIRROR writes allocate and are not proof of allocation-free hardware critical sections. Hardware accessed/dirty-bit changes are not forbidden software authority mutations and must be distinguished in snapshot tests."
+    }
+  ],
+  "alias_and_active_map_checks": [
+    "Both retained frames must be authenticated live ordinary leases, distinct, non-growth, non-runtime-pinned and non-structure-pinned under the same allocator guard. A successful allocate_owned is not physical accessibility proof.",
+    "Before zero/copy/sentinel writes, verify active CR3 matches retained PAGE_MAP directory and paging mode is the expected current map. For each complete frame verify identity translate(frame)==frame and effective PRESENT/RW/supervisor at PDE and PTE. For a stronger all-aliases-supervisor assertion inspect leaf bits and any aliases rather than treating one effective supervisor permission query as a complete audit.",
+    "No new mappings are necessary for the two F1 frames: use their already existing supervisor identity aliases. The future payload remains unpublished to users; the sentinel is dedicated acquired backing, not live kernel data.",
+    "Alias refusal is terminal on the first candidate. Store an acquired lease in its static slot before performing a fallible accessibility check; never return/drop the only token and pretend rollback happened.",
+    "No generalized arbitrary-physical-memory capability or reference escapes the private owner; record scalar identities only. Supervisor aliases are writable by trusted Ring 0, so this policy cannot defend against arbitrary malicious kernel raw writes."
+  ],
+  "lock_order_review": {
+    "existing_order": "HEAP -> PAGE_MAP -> FRAME_ALLOC",
+    "existing_evidence": ["src/memory/mod.rs:60,193-214,234-239,302-313", "src/allocator.rs:308-317", "src/utils/mutex.rs:35-46"],
+    "finding": "Existing production owner paths use map then frame and growth arrives from heap. SpinMutex is neither recursive nor IRQ-disabling. Its guards expose mutable values internally; privacy and no replacement paths remain part of the audit.",
+    "required_smoke_order": "Attempt compare-exchange before new owner lock. If a separate smoke mutex is used, only the explicit boot invocation takes it, then PAGE_MAP then FRAME_ALLOC; all leaf freeze checks must be allocation-free atomic/per-instance scalar checks and must NEVER reacquire smoke owner. No existing map/frame path may acquire smoke owner. Alternatively place retained smoke state inside an owner whose established order can be proved without a new cycle.",
+    "rules": [
+      "No heap acquisition, allocation, formatting requiring allocation, callback invocation, or Vec destruction under smoke/map/frame guards. Fixed Option slots and scalar error values avoid backing allocation. Reserve any future heap backing before these guards.",
+      "Joint freeze preflight/commit holds PAGE_MAP then FRAME_ALLOC and verifies domain/directory/active identity before setting monotonic seals; no intermediate operation may observe a partially applied freeze. Single-vCPU, no IRQ memory-owner access and no concurrent producer are explicit prerequisites, not inferred from SpinMutex.",
+      "Never lock FRAME_ALLOC and then call page_snapshot/page_directory/other PAGE_MAP accessor. Use already held owners, not recursive accessors; take diagnostic snapshots only once and output after guards are dropped.",
+      "The repeated-attempt fast refusal should occur before smoke-owner locking or any acquisitions. Terminal diagnostics/halt hold no smoke/map/frame/heap guard. Failed attempts that acquired anything must enter the same irreversible no-release/no-retry terminal retention policy; do not leave a cleanup window while returning an error.",
+      "A global freeze is not a blanket immutable-byte guarantee: existing heap free-list writes and CPU table accessed/dirty updates can still occur. Avoid owner metadata on reclaimable heap backing and prohibit smoke path resumption into ordinary shell work."
+    ]
+  },
+  "privileged_callers_and_scope_audit": {
+    "production_mutation_callers_identified": [
+      "main::prepare_boot_memory -> memory::prepare -> FrameAllocator::init / build_identity_map_with_backing_in_place / retain_for_publication / unpublished failure cleanup.",
+      "kernel_main -> memory::enable_paging -> paging::enable_paging (CR3 and CR0 writes).",
+      "GlobalAlloc::alloc -> KernelHeap::alloc_inner -> memory::heap_grow_frame -> claim_growth_frame -> map_growth_claim -> private map core; failed publication -> numeric free.",
+      "Private paging builder/runtime map/unmap/cleanup implementations contain all observed structure pin, payload pin, table zero/write and numeric frame free/allocation mutations in production memory source.",
+      "flush_tlb is a privileged CR3 reload helper even though no external production call was found. It must be gated, not dismissed as unused.",
+      "memory::boot_copy::copy_module validates via scalar check before unlocked heap allocation and reads physical module bytes; it is not a table mutation API. Its heap allocation can reach growth, hence exclude it from sealed smoke execution.",
+      "kernel_main normally continues to boot work and shell::poll; the smoke invocation must branch to a nonreturning terminal fixture, not return here. reboot::reboot intentionally changes IDT and attempts reset/triple fault, so it must be unreachable from the smoke terminal path.",
+      "Inspected keyboard/timer handlers are lockfree ring/atomic/port paths, with no memory owner calls; inspected fatal exception handlers halt. Their actual ABI/emergency containment remains F2/F3 work and is not approved here."
+    ],
+    "search_method": "Read complete production portions of frame.rs (1-633), full mod.rs and paging.rs, focused allocator/main/interrupt callers, full mutex, boot.s, boot_copy.rs, reboot.rs and cpu.rs. Regex reconnaissance searched src Rust/assembly for owners, frame/map mutations and control registers; a second tracked Rust/assembly/C/header reconnaissance excluded test-named files and tests/crates trees and examined privileged-name matches outside memory. Script API probes are host fixtures, not kernel paths.",
+    "no_other_control_register_writer_found_in_reconnaissance": true,
+    "limits": [
+      "Not a complete unsafe-pointer or inline-assembly semantic audit of every kernel file/dependency. A regex match inventory cannot prove absence of obfuscated register/table writes or raw aliases. The listed actual memory boundaries must be re-audited against final changed source.",
+      "New descendants of memory/paging can access private helpers; Rust privacy is not a hardware protection boundary against trusted kernel code.",
+      "No arbitrary Ring-0 adversary, SMP, AP/DMA or firmware mutation protection is claimed. Single-vCPU terminal smoke scope only.",
+      "No full descriptor/exception ABI review, architecture manual verification, target disassembly, builds, tests, acceptance or QEMU was performed. No historical test/guest result was independently replayed."
+    ]
+  },
+  "implementation_acceptance_obligations_not_executed": [
+    "Baseline RED then candidate GREEN for each public/private-core numeric/owned allocation, release, reset, growth, pin, map/unmap, builder/release and CR3 boundary, with exact snapshots of identities/bitmaps/inventories/capacity and either unchanged diagnostics or an explicit narrower diagnostics contract. Include invalid-input early-wrapper paths and foreign/same-domain alternative-map controls.",
+    "Every first/second acquisition and post-acquisition alias failure retains the exact bounded inventory, consumes first attempt and denies all retry/cleanup. No alternate-candidate loop, owner reset or heap backing fallback.",
+    "Joint seal success/failure never leaves a partial freeze and no refusal can continue to PTE publication or cleanup after denied pin mutation. Preserve predecessor authority test identities and distinguish cfg(test) mirrors from production.",
+    "Exact target static-owner storage and bounded preparation call frames/headroom; no by-value FrameAllocator or PageMap construction/copy on boot stack. Separate compile-time counts from measured high-water.",
+    "Dedicated future Ring-0 fixture demonstrates actual active CR3, both supervisor identity aliases, capacity delta and terminal failure/no retry, with CPL3 disabled. This review did not run it and does not waive canonical checkpoint requirements."
+  ],
+  "inspected_raw_identities": [
+    {"path":"docs/PHASE11_MEMORY_AUTHORITY.md","raw_sha256":"340242d8eece3683a4d861b8082bc4870ad038bb87ed3bd2ca5a61786cbf793d","bytes":46751,"read_scope":"187-446"},
+    {"path":"test_results/phase11b19_closure_design/independent_review.json","raw_sha256":"8b1a90ecb25d9fecd8a26588abeee1bf04e6027952779360ba5504f76020f793","bytes":15082,"read_scope":"complete"},
+    {"path":"src/memory/mod.rs","raw_sha256":"c2bdb8371c042c803f804cd9832c1caf5f1a1a498f62c0ee4ea9bb3fd2d9e53e","bytes":12226,"read_scope":"complete"},
+    {"path":"src/memory/frame.rs","raw_sha256":"9a443ab069767c9b2c3b02befcb98c07419fa3a67929092c3eb6b7677d9d671e","bytes":31939,"read_scope":"1-780; production portion complete at 633; remaining test tail not read"},
+    {"path":"src/memory/paging.rs","raw_sha256":"192be102c33db2db8fc1f5923f72a19b7b585c6baf60de6b157f9d00b68a3354","bytes":34148,"read_scope":"complete"},
+    {"path":"src/allocator.rs","raw_sha256":"0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d","bytes":13455,"read_scope":"180-334 and reconnaissance matches"},
+    {"path":"src/main.rs","raw_sha256":"f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91","bytes":21065,"read_scope":"1-224,315-484 and reconnaissance matches"},
+    {"path":"src/utils/mutex.rs","raw_sha256":"592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586","bytes":1558,"read_scope":"complete"},
+    {"path":"src/boot.s","raw_sha256":"162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6","bytes":1686,"read_scope":"complete"},
+    {"path":"src/memory/boot_copy.rs","raw_sha256":"abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2","bytes":3838,"read_scope":"complete"},
+    {"path":"src/reboot.rs","raw_sha256":"32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6","bytes":1095,"read_scope":"complete"},
+    {"path":"src/cpu.rs","raw_sha256":"f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f","bytes":1495,"read_scope":"complete"},
+    {"path":"src/interrupt.rs","raw_sha256":"98b7d296ee393978bc3e15225037cf47823cf528a29aabd07b39ff9a52faa76f","bytes":19055,"read_scope":"300-449 and function/lock/IRQ reconnaissance"}
+  ],
+  "preservation": {
+    "initial_git_status": [" M README.md", "?? d1/", "?? docs/ROSTI_INIT_ARCHITECTURE.md", "?? scripts/b13_boot_fixture.py.backup"],
+    "protected_paths_touched": false,
+    "production_source_edited": false,
+    "builds_or_QEMU_run": false,
+    "only_authorized_write": "test_results/phase11f1_retained_owner/independent_boundary_review.json",
+    "skill_updates": "None: reviewer uniquely owns only this verdict artifact."
+  },
+  "exact_provisional_draft_review": {
+    "path": "test_results/phase11f1_retained_owner/design.md",
+    "raw_sha256": "c54c91baa91de5f058a27d1893c1391018c561f8cf41cbb4a9756ff187623ed4",
+    "bytes": 7376,
+    "read_scope": "complete, lines 1-41",
+    "verdict": "PARTIAL_STOP_FULL_F1_NOT_APPROVED",
+    "findings": [
+      "Lines 25-29 truthfully cap current acquisitions at two ordinary frames and explicitly disclaim the eventual budget. This is a valid partial acquisition bound, not the complete F1 policy reservation required by the authoritative document. Preserve that distinction.",
+      "Line 19 correctly flags incompatibility: after a real irreversible freeze, F3/F4 cannot acquire stacks/tables, set pins or install USER mappings in that boot. No privileged unseal, bypass flag, exceptional setter or temporary lift is approved. Future source versions must build all reviewed resources before one final seal. Any preparation-stage exception list would need separate complete transaction review.",
+      "Lines 17/35 require terminal failure retention but do not yet specify real leaf enforcement, joint seal serialization or exact lock nesting; the boundary audit above is mandatory. Line 35's alias prerequisite before acquisition can only check general map readiness; per-candidate alias validation necessarily occurs AFTER acquisition and must retain the failing candidate's lease.",
+      "Line 25 correctly excludes payload copy/zeroing in this partial F1; the broader approved-in-principle alias checks in this report are preconditions for any later raw use, not authorization to add copying now.",
+      "Line 39 is a request for a RED-first probe, not proof of any present no-unmap/no-free contract. The concrete baseline fixture below is acceptable to demonstrate the missing policy, but does not authorize a candidate implementation or resolve future resource limits."
+    ],
+    "recommendation": "STOP at the truthful partial checkpoint unless a complete source-grounded future admission policy is independently approved. A baseline runtime missing-policy probe may be added and run by the parent within its existing authorization; do not proceed to candidate production implementation on the strength of this verdict."
+  },
+  "approved_baseline_runtime_missing_policy_fixture": {
+    "approval": "Concrete baseline host-test design only; not executed or compiled by reviewer, and not candidate implementation approval.",
+    "placement": "Narrow cfg(test) descendant module of memory::paging, using the existing sibling test-module pattern. No production adapter/export, no global PAGE_MAP or FRAME_ALLOC publication, no privileged asm or QEMU. Host-only per-instance allocator construction is permitted here and must never migrate into production.",
+    "adapter": "A private test-only function named baseline_structure_retention_only(pm: &mut PageMap) that does exactly assert!(pm.retain_for_publication()). It must NOT claim to be an implemented smoke seal or alter allocator pins/state. Its name/comment must explicitly say baseline missing-policy probe: structure retention is not mutation freeze.",
+    "fixture_parameters": {
+      "usable_record": {"size":20,"base_addr":"0x10000","length":"0x70000","type_":1},
+      "init_arguments": ["bootinfo=0x90000", "bump_start=0xa0000", "bump_end=0xb0000"],
+      "identity_window_end": "0x80000",
+      "table_backing": "vec![0; PAGE_DIR_ENTRIES], test-only unlocked convenience builder",
+      "runtime_slot_for_unmap_probe": "GROWTH_START as u64",
+      "reason_valid": "Matches the inspected generation_ownership_tests.rs:22-35 fixture. Growth slot is explicitly permitted outside window_end by map_authorized; its missing page table comes from the ordinary low identity-mapped allocator pool and must satisfy the existing writable supervisor identity check. Setup must assert actual mapping success before testing refusal."
+    },
+    "independent_exact_test_proposals": [
+      {
+        "name": "f1_missing_policy_baseline_retained_map_still_allows_owned_unmap",
+        "steps": [
+          "Build fresh per-instance fixture. Acquire one lease with allocate_owned, save its numeric addr, map_owned at GROWTH_START using KERNEL_PERMS and assert setup succeeds. Assert translate(slot)==Some(addr), runtime_pinned(addr), payload_bit and owns_live_lease are all true.",
+          "Call baseline_structure_retention_only. Record complete paging state/capacity before the attempted operation. Call unmap_owned with the legitimate borrowed lease ONCE, save returned bool, and take the same owned snapshots afterward before assertions.",
+          "Assert !operation_result with an explicit missing-policy diagnostic, then assert before==after including PTE/PDE, pins, registry, map metadata, capacity and diagnostics. Current baseline should reach and fail the bool assertion because owned unmap succeeds; report that actual runtime assertion failure, not a compiler failure. Characterization evidence may additionally record the observed PTE clearing/runtime unpin, but must not change the expected target policy to success.",
+          "Do not attempt release in this test as the sole release oracle: if unmap assertion fails, the release branch would never execute. No production cleanup/reset or forced unretain is permitted. Local host fixture storage may end at test scope."
+        ]
+      },
+      {
+        "name": "f1_missing_policy_baseline_retained_map_still_allows_unpublished_owned_release",
+        "steps": [
+          "Build a separate fresh fixture. Acquire one ordinary lease that has NO runtime mapping/pin and no structure pin, assert owns_live_lease and !is_free, and retain the PageMap using the same baseline adapter.",
+          "Keep the legitimate lease. Create only a cfg(test) duplicate_for_test() probe (existing supported negative-oracle pattern), snapshot state, call release_frame(probe) ONCE, save bool, then snapshot again. The legitimate lease must remain in local test state so the fixture does not confuse token consumption with retention policy.",
+          "Assert !operation_result with explicit missing-policy diagnostic, then exact unchanged live identity/free/accounting/pins and paging snapshots. Baseline should reach and fail the bool assertion because an unpinned acquired frame can be released regardless of PageMap.retained. This deliberately unpublished lease models retained future payload/sentinel backing; a mapped lease would already fail release on its runtime pin and would be a vacuous RED oracle.",
+          "Do not release the retained original again or cleanup through a retained map. This is a test-only duplicated authority probe, not evidence of a production ability to clone FrameLease."
+        ]
+      }
+    ],
+    "snapshot_contract": "Adapt the inspected unmap_authority_tests.rs:171-211 owned snapshot pattern, adding both reject counters, directory/domain/retained/table inventory/window/enabled values and live-lease/free checks for the probe frame. Snapshot all allocator FrameStats fields, runtime/structure pin sets, payload bitmap and every PDE/PTE; do not assert payload-only allocated totals because builders/runtime table installation also allocate structures. Snapshot allocations are permitted only in this unlocked per-instance host fixture, never under global owners. Per-address live identity checks use owns_live_lease; no new public ledger access is required.",
+    "execution_contract": "Run each actual declared exact libtest identity independently and preserve raw output plus nonzero exit, requiring one executed failed runtime test with the intended assertion and successful setup. Compiler errors, zero-test success, setup failure or panic elsewhere are not the missing-policy RED. A GREEN characterization control with no retention adapter should verify ordinary map/unmap/release remain valid, without asserting a smoke policy. Preserve existing tests unchanged. The reviewer runs no build/test command.",
+    "candidate_transition": "Keep baseline source/hash and RED evidence immutable. Future candidate tests must invoke the REAL reviewed smoke seal in place of the labeled baseline adapter; the retain-only adapter cannot magically become the new allocator freeze. A candidate that makes all retain_for_publication calls freeze ordinary maps would break existing heap growth semantics and is not approved. Candidate GREEN still requires every boundary/failure and full manifest gate; two RED probes alone prove only missing policy at these two paths.",
+    "scope_limit": "The proposed mapped unmap probe is an authority-boundary negative control; the partial F1 production owner itself publishes no runtime mapping. These test fixtures do not prove active MMU behavior, terminal reachability or complete one-shot lifecycle."
+  },
+  "supplemental_inspected_raw_identities": [
+    {"path":"src/memory/structure_lifetime_tests.rs","raw_sha256":"261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b","bytes":5755,"read_scope":"complete"},
+    {"path":"src/memory/unmap_authority_tests.rs","raw_sha256":"54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76","bytes":8183,"read_scope":"complete"},
+    {"path":"src/memory/generation_ownership_tests.rs","raw_sha256":"1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7","bytes":6013,"read_scope":"complete"}
+  ],
+  "approval_authority": "This complete saved JSON is the verdict. Parent may use the restricted partial-design recommendation, but full F1 design completion is rejected until concrete future admission bounds are justified. All implementation and hardware obligations remain unexecuted blockers; approval is not transitive to later edited bytes."
+}

@@ -1,0 +1,26 @@
+{
+  "scope": "isolated baseline runtime probes; no live production/test-module edits",
+  "original_raw_sha256": {
+    "src/memory/mod.rs": "c2bdb8371c042c803f804cd9832c1caf5f1a1a498f62c0ee4ea9bb3fd2d9e53e",
+    "src/memory/paging.rs": "192be102c33db2db8fc1f5923f72a19b7b585c6baf60de6b157f9d00b68a3354",
+    "tests_kernel/src/lib.rs": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133",
+    "tests_kernel/Cargo.toml": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d"
+  },
+  "transform": "Only explicit module-path relocation, crate name/dependency relocation, and a cfg(test) probe module added to copied paging. Original production bodies unchanged except newline normalization. All ordinary source dependencies remain original source files.",
+  "post_compile_fixture_sha256": "333023b042f55beac57bfd6b1f109c1ae19054d9f05f801addd5345488c9db89",
+  "fixture_revision_note": "First compile control failed E0507 before runtime: PagingStats is not Copy. Corrected snapshot to scoped shared stats borrow only, no production edits or oracle weakening; first compile log retained.",
+  "initial_generated_sha256": {
+    "test_results\\phase11f1_retained_owner\\fixtures\\host_snapshot\\memory_mod.rs": "32ec1ec9de76cedd1e97fa5f936a09bf03ab5143e86dfe8a6acad6903a619b92",
+    "test_results\\phase11f1_retained_owner\\fixtures\\host_snapshot\\paging.rs": "62d153983d2d23d2b4df3cbe0dc00f61c674262ddb4d037c38e0fda33a00479e",
+    "test_results\\phase11f1_retained_owner\\fixtures\\host_snapshot\\lib.rs": "b1c07e43afe8635828f6ffa4084ac699d690dc24da5dffe2d4c64afc67d9e5a2",
+    "test_results\\phase11f1_retained_owner\\fixtures\\host_snapshot\\Cargo.toml": "0cb684b47039f94c8ece891944ce546d0be32f088c2231bfa63bdb8ffbb4a85f",
+    "test_results\\phase11f1_retained_owner\\fixtures\\retained_owner_baseline_tests.rs": "c6297583e432818da35fa92e1aa82f481d2aeb5610d4579e0c5379b601be4aa2"
+  },
+  "current_fixture_sha256": {
+    "test_results\\phase11f1_retained_owner\\fixtures\\host_snapshot\\memory_mod.rs": "32ec1ec9de76cedd1e97fa5f936a09bf03ab5143e86dfe8a6acad6903a619b92",
+    "test_results\\phase11f1_retained_owner\\fixtures\\host_snapshot\\paging.rs": "62d153983d2d23d2b4df3cbe0dc00f61c674262ddb4d037c38e0fda33a00479e",
+    "test_results\\phase11f1_retained_owner\\fixtures\\host_snapshot\\lib.rs": "b1c07e43afe8635828f6ffa4084ac699d690dc24da5dffe2d4c64afc67d9e5a2",
+    "test_results\\phase11f1_retained_owner\\fixtures\\host_snapshot\\Cargo.toml": "0cb684b47039f94c8ece891944ce546d0be32f088c2231bfa63bdb8ffbb4a85f",
+    "test_results\\phase11f1_retained_owner\\fixtures\\retained_owner_baseline_tests.rs": "333023b042f55beac57bfd6b1f109c1ae19054d9f05f801addd5345488c9db89"
+  }
+}

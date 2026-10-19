@@ -1,0 +1,76 @@
+{
+  "scope": "baseline emitted ELF only, not F1 delta or stack high-water",
+  "elf": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+  "sha256": "1304df61d0649a21eb091e71e45c37d34ed7e574e448f42cde6608be89501c2a",
+  "file_bytes": 6317300,
+  "allocated_sections": [
+    {
+      "name": ".multiboot",
+      "type": 1,
+      "flags": 3,
+      "address": 2097152,
+      "bytes": 12
+    },
+    {
+      "name": ".got",
+      "type": 1,
+      "flags": 3,
+      "address": 2097164,
+      "bytes": 80
+    },
+    {
+      "name": ".text",
+      "type": 1,
+      "flags": 6,
+      "address": 2101248,
+      "bytes": 705729
+    },
+    {
+      "name": ".rodata",
+      "type": 1,
+      "flags": 50,
+      "address": 2809856,
+      "bytes": 39285
+    },
+    {
+      "name": ".eh_frame_hdr",
+      "type": 1,
+      "flags": 2,
+      "address": 2849144,
+      "bytes": 28
+    },
+    {
+      "name": ".eh_frame",
+      "type": 1,
+      "flags": 2,
+      "address": 2849172,
+      "bytes": 68
+    },
+    {
+      "name": ".data",
+      "type": 1,
+      "flags": 3,
+      "address": 2850816,
+      "bytes": 371964
+    },
+    {
+      "name": ".got.plt",
+      "type": 1,
+      "flags": 3,
+      "address": 3222780,
+      "bytes": 12
+    },
+    {
+      "name": ".bss",
+      "type": 8,
+      "flags": 3,
+      "address": 3223552,
+      "bytes": 1137676
+    }
+  ],
+  "allocated_section_bytes": 2254854,
+  "allocated_span": 2264076,
+  "bootstrap_stack_bytes": 16384,
+  "future_stack_capacity_approved": false,
+  "runtime_peak_stack_bytes": null
+}

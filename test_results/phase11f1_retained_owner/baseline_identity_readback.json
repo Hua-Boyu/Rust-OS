@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "scope": "unchanged baseline only; no F1 implementation",
+  "host": {
+    "listed": 345,
+    "list_sha256": "2e8995dc65028b0be24a920ba061d608cef17a134142ba1909dd53a23952f88f",
+    "runs": {
+      "serial": {
+        "exit_code": 0,
+        "identities": 345,
+        "counts": {
+          "ok": 343,
+          "ignored": 2
+        },
+        "ignored_identities": [
+          "maintenance_measurements::measured_frame_scan_states",
+          "maintenance_measurements::measured_heap_capacity_loss"
+        ]
+      },
+      "parallel": {
+        "exit_code": 0,
+        "identities": 345,
+        "counts": {
+          "ok": 343,
+          "ignored": 2
+        },
+        "ignored_identities": [
+          "maintenance_measurements::measured_frame_scan_states",
+          "maintenance_measurements::measured_heap_capacity_loss"
+        ]
+      }
+    }
+  },
+  "b26": {
+    "listed": 116,
+    "list_sha256": "3bb0706a60b986d78acff25c59a73ba5d892ba97d779a16a821cb8ec163eaedc",
+    "runs": {
+      "serial": {
+        "exit_code": 0,
+        "identities": 116,
+        "counts": {
+          "ok": 116
+        },
+        "ignored_identities": []
+      },
+      "parallel": {
+        "exit_code": 0,
+        "identities": 116,
+        "counts": {
+          "ok": 116
+        },
+        "ignored_identities": []
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "../phase11f1_retained_owner/probe_format_01",
+  "command": [
+    "cargo",
+    "+nightly",
+    "fmt",
+    "--manifest-path",
+    "C:/Users/iamsv/Documents/Rust-OS/test_results/phase11f1_retained_owner/fixtures/host_snapshot/Cargo.toml",
+    "--check"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "started_utc": "2026-10-19T23:03:27.880603+00:00",
+  "status": "EXPECTED",
+  "exit_code": 0,
+  "ended_utc": "2026-10-19T23:03:28.298422+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\..\\phase11f1_retained_owner\\probe_format_01.log",
+  "totals": []
+}

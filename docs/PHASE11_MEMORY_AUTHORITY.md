@@ -1,5 +1,31 @@
 # Physical-memory authority — Phase 11A.2 partial inventory
 
+## Phase 11 F1 retained-owner attempt — PARTIAL / DESIGN STOP
+
+Task evidence: `test_results/phase11f1_retained_owner/STATE.md` and
+`FINAL_REPORT.md`. Implementation was authorized for F1 only, but no production
+owner or seal was implemented. Two independently reviewed isolated baseline
+runtime probes fail at the intended assertions: structure retention still permits
+owned unmap and release of an unpublished, unpinned owned frame. Each executes one
+test with Cargo exit 101; the ordinary map/unmap/release characterization passes.
+These are missing-policy REDs, not regressions in the accepted B19 API contract.
+The live kernel and host/B26 source and inherited acceptance families are unchanged.
+
+Fresh unchanged-baseline host tests pass 343/0/2 and B26 116/0, each serial and
+parallel, with exact identity/list readback; baseline production build and ELF
+validation pass. No F1 GREEN, guest evidence or canonical acceptance was obtained.
+Historical 65-gate acceptance is not reused as F1 acceptance.
+
+Independent boundary review rejects full F1 completion: the draft does not yet
+close the manifest, joint irreversible seal/alternate CR3 activation boundary,
+or dedicated nonreturning terminal invocation. A separate budget review recommends
+a conditional 12-frame policy ceiling (not stack sufficiency or implementation
+approval); fixed metadata/descriptor/diagnostic shapes and concrete integration
+still require a revised reviewed design. Do not invent headroom, temporarily
+unseal for F3/F4, or call two retained frames a complete future-resource manifest.
+Resume F1 design/RED-first work from the task STATE. No F2-F5, USER/TSS/CPL3,
+general teardown, deployment or push. Accepted checkpoints below remain historical.
+
 ## Phase 11 B19 same-slot unmap authority — BOUNDED VERIFIED
 
 Runtime unmap now requires `PageMap::unmap_owned(fa, linear, &FrameLease)`: the

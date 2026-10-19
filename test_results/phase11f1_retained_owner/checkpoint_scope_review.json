@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "review_kind": "Supplemental independent pre-commit exact reduced-scope verification; original baseline audit not repeated",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "observed_head": "b765abcc1350323357accf3623aec42a6185494c",
+  "verdict": "APPROVE_EXACT_47_PLUS_THIS_IMMUTABLE_VERDICT_LOCAL_PARTIAL_CHECKPOINT_ONLY",
+  "local_partial_commit_approved": true,
+  "blockers": [],
+  "scope": {
+    "original_approved_count_including_review": 52,
+    "current_staged_count": 47,
+    "future_count_with_this_verdict": 48,
+    "sole_additional_approved_path": "test_results/phase11f1_retained_owner/checkpoint_scope_review.json",
+    "missing_expected_paths": [],
+    "unexpected_staged_paths": [],
+    "historical_checkpoint_paths_note": "checkpoint_paths.json is preserved byte-identical as the ORIGINAL proposal, not the reduced actual commit membership. This supplemental exact path-to-OID map governs the adjusted scope. Five raw logs are locally preserved, hash-pinned, and deliberately ABSENT from the commit; corresponding JSON summaries remain staged."
+  },
+  "immutable_original_review": {
+    "path": "test_results/phase11f1_retained_owner/checkpoint_review.json",
+    "raw_sha256": "7f2b9a515c8e7811323a8966c469a0b442db06e2cb38eac8ff53dca81095f847",
+    "matches_required_raw_pin": true,
+    "staged_blob_oid": "e83e8394838cef466b6c53c07fcfdaa791b7557f",
+    "staged_content_verified_against_exact_review_bytes_with_only_CRLF_to_LF": true
+  },
+  "checks": {
+    "exact_reduced_membership": true,
+    "staged_original_reviewed_blob_count": 46,
+    "all_staged_original_blob_oids_content_sha256_and_lengths_match_review": true,
+    "original_approved_working_raw_files_checked": 51,
+    "original_approved_raw_mismatches": [],
+    "historical_manifest_raw_pin_mismatches": [],
+    "default_diff_check": {
+      "working": {
+        "exit_code": 0,
+        "diagnostics": ""
+      },
+      "staged": {
+        "exit_code": 0,
+        "diagnostics": ""
+      }
+    },
+    "initial_raw_files_checked": 3325,
+    "initial_missing_count": 0,
+    "initial_changed_paths": [
+      "HANDOVER.md",
+      "NEXT_SESSION_PROMPT.md",
+      "docs/PHASE11_HANDOVER.md",
+      "docs/PHASE11_MEMORY_AUTHORITY.md"
+    ],
+    "non_doc4_initial_drift_count": 0,
+    "unexpected_tracked_changes_outside_approved_and_inherited_README": [],
+    "no_live_production_edits": true,
+    "no_protected_user_or_live_source_paths_staged": true,
+    "fixture_source_note": "Only already-approved isolated evidence fixture Rust/Cargo paths are staged, not live production/test source paths. Inherited README and other protected work remain outside commit and match initial raw pins."
+  },
+  "current_staged_path_to_blob_oid": {
+    "HANDOVER.md": "490c7177420a7515a02b0ba0ad1cb0ee57b73e0f",
+    "NEXT_SESSION_PROMPT.md": "93920405b6719767261211f6bfb3dfd2fa5bed6e",
+    "docs/PHASE11_HANDOVER.md": "27faa6abafe514f4f862df09f9ee7d3f827470b7",
+    "docs/PHASE11_MEMORY_AUTHORITY.md": "86c542fde42dd11461d0dfcd4f1590e3e3f8b54b",
+    "test_results/phase11f1_retained_owner/baseline_b26_list_01.json": "c58886d3c8dc0f54721243a737cbd6279eeaf7b5",
+    "test_results/phase11f1_retained_owner/baseline_b26_list_01.log": "a0bc4422752ad3c6e426e87b20cd435861599193",
+    "test_results/phase11f1_retained_owner/baseline_b26_parallel_01.json": "04da59ea49e188ffa76dab56920025c72ead7813",
+    "test_results/phase11f1_retained_owner/baseline_b26_serial_01.json": "3bd712bae35d2ffce910e56ae92ccbd26e0216b5",
+    "test_results/phase11f1_retained_owner/baseline_format_01.json": "eac6a12f1f90d6c708503a0b2a9bcae8fa540668",
+    "test_results/phase11f1_retained_owner/baseline_format_01.log": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "test_results/phase11f1_retained_owner/baseline_host_list_01.json": "4f2c9d30c64cc1cdefdf4b1a9df28a5611b0bfc9",
+    "test_results/phase11f1_retained_owner/baseline_host_list_01.log": "4ecc698fc40abf5e1be22a16aedc0cd2678b12f6",
+    "test_results/phase11f1_retained_owner/baseline_host_parallel_01.json": "280bb7e2a45c7dd90caf400d47d962b9a3e9a233",
+    "test_results/phase11f1_retained_owner/baseline_host_serial_01.json": "1e9f664d325928a1722e2f2d34da93e94ffe8340",
+    "test_results/phase11f1_retained_owner/baseline_identity_readback.json": "01e876572d906badeed4b4b30c29f907098993ba",
+    "test_results/phase11f1_retained_owner/baseline_memory.json": "ba4f78f19b7f6d349cc4e109422fa47cac46483d",
+    "test_results/phase11f1_retained_owner/baseline_probe_control_01.json": "1d226b7933102a35bf25932edefbdf42e344b887",
+    "test_results/phase11f1_retained_owner/baseline_probe_control_01.log": "b987b30e7ec065f708a0f2c52e9bf2dbd734ff27",
+    "test_results/phase11f1_retained_owner/baseline_probe_control_02.json": "9455d4fb5bf978d0bfcad7c4ad3214915017ac13",
+    "test_results/phase11f1_retained_owner/baseline_probe_list_02.json": "7b274131f229e65ff41b4e34a976c33a666f68c2",
+    "test_results/phase11f1_retained_owner/baseline_probe_list_02.log": "0d5f12c78727dfe2e5b4dec06beb126dfb251d63",
+    "test_results/phase11f1_retained_owner/baseline_probe_readback.json": "e9539bfe1e1f3ab7f90c0b8e5fb89412dc91d026",
+    "test_results/phase11f1_retained_owner/baseline_probe_release_red_02.json": "b7d376e4c9bf163a6496debbef7aeab225d95a17",
+    "test_results/phase11f1_retained_owner/baseline_probe_release_red_02.log": "dbe4a0b32284b3b8517bcf0336653afae1d685fe",
+    "test_results/phase11f1_retained_owner/baseline_probe_unmap_red_02.json": "8d771dd9fd04a82ad99be9cad46bfd62c6805745",
+    "test_results/phase11f1_retained_owner/baseline_probe_unmap_red_02.log": "c146340fddedc02e95d5c608ffda26baea5b6d23",
+    "test_results/phase11f1_retained_owner/baseline_production_build_01.json": "9f6b4bc2bbb6e32e038599415b8eaeb5e4545ec8",
+    "test_results/phase11f1_retained_owner/baseline_production_build_01.log": "ac514251fe88f8e1349b6de103642bee63bc188f",
+    "test_results/phase11f1_retained_owner/baseline_production_elf_01.json": "2b758c3a722d0c4a52df257e879296b7c086dbc5",
+    "test_results/phase11f1_retained_owner/baseline_production_elf_01.log": "3102b576b8e1a0ef519c4a90f28be482a936448c",
+    "test_results/phase11f1_retained_owner/checkpoint_paths.json": "a14875a7edeed455048e0d6406c3277ef0df4cb5",
+    "test_results/phase11f1_retained_owner/checkpoint_review.json": "e83e8394838cef466b6c53c07fcfdaa791b7557f",
+    "test_results/phase11f1_retained_owner/decisions.md": "7e65122ae6797604fe9219bb5be9d355a3387d49",
+    "test_results/phase11f1_retained_owner/design.md": "6291d5b57919543d1381ba0451ffc57c9c8217f3",
+    "test_results/phase11f1_retained_owner/fixture_manifest.json": "e0fe05b3f2e3cce49a0fe44737bd1330a82dfcf1",
+    "test_results/phase11f1_retained_owner/fixtures/host_snapshot/Cargo.lock": "e36cbc1a37f73e0daf53ec8041c1541e16de24ff",
+    "test_results/phase11f1_retained_owner/fixtures/host_snapshot/Cargo.toml": "8850c441df453e3650b8dd95d28dd1830a3b1a76",
+    "test_results/phase11f1_retained_owner/fixtures/host_snapshot/lib.rs": "070cfc67c4d38a48a414e7b1500154f80cdcdbc8",
+    "test_results/phase11f1_retained_owner/fixtures/host_snapshot/memory_mod.rs": "6543a273cc0fe497679b6f7602624dbdc868ce0b",
+    "test_results/phase11f1_retained_owner/fixtures/host_snapshot/paging.rs": "bcc637a27fd68a8e2628ac432fd341ed01a967d8",
+    "test_results/phase11f1_retained_owner/fixtures/retained_owner_baseline_tests.rs": "ae1fd514bf93f4a71655165b62135cf3b6f3e8c0",
+    "test_results/phase11f1_retained_owner/independent_boundary_review.json": "67553f9bfd8452d2be9e8aa1b7889e85c52ae5d9",
+    "test_results/phase11f1_retained_owner/independent_budget_review.json": "2343e90b6aa647902e1cfff7e1167624f472d38d",
+    "test_results/phase11f1_retained_owner/probe_format_01.json": "a98b2eda0a205022b164dcdb8759a0452bc2b67a",
+    "test_results/phase11f1_retained_owner/probe_format_01.log": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "test_results/phase11f1_retained_owner/rabbit_holes.md": "76ad6ccce363e38467f2d4987c47e9239109ad8e",
+    "test_results/phase11f1_retained_owner/recovery.json": "b35cd01a08935fd76e3aae7ef96eb4abe9c9835a"
+  },
+  "excluded_local_raw_log_sha256": {
+    "test_results/phase11f1_retained_owner/baseline_b26_parallel_01.log": "3e02f7c2cc628b2ba1ae4ef9c641e0273dde2bcb0133262586642682148e6e71",
+    "test_results/phase11f1_retained_owner/baseline_b26_serial_01.log": "018a0ddf344ef0657ceb06ac5e271f6063797d868bf24c8fd28cb1cc805a530c",
+    "test_results/phase11f1_retained_owner/baseline_host_parallel_01.log": "bcf62982f37946c080f12c9302aad38098aeb11c10ad70d798d57a9c8d8123cf",
+    "test_results/phase11f1_retained_owner/baseline_host_serial_01.log": "7a99e33fff3f33ee2a1c7721ddaf9c94cb305346ca8b0247c292c5460a0b7dc1",
+    "test_results/phase11f1_retained_owner/baseline_probe_control_02.log": "0eba4ca11334f90119ecbaa2e0b42c4f032f30edd882e8975ba12f3e64ea372a"
+  },
+  "excluded_logs_match_both_original_review_and_manifest_pins": true,
+  "approval_conditions": [
+    "Parent must read this complete saved artifact, preserve its exact bytes, and stage ONLY the 47 exact mapped blobs plus this artifact. Any other content or membership change needs independent coverage.",
+    "This verdict cannot embed its own hash without circularity: parent must pin its raw SHA256 and normalized Git OID externally and require independent postcommit membership/blob/raw-preservation readback for the exact future 48 paths.",
+    "Default staged diff --check must still pass after adding this artifact; do not edit raw observations or weaken whitespace configuration.",
+    "No commit is performed or proved by this review. No tag, push, merge, rebase, deployment or acceptance authorization."
+  ],
+  "non_approvals": {
+    "f1_design": false,
+    "candidate_source": false,
+    "f1_implemented_or_complete": false,
+    "candidate_green": false,
+    "guest_evidence": false,
+    "canonical_acceptance": false,
+    "cpl3_readiness": false
+  },
+  "limits": "Supplemental scope/identity/preservation verification only. Original baseline test audit remains unchanged; no builds/tests/QEMU/remote or Git mutations performed. Only this reviewer-owned verdict is written. Hash stability does not prove exclusive process ownership or complete process history."
+}

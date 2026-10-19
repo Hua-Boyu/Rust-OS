@@ -1,5 +1,20 @@
 ## Rosti OS — Phase 11 Handover
 
+## Current — F1 retained-owner attempt, PARTIAL / DESIGN STOP
+
+F1-only implementation authorization was received; no production owner/seal was
+implemented. Read `test_results/phase11f1_retained_owner/STATE.md`, FINAL_REPORT.md
+and both complete independent design verdicts. Two isolated baseline runtime REDs
+prove structure retention does not forbid owned unmap or unpublished owned release;
+ordinary mapping/release characterization passes. Live production/test sources
+and acceptance controls remain unchanged. Fresh baseline host343/0/2 and B26116/0
+pass serial/parallel with exact identity readback; build/ELF validation pass.
+No F1 GREEN, guest run or canonical acceptance. Full F1 remains blocked on a
+concrete reviewed finite manifest/metadata shape, joint seal and terminal wrapper;
+the conditional 12-frame ceiling recommendation proves neither safe stacks nor
+implementation. No same-boot unseal, F2-F5 or Ring-3 readiness claim. Preserve
+README/d1/backup/init documentation. Historical accepted checkpoints follow.
+
 ## Current — Phase 11 B19 same-slot unmap authority checkpoint, BOUNDED VERIFIED
 
 ### A. Status

@@ -1,0 +1,140 @@
+warning: formatting may not be suitable for sub-register argument
+   --> src\..\..\src\memory\paging.rs:932:41
+    |
+932 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+    |                                         ^^^^^                  --- for this argument
+    |
+    = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+    = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+    = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+   --> src\..\..\src\memory\paging.rs:945:41
+    |
+945 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+    |                                         ^^^^^                  --- for this argument
+    |
+    = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+    = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+warning: `tests_b26` (lib test) generated 2 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running unittests src\lib.rs (Documents\Rust-OS\tests_b26\target\debug\build\tests_b26/097148362a440644\out\tests_b26-097148362a440644.exe)
+b26_borrowed_builder_retains_failure_backing_and_transfers_on_success: test
+b26_prepare_directory_exhaustion_never_enters_heap_under_frame_guard: test
+b26_prepare_partial_exhaustion_restores_frames_and_unlocks_before_vec_ops: test
+b26_validation::b26_validation_failure_returns_directory_and_table_frames_without_locked_drop: test
+growth_tests::b26_growth_failure_does_not_consume_reserved_frame: test
+memory::boot_copy::tests::copy_checks_before_read_and_owns_bytes: test
+memory::boot_copy::tests::rejects_span_paging_and_mapping_before_source_access: test
+memory::frame::b11_tests::b11_boot_and_bootstrap_heap_override_growth_reservation: test
+memory::frame::b11_tests::b11_bootinfo_span_overflow_never_panics_or_wraps: test
+memory::frame::b11_tests::b11_competing_mmap_reservations_deny_growth_in_any_order: test
+memory::frame::b11_tests::b11_empty_bootstrap_span_does_not_deny_growth: test
+memory::frame::b11_tests::b11_exact_growth_denial_does_not_skip_to_later_eligible_frame: test
+memory::frame::b11_tests::b11_explicit_boot_spans_deny_all_touched_frames_and_dedupe_accounting: test
+memory::frame::b11_tests::b11_general_pool_obeys_pins_kernel_vga_and_live_ownership: test
+memory::frame::b11_tests::b11_growth_requires_complete_usable_frame_and_exact_valid_address: test
+memory::frame::b11_tests::b11_invalid_explicit_span_fails_closed_even_after_reinitialization: test
+memory::frame::b11_tests::b11_released_growth_frame_returns_to_growth_only_pool: test
+memory::frame::b11_tests::b11_reservation_union_matches_independent_small_window_oracle: test
+memory::frame::b11_tests::b11_reserved_overflow_denies_growth_to_end_without_wrapping: test
+memory::frame::domain_tests::runtime_pin_both_reset_entries_preserve_every_live_inventory_field: test
+memory::frame::domain_tests::runtime_pin_domain_issuer_retires_at_maximum_without_wrap: test
+memory::frame::generation_boundary_tests::generation_boundary_exhaustion_survives_reset_without_capacity_loss: test
+memory::frame::generation_boundary_tests::generation_boundary_growth_claim_has_no_ordinary_identity: test
+memory::frame::generation_boundary_tests::generation_boundary_malformed_lease_preserves_current_owner: test
+memory::frame::generation_boundary_tests::generation_boundary_reset_preserves_issuer_and_rejects_old_domain: test
+memory::frame::generation_boundary_tests::generation_boundary_static_ledger_budget: test
+memory::frame::generation_boundary_tests::generation_boundary_structure_pin_refuses_matching_lease: test
+memory::frame::generation_ledger_tests::generation_safe_double_release_by_forged_copy_is_refused: test
+memory::frame::generation_ledger_tests::generation_safe_identity_exhaustion_is_permanent_not_wrapping: test
+memory::frame::generation_ledger_tests::generation_safe_ledger_identity_never_repeats_across_cycles: test
+memory::frame::generation_ledger_tests::generation_safe_raw_allocated_frame_has_no_lease_release_path: test
+memory::frame::generation_ledger_tests::generation_safe_raw_free_path_clears_ledger_identity: test
+memory::frame::generation_ledger_tests::generation_safe_stale_forged_lease_cannot_release_reused_frame: test
+memory::module_access_tests::module_access_requires_every_page_identity_mapped_and_pinned: test
+memory::module_access_tests::pins_alone_do_not_grant_missing_or_nonidentity_access: test
+memory::ownership_observation_tests::b26_detector_observes_frame_only_allocation: test
+memory::ownership_observation_tests::b26_detector_observes_frame_only_destruction: test
+memory::ownership_observation_tests::b26_detector_observes_page_map_only_allocation: test
+memory::ownership_observation_tests::b26_detector_observes_page_map_only_destruction: test
+memory::ownership_observation_tests::b26_page_map_only_attempt_is_not_classified_unlocked: test
+memory::paging::generation_ownership_tests::generation_safe_double_release_of_lease_is_refused: test
+memory::paging::generation_ownership_tests::generation_safe_foreign_domain_lease_is_refused: test
+memory::paging::generation_ownership_tests::generation_safe_lease_transfer_then_release: test
+memory::paging::generation_ownership_tests::generation_safe_mapped_lease_release_is_refused_until_unmapped: test
+memory::paging::generation_ownership_tests::generation_safe_rejected_map_preserves_lease: test
+memory::paging::generation_ownership_tests::generation_safe_repeated_allocate_release_cycles_keep_state: test
+memory::paging::generation_ownership_tests::generation_safe_reset_with_live_lease_is_refused: test
+memory::paging::generation_ownership_tests::generation_safe_stale_lease_cannot_release_reused_frame: test
+memory::paging::mapping_pin_tests::runtime_mapping_pin_cross_map_exclusion_and_boot_alias_preservation: test
+memory::paging::mapping_pin_tests::runtime_mapping_pin_empty_reset_invalidates_previous_map_domain: test
+memory::paging::mapping_pin_tests::runtime_mapping_pin_foreign_allocator_cannot_mutate_map: test
+memory::paging::mapping_pin_tests::runtime_mapping_pin_foreign_unmap_and_release_leave_both_domains_intact: test
+memory::paging::mapping_pin_tests::runtime_mapping_pin_inconsistent_runtime_mirrors_refuse_unmap: test
+memory::paging::mapping_pin_tests::runtime_mapping_pin_live_allocator_reset_is_nonmutating: test
+memory::paging::mapping_pin_tests::runtime_mapping_pin_refuses_free_of_ordinary_and_growth_payloads: test
+memory::paging::mapping_pin_tests::runtime_mapping_pin_table_exhaustion_does_not_pin_caller_payload: test
+memory::paging::mapping_pin_tests::shared_mapping_retained_lease_remap_refuses_old_and_foreign_unmap: test
+memory::paging::mapping_pin_tests::shared_mapping_same_and_cross_map_refusal_is_state_atomic: test
+memory::paging::mapping_pin_tests::shared_mapping_table_failure_then_retry_preserves_lease_and_capacity: test
+memory::paging::numeric_map_authority_tests::numeric_map_exhaustion_retains_lease_and_allows_retry: test
+memory::paging::numeric_map_authority_tests::numeric_map_existing_runtime_pin_refuses_second_map: test
+memory::paging::numeric_map_authority_tests::numeric_map_foreign_domain_is_state_atomic: test
+memory::paging::numeric_map_authority_tests::numeric_map_growth_specialization_cannot_admit_ordinary_backing: test
+memory::paging::numeric_map_authority_tests::numeric_map_live_lease_borrow_pins_until_unmap: test
+memory::paging::numeric_map_authority_tests::numeric_map_production_api_rejects_numeric_and_private_core_calls: test
+memory::paging::numeric_map_authority_tests::numeric_map_refusal_retains_lease_for_conflict_and_permissions: test
+memory::paging::numeric_map_authority_tests::numeric_map_released_identity_is_state_atomic: test
+memory::paging::numeric_map_authority_tests::numeric_map_stale_reused_identity_is_state_atomic: test
+memory::paging::phase11_permission_tests::phase11_identity_maps_remain_supervisor_at_128_and_512_mib: test
+memory::paging::phase11_permission_tests::phase11_nonpresent_map_is_rejected_without_side_effects: test
+memory::paging::phase11_permission_tests::phase11_permissions_intersect_both_paging_levels: test
+memory::paging::phase11_permission_tests::phase11_rejected_requests_preserve_existing_table_and_mapping: test
+memory::paging::phase11_permission_tests::phase11_unowned_user_map_is_rejected_before_table_allocation: test
+memory::paging::phase11a2_abi_tests::phase11a2_error_code_vectors_are_classified: test
+memory::paging::phase11a2_abi_tests::phase11a2_fault_origin_reads_saved_cs_ring: test
+memory::paging::phase11a2_abi_tests::phase11a2_gp_error_code_is_selector_format: test
+memory::paging::phase11a2_abi_tests::phase11a2_pf_error_code_keeps_page_semantics: test
+memory::paging::phase11a2_ownership_tests::phase11a2_free_pool_frame_alias_is_rejected: test
+memory::paging::phase11a2_ownership_tests::phase11a2_growth_claimed_frame_maps_exactly_once_and_rolls_back: test
+memory::paging::phase11a2_ownership_tests::phase11a2_live_page_structure_alias_is_rejected_as_payload: test
+memory::paging::phase11a2_ownership_tests::phase11a2_null_frame_mapping_is_rejected_without_side_effects: test
+memory::paging::phase11a2_ownership_tests::phase11a2_payload_frame_cannot_alias_two_active_slots: test
+memory::paging::phase11a2_ownership_tests::phase11a2_reserved_and_uncovered_frames_cannot_enter_runtime_mapping: test
+memory::paging::phase11a2_ownership_tests::phase11a2_unmap_then_release_restores_allocator_ownership: test
+memory::paging::phase11a2_ownership_tests::phase11a2_unmapping_boot_alias_preserves_live_runtime_payload_reference: test
+memory::paging::runtime_table_access_tests::runtime_table_nonidentity_alias_is_rejected_without_writes: test
+memory::paging::runtime_table_access_tests::runtime_table_readonly_alias_at_either_level_is_rejected_without_writes: test
+memory::paging::runtime_table_access_tests::runtime_table_removed_identity_alias_is_rejected_without_writes: test
+memory::paging::runtime_table_access_tests::runtime_table_restored_identity_alias_allows_retry: test
+memory::paging::runtime_table_access_tests::runtime_table_user_accessible_alias_is_rejected_without_writes: test
+memory::paging::structure_lifetime_tests::structure_cleanup_cpu_activated_map_cannot_release_structures: test
+memory::paging::structure_lifetime_tests::structure_cleanup_inconsistent_role_refuses_before_any_release: test
+memory::paging::structure_lifetime_tests::structure_cleanup_publication_and_cr3_reload_retain_backing: test
+memory::paging::structure_lifetime_tests::structure_cleanup_released_map_cannot_observe_mutate_or_activate_reused_frames: test
+memory::paging::structure_lifetime_tests::structure_cleanup_repeated_release_cannot_free_reused_map_backing: test
+memory::paging::unmap_authority_tests::unmap_authority_production_api_rejects_numeric_and_private_core_calls: test
+memory::paging::unmap_authority_tests::unmap_authority_stale_generation_and_foreign_domain_refuse_without_mutation: test
+memory::paging::unmap_authority_tests::unmap_authority_stale_lease_cannot_unmap_replacement_mapping: test
+memory::paging::virtual_page_zero_tests::vpz_nonzero_growth_slots_still_admit_normally: test
+memory::paging::virtual_page_zero_tests::vpz_ordinary_map_at_virtual_zero_is_refused_without_side_effects: test
+memory::paging::virtual_page_zero_tests::vpz_unmap_at_virtual_zero_is_refused_without_side_effects: test
+memory::review_r1_tests::review_r1_live_page_structure_identity_aliases_stay_mapped: test
+memory::review_r1_tests::review_r1_pin_backing_retained_on_failure_and_moved_on_success: test
+memory::review_r1_tests::review_r1_pin_span_address_checks_and_clipping: test
+memory::review_r1_tests::review_r1_production_prepare_pins_one_byte_module_and_metadata_partial_tails: test
+memory::review_r1_tests::review_r1_usable_range_starting_in_growth_still_validates_its_tail: test
+memory::review_r1_tests::review_r1_validation_checks_pinned_non_growth_pages_not_growth_holes: test
+refusal_tests::b26_owner_rejection_paths_never_allocate_or_destroy_under_either_guard: test
+refusal_tests::b26_phase11a2_registry_backing_refusal_has_no_fallback_allocation_or_frame_mutation: test
+refusal_tests::b26_r3_pin_backing_refusal_has_no_fallback_allocation_or_frame_mutation: test
+refusal_tests::b26_r3_table_backing_refusal_has_no_fallback_allocation_or_frame_mutation: test
+registry_tests::b26_registry_backing_is_retained_on_rollback_and_moved_on_success: test
+registry_tests::b26_registry_invalid_backing_is_rejected_before_frame_mutation: test
+retry_tests::b26_failed_builder_clears_released_slots_before_retry: test
+utils::bits::tests::single_bit_clear_preserves_every_neighbor_for_all_widths: test
+validation_allocation_tests::b26_r3_prepare_validation_needs_only_three_fallible_backing_allocations: test
+
+116 tests, 0 benchmarks

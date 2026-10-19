@@ -1,0 +1,36 @@
+{
+  "status": "EXPECTED_BASELINE_RUNTIME_RED_CONFIRMED",
+  "scope": "missing-policy probes, not F1 GREEN or canonical acceptance",
+  "exact_list_members": [
+    "memory::paging::retained_owner_baseline_tests::f1_baseline_characterization_ordinary_map_unmap_release_remain_valid",
+    "memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_owned_unmap",
+    "memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_unpublished_owned_release"
+  ],
+  "runs": [
+    {
+      "run": "baseline_probe_control_02",
+      "identity": "memory::paging::retained_owner_baseline_tests::f1_baseline_characterization_ordinary_map_unmap_release_remain_valid",
+      "actual_exit_code": 0,
+      "runtime_result": "ok",
+      "diagnostic": null,
+      "log_sha256": "0eba4ca11334f90119ecbaa2e0b42c4f032f30edd882e8975ba12f3e64ea372a"
+    },
+    {
+      "run": "baseline_probe_unmap_red_02",
+      "identity": "memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_owned_unmap",
+      "actual_exit_code": 101,
+      "runtime_result": "FAILED",
+      "diagnostic": "F1 MISSING POLICY: structure retention still permits owned unmap",
+      "log_sha256": "21102f145ca0f5a61abc2d60b56be2d3ee774602d84a6be409e855b0fefcc1fd"
+    },
+    {
+      "run": "baseline_probe_release_red_02",
+      "identity": "memory::paging::retained_owner_baseline_tests::f1_missing_policy_baseline_retained_map_still_allows_unpublished_owned_release",
+      "actual_exit_code": 101,
+      "runtime_result": "FAILED",
+      "diagnostic": "F1 MISSING POLICY: structure retention still permits unpublished owned release",
+      "log_sha256": "6add2a4001532fbbb8383447899d2f697bf7c3bc3d9e0f72cdd0486cf041c137"
+    }
+  ],
+  "compiler_failure_not_runtime_red": "baseline_probe_control_01: Cargo101/E0507, zero executed tests; preserved separately"
+}
