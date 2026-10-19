@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "verdict": "APPROVE_BOUNDED_DESIGN",
+  "approval_scope": "Independent conditional architectural design approval only: PHASE11_MEMORY_AUTHORITY.md lines 187-446 (A-F), the three top status/resume pointers, and decisions.md. Not implementation authorization, source safety certification, CPL3 readiness, general B19 closure, or acceptance execution.",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "branch": "maintenance/phase10",
+  "head": "98da93b6dd4b6fb276c9cf27887571c6baea4499",
+  "blocker_findings": [],
+  "nonblocking_findings": [
+    {
+      "id": "N1",
+      "finding": "The present source is NOT safe to enter CPL3. Its missing seal, USER transaction, verified exception ABI, user descriptors/TSS and privileged/emergency stacks are correctly identified as mandatory future gates rather than existing results.",
+      "evidence": ["src/memory/paging.rs:373-398", "src/memory/paging.rs:182-229", "src/interrupt.rs:188-197", "src/interrupt.rs:291-313", "src/gdt.rs:130-155", "docs/PHASE11_MEMORY_AUTHORITY.md:258-268"],
+      "disposition": "Retain all F1-F5 stop conditions. This is an execution blocker, not a blocker to documenting this conditional design."
+    },
+    {
+      "id": "N2",
+      "finding": "Retained structures do not seal active mappings or retain arbitrary CPU/TSS stack backing. Runtime pins prohibit release but unmap explicitly clears a PTE, invalidates, then removes its runtime pin. A one-shot owner must actually dominate every reachable privileged mutation/release path; retaining leases alone is insufficient.",
+      "evidence": ["src/memory/frame.rs:457-463", "src/memory/paging.rs:185-188", "src/memory/paging.rs:224-229", "src/memory/paging.rs:568-579", "src/memory/mod.rs:302-313", "docs/PHASE11_MEMORY_AUTHORITY.md:290-321"],
+      "disposition": "F1 bypass audit and F4 sealed owner are mandatory. No blanket audit approval of bootstrap or all crate-private numeric callers is given."
+    },
+    {
+      "id": "N3",
+      "finding": "The exact CPU/compiler entry ABI remains unverified. The seven-vector host test repeats the source model; it cannot validate vectors 21/29/30, error argument handling, privilege-change tails, segments, stack alignment or DF normalization. Ordinary vector-8 entry is not an independently backed double-fault path.",
+      "evidence": ["src/memory/paging.rs:125-140", "src/memory/phase11a2_abi_tests.rs:6-15", "src/interrupt.rs:267-277", "src/interrupt.rs:303-313", "src/interrupt.rs:425-448", "src/interrupt.rs:514-522", "docs/PHASE11_MEMORY_AUTHORITY.md:323-353"],
+      "disposition": "Pinned authoritative architecture reference, CPU feature contract, emitted i686 ABI review, and actual QEMU frames remain hard prerequisites. Missing authority or uncontained reachable vector means STOP."
+    },
+    {
+      "id": "N4",
+      "finding": "No numeric resource or stack-high-water budget exists yet. The proposal appropriately requires an admission manifest and checked bounds rather than inventing bytes. Include the dedicated supervisor sentinel, diagnostic storage, descriptor backing, guards and all partial-failure acquisitions when finalizing that manifest.",
+      "evidence": ["docs/PHASE11_MEMORY_AUTHORITY.md:310-321", "docs/PHASE11_MEMORY_AUTHORITY.md:362-389", "docs/PHASE11_MEMORY_AUTHORITY.md:432-436"],
+      "disposition": "F1/F3/F4 must provide actual finite counts, identities and measured stack/headroom evidence before entry. No retained-capacity estimate is approved here."
+    },
+    {
+      "id": "N5",
+      "finding": "Historical numbered 15-case correspondence is not established. The actual ownership plan has five migration stages and unnumbered oracle families, consistent with the disclosed limitation.",
+      "evidence": ["docs/PHASE11A2_OWNERSHIP_PLAN.md:45-77", "docs/PHASE11A2_OWNERSHIP_PLAN.md:103-108", "docs/PHASE11_MEMORY_AUTHORITY.md:270-275"],
+      "disposition": "Do not claim 15/15 or general ownership closure. No new slice is justified merely to reconstruct missing numbering."
+    }
+  ],
+  "criteria": {
+    "unclosed_memory_safety_prerequisites": "Adequately identified and gated, not closed: sealed no-mutation lifecycle, effective active-map supervisor audit, narrow owned USER publication, backing accessibility, stable privileged entry resources and bounded failure retention. No omitted prerequisite requiring rejection of the conditional proposal was identified within this bounded inspection.",
+    "allocate_map_unmap_release_authority": "Inspected actual ordinary boundaries: allocate_owned issues stamped move-only identity (frame.rs:378-418); owns_live_lease authenticates allocator/domain/id/live state (425-437); release_frame consumes lease and authenticates before pin-protected release (508-525,457-463); map_owned checks lease/domain then private supervisor-only admission, accessibility, pins-before-PTE (paging.rs:310-321,373-475); unmap_owned checks live identity then exact payload and clear/invalidate/unpin (484-494,568-579). Numeric adapters are cfg(test), private cores are not general safe process APIs. Refusal diagnostics may change: nonmutation means authority/backing/capacity, not all counters.",
+    "deferred_teardown": "Genuinely deferrable for exactly one existing-CR3 payload per boot with bounded monotonically retained acquisitions and no reachable cleanup, retry, ownership transfer, CR3 switch or resumed shell. Terminal Ring-0 halt is a nonreturning privilege entry, not recovery. Any later recoverable continuation invalidates this simplification and requires a new lifetime design.",
+    "active_cr3_tables_stacks": "Inspected retain before publication in memory/mod.rs:228-232 and before both CR3-writing helpers in paging.rs:691-701 and 898-918. This protects the unpublished cleanup set, not arbitrary payload/stack unmapping. F1/F4 must additionally retain immutable metadata, tables, all CPU/TSS stacks, GDT/IDT/TSS and payloads through terminal observation and external termination.",
+    "error_no_error_and_origin": "Current opaque 48-byte no-error frame and packed error-first structures are insufficient independent ABI evidence. F2 correctly requires normalization and trusted saved-CS origin plus known payload PC, not PF user bit alone. QEMU must validate true error/no-error frames and wrong-origin failure.",
+    "ss_esp_gpr_segments_alignment_df": "Explicitly covered as future requirements: origin-dependent old SS/ESP decoding, actual TSS switch, GPR evidence before Rust clobbers, trusted segment reload before Rust memory access, restoration on returning paths, preserved original frame across alignment, CLD before Rust and hostile STD/segment fixtures. These are neither verified by host structs nor presently implemented guarantees.",
+    "iret_tss_double_fault": "F2/F3/F5 correctly require reviewed nonreturning IRETD construction and flags/selectors, retained 32-bit TSS and loaded TR, SS0/ESP0, I/O denial, guard/headroom and emergency containment. CLI is explicitly not an NMI/double-fault solution. Current ordinary vector-8 error handler supplies no emergency stack guarantee; real bad-transition/overflow/DF negative evidence and no-reset observation remain mandatory.",
+    "vectors_21_29_30": "Correctly left architecture-dependent, requiring an exact vendor/CPU/features model and independent reference to prove unreachable or install correct shapes. No endorsement of source comments naming an Intel volume/table or the self-matching host classifier as authoritative validation.",
+    "user_permissions_and_isolation": "Proposed existing-CR3 arena is acceptable only with absent/conflict checks, valid exclusively owned zeroed backing, effective PDE and PTE rights, supervisor identity aliases and no kernel-directory elevation. Current ordinary API must stay supervisor-only. Non-PAE NX absence is disclosed; no W^X guarantee. The dedicated supervisor sentinel avoids deliberately corrupting live kernel data. Expected #PF needs exact PC/CR2/error/origin/stack/flags/register validation and unchanged sentinel; denial is not proven by text markers alone.",
+    "retained_cap_policy": "Acceptable conditional cap policy: one fixed manifest, one attempt latched before acquisition, bounded per-stage failure retention and no searching/retry queue. Existing retention and incremental acquisitions must be separate. Unknown byte counts/headroom are explicitly stop gates, not an unmeasured leak justified by reboot.",
+    "smoke_evidence": "Positive ELF/GRUB ISO by 128/512 MiB fresh-boot matrix plus negative code-write/guard/invalid-entry/wrong-origin/STD/segment/DF fixtures is appropriate. Exact fixture, CPU, prepared resource and terminal identities; missing/extra markers, reset/triple fault, timeout or shell resumption must fail. Owned QEMU termination is distinct from terminal in-guest halt. None was run in this review.",
+    "pointer_consistency": "Read top pointer additions and full Git diffs for all three pointer documents. They defer to the conditional A-F design, deny execution/complete closure and require separate F1 authorization. Historical sections remain historical, not new approval."
+  },
+  "verified_test_declarations_not_executed": [
+    "src/memory/generation_ownership_tests.rs:47-48 generation_safe_stale_lease_cannot_release_reused_frame",
+    "src/memory/generation_ownership_tests.rs:113-114 generation_safe_mapped_lease_release_is_refused_until_unmapped",
+    "src/memory/generation_ownership_tests.rs:150-151 generation_safe_repeated_allocate_release_cycles_keep_state",
+    "src/memory/numeric_map_authority_tests.rs:5-6 numeric_map_production_api_rejects_numeric_and_private_core_calls",
+    "src/memory/numeric_map_authority_tests.rs:134-135 numeric_map_live_lease_borrow_pins_until_unmap",
+    "src/memory/unmap_authority_tests.rs:7-8 unmap_authority_production_api_rejects_numeric_and_private_core_calls",
+    "src/memory/unmap_authority_tests.rs:73-74 unmap_authority_stale_lease_cannot_unmap_replacement_mapping",
+    "src/memory/unmap_authority_tests.rs:101-102 unmap_authority_stale_generation_and_foreign_domain_refuse_without_mutation",
+    "src/memory/structure_lifetime_tests.rs:66-67 structure_cleanup_cpu_activated_map_cannot_release_structures",
+    "src/memory/structure_lifetime_tests.rs:116-117 structure_cleanup_publication_and_cr3_reload_retain_backing",
+    "src/memory/phase11a2_abi_tests.rs:6-7 phase11a2_error_code_vectors_are_classified",
+    "src/memory/phase11a2_abi_tests.rs:42-43 phase11a2_fault_origin_reads_saved_cs_ring"
+  ],
+  "roadmap_recommendation": {
+    "can_shorten_general_roadmap": true,
+    "recommended_slices": 5,
+    "sequence": ["F1 capped sealed one-shot owner and reachable bypass audit", "F2 authoritative exception ABI and feature/fatal contract", "F3 stable GDT/TSS and guarded/emergency stacks", "F4 owned USER arena transaction on current CR3", "F5 actual terminal CPL3 isolation evidence"],
+    "rationale": "General published/inactive teardown, per-map transfer, shared/COW, repeated launch, recoverable shell continuation, ELF/syscalls/scheduling and SMP do not enable this terminal single-map smoke and add unnecessary mechanisms. Do not reopen accepted authority checkpoints absent a reproduced regression. No further slice elimination is supported: merging labels does not remove the independent lifetime, ABI, hardware stack, USER publication or guest-proof obligations.",
+    "six_slice_limit": "Five is a conditional safe planning envelope, not a guaranteed implementation estimate. If authoritative F2/F3 or seal design cannot remain bounded within six independently implementable slices, stop and report that incompatibility rather than conceal context switching or waive containment."
+  },
+  "reviewed_identities": [
+    {"path": "docs/PHASE11_MEMORY_AUTHORITY.md", "raw_sha256": "340242d8eece3683a4d861b8082bc4870ad038bb87ed3bd2ca5a61786cbf793d", "git_normalized_blob": "6280ddc338717af7f0e1ddc52e3eac836be0f81b"},
+    {"path": "docs/PHASE11_HANDOVER.md", "raw_sha256": "306cd9ce079e9f744821f6322514b23bd3a1a73c8705b99f1c2b46f54417b64f", "git_normalized_blob": "72b6db6ccf818349b70201e4e336aae9803b56e0"},
+    {"path": "HANDOVER.md", "raw_sha256": "a7e3c885d44a9740eb1bf5207af24227398ef88a81c7982e7b0e333a459dc014", "git_normalized_blob": "23f006820939557e55f7e7f9d2340adcbfd4180f"},
+    {"path": "NEXT_SESSION_PROMPT.md", "raw_sha256": "1b9b4751ffb66dcd448a75a130176a02ce6daf282e7e7165a64ca939a539bf9c", "git_normalized_blob": "7771ad456fa22ce60b897b05e2191b967e63b086"},
+    {"path": "test_results/phase11b19_closure_design/decisions.md", "raw_sha256": "a4cd923395bcf2bb7265c47c4c0da15ca26b85a63c794227e69c5c79e1cb5af8"}
+  ],
+  "git_normalization_approval": "Explicit approval covers both the reviewed raw working bytes and the four exact Git-normalized blob representations above when committed unchanged. Blob IDs were obtained with git hash-object path without -w. HANDOVER.md and NEXT_SESSION_PROMPT.md have CRLF/raw identities different from LF-normalized contents; approval is not lost solely through that normal Git newline conversion. The other two documents have identical raw and LF-normalized SHA256 contents. This does not approve arbitrary later edits, other blob identities, or all historical document claims. Existing HEAD blobs are predecessor versions, not the proposed reviewed blobs. Parent must compare actual eventual commit blobs against these exact reviewed identities.",
+  "evidence_limitations": [
+    "Bounded actual-source architectural inspection, not a complete kernel/privileged-caller audit. Did not read full large Rust files. Bootstrap builder reservation/alias construction and every rollback branch were not independently verified.",
+    "No builds, tests, acceptance, QEMU, remote work, implementation or source/script edits were performed. Existing test declarations were inspected, not executed.",
+    "No authoritative architecture manual or emitted target disassembly was verified in this review. Architecture assertions remain conditional entry gates; source and self-matching tests do not resolve them.",
+    "Read task evidence_manifest.json structure and preservation records; did not independently replay the claimed 150 predecessor hash comparison, acceptance digest, 65 gates or nested historical guest evidence. Historical acceptance claims are not new reviewer execution evidence and are not relied on as CPL3 proof.",
+    "Only A-F design section and the pointer changes are substantively approved; full-file hashes identify exact reviewed snapshots and newline-normalized commit representations, not a new audit of all historical sections.",
+    "The historical numbered 15-case list is unavailable in the inspected plan. Exact 15-case closure cannot be attested."
+  ],
+  "writes_authorized_and_performed": ["C:/Users/iamsv/Documents/Rust-OS/test_results/phase11b19_closure_design/independent_review.json"],
+  "approval_authority": "This complete artifact is the verdict authority. Zero documentation-design blockers; all future implementation/hardware evidence gates remain mandatory."
+}

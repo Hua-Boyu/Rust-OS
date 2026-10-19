@@ -1,0 +1,12 @@
+# Decisions — design only
+
+- Recommend Option A: existing retained CR3 plus bounded private USER arena, one trusted payload per boot, expected supervisor-write #PF captured in Ring 0 then nonreturning CLI/HLT. No recoverable Rust continuation, repeated launch, published teardown or process abstraction.
+- Pinning alone is insufficient: runtime pins prevent free, not unmap. F1/F4 must seal all reachable mutation/release paths and retain owner metadata, stacks, tables, descriptor backing and payload leases. Partial preparation is bounded and terminal; no retry.
+- Five conditional slices: F1 lifecycle/resource cap and bypass audit; F2 exception ABI/architectural contract; F3 static GDT/TSS/guarded and emergency stacks; F4 narrow owned USER arena; F5 real CPU isolation/terminal proof. If F2/F3 reveal more than six necessary independent tasks, report the blocker rather than conceal it.
+- General published/inactive teardown, per-map transfer, shared/COW, SMP, shell recovery, ELF/syscalls/scheduler remain deferred. Accepted authority work is not reopened absent regression.
+- Clef interface decision_decide is available (schema discovery succeeded). NOT CONSULTED: teardown choices are not comparably minimal for a terminal same-CR3 smoke; no unresolved routing choice warrants advisory classification. This is not security approval.
+- No authoritative local Intel reference was established in bounded repository/reference discovery. Exception/IRETD/TSS architecture remains ASSUMPTION requiring reference+CPU verification before implementation entry approval. Existing source/host assertions are not independent architecture evidence.
+- Current ownership plan lacks the described numbered 15-case list; exact historical correspondence NOT VERIFIED. Matrix is a source-grounded first-smoke prerequisite selection, not 15/15 closure.
+- User approval needed before implementation: accept terminal-only scope rather than shell recovery; authorize F1 only, including the fixed resource manifest. No numeric memory budget is approved here.
+- Future production checkpoints retain official frozen-source acceptance and inherited exact identities; optional deferred maintenance creates no extra cycle. No acceptance was run for this documentation task.
+- Independent design review required before local documentation commit. Review approval covers only the documented proposal and its source evidence, never readiness to execute CPL3.

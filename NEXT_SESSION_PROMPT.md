@@ -1,5 +1,16 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
+Current design-only resume pointer: read live Git and
+`test_results/phase11b19_closure_design/STATE.md`, FINAL_REPORT.md and complete
+independent review, then **B19 Closure and First Ring-3 Smoke Entry Criteria** in
+`docs/PHASE11_MEMORY_AUTHORITY.md`. Proposed shortest path is F1 retained one-shot
+owner -> F2 exception entry -> F3 GDT/TSS/stacks -> F4 owned USER arena -> F5 terminal
+CPL3 isolation proof. Teardown/transfer/recoverable continuation are deferred only
+under enforced reviewed restrictions. No implementation is authorized by this
+checkpoint; first seek authorization for F1. CPL3 has not executed; B19 and Phase
+11 remain incomplete. Preserve unrelated work; no acceptance/deployment/push in
+the documentation session. Historical accepted-source checkpoint follows.
+
 ## Actual current checkpoint — Phase 11 B19 same-slot unmap authority, BOUNDED VERIFIED
 
 Repository C:/Users/iamsv/Documents/Rust-OS, maintenance/phase10; starting HEAD

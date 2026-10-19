@@ -1,5 +1,12 @@
 # Rosti OS — development handover
 
+Documentation-only first-smoke design: `docs/PHASE11_MEMORY_AUTHORITY.md`,
+**B19 Closure and First Ring-3 Smoke Entry Criteria**; review/commit status in
+`test_results/phase11b19_closure_design/STATE.md`. Five proposed bounded slices;
+retain existing CR3/resources for one payload, expected isolation fault then
+terminal Ring-0 halt. No implementation, CPL3 execution or full B19/Phase 11
+closure claimed; implementation needs separate authorization and evidence.
+
 ## Current — Phase 11 B19 same-slot unmap authority checkpoint, BOUNDED VERIFIED
 
 Runtime unmap now requires `PageMap::unmap_owned(fa, linear, &FrameLease)`: the

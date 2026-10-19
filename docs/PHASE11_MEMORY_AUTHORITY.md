@@ -183,3 +183,264 @@ permanent supervisor backing stays intact. Define explicit repeated-call refusal
 or idempotence and complete failure rollback before exposing that API. SMP additionally
 requires inter-processor TLB shootdown and concurrent map/CPU lifetime protection.
 Neither SMP nor general teardown is implemented here.
+
+## B19 Closure and First Ring-3 Smoke Entry Criteria
+
+Design checkpoint against `98da93b6dd4b6fb276c9cf27887571c6baea4499`
+(source predecessor `ab2b501`). This section supersedes historical statements
+above only for the **proposed first-smoke prerequisite set**, not for general
+ownership closure. No implementation or CPL3 execution occurred in this session.
+Review and byte identities: `test_results/phase11b19_closure_design/`.
+
+### A. Focused ownership authority map
+
+Current source inspection; test names below are existing **host** declarations,
+not newly executed tests. Accepted predecessor evidence is separately identified.
+
+| Operation | Authority required | Enforcement source | Existing test | Status |
+|---|---|---|---|---|
+| Allocate: `allocate_owned` | Exclusive initialized allocator with eligible capacity; issues private domain/address/allocation identity lease | `src/memory/frame.rs:410`, stamped allocation commit at `src/memory/frame.rs:387`, live oracle at `src/memory/frame.rs:425` | `generation_safe_repeated_allocate_release_cycles_keep_state`, `src/memory/generation_ownership_tests.rs:151` | Implemented ordinary authority; not a CPU-lifetime token |
+| Release: `release_frame` | Consumed lease with matching live domain/id; no runtime or structure pin | `src/memory/frame.rs:508`, identity refusal at `src/memory/frame.rs:517`, pin refusals at `src/memory/frame.rs:457` | `generation_safe_stale_lease_cannot_release_reused_frame`, `src/memory/generation_ownership_tests.rs:48`; mapped refusal at `src/memory/generation_ownership_tests.rs:114` | Implemented; refusal consumes the passed lease value, not a retry-capable error return |
+| Map: `map_owned(fa, linear, &FrameLease, perms)` | Matching map/allocator domain and live borrowed lease; eligible unpinned payload, valid vacant supervisor slot | `src/memory/paging.rs:310`, `src/memory/paging.rs:373`, `src/memory/paging.rs:404`, pin-before-PTE at `src/memory/paging.rs:470` | `numeric_map_live_lease_borrow_pins_until_unmap`, `src/memory/numeric_map_authority_tests.rs:135`; production API oracle at `src/memory/numeric_map_authority_tests.rs:6` | Implemented supervisor-only; **does not publish USER** |
+| Unmap: `unmap_owned(fa, linear, &FrameLease)` | Matching live lease plus exact PTE payload match, local map authority and structural/boot exclusions | `src/memory/paging.rs:484`, payload comparison at `src/memory/paging.rs:568`, clear/invalidate/unpin at `src/memory/paging.rs:572` | `unmap_authority_stale_lease_cannot_unmap_replacement_mapping`, `src/memory/unmap_authority_tests.rs:74`; foreign/stale at `src/memory/unmap_authority_tests.rs:102`; production API at `src/memory/unmap_authority_tests.rs:8` | Implemented ordinary boundary; not general teardown |
+
+Specialized paths and bypass scope:
+
+- **Exact growth:** `claim_growth_frame`, `src/memory/frame.rs:534`, refuses
+  noneligible/competing claims at `src/memory/frame.rs:546`;
+  `map_growth_claim`, `src/memory/paging.rs:326`, binds identity slot and fixed
+  supervisor permissions. Production owner order/failed-publication rollback is
+  `src/memory/mod.rs:302`. Not a user allocation path; retain heap mappings.
+- **Structure ownership:** runtime install pins its table after writable supervisor
+  identity-access validation (`src/memory/paging.rs:439`,
+  `src/memory/paging.rs:452`). Unpublished cleanup preflights the complete private
+  inventory, refuses retained/live-payload maps, then revokes it
+  (`src/memory/paging.rs:182`). Existing host declarations:
+  `structure_cleanup_cpu_activated_map_cannot_release_structures`
+  (`src/memory/structure_lifetime_tests.rs:67`) and
+  `structure_cleanup_publication_and_cr3_reload_retain_backing`
+  (`src/memory/structure_lifetime_tests.rs:117`). Not inactive published teardown.
+- **Borrowed bootstrap aliases:** known inventory contract is supervisor
+  translation without runtime payload ownership (historical inventory above).
+  Builder call/publication inspected at `src/memory/mod.rs:202` and
+  `src/memory/mod.rs:228`; full builder reservation/alias construction and every
+  rollback branch NOT VERIFIED in this bounded inspection. Do not reclassify
+  these privileged paths as independently proved safe. Before USER admission,
+  require a complete effective-permission audit of the resulting active map.
+- **Trusted numeric operations:** allocator `allocate`/`free` remain crate-private
+  (`src/memory/frame.rs:401`, `src/memory/frame.rs:500`); they are not capabilities.
+  Map/unmap numeric adapters are test-only (`src/memory/paging.rs:339`,
+  `src/memory/paging.rs:500`); cores private (`src/memory/paging.rs:362`,
+  `src/memory/paging.rs:513`). No user-facing allocator/map/free operation is
+  proposed. Full crate-wide privileged caller audit NOT VERIFIED; slice 1 must
+  enumerate all reachable smoke mutation/release paths before sealing.
+- **CR3 publication/retention:** private owner serializes publication
+  (`src/memory/mod.rs:193`); retention is irreversible
+  (`src/memory/paging.rs:224`) and precedes both inspected CR3-writing helpers
+  (`src/memory/paging.rs:691`, `src/memory/paging.rs:898`). This protects their
+  structure release set, **not** arbitrary stack/payload unmapping. The smoke
+  needs an additional enforced no-unmap/no-release lifecycle policy.
+
+Predecessor evidence: `test_results/phase11b19_unmap_authority/FINAL_REPORT.md:39`
+lists the exact-three host identities; `:44` records host 343 passed/2 ignored,
+B26 116 passed and canonical 65/65 PASS. Its `acceptance_readback.json` reports
+PASS/exit 0. This session compared all 150 recorded source/build hashes with live
+bytes (all match), checked the acceptance JSON digest and 65 gate rows; it did
+not rerun acceptance or independently replay every nested report. Review pins
+are in predecessor `candidate_review.md:57`. These are **accepted historical
+host/guest results**, not CPL3 proof or a fresh guest run.
+
+### B. Remaining B19 gap matrix
+
+All new mechanisms/oracles in this table are [PROPOSAL]. Required evidence means
+future evidence, not results obtained here. Dependencies refer to slices F1–F5.
+
+| Gap / source evidence | Why it matters | Classification | Minimum implementation or enforced policy | Proposed RED oracle | Necessary host / guest evidence | Exit criterion; dependencies |
+|---|---|---|---|---|---|---|
+| Active map/table/stack/payload lifetime: retained flag protects structure cleanup only (`src/memory/paging.rs:185`, `src/memory/paging.rs:224`) | Unmap can invalidate CPU/TSS backing even if free pins work | SMOKE-REQUIRED | One immutable sealed smoke resource set on existing CR3; no unmap, free, map replacement, reset, second launch or CR3 switch after seal; retain metadata too | Attempt each forbidden operation in armed/entered/terminal states; state/capacity unchanged | Host state-machine/authority tests; QEMU CR3/stack/PTE identity before entry and at terminal capture | No reachable reclamation or backing mutation; F1, F4, F5 |
+| Published-map teardown (`src/memory/paging.rs:182` is unpublished-only) | Reclaiming active structures is unsafe | POLICY-DEFERRABLE | No published teardown entry in smoke; retain until emulator termination/reboot, including failed partial preparation | Launch retry/cleanup request after any acquired resource or seal refuses without release | Host monotonic lifecycle and bounded-failure tests; guest terminal cannot resume shell/relaunch | Option A restriction enforced, not a comment; F1 |
+| Per-map transfer and shared references (`src/memory/paging.rs:404`, `src/memory/paging.rs:419`) | A release owner must not outlive hidden aliases | POLICY-DEFERRABLE | One existing map, one retained owner, exclusive ordinary leases; no ownership transfer/shared/COW/user alias API | Second alias/foreign authority/transfer refused without mutation | Preserve accepted host tests; audit user PTE inventory in guest | No second runtime reference or hidden release path; F1, F4 |
+| USER range/publication (`src/memory/paging.rs:373`, `src/memory/paging.rs:396`) | Current ordinary API rejects USER and proposed high arena | SMOKE-REQUIRED | Narrow private owned arena transaction; validate both PDE/PTE, kernel supervisor invariants, bounds and table accessibility; do not relax ordinary map API | Unowned/foreign/stale/reserved/structure/occupied/overflow/user-kernel elevation and per-stage failure probes | Host exact-state refusals/rollback or bounded terminal retention; QEMU actual allowed user access plus denied supervisor/guard/code-write cases | Only intended user leaves reachable, no kernel directory elevation; F1 -> F4 |
+| Exception normalization and CPU frame contract (`src/interrupt.rs:188`, `src/interrupt.rs:303`, `src/interrupt.rs:313`) | Misdecoded CS/error/ESP can turn a kernel fault into false PASS or corrupt stack | SMOKE-REQUIRED | Explicit reviewed 32-bit entry contract, origin check, segment/DF/alignment handling and terminal user-fault capture; fatal kernel exceptions | Real no-error/#GP/#PF fixtures with known frame/register/stack sentinels; wrong-origin capture must fail | Host layout/decode + emitted i686 disassembly; QEMU CPU frames, not synthetic host structs | F2 verified, including C's architectural blocker, before F5 |
+| Static GDT/TSS/SS0/ESP0/transition stack (installed entries at `src/gdt.rs:130` and `src/gdt.rs:155`) | User fault requires a valid privileged stack switch | SMOKE-REQUIRED | Stable kernel/user descriptors and 32-bit TSS; loaded TR, denied I/O, separate bounded supervisor guarded stack, all retained | Bad selectors, SS0/ESP0 bounds, user access to stack/TSS and unready TR refuse before entry; CPU transition captures correct stack | Host descriptor/bound tests + disassembly; QEMU STR, saved SS/ESP and handler stack range | No dependency on user stack for trusted entry; F1, F2 -> F3 |
+| Double fault/NMI/async entry (`src/interrupt.rs:269`, fatal loop `src/interrupt.rs:533`) | CLI does not contain all exceptional entries; failed entry can triple-fault | SMOKE-REQUIRED | Review every reachable vector under pinned CPU feature model; bounded emergency fatal path and independent stack if required; no recovery claim | Bad transition/guard-overflow and double-fault injection must fail terminally, never PASS/reset | Host gate/state checks; QEMU diagnostic/no-reset proof and exact CPU config | Proven containment or STOP; F2, F3, F5 |
+| Recoverable continuation after user fault (current #GP/#PF halt at `src/interrupt.rs:381`, `src/interrupt.rs:337`) | Ordinary Rust return cannot cross privilege boundary | POLICY-DEFERRABLE | Handler records result then nonreturning Ring-0 CLI/HLT; no IRET to faulting user or fabricated Rust continuation | Unexpected return/relaunch/shell marker after terminal event is FAIL | Host no-resume state; QEMU stable terminal state under bounded observation | Only terminal return to privilege, not recoverable launch return; F2, F5 |
+| Processes, scheduling, general ELF/syscall ABI, SMP lifetime | Not reachable in dedicated one-payload boot fixture; implementation audit still required | LATER-PHASE | Do not expose these interfaces or enable APs in the smoke | Build/entry-path audit rejects accidental general loader/syscall/scheduler or multiple-CPU dependency | Host scope review; QEMU single-vCPU command identity | Separate future authorization; no prerequisite slice |
+
+Case-list limitation: current `docs/PHASE11A2_OWNERSHIP_PLAN.md:45` has five
+staged migrations and `:103` an unnumbered oracle-family list, not a numbered
+15-case inventory. The requested historical 15-case correspondence is NOT
+VERIFIED; this matrix must not be advertised as a 15/15 closure. Accepted null,
+lease, pin, sharing-refusal, numeric-map and unmap work stays closed absent a
+demonstrated regression. Preserve their gates, do not manufacture new slices.
+
+### C. Teardown and CPU-lifetime decision
+
+| Option | What it would require | Decision |
+|---|---|---|
+| A — no runtime teardown | Enforced one-shot retained resource set, same CR3, bounded preparation and terminal Ring-0 path | [PROPOSAL] minimum recommendation, conditional on F1–F5 evidence |
+| B — inactive-map teardown | Prove withdrawal of every CPU/stack/interrupt/TSS/software reference, switch to independent continuation, invalidate then reclaim | Defer; no second map or continuation is needed for first entry |
+| C — full lifetime-aware teardown | General address-space/alias/CPU lifetime protocol and reclamation failure handling | Defer; adds risk without enabling this terminal smoke |
+
+Yes: one trusted payload only, no process creation/destruction. Prefer adding a
+small USER arena to the **existing retained map**, not constructing/switching a
+second CR3. Isolation is CPL3 versus supervisor pages, not process-versus-process
+isolation. No user-accessible kernel aliases may be introduced.
+
+[PROPOSAL] `unstarted -> preparing -> sealed -> entered -> terminal` is monotonic,
+with any preparation failure also terminal. Latch before acquiring resources;
+reject a second attempt even after OOM. The sealed owner retains all payload
+leases and allocation backing, runtime pins, paging structures, kernel boot
+stack, transition/emergency stacks, GDT/IDT/TSS and metadata. Expose no owner
+references or release/permission mutation callbacks. No heap/map/frame guards
+survive entry; preserve heap -> map -> frame ordering during preparation. IRQ
+owners remain prohibited. Runtime pins prevent backing free, **not unmap**;
+structure retention prevents inspected cleanup, **not all raw privileged misuse**.
+Both must be paired with the no-mutation sealed owner and reachable-path audit.
+
+After the payload's expected protection fault the CPU enters Ring 0, a dedicated
+verified handler captures the result without locks/heap, emits one terminal
+record, then CLI/HLT forever on retained privileged backing. Unexpected faults
+also terminate but emit FAIL. A spinning payload times out externally and fails.
+There is no ordinary Rust return, no resumed shell, no user retry and no runtime
+cleanup. External controlled reset/termination ends the retained lifecycle; a
+reset or triple fault before a verified terminal record is not successful cleanup.
+Kernel resumption/recovery is **not approved by this policy**.
+
+Retained capacity must be an admission bound, not an unmeasured leak claim:
+F1 must declare a fixed manifest of code pages, user-stack pages, transition and
+emergency-stack backing, new tables, descriptors and metadata; count existing
+retained backing separately from incremental allocations. F4 must calculate
+checked page/structure counts from actual selected ranges and report actual
+frame identities/capacity deltas, including partially prepared failure states.
+Every fallible stage has a fixed maximum and no retry loop or deferred queue.
+Use at most that one manifest per boot; a capacity/range/conflict refusal is
+terminal, not a reason to allocate elsewhere indefinitely. No byte/high-water
+estimate is asserted here; emitted stack use plus exception headroom and
+minimum-RAM measurements remain F3/F5 entry gates. Until these bounds exist,
+pinning is a recommendation, not proof that the first smoke is safe.
+
+### D. Exception and privilege-transition prerequisites
+
+No authoritative Intel reference was already available in the inspected local
+project references. A bounded tracked Intel/PDF filename search found none; this
+does not prove no such reference exists elsewhere. No open-ended web search was
+performed. Architectural assertions below remain [ASSUMPTION] — ARCHITECTURAL
+VERIFICATION REQUIRED, not validated by matching source and host tests.
+
+| Property | Implemented/source-inspected state | Required before smoke |
+|---|---|---|
+| Error/no-error frames | Classifier says only 8/10/11/12/13/14/17 (`src/memory/paging.rs:125`); IDT offset installs those (`src/interrupt.rs:267`). Packed error frame places error before EIP/CS/flags (`src/interrupt.rs:303`); opaque no-error frame is 48 bytes (`src/interrupt.rs:188`) | Verify architecture and emitted compiler ABI independently; replace/normalize unsafe contract rather than treating comments as proof |
+| Newer exception vectors | 21, 29 and 30 all return false from classifier; generic handler calls 17–31 reserved (`src/interrupt.rs:514`) | [ASSUMPTION] #CP(21), #VC(29), #SX(30) may have error codes on supporting configurations. Pin exact QEMU CPU/features/vendor and either prove those vectors unreachable or provide correct entry shapes; no universal correctness claim from current seven-vector test |
+| Origin | `fault_ring_from_saved_cs` masks `cs & 3` (`src/memory/paging.rs:139`); #GP prints it (`src/interrupt.rs:373`) | QEMU saved CS must match CPL3 descriptor and known payload PC; never use PF user bit alone or a user-supplied marker |
+| CS/SS/ESP | Current error structs omit old SS/ESP (`src/interrupt.rs:291`, `src/interrupt.rs:303`) | [ASSUMPTION] same-level and privilege-changing frames differ; capture correct tail only after trusted origin validation, prove TSS stack switch and exact old user SS/ESP in QEMU |
+| GPR preservation | Handlers use compiler `extern "x86-interrupt"` (`src/interrupt.rs:313`, `src/interrupt.rs:385`) | NOT VERIFIED from emitted code. Explicit save contract must precede Rust/formatting; terminal handler must preserve evidence, returning Ring-0 IRQs must restore interrupted GPRs |
+| Segments | GDT boot reload sets kernel DS/ES/FS/SS/GS (`src/gdt.rs:174`); this is not interrupt-entry normalization | Save/capture incoming selectors, load trusted kernel segments before Rust memory access; restore on every returning path; QEMU hostile/zero user segment fixtures |
+| Stack alignment | No explicit alignment shim established in inspected entry source | NOT VERIFIED; emitted i686 call alignment and real stack sentinels required, retain original CPU frame pointer across alignment |
+| Direction flag | No explicit CLD established in inspected entry source | NOT VERIFIED; sanitize before Rust and prove with user STD fixture; preserve required flags on returning paths |
+| IRET | Compiler-generated interrupt restoration not inspected; no CPL3 entry mechanism verified | [ASSUMPTION] reviewed IRETD frame for first entry includes EIP/CS/EFLAGS/user ESP/SS. Actual QEMU execution is mandatory; reject invalid selectors/flags/stack before entry. No user IRET-return after the terminal fault is needed |
+| Double fault | Vector 8 is an error-handler offset on ordinary entry (`src/interrupt.rs:269`, macro at `src/interrupt.rs:427`) | No emergency-stack/task-gate guarantee verified. F2/F3 must establish fatal containment including entry failure, NMI and stack exhaustion, or stop |
+| TSS/SS0/ESP0 | Inspected installed GDT has null/code/data only (`src/gdt.rs:130`, `src/gdt.rs:151`); boot descriptors leak for retention (`src/gdt.rs:155`) | Static retained 32-bit TSS/descriptor and loaded TR, supervisor stack/guard, I/O denial; system-wide absence of alternate TSS code is NOT VERIFIED by a text search |
+| Kernel continuation | Current PF/GP handlers halt, no recovery (`src/interrupt.rs:337`, `src/interrupt.rs:381`) | Terminal fault path only. Recoverable return requires a later nonlocal assembly/compiler ABI and no skipped Rust owners; excluded here |
+
+Existing host oracle declarations `phase11a2_error_code_vectors_are_classified`
+(`src/memory/phase11a2_abi_tests.rs:7`) and
+`phase11a2_fault_origin_reads_saved_cs_ring`
+(`src/memory/phase11a2_abi_tests.rs:43`) verify the chosen model only. Historical
+Ring-0 faults cannot prove privilege-changing SS/ESP, entry alignment, GPR/segment
+restoration, TSS switching, IRETD, CPL3 permission denial or double-fault isolation.
+F2 must resolve the architectural assumptions with a pinned authoritative reference
+and CPU model before entry approval; unavailable reference means STOP, not waiver.
+
+### E. First Ring-3 smoke definition
+
+[PROPOSAL] dedicated test-only controlled boot path, production default unchanged;
+one fixed reviewed i386 instruction blob with entry offset/length pinned to its
+fixture identity. No ELF, filesystem loader, scheduler, production syscall ABI or
+new process abstraction. User code never writes serial directly.
+
+- **Address range:** candidate arena `0x40000000..0x40400000`, inherited design
+  proposal only, not a current mapping. Reject the whole launch if actual active
+  map/reservations conflict; do not silently relocate or elevate an identity PDE.
+  Code starts at arena base; fixed manifest places a user stack below arena end
+  with a nonpresent page immediately below it. Final stack page count/top and
+  transition/emergency stack ranges must be explicit in F1/F3, not guessed here.
+- **Permissions:** code USER/present/read-only; user stack USER/present/writable;
+  all other arena leaves absent. Audit effective PDE **and** PTE rights. All
+  identity aliases, kernel/heap/MMIO/boot metadata, tables, GDT/IDT/TSS and privileged
+  stacks stay supervisor. Any new USER PDE may cover only the audited arena;
+  unused PTEs remain absent. Zero every new user frame before copying payload;
+  never expose allocator residue. Non-PAE NX is unavailable in current permission
+  representation (`src/memory/paging.rs:596`); no NX or hostile W^X claim.
+- **Entry environment:** same CR3; one vCPU; no AP or concurrent mutation.
+  Proposed kernel CS/DS `0x08/0x10`, user CS/DS `0x1b/0x23`, TSS `0x28` require
+  descriptor/type/limit verification. TSS SS0/ESP0 point to retained supervisor
+  guarded transition stack; I/O permissions deny user I/O. Sanitize IOPL=0,
+  VM/NT/TF/DF cleared, reserved flags canonical, IF=0 deliberately for this bounded
+  payload. Mask external IRQs for smoke; NMI/DF remain explicit obligations.
+  Validate CR0/CR4 paging mode and WP, descriptors, TR, all mappings/stacks and
+  CPU feature contract before the nonreturning assembly IRETD launch.
+- **Observable payload:** read CS into a designated saved register, perform one
+  known user-stack store/load with a fixed sentinel, then attempt a write to a
+  dedicated **supervisor-only sentinel page** at a known virtual address, not
+  arbitrary live kernel data. Its expected #PF is the completion event. Capture
+  payload PC, saved CS/SS/ESP, flags, sentinel registers, CR2/error, current CR3 and
+  handler-stack bounds before clobbering them. Verify the supervisor sentinel is
+  unchanged. Successful write or ordinary RET is never a success path.
+- **Output:** kernel emits `R3SMOKE PREPARED` with fixture/source/CPU/resource
+  identity. Only after validating the expected saved frame, exact faulting opcode
+  PC/CR2, CPL3 selectors, flags and sentinel does it emit
+  `R3SMOKE PASS cpl=3 event=supervisor-write-denied terminal=halt` followed by
+  `R3SMOKE TERMINAL`. Any other exception/origin/state emits `R3SMOKE FAIL` and
+  terminal halt; malformed entry must never be reclassified as user completion.
+  A host timeout, triple-fault/reset, missing record, extra PASS, changed sentinel,
+  unexpected mapping/resource count or later shell/launch marker is FAIL.
+- **Lifecycle:** terminal Ring-0 CLI/HLT on retained privileged stack, all acquired
+  memory remains held until external termination/reboot. No runtime cleanup and
+  no in-guest reboot dependency. Host verifies halt/no reset under bounded
+  observation and confirms owned QEMU termination separately.
+- **Exact evidence gate:** identical pinned fixture and input manifest on local
+  QEMU at 128/512 MiB, ELF and GRUB ISO paths, fresh boot per invocation. Require
+  exactly one validated PASS/TERMINAL pair and matching prepared identity per
+  positive invocation; preserve raw serial and CPU/handler captures. Separate
+  fresh-boot negative variants must demonstrate user-code write denial, user
+  guard denial, invalid-entry refusal, wrong-origin failure, STD/segment handling
+  and DF containment. These variants are future isolation prerequisites, not
+  additional user processes in the positive smoke. Host tests cannot replace them.
+
+Three distinct outcomes: **first CPL3 entry** is established by the CPU-captured
+origin/stack and executed user sentinel; **terminal user-to-kernel fault entry**
+establishes isolation but not recoverable return; **recoverable Ring-0 continuation**
+and **general process execution** remain later work. Phase 11 first-smoke exit is
+F1–F5 reviewed and accepted with these evidence gates; it is not full Phase 11
+completion or general B19 closure. No smoke has executed at this checkpoint.
+
+### F. Ordered implementation path — five bounded slices
+
+All slices are [PROPOSAL], require separate implementation authorization and
+independent source/ABI review before their production checkpoint is accepted.
+No code changes are authorized by this document. Preserve the inherited 65 gate
+identities/multiplicities; discover actual test declarations before adding exact
+nonshrinking prerequisite families. Never guess a future aggregate gate total.
+No canonical acceptance in this docs-only session. Future checkpoints follow the
+ownership plan's frozen-source official acceptance rule
+(`docs/PHASE11A2_OWNERSHIP_PLAN.md:103`); focused evidence is not a substitute.
+Do not add a separate acceptance cycle solely for optional deferred maintenance.
+
+| Slice / prerequisite | Exact problem and smallest intended scope | RED -> expected GREEN | Host verification | QEMU verification | Independent review; acceptance identity/gate; stop condition |
+|---|---|---|---|---|---|
+| **F1 — bounded one-shot retained owner**; accepted baseline | Private smoke state/resource manifest near memory owner; enumerate all reachable privileged mutation/release paths. Latch first attempt, cap every resource/failure path, seal no-unmap/no-free/no-reset/no-second-launch. No general CPU-pin ledger | Forbidden operations after seal, retry after partial OOM and over-cap acquisition fail against baseline -> exact nonmutating refusals and fixed retained inventory | Exact state transitions, each acquisition failure, allocator/structure/payload accounting and emitted static/stack budget; preserve accepted authority families | Ring-0 fixture confirms same CR3, capped prepare failure, no retry/cleanup; CPL3 disabled | Review lifetime/bypass audit. Proposed exact lifecycle family inside inherited gate set plus necessary new gate; stop if any mutation/reclaim path escapes seal or bound unknown |
+| **F2 — verified exception entry/fatal contract**; F1 resource policy, pinned architectural reference/CPU model | `interrupt.rs` plus minimal assembly entry and frame/decode tests; normalize error/no-error, save GPRs/selectors, CLD, align calls, origin validation, kernel fatal/DF/NMI containment contract. Not process continuation | Known CPU #GP/#PF/no-error frames and preservation controls expose wrong decode/ABI -> exact captured frame and terminal diagnostics; returning Ring-0 IRQ preservation proved | Host layout/offset/origin/error-vector cases; emitted target disassembly and all returning paths; feature-specific 21/29/30 contract | Real Ring-0 error/no-error faults, GPR/DF/segment/alignment checks, fatal failure controls; later CPL3-tail proof reserved for F5 | Independent architectural/ABI review including emergency entry dependency. Preserve existing fault gates; extend exact fixtures without weakening fatal expectations. Stop on missing architecture authority, ambiguous compiler ABI or uncontained vector; no USER |
+| **F3 — static GDT/TSS and guarded privileged stacks**; F1, F2 entry contract | `gdt.rs`, minimal stable TSS/descriptor/TR setup and fixed stack backing; emergency DF mechanism only if F2 requires. No task scheduling or general context switch | Invalid descriptor/TR/SS0/ESP0/stack bounds or resource failure -> refused launch, valid retained descriptors and stack identity | Wire descriptor/TSS layout, selectors/I/O denial, lifetime/range guards; target stack-frame/headroom evidence and bounded capacity | Read TR/descriptor state; Ring-0 guard and emergency-entry fault fixtures; real CPL3 stack switch deferred explicitly to F5 | Independent TSS/DF/stack review; exact descriptor/stack prerequisite family and guest identities. Stop if stack budget/DF fallback unresolved or claimed stack switch lacks F5 proof |
+| **F4 — narrow owned USER arena transaction**; F1; F2/F3 before arming entry | Memory-private arena builder on existing PageMap; checked owned frame leases, zero/copy before USER publication, USER-only PDE region, supervisor aliases, guards, seal. Keep ordinary `map_owned` supervisor refusal intact | All gap-matrix invalid authorities/conflicts/stage failures and permission-elevation controls -> exact refusal plus fixed rollback-before-publication or bounded terminal retention; success exact user leaf set | PDE/PTE effective rights, overflow/conflict/zeroing/table accessibility, no lock allocation/destruction, complete resource manifest and no reachable bypass | Ring-0 audit of active tables/CR3 and supervisor aliases at both RAM sizes; CPU CPL3 denial deferred to F5 | Independent ownership/permission/transaction review; preserve all accepted authority identities, exact arena refusal family. Stop if kernel PDE elevation, residual user bytes, unbounded failure retention or ordinary API weakening required |
+| **F5 — terminal first CPL3 smoke and isolation proof**; F1–F4 GREEN/reviewed, no unresolved hardware assumption | Minimal nonreturning IRETD shim, fixed payload/negative variants, trusted terminal handler and focused local harness; no syscall/ELF/shell continuation | Disabled/malformed entry, wrong-origin/PC/fault markers and deliberate missing denial evidence -> harness FAIL; valid E fixture -> exactly validated terminal PASS | Frame construction/selector/flags bounds, harness missing/extra/substituted/timeout/reset controls; emitted entry/handler assembly; inherited suites | E's ELF/ISO x 128/512 positive matrix plus fresh-boot negative CPU fixtures; actual CPL, TSS SS/ESP, denied accesses, terminal state and owned cleanup | Independent final source+guest identity readback. Add exact mandatory terminal/isolation gate(s) while preserving inherited multiset, frozen inputs and acceptance lock. Stop on any missing CPU evidence, review blocker or reset; do not add recovery to rescue smoke |
+
+The five-slice bound is conditional on closing F2/F3 as bounded entry work. If
+authoritative ABI review shows the emergency-stack/DF path or ownership seal
+requires more than six independently implementable slices, report that blocker
+and revise the estimate; do not hide an incompatible context-switch subsystem
+inside F2/F3. Do not split accepted FrameLease/pin/VPZ/map/unmap work again.
+Stop splitting B19 once every first-smoke prerequisite is enforced or safely
+excluded by the reviewed policy. General published teardown, per-map transfer,
+shared/COW ownership, repeated launch, shell recovery, ELF/syscalls and scheduling
+remain deferred, not prerequisites to satisfy a superficial 100% checklist.

@@ -3,6 +3,11 @@
 ## Current — Phase 11 B19 same-slot unmap authority checkpoint, BOUNDED VERIFIED
 
 ### A. Status
+Documentation-only first-smoke design checkpoint: see
+`PHASE11_MEMORY_AUTHORITY.md`, **B19 Closure and First Ring-3 Smoke Entry Criteria**,
+and `test_results/phase11b19_closure_design/STATE.md` for review/commit status.
+Recommends five conditional slices and a one-shot retained-CR3 terminal smoke;
+not implementation authorization, complete B19, Phase 11 completion or CPL3 proof.
 VERIFIED bounded checkpoint: lease-authenticated runtime unmap with live
 allocator domain/identity/generation validation before any PTE clear; numeric
 unmap adapter is cfg(test)-only. Canonical acceptance 65/65 PASS with
