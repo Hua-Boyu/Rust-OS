@@ -1,0 +1,390 @@
+
+target/target/debug/kernel:	file format elf32-i386
+
+Disassembly of section .text:
+
+0025a0c0 <_RNvNtCscre938AonzA_6kernel9interrupt14isr_page_fault>:
+  25a0c0: 55                           	pushl	%ebp
+  25a0c1: 89 e5                        	movl	%esp, %ebp
+  25a0c3: 57                           	pushl	%edi
+  25a0c4: 56                           	pushl	%esi
+  25a0c5: 52                           	pushl	%edx
+  25a0c6: 51                           	pushl	%ecx
+  25a0c7: 53                           	pushl	%ebx
+  25a0c8: 50                           	pushl	%eax
+  25a0c9: 83 e4 f0                     	andl	$-0x10, %esp
+  25a0cc: 81 ec c0 00 00 00            	subl	$0xc0, %esp
+  25a0d2: fc                           	cld
+  25a0d3: e8 00 00 00 00               	calll	0x25a0d8 <_RNvNtCscre938AonzA_6kernel9interrupt14isr_page_fault+0x18>
+  25a0d8: 5b                           	popl	%ebx
+  25a0d9: 81 c3 24 8c 0b 00            	addl	$0xb8c24, %ebx          # imm = 0xB8C24
+  25a0df: 89 5c 24 0c                  	movl	%ebx, 0xc(%esp)
+  25a0e3: 8d 45 04                     	leal	0x4(%ebp), %eax
+  25a0e6: 8b 08                        	movl	(%eax), %ecx
+  25a0e8: 89 4c 24 10                  	movl	%ecx, 0x10(%esp)
+  25a0ec: 8b 40 04                     	movl	0x4(%eax), %eax
+  25a0ef: 89 44 24 14                  	movl	%eax, 0x14(%esp)
+  25a0f3: 8b 44 24 10                  	movl	0x10(%esp), %eax
+  25a0f7: 8d 4c 24 18                  	leal	0x18(%esp), %ecx
+  25a0fb: 89 0c 24                     	movl	%ecx, (%esp)
+  25a0fe: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a102: e8 69 2e 01 00               	calll	0x26cf70 <_RNvNtNtCscre938AonzA_6kernel6memory6paging17decode_error_code>
+  25a107: 83 ec 04                     	subl	$0x4, %esp
+  25a10a: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a10e: e8 dd 39 01 00               	calll	0x26daf0 <_RNvNtNtCscre938AonzA_6kernel6memory6paging8read_cr2>
+  25a113: 89 c1                        	movl	%eax, %ecx
+  25a115: 8b 44 24 0c                  	movl	0xc(%esp), %eax
+  25a119: 89 4c 24 18                  	movl	%ecx, 0x18(%esp)
+  25a11d: 8b 4c 24 18                  	movl	0x18(%esp), %ecx
+  25a121: 89 4c 24 28                  	movl	%ecx, 0x28(%esp)
+  25a125: 8b 4c 24 1c                  	movl	0x1c(%esp), %ecx
+  25a129: 89 4c 24 2c                  	movl	%ecx, 0x2c(%esp)
+  25a12d: 8b 4c 24 28                  	movl	0x28(%esp), %ecx
+  25a131: 89 4c 24 20                  	movl	%ecx, 0x20(%esp)
+  25a135: 8b 4c 24 2c                  	movl	0x2c(%esp), %ecx
+  25a139: 89 4c 24 24                  	movl	%ecx, 0x24(%esp)
+  25a13d: 8d 80 a4 cd ff ff            	leal	-0x325c(%eax), %eax
+  25a143: 83 e0 03                     	andl	$0x3, %eax
+  25a146: 83 f8 00                     	cmpl	$0x0, %eax
+  25a149: 75 1d                        	jne	0x25a168 <_RNvNtCscre938AonzA_6kernel9interrupt14isr_page_fault+0xa8>
+  25a14b: 8b 44 24 0c                  	movl	0xc(%esp), %eax
+  25a14f: 8d 80 a4 cd ff ff            	leal	-0x325c(%eax), %eax
+  25a155: 83 f8 00                     	cmpl	$0x0, %eax
+  25a158: 0f 94 c0                     	sete	%al
+  25a15b: 24 ff                        	andb	$-0x1, %al
+  25a15d: 34 ff                        	xorb	$-0x1, %al
+  25a15f: a8 01                        	testb	$0x1, %al
+  25a161: 75 29                        	jne	0x25a18c <_RNvNtCscre938AonzA_6kernel9interrupt14isr_page_fault+0xcc>
+  25a163: e9 4d 02 00 00               	jmp	0x25a3b5 <_RNvNtCscre938AonzA_6kernel9interrupt14isr_page_fault+0x2f5>
+  25a168: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a16c: 8d 8b a4 cd ff ff            	leal	-0x325c(%ebx), %ecx
+  25a172: 8d 83 94 cd ff ff            	leal	-0x326c(%ebx), %eax
+  25a178: c7 04 24 04 00 00 00         	movl	$0x4, (%esp)
+  25a17f: 89 4c 24 04                  	movl	%ecx, 0x4(%esp)
+  25a183: 89 44 24 08                  	movl	%eax, 0x8(%esp)
+  25a187: e8 63 ae 03 00               	calll	0x294fef <_RNvNtCs6HBAfCNWxyx_4core9panicking36panic_misaligned_pointer_dereference>
+  25a18c: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a190: 8b 44 24 20                  	movl	0x20(%esp), %eax
+  25a194: 89 83 a4 cd ff ff            	movl	%eax, -0x325c(%ebx)
+  25a19a: 8b 44 24 24                  	movl	0x24(%esp), %eax
+  25a19e: 89 83 a8 cd ff ff            	movl	%eax, -0x3258(%ebx)
+  25a1a4: 8d 83 08 5f 11 00            	leal	0x115f08(%ebx), %eax
+  25a1aa: 31 c9                        	xorl	%ecx, %ecx
+  25a1ac: 89 04 24                     	movl	%eax, (%esp)
+  25a1af: c7 44 24 04 01 00 00 00      	movl	$0x1, 0x4(%esp)
+  25a1b7: c7 44 24 08 00 00 00 00      	movl	$0x0, 0x8(%esp)
+  25a1bf: e8 0c 1d fc ff               	calll	0x21bed0 <_RNvMsO_NtNtCs6HBAfCNWxyx_4core4sync6atomicINtB5_6AtomicmE9fetch_addCscre938AonzA_6kernel>
+  25a1c4: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a1c8: 8d 74 24 18                  	leal	0x18(%esp), %esi
+  25a1cc: 83 c6 04                     	addl	$0x4, %esi
+  25a1cf: 8d 54 24 18                  	leal	0x18(%esp), %edx
+  25a1d3: 83 c2 05                     	addl	$0x5, %edx
+  25a1d6: 8d 4c 24 18                  	leal	0x18(%esp), %ecx
+  25a1da: 83 c1 06                     	addl	$0x6, %ecx
+  25a1dd: 8d 44 24 18                  	leal	0x18(%esp), %eax
+  25a1e1: 83 c0 07                     	addl	$0x7, %eax
+  25a1e4: 8d 7c 24 10                  	leal	0x10(%esp), %edi
+  25a1e8: 89 7c 24 34                  	movl	%edi, 0x34(%esp)
+  25a1ec: 89 74 24 38                  	movl	%esi, 0x38(%esp)
+  25a1f0: 89 54 24 3c                  	movl	%edx, 0x3c(%esp)
+  25a1f4: 89 4c 24 40                  	movl	%ecx, 0x40(%esp)
+  25a1f8: 89 44 24 44                  	movl	%eax, 0x44(%esp)
+  25a1fc: 8d 44 24 18                  	leal	0x18(%esp), %eax
+  25a200: 89 44 24 48                  	movl	%eax, 0x48(%esp)
+  25a204: 8d 44 24 14                  	leal	0x14(%esp), %eax
+  25a208: 89 44 24 4c                  	movl	%eax, 0x4c(%esp)
+  25a20c: 8b 44 24 34                  	movl	0x34(%esp), %eax
+  25a210: 8d 8c 24 88 00 00 00         	leal	0x88(%esp), %ecx
+  25a217: 89 0c 24                     	movl	%ecx, (%esp)
+  25a21a: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a21e: e8 ed c8 03 00               	calll	0x296b10 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument13new_lower_hexmEB7_>
+  25a223: 83 ec 04                     	subl	$0x4, %esp
+  25a226: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a22a: 8b 44 24 38                  	movl	0x38(%esp), %eax
+  25a22e: 8d 8c 24 90 00 00 00         	leal	0x90(%esp), %ecx
+  25a235: 89 0c 24                     	movl	%ecx, (%esp)
+  25a238: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a23c: e8 0f 55 fc ff               	calll	0x21f750 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument11new_displaybECscre938AonzA_6kernel>
+  25a241: 83 ec 04                     	subl	$0x4, %esp
+  25a244: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a248: 8b 44 24 3c                  	movl	0x3c(%esp), %eax
+  25a24c: 8d 8c 24 98 00 00 00         	leal	0x98(%esp), %ecx
+  25a253: 89 0c 24                     	movl	%ecx, (%esp)
+  25a256: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a25a: e8 f1 54 fc ff               	calll	0x21f750 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument11new_displaybECscre938AonzA_6kernel>
+  25a25f: 83 ec 04                     	subl	$0x4, %esp
+  25a262: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a266: 8b 44 24 40                  	movl	0x40(%esp), %eax
+  25a26a: 8d 8c 24 a0 00 00 00         	leal	0xa0(%esp), %ecx
+  25a271: 89 0c 24                     	movl	%ecx, (%esp)
+  25a274: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a278: e8 d3 54 fc ff               	calll	0x21f750 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument11new_displaybECscre938AonzA_6kernel>
+  25a27d: 83 ec 04                     	subl	$0x4, %esp
+  25a280: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a284: 8b 44 24 44                  	movl	0x44(%esp), %eax
+  25a288: 8d 8c 24 a8 00 00 00         	leal	0xa8(%esp), %ecx
+  25a28f: 89 0c 24                     	movl	%ecx, (%esp)
+  25a292: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a296: e8 b5 54 fc ff               	calll	0x21f750 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument11new_displaybECscre938AonzA_6kernel>
+  25a29b: 83 ec 04                     	subl	$0x4, %esp
+  25a29e: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a2a2: 8b 44 24 48                  	movl	0x48(%esp), %eax
+  25a2a6: 8d 8c 24 b0 00 00 00         	leal	0xb0(%esp), %ecx
+  25a2ad: 89 0c 24                     	movl	%ecx, (%esp)
+  25a2b0: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a2b4: e8 57 c8 03 00               	calll	0x296b10 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument13new_lower_hexmEB7_>
+  25a2b9: 83 ec 04                     	subl	$0x4, %esp
+  25a2bc: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a2c0: 8b 44 24 4c                  	movl	0x4c(%esp), %eax
+  25a2c4: 8d 8c 24 b8 00 00 00         	leal	0xb8(%esp), %ecx
+  25a2cb: 89 0c 24                     	movl	%ecx, (%esp)
+  25a2ce: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a2d2: e8 39 c8 03 00               	calll	0x296b10 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument13new_lower_hexmEB7_>
+  25a2d7: 83 ec 04                     	subl	$0x4, %esp
+  25a2da: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a2de: 8b 84 24 88 00 00 00         	movl	0x88(%esp), %eax
+  25a2e5: 89 44 24 50                  	movl	%eax, 0x50(%esp)
+  25a2e9: 8b 84 24 8c 00 00 00         	movl	0x8c(%esp), %eax
+  25a2f0: 89 44 24 54                  	movl	%eax, 0x54(%esp)
+  25a2f4: 8b 84 24 90 00 00 00         	movl	0x90(%esp), %eax
+  25a2fb: 89 44 24 58                  	movl	%eax, 0x58(%esp)
+  25a2ff: 8b 84 24 94 00 00 00         	movl	0x94(%esp), %eax
+  25a306: 89 44 24 5c                  	movl	%eax, 0x5c(%esp)
+  25a30a: 8b 84 24 98 00 00 00         	movl	0x98(%esp), %eax
+  25a311: 89 44 24 60                  	movl	%eax, 0x60(%esp)
+  25a315: 8b 84 24 9c 00 00 00         	movl	0x9c(%esp), %eax
+  25a31c: 89 44 24 64                  	movl	%eax, 0x64(%esp)
+  25a320: 8b 84 24 a0 00 00 00         	movl	0xa0(%esp), %eax
+  25a327: 89 44 24 68                  	movl	%eax, 0x68(%esp)
+  25a32b: 8b 84 24 a4 00 00 00         	movl	0xa4(%esp), %eax
+  25a332: 89 44 24 6c                  	movl	%eax, 0x6c(%esp)
+  25a336: 8b 84 24 a8 00 00 00         	movl	0xa8(%esp), %eax
+  25a33d: 89 44 24 70                  	movl	%eax, 0x70(%esp)
+  25a341: 8b 84 24 ac 00 00 00         	movl	0xac(%esp), %eax
+  25a348: 89 44 24 74                  	movl	%eax, 0x74(%esp)
+  25a34c: 8b 84 24 b0 00 00 00         	movl	0xb0(%esp), %eax
+  25a353: 89 44 24 78                  	movl	%eax, 0x78(%esp)
+  25a357: 8b 84 24 b4 00 00 00         	movl	0xb4(%esp), %eax
+  25a35e: 89 44 24 7c                  	movl	%eax, 0x7c(%esp)
+  25a362: 8b 84 24 b8 00 00 00         	movl	0xb8(%esp), %eax
+  25a369: 89 84 24 80 00 00 00         	movl	%eax, 0x80(%esp)
+  25a370: 8b 84 24 bc 00 00 00         	movl	0xbc(%esp), %eax
+  25a377: 89 84 24 84 00 00 00         	movl	%eax, 0x84(%esp)
+  25a37e: 8d 8b 98 07 fa ff            	leal	-0x5f868(%ebx), %ecx
+  25a384: 8d 44 24 50                  	leal	0x50(%esp), %eax
+  25a388: 89 0c 24                     	movl	%ecx, (%esp)
+  25a38b: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a38f: e8 1c d4 00 00               	calll	0x2677b0 <_RINvMs2_NtCs6HBAfCNWxyx_4core3fmtNtB6_9Arguments3newKj5b_Kj7_ECscre938AonzA_6kernel>
+  25a394: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a398: 8d 4c 24 33                  	leal	0x33(%esp), %ecx
+  25a39c: 89 0c 24                     	movl	%ecx, (%esp)
+  25a39f: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a3a3: 89 54 24 08                  	movl	%edx, 0x8(%esp)
+  25a3a7: e8 a4 e5 00 00               	calll	0x268950 <_RNvYNtNtNtCscre938AonzA_6kernel2io6serial12SerialWriterNtNtCs6HBAfCNWxyx_4core3fmt5Write9write_fmtB8_>
+  25a3ac: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a3b0: e8 73 fc ff ff               	calll	0x25a028 <_RNvNtCscre938AonzA_6kernel9interrupt12halt_forever>
+  25a3b5: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a3b9: 8d 83 94 cd ff ff            	leal	-0x326c(%ebx), %eax
+  25a3bf: 89 04 24                     	movl	%eax, (%esp)
+  25a3c2: e8 7a ab 03 00               	calll	0x294f41 <_RNvNtCs6HBAfCNWxyx_4core9panicking30panic_null_pointer_dereference>
+  25a3c7: cc                           	int3
+  25a3c8: cc                           	int3
+  25a3c9: cc                           	int3
+  25a3ca: cc                           	int3
+  25a3cb: cc                           	int3
+  25a3cc: cc                           	int3
+  25a3cd: cc                           	int3
+  25a3ce: cc                           	int3
+  25a3cf: cc                           	int3
+
+0025a4c0 <_RNvNtCscre938AonzA_6kernel9interrupt17isr_general_fault>:
+  25a4c0: 55                           	pushl	%ebp
+  25a4c1: 89 e5                        	movl	%esp, %ebp
+  25a4c3: 52                           	pushl	%edx
+  25a4c4: 51                           	pushl	%ecx
+  25a4c5: 53                           	pushl	%ebx
+  25a4c6: 50                           	pushl	%eax
+  25a4c7: 83 e4 f0                     	andl	$-0x10, %esp
+  25a4ca: 83 ec 60                     	subl	$0x60, %esp
+  25a4cd: fc                           	cld
+  25a4ce: e8 00 00 00 00               	calll	0x25a4d3 <_RNvNtCscre938AonzA_6kernel9interrupt17isr_general_fault+0x13>
+  25a4d3: 5b                           	popl	%ebx
+  25a4d4: 81 c3 29 88 0b 00            	addl	$0xb8829, %ebx          # imm = 0xB8829
+  25a4da: 89 5c 24 0c                  	movl	%ebx, 0xc(%esp)
+  25a4de: 8d 45 04                     	leal	0x4(%ebp), %eax
+  25a4e1: 8b 08                        	movl	(%eax), %ecx
+  25a4e3: 89 4c 24 10                  	movl	%ecx, 0x10(%esp)
+  25a4e7: 8b 48 04                     	movl	0x4(%eax), %ecx
+  25a4ea: 89 4c 24 14                  	movl	%ecx, 0x14(%esp)
+  25a4ee: 8b 40 08                     	movl	0x8(%eax), %eax
+  25a4f1: 89 44 24 5c                  	movl	%eax, 0x5c(%esp)
+  25a4f5: 89 04 24                     	movl	%eax, (%esp)
+  25a4f8: e8 7b 2b 01 00               	calll	0x26d078 <_RNvNtNtCscre938AonzA_6kernel6memory6paging24fault_ring_from_saved_cs>
+  25a4fd: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a501: 89 44 24 28                  	movl	%eax, 0x28(%esp)
+  25a505: 8d 44 24 10                  	leal	0x10(%esp), %eax
+  25a509: 89 44 24 1c                  	movl	%eax, 0x1c(%esp)
+  25a50d: 8d 44 24 28                  	leal	0x28(%esp), %eax
+  25a511: 89 44 24 20                  	movl	%eax, 0x20(%esp)
+  25a515: 8d 44 24 14                  	leal	0x14(%esp), %eax
+  25a519: 89 44 24 24                  	movl	%eax, 0x24(%esp)
+  25a51d: 8b 44 24 1c                  	movl	0x1c(%esp), %eax
+  25a521: 8d 4c 24 44                  	leal	0x44(%esp), %ecx
+  25a525: 89 0c 24                     	movl	%ecx, (%esp)
+  25a528: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a52c: e8 df c5 03 00               	calll	0x296b10 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument13new_lower_hexmEB7_>
+  25a531: 83 ec 04                     	subl	$0x4, %esp
+  25a534: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a538: 8b 44 24 20                  	movl	0x20(%esp), %eax
+  25a53c: 8d 4c 24 4c                  	leal	0x4c(%esp), %ecx
+  25a540: 89 0c 24                     	movl	%ecx, (%esp)
+  25a543: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a547: e8 c4 c3 03 00               	calll	0x296910 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument11new_displaymEB7_>
+  25a54c: 83 ec 04                     	subl	$0x4, %esp
+  25a54f: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a553: 8b 44 24 24                  	movl	0x24(%esp), %eax
+  25a557: 8d 4c 24 54                  	leal	0x54(%esp), %ecx
+  25a55b: 89 0c 24                     	movl	%ecx, (%esp)
+  25a55e: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a562: e8 a9 c5 03 00               	calll	0x296b10 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument13new_lower_hexmEB7_>
+  25a567: 83 ec 04                     	subl	$0x4, %esp
+  25a56a: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a56e: 8b 44 24 44                  	movl	0x44(%esp), %eax
+  25a572: 89 44 24 2c                  	movl	%eax, 0x2c(%esp)
+  25a576: 8b 44 24 48                  	movl	0x48(%esp), %eax
+  25a57a: 89 44 24 30                  	movl	%eax, 0x30(%esp)
+  25a57e: 8b 44 24 4c                  	movl	0x4c(%esp), %eax
+  25a582: 89 44 24 34                  	movl	%eax, 0x34(%esp)
+  25a586: 8b 44 24 50                  	movl	0x50(%esp), %eax
+  25a58a: 89 44 24 38                  	movl	%eax, 0x38(%esp)
+  25a58e: 8b 44 24 54                  	movl	0x54(%esp), %eax
+  25a592: 89 44 24 3c                  	movl	%eax, 0x3c(%esp)
+  25a596: 8b 44 24 58                  	movl	0x58(%esp), %eax
+  25a59a: 89 44 24 40                  	movl	%eax, 0x40(%esp)
+  25a59e: 8d 8b f3 07 fa ff            	leal	-0x5f80d(%ebx), %ecx
+  25a5a4: 8d 44 24 2c                  	leal	0x2c(%esp), %eax
+  25a5a8: 89 0c 24                     	movl	%ecx, (%esp)
+  25a5ab: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a5af: e8 3c d1 00 00               	calll	0x2676f0 <_RINvMs2_NtCs6HBAfCNWxyx_4core3fmtNtB6_9Arguments3newKj35_Kj3_ECscre938AonzA_6kernel>
+  25a5b4: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a5b8: 8d 4c 24 1b                  	leal	0x1b(%esp), %ecx
+  25a5bc: 89 0c 24                     	movl	%ecx, (%esp)
+  25a5bf: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25a5c3: 89 54 24 08                  	movl	%edx, 0x8(%esp)
+  25a5c7: e8 84 e3 00 00               	calll	0x268950 <_RNvYNtNtNtCscre938AonzA_6kernel2io6serial12SerialWriterNtNtCs6HBAfCNWxyx_4core3fmt5Write9write_fmtB8_>
+  25a5cc: 8b 5c 24 0c                  	movl	0xc(%esp), %ebx
+  25a5d0: e8 53 fa ff ff               	calll	0x25a028 <_RNvNtCscre938AonzA_6kernel9interrupt12halt_forever>
+  25a5d5: cc                           	int3
+  25a5d6: cc                           	int3
+  25a5d7: cc                           	int3
+  25a5d8: cc                           	int3
+  25a5d9: cc                           	int3
+  25a5da: cc                           	int3
+  25a5db: cc                           	int3
+  25a5dc: cc                           	int3
+  25a5dd: cc                           	int3
+  25a5de: cc                           	int3
+  25a5df: cc                           	int3
+
+0025aae0 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00>:
+  25aae0: 55                           	pushl	%ebp
+  25aae1: 89 e5                        	movl	%esp, %ebp
+  25aae3: 52                           	pushl	%edx
+  25aae4: 51                           	pushl	%ecx
+  25aae5: 53                           	pushl	%ebx
+  25aae6: 50                           	pushl	%eax
+  25aae7: 83 e4 f0                     	andl	$-0x10, %esp
+  25aaea: 83 ec 30                     	subl	$0x30, %esp
+  25aaed: fc                           	cld
+  25aaee: e8 00 00 00 00               	calll	0x25aaf3 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0x13>
+  25aaf3: 58                           	popl	%eax
+  25aaf4: 81 c0 09 82 0b 00            	addl	$0xb8209, %eax          # imm = 0xB8209
+  25aafa: 89 44 24 10                  	movl	%eax, 0x10(%esp)
+  25aafe: 8d 80 08 5b 11 00            	leal	0x115b08(%eax), %eax
+  25ab04: 83 f8 00                     	cmpl	$0x0, %eax
+  25ab07: 0f 94 c0                     	sete	%al
+  25ab0a: 24 ff                        	andb	$-0x1, %al
+  25ab0c: 34 ff                        	xorb	$-0x1, %al
+  25ab0e: a8 01                        	testb	$0x1, %al
+  25ab10: 75 02                        	jne	0x25ab14 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0x34>
+  25ab12: eb 0f                        	jmp	0x25ab23 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0x43>
+  25ab14: 8b 44 24 10                  	movl	0x10(%esp), %eax
+  25ab18: 83 b8 08 5b 11 00 00         	cmpl	$0x0, 0x115b08(%eax)
+  25ab1f: 74 31                        	je	0x25ab52 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0x72>
+  25ab21: eb 12                        	jmp	0x25ab35 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0x55>
+  25ab23: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  25ab27: 8d 83 ec cd ff ff            	leal	-0x3214(%ebx), %eax
+  25ab2d: 89 04 24                     	movl	%eax, (%esp)
+  25ab30: e8 0c a4 03 00               	calll	0x294f41 <_RNvNtCs6HBAfCNWxyx_4core9panicking30panic_null_pointer_dereference>
+  25ab35: 8b 44 24 10                  	movl	0x10(%esp), %eax
+  25ab39: 8d 80 08 5b 11 00            	leal	0x115b08(%eax), %eax
+  25ab3f: 83 f8 00                     	cmpl	$0x0, %eax
+  25ab42: 0f 94 c0                     	sete	%al
+  25ab45: 24 ff                        	andb	$-0x1, %al
+  25ab47: 34 ff                        	xorb	$-0x1, %al
+  25ab49: a8 01                        	testb	$0x1, %al
+  25ab4b: 75 73                        	jne	0x25abc0 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0xe0>
+  25ab4d: e9 87 00 00 00               	jmp	0x25abd9 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0xf9>
+  25ab52: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  25ab56: 8d 83 20 de f9 ff            	leal	-0x621e0(%ebx), %eax
+  25ab5c: 89 44 24 28                  	movl	%eax, 0x28(%esp)
+  25ab60: 8d 4c 24 20                  	leal	0x20(%esp), %ecx
+  25ab64: 8d 83 20 de f9 ff            	leal	-0x621e0(%ebx), %eax
+  25ab6a: 89 0c 24                     	movl	%ecx, (%esp)
+  25ab6d: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25ab71: e8 5a 4d fc ff               	calll	0x21f8d0 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument13new_lower_hexlECscre938AonzA_6kernel>
+  25ab76: 83 ec 04                     	subl	$0x4, %esp
+  25ab79: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  25ab7d: 8b 44 24 20                  	movl	0x20(%esp), %eax
+  25ab81: 89 44 24 18                  	movl	%eax, 0x18(%esp)
+  25ab85: 8b 44 24 24                  	movl	0x24(%esp), %eax
+  25ab89: 89 44 24 1c                  	movl	%eax, 0x1c(%esp)
+  25ab8d: 8d 8b 44 e0 f9 ff            	leal	-0x61fbc(%ebx), %ecx
+  25ab93: 8d 44 24 18                  	leal	0x18(%esp), %eax
+  25ab97: 89 0c 24                     	movl	%ecx, (%esp)
+  25ab9a: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25ab9e: e8 5d ca 00 00               	calll	0x267600 <_RINvMs2_NtCs6HBAfCNWxyx_4core3fmtNtB6_9Arguments3newKj20_Kj1_ECscre938AonzA_6kernel>
+  25aba3: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  25aba7: 8d 4c 24 17                  	leal	0x17(%esp), %ecx
+  25abab: 89 0c 24                     	movl	%ecx, (%esp)
+  25abae: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  25abb2: 89 54 24 08                  	movl	%edx, 0x8(%esp)
+  25abb6: e8 95 dd 00 00               	calll	0x268950 <_RNvYNtNtNtCscre938AonzA_6kernel2io6serial12SerialWriterNtNtCs6HBAfCNWxyx_4core3fmt5Write9write_fmtB8_>
+  25abbb: e9 75 ff ff ff               	jmp	0x25ab35 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0x55>
+  25abc0: 8b 44 24 10                  	movl	0x10(%esp), %eax
+  25abc4: 8b 88 08 5b 11 00            	movl	0x115b08(%eax), %ecx
+  25abca: 89 c8                        	movl	%ecx, %eax
+  25abcc: 83 c0 01                     	addl	$0x1, %eax
+  25abcf: 89 44 24 0c                  	movl	%eax, 0xc(%esp)
+  25abd3: 39 c8                        	cmpl	%ecx, %eax
+  25abd5: 72 2e                        	jb	0x25ac05 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0x125>
+  25abd7: eb 12                        	jmp	0x25abeb <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0x10b>
+  25abd9: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  25abdd: 8d 83 ec cd ff ff            	leal	-0x3214(%ebx), %eax
+  25abe3: 89 04 24                     	movl	%eax, (%esp)
+  25abe6: e8 56 a3 03 00               	calll	0x294f41 <_RNvNtCs6HBAfCNWxyx_4core9panicking30panic_null_pointer_dereference>
+  25abeb: 8b 44 24 10                  	movl	0x10(%esp), %eax
+  25abef: 8d 80 08 5b 11 00            	leal	0x115b08(%eax), %eax
+  25abf5: 83 f8 00                     	cmpl	$0x0, %eax
+  25abf8: 0f 94 c0                     	sete	%al
+  25abfb: 24 ff                        	andb	$-0x1, %al
+  25abfd: 34 ff                        	xorb	$-0x1, %al
+  25abff: a8 01                        	testb	$0x1, %al
+  25ac01: 75 14                        	jne	0x25ac17 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0x137>
+  25ac03: eb 25                        	jmp	0x25ac2a <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc00+0x14a>
+  25ac05: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  25ac09: 8d 83 ec cd ff ff            	leal	-0x3214(%ebx), %eax
+  25ac0f: 89 04 24                     	movl	%eax, (%esp)
+  25ac12: e8 a9 24 04 00               	calll	0x29d0c0 <_RNvNtNtCs6HBAfCNWxyx_4core9panicking11panic_const24panic_const_add_overflow>
+  25ac17: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  25ac1b: 8b 44 24 0c                  	movl	0xc(%esp), %eax
+  25ac1f: 89 83 08 5b 11 00            	movl	%eax, 0x115b08(%ebx)
+  25ac25: e8 fe f3 ff ff               	calll	0x25a028 <_RNvNtCscre938AonzA_6kernel9interrupt12halt_forever>
+  25ac2a: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  25ac2e: 8d 83 ec cd ff ff            	leal	-0x3214(%ebx), %eax
+  25ac34: 89 04 24                     	movl	%eax, (%esp)
+  25ac37: e8 05 a3 03 00               	calll	0x294f41 <_RNvNtCs6HBAfCNWxyx_4core9panicking30panic_null_pointer_dereference>
+  25ac3c: cc                           	int3
+  25ac3d: cc                           	int3
+  25ac3e: cc                           	int3
+  25ac3f: cc                           	int3

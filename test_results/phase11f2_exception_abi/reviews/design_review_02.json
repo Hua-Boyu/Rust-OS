@@ -1,0 +1,107 @@
+{
+  "schema": "f2-independent-design-review-v2",
+  "reviewer": "design_review_02",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "verdict": "APPROVE",
+  "review_kind": "One permitted bounded design-correction retry; read-only source and retained runtime-evidence inspection",
+  "design_approved": true,
+  "implementation_approved": false,
+  "bounded_implementation_may_proceed_subject_to_separate_baseline_prerequisite": true,
+  "blocker_ids": [],
+  "blockers": [],
+  "summary": "B1 and B2 are closed at the design boundary. The corrected contract specifies an exhaustive disjoint three-way vector table, frame-independent terminal handling for unsupported 21/29/30, an explicit qemu32/single-CPU observed profile, and CLI-first destructive fixture isolation. Retained actual CPU evidence establishes missing data-selector normalization while DF already clears. The previously sound fixed 68-byte supported-frame prefix and nonreturning aligned assembly-to-C bridge are preserved. This is not candidate implementation, baseline-audit or release acceptance.",
+  "prior_blocker_resolution": [
+    {
+      "id": "B1",
+      "status": "CLOSED",
+      "locations": ["design.md:3-8", "design.md:11-19"],
+      "assessment": "The 0..31 table partitions all 32 vectors exactly once: hardware-error 8/10/11/12/13/14/17; unsupported 21/29/30; no-error 0/1/2/3/4/5/6/7/9/15/16/18/19/20/22/23/24/25/26/27/28/31. Unsupported stubs CLI/CLD, normalize data selectors using EAX scratch, align a C call, and pass only a software vector to a separate nonreturning handler. They neither read CPU-frame words nor construct a CPU-frame reference; therefore no assumption about an optional hardware-error word is needed. Their lack of saved-register semantics is explicit. They must not enter the supported-prefix decoder. Shared three-way FrameKind dispatch supersedes the inherited boolean classification; the old helper is explicitly only a baseline mandatory-error predicate, never authority that all remaining vectors are no-error. Tests must distinguish the unsupported class while retaining inherited supported-vector identities.",
+      "profile_assessment": "The design explicitly requires -cpu qemu32 -smp 1, CPL0, CR0.PE/PG/WP, clear CR4.PAE/CET and EFER.LMA, with VM86/task gates/CET/SEV-ES/AMD secure execution excluded. The QMP confirmation is a mandatory future acceptance condition, not an assertion that current production code implements that gate. Software INT n is expressly not a hardware-error-frame oracle.",
+      "amd_scope": "AMD 29/30 error/layout remains NOT VERIFIED and outside the accepted contract. No broader AMD research or implementation is required to close B1 because unsupported delivery is terminal without reading any CPU frame, with or without an error word. Intel #CP21 knowledge is not misrepresented as AMD authority."
+    },
+    {
+      "id": "B2",
+      "status": "CLOSED",
+      "locations": ["design.md:27-30", "runtime_red_01.py:23-50", "runtime_red_02.py:20-75", "runtime_red_02/report.json", "runtime_red_02_driver.log", "runtime_red_02/isr_disassembly.txt"],
+      "assessment": "The corrected design requires CLI FIRST before selector/DF/sentinel mutation. The actual disposable assembly trigger already begins CLI and ends setup at a globally named UD2 site. Independent ELF symbol/byte inspection found f2_red_trigger=0x219711 starting FA (CLI), and f2_red_fault_site=0x219740 starting 0F0B (UD2). The actual QEMU trace records architectural vector06, i=0, EIP=0x219740, CPL0, CS=0x08, SS=0x10, all four data selectors zero, the stated seven register sentinels, and EFLAGS=0x446 (IF0, DF1). There is no v=08 in the inspected trace. The design separately requires saved IF0/DF1, live IF0/DF0, selectors0x10 and raw C-entry alignment for GREEN, and retains ordinary IRQ regressions.",
+      "runtime_red_assessment": "runtime_red_02 reuses the retained runtime_red_01/kernel.elf whose computed raw SHA256 matches both reports and whose targeted production input hashes match current source. The recorded stopped EIP=0x21d63e is immediately after CLD at0x21d63d and before the first CALL at0x21d63e in the supplied emitted ISR. Live GDB packet decoding independently matches the report: DS/ES/FS/GS=0, EFLAGS=2, CS=8, SS=16. Raw QMP hardware text corroborates that state and paused query-status is recorded. The selector check is false, the DF-clear check is true, and the completed driver log contains the actual unhandled selector-normalization AssertionError. This is a genuine observed CPU-state RED, not missing diagnostic text or a compiler/setup failure. The report records build_exit0, owned kill/wait qemu_exit1 and owned_qemu_exited=true. Driver failure is evidenced by its traceback; a separately captured numeric driver exit record was not inspected.",
+      "control_and_precision": "runtime_red_01/report.json is PASS with all five original checks true and build_exit0; it is a terminal #UD control, not RED. DF is not a baseline deficiency. The first CALL at0x21d63e is a call/pop position-independent-code thunk, not itself an ordinary Rust helper; observing null selectors before this earlier point still proves they remain unnormalized before later ordinary helper calls. The baseline assembly contains no intervening selector loads. The runtime report field named saved_CS_origin_ring0 actually checks live CS; pre-entry CS/origin is separately corroborated by the raw architectural #UD trace. Neither imprecise label changes the narrow selector RED or substitutes for future saved-prefix assertions."
+    }
+  ],
+  "preserved_design_checks": [
+    {
+      "topic": "Fixed supported-vector prefix",
+      "status": "PASS",
+      "assessment": "Seventeen fixed-width u32 words, repr(C), align4, total68. Offsets remain gs0/fs4/es8/ds12, edi16/esi20/ebp24/pushad_esp28/ebx32/edx36/ecx40/eax44, vector48/error52/eip56/cs60/eflags64. PUSHAD precedes EAX scratch; its saved ESP denotes prefix+48. Same-ring pre-exception ESP is scalar prefix+68, not a dereference. Optional oldESP/SS is never part of a production reference or read. SS-based stack writes allow construction with null data selectors. Unsupported-vector handling is a separate path, not a changed interpretation of this prefix."
+    },
+    {
+      "topic": "Nonreturning assembly/C bridge",
+      "status": "PASS",
+      "assessment": "Preserve the frame pointer before AND ESP,-16; SUB ESP,12; PUSH pointer; CALL extern C ->!. Arithmetic verification gives pre-CALL ESP modulo16=0 and C entry modulo16=12. Scratch/alignment stays below the saved prefix. CLI/CLD and selector normalization precede ordinary Rust/C, with defensive CLI/HLT if a supposedly nonreturning call returns. No IRET, SS reload, arbitrary saved-selector restore, or resumable extended-state ABI is introduced. Actual target remains i686/32-bit, abort, no redzone, SSE/SSE2/MMX disabled, softfloat."
+    },
+    {
+      "topic": "Actual targeted source compatibility",
+      "status": "PASS",
+      "assessment": "All four targeted raw source hashes equal original review pins and runtime_red_01 copied-source pins. interrupt.rs still has the inherited compiler-ABI handlers, STI during IDT load, two-way helper-based fill and unnormalized data selectors; these are baseline observations, not already corrected implementation. gdt.rs has exactly null/code/data entries with flat code0x08 and writable data0x10, making proposed selector normalization and invalid0x58 GP fixture consistent. serial.rs putc uses bounded100000 polling and direct port operations; future fatal call-graph/nonallocation checks remain required. No source, test or handover was changed by this reviewer."
+    },
+    {
+      "topic": "Double fault and pre-latch limits",
+      "status": "PASS",
+      "assessment": "design.md:24-25 explicitly states #DF saved CS and EIP are undefined, CS&3 is not a reliable origin oracle, hardware error is zero, reporting depends on successful delivery with usable kernel SS/ESP, corrupted/exhausted stack may triple-fault, and the Rust latch does not protect delivery or pre-latch stub work. An independently provisioned emergency/task stack remains an F3 prerequisite, not a requirement to implement F3 here."
+    }
+  ],
+  "remaining_nonblocking_implementation_gates": [
+    "Use host-importable shared fixed-u32 prefix/profile definitions rather than a second mirror; prove every size/offset, bounded synthetic tail and three-way vector/profile controls.",
+    "Verify emitted target assembly, unsupported-path absence of CPU-frame reads, actual IDT offsets, complete fatal call graph, first-entry/reentry latch, direct bounded serial and no allocation/lock/unwind edges.",
+    "GREEN must capture exact saved68-byte prefix/argument identity, raw pre-fault context, live selectors/DF/IF and C-entry alignment; validate real DE/UD/GP/PF including hardware errors and CR2 at128/512MiB, terminal nonreturn and owned cleanup.",
+    "Implement fail-closed observed-profile checks; raw current evidence supports the bounded baseline profile but is not the future profile validator or full GREEN matrix.",
+    "Preserve inherited normal-boot/F1 gate identities without reopening F1. Separate baseline identity/test-drift/historical-readback prerequisites remain the parent's responsibility and are not resolved by this approval.",
+    "Independent candidate review, all required tests/build/ELF checks, frozen canonical acceptance and independent final readback remain required before BOUNDED VERIFIED."
+  ],
+  "computed_sanity_checks": {
+    "vector_count": 32,
+    "vector_partition_equals_range_0_to_31": true,
+    "prefix_size_bytes": 68,
+    "pre_call_esp_mod16": 0,
+    "c_entry_esp_mod16": 12,
+    "retained_elf_hash_matches_reports": true,
+    "targeted_sources_match_runtime_copy_pins": true,
+    "gdb_packet_matches_report_registers": true,
+    "observed_cr0_PE_PG_WP": true,
+    "observed_cr4": 0,
+    "observed_raw_EFER": "0000000000000000",
+    "method": "Read-only Python arithmetic, raw-byte SHA256, ELF32 symbol/byte parsing and retained register/trace comparison; no build or guest launched."
+  },
+  "inputs": [
+    {"path":"test_results/phase11f2_exception_abi/design.md","sha256":"a08343d6a8488e256a257daa099749f93c93f3377f0041d546d83b729a905918","inspection":"all lines"},
+    {"path":"test_results/phase11f2_exception_abi/reviews/design_review_01.json","sha256":"c9c592d8dceb5307d18a5e4e100e48675300474867322375ac771578563c0e9f","inspection":"all lines"},
+    {"path":"src/interrupt.rs","sha256":"98b7d296ee393978bc3e15225037cf47823cf528a29aabd07b39ff9a52faa76f","inspection":"all lines"},
+    {"path":"src/gdt.rs","sha256":"fb6830e02a5f296e22551c5045bbd0263028520b4d334f285d2098fefa61957d","inspection":"all lines"},
+    {"path":"target.json","sha256":"bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80","inspection":"all lines"},
+    {"path":"src/io/serial.rs","sha256":"095d91d330fb82fb8893db9ed39dda36fccb69becc8339090c98cafa3fcda58c","inspection":"all lines"},
+    {"path":"test_results/phase11f2_exception_abi/runtime_red_01.py","sha256":"b5d20226656777811701f078deb8100b10e4918f0577f421e0f58d1f47e67591","inspection":"all lines; not executed"},
+    {"path":"test_results/phase11f2_exception_abi/runtime_red_02.py","sha256":"e670e6a6577cc411dd6c0519c5df92465ca827ed966be6708f497432f42eefa0","inspection":"all lines; not executed"},
+    {"path":"test_results/phase11f2_exception_abi/runtime_red_01/report.json","sha256":"3086f29f65dbeead52c47c2289b8f246cb0700f8ffb00a8f6bb7790af24516cf","inspection":"parsed; non-copied fields displayed; targeted copied-source pins compared"},
+    {"path":"test_results/phase11f2_exception_abi/runtime_red_01/kernel.elf","sha256":"4d849ea3d65b01dc34ddedce252d875b94ee4f6e6419432b7f9a33860081e975","inspection":"raw hash, ELF32 symbol table and CLI/UD2 site bytes; not whole binary disassembly"},
+    {"path":"test_results/phase11f2_exception_abi/runtime_red_02/report.json","sha256":"33cad0d6ae409fa651fe9353814c55abf86ca2afe7f07928f5ec784915f22a87","inspection":"all lines"},
+    {"path":"test_results/phase11f2_exception_abi/runtime_red_02_driver.log","sha256":"66fc06e4054cb8c7670913cf4e4f64c195c51dda3adcf526ab62457dca6e2569","inspection":"all lines, including failing assertion traceback"},
+    {"path":"test_results/phase11f2_exception_abi/runtime_red_02/isr_disassembly.txt","sha256":"f4821ebf5dffa7abf5c0c5cb8d2bdf9deaff8910ebbd14f8e50e0c7918914661","inspection":"all lines"},
+    {"path":"test_results/phase11f2_exception_abi/runtime_red_02/hardware.txt","sha256":"71186137f9172be8ad2cd970fae8e8548f257bbd07c920f2a13acdae11812667","inspection":"all lines"},
+    {"path":"test_results/phase11f2_exception_abi/runtime_red_02/register_packet.txt","sha256":"23206398d1c82ec5ad1058275a0e02f5ac7067b780e4b1693acc8c4110131581","inspection":"raw text and first16 little-endian u32 registers independently decoded"},
+    {"path":"test_results/phase11f2_exception_abi/runtime_red_02/qemu.log","sha256":"109fbd6049e6c464070b8809408e59fa81de7f820ab81fbf8f257a5e29f712e7","inspection":"targeted exception search and complete final #UD state block; full-text v=08 absence check; firmware prefix not broad-read"},
+    {"path":"test_results/phase11f2_exception_abi/runtime_red_02/serial.txt","sha256":"e2914ef7013f14fc0c2f40268445b36443923d52b9f51a3ca5e8656f873eaf03","inspection":"all lines"}
+  ],
+  "hash_method": "SHA256 over Path.read_bytes(); full lowercase hexadecimal, exact inspected bytes, no newline normalization",
+  "execution_and_scope": {
+    "builds_run": false,
+    "qemu_run": false,
+    "production_source_writes": false,
+    "test_or_shared_handover_writes": false,
+    "only_owned_output": "test_results/phase11f2_exception_abi/reviews/design_review_02.json",
+    "historical_f1_final_readback_reopened": false,
+    "candidate_runtime_verification_claimed": false,
+    "retained_baseline_runtime_evidence_inspected": true,
+    "retry_policy": "The single permitted correction/review retry is consumed. No further correction loop is authorized; any subsequent blocker stops implementation and requires escalation.",
+    "baseline_audit_scope": "Separate; no determination here that the reported test drift or missing historical final readback is closed."
+  }
+}

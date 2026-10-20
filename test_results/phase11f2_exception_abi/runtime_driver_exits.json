@@ -1,0 +1,20 @@
+{
+  "scope": "Actual parent terminal observations, not guest-synthesized test output",
+  "runtime_red_01": {
+    "command": "python -B test_results/phase11f2_exception_abi/runtime_red_01.py > test_results/phase11f2_exception_abi/runtime_red_01_driver.log 2>&1",
+    "actual_driver_exit": 0,
+    "terminal_tool_exit": 0,
+    "classification": "PASS_CONTROL_NOT_RED"
+  },
+  "runtime_red_02": {
+    "command": "python -B test_results/phase11f2_exception_abi/runtime_red_02.py > test_results/phase11f2_exception_abi/runtime_red_02_driver.log 2>&1",
+    "actual_driver_exit": 1,
+    "terminal_tool_exit": 1,
+    "classification": "RUNTIME_ASSERTION_RED_NOT_COMPILATION_FAILURE"
+  },
+  "checkpoint_verifier": {
+    "command": "python -B test_results/phase11f2_exception_abi/verify_checkpoint_01.py",
+    "terminal_tool_exit": 0,
+    "classification": "PARTIAL_CHECKPOINT_PRESERVATION_ONLY"
+  }
+}

@@ -1,0 +1,10 @@
+# F2 bounded investigation log
+
+- Current F1 STATE and manifest contain mixed historical statuses. Resolve actual acceptance path from the retained manifest/report and check raw digest; do not trust a heading or stale RUNNING link.
+- F1 production source and kernel match; one capture-test script does not match accepted raw pin. Current script equals committedHEAD and b4e82db, but neither LF nor whole-fileCRLF conversion reproduces accepted digest. No raw source normalization is allowed to dismiss the mismatch.
+- F1 final_readback.json, final_closeout.json and v2_final_readback.json are partial checkpoints at earlierHEADs. They are not final F1 acceptance readback. Independent audit searched944JSON artifacts; available history search returned no matching accepted final verdict. Do not invent one.
+- Null-segment#UD terminal oracle initially PASSED. Preserve it. The useful strategy is direct stopped-vCPU observation of live selector state before an ordinary handlerCALL, yielding real runtime RED rather than guessing triple-fault behavior.
+- Initial design review found2 bounded omissions: unresolved3-way vector/profile table and CLI-first destructive trigger isolation. Actual trigger alreadyCLI; design clarified it. One design correction only; revised review is separately pinned.
+- AMD publisher path404, publisher portalJS shell, guessedAPI404, mirroredPDF incomplete transfer, follow-up fetch timeout. Stop optional reference retrieval; markAMD29/30 NOT VERIFIED and keep their frames out of the accepted contract. No tool installation/config repair.
+- Relative file reads temporarily returned not-found while absolute paths existed; use absolute repository paths for checkpoint operations. Do not infer deletion from that tool result.
+- No acceptance launched, no lockfile unlinked, no Proxmox/remote/deployment operation. Disposable guest build staged under owned dist/f2red_* and removed by TemporaryDirectory only; retained ELF and logs are evidence, not production/deployable artifacts.

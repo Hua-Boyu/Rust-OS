@@ -1,5 +1,20 @@
 # Physical-memory authority — Phase 11A.2 partial inventory
 
+## F2 current checkpoint — PARTIAL / prerequisite evidence STOP (2026-10-20)
+
+No memory-owner, production exception, test or acceptance-harness changes.
+`test_results/phase11f2_exception_abi/FINAL_REPORT.md` records a genuine Ring-0
+QEMU selector-normalization runtime RED and independently approved bounded
+exception-prefix design, not an implementation. F1 runtime source and emitted
+kernel match accepted identities; no F1 regression/reopening. Historical66-gate
+PASS is verified, but full accepted-input identity differs for one capture-test
+script and a matching final independent acceptance readback was not recovered.
+Baseline-disposition clarification timed out; production-edit gate remains
+closed. No F2 acceptance, recoverable-user ABI, TSS/ESP0, USER publication or
+CPL3 claim. Same-ring frames must not reference nonexistent oldSS/ESP; #DF
+savedCS/EIP are undefined and robust stack-failure containment remains an F3
+emergency-strategy dependency. Current details supersede historical claims below.
+
 ## F1 v2 current checkpoint — ACCEPTED (66-gate canonical acceptance, 2026-10-20)
 
 Task evidence: `test_results/phase11f1_retained_owner/` (STATE.md, FINAL_REPORT.md,

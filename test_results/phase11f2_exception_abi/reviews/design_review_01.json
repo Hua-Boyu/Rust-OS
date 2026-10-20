@@ -1,0 +1,118 @@
+{
+  "schema": "f2-independent-design-review-v1",
+  "reviewer": "design_review_01",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "verdict": "REJECT",
+  "review_kind": "design-only, read-only production inspection",
+  "implementation_approved": false,
+  "blocker_ids": ["B1", "B2"],
+  "summary": "The 68-byte Ring0 prefix, PUSHAD accounting, segment normalization and nonreturning aligned C bridge are sound as proposed. Two bounded design corrections are required: make vector/profile dispatch an explicit implementable table, and isolate the destructive null-segment/DF trigger from inherited IRQ delivery so RED proves the intended exception-entry deficiency. No TSS or CPL3 implementation is requested.",
+  "findings": [
+    {
+      "id": "B1",
+      "severity": "blocker",
+      "title": "Error-vector/profile policy remains deferred rather than specified",
+      "locations": ["test_results/phase11f2_exception_abi/design.md:4", "test_results/phase11f2_exception_abi/design.md:9-11", "test_results/phase11f2_exception_abi/design.md:15", "src/memory/paging.rs:133-140", "src/interrupt.rs:139-150", "scripts/f1_retained_guest.py:109-112", "test_results/phase11f2_exception_abi/intel_exception_extract_01.txt:237-282", "test_results/phase11f2_exception_abi/intel_exception_extract_01.txt:321-372"],
+      "finding": "The design correctly warns against universal no-error classification for 21/29/30 but does not actually specify the stub table or the accepted CPU profile. The inherited helper still asserts every vector except 8/10/11/12/13/14/17 has no error. The inherited QEMU argv has no explicit -cpu. Intel's pinned table defines #CP21 as hardware-error and reserves 22..31; it is not authority for AMD #VC29/#SX30. Merely checking optional configuration before final acceptance leaves the essential assembly normalization choice unresolved before implementation.",
+      "required_bounded_correction": "Record an explicit table for all 0..31, with mandatory hardware-error vectors 8,10,11,12,13,14,17, and explicit 21/29/30 handling under the accepted CET/SEV-ES/AMD-excluded profile. Distinguish an unreachable/unsupported architectural exception from an actually no-error delivery. State whether #CP21 uses a conservative hardware-error stub despite exclusion, or how unsupported delivery is handled. Pin the guest CPU model/features and a fail-closed observed-profile acceptance check. State that software INT n to an error-code vector does not synthesize a hardware error and is not an admissible hardware-frame oracle. Explicitly replace or supersede the inherited universal helper/comment/tests so two conflicting dispatch contracts cannot remain.",
+      "scope": "Small design-table/profile correction only; no AMD implementation or TSS work required."
+    },
+    {
+      "id": "B2",
+      "severity": "blocker",
+      "title": "The destructive RED trigger is not yet isolated from unchanged IRQ handlers",
+      "locations": ["test_results/phase11f2_exception_abi/design.md:26-28", "src/interrupt.rs:169-174", "src/interrupt.rs:385-400", "src/interrupt.rs:473-494"],
+      "finding": "IDT setup explicitly executes STI. The proposed trigger then sets DS/ES/FS/GS to null and DF=1 without explicitly masking IRQs first, while the design deliberately leaves compiler-ABI IRQ handlers unchanged. A timer or keyboard IRQ in that window can access globals with null DS, or otherwise alter the fault provenance, before the intended UD2. Such a baseline failure is not a demonstrated exception-entry RED and could make the candidate fixture nondeterministic too.",
+      "required_bounded_correction": "Require the naked destructive trigger to execute CLI before changing any segment, DF, or sentinel register; capture known pre-UD2 state at a pinned symbol after setup and require the observed fault EIP/vector to be UD2/#UD. State saved IF=0 and DF=1 expectations and separately assert live handler DF=0, normalized selectors and correct C stack alignment. Do not weaken the existing ordinary-IRQ regression coverage. Keep host-caused debugger #DB effects distinct from the injected fault.",
+      "scope": "Fixture/oracle design clarification only; no IRQ redesign."
+    },
+    {
+      "id": "N1",
+      "severity": "nonblocking implementation gate",
+      "title": "Host harness must exercise shared pure production definitions, not another mirror",
+      "locations": ["tests_kernel/src/lib.rs:23-26", "tests_kernel/src/lib.rs:60-61", "tests_kernel/src/lib.rs:117-139", "tests_kernel/Cargo.toml:19-23", "tests_kernel/.cargo/config.toml:1-8", "test_results/phase11f2_exception_abi/design.md:17", "test_results/phase11f2_exception_abi/design.md:30-31"],
+      "finding": "The host harness deliberately excludes interrupt.rs and does not expose io::serial; its existing gate encoder is a mirror. Adding frame tests there cannot validate production assembly by itself. A pointer-width-dependent host struct would also fail to represent the i686 frame.",
+      "recommendation": "Keep the prefix/decoder/profile metadata in a host-importable pure module using only fixed-width u32 fields; keep privileged assembly and serial imports target-gated. Exercise the actual shared definitions, every prefix size/offset, exact-length and short synthetic tails, CS-origin versus PF.user, and negative-profile/vector controls. Check emitted i686 assembly/IDT in candidate acceptance; host tests are not CPU evidence."
+    },
+    {
+      "id": "N2",
+      "severity": "nonblocking implementation gate",
+      "title": "Existing GDB/QMP helpers need F2-specific assertions",
+      "locations": ["scripts/b13_entry_inject.py:16", "scripts/b13_entry_inject.py:90-111", "scripts/f1_capture.py:44-51", "scripts/f1_retained_guest.py:129-142", "scripts/f1_retained_guest.py:145-157", "test_results/phase11f2_exception_abi/design.md:28"],
+      "finding": "Gdb.registers exposes only ten GPR/EIP/EFLAGS values, not CS/data selectors or CR2. Qmp.hardware parses CR0/CR3/CR4/EIP/EFL and retains raw text but does not decode CR2/segments. Reuse of these helpers alone is not proof of the new frame/segment oracle.",
+      "recommendation": "In the new owned fixture, add explicit fail-closed decoding or raw-register evidence for CS/SS/DS/ES/FS/GS and CR2; preserve exact 68-byte prefix bytes and argument-pointer identity at the Rust entry. Capture live DF/IF/segments and entry ESP modulo16 independently of saved flags. Verify hardware-error GP/PF raw frames and error values, stable terminal HLT with IF0, exact trigger EIP, no unexpected continuation, and invocation-owned exit/cleanup. Do not modify or reopen F1."
+    },
+    {
+      "id": "N3",
+      "severity": "nonblocking clarification",
+      "title": "Double-fault CS is undefined too; latch is not an emergency stack",
+      "locations": ["test_results/phase11f2_exception_abi/design.md:20-23", "test_results/phase11f2_exception_abi/intel_exception_extract_01.txt:1462-1470"],
+      "finding": "The stated ordinary-stack #DF limitation and F3 deferral are correct. The pinned authority marks both saved CS and EIP undefined for #DF, not just EIP. Also a Rust first-entry latch cannot avoid the hardware/stub stack work before reaching that latch.",
+      "recommendation": "Do not interpret #DF saved CS&3 as reliable origin authority or require its EIP/CS to match a restart oracle. Keep any #DF evidence explicitly conditional on successful delivery and usable stack; do not describe the latch as protecting failed delivery or pre-latch nesting. No F3 implementation is a condition of this F2 review."
+    }
+  ],
+  "approved_design_elements": [
+    {
+      "topic": "Mandatory prefix and same-ring optional-tail safety",
+      "locations": ["test_results/phase11f2_exception_abi/design.md:6", "test_results/phase11f2_exception_abi/design.md:13-17"],
+      "assessment": "Seventeen u32 fields give 68 bytes. CPU mandatory EIP/CS/EFLAGS at 56/60/64 are correct after normalized vector/error, PUSHAD and four 32-bit segment slots. Do not manufacture a reference spanning oldESP/SS; production never reads the optional tail. Same-ring pre-exception ESP=prefix+68 is a scalar, not a dereference. Saved CS high16 must be masked for selector semantics."
+    },
+    {
+      "topic": "PUSHAD and segment normalization",
+      "locations": ["test_results/phase11f2_exception_abi/design.md:11-15", "src/gdt.rs:130-151", "src/gdt.rs:174-186"],
+      "assessment": "PUSHAD before EAX scratch preserves all GPRs; its saved ESP is prefix+48, the normalized vector address, not pre-exception ESP. Saving selectors as explicitly zero-extended u32 avoids PUSH-segment upper-bit ambiguity. ESP/EBP-based SS writes allow prefix construction with null data selectors. GDT confirms flat present writable data0x10 and code0x08; no arbitrary selector restore or SS reload belongs on this nonreturning path."
+    },
+    {
+      "topic": "CLD and assembly-to-C bridge",
+      "locations": ["test_results/phase11f2_exception_abi/design.md:11-17", "src/boot.s:29-50", "target.json:2-4", "target.json:12-14", "target.json:21"],
+      "assessment": "CPU-saved EFLAGS retains original DF while CLD satisfies the Rust/C ABI. Preserve the frame pointer before aligning ESP. AND ESP,-16; SUB ESP,12; PUSH pointer yields pre-CALL ESP mod16=0 and callee entry mod16=12 without overwriting the frame above. extern C ->! plus defensive CLI/HLT is suitable for fatal-only Ring0 entry, not a resumable ABI. The target disables SSE/SSE2/MMX and uses softfloat/abort; no extended-state restoration claim is made."
+    },
+    {
+      "topic": "Fatal output, reentry and nonallocation",
+      "locations": ["test_results/phase11f2_exception_abi/design.md:19-20", "src/io/serial.rs:28-43", "src/interrupt.rs:313-337", "src/interrupt.rs:362-381", "src/interrupt.rs:533-539"],
+      "assessment": "First-entry atomic latch before diagnostics, CLI, fixed literals/hex and direct bounded COM1 polling avoid inherited formatting/locking hazards. Existing putc has a finite 100000-iteration poll bound. Snapshot CR2 before output and avoid allocator/page-map/VGA/PortAllocator guards or unwinding. Implementation still needs actual call-graph/disassembly review and reentry/nonallocation controls; these are not proven by this design review."
+    },
+    {
+      "topic": "Bounded guest evidence and scope",
+      "locations": ["test_results/phase11f2_exception_abi/design.md:22-31", "scripts/f1_retained_guest.py:47-96", "scripts/f1_retained_guest.py:175-184", "scripts/f1_retained_guest.py:198-240"],
+      "assessment": "Real DE/UD/GP/PF at both RAM sizes, canonical-body stripping equality, known raw CPU context and terminal nonreturning evidence are appropriate. The F1 fixture demonstrates disposable copying, per-input hashes and complete stripping equality plus owned-process kill/wait. Normal boot and inherited F1 gates must remain intact. No CPL3/TSS/USER/deployment/history work is authorized; baseline identity resolution remains a separate acceptance prerequisite and was not reopened here."
+    }
+  ],
+  "computed_sanity_checks": {
+    "prefix_size_bytes": 68,
+    "pushad_saved_esp_relative_to_prefix": 48,
+    "same_ring_pre_exception_esp_relative_to_prefix_noerror": 68,
+    "same_ring_pre_exception_esp_relative_to_prefix_hardware_error": 68,
+    "pre_call_esp_mod16": 0,
+    "c_entry_esp_mod16": 12,
+    "method": "Executed Python arithmetic, not an actual assembled/runtime test."
+  },
+  "inputs": [
+    {"path":"test_results/phase11f2_exception_abi/design.md","sha256":"1b0bf05bd30c7a8fea5de89e55f9c2f1209b3b7b65a398fb060a9fa17a2fb6f3","inspection":"all lines"},
+    {"path":"src/interrupt.rs","sha256":"98b7d296ee393978bc3e15225037cf47823cf528a29aabd07b39ff9a52faa76f","inspection":"all lines"},
+    {"path":"src/gdt.rs","sha256":"fb6830e02a5f296e22551c5045bbd0263028520b4d334f285d2098fefa61957d","inspection":"all lines"},
+    {"path":"src/boot.s","sha256":"162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6","inspection":"all lines"},
+    {"path":"src/io/serial.rs","sha256":"095d91d330fb82fb8893db9ed39dda36fccb69becc8339090c98cafa3fcda58c","inspection":"all lines"},
+    {"path":"target.json","sha256":"bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80","inspection":"all lines"},
+    {"path":"tests_kernel/Cargo.toml","sha256":"bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d","inspection":"all lines"},
+    {"path":"tests_kernel/.cargo/config.toml","sha256":"cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53","inspection":"all lines"},
+    {"path":"tests_kernel/src/lib.rs","sha256":"e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133","inspection":"lines1-160 only"},
+    {"path":"scripts/f1_retained_guest.py","sha256":"0bf5a38f13f1984761a1b80b3f73632b6eb381bf67121e2fb2fe7d9d327eca08","inspection":"all lines; no execution"},
+    {"path":"scripts/b13_entry_inject.py","sha256":"786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b","inspection":"lines1-160 only; no execution"},
+    {"path":"scripts/f1_capture.py","sha256":"69fbf12be0c4a6472bd7cabb475ed2f46f55182a71b3d14edb12e7207ba08bed","inspection":"lines1-65 and targeted capture/memory matches only; no execution"},
+    {"path":"src/memory/paging.rs","sha256":"458c4e088b8792b226257c47f4a6918ae0ad14934afc201873ed11a84c742b26","inspection":"lines108-169 and targeted error-vector/origin helper matches only"},
+    {"path":"test_results/phase11f2_exception_abi/intel_exception_extract_01.txt","sha256":"7d237947e795b3f5f27e289e92ff03bb378c06c0cc74a56aa91526e1342ea83d","inspection":"lines1-405 and targeted same-ring/DF passages including1462-1470 and2041-2048; not broad-read"},
+    {"path":"test_results/phase11f2_exception_abi/intel_sdm_vol3_093.pdf","sha256":"77919be320f35da2782771ef2cb65a868cf68e62c8f8279f2ca61199cb70d1f8","inspection":"raw-byte hash only, matches design pin; text consulted through targeted supplied extract; no whole-PDF text extraction"}
+  ],
+  "hash_method": "SHA256 of Path.read_bytes(), full lowercase hexadecimal; no newline normalization",
+  "execution_and_scope": {
+    "builds_run": false,
+    "qemu_run": false,
+    "production_source_writes": false,
+    "test_or_shared_handover_writes": false,
+    "only_owned_output": "test_results/phase11f2_exception_abi/reviews/design_review_01.json",
+    "historical_f1_final_readback_reopened": false,
+    "runtime_verification_claimed": false,
+    "retry_policy": "One bounded correction/review retry permitted by task; not used in this verdict."
+  }
+}

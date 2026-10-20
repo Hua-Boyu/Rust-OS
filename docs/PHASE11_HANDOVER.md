@@ -1,5 +1,22 @@
 ## Rosti OS — Phase 11 Handover
 
+## Current — F2 PARTIAL / prerequisite evidence STOP (2026-10-20)
+
+`test_results/phase11f2_exception_abi/` holds exact recovery hashes, ABI inventory,
+bounded reviewed design and actual stopped-vCPU runtime RED. Current production,
+tests and acceptance harness remain unchanged. #UD with CLI-first null-segment/
+DF1 trigger reaches baseline terminal output (control PASS); direct observation
+after compiler CLD shows live DS/ES/FS/GS0 before CALL, failing normalization.
+One corrected design review APPROVE/0 is design-only, no implementation approval.
+Independent F1 baseline audit verified unchanged production/kernel,66 recorded
+PASS/exit0 gates and10 historical guest reports, but scripts/test_f1_capture.py
+differs from the accepted raw pin and final accepted independent readback was
+not located. Older partial readbacks cannot substitute. No F1 regression is
+reproduced and F1 is not redesigned. Explicit baseline-disposition question
+timed out; stop before source edits. F2 remains incomplete; no fresh full suites,
+hardware GREEN matrix, candidate review or canonical acceptance. F3/F5 emergency
+stack and real privilege-transition hardware dependencies remain deferred.
+
 ## Current — F1 v2 ACCEPTED; 66-gate canonical acceptance passed (2026-10-20)
 
 Task evidence: `test_results/phase11f1_retained_owner/` (STATE.md, FINAL_REPORT.md,

@@ -1,5 +1,21 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
+## CURRENT F2 checkpoint — PARTIAL / prerequisite evidence STOP (2026-10-20)
+
+Read `test_results/phase11f2_exception_abi/STATE.md`, `FINAL_REPORT.md`,
+`reviews/baseline_audit_01.json` and `reviews/design_review_02.json` first.
+Production/tests/harness unchanged. Runtime_red_02 is actual128MiB Ring-0 #UD
+selector-normalization assertion failure (build0, driver1, owned QEMU kill/wait1);
+runtime_red_01 is a passing control, not RED. Corrected frame design APPROVE/0
+uses fixed68-byte mandatory prefix and unsupported21/29/30 frame-independent
+terminal policy, but is NOT implemented. F1 kernel/production match historical
+acceptance; full158-input identity has one capture-test mismatch and no matching
+final accepted independent readback was recovered. Do not reopen F1 without a
+reproduced regression. Resolve this baseline gate or obtain explicit current-
+baseline authorization before source edits; clarification timed out this session.
+No fresh F2 GREEN/host/B26/GP/PF/matrix/canonical acceptance. No BOUNDED VERIFIED,
+USER/TSS/CPL3/F3-F5/deployment/push. Preserve inherited unrelated work and lock.
+
 ## CURRENT F1 v2 checkpoint — ACCEPTED (66-gate canonical acceptance, 2026-10-20)
 
 Repository C:/Users/iamsv/Documents/Rust-OS, branch maintenance/phase10.

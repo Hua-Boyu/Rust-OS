@@ -1,0 +1,1445 @@
+{
+  "schema_version": 1,
+  "audit": "F2 prerequisite read-only accepted F1 baseline identity audit",
+  "observed_utc": "2026-10-20T15:32:24.542889+00:00",
+  "verdict": "PRODUCTION_SOURCE_MATCHES_ACCEPTED_F1; FULL_INPUT_IDENTITY_AND_FINAL_CLOSEOUT_EVIDENCE_GAPS",
+  "f2_prerequisite_assessment": "Historical 66-gate acceptance and unchanged production bytes are verified. Do not claim a located final accepted independent readback or exact equality of every current acceptance input. Parent must resolve/explicitly disposition the evidence gaps before representing all F1 closeout prerequisites as met; this is not authority to redesign or reopen F1.",
+  "repository": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+    "head": "d6f7b6a86286c5dfc9ea8ff5c033809b3dbc49f4",
+    "expected_head_verified": true,
+    "status_before_artifact_write": " M README.md\n?? d1/\n?? docs/ROSTI_INIT_ARCHITECTURE.md\n?? scripts/b13_boot_fixture.py.backup\n",
+    "head_is_identifier_not_sha256_pin": true
+  },
+  "method": {
+    "read_only_except_owned_report": true,
+    "builds_tests_QEMU_executed": false,
+    "git_writes": false,
+    "hash_algorithm": "SHA-256 over raw file bytes; no line-ending normalization and no Git blob IDs used as content pins",
+    "source_membership": "AST-extracted only inspected pure sha256/source_snapshot functions from raw-pinned policy; imports/main and acceptance pipeline not executed"
+  },
+  "acceptance": {
+    "pin": {
+      "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/acceptance.json",
+      "sha256": "4cd36eb2a33705f3abc7429c9ffa9bfe6d4262310b9cbde8a540243af1368c52",
+      "bytes": 80032
+    },
+    "claimed_digest_verified": true,
+    "overall": "PASS",
+    "phase": "11A-prerequisite",
+    "phase11_release_ready": false,
+    "source_base": "d43938f27ca9b9655211a5a491fd5d8839b76848",
+    "gate_count": 66,
+    "all_recorded_status_PASS_exit_0": true,
+    "declared_gates_passed": 66,
+    "declared_gates_total": 66,
+    "all_66_log_files_present": true,
+    "gate_records": [
+      {
+        "gate": "kernel formatting",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/01_kernel_formatting.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "gate": "host formatting",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/02_host_formatting.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "gate": "host tests",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/03_host_tests.log",
+          "sha256": "262ba5c35f5c3ef6fc57bcacb21fc15fceac4d9b4bc4f63a1fa6352398e2d2be",
+          "bytes": 34639
+        }
+      },
+      {
+        "gate": "Phase 9.6 B11 host safety regressions",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/04_phase_9_6_b11_host_safety_regressions.log",
+          "sha256": "3fbb83c14f8b96358c36c50c661d73ce597e393fc9cd6b76a8d027dacec0eb6f",
+          "bytes": 6864
+        }
+      },
+      {
+        "gate": "Phase 9.6 B18 host safety regressions",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/05_phase_9_6_b18_host_safety_regressions.log",
+          "sha256": "a116bef949b817f968f7ba8312a21aaf5da6346d70df41984f7ecaa6d466687a",
+          "bytes": 9503
+        }
+      },
+      {
+        "gate": "Phase 9.6 B26 host safety regressions",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/06_phase_9_6_b26_host_safety_regressions.log",
+          "sha256": "dcf1362d26af3cc71ee0555d1403ef3c2bdb493930446c82a5ff345b71a9cc27",
+          "bytes": 3719
+        }
+      },
+      {
+        "gate": "Phase 11A effective permission prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/07_phase_11a_effective_permission_prerequisite.log",
+          "sha256": "a852ad5dd1eeb86c742718deb557b05cec890ec034471dbfdeaf26e4e4681297",
+          "bytes": 6256
+        }
+      },
+      {
+        "gate": "Phase 11A phase11_registry_reservation prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/08_phase_11a_phase11_registry_reservation_prerequisite.log",
+          "sha256": "396faf56a32c51a99029591738edf2b2d3c577643524873b5e31d22b53f58bf9",
+          "bytes": 6621
+        }
+      },
+      {
+        "gate": "Phase 11A phase11_exception_abi prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/09_phase_11a_phase11_exception_abi_prerequisite.log",
+          "sha256": "b95679339e389a2a7e750c1e000474f49a9789a0010206962baf7c8e4376d227",
+          "bytes": 6070
+        }
+      },
+      {
+        "gate": "Phase 11A phase11_runtime_pins prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/10_phase_11a_phase11_runtime_pins_prerequisite.log",
+          "sha256": "e9a98844a4f43f7fa7174f6393c2d3c2e6a3f41d664e52c59eb09265b195d71a",
+          "bytes": 6919
+        }
+      },
+      {
+        "gate": "Phase 11A phase11_structure_lifetime prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/11_phase_11a_phase11_structure_lifetime_prerequisite.log",
+          "sha256": "b7827efc60bb4743cc36fc1f72595d78e872d1a2214c63c1b2016816c69882ea",
+          "bytes": 6299
+        }
+      },
+      {
+        "gate": "Phase 11A phase11_numeric_map prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/12_phase_11a_phase11_numeric_map_prerequisite.log",
+          "sha256": "b01efeee1808235c89b85fa9cb569f10d61f550b39ab2f100ddf127af15261eb",
+          "bytes": 6697
+        }
+      },
+      {
+        "gate": "Phase 11A phase11_unmap_authority prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/13_phase_11a_phase11_unmap_authority_prerequisite.log",
+          "sha256": "576465321b85f1a30e2c2040bf37abbb26753ecd1958dbdb2b781d974cc20e62",
+          "bytes": 6059
+        }
+      },
+      {
+        "gate": "Phase 11A phase11_generation_ownership prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/14_phase_11a_phase11_generation_ownership_prerequisite.log",
+          "sha256": "72212ae15aa33a2ccc6ce73ca98646323cc9755b4b9eacc7dfb7df63bcc6bd61",
+          "bytes": 6563
+        }
+      },
+      {
+        "gate": "Phase 11A phase11_generation_ledger prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/15_phase_11a_phase11_generation_ledger_prerequisite.log",
+          "sha256": "5cdf96622f5302176ddf5273f5ea73acb0e806cf8d8b2b91675016493611f505",
+          "bytes": 6368
+        }
+      },
+      {
+        "gate": "Phase 11A phase11_generation_boundaries prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/16_phase_11a_phase11_generation_boundaries_prerequisite.log",
+          "sha256": "4cfdd2aa153df31f9cdf3caa2c80fbf67e8fb9255dfb2145e190c3f22fc15732",
+          "bytes": 6373
+        }
+      },
+      {
+        "gate": "Phase 11A phase11_snapshot prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/17_phase_11a_phase11_snapshot_prerequisite.log",
+          "sha256": "662fc14860e2cf25f8a55d55bb5b62d71ae13fc2d322c7aad773f53c73c58786",
+          "bytes": 5746
+        }
+      },
+      {
+        "gate": "Phase 11A phase11_gdt prerequisite",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/18_phase_11a_phase11_gdt_prerequisite.log",
+          "sha256": "815df5b22fbcbd053d61e6a6b1f4a74ba7b23ce4edfe9cae8c5752af7e614907",
+          "bytes": 5949
+        }
+      },
+      {
+        "gate": "Phase 11F1 retained-owner exact identity family",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/19_phase_11f1_retained_owner_exact_identity_family.log",
+          "sha256": "c853efcb4f0a32465e8608428764bd9842fd6459296e66dcc3c72fa289589368",
+          "bytes": 6620
+        }
+      },
+      {
+        "gate": "RostiFS formatting",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/20_rostifs_formatting.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "gate": "RostiFS host and crash recovery tests",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/21_rostifs_host_and_crash_recovery_tests.log",
+          "sha256": "aedc6ffc913b0705e3afa94a9c2a51cd6b380057ecf313f037326c151ae515bc",
+          "bytes": 3080
+        }
+      },
+      {
+        "gate": "RostiFS host tool safety and integration",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/22_rostifs_host_tool_safety_and_integration.log",
+          "sha256": "8dde00c65f38b6c0672ddfc431710a47a41f72289dd339e8b212118c60ad2568",
+          "bytes": 624
+        }
+      },
+      {
+        "gate": "RostiFS read boundary and transfer regressions",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/23_rostifs_read_boundary_and_transfer_regressions.log",
+          "sha256": "63d856219f9576a162c2939cf9191eba857a2d675b6c1d46f761fbf3c2095499",
+          "bytes": 794
+        }
+      },
+      {
+        "gate": "RostiFS write preservation regressions",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/24_rostifs_write_preservation_regressions.log",
+          "sha256": "65a07fdbcab1102b76e64fed822468fb3f3a6fe7ce22a73a74ca3a7cd137197b",
+          "bytes": 595
+        }
+      },
+      {
+        "gate": "Python media reader regressions",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/25_python_media_reader_regressions.log",
+          "sha256": "09a33835eb27cae91e1addf50fd936eb545e5ed151b99f2ea70e0f916fde306f",
+          "bytes": 107
+        }
+      },
+      {
+        "gate": "acceptance runner regressions",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/26_acceptance_runner_regressions.log",
+          "sha256": "1f2970aa82d4782720cd36b2d500c8fcb802705388ea2db2a2a3683c8cec413d",
+          "bytes": 169
+        }
+      },
+      {
+        "gate": "RostiFS harness regressions",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/27_rostifs_harness_regressions.log",
+          "sha256": "c7686c9b1aa3d15d1990fa871f3ac79d001407ef53a3afcdc30ca07799702e31",
+          "bytes": 120
+        }
+      },
+      {
+        "gate": "Phase 9.5 benchmark contracts",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/28_phase_9_5_benchmark_contracts.log",
+          "sha256": "3321a71d5c82c8549f8b6fa1b42b175133f166ed48c3421d5ba2dc8ea1c791f9",
+          "bytes": 118
+        }
+      },
+      {
+        "gate": "Phase 9.6 boot metadata harness contracts",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/29_phase_9_6_boot_metadata_harness_contracts.log",
+          "sha256": "0fb7a21bdbaf806b75dbe1a8110fd984477f2ba7a3dd00b5a23a26c6911980fa",
+          "bytes": 118
+        }
+      },
+      {
+        "gate": "system image policy contracts",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/30_system_image_policy_contracts.log",
+          "sha256": "ba608df2de74e5f92e2b43ff24bb354d92e763ed186cbec2e614bab15dbfa363",
+          "bytes": 107
+        }
+      },
+      {
+        "gate": "Phase 10B initramfs builder contracts",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/31_phase_10b_initramfs_builder_contracts.log",
+          "sha256": "80b8d4c3cbfa315d884b6795e930096b1b31b1c87ef73650ebde4e976c1998e4",
+          "bytes": 110
+        }
+      },
+      {
+        "gate": "Phase 10B initramfs harness contracts",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/32_phase_10b_initramfs_harness_contracts.log",
+          "sha256": "ccad1c4f86d97b4966d6c905a018a6e1b6857fa3d10c34695421542f7a1bcedb",
+          "bytes": 137
+        }
+      },
+      {
+        "gate": "Phase 9.6 B13 boot entry host contracts",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/33_phase_9_6_b13_boot_entry_host_contracts.log",
+          "sha256": "9486931ffaf5ac84b7b19a3da86e47761d4abc55aaf9010fbbddd7e742c67706",
+          "bytes": 442
+        }
+      },
+      {
+        "gate": "build read fault fixture",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/34_build_read_fault_fixture.log",
+          "sha256": "53bb3427a9b3dc31b1028a1c7c81df3a2a239aee87fe2f8cb1718769a3af2250",
+          "bytes": 21237
+        }
+      },
+      {
+        "gate": "CPU read faults 128 and 512",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/35_cpu_read_faults_128_and_512.log",
+          "sha256": "2c707d90d6786e522ba91b0d5ecb43cb1b846d4b60e5df1d9a11b3ab42dd8cee",
+          "bytes": 233
+        }
+      },
+      {
+        "gate": "build write fault fixture",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/36_build_write_fault_fixture.log",
+          "sha256": "bf07606b3c9580ea6810881548cf5f462cb98fbfbea57d90991aabb80292645b",
+          "bytes": 21237
+        }
+      },
+      {
+        "gate": "CPU write faults 128 and 512",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/37_cpu_write_faults_128_and_512.log",
+          "sha256": "864d1ee5242e1ce328455289e1ed9f62b376bf86f8745df3ce42bf4de46d1339",
+          "bytes": 234
+        }
+      },
+      {
+        "gate": "build initramfs failure fixture",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/38_build_initramfs_failure_fixture.log",
+          "sha256": "7708b33df2bdf718c638c7c1935f23754c11ecfe2ffa5fd24e77e04f9777c410",
+          "bytes": 19640
+        }
+      },
+      {
+        "gate": "production build",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/39_production_build.log",
+          "sha256": "90b485ce3524e01bc6c2421c9ddeac71e037f718a52fb1440d62784abf5c3627",
+          "bytes": 19924
+        }
+      },
+      {
+        "gate": "production fixture policy contracts",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/40_production_fixture_policy_contracts.log",
+          "sha256": "1338a05c5b05f8c0d7c2dcfe545016099a63c001ec012b9faaa4a92c214ac699",
+          "bytes": 1642
+        }
+      },
+      {
+        "gate": "production feature and fault exclusion",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/41_production_feature_and_fault_exclusion.log",
+          "sha256": "6a449ef9a82f1098b33db65a701723ecb1441fc3f3545b2a6fe26bc6f46d7fc8",
+          "bytes": 515
+        }
+      },
+      {
+        "gate": "Phase 9.6 B13 privileged boot entry and production handoff",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/42_phase_9_6_b13_privileged_boot_entry_and_production_handoff.log",
+          "sha256": "c3806a99821018337e788d9ef2bb7de9c4cf19105c34e1c6da9521a9050dfccd",
+          "bytes": 244
+        }
+      },
+      {
+        "gate": "Phase 9.6 B13 injection transport contracts",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/43_phase_9_6_b13_injection_transport_contracts.log",
+          "sha256": "973f58138b46eb8373274a31fe08b5ee4fa230691daccf62e3af2f207045a8d6",
+          "bytes": 1312
+        }
+      },
+      {
+        "gate": "Phase 9.6 integrated boot metadata ELF and GRUB safety",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/44_phase_9_6_integrated_boot_metadata_elf_and_grub_safety.log",
+          "sha256": "f06e2abbc52e58e6be98c10509ee560498eecd6ad3fb577f715ed711ca7850f2",
+          "bytes": 190
+        }
+      },
+      {
+        "gate": "ELF validation",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/45_elf_validation.log",
+          "sha256": "f82bcc753e85df17d1d22a71392c3877698055f5370abacb2e696e7589f8034b",
+          "bytes": 383
+        }
+      },
+      {
+        "gate": "ten ELF boots 128 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/46_ten_elf_boots_128_mib.log",
+          "sha256": "1410c1268cf688c37c875c167e85815f2d78be7f5bb65f7aaab9e4b4bdaafa42",
+          "bytes": 787
+        }
+      },
+      {
+        "gate": "ten ELF boots 512 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/47_ten_elf_boots_512_mib.log",
+          "sha256": "6ff35f94be6425ec43fd485de6bb75a3d0f0a866e2c29a494cf6820c56192bbb",
+          "bytes": 787
+        }
+      },
+      {
+        "gate": "paging stability twenty ELF boots",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/48_paging_stability_twenty_elf_boots.log",
+          "sha256": "949bd2915cda1e36d90c92d99843eb016f8c3b6c4d9569b51dee37d0395190b8",
+          "bytes": 808
+        }
+      },
+      {
+        "gate": "keyboard integration",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/49_keyboard_integration.log",
+          "sha256": "98cca8a87bbfda583e89bdeff93154d6f0c1e0c2757d8f41b08b4b405ee8cf82",
+          "bytes": 954
+        }
+      },
+      {
+        "gate": "VGA backspace ELF",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/50_vga_backspace_elf.log",
+          "sha256": "94c5179988d2eefb6cc3deb9dfe1f818e139832a636787bf4b5f0288e722ded7",
+          "bytes": 127
+        }
+      },
+      {
+        "gate": "filesystem growth OOM ELF 128 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/51_filesystem_growth_oom_elf_128_mib.log",
+          "sha256": "b7e654687497dccb56ba9196467f39450fd9cb4abf45038038c6129117810350",
+          "bytes": 234
+        }
+      },
+      {
+        "gate": "block persistence ELF 128 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/52_block_persistence_elf_128_mib.log",
+          "sha256": "2e30dd74f62240f8eb71a7b000e9d7e3029d6fc2b64c4b38e7c90d0d82d1efbb",
+          "bytes": 210
+        }
+      },
+      {
+        "gate": "RostiFS persistence ELF 128 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/53_rostifs_persistence_elf_128_mib.log",
+          "sha256": "e8ff4e941e4f9d010272e5618d96a3ea1ecf74270715aa46fbdd0e912c2dfc03",
+          "bytes": 206
+        }
+      },
+      {
+        "gate": "filesystem growth OOM ELF 512 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/54_filesystem_growth_oom_elf_512_mib.log",
+          "sha256": "70b5aaae5eacbd06c4877c8d752ff4b0ba678cbcc84c75986c5a165fe3367f10",
+          "bytes": 234
+        }
+      },
+      {
+        "gate": "block persistence ELF 512 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/55_block_persistence_elf_512_mib.log",
+          "sha256": "f1d0be970125f0a182b012c2f7a691f670cb464cea9ab1f848fba2d469bef9b6",
+          "bytes": 210
+        }
+      },
+      {
+        "gate": "RostiFS persistence ELF 512 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/56_rostifs_persistence_elf_512_mib.log",
+          "sha256": "2d31db2276d86094351d9e9da14dda3298c428eda48690ade70e60bca1eb1dd1",
+          "bytes": 206
+        }
+      },
+      {
+        "gate": "GRUB ISO build and boot",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/57_grub_iso_build_and_boot.log",
+          "sha256": "9ccb4263f212a520a03ff490e33b6205b62c1edfad3078fe0077156086e2db4a",
+          "bytes": 1801
+        }
+      },
+      {
+        "gate": "ISO paging 128 and 512",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/58_iso_paging_128_and_512.log",
+          "sha256": "182767ef9a88b80eb294469896f5c5cd30321b823ab00b16854c3781e635db60",
+          "bytes": 234
+        }
+      },
+      {
+        "gate": "VGA backspace ISO",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/59_vga_backspace_iso.log",
+          "sha256": "1bc590420d64986f77fc541dc916a38b5e0df55cacd7e362c1a46ee1f50022b7",
+          "bytes": 127
+        }
+      },
+      {
+        "gate": "filesystem growth OOM ISO 128 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/60_filesystem_growth_oom_iso_128_mib.log",
+          "sha256": "343f93be5410b62f6f0b3dc1e8ccab0ed34b92598e9eb9cd0fa304724abbe3a0",
+          "bytes": 234
+        }
+      },
+      {
+        "gate": "block persistence ISO 128 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/61_block_persistence_iso_128_mib.log",
+          "sha256": "ee87ebbd4b1019596390f0b3fa8bed318e325f24e1d74e9ff779bc27e410f5db",
+          "bytes": 210
+        }
+      },
+      {
+        "gate": "RostiFS persistence ISO 128 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/62_rostifs_persistence_iso_128_mib.log",
+          "sha256": "11bbd7c05350482247fb4bb221f947a15f4a174dd1ba3357fe48483b36a87dac",
+          "bytes": 206
+        }
+      },
+      {
+        "gate": "filesystem growth OOM ISO 512 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/63_filesystem_growth_oom_iso_512_mib.log",
+          "sha256": "a2965fad0cfe0493abf7564584af6847bfbfb568b41a59e93027f29f5161c602",
+          "bytes": 234
+        }
+      },
+      {
+        "gate": "block persistence ISO 512 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/64_block_persistence_iso_512_mib.log",
+          "sha256": "785e0bd931846117ed4ab632c73ea1b0fbf14cdf5d0df62a458edf0430d0ae88",
+          "bytes": 210
+        }
+      },
+      {
+        "gate": "RostiFS persistence ISO 512 MiB",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/65_rostifs_persistence_iso_512_mib.log",
+          "sha256": "4064212fb925dc2bcb7d999e462f2670e112d65b89ba306ce52da1b240307bf3",
+          "bytes": 206
+        }
+      },
+      {
+        "gate": "Phase 10B trusted initramfs guest matrix",
+        "status": "PASS",
+        "exit_code": 0,
+        "log": {
+          "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/66_phase_10b_trusted_initramfs_guest_matrix.log",
+          "sha256": "bc19dc279d1fe8fa3add4525af4e580b4012f684f18c347104d19ad611477dce",
+          "bytes": 226
+        }
+      }
+    ],
+    "execution_limit": "Recorded child exits are verified from saved acceptance JSON, not a fresh execution or independently recovered pipeline process exit wrapper."
+  },
+  "source_identity": {
+    "policy_pin": {
+      "path": "scripts/phase6_verify.py",
+      "sha256": "09aeb708b783481d2120cd038663244c419264e023af17d49b52f04502153f7c",
+      "bytes": 44835
+    },
+    "accepted_membership_count": 158,
+    "current_membership_count": 158,
+    "membership_missing": [],
+    "membership_extra": [],
+    "matching_raw_input_count": 157,
+    "raw_input_drift": [
+      {
+        "path": "scripts/test_f1_capture.py",
+        "accepted_sha256": "bf9034f55d9451589870b963869e0caace6ff64672b4253955027cf602b34103",
+        "current_sha256": "691a91c475d30c8e5273d978363fda9f0cd8d719c23a224663b6af5c535251aa"
+      }
+    ],
+    "accepted_source_sha256": {
+      ".cargo/config.toml": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+      ".gitattributes": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218",
+      "Cargo.lock": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+      "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+      "crates/rostifs/Cargo.lock": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb",
+      "crates/rostifs/Cargo.toml": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920",
+      "crates/rostifs/src/additional_tests.rs": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df",
+      "crates/rostifs/src/bin/mkrostifs.rs": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252",
+      "crates/rostifs/src/bin/rostifs-inspect.rs": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c",
+      "crates/rostifs/src/bin/rostifsck.rs": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36",
+      "crates/rostifs/src/bin/support/mod.rs": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041",
+      "crates/rostifs/src/block.rs": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06",
+      "crates/rostifs/src/checksum.rs": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e",
+      "crates/rostifs/src/crash_tests.rs": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9",
+      "crates/rostifs/src/engine.rs": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a",
+      "crates/rostifs/src/format.rs": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700",
+      "crates/rostifs/src/lib.rs": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31",
+      "crates/rostifs/src/occupancy_tests.rs": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42",
+      "crates/rostifs/src/vfs.rs": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713",
+      "crates/rostifs/tests/host_tools.rs": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b",
+      "crates/rostifs/tests/read_performance.rs": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29",
+      "crates/rostifs/tests/write_preservation.rs": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9",
+      "linker.ld": "3abdfc294b09724d60af7036ddd684799cbcd0bf85ef368972da736db5254735",
+      "rust-toolchain.toml": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95",
+      "scripts/b13_boot_fixture.py": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef",
+      "scripts/b13_entry_inject.py": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+      "scripts/b13_fixture/Cargo.lock": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+      "scripts/b13_fixture/Cargo.toml": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+      "scripts/b13_fixture/linker.ld": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+      "scripts/b13_fixture/main.rs": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a",
+      "scripts/b13_grub_smoke.py": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+      "scripts/b13_stress_replay.py": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e",
+      "scripts/backspace_test.py": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+      "scripts/block_test.py": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+      "scripts/boot_metadata_test.py": "02ac3da0b606504d1f141ad5762adcf12ec581e11b1d102f79b7c95e19924e3f",
+      "scripts/boot_test.py": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+      "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+      "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+      "scripts/deploy-proxmox.py": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+      "scripts/f1_capture.py": "69fbf12be0c4a6472bd7cabb475ed2f46f55182a71b3d14edb12e7207ba08bed",
+      "scripts/f1_evidence.py": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+      "scripts/f1_guest_fixture.rs": "5d1bcea94ebf55fc1cf7f4937274a1598835689cbd625c0b45980ec7bb92b390",
+      "scripts/f1_retained_guest.py": "0bf5a38f13f1984761a1b80b3f73632b6eb381bf67121e2fb2fe7d9d327eca08",
+      "scripts/fs_test.py": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+      "scripts/keyboard_test.py": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+      "scripts/live_phase5_check.py": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+      "scripts/mem_probe.py": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+      "scripts/numeric_map_api_probe.rs": "4dffd562babfdd6c2b1e68626b68081dc934b0a984cb6eeb37900aa043bba929",
+      "scripts/paging_test.py": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+      "scripts/phase10_grub_module_probe.py": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b",
+      "scripts/phase10_initramfs_test.py": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+      "scripts/phase10_module_probe.py": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800",
+      "scripts/phase10_repro_one.py": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d",
+      "scripts/phase6_verify.py": "09aeb708b783481d2120cd038663244c419264e023af17d49b52f04502153f7c",
+      "scripts/phase9_5_bench.py": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4",
+      "scripts/qemu_boot_test.sh": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699",
+      "scripts/rostifs_test.py": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+      "scripts/run_tests.sh": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8",
+      "scripts/sendkey_probe.py": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+      "scripts/stability_probe.sh": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8",
+      "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+      "scripts/test_acceptance_harness.py": "45839c6b31a124d57f4f3b96f7d21b351cfcb12f04958f4836827d5024aa9936",
+      "scripts/test_b13_boot.py": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+      "scripts/test_b13_entry_inject.py": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2",
+      "scripts/test_boot_metadata_harness.py": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267",
+      "scripts/test_build_initramfs.py": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b",
+      "scripts/test_f1_capture.py": "bf9034f55d9451589870b963869e0caace6ff64672b4253955027cf602b34103",
+      "scripts/test_fs_harness.py": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+      "scripts/test_phase10_initramfs_harness.py": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+      "scripts/test_phase9_5_bench.py": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476",
+      "scripts/test_production_fixture_policy.py": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+      "scripts/test_rostifs_harness.py": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac",
+      "scripts/test_system_image_policy.py": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d",
+      "scripts/unmap_api_probe.rs": "66a64d2f4435fc2db8618ba30618823098547613fc79c33c85652e080f032669",
+      "scripts/validate_elf.py": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+      "scripts/verify_production.py": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+      "scripts/verify_proxmox_backspace.py": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+      "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+      "src/block.rs": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+      "src/boot.s": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+      "src/boot_inventory.rs": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+      "src/cpu.rs": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+      "src/fd.rs": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+      "src/fs/archive.rs": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+      "src/fs/mod.rs": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+      "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+      "src/fs/rosti.rs": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+      "src/fs/vfs.rs": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+      "src/fs_commands.rs": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+      "src/fs_stress.rs": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+      "src/gdt.rs": "fb6830e02a5f296e22551c5045bbd0263028520b4d334f285d2098fefa61957d",
+      "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+      "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+      "src/interrupt.rs": "98b7d296ee393978bc3e15225037cf47823cf528a29aabd07b39ff9a52faa76f",
+      "src/io/mod.rs": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+      "src/io/ports.rs": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+      "src/io/serial.rs": "095d91d330fb82fb8893db9ed39dda36fccb69becc8339090c98cafa3fcda58c",
+      "src/io/vga.rs": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+      "src/kbd.rs": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+      "src/main.rs": "f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91",
+      "src/memory/boot_copy.rs": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+      "src/memory/frame.rs": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+      "src/memory/generation_boundary_tests.rs": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+      "src/memory/generation_ownership_tests.rs": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+      "src/memory/mapping_pin_tests.rs": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816",
+      "src/memory/mod.rs": "ce93759f998d8f3cedc2704bd2ea3e60590d0d1bfe2c4c2311849e546ab51026",
+      "src/memory/module_access_tests.rs": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+      "src/memory/numeric_map_authority_tests.rs": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475",
+      "src/memory/ownership_observation_tests.rs": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+      "src/memory/paging.rs": "458c4e088b8792b226257c47f4a6918ae0ad14934afc201873ed11a84c742b26",
+      "src/memory/phase11_permission_tests.rs": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+      "src/memory/phase11a2_abi_tests.rs": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+      "src/memory/phase11a2_ownership_tests.rs": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+      "src/memory/retained_owner.rs": "858132a3b9449f00d32ed8f02d23a3fa11cc29d76d4724cc0ab8d8531ff1c261",
+      "src/memory/retained_owner_policy_tests.rs": "e8b9d2a03d0a90f73d54322c6cbfd80e2ff93aabb8d6bf914598b2656976387d",
+      "src/memory/retained_owner_tests.rs": "5729867aa1d2e86776a70edb028a10a93de70e43036355f219ef218f8cdbc76b",
+      "src/memory/review_r1_tests.rs": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+      "src/memory/runtime_table_access_tests.rs": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+      "src/memory/structure_lifetime_tests.rs": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+      "src/memory/unmap_authority_tests.rs": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76",
+      "src/memory/virtual_page_zero_tests.rs": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d",
+      "src/multiboot.rs": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+      "src/phase11_gdt_tests.rs": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+      "src/reboot.rs": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+      "src/shell.rs": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+      "src/storage.rs": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+      "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+      "src/timer.rs": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+      "src/utils/bits.rs": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+      "src/utils/mod.rs": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+      "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+      "system/docs/recovery.txt": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+      "system/README.txt": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+      "target.json": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+      "tests_b26/Cargo.lock": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e",
+      "tests_b26/Cargo.toml": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3",
+      "tests_b26/src/growth_tests.rs": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16",
+      "tests_b26/src/lib.rs": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+      "tests_b26/src/refusal_tests.rs": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706",
+      "tests_b26/src/registry_tests.rs": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111",
+      "tests_b26/src/retry_tests.rs": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+      "tests_b26/src/validation_allocation_tests.rs": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70",
+      "tests_b26/src/validation_tests.rs": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+      "tests_kernel/.cargo/config.toml": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53",
+      "tests_kernel/Cargo.lock": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+      "tests_kernel/Cargo.toml": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+      "tests_kernel/src/archive_vfs_tests.rs": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+      "tests_kernel/src/b11_frame_tests.rs": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+      "tests_kernel/src/b11_standalone.rs": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+      "tests_kernel/src/b18_inventory_tests.rs": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b",
+      "tests_kernel/src/b18_outcome_tests.rs": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0",
+      "tests_kernel/src/block_tests.rs": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430",
+      "tests_kernel/src/fs_tests.rs": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+      "tests_kernel/src/initramfs_tests.rs": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+      "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+      "tests_kernel/src/lib.rs": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133",
+      "tests_kernel/src/maintenance_measurements.rs": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f",
+      "tests_kernel/src/mount_tests.rs": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd"
+    },
+    "current_source_sha256": {
+      ".cargo/config.toml": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+      ".gitattributes": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218",
+      "Cargo.lock": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+      "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+      "crates/rostifs/Cargo.lock": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb",
+      "crates/rostifs/Cargo.toml": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920",
+      "crates/rostifs/src/additional_tests.rs": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df",
+      "crates/rostifs/src/bin/mkrostifs.rs": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252",
+      "crates/rostifs/src/bin/rostifs-inspect.rs": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c",
+      "crates/rostifs/src/bin/rostifsck.rs": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36",
+      "crates/rostifs/src/bin/support/mod.rs": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041",
+      "crates/rostifs/src/block.rs": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06",
+      "crates/rostifs/src/checksum.rs": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e",
+      "crates/rostifs/src/crash_tests.rs": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9",
+      "crates/rostifs/src/engine.rs": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a",
+      "crates/rostifs/src/format.rs": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700",
+      "crates/rostifs/src/lib.rs": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31",
+      "crates/rostifs/src/occupancy_tests.rs": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42",
+      "crates/rostifs/src/vfs.rs": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713",
+      "crates/rostifs/tests/host_tools.rs": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b",
+      "crates/rostifs/tests/read_performance.rs": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29",
+      "crates/rostifs/tests/write_preservation.rs": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9",
+      "linker.ld": "3abdfc294b09724d60af7036ddd684799cbcd0bf85ef368972da736db5254735",
+      "rust-toolchain.toml": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95",
+      "scripts/b13_boot_fixture.py": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef",
+      "scripts/b13_entry_inject.py": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+      "scripts/b13_fixture/Cargo.lock": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+      "scripts/b13_fixture/Cargo.toml": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+      "scripts/b13_fixture/linker.ld": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+      "scripts/b13_fixture/main.rs": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a",
+      "scripts/b13_grub_smoke.py": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+      "scripts/b13_stress_replay.py": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e",
+      "scripts/backspace_test.py": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+      "scripts/block_test.py": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+      "scripts/boot_metadata_test.py": "02ac3da0b606504d1f141ad5762adcf12ec581e11b1d102f79b7c95e19924e3f",
+      "scripts/boot_test.py": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+      "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+      "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+      "scripts/deploy-proxmox.py": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+      "scripts/f1_capture.py": "69fbf12be0c4a6472bd7cabb475ed2f46f55182a71b3d14edb12e7207ba08bed",
+      "scripts/f1_evidence.py": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+      "scripts/f1_guest_fixture.rs": "5d1bcea94ebf55fc1cf7f4937274a1598835689cbd625c0b45980ec7bb92b390",
+      "scripts/f1_retained_guest.py": "0bf5a38f13f1984761a1b80b3f73632b6eb381bf67121e2fb2fe7d9d327eca08",
+      "scripts/fs_test.py": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+      "scripts/keyboard_test.py": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+      "scripts/live_phase5_check.py": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+      "scripts/mem_probe.py": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+      "scripts/numeric_map_api_probe.rs": "4dffd562babfdd6c2b1e68626b68081dc934b0a984cb6eeb37900aa043bba929",
+      "scripts/paging_test.py": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+      "scripts/phase10_grub_module_probe.py": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b",
+      "scripts/phase10_initramfs_test.py": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+      "scripts/phase10_module_probe.py": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800",
+      "scripts/phase10_repro_one.py": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d",
+      "scripts/phase6_verify.py": "09aeb708b783481d2120cd038663244c419264e023af17d49b52f04502153f7c",
+      "scripts/phase9_5_bench.py": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4",
+      "scripts/qemu_boot_test.sh": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699",
+      "scripts/rostifs_test.py": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+      "scripts/run_tests.sh": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8",
+      "scripts/sendkey_probe.py": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+      "scripts/stability_probe.sh": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8",
+      "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+      "scripts/test_acceptance_harness.py": "45839c6b31a124d57f4f3b96f7d21b351cfcb12f04958f4836827d5024aa9936",
+      "scripts/test_b13_boot.py": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+      "scripts/test_b13_entry_inject.py": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2",
+      "scripts/test_boot_metadata_harness.py": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267",
+      "scripts/test_build_initramfs.py": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b",
+      "scripts/test_f1_capture.py": "691a91c475d30c8e5273d978363fda9f0cd8d719c23a224663b6af5c535251aa",
+      "scripts/test_fs_harness.py": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+      "scripts/test_phase10_initramfs_harness.py": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+      "scripts/test_phase9_5_bench.py": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476",
+      "scripts/test_production_fixture_policy.py": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+      "scripts/test_rostifs_harness.py": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac",
+      "scripts/test_system_image_policy.py": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d",
+      "scripts/unmap_api_probe.rs": "66a64d2f4435fc2db8618ba30618823098547613fc79c33c85652e080f032669",
+      "scripts/validate_elf.py": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+      "scripts/verify_production.py": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+      "scripts/verify_proxmox_backspace.py": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+      "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+      "src/block.rs": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+      "src/boot.s": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+      "src/boot_inventory.rs": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+      "src/cpu.rs": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+      "src/fd.rs": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+      "src/fs/archive.rs": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+      "src/fs/mod.rs": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+      "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+      "src/fs/rosti.rs": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+      "src/fs/vfs.rs": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+      "src/fs_commands.rs": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+      "src/fs_stress.rs": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+      "src/gdt.rs": "fb6830e02a5f296e22551c5045bbd0263028520b4d334f285d2098fefa61957d",
+      "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+      "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+      "src/interrupt.rs": "98b7d296ee393978bc3e15225037cf47823cf528a29aabd07b39ff9a52faa76f",
+      "src/io/mod.rs": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+      "src/io/ports.rs": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+      "src/io/serial.rs": "095d91d330fb82fb8893db9ed39dda36fccb69becc8339090c98cafa3fcda58c",
+      "src/io/vga.rs": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+      "src/kbd.rs": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+      "src/main.rs": "f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91",
+      "src/memory/boot_copy.rs": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+      "src/memory/frame.rs": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+      "src/memory/generation_boundary_tests.rs": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+      "src/memory/generation_ownership_tests.rs": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+      "src/memory/mapping_pin_tests.rs": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816",
+      "src/memory/mod.rs": "ce93759f998d8f3cedc2704bd2ea3e60590d0d1bfe2c4c2311849e546ab51026",
+      "src/memory/module_access_tests.rs": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+      "src/memory/numeric_map_authority_tests.rs": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475",
+      "src/memory/ownership_observation_tests.rs": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+      "src/memory/paging.rs": "458c4e088b8792b226257c47f4a6918ae0ad14934afc201873ed11a84c742b26",
+      "src/memory/phase11_permission_tests.rs": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+      "src/memory/phase11a2_abi_tests.rs": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+      "src/memory/phase11a2_ownership_tests.rs": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+      "src/memory/retained_owner.rs": "858132a3b9449f00d32ed8f02d23a3fa11cc29d76d4724cc0ab8d8531ff1c261",
+      "src/memory/retained_owner_policy_tests.rs": "e8b9d2a03d0a90f73d54322c6cbfd80e2ff93aabb8d6bf914598b2656976387d",
+      "src/memory/retained_owner_tests.rs": "5729867aa1d2e86776a70edb028a10a93de70e43036355f219ef218f8cdbc76b",
+      "src/memory/review_r1_tests.rs": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+      "src/memory/runtime_table_access_tests.rs": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+      "src/memory/structure_lifetime_tests.rs": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+      "src/memory/unmap_authority_tests.rs": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76",
+      "src/memory/virtual_page_zero_tests.rs": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d",
+      "src/multiboot.rs": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+      "src/phase11_gdt_tests.rs": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+      "src/reboot.rs": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+      "src/shell.rs": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+      "src/storage.rs": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+      "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+      "src/timer.rs": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+      "src/utils/bits.rs": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+      "src/utils/mod.rs": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+      "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+      "system/docs/recovery.txt": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+      "system/README.txt": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+      "target.json": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+      "tests_b26/Cargo.lock": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e",
+      "tests_b26/Cargo.toml": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3",
+      "tests_b26/src/growth_tests.rs": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16",
+      "tests_b26/src/lib.rs": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+      "tests_b26/src/refusal_tests.rs": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706",
+      "tests_b26/src/registry_tests.rs": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111",
+      "tests_b26/src/retry_tests.rs": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+      "tests_b26/src/validation_allocation_tests.rs": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70",
+      "tests_b26/src/validation_tests.rs": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+      "tests_kernel/.cargo/config.toml": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53",
+      "tests_kernel/Cargo.lock": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+      "tests_kernel/Cargo.toml": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+      "tests_kernel/src/archive_vfs_tests.rs": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+      "tests_kernel/src/b11_frame_tests.rs": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+      "tests_kernel/src/b11_standalone.rs": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+      "tests_kernel/src/b18_inventory_tests.rs": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b",
+      "tests_kernel/src/b18_outcome_tests.rs": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0",
+      "tests_kernel/src/block_tests.rs": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430",
+      "tests_kernel/src/fs_tests.rs": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+      "tests_kernel/src/initramfs_tests.rs": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+      "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+      "tests_kernel/src/lib.rs": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133",
+      "tests_kernel/src/maintenance_measurements.rs": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f",
+      "tests_kernel/src/mount_tests.rs": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd"
+    },
+    "production_scope_definition": "All canonical src/, crates/, system/ inputs and root Cargo/config/toolchain/linker/target files; scripts and host-test harness inputs separately retained in complete maps. Documentation outside canonical scope is not required to equal snapshot.",
+    "production_scope_count": 81,
+    "production_raw_drift": [],
+    "production_source_matches_accepted": true,
+    "complete_input_identity_matches": false,
+    "current_test_f1_capture_matches_HEAD_committed_bytes": true,
+    "test_drift_is_newline_only": false
+  },
+  "f1_identity_gate": {
+    "declared_exact_identities": [
+      "memory::paging::retained_owner::tests::alias_failure_retains_current_identity",
+      "memory::paging::retained_owner::tests::final_identity_failure_retains_two_and_never_seals",
+      "memory::paging::retained_owner::tests::first_allocation_failure_retains_zero_and_consumes_attempt",
+      "memory::paging::retained_owner::tests::one_shot_preparation_retains_exact_two_within_policy",
+      "memory::paging::retained_owner::tests::ordinary_unsealed_mapping_release_preserves_behavior",
+      "memory::paging::retained_owner::tests::sealed_mutation_matrix_and_alternate_cr3_preserve_exact_state",
+      "memory::paging::retained_owner::tests::second_allocation_failure_retains_exact_payload",
+      "memory::paging::retained_owner::tests::wrong_hardware_identity_fails_before_acquisition",
+      "memory::paging::retained_owner_tests::sealed_release_and_unmap_preserve_live_ownership"
+    ],
+    "observed_success_identities": [
+      "memory::paging::retained_owner::tests::alias_failure_retains_current_identity",
+      "memory::paging::retained_owner::tests::final_identity_failure_retains_two_and_never_seals",
+      "memory::paging::retained_owner::tests::first_allocation_failure_retains_zero_and_consumes_attempt",
+      "memory::paging::retained_owner::tests::one_shot_preparation_retains_exact_two_within_policy",
+      "memory::paging::retained_owner::tests::ordinary_unsealed_mapping_release_preserves_behavior",
+      "memory::paging::retained_owner::tests::sealed_mutation_matrix_and_alternate_cr3_preserve_exact_state",
+      "memory::paging::retained_owner::tests::second_allocation_failure_retains_exact_payload",
+      "memory::paging::retained_owner::tests::wrong_hardware_identity_fails_before_acquisition",
+      "memory::paging::retained_owner_tests::sealed_release_and_unmap_preserve_live_ownership"
+    ],
+    "exact_membership_and_multiplicity_verified": true,
+    "recorded_counts": {
+      "pass": 9,
+      "fail": 0
+    },
+    "log_pin": {
+      "path": "test_results/phase11f1_retained_owner/f1_acceptance_01/acceptance_20261020T142108Z_jbl007jl/19_phase_11f1_retained_owner_exact_identity_family.log",
+      "sha256": "c853efcb4f0a32465e8608428764bd9842fd6459296e66dcc3c72fa289589368",
+      "bytes": 6620
+    }
+  },
+  "candidate_review": {
+    "pin": {
+      "path": "test_results/phase11f1_retained_owner/f1_candidate_review_01.json",
+      "sha256": "b01674d9bd991e475d013465b21c7ca5a59a509b70d9307730523a651dbde14f",
+      "bytes": 2261
+    },
+    "verdict": "APPROVE",
+    "blockers": [],
+    "source_identity_limit": "Record uses truncated hash prefixes for six source files and says matches f1_pre_guest_hashes.txt; not a complete raw SHA256 source-map attestation. Current production files independently match full accepted source_sha256 map.",
+    "not_final_accepted_readback": true
+  },
+  "guest": {
+    "pin": {
+      "path": "test_results/phase11f1_retained_owner/f1_guest_02/f1_retained_oig9z2bo/report.json",
+      "sha256": "081200f1cc9dcd6180ad3881e36d546ef04b4b40f9e81748479024b0b9b01e15",
+      "bytes": 19620
+    },
+    "overall": "PASS",
+    "scenarios": [
+      {
+        "name": "success",
+        "case": 0,
+        "ram_mib": 128,
+        "declared_overall": "PASS",
+        "actual_overall": "PASS",
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/f1_guest_02/f1_retained_oig9z2bo/0_128/report.json",
+          "sha256": "38ba4e4b34331fcb7bcae496be31d287d6ee483c863cd1a29469c39f48c2f429",
+          "bytes": 12135
+        }
+      },
+      {
+        "name": "success",
+        "case": 0,
+        "ram_mib": 512,
+        "declared_overall": "PASS",
+        "actual_overall": "PASS",
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/f1_guest_02/f1_retained_oig9z2bo/0_512/report.json",
+          "sha256": "421bef66abdb40d81b1b36ea9045a45ae62e58ff18c5e7f2c5d7366ea062d867",
+          "bytes": 12144
+        }
+      },
+      {
+        "name": "deny_first",
+        "case": 1,
+        "ram_mib": 128,
+        "declared_overall": "PASS",
+        "actual_overall": "PASS",
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/f1_guest_02/f1_retained_oig9z2bo/1_128/report.json",
+          "sha256": "56e109203a02c9bd11b20bbed5b2935cc0f3ddb0f88b7e909a172ba05f6db5dd",
+          "bytes": 11863
+        }
+      },
+      {
+        "name": "deny_first",
+        "case": 1,
+        "ram_mib": 512,
+        "declared_overall": "PASS",
+        "actual_overall": "PASS",
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/f1_guest_02/f1_retained_oig9z2bo/1_512/report.json",
+          "sha256": "28502e4c36552e57d414c58b079b9db272409578af57dc29adbea07ae4944bf9",
+          "bytes": 11868
+        }
+      },
+      {
+        "name": "deny_second",
+        "case": 2,
+        "ram_mib": 128,
+        "declared_overall": "PASS",
+        "actual_overall": "PASS",
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/f1_guest_02/f1_retained_oig9z2bo/2_128/report.json",
+          "sha256": "765547d503550c7721013d08b1ac6ae1dad90ad976ef6385c20ba5965ae60285",
+          "bytes": 11872
+        }
+      },
+      {
+        "name": "deny_second",
+        "case": 2,
+        "ram_mib": 512,
+        "declared_overall": "PASS",
+        "actual_overall": "PASS",
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/f1_guest_02/f1_retained_oig9z2bo/2_512/report.json",
+          "sha256": "979309b435a4d79f4c8ae084362284f98282b14545cdeb800bf9b085b3107de7",
+          "bytes": 11881
+        }
+      },
+      {
+        "name": "deny_alias",
+        "case": 3,
+        "ram_mib": 128,
+        "declared_overall": "PASS",
+        "actual_overall": "PASS",
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/f1_guest_02/f1_retained_oig9z2bo/3_128/report.json",
+          "sha256": "904b074a8e46ba1cfc7c052f9d6d16ebdb1dc30363511156088b0e47d8a5412b",
+          "bytes": 11873
+        }
+      },
+      {
+        "name": "deny_alias",
+        "case": 3,
+        "ram_mib": 512,
+        "declared_overall": "PASS",
+        "actual_overall": "PASS",
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/f1_guest_02/f1_retained_oig9z2bo/3_512/report.json",
+          "sha256": "f0e2bf2c7b123decf9884d12a74d265c85520c3104022fa41ac26f2d8fe456eb",
+          "bytes": 11880
+        }
+      },
+      {
+        "name": "deny_final_identity",
+        "case": 4,
+        "ram_mib": 128,
+        "declared_overall": "PASS",
+        "actual_overall": "PASS",
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/f1_guest_02/f1_retained_oig9z2bo/4_128/report.json",
+          "sha256": "6f33b9e5bd6ca1dd6c2421ec284bce93ac299741843ee2bb3641630198aff871",
+          "bytes": 11890
+        }
+      },
+      {
+        "name": "deny_final_identity",
+        "case": 4,
+        "ram_mib": 512,
+        "declared_overall": "PASS",
+        "actual_overall": "PASS",
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/f1_guest_02/f1_retained_oig9z2bo/4_512/report.json",
+          "sha256": "33c39568e27965ee5e7f8ab9b317ee8b1fec4229035b2f252d6c667fe5ab8a68",
+          "bytes": 11899
+        }
+      }
+    ],
+    "all_10_scenario_reports_PASS": true,
+    "guest_source_count": 158,
+    "guest_to_acceptance_drift": [
+      {
+        "path": "scripts/phase6_verify.py",
+        "guest_sha256": "7a564f9575e30fc8b5552acd0ab1d0f6703cdba2044408eaf93da1d331c84a0c",
+        "acceptance_sha256": "09aeb708b783481d2120cd038663244c419264e023af17d49b52f04502153f7c"
+      },
+      {
+        "path": "scripts/test_acceptance_harness.py",
+        "guest_sha256": "c7fd22438a1b987d1be2de9f75b8dcd46472953ab0ed98881f40e50c3ff75bc8",
+        "acceptance_sha256": "45839c6b31a124d57f4f3b96f7d21b351cfcb12f04958f4836827d5024aa9936"
+      }
+    ],
+    "guest_to_current_drift": [
+      {
+        "path": "scripts/phase6_verify.py",
+        "guest_sha256": "7a564f9575e30fc8b5552acd0ab1d0f6703cdba2044408eaf93da1d331c84a0c",
+        "current_sha256": "09aeb708b783481d2120cd038663244c419264e023af17d49b52f04502153f7c"
+      },
+      {
+        "path": "scripts/test_acceptance_harness.py",
+        "guest_sha256": "c7fd22438a1b987d1be2de9f75b8dcd46472953ab0ed98881f40e50c3ff75bc8",
+        "current_sha256": "45839c6b31a124d57f4f3b96f7d21b351cfcb12f04958f4836827d5024aa9936"
+      },
+      {
+        "path": "scripts/test_f1_capture.py",
+        "guest_sha256": "bf9034f55d9451589870b963869e0caace6ff64672b4253955027cf602b34103",
+        "current_sha256": "691a91c475d30c8e5273d978363fda9f0cd8d719c23a224663b6af5c535251aa"
+      }
+    ],
+    "limit": "Scenario report identities/statuses checked; this audit does not revalidate every retained table binary or reproduce CPU behavior."
+  },
+  "final_independent_readback": {
+    "accepted_F1_final_readback_found": false,
+    "search_scope": "test_results/phase11f1_retained_owner",
+    "json_files_examined": 944,
+    "parse_errors": [],
+    "review_like_json_files_examined": [
+      "test_results/phase11f1_retained_owner/b3_independent_design_review_01.json",
+      "test_results/phase11f1_retained_owner/checkpoint_review.json",
+      "test_results/phase11f1_retained_owner/checkpoint_scope_review.json",
+      "test_results/phase11f1_retained_owner/f1_candidate_review_01.json",
+      "test_results/phase11f1_retained_owner/final_readback.json",
+      "test_results/phase11f1_retained_owner/independent_boundary_review.json",
+      "test_results/phase11f1_retained_owner/independent_budget_review.json",
+      "test_results/phase11f1_retained_owner/v2_combined_design_review.json",
+      "test_results/phase11f1_retained_owner/v2_design_revision_review.json",
+      "test_results/phase11f1_retained_owner/v2_final_readback.json",
+      "test_results/phase11f1_retained_owner/v2_initial_review_readback.json",
+      "test_results/phase11f1_retained_owner/v2_revision_review_readback.json"
+    ],
+    "review_like_records_referencing_current_acceptance": [],
+    "historical_partial_readbacks": [
+      {
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/final_readback.json",
+          "sha256": "1c194039ed6d6d57207a217652439c69b53007a69cd1fc30d70be1ccaed6a44e",
+          "bytes": 8027
+        },
+        "verdict": "APPROVE_PARTIAL_CHECKPOINT_READBACK",
+        "accepted_final_F1_readback": false,
+        "scope": "Distinct independent postcommit partial documentation/evidence readback only",
+        "head": "649aaf1dccd2f18091d0d2f0f81661e11d005d97"
+      },
+      {
+        "pin": {
+          "path": "test_results/phase11f1_retained_owner/v2_final_readback.json",
+          "sha256": "93e50544bd28a05949d83199d2c0753917e2f60cb98a3039d3012fe5dece721a",
+          "bytes": 41416
+        },
+        "verdict": "APPROVE_PARTIAL_CHECKPOINT_READBACK",
+        "accepted_final_F1_readback": false,
+        "scope": "ONE independent final postcommit PARTIAL checkpoint preservation/claim readback only",
+        "head": "d43938f27ca9b9655211a5a491fd5d8839b76848"
+      }
+    ],
+    "conclusion": "FINAL_REPORT claims independent final 66-gate readback but does not name/pin an actual accepted final verdict. Existing final_readback.json/v2_final_readback.json/final_closeout.json explicitly concern earlier partial checkpoints. Candidate APPROVE is not final accepted readback. No final accepted independent readback located in retained F1 artifact tree; absence outside this searched scope is not asserted."
+  },
+  "artifact_identity_checks": {
+    "pins": [
+      {
+        "path": "test_results/phase11f1_retained_owner/f1_candidate_review_01.json",
+        "sha256": "b01674d9bd991e475d013465b21c7ca5a59a509b70d9307730523a651dbde14f",
+        "bytes": 2261
+      },
+      {
+        "path": "test_results/phase11f1_retained_owner/final_readback.json",
+        "sha256": "1c194039ed6d6d57207a217652439c69b53007a69cd1fc30d70be1ccaed6a44e",
+        "bytes": 8027
+      },
+      {
+        "path": "test_results/phase11f1_retained_owner/v2_final_readback.json",
+        "sha256": "93e50544bd28a05949d83199d2c0753917e2f60cb98a3039d3012fe5dece721a",
+        "bytes": 41416
+      },
+      {
+        "path": "test_results/phase11f1_retained_owner/final_closeout.json",
+        "sha256": "9314a932692fd2ec7b83c3412e4541e9127c4d94ef12bc1701c3792536173159",
+        "bytes": 1061
+      },
+      {
+        "path": "test_results/phase11f1_retained_owner/STATE.md",
+        "sha256": "9372869528c0587c2f2c4168bd5fdbcafdbdcbde5d524657215f244a8133e219",
+        "bytes": 7356
+      },
+      {
+        "path": "test_results/phase11f1_retained_owner/FINAL_REPORT.md",
+        "sha256": "c975ae40b57db7daec8b039b38a4249569e34537068a5f8de65c35c20ada617a",
+        "bytes": 5528
+      },
+      {
+        "path": "test_results/phase11f1_retained_owner/evidence_manifest.json",
+        "sha256": "a49d5d5be8fcb3fe7f323ce9f9cf42ebb730632f81448d08faebbb09a129e1f9",
+        "bytes": 3280
+      },
+      {
+        "path": "test_results/phase11f1_retained_owner/source_membership_readback.json",
+        "sha256": "27994151cc9958a0306f8f2b12a17cd58743d7b842d533f455611784ec956bfb",
+        "bytes": 15638
+      }
+    ],
+    "distribution_artifacts": [
+      {
+        "kind": "iso",
+        "pin": {
+          "path": "dist/rosti_phase11a_prerequisite_20261020T142108Z.iso",
+          "sha256": "0532e0fbb7dc1c2f2b3dba969b89d7678bbc830f20ec5e90f9cb29854636d7a4",
+          "bytes": 11444224
+        },
+        "accepted_sha256": "0532e0fbb7dc1c2f2b3dba969b89d7678bbc830f20ec5e90f9cb29854636d7a4",
+        "matches": true
+      },
+      {
+        "kind": "rollback_iso",
+        "pin": {
+          "path": "dist/rosti_preserved_5679b89c98457137.iso",
+          "sha256": "5679b89c98457137b3a547518ad3b6693ce6f36160c41f3fcde6dc1053e5e248",
+          "bytes": 11442176
+        },
+        "accepted_sha256": "5679b89c98457137b3a547518ad3b6693ce6f36160c41f3fcde6dc1053e5e248",
+        "matches": true
+      },
+      {
+        "kind": "phase10_fixture_kernel",
+        "pin": {
+          "path": "dist/phase10b_fixture_kernel",
+          "sha256": "a8002aeb90d8ce1bd3c0c2ec0ae244949937e362cdbdb3878b1282e63bc9a4be",
+          "bytes": 6360648
+        },
+        "accepted_sha256": "a8002aeb90d8ce1bd3c0c2ec0ae244949937e362cdbdb3878b1282e63bc9a4be",
+        "matches": true
+      }
+    ],
+    "current_default_kernel": {
+      "path": "target/target/debug/kernel",
+      "sha256": "343a2483695a8ac3b493ef624affe2cbb98d982cb3a949d8ec9e4a7bffc9ce15",
+      "bytes": 6319976
+    },
+    "kernel_matches_acceptance": true,
+    "protected_current_raw_pins": [
+      {
+        "path": "README.md",
+        "sha256": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+        "bytes": 32524
+      },
+      {
+        "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+        "sha256": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+        "bytes": 44940
+      },
+      {
+        "path": "scripts/b13_boot_fixture.py.backup",
+        "sha256": "3e86d2dd9061e42c1b79d5ad0d94efa513a407c19faa37fc2680a7ab5526a181",
+        "bytes": 6074
+      },
+      {
+        "path": "d1/f",
+        "sha256": "98ea6e4f216f2fb4b69fff9b3a44842c38686ca685f3f55dc48c5d3fb1107be4",
+        "bytes": 3
+      }
+    ],
+    "protected_modified_by_audit": false
+  },
+  "blockers": [
+    {
+      "id": "EVIDENCE_FINAL_ACCEPTED_READBACK_MISSING",
+      "type": "missing_evidence_not_reproduced_regression",
+      "detail": "No actual final accepted independent readback located; historical partial checkpoints cannot fill this prerequisite."
+    },
+    {
+      "id": "FULL_CANONICAL_INPUT_RAW_DRIFT",
+      "type": "identity_discrepancy_not_reproduced_regression",
+      "detail": "scripts/test_f1_capture.py differs from acceptance/guest raw pin; current bytes equal HEAD blob. Cannot certify full 158-input equality or explain this as doc-only drift."
+    }
+  ],
+  "discrepancies": [
+    {
+      "id": "STATE_CONTRADICTORY",
+      "detail": "STATE top declares accepted66/66 but appended lines retain old design REJECT, no latch, guest RUNNING, no candidate/acceptance and F1 NOT ACCEPTED. Not used as authoritative current status."
+    },
+    {
+      "id": "MANIFEST_STALE_RUNNING",
+      "detail": "evidence_manifest acceptance.status remains RUNNING and references nonexistent f1_acceptance_01/report.json; actual completed acceptance.json exists in timestamped child."
+    },
+    {
+      "id": "FINAL_REPORT_UNPINNED_FINAL_REVIEW",
+      "detail": "Independent final readback claimed without actual accepted final verdict artifact; old similarly named files explicitly partial."
+    },
+    {
+      "id": "PROVEN_GUEST_TO_ACCEPT_RUNNER_DRIFT",
+      "detail": "Guest->acceptance changes exactly scripts/phase6_verify.py and scripts/test_acceptance_harness.py; accepted->current adds scripts/test_f1_capture.py, so current drift is not exhausted by the documented two runner changes."
+    },
+    {
+      "id": "DOCUMENTATION_PATH_CLAIMS",
+      "detail": "FINAL_REPORT/evidence_manifest name b3_design_revision_review_02.json, absent from top-level retained F1 inventory; actual b3_independent_design_review_01.json exists. Report also names b3_real_guard_red_01.json, absent at that path; .log exists. These are record-link discrepancies, not proof the underlying design/RED never occurred."
+    }
+  ],
+  "regression_assessment": {
+    "reproduced_F1_regression": false,
+    "reason": "No builds/tests/QEMU run. Production raw identities match accepted map and saved gate/guest results are PASS. Missing final readback and harness-file identity drift are evidence/identity gaps, not reproduced runtime or F1 behavior regressions.",
+    "historical_approval_not_reopened": true
+  },
+  "write_scope": "Only test_results/phase11f2_exception_abi/reviews/baseline_audit_01.json created by this audit; no source, docs, protected files, acceptance artifacts, build outputs, or Git state modified."
+}

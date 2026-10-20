@@ -1,0 +1,53 @@
+{
+  "status": "PASS_PARTIAL_CHECKPOINT_NOT_F2_IMPLEMENTATION",
+  "source_implemented": false,
+  "f2_accepted": false,
+  "newline_preservation": [
+    {
+      "path": "HANDOVER.md",
+      "convention": "CRLF",
+      "historical_suffix_text_unchanged": true,
+      "sha256": "2d5cbca691702cdb1975f8b0a38be2471b8be83bdf89f756bb0955326337dbac"
+    },
+    {
+      "path": "NEXT_SESSION_PROMPT.md",
+      "convention": "CRLF",
+      "historical_suffix_text_unchanged": true,
+      "sha256": "034619dbcb08b0cf17c0c032d3649a7eeaf35ba6094c70904d9fa51d42e57a33"
+    },
+    {
+      "path": "docs/PHASE11_HANDOVER.md",
+      "convention": "LF",
+      "historical_suffix_text_unchanged": true,
+      "sha256": "1c6967f93a364169e77486678bb98886cca48aef59dda51a6e99798dc9219333"
+    },
+    {
+      "path": "docs/PHASE11_MEMORY_AUTHORITY.md",
+      "convention": "LF",
+      "historical_suffix_text_unchanged": true,
+      "sha256": "eb7b7c6b1e246fceac52720cbf9e5ae38e34bc1179530df5070bddf7d8f4b5b9"
+    }
+  ],
+  "production_drift": [],
+  "protected_drift": [],
+  "design_review": {
+    "verdict": "APPROVE",
+    "blockers": [],
+    "raw_sha256": "b54470b40e6f52f9b2dfb1ac0f8d93f76876a1dcd146e1984b116c33ff30acb0",
+    "all_input_pins_match": true
+  },
+  "runtime_red": {
+    "status": "RUNTIME_RED",
+    "build_exit": 0,
+    "qemu_exit": 1,
+    "owned_qemu_exited": true,
+    "failed_check": true
+  },
+  "control_pass": true,
+  "qemu_process_readback": {
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "source_owner_limit": "No observed competing writer; stable hashes and empty QEMU snapshot do not prove exclusive process ownership or historical exit status."
+}

@@ -1,0 +1,14 @@
+ROSTI: entered kernel_main
+DBG: alloc init
+DBG: mmap print
+DBG: mmap printed
+DBG: mmap parsed
+DBG: mem info set
+DBG: frame init start
+DBG: frame lock acquired
+DBG: init entered
+DBG: frame init passes done
+DBG: frame init done
+DBG: page tables built
+ROSTI: paging enabled (CR0.PG, identity map)
+F2RED TRIGGER Ring0 UD null-segments DF1

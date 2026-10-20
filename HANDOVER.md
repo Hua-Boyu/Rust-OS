@@ -1,5 +1,20 @@
 # Rosti OS — development handover
 
+## Current — F2 PARTIAL / prerequisite evidence STOP (2026-10-20)
+
+F2 evidence: `test_results/phase11f2_exception_abi/STATE.md` and `FINAL_REPORT.md`.
+No production, host-test or acceptance-harness changes. A real Ring-0 QEMU #UD
+runtime RED observes unnormalized DS/ES/FS/GS after compiler CLD; the earlier
+terminal-output oracle passed and is preserved as a control. The bounded68-byte
+frame design is independently APPROVED after one correction, not implemented.
+F1 production/kernel identities match historical66/66 PASS, with no reproduced
+F1 regression. Independent audit found one accepted-input hash mismatch in
+`scripts/test_f1_capture.py` and no retained final accepted independent readback;
+the similarly named readbacks are earlier partial checkpoints. These are evidence
+gaps, not authority to reopen F1. Baseline-disposition clarification timed out;
+production-edit gate remains closed. No F2 GREEN/full-suite/canonical acceptance
+or completion claim. Resume only after resolving that gate. No F3-F5/CPL3/push.
+
 ## Current — F1 v2 ACCEPTED; 66-gate canonical acceptance passed (2026-10-20)
 
 Actual starting checkpoint d43938f; final HEAD recorded in STATE.md and commit log.

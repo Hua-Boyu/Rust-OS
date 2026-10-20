@@ -1,0 +1,86 @@
+{
+  "status": "RUNTIME_RED",
+  "build_exit": 0,
+  "kernel_sha256": "4d849ea3d65b01dc34ddedce252d875b94ee4f6e6419432b7f9a33860081e975",
+  "command": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f2_exception_abi\\runtime_red_01\\kernel.elf",
+    "-cpu",
+    "qemu32",
+    "-m",
+    "128",
+    "-smp",
+    "1",
+    "-machine",
+    "pc",
+    "-display",
+    "none",
+    "-nic",
+    "none",
+    "-monitor",
+    "none",
+    "-no-reboot",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f2_exception_abi\\runtime_red_02\\serial.txt",
+    "-d",
+    "int,guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f2_exception_abi\\runtime_red_02\\qemu.log",
+    "-S",
+    "-gdb",
+    "tcp:127.0.0.1:53663",
+    "-qmp",
+    "tcp:127.0.0.1:53664,server=on,wait=off"
+  ],
+  "entry_symbol": "_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06",
+  "entry_address": 2217520,
+  "post_cld_pre_call_address": 2217534,
+  "oracle": "live DS/ES/FS/GS must be normalized to kernel data0x10 before calling Rust/C helpers",
+  "cpu_mode": "32-bit protected Ring0; no CPL3",
+  "owned_pid": 14736,
+  "stop_reply": "T05thread:01;",
+  "registers": {
+    "eax": 286335522,
+    "ecx": 1431660134,
+    "edx": 2004322440,
+    "ebx": 858997828,
+    "esp": 3780160,
+    "ebp": 3780224,
+    "esi": 2576984746,
+    "edi": 3149647052,
+    "eip": 2217534,
+    "eflags": 2,
+    "cs": 8,
+    "ss": 16,
+    "ds": 0,
+    "es": 0,
+    "fs": 0,
+    "gs": 0
+  },
+  "hardware": {
+    "EIP": 2217534,
+    "EFL": 2,
+    "CR0": 2147549201,
+    "CR3": 4096,
+    "CR4": 0
+  },
+  "query_status": {
+    "status": "debug",
+    "running": false
+  },
+  "checks": {
+    "trigger_reached": true,
+    "actual_UD_handler_post_cld": true,
+    "saved_CS_origin_ring0": true,
+    "DF_clear_before_call": true,
+    "kernel_data_selectors_before_call": false
+  },
+  "qemu_exit": 1,
+  "owned_qemu_exited": true
+}
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\test_results\phase11f2_exception_abi\runtime_red_02.py", line 75, in <module>
+    assert report['checks']['kernel_data_selectors_before_call'], 'exception entry must install kernel DS/ES/FS/GS before ordinary Rust/C calls; observed '+str({x:regs[x] for x in ('ds','es','fs','gs')})
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: exception entry must install kernel DS/ES/FS/GS before ordinary Rust/C calls; observed {'ds': 0, 'es': 0, 'fs': 0, 'gs': 0}

@@ -1,0 +1,107 @@
+
+C:\Users\iamsv\Documents\Rust-OS\test_results\phase11f2_exception_abi\runtime_red_01\kernel.elf:	file format elf32-i386
+
+Disassembly of section .text:
+
+0021d630 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06>:
+  21d630: 55                           	pushl	%ebp
+  21d631: 89 e5                        	movl	%esp, %ebp
+  21d633: 52                           	pushl	%edx
+  21d634: 51                           	pushl	%ecx
+  21d635: 53                           	pushl	%ebx
+  21d636: 50                           	pushl	%eax
+  21d637: 83 e4 f0                     	andl	$-0x10, %esp
+  21d63a: 83 ec 30                     	subl	$0x30, %esp
+  21d63d: fc                           	cld
+  21d63e: e8 00 00 00 00               	calll	0x21d643 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0x13>
+  21d643: 58                           	popl	%eax
+  21d644: 81 c0 a5 7f 07 00            	addl	$0x77fa5, %eax          # imm = 0x77FA5
+  21d64a: 89 44 24 10                  	movl	%eax, 0x10(%esp)
+  21d64e: 8d 80 1c 62 11 00            	leal	0x11621c(%eax), %eax
+  21d654: 83 f8 00                     	cmpl	$0x0, %eax
+  21d657: 0f 94 c0                     	sete	%al
+  21d65a: 24 ff                        	andb	$-0x1, %al
+  21d65c: 34 ff                        	xorb	$-0x1, %al
+  21d65e: a8 01                        	testb	$0x1, %al
+  21d660: 75 02                        	jne	0x21d664 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0x34>
+  21d662: eb 0f                        	jmp	0x21d673 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0x43>
+  21d664: 8b 44 24 10                  	movl	0x10(%esp), %eax
+  21d668: 83 b8 34 62 11 00 00         	cmpl	$0x0, 0x116234(%eax)
+  21d66f: 74 31                        	je	0x21d6a2 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0x72>
+  21d671: eb 12                        	jmp	0x21d685 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0x55>
+  21d673: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  21d677: 8d 83 bc ec ff ff            	leal	-0x1344(%ebx), %eax
+  21d67d: 89 04 24                     	movl	%eax, (%esp)
+  21d680: e8 2c 4f 01 00               	calll	0x2325b1 <_RNvNtCs6HBAfCNWxyx_4core9panicking30panic_null_pointer_dereference>
+  21d685: 8b 44 24 10                  	movl	0x10(%esp), %eax
+  21d689: 8d 80 1c 62 11 00            	leal	0x11621c(%eax), %eax
+  21d68f: 83 f8 00                     	cmpl	$0x0, %eax
+  21d692: 0f 94 c0                     	sete	%al
+  21d695: 24 ff                        	andb	$-0x1, %al
+  21d697: 34 ff                        	xorb	$-0x1, %al
+  21d699: a8 01                        	testb	$0x1, %al
+  21d69b: 75 73                        	jne	0x21d710 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0xe0>
+  21d69d: e9 87 00 00 00               	jmp	0x21d729 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0xf9>
+  21d6a2: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  21d6a6: 8d 83 dc e7 fa ff            	leal	-0x51824(%ebx), %eax
+  21d6ac: 89 44 24 28                  	movl	%eax, 0x28(%esp)
+  21d6b0: 8d 4c 24 20                  	leal	0x20(%esp), %ecx
+  21d6b4: 8d 83 dc e7 fa ff            	leal	-0x51824(%ebx), %eax
+  21d6ba: 89 0c 24                     	movl	%ecx, (%esp)
+  21d6bd: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  21d6c1: e8 4a b5 fe ff               	calll	0x208c10 <_RINvMNtNtCs6HBAfCNWxyx_4core3fmt2rtNtB3_8Argument13new_lower_hexlECscre938AonzA_6kernel>
+  21d6c6: 83 ec 04                     	subl	$0x4, %esp
+  21d6c9: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  21d6cd: 8b 44 24 20                  	movl	0x20(%esp), %eax
+  21d6d1: 89 44 24 18                  	movl	%eax, 0x18(%esp)
+  21d6d5: 8b 44 24 24                  	movl	0x24(%esp), %eax
+  21d6d9: 89 44 24 1c                  	movl	%eax, 0x1c(%esp)
+  21d6dd: 8d 8b 5c e8 fa ff            	leal	-0x517a4(%ebx), %ecx
+  21d6e3: 8d 44 24 18                  	leal	0x18(%esp), %eax
+  21d6e7: 89 0c 24                     	movl	%ecx, (%esp)
+  21d6ea: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  21d6ee: e8 cd 65 00 00               	calll	0x223cc0 <_RINvMs2_NtCs6HBAfCNWxyx_4core3fmtNtB6_9Arguments3newKj20_Kj1_ECscre938AonzA_6kernel>
+  21d6f3: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  21d6f7: 8d 4c 24 17                  	leal	0x17(%esp), %ecx
+  21d6fb: 89 0c 24                     	movl	%ecx, (%esp)
+  21d6fe: 89 44 24 04                  	movl	%eax, 0x4(%esp)
+  21d702: 89 54 24 08                  	movl	%edx, 0x8(%esp)
+  21d706: e8 75 70 00 00               	calll	0x224780 <_RNvYNtNtNtCscre938AonzA_6kernel2io6serial12SerialWriterNtNtCs6HBAfCNWxyx_4core3fmt5Write9write_fmtB8_>
+  21d70b: e9 75 ff ff ff               	jmp	0x21d685 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0x55>
+  21d710: 8b 44 24 10                  	movl	0x10(%esp), %eax
+  21d714: 8b 88 34 62 11 00            	movl	0x116234(%eax), %ecx
+  21d71a: 89 c8                        	movl	%ecx, %eax
+  21d71c: 83 c0 01                     	addl	$0x1, %eax
+  21d71f: 89 44 24 0c                  	movl	%eax, 0xc(%esp)
+  21d723: 39 c8                        	cmpl	%ecx, %eax
+  21d725: 72 2e                        	jb	0x21d755 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0x125>
+  21d727: eb 12                        	jmp	0x21d73b <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0x10b>
+  21d729: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  21d72d: 8d 83 bc ec ff ff            	leal	-0x1344(%ebx), %eax
+  21d733: 89 04 24                     	movl	%eax, (%esp)
+  21d736: e8 76 4e 01 00               	calll	0x2325b1 <_RNvNtCs6HBAfCNWxyx_4core9panicking30panic_null_pointer_dereference>
+  21d73b: 8b 44 24 10                  	movl	0x10(%esp), %eax
+  21d73f: 8d 80 1c 62 11 00            	leal	0x11621c(%eax), %eax
+  21d745: 83 f8 00                     	cmpl	$0x0, %eax
+  21d748: 0f 94 c0                     	sete	%al
+  21d74b: 24 ff                        	andb	$-0x1, %al
+  21d74d: 34 ff                        	xorb	$-0x1, %al
+  21d74f: a8 01                        	testb	$0x1, %al
+  21d751: 75 14                        	jne	0x21d767 <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0x137>
+  21d753: eb 25                        	jmp	0x21d77a <_RNvNtCscre938AonzA_6kernel9interrupt9isr_exc06+0x14a>
+  21d755: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  21d759: 8d 83 bc ec ff ff            	leal	-0x1344(%ebx), %eax
+  21d75f: 89 04 24                     	movl	%eax, (%esp)
+  21d762: e8 c9 a8 01 00               	calll	0x238030 <_RNvNtNtCs6HBAfCNWxyx_4core9panicking11panic_const24panic_const_add_overflow>
+  21d767: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  21d76b: 8b 44 24 0c                  	movl	0xc(%esp), %eax
+  21d76f: 89 83 34 62 11 00            	movl	%eax, 0x116234(%ebx)
+  21d775: e8 5e ec ff ff               	calll	0x21c3d8 <_RNvNtCscre938AonzA_6kernel9interrupt12halt_forever>
+  21d77a: 8b 5c 24 10                  	movl	0x10(%esp), %ebx
+  21d77e: 8d 83 bc ec ff ff            	leal	-0x1344(%ebx), %eax
+  21d784: 89 04 24                     	movl	%eax, (%esp)
+  21d787: e8 25 4e 01 00               	calll	0x2325b1 <_RNvNtCs6HBAfCNWxyx_4core9panicking30panic_null_pointer_dereference>
+  21d78c: cc                           	int3
+  21d78d: cc                           	int3
+  21d78e: cc                           	int3
+  21d78f: cc                           	int3

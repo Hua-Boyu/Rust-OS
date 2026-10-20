@@ -1,0 +1,663 @@
+   Compiling compiler_builtins v0.1.160 (C:\Users\iamsv\.rustup\toolchains\nightly-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\compiler-builtins\compiler-builtins)
+   Compiling core v0.0.0 (C:\Users\iamsv\.rustup\toolchains\nightly-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\core)
+   Compiling version_check v0.9.5
+   Compiling generic-array v0.14.7
+   Compiling alloc v0.0.0 (C:\Users\iamsv\.rustup\toolchains\nightly-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\alloc)
+   Compiling typenum v1.20.1
+   Compiling cfg-if v1.0.5
+   Compiling cpufeatures v0.2.17
+   Compiling subtle v2.6.1
+   Compiling rostifs v0.1.0 (C:\Users\iamsv\Documents\Rust-OS\dist\f2red_0_57stvk\source\crates\rostifs)
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling digest v0.10.7
+   Compiling sha2 v0.10.9
+   Compiling kernel v0.1.0 (C:\Users\iamsv\Documents\Rust-OS\dist\f2red_0_57stvk\source)
+warning: unused import: `alloc::vec::Vec`
+  --> src\multiboot.rs:12:5
+   |
+12 | use alloc::vec::Vec;
+   |     ^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unreachable statement
+   --> src\main.rs:216:5
+    |
+213 |       unsafe { f2_red_trigger(); }
+    |                ---------------- any code following this expression is unreachable
+...
+216 | /     {
+217 | |         let pm = &mut PORT_MANAGER.lock();
+218 | |         let mut ps2_status = pm.allocate(0x64).expect("ps2 status");
+219 | |         let _ps2_data = pm.allocate(0x60).expect("ps2 data");
+...   |
+228 | |         core::mem::forget(_ps2_data);
+229 | |     } // release allocator guard before ATA allocation or formatting
+    | |_____^ unreachable statement
+    |
+    = note: `#[warn(unreachable_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `owned`
+   --> src\fs\mounted.rs:194:21
+    |
+194 |         let (point, owned) = match self.ram.lookup(NodeId::ROOT, "/system") {
+    |                     ^^^^^ help: if this is intentional, prefix it with an underscore: `_owned`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unnecessary `unsafe` block
+   --> src\interrupt.rs:370:5
+    |
+370 |     unsafe {
+    |     ^^^^^^ unnecessary `unsafe` block
+    |
+    = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+warning: unnecessary `unsafe` block
+   --> src\interrupt.rs:527:5
+    |
+527 |     unsafe {
+    |     ^^^^^^ unnecessary `unsafe` block
+
+warning: unused variable: `boot_module`
+   --> src\main.rs:186:9
+    |
+186 |     let boot_module = match unsafe { prepare_boot_memory(magic, info as u64) } {
+    |         ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_boot_module`
+
+warning: associated function `new` is never used
+   --> src\allocator.rs:346:18
+    |
+345 | impl BumpAlloc {
+    | -------------- associated function in this implementation
+346 |     pub const fn new() -> Self {
+    |                  ^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: constant `MAX_TRANSFER_SECTORS` is never used
+  --> src\block.rs:29:11
+   |
+29 | pub const MAX_TRANSFER_SECTORS: usize = 64;
+   |           ^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `PORT_DATA` is never used
+  --> src\block.rs:35:11
+   |
+35 | pub const PORT_DATA: u16 = 0x1F0;
+   |           ^^^^^^^^^
+
+warning: constant `PORT_ERROR` is never used
+  --> src\block.rs:36:11
+   |
+36 | pub const PORT_ERROR: u16 = 0x1F1;
+   |           ^^^^^^^^^^
+
+warning: constant `PORT_SECTOR` is never used
+  --> src\block.rs:37:11
+   |
+37 | pub const PORT_SECTOR: u16 = 0x1F2;
+   |           ^^^^^^^^^^^
+
+warning: constant `PORT_LBA_LO` is never used
+  --> src\block.rs:38:11
+   |
+38 | pub const PORT_LBA_LO: u16 = 0x1F3;
+   |           ^^^^^^^^^^^
+
+warning: constant `PORT_LBA_MID` is never used
+  --> src\block.rs:39:11
+   |
+39 | pub const PORT_LBA_MID: u16 = 0x1F4;
+   |           ^^^^^^^^^^^^
+
+warning: constant `PORT_LBA_HI` is never used
+  --> src\block.rs:40:11
+   |
+40 | pub const PORT_LBA_HI: u16 = 0x1F5;
+   |           ^^^^^^^^^^^
+
+warning: constant `PORT_DRIVE` is never used
+  --> src\block.rs:41:11
+   |
+41 | pub const PORT_DRIVE: u16 = 0x1F6;
+   |           ^^^^^^^^^^
+
+warning: constant `PORT_STATUS` is never used
+  --> src\block.rs:42:11
+   |
+42 | pub const PORT_STATUS: u16 = 0x1F7;
+   |           ^^^^^^^^^^^
+
+warning: method `flush` is never used
+   --> src\block.rs:121:8
+    |
+110 | pub trait BlockDevice {
+    |           ----------- method in this trait
+...
+121 |     fn flush(&mut self) -> Result<(), BlockError> {
+    |        ^^^^^
+
+warning: constant `RAM_DISK_SECTORS` is never used
+   --> src\block.rs:241:11
+    |
+241 | pub const RAM_DISK_SECTORS: usize = 64;
+    |           ^^^^^^^^^^^^^^^^
+
+warning: struct `RamDisk` is never constructed
+   --> src\block.rs:242:12
+    |
+242 | pub struct RamDisk {
+    |            ^^^^^^^
+
+warning: associated functions `new` and `new_test` are never used
+   --> src\block.rs:248:18
+    |
+247 | impl RamDisk {
+    | ------------ associated functions in this implementation
+248 |     pub const fn new() -> Self {
+    |                  ^^^
+...
+265 |     pub fn new_test() -> Self {
+    |            ^^^^^^^^
+
+warning: associated function `identify` is never used
+   --> src\block.rs:421:12
+    |
+405 | impl<B: AtaBus> AtaDevice<B> {
+    | ---------------------------- associated function in this implementation
+...
+421 |     pub fn identify(bus: B, base: u16, drive: u8, test_owned: bool) -> Result<Self, BlockError> {
+    |            ^^^^^^^^
+
+warning: associated items `MAP` and `attenuate` are never used
+  --> src\fd.rs:45:15
+   |
+37 | impl Rights {
+   | ----------- associated items in this implementation
+...
+45 |     pub const MAP: u8 = 1 << 7; // reserved for future file-backed mappings
+   |               ^^^
+...
+55 |     pub const fn attenuate(&self, other: u8) -> Option<Self> {
+   |                  ^^^^^^^^^
+
+warning: methods `truncate` and `dup` are never used
+   --> src\fd.rs:391:12
+    |
+184 | impl FdTable {
+    | ------------ methods in this implementation
+...
+391 |     pub fn truncate(&mut self, fs: &mut impl Vfs, fd: u8, len: usize) -> Result<(), FdError> {
+    |            ^^^^^^^^
+...
+428 |     pub fn dup(&mut self, fd: u8, request: u8) -> Result<u8, FdError> {
+    |            ^^^
+
+warning: type alias `MountFs` is never used
+ --> src\fs\mod.rs:8:10
+  |
+8 | pub type MountFs = MountedFs;
+  |          ^^^^^^^
+
+warning: methods `build` and `total_payload` are never used
+   --> src\fs\archive.rs:111:12
+    |
+ 35 | impl ArchiveFs {
+    | -------------- methods in this implementation
+...
+111 |     pub fn build(&mut self, archive: &Archive, bytes: &[u8]) -> bool {
+    |            ^^^^^
+...
+189 |     pub fn total_payload(&self) -> usize {
+    |            ^^^^^^^^^^^^^
+
+warning: method `unmount` is never used
+   --> src\fs\mounted.rs:315:12
+    |
+ 31 | impl<B: Vfs + 'static> MountedFs<B> {
+    | ----------------------------------- method in this implementation
+...
+315 |     pub fn unmount(&mut self, descriptors: &mut FdTable, cwd: NodeId) -> Result<(), FsError> {
+    |            ^^^^^^^
+
+warning: methods `mount_rosti`, `disk_info`, and `mount_info` are never used
+   --> src\fs\mounted.rs:405:12
+    |
+401 | impl MountedFs<RostiBackend<'static>> {
+    | ------------------------------------- methods in this implementation
+...
+405 |     pub fn mount_rosti(
+    |            ^^^^^^^^^^^
+...
+415 |     pub fn disk_info(&self) -> Option<rostifs::engine::MountInfo> {
+    |            ^^^^^^^^^
+...
+423 |     pub fn mount_info(&self) -> Option<rostifs::engine::MountInfo> {
+    |            ^^^^^^^^^^
+
+warning: method `mount_info` is never used
+  --> src\fs\rosti.rs:48:12
+   |
+35 | impl<'a> RostiBackend<'a> {
+   | ------------------------- method in this implementation
+...
+48 |     pub fn mount_info(&self) -> rostifs::engine::MountInfo {
+   |            ^^^^^^^^^^
+
+warning: function `decode` is never used
+  --> src\initramfs.rs:72:4
+   |
+72 | fn decode(code: u8) -> Option<ArchiveError> {
+   |    ^^^^^^
+
+warning: function `outcome` is never used
+  --> src\initramfs.rs:88:8
+   |
+88 | pub fn outcome() -> Option<ArchiveError> {
+   |        ^^^^^^^
+
+warning: function `isr_exc13` is never used
+   --> src\interrupt.rs:467:20
+    |
+467 | exception_handler!(isr_exc13, 13);
+    |                    ^^^^^^^^^
+    |
+    = note: this warning originates in the macro `exception_handler` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `isr_exc14` is never used
+   --> src\interrupt.rs:468:20
+    |
+468 | exception_handler!(isr_exc14, 14);
+    |                    ^^^^^^^^^
+    |
+    = note: this warning originates in the macro `exception_handler` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `unexpected_irq_total` is never used
+   --> src\interrupt.rs:542:8
+    |
+542 | pub fn unexpected_irq_total() -> u32 {
+    |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `len` and `is_empty` are never used
+   --> src\kbd.rs:198:12
+    |
+150 | impl<const N: usize> RingBuffer<N> {
+    | ---------------------------------- methods in this implementation
+...
+198 |     pub fn len(&self) -> usize {
+    |            ^^^
+...
+204 |     pub fn is_empty(&self) -> bool {
+    |            ^^^^^^^^
+
+warning: function `run_retained_owner` is never used
+   --> src\memory\mod.rs:266:15
+    |
+266 | pub(crate) fn run_retained_owner() -> ! {
+    |               ^^^^^^^^^^^^^^^^^^
+
+warning: field `mapped_pages` is never read
+   --> src\memory\mod.rs:280:9
+    |
+277 | pub struct PageSnapshot {
+    |            ------------ field in this struct
+...
+280 |     pub mapped_pages: usize,
+    |         ^^^^^^^^^^^^
+    |
+    = note: `PageSnapshot` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: fields `addr`, `id`, and `domain` are never read
+  --> src\memory\frame.rs:93:5
+   |
+92 | pub struct FrameLease {
+   |            ---------- fields in this struct
+93 |     addr: u64,
+   |     ^^^^
+94 |     id: u32,
+   |     ^^
+95 |     domain: u32,
+   |     ^^^^^^
+
+warning: method `frame_addr` is never used
+  --> src\memory\frame.rs:99:12
+   |
+98 | impl FrameLease {
+   | --------------- method in this implementation
+99 |     pub fn frame_addr(&self) -> u64 {
+   |            ^^^^^^^^^^
+
+warning: field `bitmap_frames` is never read
+   --> src\memory\frame.rs:122:9
+    |
+115 | pub struct FrameStats {
+    |            ---------- field in this struct
+...
+122 |     pub bitmap_frames: usize,    // frames the bitmaps themselves occupy
+    |         ^^^^^^^^^^^^^
+    |
+    = note: `FrameStats` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: methods `init_with_reservations`, `allocate_owned`, `owns_live_lease`, `release_frame`, and `is_free` are never used
+   --> src\memory\frame.rs:327:12
+    |
+165 | impl FrameAllocator {
+    | ------------------- methods in this implementation
+...
+327 |     pub fn init_with_reservations(
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+...
+423 |     pub fn allocate_owned(&mut self) -> Option<FrameLease> {
+    |            ^^^^^^^^^^^^^^
+...
+438 |     pub(super) fn owns_live_lease(&self, lease: &FrameLease) -> bool {
+    |                   ^^^^^^^^^^^^^^^
+...
+524 |     pub fn release_frame(&mut self, lease: FrameLease) -> bool {
+    |            ^^^^^^^^^^^^^
+...
+605 |     pub fn is_free(&self, addr: u64) -> bool {
+    |            ^^^^^^^
+
+warning: fields `unmaps` and `unmap_rejects` are never read
+   --> src\memory\paging.rs:158:9
+    |
+152 | pub struct PagingStats {
+    |            ----------- fields in this struct
+...
+158 |     pub unmaps: usize,        // successful runtime unmap operations
+    |         ^^^^^^
+159 |     pub unmap_rejects: usize, // rejected: absent page
+    |         ^^^^^^^^^^^^^
+    |
+    = note: `PagingStats` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: methods `map_owned`, `unmap_owned`, `unmap_authorized`, and `window_end` are never used
+   --> src\memory\paging.rs:328:12
+    |
+184 | impl PageMap {
+    | ------------ methods in this implementation
+...
+328 |     pub fn map_owned(
+    |            ^^^^^^^^^
+...
+515 |     pub fn unmap_owned(
+    |            ^^^^^^^^^^^
+...
+547 |     fn unmap_authorized(
+    |        ^^^^^^^^^^^^^^^^
+...
+625 |     pub fn window_end(&self) -> u64 {
+    |            ^^^^^^^^^^
+
+warning: field `nx_supported` is never read
+   --> src\memory\paging.rs:637:9
+    |
+631 | pub struct PagePerms {
+    |            --------- field in this struct
+...
+637 |     pub nx_supported: bool,
+    |         ^^^^^^^^^^^^
+    |
+    = note: `PagePerms` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: function `is_boot_critical` is never used
+   --> src\memory\paging.rs:648:4
+    |
+648 | fn is_boot_critical(linear: u64) -> bool {
+    |    ^^^^^^^^^^^^^^^^
+
+warning: function `flush_tlb` is never used
+   --> src\memory\paging.rs:730:15
+    |
+730 | pub(super) fn flush_tlb(page_map: &mut PageMap) -> bool {
+    |               ^^^^^^^^^
+
+warning: function `paging_enabled` is never used
+   --> src\memory\paging.rs:986:8
+    |
+986 | pub fn paging_enabled() -> bool {
+    |        ^^^^^^^^^^^^^^
+
+warning: constant `PREPARING` is never used
+ --> src\memory\retained_owner.rs:8:7
+  |
+8 | const PREPARING: u8 = 1;
+  |       ^^^^^^^^^
+
+warning: constant `TERMINAL` is never used
+  --> src\memory\retained_owner.rs:10:7
+   |
+10 | const TERMINAL: u8 = 3;
+   |       ^^^^^^^^
+
+warning: multiple fields are never read
+  --> src\memory\retained_owner.rs:16:5
+   |
+15 | struct RetainedOwner {
+   |        ------------- fields in this struct
+16 |     payload: Option<frame::FrameLease>,
+   |     ^^^^^^^
+17 |     sentinel: Option<frame::FrameLease>,
+   |     ^^^^^^^^
+18 |     directory: u64,
+   |     ^^^^^^^^^
+19 |     allocator_domain: u32,
+   |     ^^^^^^^^^^^^^^^^
+20 |     window_end: u64,
+   |     ^^^^^^^^^^
+21 |     table_count: usize,
+   |     ^^^^^^^^^^^
+22 |     mapped_count: usize,
+   |     ^^^^^^^^^^^^
+23 |     capacity_before: [usize; 3],
+   |     ^^^^^^^^^^^^^^^
+24 |     capacity_after: [usize; 3],
+   |     ^^^^^^^^^^^^^^
+25 |     future_ranges: [[u32; 4]; 3],
+   |     ^^^^^^^^^^^^^
+26 |     capture: [u32; 16],
+   |     ^^^^^^^
+
+warning: associated function `new` is never used
+  --> src\memory\retained_owner.rs:30:14
+   |
+29 | impl RetainedOwner {
+   | ------------------ associated function in this implementation
+30 |     const fn new() -> Self {
+   |              ^^^
+
+warning: static `OWNER` is never used
+  --> src\memory\retained_owner.rs:47:8
+   |
+47 | static OWNER: SpinMutex<RetainedOwner> = SpinMutex::new(RetainedOwner::new());
+   |        ^^^^^
+
+warning: function `owner_locked` is never used
+  --> src\memory\retained_owner.rs:60:26
+   |
+60 | pub(in crate::memory) fn owner_locked() -> bool {
+   |                          ^^^^^^^^^^^^
+
+warning: function `try_admit` is never used
+  --> src\memory\retained_owner.rs:64:4
+   |
+64 | fn try_admit() -> bool {
+   |    ^^^^^^^^^
+
+warning: struct `CpuState` is never constructed
+  --> src\memory\retained_owner.rs:71:8
+   |
+71 | struct CpuState {
+   |        ^^^^^^^^
+
+warning: function `hardware` is never used
+  --> src\memory\retained_owner.rs:91:4
+   |
+91 | fn hardware() -> CpuState {
+   |    ^^^^^^^^
+
+warning: function `capacity` is never used
+   --> src\memory\retained_owner.rs:119:4
+    |
+119 | fn capacity(fa: &FrameAllocator) -> [usize; 3] {
+    |    ^^^^^^^^
+
+warning: function `identity` is never used
+   --> src\memory\retained_owner.rs:128:4
+    |
+128 | fn identity(pm: &PageMap, fa: &FrameAllocator, cpu: CpuState) -> bool {
+    |    ^^^^^^^^
+
+warning: function `valid_lease` is never used
+   --> src\memory\retained_owner.rs:141:4
+    |
+141 | fn valid_lease(pm: &PageMap, fa: &FrameAllocator, lease: &frame::FrameLease) -> bool {
+    |    ^^^^^^^^^^^
+
+warning: function `close_failure` is never used
+   --> src\memory\retained_owner.rs:152:4
+    |
+152 | fn close_failure(owner: &mut RetainedOwner, fa: &FrameAllocator, code: u32) -> bool {
+    |    ^^^^^^^^^^^^^
+
+warning: function `prepare_locked` is never used
+   --> src\memory\retained_owner.rs:165:4
+    |
+165 | fn prepare_locked(owner: &mut RetainedOwner, pm: &PageMap, fa: &mut FrameAllocator) -> bool {
+    |    ^^^^^^^^^^^^^^
+
+warning: function `terminal` is never used
+   --> src\memory\retained_owner.rs:225:4
+    |
+225 | fn terminal(success: bool, capture: [u32; 16]) -> ! {
+    |    ^^^^^^^^
+
+warning: function `run` is never used
+   --> src\memory\retained_owner.rs:253:26
+    |
+253 | pub(in crate::memory) fn run() -> ! {
+    |                          ^^^
+
+warning: direct cast of function item into an integer
+   --> src\interrupt.rs:269:45
+    |
+269 |         t.set_interrupt_offset(8, isr_exc08 as u32);
+    |                                             ^^^^^^
+    |
+    = note: `#[warn(function_casts_as_integer)]` on by default
+help: first cast to a pointer `as *const ()`
+    |
+269 |         t.set_interrupt_offset(8, isr_exc08 as *const () as u32);
+    |                                             ++++++++++++
+
+warning: direct cast of function item into an integer
+   --> src\interrupt.rs:270:46
+    |
+270 |         t.set_interrupt_offset(10, isr_exc10 as u32);
+    |                                              ^^^^^^
+    |
+help: first cast to a pointer `as *const ()`
+    |
+270 |         t.set_interrupt_offset(10, isr_exc10 as *const () as u32);
+    |                                              ++++++++++++
+
+warning: direct cast of function item into an integer
+   --> src\interrupt.rs:271:46
+    |
+271 |         t.set_interrupt_offset(11, isr_exc11 as u32);
+    |                                              ^^^^^^
+    |
+help: first cast to a pointer `as *const ()`
+    |
+271 |         t.set_interrupt_offset(11, isr_exc11 as *const () as u32);
+    |                                              ++++++++++++
+
+warning: direct cast of function item into an integer
+   --> src\interrupt.rs:272:46
+    |
+272 |         t.set_interrupt_offset(12, isr_exc12 as u32);
+    |                                              ^^^^^^
+    |
+help: first cast to a pointer `as *const ()`
+    |
+272 |         t.set_interrupt_offset(12, isr_exc12 as *const () as u32);
+    |                                              ++++++++++++
+
+warning: direct cast of function item into an integer
+   --> src\interrupt.rs:273:54
+    |
+273 |         t.set_interrupt_offset(13, isr_general_fault as u32);
+    |                                                      ^^^^^^
+    |
+help: first cast to a pointer `as *const ()`
+    |
+273 |         t.set_interrupt_offset(13, isr_general_fault as *const () as u32);
+    |                                                      ++++++++++++
+
+warning: direct cast of function item into an integer
+   --> src\interrupt.rs:274:51
+    |
+274 |         t.set_interrupt_offset(14, isr_page_fault as u32);
+    |                                                   ^^^^^^
+    |
+help: first cast to a pointer `as *const ()`
+    |
+274 |         t.set_interrupt_offset(14, isr_page_fault as *const () as u32);
+    |                                                   ++++++++++++
+
+warning: direct cast of function item into an integer
+   --> src\interrupt.rs:277:46
+    |
+277 |         t.set_interrupt_offset(17, isr_exc17 as u32);
+    |                                              ^^^^^^
+    |
+help: first cast to a pointer `as *const ()`
+    |
+277 |         t.set_interrupt_offset(17, isr_exc17 as *const () as u32);
+    |                                              ++++++++++++
+
+warning: function `isr_irq2A` should have a snake case name
+   --> src\interrupt.rs:507:17
+    |
+507 | hw_irq_handler!(isr_irq2A, 0x2A);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_a`
+    |
+    = note: `#[warn(non_snake_case)]` (part of `#[warn(nonstandard_style)]`) on by default
+
+warning: function `isr_irq2B` should have a snake case name
+   --> src\interrupt.rs:508:17
+    |
+508 | hw_irq_handler!(isr_irq2B, 0x2B);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_b`
+
+warning: function `isr_irq2C` should have a snake case name
+   --> src\interrupt.rs:509:17
+    |
+509 | hw_irq_handler!(isr_irq2C, 0x2C);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_c`
+
+warning: function `isr_irq2D` should have a snake case name
+   --> src\interrupt.rs:510:17
+    |
+510 | hw_irq_handler!(isr_irq2D, 0x2D);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_d`
+
+warning: function `isr_irq2E` should have a snake case name
+   --> src\interrupt.rs:511:17
+    |
+511 | hw_irq_handler!(isr_irq2E, 0x2E);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_e`
+
+warning: function `isr_irq2F` should have a snake case name
+   --> src\interrupt.rs:512:17
+    |
+512 | hw_irq_handler!(isr_irq2F, 0x2F);
+    |                 ^^^^^^^^^ help: convert the identifier to snake case: `isr_irq2_f`
+
+warning: `kernel` (bin "kernel") generated 75 warnings (run `cargo fix --bin "kernel" -p kernel` to apply 10 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 39.25s
+warning: the following packages contain code that will be rejected by a future version of Rust: core v0.0.0 (C:\Users\iamsv\.rustup\toolchains\nightly-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\core)
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
