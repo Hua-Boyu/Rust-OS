@@ -18,6 +18,7 @@
 
 use crate::memory::dbg;
 use crate::memory::paging;
+use crate::memory::paging::retained_owner::mutation_allowed;
 use crate::multiboot::MmapEntry;
 use core::sync::atomic::{AtomicU32, Ordering};
 
@@ -205,6 +206,9 @@ impl FrameAllocator {
         bump_start: u64,
         bump_end: u64,
     ) -> bool {
+        if !mutation_allowed() {
+            return false;
+        }
         if self.stats.allocated_frames != 0 {
             return false;
         }
@@ -328,6 +332,9 @@ impl FrameAllocator {
         bump_end: u64,
         reservations: &[(u64, u64)],
     ) -> bool {
+        if !mutation_allowed() {
+            return false;
+        }
         if self.stats.allocated_frames != 0 {
             return false;
         }
@@ -364,6 +371,9 @@ impl FrameAllocator {
     /// never reset by init; 0 is the permanent exhaustion sentinel, so
     /// identities never wrap and never silently repeat.
     fn issue_allocation_id(&mut self) -> Option<u32> {
+        if !mutation_allowed() {
+            return None;
+        }
         let id = self.next_id;
         if id == 0 {
             return None;
@@ -376,6 +386,9 @@ impl FrameAllocator {
     /// stamp the ledger identity. Returns (addr, id). None on exhaustion or
     /// before init; a refused allocation mutates nothing.
     fn allocate_stamped(&mut self) -> Option<(u64, u32)> {
+        if !mutation_allowed() {
+            return None;
+        }
         if !self.initialized {
             return None;
         }
@@ -443,6 +456,9 @@ impl FrameAllocator {
     /// the event) for double frees and frees of frames this allocator never
     /// handed out. A refused release mutates only diagnostics.
     fn release_by_address(&mut self, addr: u64) -> bool {
+        if !mutation_allowed() {
+            return false;
+        }
         if !self.initialized {
             return false;
         }
@@ -506,6 +522,9 @@ impl FrameAllocator {
     /// runtime proof. A stale lease for a reused frame is refused, and the
     /// current owner stays live. Refusals mutate only diagnostics.
     pub fn release_frame(&mut self, lease: FrameLease) -> bool {
+        if !mutation_allowed() {
+            return false;
+        }
         if !self.initialized || lease.domain != self.domain {
             self.stats.invalid_frees += 1;
             return false;
@@ -532,6 +551,9 @@ impl FrameAllocator {
     /// firmware/kernel/boot reservation overlaps it. This exact-address API
     /// never searches beyond a blocked slot: contiguous heap growth must stop.
     pub fn claim_growth_frame(&mut self, addr: u64) -> Option<u64> {
+        if !mutation_allowed() {
+            return None;
+        }
         if !self.initialized {
             return None;
         }
@@ -605,26 +627,62 @@ impl FrameAllocator {
 
     /// Memory-internal commit after managed/live allocation preflight, under
     /// the same exclusive allocator borrow; never a public ownership API.
-    pub(super) fn set_runtime_pin(&mut self, addr: u64, pinned: bool) {
-        set_bit(
-            &mut self.runtime_pins,
-            (addr / FRAME_SIZE as u64) as usize,
-            pinned,
-        );
+    pub(super) fn set_runtime_pin(&mut self, addr: u64, pinned: bool) -> bool {
+        if !mutation_allowed() || addr % FRAME_SIZE as u64 != 0 {
+            return false;
+        }
+        let Some(frame) = Self::frame_of(addr) else {
+            return false;
+        };
+        set_bit(&mut self.runtime_pins, frame, pinned);
+        true
     }
 
     /// Set/clear only at structure install and release sites; the bitmap
     /// mirrors pm.tables and must not be cleared wholesale.
-    pub(super) fn set_structure_pin(&mut self, addr: u64, pinned: bool) {
-        set_bit(
-            &mut self.structure_pins,
-            (addr / FRAME_SIZE as u64) as usize,
-            pinned,
-        );
+    pub(super) fn set_structure_pin(&mut self, addr: u64, pinned: bool) -> bool {
+        if !mutation_allowed() || addr % FRAME_SIZE as u64 != 0 {
+            return false;
+        }
+        let Some(frame) = Self::frame_of(addr) else {
+            return false;
+        };
+        set_bit(&mut self.structure_pins, frame, pinned);
+        true
     }
 
     pub fn stats(&self) -> &FrameStats {
         &self.stats
+    }
+
+    /// Full host oracle only; never called under memory-owner guards.
+    #[cfg(test)]
+    pub(super) fn exact_state_for_retained_test(&self) -> alloc::vec::Vec<u64> {
+        let mut result = alloc::vec![
+            self.next_id as u64,
+            self.domain as u64,
+            self.initialized as u64,
+            self.stats.total_frames as u64,
+            self.stats.reserved_frames as u64,
+            self.stats.free_frames as u64,
+            self.stats.allocated_frames as u64,
+            self.stats.double_frees as u64,
+            self.stats.invalid_frees as u64,
+            self.stats.bitmap_frames as u64,
+        ];
+        for bitmap in [
+            &self.free[..],
+            &self.ever[..],
+            &self.covered[..],
+            &self.ncov[..],
+            &self.growth_claimed[..],
+            &self.runtime_pins[..],
+            &self.structure_pins[..],
+        ] {
+            result.extend(bitmap.iter().map(|&b| b as u64));
+        }
+        result.extend(self.alloc_id.iter().map(|&id| id as u64));
+        result
     }
 
     pub fn is_initialized(&self) -> bool {

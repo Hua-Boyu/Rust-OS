@@ -26,6 +26,10 @@ use crate::utils::bits::CanManipulateBits;
 extern crate alloc;
 use alloc::vec::Vec;
 
+#[path = "retained_owner.rs"]
+pub(crate) mod retained_owner;
+use retained_owner::mutation_allowed;
+
 #[cfg(test)]
 #[path = "phase11_permission_tests.rs"]
 mod phase11_permission_tests;
@@ -65,6 +69,10 @@ mod numeric_map_authority_tests;
 #[cfg(test)]
 #[path = "unmap_authority_tests.rs"]
 mod unmap_authority_tests;
+
+#[cfg(test)]
+#[path = "retained_owner_tests.rs"]
+mod retained_owner_tests;
 
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
@@ -180,6 +188,9 @@ impl PageMap {
     /// cleanup is refused without touching the allocator. Vec storage remains
     /// alive for the caller to drop after unlocking.
     pub(super) fn release_unpublished_frames(&mut self, fa: &mut FrameAllocator) -> bool {
+        if !mutation_allowed() {
+            return false;
+        }
         // This remains a prepare-failure-only helper, not general teardown.
         // Never release another domain or orphan live runtime payload pins.
         if self.retained
@@ -204,11 +215,15 @@ impl PageMap {
         }
         for &table in &self.tables {
             if table != 0 {
-                fa.set_structure_pin(table, false);
+                if !fa.set_structure_pin(table, false) {
+                    return false;
+                }
                 fa.free(table);
             }
         }
-        fa.set_structure_pin(self.directory, false);
+        if !fa.set_structure_pin(self.directory, false) {
+            return false;
+        }
         fa.free(self.directory);
         self.tables.fill(0);
         self.directory = 0;
@@ -222,6 +237,9 @@ impl PageMap {
     /// Seal before publication or any CR3 load. There is no inverse transition
     /// until a separately reviewed CPU teardown contract exists.
     pub(super) fn retain_for_publication(&mut self) -> bool {
+        if !mutation_allowed() {
+            return false;
+        }
         if self.domain == 0 {
             return false;
         }
@@ -314,6 +332,9 @@ impl PageMap {
         lease: &frame::FrameLease,
         perms: &PagePerms,
     ) -> bool {
+        if !mutation_allowed() {
+            return false;
+        }
         if fa.domain() != Some(self.domain) || !fa.owns_live_lease(lease) {
             self.stats.map_rejects += 1;
             return false;
@@ -324,6 +345,9 @@ impl PageMap {
     /// Audited heap-only category: a live exact growth claim, identity mapped
     /// with fixed supervisor permissions. Cannot select ordinary backing.
     pub(super) fn map_growth_claim(&mut self, fa: &mut FrameAllocator, slot: u64) -> bool {
+        if !mutation_allowed() {
+            return false;
+        }
         if fa.domain() != Some(self.domain)
             || !in_growth_window(slot)
             || !fa.is_live_allocation(slot)
@@ -366,6 +390,9 @@ impl PageMap {
         phys_frame: u64,
         perms: &PagePerms,
     ) -> bool {
+        if !mutation_allowed() {
+            return false;
+        }
         if fa.domain() != Some(self.domain) {
             self.stats.map_rejects += 1;
             return false;
@@ -449,7 +476,9 @@ impl PageMap {
             // Install authority: pin only after installation, never at the
             // raw allocate site, so the accessibility rollback free above
             // (before any pin) still succeeds.
-            fa.set_structure_pin(table, true);
+            if !fa.set_structure_pin(table, true) {
+                return false;
+            }
             self.tables[dir] = table;
             self.stats.page_tables += 1;
             let dir_entry = entry_value(table);
@@ -467,7 +496,9 @@ impl PageMap {
         }
         // All refusals are complete. Commit the allocator-wide reference and
         // its local mirror before publishing the PTE; no fallible work follows.
-        fa.set_runtime_pin(phys_frame, true);
+        if !fa.set_runtime_pin(phys_frame, true) {
+            return false;
+        }
         payload_set_bit(&mut self.payload_bitmap, phys_frame, true);
         write_entry(self.tables[dir], idx, entry);
         self.stats.mapped_frames += 1;
@@ -487,6 +518,9 @@ impl PageMap {
         linear: u64,
         lease: &frame::FrameLease,
     ) -> bool {
+        if !mutation_allowed() {
+            return false;
+        }
         if fa.domain() != Some(self.domain) || !fa.owns_live_lease(lease) {
             self.stats.unmap_rejects += 1;
             return false;
@@ -516,6 +550,9 @@ impl PageMap {
         linear: u64,
         expected_payload: Option<u64>,
     ) -> bool {
+        if !mutation_allowed() {
+            return false;
+        }
         // Domain mismatch must fail before any paging-structure dereference.
         if fa.domain() != Some(self.domain) {
             self.stats.unmap_rejects += 1;
@@ -576,7 +613,9 @@ impl PageMap {
         self.stats.tlb_invalidation += 1;
         if entry & ENTRY_RUNTIME_PAYLOAD != 0 {
             payload_set_bit(&mut self.payload_bitmap, payload, false);
-            fa.set_runtime_pin(payload, false);
+            if !fa.set_runtime_pin(payload, false) {
+                return false;
+            }
         }
         self.stats.mapped_frames -= 1;
         self.stats.unmaps += 1;
@@ -689,6 +728,9 @@ fn invalidate_page(linear: u64) {
 
 /// Flush the entire TLB (writing CR3 to itself is the canonical full flush).
 pub(super) fn flush_tlb(page_map: &mut PageMap) -> bool {
+    if !mutation_allowed() {
+        return false;
+    }
     if !page_map.retain_for_publication() {
         return false;
     }
@@ -701,7 +743,7 @@ pub(super) fn flush_tlb(page_map: &mut PageMap) -> bool {
         );
     }
     #[cfg(test)]
-    let _ = page_map;
+    retained_owner::model_write(page_map.directory);
     true
 }
 
@@ -734,6 +776,9 @@ pub(crate) fn build_identity_map_with_pins_in_place(
     tables: &mut Vec<u64>,
     boot_pins: &mut Vec<(u64, u64)>,
 ) -> Option<PageMap> {
+    if !mutation_allowed() {
+        return None;
+    }
     let mut payload_bitmap = alloc::vec![0; PAYLOAD_BITMAP_BYTES];
     build_identity_map_with_backing_in_place(fa, window_end, tables, boot_pins, &mut payload_bitmap)
 }
@@ -749,6 +794,9 @@ pub(crate) fn build_identity_map_with_backing_in_place(
     boot_pins: &mut Vec<(u64, u64)>,
     payload_bitmap: &mut Vec<u8>,
 ) -> Option<PageMap> {
+    if !mutation_allowed() {
+        return None;
+    }
     if window_end == 0
         || window_end > (1u64 << 32)
         || tables.len() != PAGE_DIR_ENTRIES
@@ -763,7 +811,9 @@ pub(crate) fn build_identity_map_with_backing_in_place(
     zero_table(directory);
     // The directory is installed before any table candidate exists; the
     // exhaustion rollback below must clear this pin before freeing.
-    fa.set_structure_pin(directory, true);
+    if !fa.set_structure_pin(directory, true) {
+        return None;
+    }
     let mut stats = PagingStats {
         page_tables: 0,
         mapped_frames: 0,
@@ -787,18 +837,24 @@ pub(crate) fn build_identity_map_with_backing_in_place(
                 // pinned frame is refused by free() by design.
                 for frame in tables.iter_mut() {
                     if *frame != 0 {
-                        fa.set_structure_pin(*frame, false);
+                        if !fa.set_structure_pin(*frame, false) {
+                            return None;
+                        }
                         fa.free(*frame);
                         *frame = 0;
                     }
                 }
-                fa.set_structure_pin(directory, false);
+                if !fa.set_structure_pin(directory, false) {
+                    return None;
+                }
                 fa.free(directory);
                 return None;
             }
         };
         zero_table(table);
-        fa.set_structure_pin(table, true);
+        if !fa.set_structure_pin(table, true) {
+            return None;
+        }
         tables[dir] = table;
         stats.page_tables += 1;
 
@@ -896,6 +952,9 @@ pub fn validate_mapping(
 }
 
 pub(super) fn enable_paging(page_map: &mut PageMap) -> bool {
+    if !mutation_allowed() {
+        return false;
+    }
     if !page_map.retain_for_publication() {
         return false;
     }
@@ -918,6 +977,8 @@ pub(super) fn enable_paging(page_map: &mut PageMap) -> bool {
         cr0 |= 1 << 16;
         core::arch::asm!("mov {v}, %cr0", v = in(reg) cr0, options(att_syntax));
     }
+    #[cfg(test)]
+    retained_owner::model_write(page_map.directory);
     page_map.stats.enabled = true;
     true
 }

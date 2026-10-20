@@ -410,6 +410,30 @@ def _run_acceptance():
                     or len(observed) != len(required) or set(observed) != required):
                 raise RuntimeError(f"{key} prerequisite tests missing or inconsistent")
             report["counts"][key] = {"pass": len(observed), "fail": 0}
+        # F1 retained-owner exact identity family: the filtered invocation must
+        # run exactly the declared F1 tests; zero, extra, renamed or substituted
+        # identities cannot publish.
+        f1_required = {
+            "memory::paging::retained_owner::tests::alias_failure_retains_current_identity",
+            "memory::paging::retained_owner::tests::final_identity_failure_retains_two_and_never_seals",
+            "memory::paging::retained_owner::tests::first_allocation_failure_retains_zero_and_consumes_attempt",
+            "memory::paging::retained_owner::tests::one_shot_preparation_retains_exact_two_within_policy",
+            "memory::paging::retained_owner::tests::ordinary_unsealed_mapping_release_preserves_behavior",
+            "memory::paging::retained_owner::tests::sealed_mutation_matrix_and_alternate_cr3_preserve_exact_state",
+            "memory::paging::retained_owner::tests::second_allocation_failure_retains_exact_payload",
+            "memory::paging::retained_owner::tests::wrong_hardware_identity_fails_before_acquisition",
+            "memory::paging::retained_owner_tests::sealed_release_and_unmap_preserve_live_ownership",
+        }
+        command = ["cargo", "+nightly", "test", "--manifest-path",
+                   str(PROJECT / "tests_kernel/Cargo.toml"), "--lib", "retained_owner",
+                   "--", "--test-threads=1"]
+        text = gate("Phase 11F1 retained-owner exact identity family", command, cwd=Path.home())
+        observed = re.findall(r"^test (\S+) \.\.\. ok\s*$", text, re.M)
+        totals = re.findall(r"test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored", text)
+        if (totals != [(str(len(f1_required)), "0", "0")]
+                or len(observed) != len(f1_required) or set(observed) != f1_required):
+            raise RuntimeError("F1 retained-owner tests missing or inconsistent")
+        report["counts"]["f1_retained_owner"] = {"pass": len(observed), "fail": 0}
         manifest = str(PROJECT / "crates/rostifs/Cargo.toml")
         gate("RostiFS formatting", ["cargo", "+nightly", "fmt", "--manifest-path", manifest, "--check"])
         text = gate("RostiFS host and crash recovery tests", ["cargo", "+nightly", "test", "--manifest-path", manifest, "--", "--nocapture"], timeout=300, cwd=Path.home())

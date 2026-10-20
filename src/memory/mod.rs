@@ -17,7 +17,7 @@ mod review_r1_tests;
 /// Test-only scalar observation: no owner references, guards, or callbacks escape.
 #[cfg(test)]
 pub(crate) fn ownership_locks_held() -> bool {
-    PAGE_MAP.is_locked() || FRAME_ALLOC.is_locked()
+    PAGE_MAP.is_locked() || FRAME_ALLOC.is_locked() || paging::retained_owner::owner_locked()
 }
 
 // Only the independently rooted allocator-instrumented B26 harness enables this.
@@ -168,6 +168,9 @@ pub fn prepare(
     bump_start: u64,
     bump_end: u64,
 ) -> Result<u64, &'static str> {
+    if !paging::retained_owner::mutation_allowed() {
+        return Err("retained owner sealed");
+    }
     if page_directory().is_some() {
         return Err("paging already prepared");
     }
@@ -191,7 +194,7 @@ pub fn prepare(
     // Recheck under exclusive ownership after unlocked resource reservation.
     // This also serializes concurrent preparation before allocator mutation.
     let mut owner = PAGE_MAP.lock();
-    if owner.is_some() {
+    if !paging::retained_owner::mutation_allowed() || owner.is_some() {
         return Err("paging already prepared");
     }
     let (window, built) = {
@@ -243,6 +246,9 @@ pub fn prepare(
 
 /// Enable paging (CR3 + CR0.PG). Only called after validation and IDT load.
 pub fn enable_paging() {
+    if !paging::retained_owner::mutation_allowed() {
+        return;
+    }
     let mut owner = PAGE_MAP.lock();
     if let Some(pm) = owner.as_mut() {
         if paging::enable_paging(pm) {
@@ -253,6 +259,12 @@ pub fn enable_paging() {
 
 pub fn paging_enabled() -> bool {
     PAGING_ENABLED.load(Ordering::Acquire)
+}
+
+/// Explicit opt-in terminal Ring-0 preparation. Not called by ordinary boot.
+#[cfg(not(test))]
+pub(crate) fn run_retained_owner() -> ! {
+    paging::retained_owner::run()
 }
 
 pub fn page_directory() -> Option<u64> {
@@ -300,6 +312,9 @@ pub fn mapped_pages() -> usize {
 /// safe). Growth pages are identity-mapped (virtual == physical), which keeps
 /// heap free-list pointers valid and page-table entry writes safe.
 pub fn heap_grow_frame(slot: usize) -> Option<u64> {
+    if !paging::retained_owner::mutation_allowed() {
+        return None;
+    }
     let mut owner = PAGE_MAP.lock();
     let pm = owner.as_mut()?;
     let fa = &mut FRAME_ALLOC.lock();
