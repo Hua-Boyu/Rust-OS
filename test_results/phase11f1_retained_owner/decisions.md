@@ -1,5 +1,14 @@
 # F1 decisions
 
+## B3 freshly authorized continuation
+
+- The new user request renews narrow B3 capture proof/review and conditional F1 implementation, not retrospective approval of rejected v2. Existing accepted policy/sole-writer declarations are carried forward subject to live process/hash checks; no competing Rosti source writer identified.
+- Select existing local QEMU gdbstub execute breakpoints plus QMP physical capture. A serial-only marker cannot order captures. No general debugger framework, dependency or ownership code was added to prove the prerequisite.
+- Exact stop EIP, actual hardware CR3, paused QMP state, retained full table images, repeated byte comparison and durable acknowledgement dominate continue. Cleanup kills/waits owned QEMU before debugger disconnect. Abrupt socket-loss behavior was separately exercised, not assumed.
+- b3_proof_03 is latest actual proof:128/512 positive plus missing-ack/timeout and abrupt debugger-loss negative; all4 cleaned up. Proof main is copied-source counter instrumentation only, not F1 ownership/alternate-map/HLT proof. Default150 canonical source hashes are unchanged.
+- b3_protocol_tests_01 supplies10 passing host-model controls, separate from hardware evidence; actual optimized execution refuses with exit1.
+- Independent reviewer owns only b3_independent_design_review_01.json. Gate remains explicit CLOSED/APPROVE/zero blockers and consistent raw pins before any new live-crate RED.
+
 ## V2 current-session decisions
 
 - Supported clarification returned SOLE_WRITER=YES, CEILING=YES, CONTINUE=YES. Approval is conditional on combined independent zero-blocker design review, stable source ownership and fresh live runtime RED; the operator did not certify stack sufficiency.

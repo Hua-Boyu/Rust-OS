@@ -1,29 +1,19 @@
 # Rosti OS — standalone Phase 11 continuation prompt
 
-## CURRENT F1 v2 checkpoint — PARTIAL / DESIGN STOP, no implementation
+## CURRENT F1 v2 checkpoint — ACCEPTED (66-gate canonical acceptance, 2026-10-20)
 
 Repository C:/Users/iamsv/Documents/Rust-OS, branch maintenance/phase10.
-Recover actual HEAD/status; read `test_results/phase11f1_retained_owner/STATE.md`,
-FINAL_REPORT.md, complete v2_design.md, v2_combined_design_review.json and
-v2_design_revision_review.json. Current-session SOLE_WRITER/CEILING/CONTINUE
-were explicitly YES, but continuation required independent APPROVE/0.
-Initial combined REJECT/2 accepted resource/core policy; ONE revision resolved
-guest source-build invocation and selected valid alternate-map/probe mechanisms.
-Final revision REJECT/1: F1V2-B3 has no selected causal exact pre-seal/pre-probe
-table-image capture boundary; a postterminal QMP dump cannot reconstruct it.
-No further redesign/production writes were authorized in that session. Seek
-fresh design/review authorization for this one blocker, not another broad
-ownership/allocator architecture. Original reviewed bytes/pins remain intact.
-F1 is not implemented. No fresh live runtime RED, F1 GREEN, guest or acceptance;
-no candidate source review. Fresh unchanged-source host343/0/2 and B26116/0/0
-pass serial/default-parallel with exact345/116 identities; build/fmt/ELF pass.
-All150 canonical inputs and unrelated README/d1/init-doc/backup are preserved.
-12 frames/49152 bytes is a policy cap only; target owner and aggregate stack
-high-water remain unmeasured. Future accepted design still needs NEW live-crate
-runtime RED FIRST, real policy/guards, full verification/guests/source review,
-one frozen canonical acceptance and independent readback. Never reuse historical
-relocated RED or normal boot as live F1 proof. No F2-F5/USER/TSS/CPL3/general
-teardown/remote/deployment/push/Symposium setup. Never unlink acceptance lock.
+F1 is implemented, independently reviewed and accepted. Read
+`test_results/phase11f1_retained_owner/STATE.md`, FINAL_REPORT.md,
+evidence_manifest.json, f1_candidate_review_01.json and
+f1_acceptance_01/acceptance_*/acceptance.json (66/66 PASS, exit0,
+sha256 4cd36eb2a33705f3...). F1V2-B3 closed by Option B capture (QEMU
+-control stop at .set checkpoints, CR3+table bytes while stopped, ack-before-
+resume, fail-closed timeout; scripts/test_f1_capture.py 14/0). Live RED
+b3_real_guard_red_01 preserved; fresh host352/0/2, B26127/0/0, focused9/0,
+guest f1_guest_02 10/10 PASS 128/512MiB. Next task is F2 ONLY after fresh
+authorization; do not start F2 automatically. No USER/TSS/CPL3, no general
+teardown, no push/deployment. Never unlink dist/.phase6_acceptance.lock.
 Next recovery command: git status --short && git branch --show-current && git rev-parse HEAD && git diff --check
 Cwd: C:/Users/iamsv/Documents/Rust-OS. Historical checkpoint blocks follow.
 

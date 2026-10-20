@@ -1,5 +1,12 @@
 # F1 rabbit-hole control
 
+## B3 bounded capture prerequisite
+
+- Initial copied proof build failed Rust named_asm_labels lint. Preserve build/exit evidence; use global assembler `.set symbol, .` aliases rather than weakening the lint or changing production kernel code. The corrected disposable build ran actual QEMU; the failed compile is not live runtime RED.
+- Earlier successful proof closed debugger sockets before kill/wait. Tighten latest proof cleanup to kill/wait first and separately verify abrupt debugger loss does not resume local QEMU; retain earlier evidence without treating it as the final contract.
+- Preserve raw A/D differences: first continued interval changed raw bytes while software-controlled bits stayed stable. Repeated captures while stopped are byte-identical. Do not describe across-execution raw images as equal or infer past bytes from terminal captures.
+- A helper inspection command used pathlib.with_name with a slash and failed after writing its archive. Reuse that already-created archive rather than overwrite it; no guest/source evidence changed.
+
 ## V2 recovery
 
 - Read bounded JSON sections rather than dumping multiple large reports: the first combined recovery print exceeded transport budget. Complete saved fields were then recovered selectively; no missing reviewer output is treated as approval.

@@ -1,6 +1,22 @@
 # Physical-memory authority — Phase 11A.2 partial inventory
 
-## F1 v2 current checkpoint — PARTIAL / DESIGN STOP after one revision
+## F1 v2 current checkpoint — ACCEPTED (66-gate canonical acceptance, 2026-10-20)
+
+Task evidence: `test_results/phase11f1_retained_owner/` (STATE.md, FINAL_REPORT.md,
+evidence_manifest.json, f1_candidate_review_01.json, f1_acceptance_01/). F1V2-B3 is
+CLOSED: Option B capture — QEMU `-control` stop at guest `.set` checkpoint symbols;
+host reads actual CR3 and exact page-table bytes while the vCPU is stopped; capture
+acknowledged before resume; timeout/missing-ack fails closed (scripts/test_f1_capture.py
+14/0). Independent design APPROVE/0 (b3_design_revision_review_02.json); independent
+candidate review APPROVE/0 (f1_candidate_review_01.json). Live runtime RED preserved
+(b3_real_guard_red_01, exit 101). Implementation: one-shot preparation, fixed
+manifest, bounded acquisition (2 frames within the 12-frame/49152-byte policy cap),
+owned FrameLease slots, failure-stage codes 1-6, irreversible seal gating release/unmap/
+CR3 publication, nonallocating nonreturning terminal path, no USER/TSS/CPL3/IRET.
+Fresh host 352/0/2, B26 127/0/0, focused 9/0 exact identities, guest matrix f1_guest_02
+10/10 PASS at 128/512 MiB with pre-probe/pre-seal table-byte captures, canonical
+acceptance f1_acceptance_01 66/66 PASS (acceptance.json sha256 4cd36eb2...).
+Lock dist/.phase6_acceptance.lock preserved. No F2-F5, no CPL3, no push/deployment.
 
 Concrete proposal and complete verdicts reside in
 `test_results/phase11f1_retained_owner/`. Operator declarations were explicitly

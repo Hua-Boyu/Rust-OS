@@ -1,6 +1,21 @@
 ## Rosti OS — Phase 11 Handover
 
-## Current — F1 v2 PARTIAL / DESIGN STOP; revision allowance exhausted
+## Current — F1 v2 ACCEPTED; 66-gate canonical acceptance passed (2026-10-20)
+
+Task evidence: `test_results/phase11f1_retained_owner/` (STATE.md, FINAL_REPORT.md,
+evidence_manifest.json, f1_candidate_review_01.json, f1_acceptance_01/acceptance_*/acceptance.json).
+F1V2-B3 CLOSED via Option B: QEMU `-control` stop at guest `.set` checkpoint symbols;
+host reads actual CR3 and exact page-table bytes while the vCPU is stopped; ack-before-resume
+guard; timeout/missing-ack fails closed (scripts/test_f1_capture.py 14/0). Independent design
+APPROVE/0 and independent candidate review APPROVE/0 both recorded. Live runtime RED preserved
+(b3_real_guard_red_01 exit101). F1 implemented: one-shot preparation, fixed manifest, bounded
+acquisition (2 frames within 12-frame/49152-byte policy cap), owned FrameLease slots, failure
+codes 1-6, irreversible seal gating release/unmap/alternate-CR3, nonallocating nonreturning
+terminal path, no USER/TSS/CPL3/IRET. Fresh host352/0/2, B26127/0/0, focused9/0 exact identities,
+guest matrix f1_guest_02 10/10 PASS 128/512MiB with pre-probe/pre-seal exact table-byte captures,
+canonical acceptance f1_acceptance_01 66/66 PASS exit0 (acceptance.json sha256 4cd36eb2...).
+Protected README.md/d1/init-doc/backup untouched; acceptance lock preserved. Next task: F2 only
+after fresh authorization. No push/deployment performed.
 
 Current task evidence: `test_results/phase11f1_retained_owner/STATE.md`,
 FINAL_REPORT.md, v2_design.md and complete combined/revision verdicts.

@@ -1,6 +1,18 @@
 # Rosti OS — development handover
 
-## Current — F1 v2 PARTIAL / DESIGN STOP after one revision
+## Current — F1 v2 ACCEPTED; 66-gate canonical acceptance passed (2026-10-20)
+
+Actual starting checkpoint d43938f; final HEAD recorded in STATE.md and commit log.
+F1V2-B3 CLOSED (Option B QEMU -control capture at .set checkpoints, ack-before-resume,
+fail-closed timeout; scripts/test_f1_capture.py 14/0). Independent design APPROVE/0 and
+candidate review APPROVE/0 recorded (f1_candidate_review_01.json). Live runtime RED preserved
+(b3_real_guard_red_01 exit101). F1 implemented per approved v2 policy: one-shot, fixed manifest,
+bounded 2-frame acquisition within 12-frame/49152-byte cap, owned slots, failure codes 1-6,
+irreversible seal gating release/unmap/CR3, nonallocating nonreturning terminal, no USER/TSS/CPL3.
+Fresh host352/0/2, B26127/0/0, focused9/0 exact identities, guest f1_guest_02 10/10 PASS with
+pre-probe/pre-seal table-byte captures, canonical acceptance f1_acceptance_01 66/66 PASS exit0.
+Protected unrelated work untouched; acceptance lock preserved. Next task: F2 only after fresh
+authorization. No push/deployment.
 
 Actual starting checkpoint649aaf1; recover final local HEAD and current status
 from `test_results/phase11f1_retained_owner/STATE.md` / FINAL_REPORT.md. Current
