@@ -1,5 +1,20 @@
 # F1 decisions
 
+## V2 current-session decisions
+
+- Supported clarification returned SOLE_WRITER=YES, CEILING=YES, CONTINUE=YES. Approval is conditional on combined independent zero-blocker design review, stable source ownership and fresh live runtime RED; the operator did not certify stack sufficiency.
+- v2_design.md is the concrete review proposal. Two real lease slots; finite future NotAcquired classes within the12-frame frame policy, fixed static owner/descriptor envelopes, global irreversible state gate, active hardware identity check and nonreturning invocation. None is implemented yet.
+- ONE combined read-only review requested; reviewer owns only v2_combined_design_review.json. At most one bounded design revision round; unresolved blockers mean checkpoint/stop.
+- Initial combined review is REJECT/BLOCKERS2, RESOURCE_POLICY=ACCEPTED, REVIEWED_SOURCE_HASHES=VERIFIED. Complete501-line artifact read and all26 raw pins independently compared successfully. Finite inventory/core seal/CR3/terminal/lock/RED design accepted in principle; implementation remains forbidden.
+- ONE permitted revision used: v2_design section10 selects exact isolated copied-crate build/injection, separate valid nonzero-domain alternate map and fixed post-unlock staged probes. Original reviewed design archived byte-identically. Revision-resolution review owns only v2_design_revision_review.json; no further redesign if blockers remain.
+- A selected preseal exact-byte QMP observation mechanism must not be inferred from postterminal readback or checksum. This potential remaining guest-oracle gap was explicitly passed to revision reviewer for assessment, not silently waived or implemented.
+- Final revision-resolution verdict REJECT/BLOCKERS1, RESOURCE_POLICY=ACCEPTED, REVIEWED_SOURCE_HASHES=VERIFIED. Complete artifact parsed/findings read and all162 raw pins verified. B1 resolved; B2 valid alternate/probe mechanisms selected, but F1V2-B3 exact ordered guest preimage capture remains missing. STOP taken; no third redesign, live test/source edit, guest, candidate review or canonical acceptance. Fresh design/review authorization is required next session.
+- Fresh unchanged-baseline serial/default-parallel host343/0/2 and B26116/0/0 pass with exact345/116 identities; build/fmt/ELF pass. These are baseline-only, never F1 GREEN or canonical acceptance.
+- Historical reviews/evidence are preserved, including byte-identical pre-v2 STATE/FINAL/manifest snapshots.56 old manifest entries and10 independent final readback pins match actual bytes. Old review doc pins precede committed handover edits; production pins still match. Do not rewrite reviewer pins or call history new approval.
+- Terminal tool is native Git Bash/Windows Cargo. execute_code subprocess bash unexpectedly selects WSL; reserve native terminal for builds. No optional tool repair, Symposium setup, remote operation or historical fixture rerun.
+
+## Historical decisions (unchanged below)
+
 - Scope is F1 only. Approved previous B19 design and full saved independent review were read; neither approved numeric capacity or production lifetime safety.
 - No production source changes before fresh independent boundary/budget design approval and a meaningful runtime RED oracle. Do not substitute current structure retention for a complete seal.
 - Candidate whole-domain mutation freeze is intentionally narrower than a CPU-lifetime ledger but may freeze required future preparation too early. Independent review must establish the exact integration seam; no unseal/reset escape is permissible.

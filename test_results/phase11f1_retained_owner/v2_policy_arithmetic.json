@@ -1,0 +1,23 @@
+{
+  "frame_unit": 4096,
+  "policy_classes": [
+    1,
+    1,
+    1,
+    4,
+    4,
+    1
+  ],
+  "policy_frames": 12,
+  "policy_bytes": 49152,
+  "F1_acquisitions_max": 2,
+  "F1_frame_bytes_max": 8192,
+  "fixture_tables_at_128MiB": 32,
+  "fixture_tables_at_512MiB": 128,
+  "fixture_structures_max": 129,
+  "fixture_frames_with_probe_max": 130,
+  "fixture_builder_vec_payload_bytes": 16384,
+  "static_policy_sum": 8192,
+  "stack_high_water": "UNKNOWN",
+  "meaning": "Policy/test-fixture maxima only; not allocations or safety/sufficiency proofs. Successful actual count still requires guest measurement."
+}

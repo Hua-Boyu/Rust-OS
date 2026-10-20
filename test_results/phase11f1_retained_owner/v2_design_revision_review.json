@@ -1,0 +1,1898 @@
+{
+  "schema_version": 2,
+  "review_kind": "Single allowed byte-scoped independent revision-resolution pass within ONE combined F1 v2 design-review cycle",
+  "created_utc": "2026-10-20T10:57:08.864647+00:00",
+  "repository": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "branch": "maintenance/phase10",
+  "observed_head": "649aaf1dccd2f18091d0d2f0f81661e11d005d97",
+  "verdict": "REJECT",
+  "BLOCKERS": 1,
+  "REVIEWED_SOURCE_HASHES": "VERIFIED",
+  "RESOURCE_POLICY": "ACCEPTED",
+  "summary": "B1 is resolved. B2 alternate-map construction, rooting, meaningful activation/refusal and post-unlock probe placement are selected, but its exact pre/post guest table-byte oracle remains an unclosed mechanism (B3): no synchronized pre-observation point or exact retained preimage is selected before the straight-through guest reaches probes/terminal. STOP; no implementation or further redesign is authorized in this session.",
+  "blocking_findings": [
+    {
+      "id": "F1V2-B3",
+      "severity": "BLOCKER_BEFORE_PRODUCTION_EDITS",
+      "title": "Exact pre/post guest table-byte observation has no selected preimage capture mechanism",
+      "design_evidence": [
+        "v2_design.md:102,138,155,167,171-180"
+      ],
+      "source_evidence": [
+        "scripts/boot_metadata_test.py:320-334",
+        "src/memory/paging.rs:661-705,745-838,898-922"
+      ],
+      "finding": "Section 10B promises external QMP physical readback as the exact raw table-byte oracle, while setup retains only fixed scalar/PTE/PDE observations and a bounded rolling structural observation. The selected guest runs directly from setup through preparation, sealing, real postseal probes and terminal halt. The selected harness waits for the terminal records before register/halt observations. There is no selected preseal CPU pause/gate, acknowledged rendezvous, debugger breakpoint or complete exact preimage storage/capture point with an address inventory and ordered resume before the tested operations. Existing physical() performs a current pmemsave read; it does not recover prior physical bytes. A read after terminal (or a second read of the same postterminal bytes) cannot establish the preprobe/preseal state. An unsynchronized early QMP stop/read races startup and the probe sequence and cannot be assumed to occur at the required boundary. Fixed scalar entries and rolling checksums are not exact full-table preimages, and the design itself expressly rejects checksum-only exactness. Consequently the promised exact software-controlled table-field comparison, with CPU A/D differences distinguished, cannot yet be implemented through the selected mechanism without adding an unreviewed synchronization/capture mechanism or weakening the acceptance contract.",
+      "why_not_an_unexecuted_test_blocker": "The issue is not that future guest tests have not run. The source-read mechanism captures only current bytes and the design selects no causal boundary at which the required earlier bytes can be obtained. The exact comparison obligation therefore has a missing concrete mechanism before implementation.",
+      "disposition": "STOP at this complete design checkpoint. The single permitted parent revision and this independent resolution pass are consumed. No further redesign, production-source/test edits, build, guest run or canonical acceptance is authorized in this session. A future authorized design review would have to select an exact ordered capture mechanism or explicitly revise the exact-byte acceptance contract; this verdict does not authorize either."
+    }
+  ],
+  "resolution_findings": [
+    {
+      "id": "F1V2-B1",
+      "status": "RESOLVED",
+      "design_evidence": "v2_design.md:100,146-156",
+      "source_evidence": [
+        "Cargo.toml:1-29",
+        ".cargo/config.toml:1-12",
+        "target.json:1-25",
+        "rust-toolchain.toml:1-2",
+        "linker.ld:4-51",
+        "src/main.rs:201-211",
+        "scripts/boot_metadata_test.py:47-172,276-318"
+      ],
+      "assessment": "The design no longer treats ELF repackaging as Rust injection. It selects an exclusive copied native crate preserving manifest-relative rostifs and target/linker resolution, a separate target-dir, exact input manifests and post-copy source stability checks. Four delimited classes of staged Rust additions plus one descendant fixture file are enumerated; stripping must restore canonical bytes. The main call reaches the actual divergent wrapper, retaining it against dead stripping. The existing nomodule packager consumes that newly linked ELF without changing its LOAD bytes. An explicit F1 workflow must avoid shell-dependent MetadataHarness.start/workflow. Actual register/HLT observations and owned process cleanup are required, not ordinary shell markers. No open choice of build/injection route remains.",
+      "limits": "Text equality establishes canonical bodies plus disclosed instrumentation, not machine-code identity. Toolchain resolution, emitted functions, target artifacts and fail-closed parser/HLT capability are implementation evidence, not asserted results here."
+    },
+    {
+      "id": "F1V2-B2",
+      "status": "PARTIALLY_RESOLVED_BLOCKED_BY_F1V2_B3",
+      "design_evidence": "v2_design.md:96,158-180",
+      "source_evidence": [
+        "src/memory/paging.rs:145-229,310-326,362-482,484-587,691-705,743-838,898-922",
+        "src/memory/frame.rs:44-50,87-110,378-437,508-525,559-624",
+        "src/memory/mod.rs:45-62,165-250"
+      ],
+      "assessment": "The selected map is not revoked: it is built once with the same live nonzero allocator domain into separately reserved backing and rooted in a fixture static Option, checked retained/distinct/pinned and never activated during setup. Prechecking every eligible free frame identity alias under map/frame guards closes the raw builder accessibility hazard. The cap is at most 128 tables plus one directory and one separately rooted runtime-mapped probe lease, all acquired before the F1 baseline. A paging-descendant owner and guest child provide private metadata inspection without exporting mutable owners. The single staged wrapper probe point occurs after all original guards are dropped and the irreversible gate published. Real helper calls execute there and then return only scalar bits to the same divergent terminal wrapper.",
+      "nonvacuity": "retain_for_publication currently rejects only zero domain. Both actual CR3 writers proceed to hardware after successful retain. Thus recorded valid same-domain retained backing removes the prior revoked-object refusal explanation. A separate unsealed host-model writer control and revoked-object negative control distinguish the model paths; guest never pre-activates the alternative. Rooted mapped_probe makes unmap denial meaningful. Positive/one-acquired cases must use an unpinned F1 payload for release denial, not a preexisting runtime-pin-only explanation.",
+      "limits": "Alternate-map and postseal invocation mechanisms are selected, but exact pre/post table-byte proof remains blocked by F1V2-B3. A postterminal QMP dump or rolling checksum is not a preseal/preprobe exact capture. Host full-state tests and source order cannot substitute for the separately promised hardware exact-byte oracle."
+    }
+  ],
+  "combined_scope_reassessment": [
+    {
+      "area": "Bounded ownership and resource policy",
+      "status": "ACCEPTED",
+      "evidence": "design:14-46,108-119,160-180; frame:87-110,124-147,378-437",
+      "assessment": "Six fixed maxima remain the accepted 12-frame/49152-byte ceiling; successful F1 payload+sentinel are a subset capped at two, not two additional frames. Each lease moves immediately into a static Option before another failure. F1 new tables/directories/dynamic retained metadata remain zero. Existing PageMap/ledger/boot heap/stack backing stays separately owned. Owner-family and future-descriptor byte caps are reject-on-overflow envelopes requiring emitted-size evidence. Fixture structures/probe and heap backing are distinct setup resources, not hidden in F1 capacity. No stack sufficiency, minimum RAM, complete future layout or future descriptor mechanism is inferred."
+    },
+    {
+      "area": "Admission, failure retention and irreversible publication",
+      "status": "ADEQUATE_DESIGN",
+      "evidence": "design:48-62,108-119,171-180",
+      "assessment": "CAS before locks/fallible work admits once. Repeated admission does not set Terminal under an in-progress attempt. First-attempt failures retain exact zero/one/two slots, close mutation authority and halt without cleanup/retry. Success writes capture then Release Sealed under both map/frame owners, later Terminal; no reopening interval. A single Acquire global gate denies local/alternate instances, including diagnostics/IDs/reset mutation, and does not grant lockless access to non-atomic owner fields."
+    },
+    {
+      "area": "Guard completeness and pin transaction atomicity",
+      "status": "ADEQUATE_DESIGN",
+      "evidence": "design:64-86; frame:201-624; paging:182-229,310-587,661-705,745-838,898-922; mod:165-250,302-315",
+      "assessment": "Matrix includes initialization/domain issuance, raw/owned allocation and release, growth, both pin directions, checked wrappers/common map/unmap cores, bootstrap backing builder, unpublished cleanup/publication and both real CR3 writers. Refusal must dominate diagnostics and first effects. Pin bool changes require checked indices and enclosing transaction preflight; no ignoring a false commit or inventing partial rollback. Under the explicit serialization gate cannot change midway. Additional unsafe/raw writer or reachable midtransaction refusal invalidates this coverage and must STOP."
+    },
+    {
+      "area": "Lock order, fixture nesting and interrupt premise",
+      "status": "ADEQUATE_DESIGN",
+      "evidence": "design:54-62,160-178; mutex:35-66; allocator:240-283,308-317; interrupt:169-175",
+      "assessment": "Canonical heap->map->frame remains. New preparation smoke->map->frame never takes heap. Fixture setup takes fixture->map->frame after unlocked reservation; probe takes fixture->smoke->map->frame only after original preparation guards are gone. No canonical reverse edge or callback into fixture is introduced. Unused backing drops only unlocked before F1; rooted backing never drops. IDT initialization executes STI, so wrapper CLI is mandatory, not inferred from boot placement. Single vCPU and no IRQ/NMI/fatal memory-owner reentry remain explicit prerequisites; atomics and SpinMutex do not prove SMP safety."
+    },
+    {
+      "area": "Hardware identity and alternate-map refusal",
+      "status": "CORE_ADEQUATE_EXACT_GUEST_TABLE_ORACLE_BLOCKED",
+      "evidence": "design:88-96,164-177; paging:691-705,898-935",
+      "assessment": "flush_tlb writes the supplied map directory and can switch CR3; enable_paging writes CR3 and CR0 and enabled metadata. Gate must precede retain/asm/flags in both and public wrapper success propagation. Actual CR0/CR3/CR4/CS checks before allocations and pre-seal, plus per-writer postrefusal observations, are selected. Same valid alternative remains rooted through terminal. Host MIRROR/writer counters are explicitly not hardware evidence. Structural permission comparisons distinguish CPU A/D changes. However no selected preseal/preprobe exact table capture boundary exists; the claimed exact external comparison is blocked by F1V2-B3, not established by the scalar checks."
+    },
+    {
+      "area": "Terminal path and output",
+      "status": "ADEQUATE_DESIGN",
+      "evidence": "design:98-106,171-180; serial:28-43",
+      "assessment": "Public wrapper/halt leaf return !. Scalar preparation returns only into that wrapper after dropping guards. The disclosed staged probe is bounded, allocates/drops no backing and cannot resume main or recursively invoke preparation. Fixed scalar serial output is bounded below 512 bytes with finite per-byte polling, then repeated CLI/HLT with no STI/RET/reboot/drop. Missing UART record, wrong scenario or failed probe is FAIL, never inferred success. QMP running status alone cannot satisfy halt evidence."
+    },
+    {
+      "area": "RED/GREEN and canonical evidence preservation",
+      "status": "ADEQUATE_DESIGN_OBLIGATIONS_NOT_EXECUTED",
+      "evidence": "design:121-140,182-194; tests_kernel/src/lib.rs:1-35; generation_ownership_tests.rs:22-67; review_r1_tests.rs:30-54; tests_b26/src/lib.rs:48-120; phase6_verify.py:64-94",
+      "assessment": "Exact-one live real-source runtime RED remains first production-affecting diff; compilation failure or historical relocated evidence cannot substitute. Then only adapter changes to real private policy while denial/state assertions remain. Each irreversible host case uses a fresh exact libtest child, no production singleton reset. B26 allocation/destruction detector must retain meaningful controls including smoke-only paths. Initial gate identities are preserved before exact additional F1 gates and parser-negative controls. Candidate independent source review, stable hash freeze and single locked canonical acceptance remain future requirements. None may begin under this REJECT verdict."
+    }
+  ],
+  "resource_policy": {
+    "status": "ACCEPTED",
+    "interpretation": "Reject-on-overflow ceiling, not sufficient hardware/stack budget, guaranteed availability, physical reservation or complete future-layout feasibility.",
+    "classes": [
+      {
+        "role": "payload",
+        "max_frames": 1,
+        "f1_max_frames": 1
+      },
+      {
+        "role": "sentinel",
+        "max_frames": 1,
+        "f1_max_frames": 1
+      },
+      {
+        "role": "future_user_stack",
+        "max_frames": 1,
+        "f1_max_frames": 0
+      },
+      {
+        "role": "future_transition_stack",
+        "max_frames": 4,
+        "f1_max_frames": 0
+      },
+      {
+        "role": "future_emergency_backing_total",
+        "max_frames": 4,
+        "f1_max_frames": 0
+      },
+      {
+        "role": "future_arena_table",
+        "max_frames": 1,
+        "f1_max_frames": 0
+      }
+    ],
+    "frame_bytes": 4096,
+    "total_policy_frames": 12,
+    "total_policy_frame_bytes": 49152,
+    "f1_max_frames": 2,
+    "f1_max_frame_bytes": 8192,
+    "owner_family_static_cap_bytes": 4096,
+    "future_descriptor_static_cap_bytes": 4096,
+    "total_static_cap_bytes": 8192,
+    "f1_dynamic_retained_metadata_bytes": 0,
+    "f1_new_directories": 0,
+    "f1_new_tables": 0,
+    "existing_storage": "PageMap directory/tables/Vec backing/pins, frame ledger, bootstrap 16 KiB BSS stack, heap and GDT/IDT retained separately; not zero total memory or duplicated release authority.",
+    "future_guards": "Three lower absent virtual page reservations; no F1 physical guards or selected privileged spans. Future USER/TSS/Ready absent.",
+    "future_integration": "Fresh revision/boot extends Preparing only; reject excess resources/contexts/tables/guards/metadata or incompatible measured layout, never unseal.",
+    "unknowns": [
+      "target owner/mutex/type/symbol/section sizes",
+      "aggregate caller/IRQ/NMI/DF high-water",
+      "future TSS/emergency mechanism",
+      "future privileged guarded-range feasibility",
+      "minimum-RAM or stack sufficiency"
+    ],
+    "revision_fixture": {
+      "scope": "staged fixture only, outside actual F1 owner and its two-frame delta",
+      "max_structure_frames": 129,
+      "max_tables": 128,
+      "max_mapped_probe_frames": 1,
+      "max_successful_structure_plus_probe_acquisitions": 130,
+      "backing": "Two preallocated Vec buffers (1024 u64 table slots and PAYLOAD_BITMAP_BYTES); empty boot_pins; fixed fixture static metadata. Baseline heap use/growth reported separately before F1. No post-admission allocation, no setup activation, no rooted backing destruction."
+    }
+  },
+  "implementation_evidence_required_not_current_design_blockers": [
+    "Exact-one successfully compiled live runtime RED with intended assertion and pinned original bytes; same denial/state assertions GREEN through real private path.",
+    "Discovered exact host identities and security-ignore policy; host/B26 serial/default parallel and inherited owner detector preservation.",
+    "Valid-input exact unchanged-state refusal matrix including same/foreign alternate maps, IDs/issuer/reset flags, all diagnostics/bitmaps/PDE/PTE/inventories and pin directions.",
+    "First/second acquisition, alias and final identity failures retain exact zero/one/two lease identities with no retry/cleanup.",
+    "Guarded modeled CR3 writer controls plus actual i686 register/assembly evidence, structural/pin/permission stability and hardware A/D-bit distinction.",
+    "Exact baseline/candidate ELF hashes, target emitted owner/mutex/type/section/span deltas and preparation/callee frames; aggregate stack high-water remains unknown unless measured.",
+    "After B1/B2 resolution, fresh 128/512 success and deterministic failure Ring-0 guests execute real policy with separately counted fixture backing, actual bounded halt/no-reset/no-shell proof and owned process exit.",
+    "F1 parser and missing/zero/duplicate/impostor/substitution/incomplete/extra/timeout/reset controls, inherited canonical exact gate preservation and one locked full source-frozen acceptance independently read back.",
+    "Source stripping must validate exact anchor count, allowed instrumentation hashes, complete copied membership and canonical bytes including actual module visibility/path resolution; no new mutable-owner export is authorized.",
+    "Use all five staged case constants at 128/512 MiB, distinguish expected refusal from production PASS, require positive and one-acquired unpinned release evidence and valid alternate helper calls.",
+    "Actual target symbols, default versus invoking ELF attribution and compiler/callee frame inspection remain required; fixture linkage is not evidence default boot executed F1."
+  ],
+  "authorization": {
+    "design_resolution_approved": false,
+    "conditional_next_action": "STOP. The prerequisite APPROVE/BLOCKERS=0 is not met. No live-crate runtime RED, production implementation, further parent redesign, build, guest execution or canonical acceptance is authorized this session.",
+    "implementation_verified": false,
+    "guest_verified": false,
+    "f1_complete": false,
+    "cpl3_ready": false,
+    "excluded": [
+      "F2-F5",
+      "USER mappings",
+      "TSS",
+      "IRET",
+      "CPL3",
+      "general teardown",
+      "SMP",
+      "remote/deployment",
+      "tool/config/skill edits"
+    ]
+  },
+  "hash_verification": {
+    "status": "VERIFIED",
+    "method": "Independent pathlib raw-byte SHA256 and separately LF-normalized SHA256/Git blob SHA1. git ls-tree HEAD compares normalized tracked blobs. Complete initial review read; complete revised design read; initial reviewed design independently matches original review raw design pin. Reconstructed canonical snapshot membership without importing or executing repository code.",
+    "manifest_count": 162,
+    "canonical_input_count": 150,
+    "canonical_membership_equal": true,
+    "canonical_raw_pin_mismatches": [],
+    "initial_review_non_design_pin_mismatches": [],
+    "normalized_head_mismatches": [],
+    "protected_pin_mismatches": [],
+    "design_raw_sha256": "aa030803e51c5c9a3102c7d2bf3507c4702d3ef51d0fe18ae1f49cbcd0646db6",
+    "initial_review_artifact_raw_sha256": "248c870be864734cc98f5faf73534ad64a2d26b9112e1b62c5dd67dad8ffb4ae",
+    "archived_initial_design_raw_sha256": "0c5fc2cdf3409a8eef0090035271a5db4e83b34ff04e065da75736af26cd3c02",
+    "initial_design_archive_matches_review_pin": true,
+    "historical_pins_rewritten": false,
+    "final_prewrite_manifest_reread_matches": true
+  },
+  "reviewed_source_manifest": [
+    {
+      "path": ".cargo/config.toml",
+      "bytes": 303,
+      "raw_sha256": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+      "lf_normalized_sha256": "1bb7d373f2e005a68a87343e04bb04b3e48618333d2b3ab6428c03217b0cacf0",
+      "lf_normalized_git_blob_sha1": "296c455bb05b7fd910db71b1671a88bc5bd8bff6",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "296c455bb05b7fd910db71b1671a88bc5bd8bff6",
+      "normalized_matches_head": true
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 87,
+      "raw_sha256": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218",
+      "lf_normalized_sha256": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218",
+      "lf_normalized_git_blob_sha1": "bc822a4b51da0c2319226e9f85c4bac502322bd5",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "bc822a4b51da0c2319226e9f85c4bac502322bd5",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "Cargo.lock",
+      "bytes": 2650,
+      "raw_sha256": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+      "lf_normalized_sha256": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+      "lf_normalized_git_blob_sha1": "8dbf0eeffe43d29afc79224413c4db8e6fa3db56",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "8dbf0eeffe43d29afc79224413c4db8e6fa3db56",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "Cargo.toml",
+      "bytes": 638,
+      "raw_sha256": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+      "lf_normalized_sha256": "1e1f4a01411ae5163123511074e0b9f7301ac1f8d8852f32ff5e5341a67bbc25",
+      "lf_normalized_git_blob_sha1": "a3f65eb1266bb93a808e2b1b9159b909ccccfe6f",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "a3f65eb1266bb93a808e2b1b9159b909ccccfe6f",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "HANDOVER.md",
+      "bytes": 57002,
+      "raw_sha256": "9d0c74aa3c80188aae692e2b4b76d6e94837205f340ce4a1fdc2b464295e3538",
+      "lf_normalized_sha256": "c20611608ee58f22169e6e3828e02cf765a346ee7247578fa7b03cbe063c8511",
+      "lf_normalized_git_blob_sha1": "490c7177420a7515a02b0ba0ad1cb0ee57b73e0f",
+      "read_scope": "initial-review pin preservation verification; not transitive implementation approval",
+      "head_git_blob_sha1": "490c7177420a7515a02b0ba0ad1cb0ee57b73e0f",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "NEXT_SESSION_PROMPT.md",
+      "bytes": 42250,
+      "raw_sha256": "636dacdcd0c7fb6c04bf3a5f051842a7a4128ccf1b333efe08d5672221ab4326",
+      "lf_normalized_sha256": "196298c80dfb7a36e8280d7ee857a422b02e412fb1cf052456016e7f8e102e1a",
+      "lf_normalized_git_blob_sha1": "93920405b6719767261211f6bfb3dfd2fa5bed6e",
+      "read_scope": "initial-review pin preservation verification; not transitive implementation approval",
+      "head_git_blob_sha1": "93920405b6719767261211f6bfb3dfd2fa5bed6e",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/Cargo.lock",
+      "bytes": 151,
+      "raw_sha256": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb",
+      "lf_normalized_sha256": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb",
+      "lf_normalized_git_blob_sha1": "e3edd6d80aadb0a5ef5b4444b1e9429e642c34c6",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "e3edd6d80aadb0a5ef5b4444b1e9429e642c34c6",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/Cargo.toml",
+      "bytes": 453,
+      "raw_sha256": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920",
+      "lf_normalized_sha256": "9427c8adb79e57e6bab62d6a8bb5514169e0bc4fa6eeb5cb013eb0a962ff6293",
+      "lf_normalized_git_blob_sha1": "d1aa401aa92026aac373d8cbf58c2bf33d423e6b",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "d1aa401aa92026aac373d8cbf58c2bf33d423e6b",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/additional_tests.rs",
+      "bytes": 7220,
+      "raw_sha256": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df",
+      "lf_normalized_sha256": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df",
+      "lf_normalized_git_blob_sha1": "efb6e12ff0ca1fa7ffa2e18f303a26672ee749a0",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "efb6e12ff0ca1fa7ffa2e18f303a26672ee749a0",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/bin/mkrostifs.rs",
+      "bytes": 149,
+      "raw_sha256": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252",
+      "lf_normalized_sha256": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252",
+      "lf_normalized_git_blob_sha1": "aea5c2897595b01e9ef6ee5226e5d305ca0f6945",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "aea5c2897595b01e9ef6ee5226e5d305ca0f6945",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/bin/rostifs-inspect.rs",
+      "bytes": 161,
+      "raw_sha256": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c",
+      "lf_normalized_sha256": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c",
+      "lf_normalized_git_blob_sha1": "a29b25582f47a916572f489f56249206b808c724",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "a29b25582f47a916572f489f56249206b808c724",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/bin/rostifsck.rs",
+      "bytes": 149,
+      "raw_sha256": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36",
+      "lf_normalized_sha256": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36",
+      "lf_normalized_git_blob_sha1": "9829270d971fcd77fd61ac6fd44c5d8c97b5153c",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "9829270d971fcd77fd61ac6fd44c5d8c97b5153c",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/bin/support/mod.rs",
+      "bytes": 8785,
+      "raw_sha256": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041",
+      "lf_normalized_sha256": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041",
+      "lf_normalized_git_blob_sha1": "a4644e9fdbf8a67348c8c559b28e6c8c858cbc27",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "a4644e9fdbf8a67348c8c559b28e6c8c858cbc27",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/block.rs",
+      "bytes": 2330,
+      "raw_sha256": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06",
+      "lf_normalized_sha256": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06",
+      "lf_normalized_git_blob_sha1": "4bd3b532100bb82ee645f19c5988d16224358d1d",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "4bd3b532100bb82ee645f19c5988d16224358d1d",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/checksum.rs",
+      "bytes": 957,
+      "raw_sha256": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e",
+      "lf_normalized_sha256": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e",
+      "lf_normalized_git_blob_sha1": "6e41e1fdf1428e4b89648fb92fc9cca0293e10ca",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "6e41e1fdf1428e4b89648fb92fc9cca0293e10ca",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/crash_tests.rs",
+      "bytes": 19046,
+      "raw_sha256": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9",
+      "lf_normalized_sha256": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9",
+      "lf_normalized_git_blob_sha1": "07585b8bd7b284af61df67c3ac5ac2f4450df864",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "07585b8bd7b284af61df67c3ac5ac2f4450df864",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/engine.rs",
+      "bytes": 27482,
+      "raw_sha256": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a",
+      "lf_normalized_sha256": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a",
+      "lf_normalized_git_blob_sha1": "e8eeef1f240073fb0fa2c38588dfd3d01e9646a7",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "e8eeef1f240073fb0fa2c38588dfd3d01e9646a7",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/format.rs",
+      "bytes": 5001,
+      "raw_sha256": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700",
+      "lf_normalized_sha256": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700",
+      "lf_normalized_git_blob_sha1": "c4020040ba5c53661e9eff1602978d45be114785",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "c4020040ba5c53661e9eff1602978d45be114785",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/lib.rs",
+      "bytes": 352,
+      "raw_sha256": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31",
+      "lf_normalized_sha256": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31",
+      "lf_normalized_git_blob_sha1": "a8a96dbba4b804f4776bb1743f09477769b02c6d",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "a8a96dbba4b804f4776bb1743f09477769b02c6d",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/occupancy_tests.rs",
+      "bytes": 3901,
+      "raw_sha256": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42",
+      "lf_normalized_sha256": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42",
+      "lf_normalized_git_blob_sha1": "b805fccafeb63d9f7db5d397319305eb435c360f",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "b805fccafeb63d9f7db5d397319305eb435c360f",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/src/vfs.rs",
+      "bytes": 3068,
+      "raw_sha256": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713",
+      "lf_normalized_sha256": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713",
+      "lf_normalized_git_blob_sha1": "399655c31bdafafaa6fc519792409257d02b716a",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "399655c31bdafafaa6fc519792409257d02b716a",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/tests/host_tools.rs",
+      "bytes": 5871,
+      "raw_sha256": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b",
+      "lf_normalized_sha256": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b",
+      "lf_normalized_git_blob_sha1": "d1851b0dbebdfe6f0f9fdd60bfb43ac69ced9d72",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "d1851b0dbebdfe6f0f9fdd60bfb43ac69ced9d72",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/tests/read_performance.rs",
+      "bytes": 9769,
+      "raw_sha256": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29",
+      "lf_normalized_sha256": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29",
+      "lf_normalized_git_blob_sha1": "95adeb1c0b8b1ef9f41577013b8406d579d003f6",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "95adeb1c0b8b1ef9f41577013b8406d579d003f6",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "crates/rostifs/tests/write_preservation.rs",
+      "bytes": 6597,
+      "raw_sha256": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9",
+      "lf_normalized_sha256": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9",
+      "lf_normalized_git_blob_sha1": "1a5fd5914c8e83fa27f0842dc036dedbc2ae2284",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "1a5fd5914c8e83fa27f0842dc036dedbc2ae2284",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "docs/PHASE11_HANDOVER.md",
+      "bytes": 48798,
+      "raw_sha256": "28a243d350cd3a8adcde43625adec2589d866a5782922ee57694fc0a1255c0df",
+      "lf_normalized_sha256": "28a243d350cd3a8adcde43625adec2589d866a5782922ee57694fc0a1255c0df",
+      "lf_normalized_git_blob_sha1": "27faa6abafe514f4f862df09f9ee7d3f827470b7",
+      "read_scope": "initial-review pin preservation verification; not transitive implementation approval",
+      "head_git_blob_sha1": "27faa6abafe514f4f862df09f9ee7d3f827470b7",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "docs/PHASE11_MEMORY_AUTHORITY.md",
+      "bytes": 48482,
+      "raw_sha256": "7995f3f9edd5b34837e2dc8310f7d0e5d1bb5b731d14aa040d5ff836c5a3c517",
+      "lf_normalized_sha256": "7995f3f9edd5b34837e2dc8310f7d0e5d1bb5b731d14aa040d5ff836c5a3c517",
+      "lf_normalized_git_blob_sha1": "86c542fde42dd11461d0dfcd4f1590e3e3f8b54b",
+      "read_scope": "initial-review pin preservation verification; not transitive implementation approval",
+      "head_git_blob_sha1": "86c542fde42dd11461d0dfcd4f1590e3e3f8b54b",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "linker.ld",
+      "bytes": 1838,
+      "raw_sha256": "3abdfc294b09724d60af7036ddd684799cbcd0bf85ef368972da736db5254735",
+      "lf_normalized_sha256": "3abdfc294b09724d60af7036ddd684799cbcd0bf85ef368972da736db5254735",
+      "lf_normalized_git_blob_sha1": "39a533c525796332373ded528bc4b0d286459c76",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "39a533c525796332373ded528bc4b0d286459c76",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "bytes": 34,
+      "raw_sha256": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95",
+      "lf_normalized_sha256": "2ce1c1fe5e79a52424c9d88d99f5a2c95dcf5b4f4a82431bb9e5710cfb39e184",
+      "lf_normalized_git_blob_sha1": "5d56faf9ae08cb604e06df9aa6281e2b51ce5809",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "5d56faf9ae08cb604e06df9aa6281e2b51ce5809",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/b13_boot_fixture.py",
+      "bytes": 6191,
+      "raw_sha256": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef",
+      "lf_normalized_sha256": "2fb56cb3281301e105b8033b4618c25d74cecc52e51d7854b4774f7bb8df1132",
+      "lf_normalized_git_blob_sha1": "7cac1db0ded5494be7d1615971c0b83e31ee4ff4",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "7cac1db0ded5494be7d1615971c0b83e31ee4ff4",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/b13_entry_inject.py",
+      "bytes": 10844,
+      "raw_sha256": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+      "lf_normalized_sha256": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+      "lf_normalized_git_blob_sha1": "043513f3eab34a8b1bcbfcff50d5d213d57f9535",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "043513f3eab34a8b1bcbfcff50d5d213d57f9535",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/b13_fixture/Cargo.lock",
+      "bytes": 160,
+      "raw_sha256": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+      "lf_normalized_sha256": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+      "lf_normalized_git_blob_sha1": "42a0ead3192cd8daf99e90664216eb407fe95471",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "42a0ead3192cd8daf99e90664216eb407fe95471",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/b13_fixture/Cargo.toml",
+      "bytes": 202,
+      "raw_sha256": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+      "lf_normalized_sha256": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+      "lf_normalized_git_blob_sha1": "3d654d7e223fcdb198cb95a24e07374440325573",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "3d654d7e223fcdb198cb95a24e07374440325573",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/b13_fixture/linker.ld",
+      "bytes": 93,
+      "raw_sha256": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+      "lf_normalized_sha256": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+      "lf_normalized_git_blob_sha1": "730c66f81d5d673aebbc721206eb814b731f0e03",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "730c66f81d5d673aebbc721206eb814b731f0e03",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/b13_fixture/main.rs",
+      "bytes": 2665,
+      "raw_sha256": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a",
+      "lf_normalized_sha256": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a",
+      "lf_normalized_git_blob_sha1": "ed6131821a9c2bf7115ba6158a302e77a7f40fed",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "ed6131821a9c2bf7115ba6158a302e77a7f40fed",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/b13_grub_smoke.py",
+      "bytes": 4599,
+      "raw_sha256": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+      "lf_normalized_sha256": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+      "lf_normalized_git_blob_sha1": "02b3ef7a5903a34a8ea7fd7cf62dc3e36bdcc878",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "02b3ef7a5903a34a8ea7fd7cf62dc3e36bdcc878",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/b13_stress_replay.py",
+      "bytes": 2694,
+      "raw_sha256": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e",
+      "lf_normalized_sha256": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e",
+      "lf_normalized_git_blob_sha1": "f526329ed1d4061ca7590a9c314320c313bdc05f",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "f526329ed1d4061ca7590a9c314320c313bdc05f",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/backspace_test.py",
+      "bytes": 5773,
+      "raw_sha256": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+      "lf_normalized_sha256": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+      "lf_normalized_git_blob_sha1": "77b8067c168394baa282b2b7ef2193a407896f8c",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "77b8067c168394baa282b2b7ef2193a407896f8c",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/block_test.py",
+      "bytes": 11026,
+      "raw_sha256": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+      "lf_normalized_sha256": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+      "lf_normalized_git_blob_sha1": "736b4699ea6914a291e36f21b78726754ae7ff0c",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "736b4699ea6914a291e36f21b78726754ae7ff0c",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/boot_metadata_test.py",
+      "bytes": 30931,
+      "raw_sha256": "d94f158a4a53d681ce0530d98fbcf31eab1dacdb8964308128a57f39f5216c9a",
+      "lf_normalized_sha256": "d94f158a4a53d681ce0530d98fbcf31eab1dacdb8964308128a57f39f5216c9a",
+      "lf_normalized_git_blob_sha1": "53668676f1d59b1a2e3af3f81145bab92aea9da2",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "53668676f1d59b1a2e3af3f81145bab92aea9da2",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/boot_test.py",
+      "bytes": 6641,
+      "raw_sha256": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+      "lf_normalized_sha256": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+      "lf_normalized_git_blob_sha1": "137df6d857602616f94a9c9229649cb529b8526e",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "137df6d857602616f94a9c9229649cb529b8526e",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/build-proxmox-iso.py",
+      "bytes": 5442,
+      "raw_sha256": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+      "lf_normalized_sha256": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+      "lf_normalized_git_blob_sha1": "fb4ea003db28ac0915cc252421ccf5473ab37624",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "fb4ea003db28ac0915cc252421ccf5473ab37624",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/build_initramfs.py",
+      "bytes": 4448,
+      "raw_sha256": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+      "lf_normalized_sha256": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+      "lf_normalized_git_blob_sha1": "4a4aa7b04cdecf6b5dce40e88042fcc4b8a074e0",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "4a4aa7b04cdecf6b5dce40e88042fcc4b8a074e0",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/deploy-proxmox.py",
+      "bytes": 12714,
+      "raw_sha256": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+      "lf_normalized_sha256": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+      "lf_normalized_git_blob_sha1": "663c2ccbe378d77a61c708ca41bc766dc334a3ba",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "663c2ccbe378d77a61c708ca41bc766dc334a3ba",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/fs_test.py",
+      "bytes": 23046,
+      "raw_sha256": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+      "lf_normalized_sha256": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+      "lf_normalized_git_blob_sha1": "21ca19bf22924ab00c21142d7d03e5ae7d151f9f",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "21ca19bf22924ab00c21142d7d03e5ae7d151f9f",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/keyboard_test.py",
+      "bytes": 5100,
+      "raw_sha256": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+      "lf_normalized_sha256": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+      "lf_normalized_git_blob_sha1": "a1aa81fc6e5e4f950757d8e4b40a6c66f268c329",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "a1aa81fc6e5e4f950757d8e4b40a6c66f268c329",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/live_phase5_check.py",
+      "bytes": 6216,
+      "raw_sha256": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+      "lf_normalized_sha256": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+      "lf_normalized_git_blob_sha1": "8f771fd11f1a8000616415a475a2bef4854256e4",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "8f771fd11f1a8000616415a475a2bef4854256e4",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/mem_probe.py",
+      "bytes": 1685,
+      "raw_sha256": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+      "lf_normalized_sha256": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+      "lf_normalized_git_blob_sha1": "85edf0598c195b7112d5569687d19f9fd82a779c",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "85edf0598c195b7112d5569687d19f9fd82a779c",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/numeric_map_api_probe.rs",
+      "bytes": 1718,
+      "raw_sha256": "4dffd562babfdd6c2b1e68626b68081dc934b0a984cb6eeb37900aa043bba929",
+      "lf_normalized_sha256": "4dffd562babfdd6c2b1e68626b68081dc934b0a984cb6eeb37900aa043bba929",
+      "lf_normalized_git_blob_sha1": "24062cfa77ed701678f1d5fb74f3db2774344779",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "24062cfa77ed701678f1d5fb74f3db2774344779",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/paging_test.py",
+      "bytes": 4564,
+      "raw_sha256": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+      "lf_normalized_sha256": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+      "lf_normalized_git_blob_sha1": "561cff5b1540b97d68bebd16a5beda3b2606a328",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "561cff5b1540b97d68bebd16a5beda3b2606a328",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/phase10_grub_module_probe.py",
+      "bytes": 5553,
+      "raw_sha256": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b",
+      "lf_normalized_sha256": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b",
+      "lf_normalized_git_blob_sha1": "8f09e397e6df4ca0c4c95901b901cc0e9a7a79b8",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "8f09e397e6df4ca0c4c95901b901cc0e9a7a79b8",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/phase10_initramfs_test.py",
+      "bytes": 29311,
+      "raw_sha256": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+      "lf_normalized_sha256": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+      "lf_normalized_git_blob_sha1": "d5bb7540a316ff2523512792611004e8d2fb1837",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "d5bb7540a316ff2523512792611004e8d2fb1837",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/phase10_module_probe.py",
+      "bytes": 2736,
+      "raw_sha256": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800",
+      "lf_normalized_sha256": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800",
+      "lf_normalized_git_blob_sha1": "e7b73f59a4f83698cb949e73672639baaec99433",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "e7b73f59a4f83698cb949e73672639baaec99433",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/phase10_repro_one.py",
+      "bytes": 1793,
+      "raw_sha256": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d",
+      "lf_normalized_sha256": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d",
+      "lf_normalized_git_blob_sha1": "c10c5f274cf5ff10d97053eb2f367845bd6c9910",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "c10c5f274cf5ff10d97053eb2f367845bd6c9910",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/phase6_verify.py",
+      "bytes": 42854,
+      "raw_sha256": "7a564f9575e30fc8b5552acd0ab1d0f6703cdba2044408eaf93da1d331c84a0c",
+      "lf_normalized_sha256": "e3dac1e1fbd05e7538102b9778590f8ab8c592d2dd683df20a980083610e1670",
+      "lf_normalized_git_blob_sha1": "7446c5793133f76bb4a2d93bb2571404dca31aa2",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "7446c5793133f76bb4a2d93bb2571404dca31aa2",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/phase9_5_bench.py",
+      "bytes": 11180,
+      "raw_sha256": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4",
+      "lf_normalized_sha256": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4",
+      "lf_normalized_git_blob_sha1": "ff1eca080bd42841088ab77251d94124bda626bd",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "ff1eca080bd42841088ab77251d94124bda626bd",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/qemu_boot_test.sh",
+      "bytes": 2002,
+      "raw_sha256": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699",
+      "lf_normalized_sha256": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699",
+      "lf_normalized_git_blob_sha1": "04f2042ff3e496997b38b1edd1972f9413805fd8",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "04f2042ff3e496997b38b1edd1972f9413805fd8",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/rostifs_test.py",
+      "bytes": 16802,
+      "raw_sha256": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+      "lf_normalized_sha256": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+      "lf_normalized_git_blob_sha1": "c090f902cf3b63a764341c2f7ef565517b5eb7a2",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "c090f902cf3b63a764341c2f7ef565517b5eb7a2",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/run_tests.sh",
+      "bytes": 585,
+      "raw_sha256": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8",
+      "lf_normalized_sha256": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8",
+      "lf_normalized_git_blob_sha1": "eb75a8610b02f726e14f2c41f376fa193d9fb612",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "eb75a8610b02f726e14f2c41f376fa193d9fb612",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/sendkey_probe.py",
+      "bytes": 1709,
+      "raw_sha256": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+      "lf_normalized_sha256": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+      "lf_normalized_git_blob_sha1": "64f0c8b80bd92a98c5cf3a32daf1e32d48fa850d",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "64f0c8b80bd92a98c5cf3a32daf1e32d48fa850d",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/stability_probe.sh",
+      "bytes": 585,
+      "raw_sha256": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8",
+      "lf_normalized_sha256": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8",
+      "lf_normalized_git_blob_sha1": "0a7f0a4d69eceb43298e9d2ec8f40022e679b1db",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "0a7f0a4d69eceb43298e9d2ec8f40022e679b1db",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/system_image_policy.py",
+      "bytes": 976,
+      "raw_sha256": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+      "lf_normalized_sha256": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+      "lf_normalized_git_blob_sha1": "11e449b9116b12c01db8014d9d4378a04055303c",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "11e449b9116b12c01db8014d9d4378a04055303c",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/test_acceptance_harness.py",
+      "bytes": 59317,
+      "raw_sha256": "c7fd22438a1b987d1be2de9f75b8dcd46472953ab0ed98881f40e50c3ff75bc8",
+      "lf_normalized_sha256": "c7fd22438a1b987d1be2de9f75b8dcd46472953ab0ed98881f40e50c3ff75bc8",
+      "lf_normalized_git_blob_sha1": "a22e2b4b16efa38ef213ba0f2cba94db03b2a558",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "a22e2b4b16efa38ef213ba0f2cba94db03b2a558",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/test_b13_boot.py",
+      "bytes": 3281,
+      "raw_sha256": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+      "lf_normalized_sha256": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+      "lf_normalized_git_blob_sha1": "6bb57d0870447a7c1560332e3dfd867fabdf1a8b",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "6bb57d0870447a7c1560332e3dfd867fabdf1a8b",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/test_b13_entry_inject.py",
+      "bytes": 5075,
+      "raw_sha256": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2",
+      "lf_normalized_sha256": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2",
+      "lf_normalized_git_blob_sha1": "e4605c7454c396baca83d38539e852cbc8f97ae8",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "e4605c7454c396baca83d38539e852cbc8f97ae8",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/test_boot_metadata_harness.py",
+      "bytes": 23422,
+      "raw_sha256": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267",
+      "lf_normalized_sha256": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267",
+      "lf_normalized_git_blob_sha1": "f7417d1b3c13f68867d45e3882ba3236550fbb14",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "f7417d1b3c13f68867d45e3882ba3236550fbb14",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/test_build_initramfs.py",
+      "bytes": 4185,
+      "raw_sha256": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b",
+      "lf_normalized_sha256": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b",
+      "lf_normalized_git_blob_sha1": "40b9fdd44cfab214ce420dcdfb89e3e86cd61a94",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "40b9fdd44cfab214ce420dcdfb89e3e86cd61a94",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/test_fs_harness.py",
+      "bytes": 2025,
+      "raw_sha256": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+      "lf_normalized_sha256": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+      "lf_normalized_git_blob_sha1": "53ea874453232c2262a4176037e1a0fda71865f4",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "53ea874453232c2262a4176037e1a0fda71865f4",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/test_phase10_initramfs_harness.py",
+      "bytes": 36955,
+      "raw_sha256": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+      "lf_normalized_sha256": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+      "lf_normalized_git_blob_sha1": "92e976fd0c0798bb6727a8ad2b2ee0bfad23d721",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "92e976fd0c0798bb6727a8ad2b2ee0bfad23d721",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/test_phase9_5_bench.py",
+      "bytes": 11540,
+      "raw_sha256": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476",
+      "lf_normalized_sha256": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476",
+      "lf_normalized_git_blob_sha1": "eebfec3f7f25b12fde53cbc769035bacea7feb09",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "eebfec3f7f25b12fde53cbc769035bacea7feb09",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/test_production_fixture_policy.py",
+      "bytes": 6723,
+      "raw_sha256": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+      "lf_normalized_sha256": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+      "lf_normalized_git_blob_sha1": "011815be22b266d744ff7d856cc2464ca6eab8c4",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "011815be22b266d744ff7d856cc2464ca6eab8c4",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/test_rostifs_harness.py",
+      "bytes": 10186,
+      "raw_sha256": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac",
+      "lf_normalized_sha256": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac",
+      "lf_normalized_git_blob_sha1": "7caea498ae8585a3fb78658ad9e94c6050fecef5",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "7caea498ae8585a3fb78658ad9e94c6050fecef5",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/test_system_image_policy.py",
+      "bytes": 2093,
+      "raw_sha256": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d",
+      "lf_normalized_sha256": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d",
+      "lf_normalized_git_blob_sha1": "a4fd02b710745fc5459c023b0bc8510af79d20ff",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "a4fd02b710745fc5459c023b0bc8510af79d20ff",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/unmap_api_probe.rs",
+      "bytes": 1816,
+      "raw_sha256": "66a64d2f4435fc2db8618ba30618823098547613fc79c33c85652e080f032669",
+      "lf_normalized_sha256": "66a64d2f4435fc2db8618ba30618823098547613fc79c33c85652e080f032669",
+      "lf_normalized_git_blob_sha1": "646cc829c6fd0dcbea9acdd15c4421d1e935eb29",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "646cc829c6fd0dcbea9acdd15c4421d1e935eb29",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/validate_elf.py",
+      "bytes": 2845,
+      "raw_sha256": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+      "lf_normalized_sha256": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+      "lf_normalized_git_blob_sha1": "cdb9bdbe585bdc589c252be7fbb20cbc3a21a3c3",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "cdb9bdbe585bdc589c252be7fbb20cbc3a21a3c3",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/verify_production.py",
+      "bytes": 1816,
+      "raw_sha256": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+      "lf_normalized_sha256": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+      "lf_normalized_git_blob_sha1": "66055e92300c6251afb6eb353eb5e815ea4dcef6",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "66055e92300c6251afb6eb353eb5e815ea4dcef6",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "scripts/verify_proxmox_backspace.py",
+      "bytes": 8634,
+      "raw_sha256": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+      "lf_normalized_sha256": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+      "lf_normalized_git_blob_sha1": "1c2e67153b2f143cf7cb5cf4dde11987ca0600fc",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "1c2e67153b2f143cf7cb5cf4dde11987ca0600fc",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/allocator.rs",
+      "bytes": 13455,
+      "raw_sha256": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+      "lf_normalized_sha256": "6e86a9252ac3a1dc731165bd36b32dd9f2319f1443ba3a3af1e6066d9449eaad",
+      "lf_normalized_git_blob_sha1": "88f853d3b923d20a5897db876740ddd8bab00b54",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "88f853d3b923d20a5897db876740ddd8bab00b54",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/block.rs",
+      "bytes": 23248,
+      "raw_sha256": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+      "lf_normalized_sha256": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+      "lf_normalized_git_blob_sha1": "0b0fe0ad776526786f85276d7554a7e4cbd075ce",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "0b0fe0ad776526786f85276d7554a7e4cbd075ce",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/boot.s",
+      "bytes": 1686,
+      "raw_sha256": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+      "lf_normalized_sha256": "8930803a021f0a64109dc2f580e5599b81ccac88cef6d21f9eb994c4a67ff0e0",
+      "lf_normalized_git_blob_sha1": "e76c035889dbb5f17beb6c21b2da370733600d19",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "e76c035889dbb5f17beb6c21b2da370733600d19",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/boot_inventory.rs",
+      "bytes": 16496,
+      "raw_sha256": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+      "lf_normalized_sha256": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+      "lf_normalized_git_blob_sha1": "b40bd68d9f2cab7b2481085d0b4f9bc525f3f12a",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "b40bd68d9f2cab7b2481085d0b4f9bc525f3f12a",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/cpu.rs",
+      "bytes": 1495,
+      "raw_sha256": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+      "lf_normalized_sha256": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+      "lf_normalized_git_blob_sha1": "39a34e6f92d892fc5e52d1c53056e6328e832875",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "39a34e6f92d892fc5e52d1c53056e6328e832875",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/fd.rs",
+      "bytes": 33922,
+      "raw_sha256": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+      "lf_normalized_sha256": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+      "lf_normalized_git_blob_sha1": "72213e2e3501d21cf4bddb21453f9f3dc685072c",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "72213e2e3501d21cf4bddb21453f9f3dc685072c",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/fs/archive.rs",
+      "bytes": 12446,
+      "raw_sha256": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+      "lf_normalized_sha256": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+      "lf_normalized_git_blob_sha1": "3dbdf87edf0a96fd54bce65eaab09e3b2ef08e9f",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "3dbdf87edf0a96fd54bce65eaab09e3b2ef08e9f",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/fs/mod.rs",
+      "bytes": 11766,
+      "raw_sha256": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+      "lf_normalized_sha256": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+      "lf_normalized_git_blob_sha1": "cbcc9bf749f4eaea7f09d6f85f6cc3f70bf936f2",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "cbcc9bf749f4eaea7f09d6f85f6cc3f70bf936f2",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/fs/mounted.rs",
+      "bytes": 24769,
+      "raw_sha256": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+      "lf_normalized_sha256": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+      "lf_normalized_git_blob_sha1": "4735edcfa46eff22bf6bfa637ed5ca5320d663ac",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "4735edcfa46eff22bf6bfa637ed5ca5320d663ac",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/fs/rosti.rs",
+      "bytes": 6710,
+      "raw_sha256": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+      "lf_normalized_sha256": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+      "lf_normalized_git_blob_sha1": "379e916e68b9c8d7518de5a53ba152a00f3415d8",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "379e916e68b9c8d7518de5a53ba152a00f3415d8",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/fs/vfs.rs",
+      "bytes": 3541,
+      "raw_sha256": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+      "lf_normalized_sha256": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+      "lf_normalized_git_blob_sha1": "73c92021a51d63f676ab05cc87f0ea3f977ddce7",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "73c92021a51d63f676ab05cc87f0ea3f977ddce7",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/fs_commands.rs",
+      "bytes": 28721,
+      "raw_sha256": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+      "lf_normalized_sha256": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+      "lf_normalized_git_blob_sha1": "af524cbf3d559e20a28d4baf50a31e4b32d0a18e",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "af524cbf3d559e20a28d4baf50a31e4b32d0a18e",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/fs_stress.rs",
+      "bytes": 7739,
+      "raw_sha256": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+      "lf_normalized_sha256": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+      "lf_normalized_git_blob_sha1": "3068eb2f5887b0aa6e05e5b4b96c228bfd364741",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "3068eb2f5887b0aa6e05e5b4b96c228bfd364741",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/gdt.rs",
+      "bytes": 5322,
+      "raw_sha256": "fb6830e02a5f296e22551c5045bbd0263028520b4d334f285d2098fefa61957d",
+      "lf_normalized_sha256": "fe687fde2e7dd5489c81fb6dd42a104c28fd84fd858416690bef8373de2ad998",
+      "lf_normalized_git_blob_sha1": "e2fc92caeea5af362d247e5e10f0b64133cd1ebf",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "e2fc92caeea5af362d247e5e10f0b64133cd1ebf",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/initramfs.rs",
+      "bytes": 7961,
+      "raw_sha256": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+      "lf_normalized_sha256": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+      "lf_normalized_git_blob_sha1": "9c4617adf0458a53cc7c6214921e03efa2bdbb60",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "9c4617adf0458a53cc7c6214921e03efa2bdbb60",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/initramfs_trust.rs",
+      "bytes": 1518,
+      "raw_sha256": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+      "lf_normalized_sha256": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+      "lf_normalized_git_blob_sha1": "0cbd57a33dafbe46e12a104ccf73fd408bdb0543",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "0cbd57a33dafbe46e12a104ccf73fd408bdb0543",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/interrupt.rs",
+      "bytes": 19055,
+      "raw_sha256": "98b7d296ee393978bc3e15225037cf47823cf528a29aabd07b39ff9a52faa76f",
+      "lf_normalized_sha256": "98b7d296ee393978bc3e15225037cf47823cf528a29aabd07b39ff9a52faa76f",
+      "lf_normalized_git_blob_sha1": "2fca7d952f56380e33b7081404b521754e7e704a",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "2fca7d952f56380e33b7081404b521754e7e704a",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/io/mod.rs",
+      "bytes": 47,
+      "raw_sha256": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+      "lf_normalized_sha256": "773410d29d1676ea06607c2a64b573f712d1e2ac9559c77b60fe29e85823d822",
+      "lf_normalized_git_blob_sha1": "006a3b5c78e22331c852192f05f290da0310d886",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "006a3b5c78e22331c852192f05f290da0310d886",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/io/ports.rs",
+      "bytes": 3302,
+      "raw_sha256": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+      "lf_normalized_sha256": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+      "lf_normalized_git_blob_sha1": "8b24bd2e395967682d97f9151d8c7a4a5a1d8e2f",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "8b24bd2e395967682d97f9151d8c7a4a5a1d8e2f",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/io/serial.rs",
+      "bytes": 1492,
+      "raw_sha256": "095d91d330fb82fb8893db9ed39dda36fccb69becc8339090c98cafa3fcda58c",
+      "lf_normalized_sha256": "095d91d330fb82fb8893db9ed39dda36fccb69becc8339090c98cafa3fcda58c",
+      "lf_normalized_git_blob_sha1": "b572e58d58972d844ef86d10ff0212caddac28a7",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "b572e58d58972d844ef86d10ff0212caddac28a7",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/io/vga.rs",
+      "bytes": 4571,
+      "raw_sha256": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+      "lf_normalized_sha256": "ff6b1e479f2b81e406f977af439c62c70c54994bcc3d66811ec073a1415a7b25",
+      "lf_normalized_git_blob_sha1": "251f3cffed0d784608c30b12e7523f8e9bcc3427",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "251f3cffed0d784608c30b12e7523f8e9bcc3427",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/kbd.rs",
+      "bytes": 6187,
+      "raw_sha256": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+      "lf_normalized_sha256": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+      "lf_normalized_git_blob_sha1": "6e7884f5e32e83bed9a5569df4db2390ef53eb64",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "6e7884f5e32e83bed9a5569df4db2390ef53eb64",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/main.rs",
+      "bytes": 21065,
+      "raw_sha256": "f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91",
+      "lf_normalized_sha256": "f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91",
+      "lf_normalized_git_blob_sha1": "ce38691f4093d92171e8efb9ae8443f6cf7e226d",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "ce38691f4093d92171e8efb9ae8443f6cf7e226d",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/boot_copy.rs",
+      "bytes": 3838,
+      "raw_sha256": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+      "lf_normalized_sha256": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+      "lf_normalized_git_blob_sha1": "a66f0ec71a989d778fb997e29a71fd512b1a88a0",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "a66f0ec71a989d778fb997e29a71fd512b1a88a0",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/frame.rs",
+      "bytes": 31939,
+      "raw_sha256": "9a443ab069767c9b2c3b02befcb98c07419fa3a67929092c3eb6b7677d9d671e",
+      "lf_normalized_sha256": "9a443ab069767c9b2c3b02befcb98c07419fa3a67929092c3eb6b7677d9d671e",
+      "lf_normalized_git_blob_sha1": "8fcfafa049c407a4f0aeb25737a04ba5c66893f6",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "8fcfafa049c407a4f0aeb25737a04ba5c66893f6",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/generation_boundary_tests.rs",
+      "bytes": 4288,
+      "raw_sha256": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+      "lf_normalized_sha256": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+      "lf_normalized_git_blob_sha1": "682443ae7077b2099667897325b09ee918f06efe",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "682443ae7077b2099667897325b09ee918f06efe",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/generation_ownership_tests.rs",
+      "bytes": 6013,
+      "raw_sha256": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+      "lf_normalized_sha256": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+      "lf_normalized_git_blob_sha1": "0056ae4b9480520b1b058df84a6cb43b0162792e",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "0056ae4b9480520b1b058df84a6cb43b0162792e",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/mapping_pin_tests.rs",
+      "bytes": 18488,
+      "raw_sha256": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816",
+      "lf_normalized_sha256": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816",
+      "lf_normalized_git_blob_sha1": "75cb70e2064d46ea8399279074376ffcd8555cdf",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "75cb70e2064d46ea8399279074376ffcd8555cdf",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/mod.rs",
+      "bytes": 12226,
+      "raw_sha256": "c2bdb8371c042c803f804cd9832c1caf5f1a1a498f62c0ee4ea9bb3fd2d9e53e",
+      "lf_normalized_sha256": "c2bdb8371c042c803f804cd9832c1caf5f1a1a498f62c0ee4ea9bb3fd2d9e53e",
+      "lf_normalized_git_blob_sha1": "d8537f783a1cd25e5023b6cb84f14c648a563bb2",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "d8537f783a1cd25e5023b6cb84f14c648a563bb2",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/module_access_tests.rs",
+      "bytes": 1938,
+      "raw_sha256": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+      "lf_normalized_sha256": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+      "lf_normalized_git_blob_sha1": "a1e99d97f187fc599fef68c1e142823b892df4d4",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "a1e99d97f187fc599fef68c1e142823b892df4d4",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/numeric_map_authority_tests.rs",
+      "bytes": 13356,
+      "raw_sha256": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475",
+      "lf_normalized_sha256": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475",
+      "lf_normalized_git_blob_sha1": "b36bcb06e5544399da34dea9b44d0e5a8d7a3019",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "b36bcb06e5544399da34dea9b44d0e5a8d7a3019",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/ownership_observation_tests.rs",
+      "bytes": 2826,
+      "raw_sha256": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+      "lf_normalized_sha256": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+      "lf_normalized_git_blob_sha1": "d26384ff988ec3361948f2342ded7cebdd7db17a",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "d26384ff988ec3361948f2342ded7cebdd7db17a",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/paging.rs",
+      "bytes": 34148,
+      "raw_sha256": "192be102c33db2db8fc1f5923f72a19b7b585c6baf60de6b157f9d00b68a3354",
+      "lf_normalized_sha256": "192be102c33db2db8fc1f5923f72a19b7b585c6baf60de6b157f9d00b68a3354",
+      "lf_normalized_git_blob_sha1": "cce8c63742e175a44c61dbe2887856421bc6395a",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "cce8c63742e175a44c61dbe2887856421bc6395a",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/phase11_permission_tests.rs",
+      "bytes": 6333,
+      "raw_sha256": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+      "lf_normalized_sha256": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+      "lf_normalized_git_blob_sha1": "0c6cd4c4be684abe93f1a22b3063c59bf8cace87",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "0c6cd4c4be684abe93f1a22b3063c59bf8cace87",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/phase11a2_abi_tests.rs",
+      "bytes": 2042,
+      "raw_sha256": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+      "lf_normalized_sha256": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+      "lf_normalized_git_blob_sha1": "5a0a74bbb14fadaaf4db61be20d18a5bb6011dac",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "5a0a74bbb14fadaaf4db61be20d18a5bb6011dac",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/phase11a2_ownership_tests.rs",
+      "bytes": 9463,
+      "raw_sha256": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+      "lf_normalized_sha256": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+      "lf_normalized_git_blob_sha1": "1d35036d085df29d358a5b0a9ec72f0779910987",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "1d35036d085df29d358a5b0a9ec72f0779910987",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/review_r1_tests.rs",
+      "bytes": 6469,
+      "raw_sha256": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+      "lf_normalized_sha256": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+      "lf_normalized_git_blob_sha1": "7428111810d9a2e725df8369a9e69f259d35c5ce",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "7428111810d9a2e725df8369a9e69f259d35c5ce",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/runtime_table_access_tests.rs",
+      "bytes": 5426,
+      "raw_sha256": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+      "lf_normalized_sha256": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+      "lf_normalized_git_blob_sha1": "ca55f94b13144a43cd8049bd35b5c42784a16895",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "ca55f94b13144a43cd8049bd35b5c42784a16895",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/structure_lifetime_tests.rs",
+      "bytes": 5755,
+      "raw_sha256": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+      "lf_normalized_sha256": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+      "lf_normalized_git_blob_sha1": "cc32019614d51c1c0ca4ee5eae34aa9a714e9432",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "cc32019614d51c1c0ca4ee5eae34aa9a714e9432",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/unmap_authority_tests.rs",
+      "bytes": 8183,
+      "raw_sha256": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76",
+      "lf_normalized_sha256": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76",
+      "lf_normalized_git_blob_sha1": "cefd87baa655e7e722efd09bc85eef2b5493cd9d",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "cefd87baa655e7e722efd09bc85eef2b5493cd9d",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/memory/virtual_page_zero_tests.rs",
+      "bytes": 3095,
+      "raw_sha256": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d",
+      "lf_normalized_sha256": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d",
+      "lf_normalized_git_blob_sha1": "5c1c676157d71ce3393028610d6252435f9cb8df",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "5c1c676157d71ce3393028610d6252435f9cb8df",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/multiboot.rs",
+      "bytes": 9646,
+      "raw_sha256": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+      "lf_normalized_sha256": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+      "lf_normalized_git_blob_sha1": "35a31923c7d1ce35ae0cfd707bffc25070cf8634",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "35a31923c7d1ce35ae0cfd707bffc25070cf8634",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/phase11_gdt_tests.rs",
+      "bytes": 2228,
+      "raw_sha256": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+      "lf_normalized_sha256": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+      "lf_normalized_git_blob_sha1": "a87ac8d89e406f4021883f4d8679ef86d346d0b8",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "a87ac8d89e406f4021883f4d8679ef86d346d0b8",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/reboot.rs",
+      "bytes": 1095,
+      "raw_sha256": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+      "lf_normalized_sha256": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+      "lf_normalized_git_blob_sha1": "893963c31a5e7e68ea357715e610f02c8c29f935",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "893963c31a5e7e68ea357715e610f02c8c29f935",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/shell.rs",
+      "bytes": 15505,
+      "raw_sha256": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+      "lf_normalized_sha256": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+      "lf_normalized_git_blob_sha1": "7af0801eaa496d2cf716f349a10bcf35473eedde",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "7af0801eaa496d2cf716f349a10bcf35473eedde",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/storage.rs",
+      "bytes": 3362,
+      "raw_sha256": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+      "lf_normalized_sha256": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+      "lf_normalized_git_blob_sha1": "9c6e1c26bc585defd3a08e5e87b9438a70f57878",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "9c6e1c26bc585defd3a08e5e87b9438a70f57878",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/system_image.rs",
+      "bytes": 702,
+      "raw_sha256": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+      "lf_normalized_sha256": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+      "lf_normalized_git_blob_sha1": "b7449a2a4a22e156256c62359ba34dbc08499048",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "b7449a2a4a22e156256c62359ba34dbc08499048",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/timer.rs",
+      "bytes": 1338,
+      "raw_sha256": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+      "lf_normalized_sha256": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+      "lf_normalized_git_blob_sha1": "db30d44715cd84e4f47bcccac1861e762de897d2",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "db30d44715cd84e4f47bcccac1861e762de897d2",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/utils/bits.rs",
+      "bytes": 2296,
+      "raw_sha256": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+      "lf_normalized_sha256": "721d06562d4f3fe13c71c163f223d1163598b8aea8b3460e224fc9a5dafb36d3",
+      "lf_normalized_git_blob_sha1": "1fe5ca0302356e87e65e0d2a49377929274ac73e",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "1fe5ca0302356e87e65e0d2a49377929274ac73e",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/utils/mod.rs",
+      "bytes": 31,
+      "raw_sha256": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+      "lf_normalized_sha256": "eefaaac74322951aef244266b10f0da3e9946e431d6a1ad44273bfb8fad973fd",
+      "lf_normalized_git_blob_sha1": "26dd62c6ef25e11929a61f15f456651858b520aa",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "26dd62c6ef25e11929a61f15f456651858b520aa",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "src/utils/mutex.rs",
+      "bytes": 1558,
+      "raw_sha256": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+      "lf_normalized_sha256": "3bfd28591f13205a339e67bc6551078add5869fcee9c6d6910089add0fd2b0bd",
+      "lf_normalized_git_blob_sha1": "272e7991b8a54c6b302aa6d2df1e64f9fd813aff",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "272e7991b8a54c6b302aa6d2df1e64f9fd813aff",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "system/README.txt",
+      "bytes": 27,
+      "raw_sha256": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+      "lf_normalized_sha256": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+      "lf_normalized_git_blob_sha1": "586f1f2876956902669652e319303c883088bee7",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "586f1f2876956902669652e319303c883088bee7",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "system/docs/recovery.txt",
+      "bytes": 32,
+      "raw_sha256": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+      "lf_normalized_sha256": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+      "lf_normalized_git_blob_sha1": "ffd5f9bdcda83e149fb2796643bd87884ee33b7b",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "ffd5f9bdcda83e149fb2796643bd87884ee33b7b",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "target.json",
+      "bytes": 625,
+      "raw_sha256": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+      "lf_normalized_sha256": "b104a3063275a7ed79338d75919751eb2ca14b95644a720db04a2690b10e36a8",
+      "lf_normalized_git_blob_sha1": "74ea1510c444e61cea70bf733e33b4091e40dbfd",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "74ea1510c444e61cea70bf733e33b4091e40dbfd",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/design.md",
+      "bytes": 7376,
+      "raw_sha256": "c54c91baa91de5f058a27d1893c1391018c561f8cf41cbb4a9756ff187623ed4",
+      "lf_normalized_sha256": "c54c91baa91de5f058a27d1893c1391018c561f8cf41cbb4a9756ff187623ed4",
+      "lf_normalized_git_blob_sha1": "6291d5b57919543d1381ba0451ffc57c9c8217f3",
+      "read_scope": "initial-review pin preservation verification; not transitive implementation approval",
+      "head_git_blob_sha1": "6291d5b57919543d1381ba0451ffc57c9c8217f3",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/independent_boundary_review.json",
+      "bytes": 36334,
+      "raw_sha256": "744f47e541d6619bc05e07876e994930167ea8cfc8f0cb411c48860809368bd4",
+      "lf_normalized_sha256": "744f47e541d6619bc05e07876e994930167ea8cfc8f0cb411c48860809368bd4",
+      "lf_normalized_git_blob_sha1": "67553f9bfd8452d2be9e8aa1b7889e85c52ae5d9",
+      "read_scope": "initial-review pin preservation verification; not transitive implementation approval",
+      "head_git_blob_sha1": "67553f9bfd8452d2be9e8aa1b7889e85c52ae5d9",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/independent_budget_review.json",
+      "bytes": 22056,
+      "raw_sha256": "2b5da3cdeeda6ab2fecbb47c0a2ffcf0d13708da219608d50bb2319acaf2da29",
+      "lf_normalized_sha256": "2b5da3cdeeda6ab2fecbb47c0a2ffcf0d13708da219608d50bb2319acaf2da29",
+      "lf_normalized_git_blob_sha1": "2343e90b6aa647902e1cfff7e1167624f472d38d",
+      "read_scope": "initial-review pin preservation verification; not transitive implementation approval",
+      "head_git_blob_sha1": "2343e90b6aa647902e1cfff7e1167624f472d38d",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/v2_combined_design_review.json",
+      "bytes": 31981,
+      "raw_sha256": "248c870be864734cc98f5faf73534ad64a2d26b9112e1b62c5dd67dad8ffb4ae",
+      "lf_normalized_sha256": "19fbca2351b60832b83532c324779e6d71149f53afd1c55b23bdaaebfcffdff0",
+      "lf_normalized_git_blob_sha1": "fc8cfe1437184db36e7da1d8e6bb7acbdf49ae4a",
+      "read_scope": "complete review/archival context",
+      "head_git_blob_sha1": null,
+      "normalized_matches_head": null
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/v2_design.md",
+      "bytes": 46119,
+      "raw_sha256": "aa030803e51c5c9a3102c7d2bf3507c4702d3ef51d0fe18ae1f49cbcd0646db6",
+      "lf_normalized_sha256": "aa030803e51c5c9a3102c7d2bf3507c4702d3ef51d0fe18ae1f49cbcd0646db6",
+      "lf_normalized_git_blob_sha1": "b5d56a889093c2f390646dee9c764bd37be452cf",
+      "read_scope": "COMPLETE revised design, lines 1-196; independent semantic revision review",
+      "head_git_blob_sha1": null,
+      "normalized_matches_head": null
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/v2_design_initial_reviewed.md",
+      "bytes": 29095,
+      "raw_sha256": "0c5fc2cdf3409a8eef0090035271a5db4e83b34ff04e065da75736af26cd3c02",
+      "lf_normalized_sha256": "0c5fc2cdf3409a8eef0090035271a5db4e83b34ff04e065da75736af26cd3c02",
+      "lf_normalized_git_blob_sha1": "9cc6b7fa098bcb7b88257bff77172ab95f0b2c04",
+      "read_scope": "complete review/archival context",
+      "head_git_blob_sha1": null,
+      "normalized_matches_head": null
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/v2_preservation_snapshot.json",
+      "bytes": 18652,
+      "raw_sha256": "b984aa92ef12efc2f3af4fcd42648e06b24241f4afa53708ddf0c5107146156a",
+      "lf_normalized_sha256": "b984aa92ef12efc2f3af4fcd42648e06b24241f4afa53708ddf0c5107146156a",
+      "lf_normalized_git_blob_sha1": "c2127ada9c45814b449eea03a09cae956e1de07e",
+      "read_scope": "complete preservation manifest verification",
+      "head_git_blob_sha1": null,
+      "normalized_matches_head": null
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/v2_recovery.json",
+      "bytes": 2271,
+      "raw_sha256": "3b32c2ad92fb6fa99744ad479888ff18356404818d89bd60e9ff82d8a0d26a2b",
+      "lf_normalized_sha256": "3b32c2ad92fb6fa99744ad479888ff18356404818d89bd60e9ff82d8a0d26a2b",
+      "lf_normalized_git_blob_sha1": "5caa21a8a46872128bee97d1ac412805db66bbf6",
+      "read_scope": "initial-review pin preservation verification; not transitive implementation approval",
+      "head_git_blob_sha1": null,
+      "normalized_matches_head": null
+    },
+    {
+      "path": "tests_b26/Cargo.lock",
+      "bytes": 153,
+      "raw_sha256": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e",
+      "lf_normalized_sha256": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e",
+      "lf_normalized_git_blob_sha1": "4afc0aad6dbefb14f13823317689e81014192f3a",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "4afc0aad6dbefb14f13823317689e81014192f3a",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_b26/Cargo.toml",
+      "bytes": 175,
+      "raw_sha256": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3",
+      "lf_normalized_sha256": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3",
+      "lf_normalized_git_blob_sha1": "d3cb528697d088d91582ce710909bf1eabdbd37c",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "d3cb528697d088d91582ce710909bf1eabdbd37c",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_b26/src/growth_tests.rs",
+      "bytes": 5046,
+      "raw_sha256": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16",
+      "lf_normalized_sha256": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16",
+      "lf_normalized_git_blob_sha1": "c0fc0c2fa8b39e508cd78b2b30a97b73dfd601d9",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "c0fc0c2fa8b39e508cd78b2b30a97b73dfd601d9",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_b26/src/lib.rs",
+      "bytes": 8227,
+      "raw_sha256": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+      "lf_normalized_sha256": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+      "lf_normalized_git_blob_sha1": "23b73d18cc49708d652fec053c87361b7a1d1614",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "23b73d18cc49708d652fec053c87361b7a1d1614",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_b26/src/refusal_tests.rs",
+      "bytes": 3858,
+      "raw_sha256": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706",
+      "lf_normalized_sha256": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706",
+      "lf_normalized_git_blob_sha1": "0fa0aeedd60d311a4abe5728e157819fc0708a2a",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "0fa0aeedd60d311a4abe5728e157819fc0708a2a",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_b26/src/registry_tests.rs",
+      "bytes": 3007,
+      "raw_sha256": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111",
+      "lf_normalized_sha256": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111",
+      "lf_normalized_git_blob_sha1": "685075c3eda17be0b4193b3b1921f265f02bfd82",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "685075c3eda17be0b4193b3b1921f265f02bfd82",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_b26/src/retry_tests.rs",
+      "bytes": 1584,
+      "raw_sha256": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+      "lf_normalized_sha256": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+      "lf_normalized_git_blob_sha1": "0b9bdeca2f876fe5cb943758384c8e8533a72917",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "0b9bdeca2f876fe5cb943758384c8e8533a72917",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_b26/src/validation_allocation_tests.rs",
+      "bytes": 1482,
+      "raw_sha256": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70",
+      "lf_normalized_sha256": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70",
+      "lf_normalized_git_blob_sha1": "89e02772abc2b144f74c89c1b9d40cdfbc19ab6b",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "89e02772abc2b144f74c89c1b9d40cdfbc19ab6b",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_b26/src/validation_tests.rs",
+      "bytes": 1103,
+      "raw_sha256": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+      "lf_normalized_sha256": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+      "lf_normalized_git_blob_sha1": "7757d53f2e750bf701a074b6d042bf9412ba4f7a",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "7757d53f2e750bf701a074b6d042bf9412ba4f7a",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/.cargo/config.toml",
+      "bytes": 276,
+      "raw_sha256": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53",
+      "lf_normalized_sha256": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53",
+      "lf_normalized_git_blob_sha1": "05062a139a9ccd2e838477516cef5789dd97a9e6",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "05062a139a9ccd2e838477516cef5789dd97a9e6",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/Cargo.lock",
+      "bytes": 2656,
+      "raw_sha256": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+      "lf_normalized_sha256": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+      "lf_normalized_git_blob_sha1": "94edcc570cf9f47c610b33f213e387776e924376",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "94edcc570cf9f47c610b33f213e387776e924376",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/Cargo.toml",
+      "bytes": 641,
+      "raw_sha256": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+      "lf_normalized_sha256": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+      "lf_normalized_git_blob_sha1": "4bbcad37bc810213892562dc5bb7b8c09a0306e2",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "4bbcad37bc810213892562dc5bb7b8c09a0306e2",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/archive_vfs_tests.rs",
+      "bytes": 13705,
+      "raw_sha256": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+      "lf_normalized_sha256": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+      "lf_normalized_git_blob_sha1": "e13b276bd0038678791658a467b24357c53ec456",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "e13b276bd0038678791658a467b24357c53ec456",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/b11_frame_tests.rs",
+      "bytes": 9502,
+      "raw_sha256": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+      "lf_normalized_sha256": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+      "lf_normalized_git_blob_sha1": "a5030d67eaa27c553e774649c92bd75d1a2853b1",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "a5030d67eaa27c553e774649c92bd75d1a2853b1",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/b11_standalone.rs",
+      "bytes": 623,
+      "raw_sha256": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+      "lf_normalized_sha256": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+      "lf_normalized_git_blob_sha1": "1147feed29624310b275047d2afb2df672304b08",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "1147feed29624310b275047d2afb2df672304b08",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/b18_inventory_tests.rs",
+      "bytes": 26642,
+      "raw_sha256": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b",
+      "lf_normalized_sha256": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b",
+      "lf_normalized_git_blob_sha1": "be4f89af564e073eeefe7b9fc03dc916ec34e855",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "be4f89af564e073eeefe7b9fc03dc916ec34e855",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/b18_outcome_tests.rs",
+      "bytes": 3183,
+      "raw_sha256": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0",
+      "lf_normalized_sha256": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0",
+      "lf_normalized_git_blob_sha1": "7fdff32c9c28a5aef80652c358892767726de704",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "7fdff32c9c28a5aef80652c358892767726de704",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/block_tests.rs",
+      "bytes": 14224,
+      "raw_sha256": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430",
+      "lf_normalized_sha256": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430",
+      "lf_normalized_git_blob_sha1": "10dec00051da5e885e732a111b1142dde83879af",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "10dec00051da5e885e732a111b1142dde83879af",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/fs_tests.rs",
+      "bytes": 11887,
+      "raw_sha256": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+      "lf_normalized_sha256": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+      "lf_normalized_git_blob_sha1": "732d5496bff4ceaa4cc9eac3a5c73efe42da7991",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "732d5496bff4ceaa4cc9eac3a5c73efe42da7991",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/initramfs_tests.rs",
+      "bytes": 9644,
+      "raw_sha256": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+      "lf_normalized_sha256": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+      "lf_normalized_git_blob_sha1": "f7cc3da4ed3638c3a2e95e0cacc3061d61f827ac",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "f7cc3da4ed3638c3a2e95e0cacc3061d61f827ac",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/initramfs_trust_tests.rs",
+      "bytes": 5081,
+      "raw_sha256": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+      "lf_normalized_sha256": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+      "lf_normalized_git_blob_sha1": "72e33fca3073f64a63537c5b5e53b71a4705dc00",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "72e33fca3073f64a63537c5b5e53b71a4705dc00",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/lib.rs",
+      "bytes": 39218,
+      "raw_sha256": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133",
+      "lf_normalized_sha256": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133",
+      "lf_normalized_git_blob_sha1": "9aa7918e541eb4f57553d2633828f309550fa6b6",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "9aa7918e541eb4f57553d2633828f309550fa6b6",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/maintenance_measurements.rs",
+      "bytes": 2724,
+      "raw_sha256": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f",
+      "lf_normalized_sha256": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f",
+      "lf_normalized_git_blob_sha1": "eaca4a84637199a47bcd3e7db0bdaa961259195f",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "eaca4a84637199a47bcd3e7db0bdaa961259195f",
+      "normalized_matches_head": true
+    },
+    {
+      "path": "tests_kernel/src/mount_tests.rs",
+      "bytes": 26824,
+      "raw_sha256": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd",
+      "lf_normalized_sha256": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd",
+      "lf_normalized_git_blob_sha1": "0ae219d4f4ca6df7ab2762c6b649176420788a02",
+      "read_scope": "independent raw-byte preservation verification; semantic inspection only as listed in assessments",
+      "head_git_blob_sha1": "0ae219d4f4ca6df7ab2762c6b649176420788a02",
+      "normalized_matches_head": true
+    }
+  ],
+  "preservation": {
+    "protected_files": [
+      {
+        "path": "README.md",
+        "bytes": 32524,
+        "raw_sha256": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+        "lf_normalized_sha256": "8ce594f82a4af64c3dfb9e9f6b39b41836ce32611910c6f75c0a61370e35f3b0",
+        "lf_normalized_git_blob_sha1": "15716bed50cc586c0d40dd7f49d4aa4bd54f3cfc",
+        "read_scope": "protected, byte verification only"
+      },
+      {
+        "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+        "bytes": 44940,
+        "raw_sha256": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+        "lf_normalized_sha256": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+        "lf_normalized_git_blob_sha1": "5b1f5d9945dc6d36c039efd64885e65fb82557af",
+        "read_scope": "protected, byte verification only"
+      },
+      {
+        "path": "scripts/b13_boot_fixture.py.backup",
+        "bytes": 6074,
+        "raw_sha256": "3e86d2dd9061e42c1b79d5ad0d94efa513a407c19faa37fc2680a7ab5526a181",
+        "lf_normalized_sha256": "3e86d2dd9061e42c1b79d5ad0d94efa513a407c19faa37fc2680a7ab5526a181",
+        "lf_normalized_git_blob_sha1": "f72be4f0eaa836c486e539392089527fa845c1b4",
+        "read_scope": "protected, byte verification only"
+      },
+      {
+        "path": "d1/f",
+        "bytes": 3,
+        "raw_sha256": "98ea6e4f216f2fb4b69fff9b3a44842c38686ca685f3f55dc48c5d3fb1107be4",
+        "lf_normalized_sha256": "98ea6e4f216f2fb4b69fff9b3a44842c38686ca685f3f55dc48c5d3fb1107be4",
+        "lf_normalized_git_blob_sha1": "45b983be36b73c0788dc9cbcb76cbb80fc7bb057",
+        "read_scope": "protected, byte verification only"
+      }
+    ],
+    "d1_membership": [
+      "d1/f"
+    ],
+    "canonical_source_build_inputs_unchanged": true,
+    "initial_review_unchanged": true
+  },
+  "scope_and_limits": {
+    "only_write": "test_results/phase11f1_retained_owner/v2_design_revision_review.json",
+    "not_performed": [
+      "build",
+      "test execution",
+      "QEMU/guest execution",
+      "canonical acceptance",
+      "source or other document edit",
+      "skill/config/remote edit"
+    ],
+    "read_only_operations": "Text/byte reads, hashes, membership reconstruction and read-only git metadata only. No kernel or repository test code executed.",
+    "audit_limit": "Independent source-grounded design-resolution review, not a full unsafe-pointer/dependency audit or target implementation proof. Hash verification of all 150 canonical inputs is not a claim of complete semantic review of every file.",
+    "revision_rounds_used": 1,
+    "further_redesign_authorized": false,
+    "completion_note": "The owned resolution artifact was corrected before final delivery, within this same single independent pass, after explicit in-turn user steering required assessment of the missing exact pre/post observation boundary. No design or initial review bytes were changed and no new parent revision was requested. This final REJECT supersedes the intermediate not-yet-delivered approval content at this uniquely owned path."
+  }
+}

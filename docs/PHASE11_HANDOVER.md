@@ -1,5 +1,26 @@
 ## Rosti OS — Phase 11 Handover
 
+## Current — F1 v2 PARTIAL / DESIGN STOP; revision allowance exhausted
+
+Current task evidence: `test_results/phase11f1_retained_owner/STATE.md`,
+FINAL_REPORT.md, v2_design.md and complete combined/revision verdicts.
+Operator SOLE_WRITER=YES, CEILING=YES, CONTINUE=YES were received, conditional
+on zero-blocker independent approval. Combined review accepted resource/core
+design but rejected two guest-mechanism gaps. ONE revision selected actual
+copied-crate build/injection and valid retained alternate-map postseal probes.
+Final revision verdict REJECT/BLOCKERS1, RESOURCE_POLICY=ACCEPTED, all162 raw
+review pins verified at readback: F1V2-B3 still lacks an ordered exact guest
+pre-seal/pre-probe table-image capture mechanism. Postterminal QMP/checksum
+observations are not exact prior-state evidence. STOP; no third redesign or
+production/test source writes in this session. No F1 implementation, live RED,
+GREEN, guest, candidate review or acceptance. Baseline-only host343/0/2 and
+B26116/0/0 serial/parallel, exact345/116 identities; build/fmt/ELF pass.
+All150 canonical source/build inputs and protected unrelated bytes unchanged.
+12-frame cap is policy, not sufficient stack/resource layout; high-water UNKNOWN.
+Next task: freshly authorize remaining capture design/review before any later
+live runtime RED-first implementation. No F2-F5/USER/TSS/CPL3/readiness claim.
+SYMPOSIUM_STATUS=NOT_REQUIRED_FOR_F1. Historical accepted checkpoints follow.
+
 ## Current — F1 retained-owner attempt, PARTIAL / DESIGN STOP
 
 F1-only implementation authorization was received; no production owner/seal was

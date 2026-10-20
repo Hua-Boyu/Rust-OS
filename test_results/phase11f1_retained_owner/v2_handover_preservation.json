@@ -1,0 +1,30 @@
+{
+  "scope": "Only four authorized top checkpoint insertions; original effective EOL restored narrowly, historical tails unchanged",
+  "checks": {
+    "HANDOVER.md": {
+      "initial_sha256": "9d0c74aa3c80188aae692e2b4b76d6e94837205f340ce4a1fdc2b464295e3538",
+      "current_sha256": "b16c9a234471f7d5e7f8fb45096d8852d76d31a53eb339bf4ee1d6fa240da026",
+      "historical_tail_byte_identical_normalized": true,
+      "EOL_preserved": true
+    },
+    "NEXT_SESSION_PROMPT.md": {
+      "initial_sha256": "636dacdcd0c7fb6c04bf3a5f051842a7a4128ccf1b333efe08d5672221ab4326",
+      "current_sha256": "76baab7874f7bfdc467b36a59e5bf0646123a5a47cc207899da2ccffe969fe08",
+      "historical_tail_byte_identical_normalized": true,
+      "EOL_preserved": true
+    },
+    "docs/PHASE11_HANDOVER.md": {
+      "initial_sha256": "28a243d350cd3a8adcde43625adec2589d866a5782922ee57694fc0a1255c0df",
+      "current_sha256": "d20aefd6ea06c6b42b7e2cc50f1568fc9294788985711be7c1d3e40b712d9ff0",
+      "historical_tail_byte_identical_normalized": true,
+      "EOL_preserved": true
+    },
+    "docs/PHASE11_MEMORY_AUTHORITY.md": {
+      "initial_sha256": "7995f3f9edd5b34837e2dc8310f7d0e5d1bb5b731d14aa040d5ff836c5a3c517",
+      "current_sha256": "9f8343ba1f86015d47c000741be85f5aba044e22a79b67b2a19225566ec5f814",
+      "historical_tail_byte_identical_normalized": true,
+      "EOL_preserved": true
+    }
+  },
+  "design_and_kernel_review_pins_unchanged": true
+}

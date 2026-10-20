@@ -1,0 +1,40 @@
+{
+  "status": "PASS_UNCHANGED_BASELINE_ONLY",
+  "F1_GREEN": false,
+  "rows": [
+    {
+      "suite": "host",
+      "exit_code": 0,
+      "counts": {
+        "ok": 343,
+        "ignored": 2,
+        "FAILED": 0
+      },
+      "exact_membership_count": 345,
+      "ignored": [
+        "maintenance_measurements::measured_frame_scan_states",
+        "maintenance_measurements::measured_heap_capacity_loss"
+      ],
+      "log_sha256": "ea81fa655e30aa17a9c4f9d40903acf850f65bb3af4752e6c87eaae66d440438",
+      "summary": [
+        "test result: ok. 343 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 3.66s"
+      ]
+    },
+    {
+      "suite": "b26",
+      "exit_code": 0,
+      "counts": {
+        "ok": 116,
+        "ignored": 0,
+        "FAILED": 0
+      },
+      "exact_membership_count": 116,
+      "ignored": [],
+      "log_sha256": "5bc3e0d909b44f55e13aba2e73c4a65ad6308ac31333b7c2ce99999a7cfd9cfb",
+      "summary": [
+        "test result: ok. 116 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.38s"
+      ]
+    }
+  ],
+  "source_build_inputs_unchanged": true
+}

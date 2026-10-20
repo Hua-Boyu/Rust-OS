@@ -1,5 +1,28 @@
 # Rosti OS — development handover
 
+## Current — F1 v2 PARTIAL / DESIGN STOP after one revision
+
+Actual starting checkpoint649aaf1; recover final local HEAD and current status
+from `test_results/phase11f1_retained_owner/STATE.md` / FINAL_REPORT.md. Current
+operator declarations SOLE_WRITER=YES, CEILING=YES, CONTINUE=YES were received;
+continuation was conditional on independent APPROVE/zero blockers, NOT met.
+The combined review accepts finite12-frame policy and core seal/CR3/terminal
+design in principle. One revision selected real-source guest build/injection
+and valid alternate-map probes, but final revision verdict REJECT/BLOCKERS1:
+F1V2-B3 needs an exact ordered pre-probe/pre-seal guest table-byte capture
+mechanism; terminal-only QMP dumps/checksums cannot prove earlier bytes.
+The single revision allowance is exhausted. No third redesign or production
+source/test edits in this session. v2_design.md and both complete new review
+artifacts preserve the concrete checkpoint and actual source hashes.
+Fresh unchanged-baseline host343/0/2 and B26116/0/0 pass serial/parallel with
+exact345/116 identities; production build/fmt/ELF pass. No new live-crate RED,
+F1 GREEN, guest, candidate source review or canonical acceptance. All150
+production/build inputs and protected unrelated files remain unchanged.
+Next task requires fresh authorization for the remaining capture design/review;
+only a later APPROVE/0 permits live runtime RED-first implementation.12 frames
+is policy, not stack safety. No F2-F5/USER/TSS/CPL3/teardown/push/deployment.
+SYMPOSIUM_STATUS=NOT_REQUIRED_FOR_F1. Following checkpoint blocks are historical.
+
 ## Current — F1 retained-owner attempt, PARTIAL / DESIGN STOP
 
 Read `test_results/phase11f1_retained_owner/STATE.md`, FINAL_REPORT.md and complete

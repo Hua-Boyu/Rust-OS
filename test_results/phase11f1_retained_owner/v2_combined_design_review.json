@@ -1,0 +1,501 @@
+{
+  "schema_version": 2,
+  "review_kind": "ONE combined independent read-only F1 v2 design review",
+  "created_utc": "2026-10-20T10:47:01.997712+00:00",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "branch": "maintenance/phase10",
+  "observed_head": "649aaf1dccd2f18091d0d2f0f81661e11d005d97",
+  "verdict": "REJECT",
+  "BLOCKERS": 2,
+  "REVIEWED_SOURCE_HASHES": "VERIFIED",
+  "RESOURCE_POLICY": "ACCEPTED",
+  "production_edits_authorized_by_this_review": false,
+  "implementation_verified": false,
+  "f1_complete": false,
+  "cpl3_ready": false,
+  "summary": "Finite policy, fixed storage, shared irreversible seal and terminal failure-retention design are adequate in principle. Reject because concrete production-policy guest injection/build and bounded post-seal meaningful alternate-map probing remain unselected mechanisms before production edits, not merely unexecuted future evidence.",
+  "blocking_findings": [
+    {
+      "id": "F1V2-B1",
+      "severity": "BLOCKER_BEFORE_PRODUCTION_EDITS",
+      "title": "Production-policy guest invocation/build route is not selected",
+      "evidence": [
+        "v2_design.md:96,100,106,140,148",
+        "scripts/boot_metadata_test.py:66-172,276-318,475-520",
+        "src/main.rs:201-211"
+      ],
+      "finding": "The proposed fixture injects a Rust call at the post-paging anchor and pins staged sources, but references only boot_metadata owned staging. The actual script consumes an already linked ELF, copies its LOAD bytes and adds a pre-entry metadata-copy trampoline. It neither copies/builds a Rust crate nor injects a post-paging Rust invocation. MetadataHarness.start also waits for shell boot/prompt, which this ! wrapper intentionally cannot produce. A future marker/parser does not select how the real policy is linked, retained against dead stripping, reached and proven identical to reviewed production bodies. This is an open integration mechanism, not missing execution evidence.",
+      "required_resolution": "In the single permitted design revision choose a concrete isolated source-crate snapshot/build and narrow call injection, or another demonstrably feasible exact post-paging route. Specify staged inputs/config/target/toolchain/dependencies, allowed fixture-only source deltas and production-body equality checks, artifact identities, private fixture scope, non-overwrite/restoration policy and F1-specific non-shell wait/parser. Do not assume current ELF staging injects Rust calls or substitute a host mirror. No build is requested in this read-only review."
+    },
+    {
+      "id": "F1V2-B2",
+      "severity": "BLOCKER_BEFORE_PRODUCTION_EDITS",
+      "title": "Post-seal real guest probes and meaningful alternate-map authority remain unresolved",
+      "evidence": [
+        "v2_design.md:96,100-106,123,140",
+        "src/memory/paging.rs:182-229,691-705,745-838,898-922",
+        "src/memory/mod.rs:45-62"
+      ],
+      "finding": "Guest obligations call real guarded activation/reload and mutation helpers after seal, but the only production invocation is ! and its exact sequence goes from unlock/Terminal directly to output/halt without a selected private probe point. Prebuilt map versus revoked/different-directory descriptor is still left as a choice, with stop/review if rooting needs authority; no existing guest fixture provides that handle. A revoked PageMap has domain=0 and retain_for_publication already rejects it before CR3, so refusal of a revoked descriptor alone cannot expose a missing global activation guard. Fixture lifetime/storage/visibility and bounded probe execution therefore remain unresolved design mechanisms.",
+      "required_resolution": "Choose one concrete private staged-fixture map/activation-descriptor construction with nonzero valid domain/backing which would reach the existing writer absent G. Reserve/count its backing and frames separately before admission, never activate it during setup, and define a bounded fixture-only probe point inside the divergent invocation after guards release and before output/halt. Use real guarded entry points and preserve exact legitimate leases; no heap/drop/cleanup/retry/unseal/exported owner or returning continuation. Include a nonvacuity control distinguishing global seal refusal from preexisting revoked-map rejection. If alternate-map guest proof is intentionally removed, explicitly amend that acceptance contract for review rather than claim it from an already-rejected object."
+    }
+  ],
+  "design_assessments": [
+    {
+      "area": "Finite inventory/storage",
+      "status": "ADEQUATE_DESIGN",
+      "evidence": "design:16-46; frame:87-110,124-147,378-437",
+      "assessment": "Six fixed classes sum to 12 policy frames; F1 subset is at most two ordinary leases, stored in static Option slots before any later validation. Existing PageMap remains sole structure/Vec owner. Static owner/manifest/capture cap and future descriptor cap are finite reject-on-overflow policies, not measured sizes or stack sufficiency."
+    },
+    {
+      "area": "One-shot/failure retention",
+      "status": "ADEQUATE_DESIGN",
+      "evidence": "design:48-62,108-119",
+      "assessment": "CAS precedes locks/work. No production reset/returning prepare API. Every first-attempt failure is Terminal, retains exact zero/one/two acquired slots and closes mutation authority; success seals then terminally halts. Repeated admission cannot perturb an in-progress attempt. Negative consumed-token tests preserve legitimate tokens using cfg(test)-only duplicates."
+    },
+    {
+      "area": "Global seal/publication",
+      "status": "ADEQUATE_CORE_DESIGN_FIXTURE_BLOCKED",
+      "evidence": "design:54-86; mod:45-62,165-250,302-315",
+      "assessment": "One Acquire global gate covers Sealed/Terminal across local and alternate instances. Release publication under continuously held PAGE_MAP then FRAME_ALLOC gives one irreversible commit under explicit serialization. Owner fields still require smoke lock; no raw lockless metadata reads. Actual guest alternate-map proof remains B2."
+    },
+    {
+      "area": "Mutation guard matrix",
+      "status": "ADEQUATE_DESIGN",
+      "evidence": "design:64-86; complete production frame/paging bodies",
+      "assessment": "Covers init including malformed-reservation/domain changes, raw/owned stamped allocation and ID issuance, raw/owned release before diagnostics, whole growth transaction, pins set and clear, map/unmap wrappers and common cores, unpublished cleanup, bootstrap raw builder and host backing adapters, prepare/publication, both CR3 helpers/enabled flags. Table zero/write/invlpg stay private under dominating transaction preflight. No whole-owner replacement or mutable reference export. Fresh local constructors do not bypass globally gated authority methods."
+    },
+    {
+      "area": "Pin failure atomicity",
+      "status": "ADEQUATE_DESIGN_UNDER_SERIALIZATION",
+      "evidence": "design:74-84; paging:205-212,448-475,572-583,762-826; frame:608-624",
+      "assessment": "A bool setter alone is insufficient. Design explicitly requires G before every enclosing transaction first effect, checked valid indices/live roles and no continuation after false. Under single CPU/CLI/no reentry G cannot change midtransaction. Any reachable later refusal after earlier backing changes is STOP/re-review, not permission to ignore bool or invent rollback."
+    },
+    {
+      "area": "Locks/CLI/single CPU",
+      "status": "ADEQUATE_DESIGN",
+      "evidence": "design:54-62,100-104; mutex:35-66; allocator:269-283,308-317; interrupt:169-175",
+      "assessment": "HEAP->PAGE_MAP->FRAME_ALLOC retained; new branch smoke->PAGE_MAP->FRAME_ALLOC never heap. No allocation/formatting/callback/backing destruction under guards; leaves only atomics and never reacquire smoke. init_idt actually executes STI, so post-IDT placement alone does not imply IF=0: explicit invocation CLI before admission is required and supplied. SpinMutex itself does not disable IRQs. One CPU and no IRQ/NMI/fatal owner reentry are prerequisites, not atomic-ordering guarantees."
+    },
+    {
+      "area": "CR3/hardware observation",
+      "status": "ADEQUATE_DESIGN",
+      "evidence": "design:88-96; paging:691-705,898-935; production register reconnaissance",
+      "assessment": "Two actual CR3 writer sites found: flush_tlb and enable_paging; CR0 writes in enable_paging, no CR4 writer found. flush_tlb can switch to supplied directory. Both require global guard before retain/asm/flags. Real CR0/CR3/CR4/CS before first allocation and immediately preseal, then postrefusal guest observation, correctly distinguish software booleans from live CPU mode/map/domain/WP/CPL. Host CPU record/counter is model-only."
+    },
+    {
+      "area": "Nonreturning terminal and serial",
+      "status": "ADEQUATE_CORE_DESIGN_FIXTURE_BLOCKED",
+      "evidence": "design:98-106; serial:28-43; boot.s:18-23",
+      "assessment": "Public wrapper and halt leaf !; static owner retained; all guards released; fixed <512-byte output with fixed digit loop and finite per-byte polling uses direct lockfree serial. CLI/HLT repeats with no STI/RET/shell/reboot/destruction. UART omission causes harness FAIL. Existing mapped heap is not globally immutable but sealed invocation cannot resume it. B2 probe insertion must preserve this terminal contract."
+    },
+    {
+      "area": "Live runtime RED and host isolation",
+      "status": "ADEQUATE_DESIGN",
+      "evidence": "design:121-138,144; tests_kernel/lib:1-35; generation_ownership_tests:22-67; review_r1_tests:30-54; tests_b26/lib:37-120",
+      "assessment": "Live real-source test descendant with expressly deficient retain-only adapter can expose unpinned ordinary lease release. Keep denial/exact-state assertions while replacing adapter with real private seal path after runtime RED; no compilation-error or historical relocated test credit. Each irreversible case self-spawns exact identity with status and one-passed/zero-failed/zero-ignored summary, no global reset in parent. MIRROR is not hardware or allocation-free proof. Preserve B26 owner detector controls and include smoke-only allocation/destruction observation if introduced."
+    },
+    {
+      "area": "Guest fixture feasibility",
+      "status": "BLOCKED_DESIGN_CHOICES",
+      "evidence": "design:96,100-106,140,148; paging_test:38-76; boot_metadata:66-172,276-318,375-379,475-520",
+      "assessment": "Current paging accepts fault/shell markers, not F1. boot_metadata provides exclusive ELF/ISO staging, read-only QMP/HMP register precedent and owned cleanup, but not Rust call injection/source build and currently waits for shell. Need selected B1/B2 mechanisms, F1 parser and actual HLT observation; QMP running status alone is not HLT proof. Actual guest success is future implementation evidence only after these mechanisms are closed."
+    },
+    {
+      "area": "Acceptance and exclusions",
+      "status": "ADEQUATE_DESIGN_OBLIGATIONS_NOT_EXECUTED",
+      "evidence": "design:142-150; phase6_verify lock/snapshot/family/guest gates; authority:444-472",
+      "assessment": "Preserve inherited exact gate multiset, discover declarations/--list, add nonshrinking exact F1/guest gates with invalid-report controls, stable independent candidate review then one locked source-frozen canonical acceptance and complete invocation-owned readback. No F2-F5/USER/TSS/IRET/CPL3/general teardown/remote authorization follows."
+    }
+  ],
+  "resource_policy": {
+    "status": "ACCEPTED",
+    "interpretation": "Reject-on-overflow ceiling, not sufficient hardware/stack budget, guaranteed availability, physical reservation or complete future-layout feasibility.",
+    "classes": [
+      {
+        "role": "payload",
+        "max_frames": 1,
+        "f1_max_frames": 1
+      },
+      {
+        "role": "sentinel",
+        "max_frames": 1,
+        "f1_max_frames": 1
+      },
+      {
+        "role": "future_user_stack",
+        "max_frames": 1,
+        "f1_max_frames": 0
+      },
+      {
+        "role": "future_transition_stack",
+        "max_frames": 4,
+        "f1_max_frames": 0
+      },
+      {
+        "role": "future_emergency_backing_total",
+        "max_frames": 4,
+        "f1_max_frames": 0
+      },
+      {
+        "role": "future_arena_table",
+        "max_frames": 1,
+        "f1_max_frames": 0
+      }
+    ],
+    "frame_bytes": 4096,
+    "total_policy_frames": 12,
+    "total_policy_frame_bytes": 49152,
+    "f1_max_frames": 2,
+    "f1_max_frame_bytes": 8192,
+    "owner_family_static_cap_bytes": 4096,
+    "future_descriptor_static_cap_bytes": 4096,
+    "total_static_cap_bytes": 8192,
+    "f1_dynamic_retained_metadata_bytes": 0,
+    "f1_new_directories": 0,
+    "f1_new_tables": 0,
+    "existing_storage": "PageMap directory/tables/Vec backing/pins, frame ledger, bootstrap 16 KiB BSS stack, heap and GDT/IDT retained separately; not zero total memory or duplicated release authority.",
+    "future_guards": "Three lower absent virtual page reservations; no F1 physical guards or selected privileged spans. Future USER/TSS/Ready absent.",
+    "future_integration": "Fresh revision/boot extends Preparing only; reject excess resources/contexts/tables/guards/metadata or incompatible measured layout, never unseal.",
+    "unknowns": [
+      "target owner/mutex/type/symbol/section sizes",
+      "aggregate caller/IRQ/NMI/DF high-water",
+      "future TSS/emergency mechanism",
+      "future privileged guarded-range feasibility",
+      "minimum-RAM or stack sufficiency"
+    ]
+  },
+  "implementation_evidence_required_not_current_design_blockers": [
+    "Exact-one successfully compiled live runtime RED with intended assertion and pinned original bytes; same denial/state assertions GREEN through real private path.",
+    "Discovered exact host identities and security-ignore policy; host/B26 serial/default parallel and inherited owner detector preservation.",
+    "Valid-input exact unchanged-state refusal matrix including same/foreign alternate maps, IDs/issuer/reset flags, all diagnostics/bitmaps/PDE/PTE/inventories and pin directions.",
+    "First/second acquisition, alias and final identity failures retain exact zero/one/two lease identities with no retry/cleanup.",
+    "Guarded modeled CR3 writer controls plus actual i686 register/assembly evidence, structural/pin/permission stability and hardware A/D-bit distinction.",
+    "Exact baseline/candidate ELF hashes, target emitted owner/mutex/type/section/span deltas and preparation/callee frames; aggregate stack high-water remains unknown unless measured.",
+    "After B1/B2 resolution, fresh 128/512 success and deterministic failure Ring-0 guests execute real policy with separately counted fixture backing, actual bounded halt/no-reset/no-shell proof and owned process exit.",
+    "F1 parser and missing/zero/duplicate/impostor/substitution/incomplete/extra/timeout/reset controls, inherited canonical exact gate preservation and one locked full source-frozen acceptance independently read back."
+  ],
+  "scope": {
+    "reviewed": "Source-grounded design, not candidate implementation. Historical design/reviews context only, no transitive approval.",
+    "only_written_path": "test_results/phase11f1_retained_owner/v2_combined_design_review.json",
+    "not_performed": [
+      "kernel/tests/shared docs/skills modifications",
+      "builds/tests/QEMU/acceptance",
+      "remote/install/tool repairs"
+    ],
+    "limits": "Targeted text-first inspection and control-register/pin/owner/IRQ reconnaissance, not complete unsafe-pointer/dependency audit. Cooperative single-vCPU Ring 0 only; no malicious raw-asm/DMA/firmware/SMP guarantee."
+  },
+  "reviewed_source_manifest": [
+    {
+      "path": "HANDOVER.md",
+      "bytes": 57002,
+      "raw_sha256": "9d0c74aa3c80188aae692e2b4b76d6e94837205f340ce4a1fdc2b464295e3538",
+      "lf_normalized_sha256": "c20611608ee58f22169e6e3828e02cf765a346ee7247578fa7b03cbe063c8511",
+      "lf_normalized_git_blob_sha1": "490c7177420a7515a02b0ba0ad1cb0ee57b73e0f",
+      "head_git_blob_sha1": "490c7177420a7515a02b0ba0ad1cb0ee57b73e0f",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "current 1-21 plus F1 matches"
+    },
+    {
+      "path": "NEXT_SESSION_PROMPT.md",
+      "bytes": 42250,
+      "raw_sha256": "636dacdcd0c7fb6c04bf3a5f051842a7a4128ccf1b333efe08d5672221ab4326",
+      "lf_normalized_sha256": "196298c80dfb7a36e8280d7ee857a422b02e412fb1cf052456016e7f8e102e1a",
+      "lf_normalized_git_blob_sha1": "93920405b6719767261211f6bfb3dfd2fa5bed6e",
+      "head_git_blob_sha1": "93920405b6719767261211f6bfb3dfd2fa5bed6e",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "current 1-27 plus F1 matches"
+    },
+    {
+      "path": "docs/PHASE11_HANDOVER.md",
+      "bytes": 48798,
+      "raw_sha256": "28a243d350cd3a8adcde43625adec2589d866a5782922ee57694fc0a1255c0df",
+      "lf_normalized_sha256": "28a243d350cd3a8adcde43625adec2589d866a5782922ee57694fc0a1255c0df",
+      "lf_normalized_git_blob_sha1": "27faa6abafe514f4f862df09f9ee7d3f827470b7",
+      "head_git_blob_sha1": "27faa6abafe514f4f862df09f9ee7d3f827470b7",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "current 1-21 plus F1 matches"
+    },
+    {
+      "path": "docs/PHASE11_MEMORY_AUTHORITY.md",
+      "bytes": 48482,
+      "raw_sha256": "7995f3f9edd5b34837e2dc8310f7d0e5d1bb5b731d14aa040d5ff836c5a3c517",
+      "lf_normalized_sha256": "7995f3f9edd5b34837e2dc8310f7d0e5d1bb5b731d14aa040d5ff836c5a3c517",
+      "lf_normalized_git_blob_sha1": "86c542fde42dd11461d0dfcd4f1590e3e3f8b54b",
+      "head_git_blob_sha1": "86c542fde42dd11461d0dfcd4f1590e3e3f8b54b",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "280-472 B19 lifecycle/resource/F1-F5 requirements"
+    },
+    {
+      "path": "scripts/boot_metadata_test.py",
+      "bytes": 30931,
+      "raw_sha256": "d94f158a4a53d681ce0530d98fbcf31eab1dacdb8964308128a57f39f5216c9a",
+      "lf_normalized_sha256": "d94f158a4a53d681ce0530d98fbcf31eab1dacdb8964308128a57f39f5216c9a",
+      "lf_normalized_git_blob_sha1": "53668676f1d59b1a2e3af3f81145bab92aea9da2",
+      "head_git_blob_sha1": "53668676f1d59b1a2e3af3f81145bab92aea9da2",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": null,
+      "read_scope": "1-235,260-354,368-412,440-529 plus staging/register reconnaissance"
+    },
+    {
+      "path": "scripts/paging_test.py",
+      "bytes": 4564,
+      "raw_sha256": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+      "lf_normalized_sha256": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+      "lf_normalized_git_blob_sha1": "561cff5b1540b97d68bebd16a5beda3b2606a328",
+      "head_git_blob_sha1": "561cff5b1540b97d68bebd16a5beda3b2606a328",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "complete"
+    },
+    {
+      "path": "scripts/phase6_verify.py",
+      "bytes": 42854,
+      "raw_sha256": "7a564f9575e30fc8b5552acd0ab1d0f6703cdba2044408eaf93da1d331c84a0c",
+      "lf_normalized_sha256": "e3dac1e1fbd05e7538102b9778590f8ab8c592d2dd683df20a980083610e1670",
+      "lf_normalized_git_blob_sha1": "7446c5793133f76bb4a2d93bb2571404dca31aa2",
+      "head_git_blob_sha1": "7446c5793133f76bb4a2d93bb2571404dca31aa2",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "targeted lock, snapshots, exact-family and guest gates; not whole-file semantic audit"
+    },
+    {
+      "path": "src/allocator.rs",
+      "bytes": 13455,
+      "raw_sha256": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+      "lf_normalized_sha256": "6e86a9252ac3a1dc731165bd36b32dd9f2319f1443ba3a3af1e6066d9449eaad",
+      "lf_normalized_git_blob_sha1": "88f853d3b923d20a5897db876740ddd8bab00b54",
+      "head_git_blob_sha1": "88f853d3b923d20a5897db876740ddd8bab00b54",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "210-329 growth/GlobalAlloc"
+    },
+    {
+      "path": "src/boot.s",
+      "bytes": 1686,
+      "raw_sha256": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+      "lf_normalized_sha256": "8930803a021f0a64109dc2f580e5599b81ccac88cef6d21f9eb994c4a67ff0e0",
+      "lf_normalized_git_blob_sha1": "e76c035889dbb5f17beb6c21b2da370733600d19",
+      "head_git_blob_sha1": "e76c035889dbb5f17beb6c21b2da370733600d19",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": null,
+      "read_scope": "complete"
+    },
+    {
+      "path": "src/interrupt.rs",
+      "bytes": 19055,
+      "raw_sha256": "98b7d296ee393978bc3e15225037cf47823cf528a29aabd07b39ff9a52faa76f",
+      "lf_normalized_sha256": "98b7d296ee393978bc3e15225037cf47823cf528a29aabd07b39ff9a52faa76f",
+      "lf_normalized_git_blob_sha1": "2fca7d952f56380e33b7081404b521754e7e704a",
+      "head_git_blob_sha1": "2fca7d952f56380e33b7081404b521754e7e704a",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": null,
+      "read_scope": "110-229 plus handler/owner/STI reconnaissance"
+    },
+    {
+      "path": "src/io/serial.rs",
+      "bytes": 1492,
+      "raw_sha256": "095d91d330fb82fb8893db9ed39dda36fccb69becc8339090c98cafa3fcda58c",
+      "lf_normalized_sha256": "095d91d330fb82fb8893db9ed39dda36fccb69becc8339090c98cafa3fcda58c",
+      "lf_normalized_git_blob_sha1": "b572e58d58972d844ef86d10ff0212caddac28a7",
+      "head_git_blob_sha1": "b572e58d58972d844ef86d10ff0212caddac28a7",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": null,
+      "read_scope": "complete"
+    },
+    {
+      "path": "src/main.rs",
+      "bytes": 21065,
+      "raw_sha256": "f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91",
+      "lf_normalized_sha256": "f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91",
+      "lf_normalized_git_blob_sha1": "ce38691f4093d92171e8efb9ae8443f6cf7e226d",
+      "head_git_blob_sha1": "ce38691f4093d92171e8efb9ae8443f6cf7e226d",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "140-239 boot/paging anchor"
+    },
+    {
+      "path": "src/memory/frame.rs",
+      "bytes": 31939,
+      "raw_sha256": "9a443ab069767c9b2c3b02befcb98c07419fa3a67929092c3eb6b7677d9d671e",
+      "lf_normalized_sha256": "9a443ab069767c9b2c3b02befcb98c07419fa3a67929092c3eb6b7677d9d671e",
+      "lf_normalized_git_blob_sha1": "8fcfafa049c407a4f0aeb25737a04ba5c66893f6",
+      "head_git_blob_sha1": "8fcfafa049c407a4f0aeb25737a04ba5c66893f6",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "complete production 1-633; test reconnaissance"
+    },
+    {
+      "path": "src/memory/generation_ownership_tests.rs",
+      "bytes": 6013,
+      "raw_sha256": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+      "lf_normalized_sha256": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+      "lf_normalized_git_blob_sha1": "0056ae4b9480520b1b058df84a6cb43b0162792e",
+      "head_git_blob_sha1": "0056ae4b9480520b1b058df84a6cb43b0162792e",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": null,
+      "read_scope": "1-180 of 181, fixtures/test bodies"
+    },
+    {
+      "path": "src/memory/mod.rs",
+      "bytes": 12226,
+      "raw_sha256": "c2bdb8371c042c803f804cd9832c1caf5f1a1a498f62c0ee4ea9bb3fd2d9e53e",
+      "lf_normalized_sha256": "c2bdb8371c042c803f804cd9832c1caf5f1a1a498f62c0ee4ea9bb3fd2d9e53e",
+      "lf_normalized_git_blob_sha1": "d8537f783a1cd25e5023b6cb84f14c648a563bb2",
+      "head_git_blob_sha1": "d8537f783a1cd25e5023b6cb84f14c648a563bb2",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "complete"
+    },
+    {
+      "path": "src/memory/ownership_observation_tests.rs",
+      "bytes": 2826,
+      "raw_sha256": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+      "lf_normalized_sha256": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+      "lf_normalized_git_blob_sha1": "d26384ff988ec3361948f2342ded7cebdd7db17a",
+      "head_git_blob_sha1": "d26384ff988ec3361948f2342ded7cebdd7db17a",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": null,
+      "read_scope": "complete"
+    },
+    {
+      "path": "src/memory/paging.rs",
+      "bytes": 34148,
+      "raw_sha256": "192be102c33db2db8fc1f5923f72a19b7b585c6baf60de6b157f9d00b68a3354",
+      "lf_normalized_sha256": "192be102c33db2db8fc1f5923f72a19b7b585c6baf60de6b157f9d00b68a3354",
+      "lf_normalized_git_blob_sha1": "cce8c63742e175a44c61dbe2887856421bc6395a",
+      "head_git_blob_sha1": "cce8c63742e175a44c61dbe2887856421bc6395a",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "complete 1-949"
+    },
+    {
+      "path": "src/memory/review_r1_tests.rs",
+      "bytes": 6469,
+      "raw_sha256": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+      "lf_normalized_sha256": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+      "lf_normalized_git_blob_sha1": "7428111810d9a2e725df8369a9e69f259d35c5ce",
+      "head_git_blob_sha1": "7428111810d9a2e725df8369a9e69f259d35c5ce",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": null,
+      "read_scope": "1-140, including exact-one child pattern"
+    },
+    {
+      "path": "src/utils/mutex.rs",
+      "bytes": 1558,
+      "raw_sha256": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+      "lf_normalized_sha256": "3bfd28591f13205a339e67bc6551078add5869fcee9c6d6910089add0fd2b0bd",
+      "lf_normalized_git_blob_sha1": "272e7991b8a54c6b302aa6d2df1e64f9fd813aff",
+      "head_git_blob_sha1": "272e7991b8a54c6b302aa6d2df1e64f9fd813aff",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "complete"
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/design.md",
+      "bytes": 7376,
+      "raw_sha256": "c54c91baa91de5f058a27d1893c1391018c561f8cf41cbb4a9756ff187623ed4",
+      "lf_normalized_sha256": "c54c91baa91de5f058a27d1893c1391018c561f8cf41cbb4a9756ff187623ed4",
+      "lf_normalized_git_blob_sha1": "6291d5b57919543d1381ba0451ffc57c9c8217f3",
+      "head_git_blob_sha1": "6291d5b57919543d1381ba0451ffc57c9c8217f3",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": null,
+      "read_scope": "complete historical context"
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/independent_boundary_review.json",
+      "bytes": 36334,
+      "raw_sha256": "744f47e541d6619bc05e07876e994930167ea8cfc8f0cb411c48860809368bd4",
+      "lf_normalized_sha256": "744f47e541d6619bc05e07876e994930167ea8cfc8f0cb411c48860809368bd4",
+      "lf_normalized_git_blob_sha1": "67553f9bfd8452d2be9e8aa1b7889e85c52ae5d9",
+      "head_git_blob_sha1": "67553f9bfd8452d2be9e8aa1b7889e85c52ae5d9",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": null,
+      "read_scope": "1-200 of 272, historical findings/matrix, not new approval"
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/independent_budget_review.json",
+      "bytes": 22056,
+      "raw_sha256": "2b5da3cdeeda6ab2fecbb47c0a2ffcf0d13708da219608d50bb2319acaf2da29",
+      "lf_normalized_sha256": "2b5da3cdeeda6ab2fecbb47c0a2ffcf0d13708da219608d50bb2319acaf2da29",
+      "lf_normalized_git_blob_sha1": "2343e90b6aa647902e1cfff7e1167624f472d38d",
+      "head_git_blob_sha1": "2343e90b6aa647902e1cfff7e1167624f472d38d",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": null,
+      "read_scope": "complete historical context"
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/v2_design.md",
+      "bytes": 29095,
+      "raw_sha256": "0c5fc2cdf3409a8eef0090035271a5db4e83b34ff04e065da75736af26cd3c02",
+      "lf_normalized_sha256": "0c5fc2cdf3409a8eef0090035271a5db4e83b34ff04e065da75736af26cd3c02",
+      "lf_normalized_git_blob_sha1": "9cc6b7fa098bcb7b88257bff77172ab95f0b2c04",
+      "head_git_blob_sha1": null,
+      "normalized_matches_head": null,
+      "recovery_pin_matches": null,
+      "read_scope": "complete"
+    },
+    {
+      "path": "test_results/phase11f1_retained_owner/v2_recovery.json",
+      "bytes": 2271,
+      "raw_sha256": "3b32c2ad92fb6fa99744ad479888ff18356404818d89bd60e9ff82d8a0d26a2b",
+      "lf_normalized_sha256": "3b32c2ad92fb6fa99744ad479888ff18356404818d89bd60e9ff82d8a0d26a2b",
+      "lf_normalized_git_blob_sha1": "5caa21a8a46872128bee97d1ac412805db66bbf6",
+      "head_git_blob_sha1": null,
+      "normalized_matches_head": null,
+      "recovery_pin_matches": null,
+      "read_scope": "complete"
+    },
+    {
+      "path": "tests_b26/src/lib.rs",
+      "bytes": 8227,
+      "raw_sha256": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+      "lf_normalized_sha256": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+      "lf_normalized_git_blob_sha1": "23b73d18cc49708d652fec053c87361b7a1d1614",
+      "head_git_blob_sha1": "23b73d18cc49708d652fec053c87361b7a1d1614",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": null,
+      "read_scope": "1-135 allocator detector and roots"
+    },
+    {
+      "path": "tests_kernel/src/lib.rs",
+      "bytes": 39218,
+      "raw_sha256": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133",
+      "lf_normalized_sha256": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133",
+      "lf_normalized_git_blob_sha1": "9aa7918e541eb4f57553d2633828f309550fa6b6",
+      "head_git_blob_sha1": "9aa7918e541eb4f57553d2633828f309550fa6b6",
+      "normalized_matches_head": true,
+      "recovery_pin_matches": true,
+      "read_scope": "1-150 real-source roots"
+    }
+  ],
+  "hash_verification": {
+    "status": "VERIFIED",
+    "method": "Independent raw Path.read_bytes SHA256 for every listed source/design; CRLF->LF SHA256 and Git blob SHA1 recorded separately, all tracked normalized blobs match actual HEAD. Recovery raw pins independently match; design/recovery second read matches first observed independent raw hashes.",
+    "manifest_count": 26,
+    "recovery_pin_count": 13,
+    "recovery_pin_mismatches": [],
+    "tracked_normalized_head_mismatches": [],
+    "design_raw_sha256": "0c5fc2cdf3409a8eef0090035271a5db4e83b34ff04e065da75736af26cd3c02",
+    "design_not_in_head": true,
+    "historical_rule": "Original review pins not rewritten; current handover/doc hashes match recovery and HEAD, historical approvals are not v2 approval."
+  },
+  "repository_state": {
+    "initial_and_prewrite_git_status": " M README.md\n M test_results/phase11f1_retained_owner/decisions.md\n M test_results/phase11f1_retained_owner/rabbit_holes.md\n?? d1/\n?? docs/ROSTI_INIT_ARCHITECTURE.md\n?? scripts/b13_boot_fixture.py.backup\n",
+    "protected_unrelated_paths": [
+      "README.md",
+      "d1/",
+      "docs/ROSTI_INIT_ARCHITECTURE.md",
+      "scripts/b13_boot_fixture.py.backup"
+    ],
+    "authority": "SOLE_WRITER/CEILING/CONTINUE accepted as supplied supported clarification context, not independently re-requested."
+  },
+  "revision_rule": {
+    "parent_rounds_allowed": 1,
+    "next_step": "One permitted parent design revision must close B1/B2 and obtain byte-scoped independent resolution. No production edits authorized by this REJECT; no silent fixture authority workaround or approval based on future obligations."
+  }
+}

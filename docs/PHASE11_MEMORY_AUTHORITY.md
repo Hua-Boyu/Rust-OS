@@ -1,5 +1,38 @@
 # Physical-memory authority — Phase 11A.2 partial inventory
 
+## F1 v2 current checkpoint — PARTIAL / DESIGN STOP after one revision
+
+Concrete proposal and complete verdicts reside in
+`test_results/phase11f1_retained_owner/`. Operator declarations were explicitly
+SOLE_WRITER=YES, CEILING=YES, CONTINUE=YES; implementation continuation required
+independent APPROVE with zero blockers and was NOT reached.
+
+Combined review accepted a finite policy inventory: payload1/sentinel1 to acquire
+through existing allocate_owned into two fixed static Option<FrameLease> slots;
+future user1/transition4/emergency4/arena-table1 NotAcquired, total12 policy frames.
+Existing directory/tables/backing/aliases/descriptors retain established ownership;
+no new F1 mapping, table, USER leaf, TSS or stack mechanism. Proposed owner-family
+and future-descriptor static envelopes are separately finite, not emitted-size or
+stack-sufficiency proof. Global irreversible Sealed/Terminal guard, actual CPU
+CR3/mode validation and divergent CLI/unlock/bounded serial/HLT remain design,
+not implementation. Initial reviewed design bytes and original pins are preserved.
+
+Initial combined REJECT/2 led to ONE permitted revision selecting isolated
+real-source guest build/injection, valid separately rooted alternate map and
+post-unlock real helper probes. Final revision review is REJECT/BLOCKERS1:
+F1V2-B3 requires a selected ordered exact pre-seal/pre-probe guest table-image
+capture mechanism. Terminal-only QMP reads or checksums cannot prove prior bytes.
+All162 reviewed raw pins matched at resolution readback; this handover insertion
+is later documentation, not retroactive extension of those reviewed bytes.
+No third redesign or production-source/test edits in this session.
+
+Fresh unchanged-baseline host343/0/2 and B26116/0/0 pass serial/parallel with
+exact345/116 identities; production build/fmt/ELF pass. All150 canonical inputs
+unchanged. No live-crate RED, F1 GREEN, guest, candidate review or canonical
+acceptance; no Ring-3 readiness. Further capture design/review requires fresh
+authorization. No F2-F5/general teardown/deployment/push/Symposium setup.
+Historical checkpoint blocks and approved B19 section below remain unchanged.
+
 ## Phase 11 F1 retained-owner attempt — PARTIAL / DESIGN STOP
 
 Task evidence: `test_results/phase11f1_retained_owner/STATE.md` and

@@ -1,0 +1,34 @@
+{
+  "initial_head": "649aaf1dccd2f18091d0d2f0f81661e11d005d97",
+  "branch": "maintenance/phase10",
+  "status": " M README.md\n?? d1/\n?? docs/ROSTI_INIT_ARCHITECTURE.md\n?? scripts/b13_boot_fixture.py.backup\n",
+  "declarations": {
+    "SOLE_WRITER": "YES",
+    "CEILING": "YES",
+    "CONTINUE": "YES",
+    "source": "supported clarification interface in current session"
+  },
+  "initial_target_raw_sha256": {
+    "src/memory/frame.rs": "9a443ab069767c9b2c3b02befcb98c07419fa3a67929092c3eb6b7677d9d671e",
+    "src/memory/paging.rs": "192be102c33db2db8fc1f5923f72a19b7b585c6baf60de6b157f9d00b68a3354",
+    "src/memory/mod.rs": "c2bdb8371c042c803f804cd9832c1caf5f1a1a498f62c0ee4ea9bb3fd2d9e53e",
+    "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+    "src/main.rs": "f16756c7eed7bbc8776fcf5c53d64a42866b000888e6d7bf929d878d5a06cb91",
+    "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+    "scripts/phase6_verify.py": "7a564f9575e30fc8b5552acd0ab1d0f6703cdba2044408eaf93da1d331c84a0c",
+    "scripts/paging_test.py": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+    "tests_kernel/src/lib.rs": "e40d7de44444e5e0d47d9cbcc792a92e270dfd7804a1403634f6d7599c12b133",
+    "HANDOVER.md": "9d0c74aa3c80188aae692e2b4b76d6e94837205f340ce4a1fdc2b464295e3538",
+    "NEXT_SESSION_PROMPT.md": "636dacdcd0c7fb6c04bf3a5f051842a7a4128ccf1b333efe08d5672221ab4326",
+    "docs/PHASE11_HANDOVER.md": "28a243d350cd3a8adcde43625adec2589d866a5782922ee57694fc0a1255c0df",
+    "docs/PHASE11_MEMORY_AUTHORITY.md": "7995f3f9edd5b34837e2dc8310f7d0e5d1bb5b731d14aa040d5ff836c5a3c517"
+  },
+  "post_recovery_drift": [],
+  "historical_manifest_checked": 56,
+  "historical_manifest_mismatches": [],
+  "final_readback_pins_checked": 10,
+  "final_readback_mismatches": [],
+  "historical_docs_hash_difference": "Prior reviews pin earlier B19 doc bytes; current document is committed 649aaf1 and final_readback pins current handover. Original review pins are unchanged; no transitive new design approval.",
+  "environment": "Use terminal Git Bash/native cargo x86_64-pc-windows-msvc; execute_code subprocess bash resolves WSL and must not be used for builds.",
+  "SYMPOSIUM_STATUS": "NOT_REQUIRED_FOR_F1"
+}

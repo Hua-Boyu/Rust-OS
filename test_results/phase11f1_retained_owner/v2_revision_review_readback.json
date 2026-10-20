@@ -1,0 +1,15 @@
+{
+  "verdict": "REJECT",
+  "BLOCKERS": 1,
+  "RESOURCE_POLICY": "ACCEPTED",
+  "complete_artifact_parsed": true,
+  "all_non_manifest_findings_read": true,
+  "manifest_count": 162,
+  "raw_mismatches": [],
+  "canonical_membership": 150,
+  "canonical_source_unchanged": true,
+  "review_raw_sha256": "6c91d1df6bdd911186e6187d495a262af9a28533122dd036dda9a15a5778e907",
+  "blocked_by": "F1V2-B3 exact pre/post guest table-byte causal capture mechanism absent",
+  "production_implementation_authorized": false,
+  "further_revision_authorized": false
+}

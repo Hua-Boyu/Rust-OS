@@ -1,0 +1,24 @@
+{
+  "name": "../phase11f1_retained_owner/v2_baseline_b26_parallel_01",
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:/Users/iamsv/Documents/Rust-OS/tests_b26/Cargo.toml",
+    "--lib"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "started_utc": "2026-10-20T10:45:08.348291+00:00",
+  "status": "EXPECTED",
+  "exit_code": 0,
+  "ended_utc": "2026-10-20T10:45:09.418570+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11a2_continuation\\..\\phase11f1_retained_owner\\v2_baseline_b26_parallel_01.log",
+  "totals": [
+    [
+      "116",
+      "0",
+      "0"
+    ]
+  ]
+}
