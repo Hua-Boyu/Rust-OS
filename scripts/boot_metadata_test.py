@@ -453,11 +453,18 @@ def main(argv=None):
                         help='focused diagnostics only; default is the complete fixture matrix')
     parser.add_argument('--timeout', type=float, default=1800, help='whole invocation deadline')
     parser.add_argument('--guest-timeout', type=float, default=90)
+    parser.add_argument('--f1', action='store_true',
+                        help='isolated copied-source retained-owner Ring-0 matrix; no shell workflow')
     args = parser.parse_args(argv)
     if not args.output_dir.is_absolute():
         parser.error('--output-dir must be absolute')
     if args.timeout <= 0 or args.guest_timeout <= 0:
         parser.error('timeouts must be positive')
+    if args.f1:
+        if args.boot != 'elf' or args.fixture:
+            parser.error('--f1 requires --boot elf and no --fixture')
+        from f1_retained_guest import workflow
+        return workflow(args)
     root = args.output_dir.resolve()
     root.mkdir(parents=True, exist_ok=True)
     run = Path(tempfile.mkdtemp(prefix='boot_metadata_', dir=root))
