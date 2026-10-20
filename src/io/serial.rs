@@ -28,11 +28,13 @@ pub fn init() {
 pub fn putc(ch: u8) {
     unsafe {
         // wait for transmitter holding register empty (LSR bit 5), bounded
-        for _ in 0..100000 {
+        let mut remaining = 100000u32;
+        while remaining != 0 {
             if lockfree_inb(COM1 + 5) & 0x20 != 0 {
                 lockfree_outb(COM1, ch);
                 return;
             }
+            remaining = remaining.wrapping_sub(1);
         }
     }
 }

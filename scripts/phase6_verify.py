@@ -434,6 +434,29 @@ def _run_acceptance():
                 or len(observed) != len(f1_required) or set(observed) != f1_required):
             raise RuntimeError("F1 retained-owner tests missing or inconsistent")
         report["counts"]["f1_retained_owner"] = {"pass": len(observed), "fail": 0}
+        # F2 host frame-model contract only; hardware entry is a separate guest
+        # obligation and neither family establishes CPL3 readiness.
+        f2_required = {
+            "exception_abi::tests::" + name for name in (
+                "fixed_prefix_all_offsets",
+                "exhaustive_three_way_vector_profile",
+                "same_ring_scalar_esp_has_no_tail_access",
+                "synthetic_other_ring_decoder_is_bounded",
+                "double_fault_and_unsupported_have_no_origin",
+                "fatal_latch_first_entry_only",
+                "observed_profile_fails_closed",
+            )
+        }
+        command = ["cargo", "+nightly", "test", "--manifest-path",
+                   str(PROJECT / "tests_kernel/Cargo.toml"), "--lib", "exception_abi::tests::",
+                   "--", "--test-threads=1"]
+        text = gate("Phase 11F2 exception ABI exact identity family", command, cwd=Path.home())
+        observed = re.findall(r"^test (\S+) \.\.\. ok\s*$", text, re.M)
+        totals = re.findall(r"test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored", text)
+        if (totals != [(str(len(f2_required)), "0", "0")]
+                or len(observed) != len(f2_required) or set(observed) != f2_required):
+            raise RuntimeError("F2 exception ABI tests missing or inconsistent")
+        report["counts"]["f2_exception_abi"] = {"pass": len(observed), "fail": 0}
         manifest = str(PROJECT / "crates/rostifs/Cargo.toml")
         gate("RostiFS formatting", ["cargo", "+nightly", "fmt", "--manifest-path", manifest, "--check"])
         text = gate("RostiFS host and crash recovery tests", ["cargo", "+nightly", "test", "--manifest-path", manifest, "--", "--nocapture"], timeout=300, cwd=Path.home())
@@ -518,6 +541,19 @@ def _run_acceptance():
         report["counts"]["b13_qemu"] = {"pass": len(observed_guests), "fail": 0}
         gate("Phase 9.6 B13 injection transport contracts", script("test_b13_entry_inject.py"))
         b13_report_hashes = {path: sha256(path) for path in b13_reports | {b13_host_path}}
+        f2_output = run / "f2_exception"
+        gate("Phase 11F2 exception ABI hardware matrix",
+             script("f2_exception_guest.py", "--output-dir", f2_output), timeout=300)
+        f2_paths = list(f2_output.glob("*/report.json"))
+        if len(f2_paths) != 1:
+            raise RuntimeError("missing or ambiguous mandatory F2 hardware report")
+        import f2_evidence
+        f2_validated = f2_evidence.validate(f2_paths[0], report["source_sha256"])
+        report["counts"]["f2_exception_scenarios"] = {
+            "pass": f2_validated["scenario_count"], "fail": 0}
+        report["f2_evidence_sha256"] = f2_validated["pins"]
+        f2_reports = {Path(path) for path in f2_validated["pins"]
+                      if Path(path).name == "report.json"}
         metadata_output = run / "boot_metadata"
         gate("Phase 9.6 integrated boot metadata ELF and GRUB safety",
              script("boot_metadata_test.py", "--boot", "both", "--ram", 128, 512,
@@ -601,6 +637,9 @@ def _run_acceptance():
             raise RuntimeError("source changed during acceptance; rerun against stable source")
         if any(sha256(path) != digest for path, digest in b13_report_hashes.items()):
             raise RuntimeError("B13 validated evidence changed during acceptance")
+        if any(sha256(Path(path)) != digest
+               for path, digest in f2_validated["pins"].items()):
+            raise RuntimeError("F2 validated hardware evidence changed during acceptance")
         if sha256(metadata_path) != metadata_digest:
             raise RuntimeError("boot metadata validated matrix changed during acceptance")
         phase10_scenarios = phase10_evidence(json.loads(phase10_path.read_text()), phase10_path)
@@ -624,9 +663,10 @@ def _run_acceptance():
             if len(rows) != expected:
                 raise RuntimeError(f"incomplete mandatory checks: {directory}: {len(rows)}/{expected}")
         for p in run.rglob("report.json"):
-            # These exact reports use B13's status/guests schema and were fully
-            # validated above; never exempt any other discovered report.
-            if p in b13_reports:
+            # These exact B13/F2 paths use specialized schemas validated above;
+            # all F2 validator-returned pins were rechecked before publication.
+            # Never exempt any other discovered report.
+            if p in b13_reports or p in f2_reports:
                 continue
             evidence = json.loads(p.read_text())
             key = str(p.relative_to(run))

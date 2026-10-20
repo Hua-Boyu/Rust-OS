@@ -12,6 +12,8 @@ mod allocator;
 mod block;
 use block::BlockDevice;
 mod cpu;
+mod exception_abi;
+mod exception_fatal;
 mod fd;
 mod fs;
 mod fs_commands;

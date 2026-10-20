@@ -46,6 +46,9 @@ pub mod timer;
 #[path = "../../src/cpu.rs"]
 pub mod cpu;
 
+#[path = "../../src/exception_abi.rs"]
+pub mod exception_abi;
+
 #[path = "../../src/fs_commands.rs"]
 pub mod fs_commands;
 

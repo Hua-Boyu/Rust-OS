@@ -120,21 +120,19 @@ pub struct PageFaultInfo {
 
 pub fn decode_error_code(code: u32) -> PageFaultInfo {
     PageFaultInfo {
-        present: code.get_bits(0, 1) == 1,
-        write: code.get_bits(1, 1) == 1,
-        user: code.get_bits(2, 1) == 1,
+        present: code & 1 != 0,
+        write: code & 2 != 0,
+        user: code & 4 != 0,
         // Bit 4 (instruction fetch) is only reported by CPUs supporting the
         // NX feature; on this 32-bit mode it is always 0 and reported as such.
-        fetch: code.get_bits(4, 1) == 1,
+        fetch: code & 16 != 0,
         cr2: 0,
     }
 }
 
-// Error-code vectors on the supported 32-bit protected-mode CPU contract
-// (Intel Vol. 2, table 12): #DF(8), #TS(10), #NP(11), #SS(12), #GP(13),
-// #PF(14), #AC(17). Every other vector in 0..31 pushes no error code on
-// this CPU contract. The classification drives both the IDT stub choice
-// and the fault-frame decoding contract.
+// Baseline mandatory-error predicate only, NOT a universal no-error classifier.
+// F2 dispatch uses exception_abi::FrameKind: optional 21/29/30 are unsupported
+// and terminate without decoding any CPU frame. Keep this inherited API narrow.
 pub fn exception_pushes_error_code(vector: u8) -> bool {
     matches!(vector, 8 | 10 | 11 | 12 | 13 | 14 | 17)
 }

@@ -13,6 +13,8 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+import f2_evidence
+
 SPEC = importlib.util.spec_from_file_location("acceptance", Path(__file__).with_name("phase6_verify.py"))
 acceptance = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(acceptance)
@@ -223,6 +225,136 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(len(wired), 3)
         self.assertEqual(set(wired), set(self.declared_unmap_authority_names()))
 
+    def declared_f2_exception_abi_names(self):
+        source = (Path(__file__).resolve().parents[1] / "src/exception_abi_tests.rs").read_text()
+        names = re.findall(r"(?m)^#\[test\]\s*\nfn (\w+)\(", source)
+        self.assertEqual(len(names), 7)
+        self.assertEqual(len(set(names)), 7)
+        return ["exception_abi::tests::" + name for name in names]
+
+    def test_f2_exception_abi_exact_family_is_mandatory(self):
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        commands = [c for c in self.last_commands if "exception_abi::tests::" in c]
+        self.assertEqual(len(commands), 1)
+        self.assertIn("--lib", commands[0])
+        self.assertIn("--test-threads=1", commands[0])
+        self.assertTrue(any(str(c).replace("\\", "/").endswith("tests_kernel/Cargo.toml")
+                            for c in commands[0]))
+        self.assertEqual(self.last_report["counts"]["f2_exception_abi"], {"pass": 7, "fail": 0})
+        self.assertEqual(self.last_report["gates_total"], 68)
+        gates = [g["gate"] for g in self.last_report["gates"]]
+        self.assertEqual(gates.count("Phase 11F2 exception ABI exact identity family"), 1)
+
+    def test_f2_exception_abi_bad_identities_cannot_publish(self):
+        names = self.declared_f2_exception_abi_names()
+        def result(rows, passed=None, failed=0, ignored=0):
+            return ("".join(f"test {name} ... ok\n" for name in rows)
+                    + f"test result: ok. {len(rows) if passed is None else passed} passed; {failed} failed; {ignored} ignored\n")
+        outputs = {
+            "missing-output": "",
+            "zero": result([]),
+            "missing": result(names[:-1]),
+            "duplicate": result(names[:-1] + [names[0]]),
+            "extra": result(names + [names[0] + "_extra"]),
+            "substituted": result(names[:-1] + [names[-1] + "_renamed"]),
+            "impostor": result([name.replace("exception_abi::tests::", "impostor::tests::") for name in names]),
+            "short-total": result(names, 6),
+            "extra-total": result(names, 8),
+            "missing-row": result(names[:-1], 7),
+            "failed": result(names, failed=1),
+            "ignored": result(names, ignored=1),
+            "no-summary": "".join(f"test {name} ... ok\n" for name in names),
+            "duplicate-summary": result(names) + result(names),
+        }
+        for control, text in outputs.items():
+            with self.subTest(control=control):
+                self.assertEqual(self.simulate(lambda root: None,
+                    safety_output={"exception_abi::tests::": text}), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+                self.assertNotIn("f2_exception_abi", self.last_report["counts"])
+                self.assertEqual(self.last_report["error"], "F2 exception ABI tests missing or inconsistent")
+
+    def test_f2_exception_abi_identities_match_real_declarations(self):
+        tree = ast.parse(Path(acceptance.__file__).read_text())
+        rows = [node.value for node in ast.walk(tree) if isinstance(node, ast.Assign)
+                and any(isinstance(target, ast.Name) and target.id == "f2_required"
+                        for target in node.targets)]
+        self.assertEqual(len(rows), 1)
+        required = rows[0]
+        prefix = ast.literal_eval(required.elt.left)
+        wired = [prefix + ast.literal_eval(n) for n in required.generators[0].iter.elts]
+        self.assertEqual(len(wired), 7)
+        self.assertEqual(set(wired), set(self.declared_f2_exception_abi_names()))
+        root = Path(__file__).resolve().parents[1]
+        self.assertIn('mod exception_abi;', (root / "tests_kernel/src/lib.rs").read_text())
+        abi_source = (root / "src/exception_abi.rs").read_text()
+        self.assertIn('#[path = "exception_abi_tests.rs"]', abi_source)
+        self.assertIn('mod tests;', abi_source)
+
+    def test_f2_hardware_matrix_is_one_mandatory_gate(self):
+        with patch.object(f2_evidence, "validate", wraps=f2_evidence.validate) as validate:
+            self.assertEqual(self.simulate(lambda root: None), 0)
+        commands = [(i, c) for i, c in enumerate(self.last_commands)
+                    if any(str(arg).endswith("f2_exception_guest.py") for arg in c)]
+        self.assertEqual(len(commands), 1)
+        index, command = commands[0]
+        self.assertEqual(self.last_timeouts[index], 300)
+        self.assertEqual(len(command), 4)
+        output = Path(command[command.index("--output-dir") + 1])
+        self.assertTrue(output.is_absolute())
+        self.assertEqual(output.name, "f2_exception")
+        self.assertEqual(validate.call_count, 1)
+        self.assertEqual(validate.call_args.args[0].parent.parent, output)
+        self.assertEqual(validate.call_args.args[1], self.last_report["source_sha256"])
+        self.assertEqual(self.last_report["counts"]["f2_exception_scenarios"], {"pass": 8, "fail": 0})
+        self.assertEqual(len(self.last_report["f2_evidence_sha256"]), 10)
+        self.assertEqual(self.last_report["gates_total"], 68)
+        self.assertEqual(self.last_report["gates_passed"], 68)
+        self.assertEqual(sum(g["gate"] == "Phase 11F2 exception ABI hardware matrix"
+                             for g in self.last_report["gates"]), 1)
+
+    def test_f2_missing_or_failed_driver_cannot_publish(self):
+        for option in ("missing_script", "failed_script"):
+            with self.subTest(option=option):
+                self.assertEqual(self.simulate(lambda root: None,
+                    **{option: "f2_exception_guest.py"}), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+                self.assertNotIn("f2_exception_scenarios", self.last_report["counts"])
+                self.assertEqual(self.last_report["gates"][-1]["status"], "FAIL")
+
+    def test_f2_missing_report_or_validator_failure_cannot_publish(self):
+        self.assertEqual(self.simulate(lambda root: None, f2_report=None), 1)
+        self.assertEqual(self.last_versioned_count, 0)
+        self.assertEqual(self.last_report["error"], "missing or ambiguous mandatory F2 hardware report")
+        with patch.object(f2_evidence, "validate", side_effect=RuntimeError("F2 validator refused")):
+            self.assertEqual(self.simulate(lambda root: None), 1)
+        self.assertEqual(self.last_versioned_count, 0)
+        self.assertEqual(self.last_report["error"], "F2 validator refused")
+        self.assertNotIn("f2_exception_scenarios", self.last_report["counts"])
+        self.assertEqual(self.simulate(lambda root: None, f2_report={"overall": "FAIL"}), 1)
+        self.assertEqual(self.last_versioned_count, 0)
+
+    def test_f2_ambiguous_owned_aggregate_cannot_publish(self):
+        with patch.object(f2_evidence, "validate", wraps=f2_evidence.validate) as validate:
+            self.assertEqual(self.simulate(lambda root: None, f2_report="ambiguous"), 1)
+        self.assertEqual(validate.call_count, 0)
+        self.assertEqual(self.last_versioned_count, 0)
+        self.assertEqual(self.last_report["error"], "missing or ambiguous mandatory F2 hardware report")
+
+    def test_f2_every_returned_pin_is_frozen_through_publication(self):
+        targets = ["report.json", "kernel.elf"] + [
+            f"{case}_{ram}/report.json" for case in ("ud", "de", "gp", "pf") for ram in (128, 512)]
+        for relative in targets:
+            def corrupt(root):
+                folder = next((root / "test_results").glob("phase*/acceptance_*/f2_exception/*"))
+                target = folder / relative
+                target.write_bytes(target.read_bytes() + b" ")
+            with self.subTest(pin=relative):
+                self.assertEqual(self.simulate(corrupt), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+                self.assertEqual(self.last_report["error"],
+                                 "F2 validated hardware evidence changed during acceptance")
+
     def declared_f1_retained_owner_names(self):
         root = Path(__file__).resolve().parents[1]
         names = []
@@ -290,8 +422,10 @@ class SourceFreezeTests(unittest.TestCase):
 
     def simulate(self, mutation, omit_reports=False, boot_rows=10, read_tests=4, write_tests=3,
                  safety_output=None, metadata_report="valid", b13_report="valid",
-                 phase10_report="valid", failed_script=None, fs_checks=103):
+                 phase10_report="valid", failed_script=None, fs_checks=103,
+                 f2_report="valid", missing_script=None):
         self.last_commands = []
+        self.last_timeouts = []
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             for path in ("src/main.rs", "tests_kernel/src/lib.rs", "scripts/a.py", "Cargo.toml", "linker.ld", "target.json", ".cargo/config.toml"):
@@ -304,10 +438,14 @@ class SourceFreezeTests(unittest.TestCase):
 
             def run(command, **kwargs):
                 self.last_commands.append(command)
+                self.last_timeouts.append(kwargs.get("timeout"))
+                script_name = next((Path(str(c)).name for c in command if str(c).endswith(".py")), "")
+                if script_name == missing_script:
+                    raise FileNotFoundError(script_name)
                 # Simulate successful gates solely to reach the real final source-freeze check.
                 output = kwargs["stdout"]
                 prerequisite = next((c for c in command if c in (
-                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::", "phase11a2_abi_tests::", "mapping_pin_tests::", "structure_lifetime_tests::", "numeric_map_authority_tests::", "unmap_authority_tests::", "generation_ownership_tests::", "generation_ledger_tests::", "generation_boundary_tests::", "retained_owner")), None)
+                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::", "phase11a2_abi_tests::", "mapping_pin_tests::", "structure_lifetime_tests::", "numeric_map_authority_tests::", "unmap_authority_tests::", "generation_ownership_tests::", "generation_ledger_tests::", "generation_boundary_tests::", "retained_owner", "exception_abi::tests::")), None)
                 if prerequisite:
                     names = (["heap_growth_maps_one_page_on_demand"]
                              if prerequisite == "heap_growth_maps_one_page_on_demand" else [
@@ -345,6 +483,8 @@ class SourceFreezeTests(unittest.TestCase):
                                      if filter_name == prerequisite)
                     if prerequisite == "retained_owner":
                         names = self.declared_f1_retained_owner_names()
+                    if prerequisite == "exception_abi::tests::":
+                        names = self.declared_f2_exception_abi_names()
                     text = (safety_output or {}).get(prerequisite,
                         "".join(f"test {name} ... ok\n" for name in names)
                         + f"test result: ok. {len(names)} passed; 0 failed; 0 ignored\n")
@@ -399,6 +539,45 @@ class SourceFreezeTests(unittest.TestCase):
                 script_name = next((Path(str(c)).name for c in command if str(c).endswith(".py")), "")
                 if script_name == failed_script:
                     return type("Result", (), {"returncode": 1})()
+                if script_name == "f2_exception_guest.py" and f2_report is not None:
+                    folder = Path(command[command.index("--output-dir") + 1]) / "f2_guest_fixture"
+                    folder.mkdir(parents=True)
+                    fixture_kernel = folder / "kernel.elf"
+                    fixture_kernel.write_bytes(b"mock F2 fixture ELF, not hardware evidence")
+                    source = acceptance.source_snapshot()
+                    digest = acceptance.sha256(fixture_kernel)
+                    cases = []
+                    for case in ("ud", "de", "gp", "pf"):
+                        for ram in (128, 512):
+                            child = folder / f"{case}_{ram}" / "report.json"
+                            child.parent.mkdir()
+                            (child.parent / "serial.txt").write_text("F2 FIXTURE TRIGGER\nF2 fatal terminal\n")
+                            (child.parent / "mandatory_prefix.bin").write_bytes(bytes(68))
+                            names = sorted(f2_evidence.COMMON_CHECKS
+                                           | ({"page_fault_CR2_zero"} if case == "pf" else set()))
+                            guest = {"overall": "PASS", "case": case, "ram_mib": ram,
+                                     "owned_qemu_exited": True, "qemu_exit": -1,
+                                     "hardware_cpl3": False, "kernel_sha256": digest,
+                                     "checks": [{"name": name, "pass": True} for name in names],
+                                     "command": ["mock-qemu", "-kernel", str(fixture_kernel),
+                                                 "-m", str(ram), "-smp", "1", "-cpu", "qemu32",
+                                                 "-serial", "file:" + str(child.parent / "serial.txt")]}
+                            child.write_text(json.dumps(guest))
+                            cases.append({"case": case, "ram_mib": ram,
+                                          "overall": "PASS", "report": str(child)})
+                    evidence = {"overall": "PASS", "build_exit": 0,
+                                "source_sha256": source, "stripping_equality": True,
+                                "original_main_sha256": source["src/main.rs"],
+                                "kernel_sha256": digest, "cases": cases,
+                                "checks": [{"name": "all_requested_cpu_scenarios_PASS", "pass": True},
+                                           {"name": "source_freeze_stable", "pass": True}]}
+                    if f2_report == "ambiguous":
+                        other = folder.with_name("f2_guest_extra")
+                        other.mkdir()
+                        (other / "report.json").write_text(json.dumps(evidence))
+                    elif f2_report != "valid":
+                        evidence = f2_report
+                    (folder / "report.json").write_text(json.dumps(evidence))
                 if script_name == "phase10_initramfs_test.py" and phase10_report is not None:
                     folder = Path(command[command.index("--output-dir") + 1]) / "fixture"
                     folder.mkdir(parents=True, exist_ok=True)
@@ -499,7 +678,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(len(commands), 1)
         self.assertIn("--test-threads=1", commands[0])
         self.assertEqual(self.last_report["counts"]["f1_retained_owner"], {"pass": 9, "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 66)
+        self.assertEqual(self.last_report["gates_total"], 68)
 
     def test_phase11_missing_or_wrong_f1_identities_cannot_publish(self):
         declared = self.declared_f1_retained_owner_names()
@@ -552,9 +731,8 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(Path(guest[guest.index("--output-dir") + 1]).name, "phase10")
         self.assertEqual(self.last_report["counts"]["phase10_scenarios"],
                          {"pass": 4 * len(acceptance.PHASE10_CASES), "fail": 0})
-        # Preserve all 63 predecessor gates plus exact numeric-map and
-        # unmap-authority gates, plus the F1 retained-owner identity gate.
-        self.assertEqual(self.last_report["gates_total"], 66)
+        # Preserve all 66 predecessor gates; add only F2 host and hardware gates.
+        self.assertEqual(self.last_report["gates_total"], 68)
         for name in scripts:
             with self.subTest(failed=name):
                 self.assertEqual(self.simulate(lambda root: None, failed_script=name), 1)
@@ -835,7 +1013,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertTrue(any(str(c).replace("\\", "/").endswith("tests_kernel/Cargo.toml")
                             for c in commands[0]))
         self.assertEqual(self.last_report["counts"]["phase11_structure_lifetime"], {"pass": 5, "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 66)
+        self.assertEqual(self.last_report["gates_total"], 68)
 
     def test_phase11_structure_lifetime_bad_identities_cannot_publish(self):
         names = self.declared_structure_lifetime_names()
@@ -886,7 +1064,7 @@ class SourceFreezeTests(unittest.TestCase):
             self.assertIn("--lib", commands[0])
             self.assertIn("--test-threads=1", commands[0])
             self.assertEqual(self.last_report["counts"][key], {"pass": len(names), "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 66)
+        self.assertEqual(self.last_report["gates_total"], 68)
 
     def test_phase11_generation_bad_identities_cannot_publish(self):
         for key, (filter_name, names) in self.declared_generation_families().items():

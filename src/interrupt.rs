@@ -97,7 +97,7 @@ impl InterruptTable {
             0u64.set_bits(0, 16, u64::from(isr_offset))
                 .set_bits(48, 16, u64::from(isr_offset >> 16))
                 .set_bits(16, 16, 0x08)
-                .set_bits(40, 4, u64::from(GateType::Trap32Bit as u8))
+                .set_bits(40, 4, u64::from(GateType::Interrupt32Bit as u8))
                 .set_bits(45, 2, 0)
                 .set_one_bit(47, true),
         );
@@ -114,41 +114,12 @@ impl InterruptTable {
             isr_irq28, isr_irq29, isr_irq2A, isr_irq2B, isr_irq2C, isr_irq2D, isr_irq2E, isr_irq2F,
         ];
         let plain_entry = Entry::new(isr_dummy_handler, 0x08, GateType::Interrupt32Bit, 0);
-        let exception_handlers: [InterruptServiceRoutine; 17] = [
-            isr_exc00,
-            isr_exc01,
-            isr_exc02,
-            isr_exc03,
-            isr_exc04,
-            isr_exc05,
-            isr_exc06,
-            isr_exc07,
-            isr_dummy_handler,
-            isr_exc09,
-            isr_dummy_handler,
-            isr_dummy_handler,
-            isr_dummy_handler,
-            isr_dummy_handler,
-            isr_dummy_handler,
-            isr_exc15,
-            isr_exc16,
-        ];
-        for (i, entry) in self.inner.iter_mut().enumerate() {
+        // CPU vectors were installed explicitly before load; never substitute
+        // an IRQ/compiler-ABI handler for the normalized fatal-only entries.
+        for (i, entry) in self.inner.iter_mut().enumerate().skip(32) {
             let c = entry.0;
             if c.get_bits(0, 16) == 0 && c.get_bits(48, 16) == 0 {
-                *entry = if i < 32 {
-                    let isr = if crate::memory::paging::exception_pushes_error_code(i as u8) {
-                        // Error-code vectors are installed through the
-                        // offset path in init_idt; the placeholder keeps
-                        // the array fill total and is overwritten there.
-                        isr_dummy_handler
-                    } else if i < exception_handlers.len() {
-                        exception_handlers[i]
-                    } else {
-                        isr_exception_generic
-                    };
-                    Entry::new(isr, 0x08, GateType::Trap32Bit, 0)
-                } else if (HW_IRQ_BASE..HW_IRQ_END).contains(&i) {
+                *entry = if (HW_IRQ_BASE..HW_IRQ_END).contains(&i) {
                     Entry::new(
                         hw_handlers[i - HW_IRQ_BASE],
                         0x08,
@@ -264,17 +235,11 @@ pub fn init_idt(palloc: &mut PortAllocator) {
             .as_mut()
             .expect("interrupt table is free");
 
-        // Error-code exceptions take the CpuErrorFrame shape; install them
-        // through the offset path so the frame layout stays correct.
-        t.set_interrupt_offset(8, isr_exc08 as u32);
-        t.set_interrupt_offset(10, isr_exc10 as u32);
-        t.set_interrupt_offset(11, isr_exc11 as u32);
-        t.set_interrupt_offset(12, isr_exc12 as u32);
-        t.set_interrupt_offset(13, isr_general_fault as u32);
-        t.set_interrupt_offset(14, isr_page_fault as u32);
-        // #AC(17) pushes an error code on this CPU contract: it must take the
-        // CpuErrorFrame shape, not the no-error reserved-range generic stub.
-        t.set_interrupt_offset(17, isr_exc17 as u32);
+        // All CPU vectors use the explicit fatal-only F2 assembly ABI.
+        // This table includes frame-independent unsupported-vector stubs.
+        for vector in 0..32 {
+            t.set_interrupt_offset(vector, crate::exception_fatal::f2_exception_entries[vector]);
+        }
         t.set_interrupt(0x20, isr_timer_handler);
         t.set_interrupt(0x21, isr_keyboard_handler);
         t.load();
@@ -283,67 +248,12 @@ pub fn init_idt(palloc: &mut PortAllocator) {
     println!("new idtr: {:?}", get_idtr());
 }
 
-// Page fault (vector 14) receives a CPU-pushed error code.
-// The frame is read through a dedicated struct so the error code is decoded
-// correctly; CR2 carries the faulting linear address.
-#[derive(Debug, Clone, Copy)]
-#[repr(C, packed)]
-struct PageFaultFrame {
-    error_code: u32,
-    instruction_ptr: u32,
-    code_segment: u32,
-    cpu_flags: u32,
-}
-
-// Shared frame for the other error-code exceptions (#DF/#TS/#NP/#SS/#GP):
-// identical CPU layout to #PF, but the error code is selector-format, not
-// page-format, so it must not be decoded with page semantics.
-#[derive(Debug, Clone, Copy)]
-#[repr(C, packed)]
-struct CpuErrorFrame {
-    error_code: u32,
-    instruction_ptr: u32,
-    code_segment: u32,
-    cpu_flags: u32,
-}
-
-static mut LAST_PAGE_FAULT: Option<crate::memory::paging::PageFaultInfo> = None;
-static PAGE_FAULT_COUNT: core::sync::atomic::AtomicU32 = core::sync::atomic::AtomicU32::new(0);
-
-extern "x86-interrupt" fn isr_page_fault(frame: PageFaultFrame) {
-    // Lockfree serial only (ISR rule: no mutex-backed writers).
-    use core::fmt::Write;
-    unsafe {
-        // PageFaultFrame is packed; copy fields to locals before use.
-        let code = frame.error_code;
-        let rip = frame.instruction_ptr;
-        let mut info = crate::memory::paging::decode_error_code(code);
-        info.cr2 = crate::memory::paging::read_cr2();
-        LAST_PAGE_FAULT = Some(info);
-        PAGE_FAULT_COUNT.fetch_add(1, core::sync::atomic::Ordering::Relaxed);
-        let _ = writeln!(
-            io::serial::SerialWriter,
-            "page fault: code {:#06x} present={} write={} user={} fetch={} cr2={:#010x} rip={:#010x}",
-            code,
-            info.present,
-            info.write,
-            info.user,
-            info.fetch,
-            info.cr2,
-            rip
-        );
-        // Fatal here: no demand paging, so returning would re-execute the
-        // faulting instruction forever. Halt this context safely.
-        halt_forever();
-    }
-}
-
 pub fn page_fault_count() -> u32 {
-    PAGE_FAULT_COUNT.load(core::sync::atomic::Ordering::Relaxed)
+    crate::exception_fatal::page_fault_count()
 }
 
 pub fn last_page_fault() -> Option<crate::memory::paging::PageFaultInfo> {
-    unsafe { LAST_PAGE_FAULT }
+    crate::exception_fatal::last_page_fault()
 }
 
 fn get_idtr() -> Idtr {
@@ -356,29 +266,6 @@ fn get_idtr() -> Idtr {
             asm!("sidt ({})", in (reg) r.as_mut_ptr(), options(att_syntax, nostack, preserves_flags));
             r.assume_init()
         }
-    }
-}
-
-extern "x86-interrupt" fn isr_general_fault(frame: CpuErrorFrame) {
-    // Must not use println!: the VGA writer is behind a SpinMutex that the
-    // interrupted context may already hold (non-reentrant -> deadlock).
-    // Interrupt-context output goes through the lockfree serial channel.
-    // #GP pushes a CPU error code (selector format): read it through
-    // CpuErrorFrame so the stack stays balanced and the code is reported
-    // raw, never decoded with page-fault bit semantics.
-    use core::fmt::Write;
-    unsafe {
-        let code = frame.error_code;
-        let rip = frame.instruction_ptr;
-        let cs = frame.code_segment;
-        let _ = writeln!(
-            io::serial::SerialWriter,
-            "general fault: error={:#010x} ring={} rip={:#010x}",
-            code,
-            crate::memory::paging::fault_ring_from_saved_cs(cs),
-            rip
-        );
-        halt_forever();
     }
 }
 
@@ -399,76 +286,6 @@ extern "x86-interrupt" fn isr_timer_handler(_isf: InterruptStackFrame) {
         pic_send_eoi(0x20);
     }
 }
-
-macro_rules! exception_handler {
-    ($name:ident, $vector:expr) => {
-        extern "x86-interrupt" fn $name(_isf: InterruptStackFrame) {
-            // CPU exception (vector 0-31): NOT a PIC IRQ, so no PIC EOI is
-            // sent. Unrecoverable here: report once per vector (bounded),
-            // count, then halt this context instead of returning normally.
-            unsafe {
-                use core::fmt::Write;
-                if EXCEPTION_COUNTS[$vector] == 0 {
-                    let _ = writeln!(
-                        io::serial::SerialWriter,
-                        "CPU exception vector {:#04x}",
-                        $vector
-                    );
-                }
-                EXCEPTION_COUNTS[$vector] += 1;
-                halt_forever();
-            }
-        }
-    };
-}
-
-macro_rules! exception_handler_with_error {
-    ($name:ident, $vector:expr) => {
-        extern "x86-interrupt" fn $name(frame: CpuErrorFrame) {
-            // Error-code exception (#DF/#TS/#NP/#SS): the CPU pushed a
-            // selector-format error code ahead of the return address. Reading
-            // it through CpuErrorFrame keeps the stack balanced; the code is
-            // reported raw (page-fault bit semantics do not apply here).
-            unsafe {
-                use core::fmt::Write;
-                if EXCEPTION_COUNTS[$vector] == 0 {
-                    let code = frame.error_code;
-                    let rip = frame.instruction_ptr;
-                    let cs = frame.code_segment;
-                    let _ = writeln!(
-                        io::serial::SerialWriter,
-                        "CPU exception vector {:#04x} error={:#010x} ring={} rip={:#010x}",
-                        $vector,
-                        code,
-                        crate::memory::paging::fault_ring_from_saved_cs(cs),
-                        rip
-                    );
-                }
-                EXCEPTION_COUNTS[$vector] += 1;
-                halt_forever();
-            }
-        }
-    };
-}
-
-exception_handler!(isr_exc00, 0);
-exception_handler!(isr_exc01, 1);
-exception_handler!(isr_exc02, 2);
-exception_handler!(isr_exc03, 3);
-exception_handler!(isr_exc04, 4);
-exception_handler!(isr_exc05, 5);
-exception_handler!(isr_exc06, 6);
-exception_handler!(isr_exc07, 7);
-exception_handler_with_error!(isr_exc08, 8);
-exception_handler!(isr_exc09, 9);
-exception_handler_with_error!(isr_exc10, 10);
-exception_handler_with_error!(isr_exc11, 11);
-exception_handler_with_error!(isr_exc12, 12);
-exception_handler!(isr_exc13, 13);
-exception_handler!(isr_exc14, 14);
-exception_handler!(isr_exc15, 15);
-exception_handler_with_error!(isr_exc17, 17);
-exception_handler!(isr_exc16, 16);
 
 macro_rules! hw_irq_handler {
     ($name:ident, $vector:expr) => {
@@ -510,18 +327,6 @@ hw_irq_handler!(isr_irq2C, 0x2C);
 hw_irq_handler!(isr_irq2D, 0x2D);
 hw_irq_handler!(isr_irq2E, 0x2E);
 hw_irq_handler!(isr_irq2F, 0x2F);
-
-extern "x86-interrupt" fn isr_exception_generic(_isf: InterruptStackFrame) {
-    // Exception vectors 17-31 (reserved): report once, count, halt. No PIC EOI.
-    unsafe {
-        use core::fmt::Write;
-        if EXCEPTION_COUNTS[17] == 0 {
-            let _ = writeln!(io::serial::SerialWriter, "CPU exception (reserved range)");
-        }
-        EXCEPTION_COUNTS[17] += 1;
-        halt_forever();
-    }
-}
 
 extern "x86-interrupt" fn isr_dummy_handler(_isf: InterruptStackFrame) {
     unsafe {
