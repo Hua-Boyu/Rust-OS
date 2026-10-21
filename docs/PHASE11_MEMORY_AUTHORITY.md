@@ -1,3 +1,33 @@
+## Latest F2 continuation — canonical 68/68 PASS exit0; final readback APPROVE — F2 ACCEPTED
+
+Current authority: `test_results/phase11f2_exception_abi/STATE.md` and `FINAL_REPORT.md`.
+The baseline gate is resolved as independently approved provenance-only ClassB
+plus explicit operator authorization of the disclosed current baseline. Exact old
+capture-script bytes differ only by one trailing blank LF; historical final F1
+readback remains missing, not fabricated or replaced with a partial checkpoint.
+Approved fixed68-byte exception ABI is implemented with preserved registers and
+selectors, kernel DS/ES/FS/GS normalization, CLI/CLD, aligned nonreturning Rust
+entry, hardware-error handling, no same-ring tail access and frame-independent
+unsupported21/29/30 handling. Fatal22-function emitted closure has no allocation,
+lock, panic/unwind or indirect-call edges. Ordinary-stack #DF limits remain.
+Fresh host359/0/2 and B26127/0/0 pass serial/parallel with exact identity readback;
+F2 Ring0 hardware8/8 and F1 retained-owner10/10 pass at128/512MiB. Candidate review
+APPROVE/zero blockers, raw73ae98d5fc353da6dc6c57a78a3d10c67493150f26cc96eb3c56ee8df90b3565.
+One canonical68-gate acceptance COMPLETED: sessionproc_d24a68e23079 actual exit0,
+explicit PASS 68/68 at `canonical_acceptance_01/acceptance_20261020T225049Z_p25gcqvh/acceptance.json`
+(sha256 c619ffe5c99de75701528b836e1ba1eeeb904720d279b3e6392050852359f0a9);165 source/build
+inputs frozen and rechecked stable after scoped source commit e99d82f. Parent offline
+reader02 PASS (f2_parent_canonical_readback_04) resolves CU01-CU03 of closeout_utility_review_01;
+reader01/review01/readback01 remain preserved. Independent final canonical readback
+COMPLETED: APPROVE, zero blockers, nine check groups PASS with exact path+SHA256
+evidence (`reviews/final_canonical_readback_01.json`, sha256
+36c7668e3813118b765b349b28ef21d3ffe7a7f61463ef5fd8776a595204f6c1). F2 IS ACCEPTED.
+No source edits,
+competing builds/QEMU or second acceptance; never unlink the OS-held lockfile.
+No F3-F5/TSS/USER/CPL3/deployment/push.
+The complete earlier document below is preserved historical authority, superseded
+only by this latest bounded F2 status; it is not a new F1 redesign authorization.
+
 # Physical-memory authority — Phase 11A.2 partial inventory
 
 ## F2 current checkpoint — PARTIAL / prerequisite evidence STOP (2026-10-20)

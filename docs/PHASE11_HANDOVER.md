@@ -1,3 +1,33 @@
+## Latest F2 continuation — canonical 68/68 PASS exit0; final readback APPROVE — F2 ACCEPTED
+
+Read `test_results/phase11f2_exception_abi/STATE.md` and `FINAL_REPORT.md` first.
+Baseline ClassB reconciliation independently approved: recovered exact accepted
+capture-test bytes differ only by one terminal blank LF. Operator explicitly
+authorized this disclosed current baseline conditional on that approval; missing
+historical final F1 readback remains disclosed, not fabricated. Gate disposition
+is in `baseline_gate_disposition_01.json`; old reviewer's hold remains immutable.
+Approved68-byte ABI is implemented: explicit32 CPU stubs, saved GPRs/selectors,
+live kernel selectors/CLI/CLD, aligned fatal bridge, no same-ring optional tail,
+explicit hardware errors and unsupported21/29/30 frame-independent termination.
+Fatal emitted closure22 functions/no heap, lock, panic/unwind or indirect-call
+edges. Host359/0/2 and B26127/0/0 serial/parallel, exact membership/list checks,
+F2 real fault8/8 and F1 preservation10/10 at128/512MiB pass. Candidate source review
+APPROVE0, raw73ae98d5fc353da6dc6c57a78a3d10c67493150f26cc96eb3c56ee8df90b3565.
+One canonical68-gate acceptance COMPLETED, not yet independently read back: session
+proc_d24a68e23079 actual exit0, explicit PASS 68/68 at
+`canonical_acceptance_01/acceptance_20261020T225049Z_p25gcqvh/acceptance.json`
+(sha256 c619ffe5c99de75701528b836e1ba1eeeb904720d279b3e6392050852359f0a9);165 inputs
+frozen, rechecked stable after scoped source commit e99d82f. Parent offline reader02
+(readback_canonical_02.py) PASS (f2_parent_canonical_readback_04) resolves CU01-CU03
+from closeout_utility_review_01; reader01/review01 preserved. Independent final
+canonical readback COMPLETED: APPROVE, zero blockers, nine check groups PASS with
+exact path+SHA256 evidence (`reviews/final_canonical_readback_01.json`, sha256
+36c7668e3813118b765b349b28ef21d3ffe7a7f61463ef5fd8776a595204f6c1). F2 IS ACCEPTED.
+Do not edit source, build, run independent QEMU, start a second acceptance
+or unlink dist/.phase6_acceptance.lock. No F3-F5, TSS/ESP0, USER/CPL3, deployment or
+push. Earlier blocks follow unchanged as historical checkpoints, not contradictory
+current instructions.
+
 ## Rosti OS — Phase 11 Handover
 
 ## Current — F2 PARTIAL / prerequisite evidence STOP (2026-10-20)

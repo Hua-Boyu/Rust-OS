@@ -1,5 +1,13 @@
 # F2 bounded investigation log
 
+## Continuation resolutions and bounded failures
+
+- One bounded Git-object recovery found exact accepted script bytes in blob7c17b97a847e16ae3e974a24e21fd625af4cec41. Actual diff is ONLY one trailing blank LF removed; AST identical. Independent ClassB approval plus explicit operator current-baseline disposition closes the F2 prerequisite without fabricating missing historical readback. Do not repeat log searches.
+- First candidate hardware run failed an overstrict EFLAGS equality oracle, not selector normalization: savedRF was set by CPU. Retained SDM093 PDFp680/20.3.1.1 explicitly mandates RF1 for these fault classes. Correct exact expected flags to preflags|RF; keep savedIF/DF and every other bit exact. Original failed artifact retained.
+- Emitted debug call audit exposed panic/VGA-lock edges through static mut writes, generic shifts, core iterators and atomic store's invalid-order branch. Remove those roots rather than disabling safety checks globally: atomic swap snapshots, constant shifts, bounded wrapping loops, direct valid-literal reads. Final closure22 functions/no forbidden or indirect calls; prior failures retained.
+- First fresh F1 guest aggregate failed source-freeze check while the bounded harness writer completed one test-file edit; all10 child scenarios passed and defaultELF stayed unchanged. Treat aggregateFAIL truthfully; complete frozen unique rerun02 PASS10, not a waived check or F1 regression.
+- Final verification runs source-frozen with one parent-owned build/QEMU stream; no source edits or competing guests. Candidate review must finish before any canonical acceptance. Historical investigation entries below remain evidence of the earlier checkpoint.
+
 - Current F1 STATE and manifest contain mixed historical statuses. Resolve actual acceptance path from the retained manifest/report and check raw digest; do not trust a heading or stale RUNNING link.
 - F1 production source and kernel match; one capture-test script does not match accepted raw pin. Current script equals committedHEAD and b4e82db, but neither LF nor whole-fileCRLF conversion reproduces accepted digest. No raw source normalization is allowed to dismiss the mismatch.
 - F1 final_readback.json, final_closeout.json and v2_final_readback.json are partial checkpoints at earlierHEADs. They are not final F1 acceptance readback. Independent audit searched944JSON artifacts; available history search returned no matching accepted final verdict. Do not invent one.

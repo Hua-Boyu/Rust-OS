@@ -1,4 +1,19 @@
-# F2 exception-entry inventory (starting source, no production correction)
+# F2 exception-entry inventory
+
+## Current implementation (continuation; acceptance still pending)
+
+- `src/exception_abi.rs`: shared repr(C) fixed68-byte mandatory prefix; all17 offsets asserted, three-way vector metadata, #DF-invalid origin, bounded synthetic-only tail decoder, one-entry atomic latch and observed-profile predicate.
+- `src/exception_entry.s`: all32 explicit DPL0 interrupt-gate targets; mandatory7 error stubs, synthetic-error no-error stubs, unsupported21/29/30 separate frame-independent paths. PUSHAD before scratch, zero-extended original segment selectors, DS/ES/FS/GS=0x10, CLI/CLD, explicit16-byte preCALL alignment and defensive nonreturning CLI/HLT.
+- `src/exception_fatal.rs`: mandatory-prefix reference only; no optional tail reads or IRET. Atomic first-entry guard; CR2 capture before output; raw bounded literals/hex and compatibilityPF/GP diagnostics. Atomic PF scalar snapshots replace unsafe mutable Option writes. Usable-stack #DF explicitly reports undefined savedCS/EIP; no corrupt/exhausted-stack containment claim.
+- `src/interrupt.rs`: obsolete compiler CPU handlers removed, all32 offsets installed from assembly table; existing IRQ handlers/PIC/boot load behavior retained.
+- `src/memory/paging.rs`: same PF decoder bits expressed as constant masks to eliminate debug shift/panic edges; inherited error-code bool documented as mandatory-only, never universal dispatch. `src/io/serial.rs` retains exact100000poll limit with wrapping bounded loop to avoid debug-core iterator panic edges.
+- `src/exception_abi_tests.rs` and host module wiring: seven exact shared-source tests; synthetic other-ring decoding is NOT CPL3 proof.
+- `scripts/f2_exception_guest.py`, `f2_evidence.py`, `test_f2_evidence.py`: disposable stripping-equal fixtures, actual CPU/saved-prefix/IDT32/C-entry/CR2/terminal/NMI observations, fail-closed invocation-owned8-case validation and11 host evidence controls. Canonical runner preserves66 gates and adds exact-host7 plus mandatory guest8 matrix (68 total), with negative controls.
+- Final emitted fatal closure `fatal_callgraph_04.json`:22 functions, zero indirect/missing/panic/alloc/lock targets; candidate reviewer must separately inspect branch closure. Prior failed callgraph evidence retained, never relabeled PASS.
+- Hardware `guest_matrix_03/f2_guest_quwmcsd_`: DE/UD/GP/PF at128/512 PASS8/8, selector preservation/normalization, exact GPRs and hardware error words, savedIF0/DF1 plus architecturalRF1, liveIF/DF0, exact same-ring stack geometry, rawC alignment, PFCR2 and silent NMI reentry. No actual #DF delivery or CPL3 claimed.
+- Fresh F1 `f1_guest_02/f1_retained_d09yelav`: PASS10, source/defaultELF unchanged. `libtest_identity_readback_01.json` verifies host359/0/2 and B26127/0/0 serial/parallel against independent lists.
+
+## Preserved starting-source inventory (historical; superseded above)
 
 Identity: HEAD `d6f7b6a86286c5dfc9ea8ff5c033809b3dbc49f4`; raw source hashes in `recovery_01.json`. All source references below are the unchanged starting bytes. Proposed design is not implemented behavior.
 

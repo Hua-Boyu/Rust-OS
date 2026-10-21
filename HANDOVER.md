@@ -1,3 +1,29 @@
+## Latest F2 continuation — canonical 68/68 PASS; final readback APPROVE — F2 ACCEPTED
+
+Task authority: `test_results/phase11f2_exception_abi/STATE.md` and `FINAL_REPORT.md`.
+Baseline provenance gate resolved: independently approved ClassB trailing-blank-LF
+script discrepancy plus explicit operator current-baseline authorization. Missing
+historical final F1 readback is disclosed, not recovered/fabricated. F1 not reopened.
+Approved fixed68-byte exception ABI implemented; preserved selectors/GPRs, actual
+kernel selector normalization/CLI/CLD, hardware-error shapes, same-ring safety,
+aligned nonreturning bridge and bounded lockfree fatal path. Unsupported21/29/30
+never decode CPU frames; robust stack-failure #DF containment remains an F3 issue.
+Fresh host359/0/2 and B26127/0/0 serial/parallel exact membership, F2 hardware8/8
+and F1 guest10/10 at128/512MiB pass. Independent candidate APPROVE/zero blockers,
+raw73ae98d5fc353da6dc6c57a78a3d10c67493150f26cc96eb3c56ee8df90b3565.
+One canonical68-gate acceptance COMPLETED: session proc_d24a68e23079 actual exit0,
+explicit PASS 68/68 at `canonical_acceptance_01/acceptance_20261020T225049Z_p25gcqvh/acceptance.json`
+(sha256 c619ffe5c99de75701528b836e1ba1eeeb904720d279b3e6392050852359f0a9);165 inputs
+frozen and rechecked stable after commit e99d82f. Parent offline readback reader02
+(readback_canonical_02.py) PASS via f2_parent_canonical_readback_04; it resolves the
+three reader-integrity blockers of closeout_utility_review_01 (CU01-CU03) against
+reader01, which remains preserved. Independent final canonical readback COMPLETED:
+APPROVE, zero blockers, all nine check groups PASS with exact path+SHA256 evidence
+(`reviews/final_canonical_readback_01.json`, sha256 36c7668e3813118b765b349b28ef21d3ffe7a7f61463ef5fd8776a595204f6c1).
+F2 IS ACCEPTED on this evidence. No source edits, competing
+build/QEMU or second acceptance; never unlink lockfile. No F3-F5, TSS/USER/CPL3,
+deployment, push or unrelated staging. Earlier complete document is historical.
+
 # Rosti OS — development handover
 
 ## Current — F2 PARTIAL / prerequisite evidence STOP (2026-10-20)

@@ -1,3 +1,30 @@
+## Latest F2 continuation — canonical 68/68 PASS exit0; final readback APPROVE — F2 ACCEPTED
+
+Repository C:/Users/iamsv/Documents/Rust-OS, maintenance/phase10; scoped source commit
+e99d82f2a09b636de4cee46a8f292087895e45e2 (initial HEAD9c051c8bbb872c196e40687bb04356b4344e32f2).
+Read task STATE.md/FINAL_REPORT.md, baseline reconciliation/operator/gate disposition
+and complete candidate review.
+Baseline provenance resolved as independently approved ClassB (one trailing blank
+LF only) plus explicit conditional operator current-baseline authorization. The
+missing historical final F1 readback remains missing, never fabricated. F2 source
+implements approved68-byte ABI; no design restart. Fresh focused7, host359/0/2
+and B26127/0/0 serial/parallel exact identity readback, real F2 fault8/8 and F1
+preservation10/10 at128/512MiB PASS. Candidate APPROVE0 is raw
+73ae98d5fc353da6dc6c57a78a3d10c67493150f26cc96eb3c56ee8df90b3565.
+One canonical68-gate acceptance COMPLETED, NOT yet independently read back: proc_d24a68e23079
+actual exit0, explicit PASS 68/68 at `test_results/phase11f2_exception_abi/canonical_acceptance_01/acceptance_20261020T225049Z_p25gcqvh/acceptance.json`
+(sha256 c619ffe5c99de75701528b836e1ba1eeeb904720d279b3e6392050852359f0a9).165 inputs frozen
+and rechecked stable after the scoped commit. Parent offline reader02 (readback_canonical_02.py)
+PASS via f2_parent_canonical_readback_04; resolves CU01-CU03 of closeout_utility_review_01;
+reader01/review01/readback01 preserved. Independent final canonical readback COMPLETED:
+APPROVE, zero blockers, nine check groups PASS with exact path+SHA256 evidence
+(`reviews/final_canonical_readback_01.json`, sha256 36c7668e3813118b765b349b28ef21d3ffe7a7f61463ef5fd8776a595204f6c1).
+F2 IS ACCEPTED. Next session: F3 must separately provision reviewed GDT/TSS/privileged
+stacks/emergency strategy; robust corrupt/exhausted-stack #DF survival is NOT provided.
+Never launch a second runner, edit source, compete with build/QEMU or unlink acceptance
+lock. Protect README.md,d1/,init-doc,backup.
+No F3-F5/TSS/USER/CPL3/general teardown/remote/deployment/push. Earlier full prompt is historical.
+
 # Rosti OS — standalone Phase 11 continuation prompt
 
 ## CURRENT F2 checkpoint — PARTIAL / prerequisite evidence STOP (2026-10-20)
