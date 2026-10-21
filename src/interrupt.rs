@@ -154,6 +154,55 @@ struct Idtr {
     base: u32,
 }
 
+// F3 only: the caller has retained/validated both TSSes and loaded TR18.
+// Do not reuse InterruptTable::load: it enables interrupts and rewrites gates.
+const DOUBLE_FAULT_TASK_GATE: u64 = 0x0000_8500_0020_0000;
+
+#[cfg(not(test))]
+pub(crate) fn install_double_fault_task_gate() -> bool {
+    let flags: u32;
+    unsafe {
+        asm!("pushfd", "pop {flags:e}", flags = out(reg) flags, options(preserves_flags));
+    }
+    if flags & (1 << 9) != 0 {
+        return false;
+    }
+    let idtr = get_idtr();
+    let base = core::ptr::addr_of!(INTERRUPT_TABLE).cast::<u8>() as u32;
+    if idtr.base != base || idtr.limit != (IDT_TABLE_SIZE * 8 - 1) as u16 {
+        return false;
+    }
+    // Validate the complete table's actual writable supervisor identity mapping
+    // before touching the gate. IF remains clear throughout the two wire stores.
+    if !crate::gdt_tss::writable_kernel_identity(base, IDT_TABLE_SIZE * 8) {
+        return false;
+    }
+    unsafe {
+        let gate = (base as *mut u32).add(8 * 2);
+        core::ptr::write_volatile(gate, DOUBLE_FAULT_TASK_GATE as u32);
+        core::ptr::write_volatile(gate.add(1), (DOUBLE_FAULT_TASK_GATE >> 32) as u32);
+    }
+    double_fault_task_gate_installed()
+}
+
+/// Actual SIDT plus raw gate readback, not a cached software-ready flag.
+#[cfg(not(test))]
+pub(crate) fn double_fault_task_gate_installed() -> bool {
+    let idtr = get_idtr();
+    let base = core::ptr::addr_of!(INTERRUPT_TABLE).cast::<u8>() as u32;
+    if idtr.base != base || idtr.limit != (IDT_TABLE_SIZE * 8 - 1) as u16 {
+        return false;
+    }
+    if !crate::gdt_tss::writable_kernel_identity(base, IDT_TABLE_SIZE * 8) {
+        return false;
+    }
+    unsafe {
+        let gate = (base as *const u32).add(8 * 2);
+        core::ptr::read_volatile(gate) == DOUBLE_FAULT_TASK_GATE as u32
+            && core::ptr::read_volatile(gate.add(1)) == (DOUBLE_FAULT_TASK_GATE >> 32) as u32
+    }
+}
+
 #[derive(Debug, Clone, Copy)]
 #[repr(C, packed)]
 pub struct InterruptStackFrame {

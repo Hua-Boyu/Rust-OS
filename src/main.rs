@@ -19,6 +19,8 @@ mod fs;
 mod fs_commands;
 mod fs_stress;
 mod gdt;
+#[cfg(not(test))]
+mod gdt_tss;
 mod initramfs;
 mod initramfs_trust;
 mod interrupt;

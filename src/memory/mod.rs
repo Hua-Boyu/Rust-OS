@@ -267,6 +267,13 @@ pub(crate) fn run_retained_owner() -> ! {
     paging::retained_owner::run()
 }
 
+#[cfg(all(not(test), target_os = "none"))]
+#[unsafe(export_name = "f3_run_gdt_tss")]
+#[unsafe(link_section = ".text.f3_contract")]
+pub(crate) extern "C" fn run_gdt_tss() -> ! {
+    paging::retained_owner::run_gdt_tss()
+}
+
 pub fn page_directory() -> Option<u64> {
     PAGE_MAP.lock().as_ref().map(|pm| pm.directory())
 }

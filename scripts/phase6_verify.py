@@ -457,6 +457,26 @@ def _run_acceptance():
                 or len(observed) != len(f2_required) or set(observed) != f2_required):
             raise RuntimeError("F2 exception ABI tests missing or inconsistent")
         report["counts"]["f2_exception_abi"] = {"pass": len(observed), "fail": 0}
+        # Minimal F3 Ring-0 host model only, not full F3 or CPL3 acceptance.
+        f3_required = {
+            "memory::paging::privileged::tests::f3_descriptor_wire_bytes_preserve_kernel_selectors",
+            "memory::paging::privileged::tests::f3_tss_layout_and_absent_io_bitmap",
+            "memory::paging::privileged::tests::f3_eight_owned_pages_two_absent_guards_and_no_new_table",
+            "memory::paging::privileged::tests::f3_conflict_and_missing_lease_refuse_before_any_pte_write",
+            "memory::paging::privileged::tests::f3_old_guard_physical_candidate_refused_before_table_write",
+            "memory::paging::privileged_owner_tests::f3_owner_ten_frames_stay_preparing_until_cpu_install",
+            "memory::paging::privileged_owner_tests::f3_owner_partial_oom_retains_every_acquired_lease_terminally",
+        }
+        command = ["cargo", "+nightly", "test", "--manifest-path",
+                   str(PROJECT / "tests_kernel/Cargo.toml"), "--lib", "::f3_",
+                   "--", "--test-threads=1"]
+        text = gate("Phase 11F3 minimal Ring0 exact identity family", command, cwd=Path.home())
+        observed = re.findall(r"^test (\S+) \.\.\. ok\s*$", text, re.M)
+        totals = re.findall(r"test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored", text)
+        if (totals != [(str(len(f3_required)), "0", "0")]
+                or len(observed) != len(f3_required) or set(observed) != f3_required):
+            raise RuntimeError("F3 minimal Ring0 tests missing or inconsistent")
+        report["counts"]["f3_minimal_ring0"] = {"pass": len(observed), "fail": 0}
         manifest = str(PROJECT / "crates/rostifs/Cargo.toml")
         gate("RostiFS formatting", ["cargo", "+nightly", "fmt", "--manifest-path", manifest, "--check"])
         text = gate("RostiFS host and crash recovery tests", ["cargo", "+nightly", "test", "--manifest-path", manifest, "--", "--nocapture"], timeout=300, cwd=Path.home())
@@ -480,7 +500,7 @@ def _run_acceptance():
             raise RuntimeError("RostiFS write regression totals missing or incomplete")
         report["counts"]["rostifs_write"] = {"pass": int(match[1]), "fail": int(match[2])}
         gate("Python media reader regressions", script("test_fs_harness.py"))
-        gate("acceptance runner regressions", script("test_acceptance_harness.py"))
+        gate("acceptance runner regressions", script("test_acceptance_harness.py"), timeout=900)
         gate("RostiFS harness regressions", script("test_rostifs_harness.py"))
         gate("Phase 9.5 benchmark contracts", script("test_phase9_5_bench.py"))
         gate("Phase 9.6 boot metadata harness contracts", script("test_boot_metadata_harness.py"))
@@ -554,6 +574,24 @@ def _run_acceptance():
         report["f2_evidence_sha256"] = f2_validated["pins"]
         f2_reports = {Path(path) for path in f2_validated["pins"]
                       if Path(path).name == "report.json"}
+        f3_output = run / "f3_gdt_tss"
+        gate("Phase 11F3 minimal Ring0 hardware matrix",
+             script("f3_full_guest.py", "--output-dir", f3_output), timeout=2100)
+        f3_paths = list(f3_output.glob("*/report.json"))
+        if len(f3_paths) != 1:
+            raise RuntimeError("missing or ambiguous mandatory F3 hardware report")
+        import f3_full_evidence
+        f3_validated = f3_full_evidence.validate(f3_paths[0], report["source_sha256"])
+        # A genuine minimal ready/guard/DF GREEN remains partial evidence.
+        # Never promote planned-only #SS/NMI obligations to canonical PASS.
+        if (f3_validated.get("full_f3_acceptance") is not True
+                or f3_validated.get("planned_only")):
+            raise RuntimeError("F3 hardware evidence is partial; full mandatory oracles remain unverified")
+        report["counts"]["f3_minimal_ring0_scenarios"] = {
+            "pass": f3_validated["scenario_count"], "fail": 0}
+        report["f3_evidence_sha256"] = f3_validated["pins"]
+        f3_reports = {Path(path) for path in f3_validated["pins"]
+                      if Path(path).name in {"report.json", "guest_report.json"}}
         metadata_output = run / "boot_metadata"
         gate("Phase 9.6 integrated boot metadata ELF and GRUB safety",
              script("boot_metadata_test.py", "--boot", "both", "--ram", 128, 512,
@@ -640,6 +678,9 @@ def _run_acceptance():
         if any(sha256(Path(path)) != digest
                for path, digest in f2_validated["pins"].items()):
             raise RuntimeError("F2 validated hardware evidence changed during acceptance")
+        if any(sha256(Path(path)) != digest
+               for path, digest in f3_validated["pins"].items()):
+            raise RuntimeError("F3 validated hardware evidence changed during acceptance")
         if sha256(metadata_path) != metadata_digest:
             raise RuntimeError("boot metadata validated matrix changed during acceptance")
         phase10_scenarios = phase10_evidence(json.loads(phase10_path.read_text()), phase10_path)
@@ -663,10 +704,10 @@ def _run_acceptance():
             if len(rows) != expected:
                 raise RuntimeError(f"incomplete mandatory checks: {directory}: {len(rows)}/{expected}")
         for p in run.rglob("report.json"):
-            # These exact B13/F2 paths use specialized schemas validated above;
-            # all F2 validator-returned pins were rechecked before publication.
+            # Only exact B13/F2/F3 specialized reports validated above are exempt;
+            # every F2/F3 validator-returned pin was rechecked before publication.
             # Never exempt any other discovered report.
-            if p in b13_reports or p in f2_reports:
+            if p in b13_reports or p in f2_reports or p in f3_reports:
                 continue
             evidence = json.loads(p.read_text())
             key = str(p.relative_to(run))

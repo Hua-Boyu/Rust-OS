@@ -26,6 +26,8 @@ use crate::utils::bits::CanManipulateBits;
 extern crate alloc;
 use alloc::vec::Vec;
 
+#[path = "privileged.rs"]
+pub(crate) mod privileged;
 #[path = "retained_owner.rs"]
 pub(crate) mod retained_owner;
 use retained_owner::mutation_allowed;
@@ -73,6 +75,10 @@ mod unmap_authority_tests;
 #[cfg(test)]
 #[path = "retained_owner_tests.rs"]
 mod retained_owner_tests;
+
+#[cfg(test)]
+#[path = "privileged_owner_tests.rs"]
+mod privileged_owner_tests;
 
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
@@ -175,6 +181,8 @@ pub struct PageMap {
     // build_identity_map and are never registered, so identity mappings
     // are unaffected.
     payload_bitmap: Vec<u8>,
+    // Fixed ten-slot F3 reservation; no returning mapper may alter it.
+    privileged_reserved: bool,
     stats: PagingStats,
     window_end: u64,
 }
@@ -391,6 +399,10 @@ impl PageMap {
         if !mutation_allowed() {
             return false;
         }
+        if self.privileged_slot(linear) {
+            self.stats.map_rejects += 1;
+            return false;
+        }
         if fa.domain() != Some(self.domain) {
             self.stats.map_rejects += 1;
             return false;
@@ -549,6 +561,10 @@ impl PageMap {
         expected_payload: Option<u64>,
     ) -> bool {
         if !mutation_allowed() {
+            return false;
+        }
+        if self.privileged_slot(linear) {
+            self.stats.unmap_rejects += 1;
             return false;
         }
         // Domain mismatch must fail before any paging-structure dereference.
@@ -887,6 +903,7 @@ pub(crate) fn build_identity_map_with_backing_in_place(
         tables: core::mem::take(tables),
         boot_pins: core::mem::take(boot_pins),
         payload_bitmap: core::mem::take(payload_bitmap),
+        privileged_reserved: false,
         stats,
         window_end,
     })

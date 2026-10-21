@@ -5,16 +5,18 @@ use crate::utils::mutex::SpinMutex;
 use core::sync::atomic::{AtomicU8, Ordering};
 
 const DORMANT: u8 = 0;
-const PREPARING: u8 = 1;
-const SEALED: u8 = 2;
-const TERMINAL: u8 = 3;
-static STATE: AtomicU8 = AtomicU8::new(DORMANT);
+pub(super) const PREPARING: u8 = 1;
+pub(super) const SEALED: u8 = 2;
+pub(super) const TERMINAL: u8 = 3;
+pub(super) static STATE: AtomicU8 = AtomicU8::new(DORMANT);
 // (entire future policy maximum, maximum acquired in this F1 version).
 const MANIFEST: [(u8, u8); 6] = [(1, 1), (1, 1), (1, 0), (4, 0), (4, 0), (1, 0)];
 
-struct RetainedOwner {
-    payload: Option<frame::FrameLease>,
-    sentinel: Option<frame::FrameLease>,
+pub(super) struct RetainedOwner {
+    pub(super) payload: Option<frame::FrameLease>,
+    pub(super) sentinel: Option<frame::FrameLease>,
+    pub(super) transition: [Option<frame::FrameLease>; 4],
+    pub(super) emergency: [Option<frame::FrameLease>; 4],
     directory: u64,
     allocator_domain: u32,
     window_end: u64,
@@ -22,8 +24,8 @@ struct RetainedOwner {
     mapped_count: usize,
     capacity_before: [usize; 3],
     capacity_after: [usize; 3],
-    future_ranges: [[u32; 4]; 3],
-    capture: [u32; 16],
+    pub(super) future_ranges: [[u32; 4]; 3],
+    pub(super) capture: [u32; 16],
 }
 
 impl RetainedOwner {
@@ -31,6 +33,8 @@ impl RetainedOwner {
         Self {
             payload: None,
             sentinel: None,
+            transition: [const { None }; 4],
+            emergency: [const { None }; 4],
             directory: 0,
             allocator_domain: 0,
             window_end: 0,
@@ -44,7 +48,7 @@ impl RetainedOwner {
     }
 }
 
-static OWNER: SpinMutex<RetainedOwner> = SpinMutex::new(RetainedOwner::new());
+pub(super) static OWNER: SpinMutex<RetainedOwner> = SpinMutex::new(RetainedOwner::new());
 const _: () = assert!(
     core::mem::size_of::<SpinMutex<RetainedOwner>>()
         + core::mem::size_of::<AtomicU8>()
@@ -61,22 +65,22 @@ pub(in crate::memory) fn owner_locked() -> bool {
     OWNER.is_locked()
 }
 
-fn try_admit() -> bool {
+pub(super) fn try_admit() -> bool {
     STATE
         .compare_exchange(DORMANT, PREPARING, Ordering::AcqRel, Ordering::Acquire)
         .is_ok()
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
-struct CpuState {
-    cr0: u32,
-    cr3: u32,
-    cr4: u32,
-    cs: u16,
+pub(super) struct CpuState {
+    pub(super) cr0: u32,
+    pub(super) cr3: u32,
+    pub(super) cr4: u32,
+    pub(super) cs: u16,
 }
 
 #[cfg(test)]
-static MODEL_CPU: SpinMutex<CpuState> = SpinMutex::new(CpuState {
+pub(super) static MODEL_CPU: SpinMutex<CpuState> = SpinMutex::new(CpuState {
     cr0: 0,
     cr3: 0,
     cr4: 0,
@@ -116,7 +120,7 @@ pub(in crate::memory) fn model_write(directory: u64) {
     MODEL_WRITES.fetch_add(1, Ordering::Relaxed);
 }
 
-fn capacity(fa: &FrameAllocator) -> [usize; 3] {
+pub(super) fn capacity(fa: &FrameAllocator) -> [usize; 3] {
     let stats = fa.stats();
     [
         stats.free_frames,
@@ -163,6 +167,15 @@ fn close_failure(owner: &mut RetainedOwner, fa: &FrameAllocator, code: u32) -> b
 // IRQ/NMI/fatal owner reentry. Only a scalar returns to the divergent wrapper.
 #[inline(never)]
 fn prepare_locked(owner: &mut RetainedOwner, pm: &PageMap, fa: &mut FrameAllocator) -> bool {
+    prepare_stage(owner, pm, fa, true)
+}
+
+fn prepare_stage(
+    owner: &mut RetainedOwner,
+    pm: &PageMap,
+    fa: &mut FrameAllocator,
+    seal: bool,
+) -> bool {
     owner.directory = pm.directory;
     owner.allocator_domain = pm.domain;
     owner.window_end = pm.window_end;
@@ -217,8 +230,105 @@ fn prepare_locked(owner: &mut RetainedOwner, pm: &PageMap, fa: &mut FrameAllocat
     owner.capture[0] = 0;
     owner.capture[15] = SEALED as u32;
     // F1_GUEST_PRE_SEAL
-    STATE.store(SEALED, Ordering::Release);
+    if seal {
+        STATE.store(SEALED, Ordering::Release);
+    }
     true
+}
+
+pub(super) fn prepare_f3_locked(
+    owner: &mut RetainedOwner,
+    pm: &mut PageMap,
+    fa: &mut FrameAllocator,
+) -> bool {
+    if !prepare_stage(owner, pm, fa, false) {
+        return false;
+    }
+    for i in 0..8 {
+        let slot = if i < 4 {
+            &mut owner.transition[i]
+        } else {
+            &mut owner.emergency[i - 4]
+        };
+        *slot = fa.allocate_owned();
+        let Some(lease) = slot.as_ref() else {
+            return close_failure(owner, fa, 7);
+        };
+        owner.capture[1] += 1;
+        if !valid_lease(pm, fa, lease) {
+            return close_failure(owner, fa, 8);
+        }
+    }
+    if !pm.install_privileged_stacks(fa, &owner.transition, &owner.emergency) {
+        return close_failure(owner, fa, 9);
+    }
+    use super::privileged::*;
+    owner.future_ranges[1] = [TRANSITION_BASE, TRANSITION_TOP, TRANSITION_GUARD, 1];
+    owner.future_ranges[2] = [EMERGENCY_BASE, EMERGENCY_TOP, EMERGENCY_GUARD, 1];
+    owner.capacity_after = capacity(fa);
+    owner.capture[12] = owner.capacity_after[0] as u32;
+    owner.capture[13] = owner.capacity_after[1] as u32;
+    owner.capture[15] = PREPARING as u32;
+    true
+}
+
+/// F3 extends fresh Preparing only. No returning preparation or unseal API.
+#[cfg(all(not(test), target_os = "none"))]
+pub(in crate::memory) fn run_gdt_tss() -> ! {
+    unsafe {
+        core::arch::asm!("cli", options(nomem, nostack));
+    }
+    if !try_admit() {
+        crate::gdt_tss::fail();
+    }
+    let directory = {
+        let mut retained = OWNER.lock();
+        let mut map = crate::memory::PAGE_MAP.lock();
+        let mut frames = crate::memory::FRAME_ALLOC.lock();
+        match map.as_mut() {
+            Some(pm) if crate::memory::PAGING_ENABLED.load(Ordering::Acquire) => {
+                if prepare_f3_locked(&mut retained, pm, &mut frames) {
+                    Some(pm.directory as u32)
+                } else {
+                    None
+                }
+            }
+            _ => {
+                close_failure(&mut retained, &frames, 10);
+                None
+            }
+        }
+    };
+    let Some(directory) = directory else {
+        crate::gdt_tss::fail();
+    };
+    // Every owner guard is gone. CPU can now reach only retained storage.
+    if !crate::gdt_tss::install(directory) {
+        STATE.store(TERMINAL, Ordering::Release);
+        crate::gdt_tss::fail();
+    }
+    let valid = {
+        let mut retained = OWNER.lock();
+        let map = crate::memory::PAGE_MAP.lock();
+        let frames = crate::memory::FRAME_ALLOC.lock();
+        let valid = map.as_ref().is_some_and(|pm| {
+            identity(pm, &frames, hardware())
+                && pm.privileged_stacks_valid(&frames, &retained.transition, &retained.emergency)
+        });
+        if valid {
+            retained.capture[15] = SEALED as u32;
+            STATE.store(SEALED, Ordering::Release);
+        } else {
+            close_failure(&mut retained, &frames, 11);
+        }
+        valid
+    };
+    if !valid || !crate::gdt_tss::verify(directory) {
+        STATE.store(TERMINAL, Ordering::Release);
+        crate::gdt_tss::fail();
+    }
+    STATE.store(TERMINAL, Ordering::Release);
+    crate::gdt_tss::ready()
 }
 
 #[cfg(not(test))]

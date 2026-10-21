@@ -151,11 +151,17 @@ pub fn create_gdt_entries() -> [u64; 3] {
     [blank, code, data]
 }
 
+// Early boot has no allocator dependency. The accessed bits are already set,
+// so hardware does not need to mutate these immutable descriptor bytes.
+#[repr(C, align(8))]
+struct EarlyGdt([u64; 3]);
+static EARLY_GDT: EarlyGdt = EarlyGdt([0, 0x00cf_9900_0000_ffff, 0x00cf_9300_0000_ffff]);
+pub(crate) const EARLY_GDT_BYTES: usize = core::mem::size_of::<EarlyGdt>();
+
 pub fn init_gdt() {
-    let entries = create_gdt_entries().to_vec().leak();
-    let ptr = entries.as_ptr();
+    let ptr = core::ptr::addr_of!(EARLY_GDT.0).cast::<u64>();
     // each GDT descriptor is 8 bytes on the wire, not size_of::<GdtSegment>()
-    let size = entries.len() * 8;
+    let size = 3 * 8;
 
     let gdt: GdtTable = GdtTable {
         // lgdt expects limit = size - 1
