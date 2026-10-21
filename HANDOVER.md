@@ -1,3 +1,27 @@
+## Current — F3 ACCEPTED (2026-10-22)
+
+F3 IS ACCEPTED: canonical 70/70 exit 0 at test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json
+(sha 2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b); source frozen at
+full_source_freeze_05.json (179 pins); candidate review05 APPROVE/0 (50501d79c4421a3698c9f8620a9867f70e5edf5eee3adcfbed118fc1cce0c777);
+final readback01 APPROVE/0 (a22a2e437caafaa701bfaba0072066ec0fd75a7074241e37acacf958d14f3cb2).
+Hardware 18/18 FULL_RING0_GREEN (1056 pins); host 366/0/2; B26 134/0/0; F2 8/8; F1 10/10.
+Stack bound 2578/16384/13806 (conditional one-nested-NMI). F3-scope correction only (F1/F2 contracts untouched).
+No CPL3, no USER mappings, no push. Next: F4 requires fresh authorization. See STATE.md + FINAL_REPORT.md.
+
+## Historical — F3 GDT/TSS/privileged stacks IN PROGRESS (2026-10-21)
+
+Task authority: `test_results/phase11f3_gdt_tss/STATE.md` and `FINAL_REPORT.md`.
+Design review APPROVE/zero blockers (design-only). Candidate implemented GDT/TSS/ltr/
+retained-owner privileged stacks/#DF task gate; minimal hardware matrix 10/10 CPU-backed
+GREEN (hardware_green_02); host 366/0/2 and B26 134/0/0 exact membership; runtime RED
+runtime_red_01 preserved. Supplemental #SS/NMI now8/8 GREEN with508 raw assertions and
+standalone byte-pin validation (supplemental/prepared_20261021T142053Z). Earlier
+livelock diagnosis withdrawn: harness awaited an unreachable assembly stop after a
+nonreturning Rust fatal call. Candidate review01 remains REJECT2; full18-case canonical
+integration/re-run, refreshed production/ELF, renewed review and acceptance remain.
+F3 NOT accepted. No CPL3, no USER mappings, no push. F2 accepted baseline below remains
+historical and unchanged.
+
 ## Latest F2 continuation — canonical 68/68 PASS; final readback APPROVE — F2 ACCEPTED
 
 Task authority: `test_results/phase11f2_exception_abi/STATE.md` and `FINAL_REPORT.md`.

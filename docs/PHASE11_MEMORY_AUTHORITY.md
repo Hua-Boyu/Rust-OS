@@ -1,3 +1,13 @@
+## Current — F3 GDT/TSS/privileged stacks ACCEPTED (2026-10-22)
+
+F3 IS ACCEPTED: canonical 70/70 exit 0 at test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json
+(sha 2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b); source frozen at
+full_source_freeze_05.json (179 pins); candidate review05 APPROVE/0 (50501d79c4421a3698c9f8620a9867f70e5edf5eee3adcfbed118fc1cce0c777);
+final readback01 APPROVE/0 (a22a2e437caafaa701bfaba0072066ec0fd75a7074241e37acacf958d14f3cb2).
+Hardware 18/18 FULL_RING0_GREEN (1056 pins); host 366/0/2; B26 134/0/0; F2 8/8; F1 10/10.
+Stack bound 2578/16384/13806 (conditional one-nested-NMI). F3-scope correction only (F1/F2 contracts untouched).
+No CPL3, no USER mappings, no push. Next: F4 requires fresh authorization. See STATE.md + FINAL_REPORT.md.
+
 ## Latest F2 continuation — canonical 68/68 PASS exit0; final readback APPROVE — F2 ACCEPTED
 
 Current authority: `test_results/phase11f2_exception_abi/STATE.md` and `FINAL_REPORT.md`.
@@ -25,6 +35,23 @@ evidence (`reviews/final_canonical_readback_01.json`, sha256
 No source edits,
 competing builds/QEMU or second acceptance; never unlink the OS-held lockfile.
 No F3-F5/TSS/USER/CPL3/deployment/push.
+
+## F3 GDT/TSS/privileged stacks — IN PROGRESS, NOT ACCEPTED (2026-10-21)
+
+Read `test_results/phase11f3_gdt_tss/STATE.md` and `FINAL_REPORT.md` first. Design review
+APPROVE/zero blockers is design-only. Candidate implements static 5-entry GDT (null/code08/data10/
+normalTSS18/emergencyTSS20), two 104-byte TSS contexts, ltr ordering, retained-owner privileged-stack
+transaction (transition/emergency 4+4 pages with unmapped guards), #DF task gate to emergency TSS.
+Actual evidence: runtime_red_01 (TR=0), hardware_green_02 MINIMAL 10/10 CPU-backed, host 366/0/2 +
+B26 134/0/0 exact membership, F2 preservation 8/8 and F1 preservation 10/10 fresh PASS.
+Supplemental #SS/NMI now8/8 GREEN with508 raw assertions and standalone pin validation
+(supplemental/prepared_20261021T142053Z). Earlier kernel-livelock claim withdrawn: harness
+awaited unreachable assembly f2_terminal after divergent f2_fatal. Candidate review01
+remains REJECT2; full18 canonical integration/run, refreshed production build/ELF,
+renewed review and acceptance remain. F3 NOT accepted; no CPL3, no USER mappings,
+no push. The 12-frame F1 ceiling is unchanged (8 new frames +
+inherited 2 + future 2). Historical F2/F1 blocks below remain unchanged checkpoints.
+
 The complete earlier document below is preserved historical authority, superseded
 only by this latest bounded F2 status; it is not a new F1 redesign authorization.
 

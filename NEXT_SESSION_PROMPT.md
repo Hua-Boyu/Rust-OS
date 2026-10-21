@@ -1,3 +1,35 @@
+## Current — F3 ACCEPTED (2026-10-22)
+
+F3 IS ACCEPTED: canonical 70/70 exit 0 at test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json
+(sha 2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b); source frozen at
+full_source_freeze_05.json (179 pins); candidate review05 APPROVE/0 (50501d79c4421a3698c9f8620a9867f70e5edf5eee3adcfbed118fc1cce0c777);
+final readback01 APPROVE/0 (a22a2e437caafaa701bfaba0072066ec0fd75a7074241e37acacf958d14f3cb2);
+historical candidate_review_01 REJECT/2 retained byte-identical (d9f1f8b8...). Hardware 18/18 FULL_RING0_GREEN
+full_f3_acceptance=true (1056 pins); host 366/0/2; B26 134/0/0; F2 8/8; F1 10/10. Stack bound 2578/16384/13806
+(conditional one-nested-NMI, not runtime high-water). F3-scope correction only (F1/F2 contracts untouched):
+relocated two f3_owner tests out of the F1 `--lib retained_owner` filter, fixed the mock-harness prefix, raised the
+harness gate timeout 180->900, and shortened the acceptance output dir to avoid Windows MAX_PATH.
+No CPL3, no USER mappings, no push. Next: F4 USER arena requires fresh authorization.
+See test_results/phase11f3_gdt_tss/STATE.md and FINAL_REPORT.md.
+
+## Historical — F3 GDT/TSS/privileged stacks IN PROGRESS (2026-10-21)
+
+Repository C:/Users/iamsv/Documents/Rust-OS, maintenance/phase10, HEAD 8428cce (F2 source
+commit e99d82f verified ancestor). Read `test_results/phase11f3_gdt_tss/STATE.md` and
+`FINAL_REPORT.md` first. Design review APPROVE/zero blockers is design-only. Candidate
+implements static 5-entry GDT (null/code08/data10/normalTSS18/emergencyTSS20), two 104-byte
+TSS contexts, ltr ordering, retained-owner privileged-stack transaction with unmapped guards,
+#DF task gate to emergency TSS. Actual: runtime_red_01 (TR=0), hardware_green_02 MINIMAL
+10/10 CPU-backed, host 366/0/2 + B26 134/0/0 exact membership. Supplemental #SS/NMI now
+8/8 GREEN with 508 raw assertions and standalone byte-pin validation in
+supplemental/prepared_20261021T142053Z (see task STATE.md). The former timeout was a
+harness breakpoint after a nonreturning fatal call, not proven kernel livelock.
+Candidate review01 remains REJECT2; no canonical acceptance launched. Complete18-case
+canonical aggregate integration is in progress; renewed frozen evidence/review required.
+F3 NOT accepted; no CPL3, no USER mappings, no push. Protect README.md, d1/, init-doc, backup.
+Next session resumes canonical full18 integration/verification, refreshed production evidence,
+then renewed candidate review and one canonical acceptance. F2 baseline below is historical.
+
 ## Latest F2 continuation — canonical 68/68 PASS exit0; final readback APPROVE — F2 ACCEPTED
 
 Repository C:/Users/iamsv/Documents/Rust-OS, maintenance/phase10; scoped source commit

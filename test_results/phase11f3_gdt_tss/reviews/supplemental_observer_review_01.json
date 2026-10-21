@@ -1,0 +1,671 @@
+{
+  "schema": "rosti.phase11f3.supplemental-observer-review.v1",
+  "review_id": "supplemental_observer_review_01",
+  "reviewed_at_utc": "2026-10-21T14:24:54.266020+00:00",
+  "repository": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "verdict": "APPROVE0",
+  "blocker_count": 0,
+  "blockers": [],
+  "approval_scope": "Corrected task-local observer/validator and exact completed supplemental retained-byte matrix only. Not canonical F3 acceptance, integration approval, or authorization to reduce mandatory scope.",
+  "full_f3_acceptance": false,
+  "hardware_cpl3": false,
+  "canonical_integration_done": false,
+  "canonical_acceptance_status": "BLOCKED: scripts/phase6_verify.py:585-589 still refuses full_f3_acceptance != True or nonempty planned_only. Supplement does not replace canonical integration or complete canonical acceptance.",
+  "read_only_execution": {
+    "builds_started": 0,
+    "qemu_started": 0,
+    "process_wait_or_poll": false,
+    "process_named_by_parent": "proc_7312f0734f03",
+    "process_exit_claimed": false,
+    "selection": "Completed report/validation existed during initial folder reads. Selected exact prepared_20261021T142053Z using report modification time, not historical folder-name order; also subsequently confirmed by parent. Did not wait/poll the runtime. Recorded driver_exit and guest cleanup are retained report evidence, not independent parent-process exit observation.",
+    "only_write": "test_results/phase11f3_gdt_tss/reviews/supplemental_observer_review_01.json"
+  },
+  "diagnosis": {
+    "assessment": "CONFIRMED OBSERVER ERROR; former kernel-livelock/oscillation claim is withdrawn.",
+    "source": "src/exception_fatal.rs:73-80 halt() -> ! and :98-169 f2_fatal() -> ! ending in halt(); src/exception_entry.s:88 calls f2_fatal before f2_terminal.",
+    "emitted_evidence": "Retained disassembly: CALL 0x224fca -> f2_fatal 0x2251f0; its final CALL 0x22568d -> Rust halt 0x2250d8, emitted fa f4 eb fd. Assembly fallback f2_terminal=0x224fcf cannot be reached by return from this divergent path. Actual post-HLT PC is 0x2250da.",
+    "historical_disposition": "Preserve candidate_review_01.json unchanged, but do not endorse its genuine KERNEL RED characterization as established fact. The timeout was waiting for unreachable assembly return; pre-continue snapshots do not prove subsequent livelock. This does not rewrite historical failed aggregates."
+  },
+  "harness_review": {
+    "finish_terminal": "PASS: QMP cont without outstanding GDB continue, bounded diagnostic-literal observation and premature-owned-process-exit refusal, QMP stop, then stopped register/QMP state. The grace delay is not itself HLT proof: validate_case requires actual HLT=1 and exact ELF-derived halt+2. Independently checked cont/stop/info registers/query-status terminal sequence and paused state in all eight logs.",
+    "halt_site": "PASS: unique exception_fatal4halt suffix symbol of size four, mapped into file-backed executable PT_LOAD, exact fa f4 eb fd bytes; terminal EIP must equal address+2.",
+    "idt": "PASS: offset-low, selector, attributes, offset-high packed <HHHH with attributes0x8e00. Actual IDT2 3c4e0800008e2200, not old swapped expectation 3c4e08002200008e; IDT8 remains selector0x20 task gate.",
+    "frame_and_mutations": "PASS: exact 68-byte prefix/all17 u32 fields, saved EIP/CS/flags, selectors/pushad and same-ring ESP relation; no optional tail reads. Only explicit EIP fixture redirects allowed, exact whole-register preimage/write/readback checked. Raw memory origins bound to actual logged GDB reads; no debugger-manufactured task state.",
+    "wrapper_freeze": "PASS: no driver.log under selected prepared tree. Sibling prepared_20261021T142053Z_driver.log parses equal to report.json; earlier appended in-tree log failure retained.",
+    "source_stability": "All173 recorded canonical source inputs independently rehashed against current repository bytes. Both reviewed supplemental scripts byte-equal their prepared copies; before/after freeze and retained pins independently validated."
+  },
+  "semantics": {
+    "ss_nonpresent": "Actual MOV AX,SS opcode8ed0 at0x21adc8, AX0x28, usable ESP0x39fe1c; copied six-entry GDT appends nonpresent writable data descriptor, production GDT unchanged. CPU #SS vector12/error0x28, no GP/DF substitution; F2 fatal containment with normal TR0x18.",
+    "nmi_ready": "Exactly one accepted QMP NMI while paused at f3_ready0x220f05 before intentional DF; bootstrap ESP0x39fe1c, TR0x18; actual CPU vector2 at that checkpoint, no DF claimed.",
+    "nmi_entry": "Genuine PF at bad ESP0x7c01000 -> PF during delivery -> DF hardware task switch. NMI at f3_emergency_entry0x220eac, TR0x20, new ESP0x7c09ffc/error0, before first emergency instruction. AFTER task switching, not mid-hardware-task-switch injection.",
+    "nmi_output": "Genuine DF task switch and completed emergency scalar snapshots; NMI before first emitted UART OUT AL,DX opcodeee at0x220ef6 with DX0x3f8. Not already-transmitted DF output, mid-OUT injection, or DF completion.",
+    "actual_NMI": "One accepted inject-nmi with empty args per NMI row, unchanged paused register packet, CPU vector2/error0 trace at exact EIP, and matching real F2 prefix; zero injections for SS.",
+    "terminal": "Eight captures: HLT1, EIP0x2250da, IF0, CPL0 CS8/SS16, CR3=0x1000. TR0x18 for SS/ready and0x20 for emergency rows. F2 literal present; no shell/reset/triple fault. Normalized/terminal ESP bounded in emergency stack where applicable. No complete F3_DF_FATAL marker or emergency DF terminal promised for NMI-interrupted emergency cases.",
+    "RF": "Exact saved flags=preflags OR0x10000, preserving all other bits including emergency NT1. Explicit emulator-profile characterization, NOT universal Intel/AMD NMI hardware semantics."
+  },
+  "qemu_reference": {
+    "profile_reported_in_diagnosis": "QEMU10.2.0 (v10.2.0-12105-g0f12d445bd), qemu32, oneCPU",
+    "source_url": "https://raw.githubusercontent.com/qemu/qemu/0f12d445bd/target/i386/tcg/seg_helper.c",
+    "source_raw_sha256_independently_fetched": "0884529c19553a636783ca0859c86f2b6af226a883c08b756d683b645b5c7c04",
+    "source_check": "exception_is_fault excludes DB/INT3/INTO/DF/MCHK but not NMI2, returning1; do_interrupt_protected sets set_rf from that predicate for non-INT delivery. Independently fetched source matches diagnosis hash and explains captured flags.",
+    "limitation": "No QEMU launch even for --version. Version attribution is retained diagnosis plus independently checked commit source/capture behavior, not a new executable-version probe."
+  },
+  "tests": {
+    "inspected_file": "test_results/phase11f3_gdt_tss/supplemental/test_supplemental_terminal.py",
+    "declared_test_count": 5,
+    "executed_read_only_tests": [
+      "CapturedWireTests.test_exact_wire_checks_and_negative_mutations",
+      "TerminalTests.test_missing_or_ambiguous_halt_symbol_refused"
+    ],
+    "actual_result": "Ran2 tests; OK; exit0. Eight-case retained replay plus24 rejected wire/register mutations and missing/ambiguous halt-symbol refusal.",
+    "not_executed": "Three tempfile-writing tests inspected but not run to respect only-review-write constraint. Parent reports full5 passed; not represented as independently rerun here.",
+    "optional_followups": [
+      "Add non-executable PT_LOAD and wrong-size halt-symbol mutation tests.",
+      "Add diagnostic timeout and terminal HLT0 controls. Nonblocking for the exact independently validated matrix."
+    ]
+  },
+  "selected_prepared_dir": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z",
+  "independent_validation": {
+    "schema": "rosti.f3-supplement-validation.v1",
+    "overall": "SUPPLEMENTAL_RING0_GREEN",
+    "guest_count": 8,
+    "assertion_count": 508,
+    "full_f3_acceptance": false,
+    "hardware_cpl3": false,
+    "limitations": [
+      "Supplement only; not canonical acceptance.",
+      "No F5 CPL3/USER/IOPL proof.",
+      "No full stack high-water/sufficiency proof.",
+      "NMI entry means after hardware task switch, before first emergency instruction; not mid task-switch.",
+      "NMI output means before first emitted UART OUT; no complete DF marker promised."
+    ]
+  },
+  "case_observations": [
+    {
+      "name": "ss_nonpresent_128",
+      "assertion_count": 60,
+      "before_eip": "0x21adc8",
+      "before_esp": "0x39fe1c",
+      "before_eflags": "0x6",
+      "saved_eflags": "0x10006",
+      "terminal_eip": "0x2250da",
+      "terminal_if": false,
+      "terminal_hlt": true,
+      "terminal_tr": "0x18",
+      "terminal_cr3": "0x1000",
+      "qmp_nmi_count": 0,
+      "qmp_terminal_sequence_verified": true
+    },
+    {
+      "name": "nmi_ready_128",
+      "assertion_count": 50,
+      "before_eip": "0x220f05",
+      "before_esp": "0x39fe1c",
+      "before_eflags": "0x6",
+      "saved_eflags": "0x10006",
+      "terminal_eip": "0x2250da",
+      "terminal_if": false,
+      "terminal_hlt": true,
+      "terminal_tr": "0x18",
+      "terminal_cr3": "0x1000",
+      "qmp_nmi_count": 1,
+      "qmp_terminal_sequence_verified": true
+    },
+    {
+      "name": "nmi_entry_128",
+      "assertion_count": 70,
+      "before_eip": "0x220eac",
+      "before_esp": "0x7c09ffc",
+      "before_eflags": "0x4002",
+      "saved_eflags": "0x14002",
+      "terminal_eip": "0x2250da",
+      "terminal_if": false,
+      "terminal_hlt": true,
+      "terminal_tr": "0x20",
+      "terminal_cr3": "0x1000",
+      "qmp_nmi_count": 1,
+      "qmp_terminal_sequence_verified": true
+    },
+    {
+      "name": "nmi_output_128",
+      "assertion_count": 74,
+      "before_eip": "0x220ef6",
+      "before_esp": "0x7c09ffc",
+      "before_eflags": "0x4002",
+      "saved_eflags": "0x14002",
+      "terminal_eip": "0x2250da",
+      "terminal_if": false,
+      "terminal_hlt": true,
+      "terminal_tr": "0x20",
+      "terminal_cr3": "0x1000",
+      "qmp_nmi_count": 1,
+      "qmp_terminal_sequence_verified": true
+    },
+    {
+      "name": "ss_nonpresent_512",
+      "assertion_count": 60,
+      "before_eip": "0x21adc8",
+      "before_esp": "0x39fe1c",
+      "before_eflags": "0x6",
+      "saved_eflags": "0x10006",
+      "terminal_eip": "0x2250da",
+      "terminal_if": false,
+      "terminal_hlt": true,
+      "terminal_tr": "0x18",
+      "terminal_cr3": "0x1000",
+      "qmp_nmi_count": 0,
+      "qmp_terminal_sequence_verified": true
+    },
+    {
+      "name": "nmi_ready_512",
+      "assertion_count": 50,
+      "before_eip": "0x220f05",
+      "before_esp": "0x39fe1c",
+      "before_eflags": "0x6",
+      "saved_eflags": "0x10006",
+      "terminal_eip": "0x2250da",
+      "terminal_if": false,
+      "terminal_hlt": true,
+      "terminal_tr": "0x18",
+      "terminal_cr3": "0x1000",
+      "qmp_nmi_count": 1,
+      "qmp_terminal_sequence_verified": true
+    },
+    {
+      "name": "nmi_entry_512",
+      "assertion_count": 70,
+      "before_eip": "0x220eac",
+      "before_esp": "0x7c09ffc",
+      "before_eflags": "0x4002",
+      "saved_eflags": "0x14002",
+      "terminal_eip": "0x2250da",
+      "terminal_if": false,
+      "terminal_hlt": true,
+      "terminal_tr": "0x20",
+      "terminal_cr3": "0x1000",
+      "qmp_nmi_count": 1,
+      "qmp_terminal_sequence_verified": true
+    },
+    {
+      "name": "nmi_output_512",
+      "assertion_count": 74,
+      "before_eip": "0x220ef6",
+      "before_esp": "0x7c09ffc",
+      "before_eflags": "0x4002",
+      "saved_eflags": "0x14002",
+      "terminal_eip": "0x2250da",
+      "terminal_if": false,
+      "terminal_hlt": true,
+      "terminal_tr": "0x20",
+      "terminal_cr3": "0x1000",
+      "qmp_nmi_count": 1,
+      "qmp_terminal_sequence_verified": true
+    }
+  ],
+  "historical_failures": [
+    {
+      "prepared_dir": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T141955Z",
+      "report_overall": "SUPPLEMENTAL_RING0_GREEN",
+      "standalone_validation": "FAIL",
+      "error": "frozen byte drift driver.log",
+      "disposition": "Not approved as stable evidence despite GREEN report/internal validation."
+    },
+    {
+      "prepared_dir": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T141425Z",
+      "report_overall": "HARNESS_FAIL",
+      "disposition": "Preserved FAIL: genuine HLT captured but old swapped IDT expectation rejected rows. Passing corrected replay does not rewrite historical aggregate."
+    },
+    {
+      "prepared_dir": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T172000Z",
+      "report_overall": "HARNESS_FAIL",
+      "disposition": "Preserved observer timeout; unsupported kernel-livelock inference withdrawn."
+    }
+  ],
+  "limitations": [
+    "Supplemental ELF Ring0 at128/512MiB only; no canonical full-F3 acceptance.",
+    "No arbitrary NMI timing or mid-hardware-task-switch coverage.",
+    "No completed emergency DF diagnostic/terminal claim for interrupted NMI paths.",
+    "No CPL3/USER/IOPL/F4/F5 proof or full stack high-water/sufficiency proof.",
+    "Historical candidate review contains an unrelated incorrect GDTR decimal/hex equivalence; not endorsed here."
+  ],
+  "reviewed_inputs": [
+    {
+      "path": "src/exception_fatal.rs",
+      "raw_sha256": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d"
+    },
+    {
+      "path": "src/exception_entry.s",
+      "raw_sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60"
+    },
+    {
+      "path": "src/f3_entry.s",
+      "raw_sha256": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15"
+    },
+    {
+      "path": "scripts/f3_evidence.py",
+      "raw_sha256": "1f61c70d714f121e03a0526c7997d6d1f07f6ccab24ca1e8a29d87335b841ff4"
+    },
+    {
+      "path": "scripts/f3_gdt_guest.py",
+      "raw_sha256": "0dd26fd92007686274d791de9878efbdaf121057cfa15b4209a529fe42fe283e"
+    },
+    {
+      "path": "scripts/b13_entry_inject.py",
+      "raw_sha256": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b"
+    },
+    {
+      "path": "scripts/phase6_verify.py",
+      "raw_sha256": "746776370e3c1522af58351764c7035ce35b90d1eaaa397e4efb9bd0d2470181"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/reviews/candidate_review_01.json",
+      "raw_sha256": "d9f1f8b88d06a36a0d1c982a4531067cbb52406c32147338576986b74250ab01"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/reviews/design_review_01.json",
+      "raw_sha256": "8468ac7de2392f2c9f4153b4d31afb75c327ec7557df4171a3984d53632f660a"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/terminal_diagnosis_01.md",
+      "raw_sha256": "a8c81ffe7792e534b02e715ac733fff4bfc5aa24a99a4115b8db38b0f84110fd"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/test_supplemental_terminal.py",
+      "raw_sha256": "7b680fda2ea93ab756b7f84bdc873b5a7deb8167bb118c2f07f68e16adbb99e6"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/supplemental_fixture.py",
+      "raw_sha256": "4ea05b7a9efe05f400f4d9f8cd77a22fa436f5c6978fdd895ac5f8897a8a4d8e"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/supplemental_validate.py",
+      "raw_sha256": "92c43c9ff2151af4fb7547de70852706a272f8e5ec43096c779ebb8939699e24"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z_driver.log",
+      "raw_sha256": "fb402afcb4a9c11b65bcf97c5bbeedbc3aa0c870b4286bcf5305c76ea1e74ed3"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T141955Z/report.json",
+      "raw_sha256": "2f8717a37adf6c5b74a261c5ca9e108e09dc03f899e1a20fe65b5b1b944891a9"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T141955Z/driver.log",
+      "raw_sha256": "2f8717a37adf6c5b74a261c5ca9e108e09dc03f899e1a20fe65b5b1b944891a9"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T141425Z/report.json",
+      "raw_sha256": "7c4ba5d8e9778957dbe4a1dce4edfcc34caec5ab97302c94ba9a3c3fe2c31192"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T172000Z/report.json",
+      "raw_sha256": "b69e61995c204d826ab994233fbee2354499d9bd81aff37bba12bdc0fa704814"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T172000Z/disassembly.txt",
+      "raw_sha256": "f87b491d89b2a397b51aea47aa8f4bd3f4cfe4a47a5845ea1adf39f700d9e169"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T172000Z/kernel.elf",
+      "raw_sha256": "6acb4e174b385f32466d5c6d4d903240789655f82dd2c99baa28692312294b0b"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/supplemental_fixture.py",
+      "raw_sha256": "4ea05b7a9efe05f400f4d9f8cd77a22fa436f5c6978fdd895ac5f8897a8a4d8e"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/supplemental_validate.py",
+      "raw_sha256": "92c43c9ff2151af4fb7547de70852706a272f8e5ec43096c779ebb8939699e24"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/prepared.json",
+      "raw_sha256": "5b8ed6fe5a3525d199fed33a35e3b35de9e3b4cd77accd61520a65b0546560b2"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/report.json",
+      "raw_sha256": "fb402afcb4a9c11b65bcf97c5bbeedbc3aa0c870b4286bcf5305c76ea1e74ed3"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/validation.json",
+      "raw_sha256": "9d6f47b30871dcd6d31c5ebff8e37f2e71c081d37c8bde044962f967a272e79e"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/kernel.elf",
+      "raw_sha256": "420d7672b683b46541f539deb2527e780eb8b9d7f117ccb1765125ea7ab0926f"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/disassembly.txt",
+      "raw_sha256": "7f7851026891b19aaa8c87a747666b6243aa7452de76dc949076dc9f58df2554"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/source_freeze_before.json",
+      "raw_sha256": "2eb1a887554fd12f1229dab1d3836675e63d2c044db405692331e4912fbd3038"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/source_freeze_after.json",
+      "raw_sha256": "2eb1a887554fd12f1229dab1d3836675e63d2c044db405692331e4912fbd3038"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_128/guest_report.json",
+      "raw_sha256": "f03ce0fdca225f7bbf4f07cd82bd33d757fac420d1e317470b12d611f05cb610"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_128/gdb.jsonl",
+      "raw_sha256": "a0ed978a1231c97e63f038d4b576deb392a90843f8c7df8895263118e641007a"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_128/qmp.jsonl",
+      "raw_sha256": "160e6332855a0e3b1c384642e6e867803d4e4c1f8aaf871ddbd9906b047468bf"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_128/qemu.log",
+      "raw_sha256": "b3ec4ad494c394edb586f776c5c97d0ec7e1709271859dbedfdeab8cfe00b26e"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_128/mandatory_prefix.bin",
+      "raw_sha256": "97b9ac1c144d28b596f48a73603f5c5062742cce671ee8322617573b75df6678"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_128/before_register_packet.txt",
+      "raw_sha256": "6ffae68f0f1220fcd976a2923f73f647e0653ffff21f79aefce1a10dc22a0667"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_128/before_hardware.txt",
+      "raw_sha256": "175616964513e1c00db072fc7a17aba4cdc2e6ac031e7dcadffc9acd04a477b2"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_128/terminal_register_packet.txt",
+      "raw_sha256": "57f1b71177e04af670258de74b22b1933a7adc510368c3c5c39d38d833c4b027"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_128/terminal_hardware.txt",
+      "raw_sha256": "86e1903f0915be450b5081f93e9b489d05619cafaec369930619f8a27aba834c"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_128/serial.txt",
+      "raw_sha256": "ddb9a62468ec4c5d7e32dbdb79de6f0bf7fbec9e8934cff87b16aa3aedb3308e"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_128/guest_report.json",
+      "raw_sha256": "8d6318e0dc663a9dc11306f74a33b130a1b597a7b67e866690fc98b0b22ec309"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_128/gdb.jsonl",
+      "raw_sha256": "3b08d25106e89c39806982f194fd4ed20752fc7593f315ca0762b726ae5ca5dc"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_128/qmp.jsonl",
+      "raw_sha256": "0a56858f032e2d6a1bb47057efdc2d51a61d2a6385193139e363d8aea59746ba"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_128/qemu.log",
+      "raw_sha256": "6c9d69a922b30decb7ec76a336c351346c459de45e48943d413198357f1aa650"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_128/mandatory_prefix.bin",
+      "raw_sha256": "dee809c71f8bba4bb4a842f06ac57f15d1957f4d83db6e23665d515b70adc9bf"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_128/before_register_packet.txt",
+      "raw_sha256": "74ab5ebae56418af473ba60028fc6ae173d070dc6d9e0c3653d43530b215b0d2"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_128/before_hardware.txt",
+      "raw_sha256": "e8ed03ce8e6e8a240c54dae1f6709fe23e8377928eb36253a715f00ac62cc881"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_128/terminal_register_packet.txt",
+      "raw_sha256": "57f1b71177e04af670258de74b22b1933a7adc510368c3c5c39d38d833c4b027"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_128/terminal_hardware.txt",
+      "raw_sha256": "cac3aa9d0820cf0cd4f8425f573d2f26a4273eccbc26e544fa2eea859503f854"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_128/serial.txt",
+      "raw_sha256": "f67b2ed6eb7ef2efe53fe9b4c2f0a15b03834e720937bf8137d5798c03e139d6"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_128/guest_report.json",
+      "raw_sha256": "e55103097497b27e38c92ba2258823d669c2a6e1cf375ac8b23f93dc795e1805"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_128/gdb.jsonl",
+      "raw_sha256": "4f89101e497dbb460ce91ec6849e1a3bb1c7196ae8feefe245d8d14fca48c2f9"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_128/qmp.jsonl",
+      "raw_sha256": "5d9b756dad71abfc2c5bd7f93e3c8ea861752b66b24407490ad1f8156290f9d2"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_128/qemu.log",
+      "raw_sha256": "474edb53714e2f021746ba2409c85f918d40d5c6126ed29ac1cf38841f3ecfd6"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_128/mandatory_prefix.bin",
+      "raw_sha256": "bf78c3dab6aa4a56f1fbb32331d88bbd0cc6f84e9f705a3100469e037af3e2ef"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_128/before_register_packet.txt",
+      "raw_sha256": "fa80d02bfd1be42c4558769ff08b6aedb9f2716df23a8a1a0d2bda815145f056"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_128/before_hardware.txt",
+      "raw_sha256": "6f4f330a052ca15674c8e0f5f1678b2dd26daf44971c58624c31da4c60880fa2"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_128/terminal_register_packet.txt",
+      "raw_sha256": "f106642f8f12239849aef6024f70cf8c62e009f56faacff9ddab11b4f8ab6af6"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_128/terminal_hardware.txt",
+      "raw_sha256": "62f3143b5b8336fc4d19ff4d2d0f55f74f7b1981b95d127418aeb2cd0b15c855"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_128/serial.txt",
+      "raw_sha256": "f67b2ed6eb7ef2efe53fe9b4c2f0a15b03834e720937bf8137d5798c03e139d6"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_128/guest_report.json",
+      "raw_sha256": "8a7fd6710c5261dbb91c83caf9fdec5f4ddf086b87d1eb851f9db013eeead1d7"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_128/gdb.jsonl",
+      "raw_sha256": "6edff2438f7d71842606f602dd5fa26592381e37e08d5e19117acb516831b936"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_128/qmp.jsonl",
+      "raw_sha256": "c2740d15be4a01b45a3fbd10670d356139bbe7aa6a713f9325eb1f5a7c8110a2"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_128/qemu.log",
+      "raw_sha256": "806f9b56c011538138d3239ed8cdc2c6e20a184b04d8924c34c615968e3a1d9e"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_128/mandatory_prefix.bin",
+      "raw_sha256": "e49d75ef6237d586d1c3f5cbcc4429fffe4ae63c0b314f46a3f3d5f6edd50364"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_128/before_register_packet.txt",
+      "raw_sha256": "a4577f96e046d0daea5f7eb1554290a06de165f94eaa17d00353dec940e91d14"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_128/before_hardware.txt",
+      "raw_sha256": "cef51e78107a02dafd4dba31665763350bfa9a3a20a8b2931c51db120fa0682a"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_128/terminal_register_packet.txt",
+      "raw_sha256": "f106642f8f12239849aef6024f70cf8c62e009f56faacff9ddab11b4f8ab6af6"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_128/terminal_hardware.txt",
+      "raw_sha256": "62f3143b5b8336fc4d19ff4d2d0f55f74f7b1981b95d127418aeb2cd0b15c855"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_128/serial.txt",
+      "raw_sha256": "f67b2ed6eb7ef2efe53fe9b4c2f0a15b03834e720937bf8137d5798c03e139d6"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_512/guest_report.json",
+      "raw_sha256": "c9095926309f1385d596881114e1e51bde9667a57b7582fe283746254ca6603e"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_512/gdb.jsonl",
+      "raw_sha256": "a0ed978a1231c97e63f038d4b576deb392a90843f8c7df8895263118e641007a"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_512/qmp.jsonl",
+      "raw_sha256": "160e6332855a0e3b1c384642e6e867803d4e4c1f8aaf871ddbd9906b047468bf"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_512/qemu.log",
+      "raw_sha256": "bbf41e976fb6966c00e8e42219105613933b161ec8f550beb739b82ed75fadaa"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_512/mandatory_prefix.bin",
+      "raw_sha256": "97b9ac1c144d28b596f48a73603f5c5062742cce671ee8322617573b75df6678"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_512/before_register_packet.txt",
+      "raw_sha256": "6ffae68f0f1220fcd976a2923f73f647e0653ffff21f79aefce1a10dc22a0667"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_512/before_hardware.txt",
+      "raw_sha256": "175616964513e1c00db072fc7a17aba4cdc2e6ac031e7dcadffc9acd04a477b2"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_512/terminal_register_packet.txt",
+      "raw_sha256": "57f1b71177e04af670258de74b22b1933a7adc510368c3c5c39d38d833c4b027"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_512/terminal_hardware.txt",
+      "raw_sha256": "86e1903f0915be450b5081f93e9b489d05619cafaec369930619f8a27aba834c"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/ss_nonpresent_512/serial.txt",
+      "raw_sha256": "ddb9a62468ec4c5d7e32dbdb79de6f0bf7fbec9e8934cff87b16aa3aedb3308e"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_512/guest_report.json",
+      "raw_sha256": "a845ee8aeeddeac367e1f86165a0e76ec2d97e2d4c537d8561f58371c2868514"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_512/gdb.jsonl",
+      "raw_sha256": "3b08d25106e89c39806982f194fd4ed20752fc7593f315ca0762b726ae5ca5dc"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_512/qmp.jsonl",
+      "raw_sha256": "0a56858f032e2d6a1bb47057efdc2d51a61d2a6385193139e363d8aea59746ba"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_512/qemu.log",
+      "raw_sha256": "941ae55691c5aa4d2115dcc5dd7c7e57954062e789e1d3f3c3a1d379356362fb"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_512/mandatory_prefix.bin",
+      "raw_sha256": "dee809c71f8bba4bb4a842f06ac57f15d1957f4d83db6e23665d515b70adc9bf"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_512/before_register_packet.txt",
+      "raw_sha256": "74ab5ebae56418af473ba60028fc6ae173d070dc6d9e0c3653d43530b215b0d2"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_512/before_hardware.txt",
+      "raw_sha256": "e8ed03ce8e6e8a240c54dae1f6709fe23e8377928eb36253a715f00ac62cc881"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_512/terminal_register_packet.txt",
+      "raw_sha256": "57f1b71177e04af670258de74b22b1933a7adc510368c3c5c39d38d833c4b027"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_512/terminal_hardware.txt",
+      "raw_sha256": "cac3aa9d0820cf0cd4f8425f573d2f26a4273eccbc26e544fa2eea859503f854"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_ready_512/serial.txt",
+      "raw_sha256": "f67b2ed6eb7ef2efe53fe9b4c2f0a15b03834e720937bf8137d5798c03e139d6"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_512/guest_report.json",
+      "raw_sha256": "02021fa9b9373fce4d543b21a9ee9e5e60c932fd62e9a5d511011863a02b7fee"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_512/gdb.jsonl",
+      "raw_sha256": "4f89101e497dbb460ce91ec6849e1a3bb1c7196ae8feefe245d8d14fca48c2f9"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_512/qmp.jsonl",
+      "raw_sha256": "5d9b756dad71abfc2c5bd7f93e3c8ea861752b66b24407490ad1f8156290f9d2"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_512/qemu.log",
+      "raw_sha256": "b5adf20eb9c57f45ac578054d8803ae6e16a7f6e6fa9fc2a7ea70b53adb1ff04"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_512/mandatory_prefix.bin",
+      "raw_sha256": "bf78c3dab6aa4a56f1fbb32331d88bbd0cc6f84e9f705a3100469e037af3e2ef"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_512/before_register_packet.txt",
+      "raw_sha256": "fa80d02bfd1be42c4558769ff08b6aedb9f2716df23a8a1a0d2bda815145f056"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_512/before_hardware.txt",
+      "raw_sha256": "6f4f330a052ca15674c8e0f5f1678b2dd26daf44971c58624c31da4c60880fa2"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_512/terminal_register_packet.txt",
+      "raw_sha256": "f106642f8f12239849aef6024f70cf8c62e009f56faacff9ddab11b4f8ab6af6"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_512/terminal_hardware.txt",
+      "raw_sha256": "62f3143b5b8336fc4d19ff4d2d0f55f74f7b1981b95d127418aeb2cd0b15c855"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_entry_512/serial.txt",
+      "raw_sha256": "f67b2ed6eb7ef2efe53fe9b4c2f0a15b03834e720937bf8137d5798c03e139d6"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_512/guest_report.json",
+      "raw_sha256": "0e40a0b604a9be081ee7e8144db1a3b0fc3df29113c69ddc15145511a2c78506"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_512/gdb.jsonl",
+      "raw_sha256": "6edff2438f7d71842606f602dd5fa26592381e37e08d5e19117acb516831b936"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_512/qmp.jsonl",
+      "raw_sha256": "c2740d15be4a01b45a3fbd10670d356139bbe7aa6a713f9325eb1f5a7c8110a2"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_512/qemu.log",
+      "raw_sha256": "6d7872256c435863c72996de6adcdd4be282542ad3b7530b8ee5cf66e8ea3cc9"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_512/mandatory_prefix.bin",
+      "raw_sha256": "e49d75ef6237d586d1c3f5cbcc4429fffe4ae63c0b314f46a3f3d5f6edd50364"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_512/before_register_packet.txt",
+      "raw_sha256": "a4577f96e046d0daea5f7eb1554290a06de165f94eaa17d00353dec940e91d14"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_512/before_hardware.txt",
+      "raw_sha256": "cef51e78107a02dafd4dba31665763350bfa9a3a20a8b2931c51db120fa0682a"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_512/terminal_register_packet.txt",
+      "raw_sha256": "f106642f8f12239849aef6024f70cf8c62e009f56faacff9ddab11b4f8ab6af6"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_512/terminal_hardware.txt",
+      "raw_sha256": "62f3143b5b8336fc4d19ff4d2d0f55f74f7b1981b95d127418aeb2cd0b15c855"
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T142053Z/nmi_output_512/serial.txt",
+      "raw_sha256": "f67b2ed6eb7ef2efe53fe9b4c2f0a15b03834e720937bf8137d5798c03e139d6"
+    }
+  ],
+  "pin_method": "Raw SHA256 independently computed from read_bytes; exact report hash transitively binds frozen-byte map independently revalidated. No parent pins substituted for independent computation.",
+  "verdict_sha256": "1bf9a99449a0fc2a0fac2c65939c1abeec590688dadb1b5e27e86d0f5fb47376"
+}

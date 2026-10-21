@@ -1,0 +1,141 @@
+{
+  "schema": "rosti.phase11f3.candidate-review.v1",
+  "review_id": "candidate_review_01",
+  "review_kind": "independent_candidate_review",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "branch_observed": "maintenance/phase10",
+  "head_observed": "8428cce8f1a3bf2200d6bac10ed26f03cf9bed22",
+  "overall": "REJECT",
+  "blocker_count": 2,
+  "blockers": [
+    "Canonical acceptance cannot pass with the evidence as pinned: scripts/phase6_verify.py lines 585-589 raise 'F3 hardware evidence is partial; full mandatory oracles remain unverified' whenever the F3 guest report has full_f3_acceptance is not True or any planned_only entry. The only pinned F3 hardware report (hardware_green_02/f3_minimal_yh80anpm/report.json) is MINIMAL_RING0_GREEN with full_f3_acceptance=false and planned_only {ss: NOT_VERIFIED, nmi_timing: NOT_VERIFIED}. The 70-gate f3_acceptance_contract_01.json therefore cannot be satisfied until the #SS and NMI-before/during-DF fixtures produce a full_f3_acceptance=true GREEN. Partial-scope 70/70 acceptance is NOT authorized; the runner gates are fail-closed and must be preserved.",
+    "FINAL_REPORT.md section 8 presents an unconfirmed root cause as fact: 'genuine KERNEL RED', 'EIP oscillates between exception-entry addresses', and 'Root cause: emergency task gate re-enters the F2 exception entry whose pushes hit the transition-stack lower guard PF again -> #DF -> task gate -> livelock'. The pinned supplemental report records only overall=HARNESS_FAIL with per-scenario TimeoutError('timed out') at the final continue toward f2_terminal after the normalized checkpoint; the checkpoint samples do not establish oscillation or a kernel livelock. The observed facts (all 8 scenarios FAIL TimeoutError, driver_exit=2, capture_complete=false, final QMP samples EIP=00220eac HLT=0 TR=0020 CR2=07c00ffc for nmi_entry_128 and EIP=0021adc8 for ss_nonpresent_128) are traceable, but the causal diagnosis is a hypothesis and must be labeled as such."
+  ],
+  "criteria_assessment": {
+    "1_scope": "PASS - candidate scope stays within F3 authorized minimal Ring0 scope: no CPL3/USER/F4/F5 work (hardware_cpl3=false in both pinned reports; no CPL3/ring3/user-mode references in src/memory/privileged.rs or src/f3_entry.s); F1/F2 touched only via preservation drivers, no reimplementation.",
+    "2_minimal_matrix": "PASS - hardware_green_02 report: overall=MINIMAL_RING0_GREEN, driver_exit=0, build_exit=0, exactly 10 scenarios (ready/transition_guard_pf/emergency_guard_pf/exhausted_esp_ud2_df/exhausted_esp_pf_df x 128/512), all PASS with capture_complete=true, source_freeze_stable=true (173 inputs), real CPU observations (GDTR base 2725552 limit 39, TR selector 24, selectors 8/16x5, raw GDT/TSS bytes) consistent across all 10 scenarios and with FINAL_REPORT.md.",
+    "3_host_b26": "PASS - host_serial_02 and host_parallel_01 exit_code=0 totals [366,0,2]; b26_parallel_01 exit_code=0 totals [134,0,0]; libtest_identity_readback_01 overall=PASS with host members=368 passed=366 ignored=exactly the two inherited maintenance_measurements identities, b26 134/134/0; the 7 f3_* source declarations match the runner's fail-closed f3_required set in phase6_verify.py lines 461-478.",
+    "4_preservation_drivers": "PASS - f1_preservation_driver_01 and f2_preservation_driver_01 exit_code=0 status=EXPECTED; f1 report PASS 10/10 scenarios; f2 report overall=PASS with 8/8 cases (ud/de/gp/pf x 128/512) PASS and stripping_equality=true.",
+    "5_contract_and_runner": "PASS (content) - f3_acceptance_contract_01.json expected_gate_multiset is exactly the F2 acceptance.json 68-gate multiset (68 unique, all count 1) plus exactly the two F3 gates ('Phase 11F3 minimal Ring0 exact identity family', 'Phase 11F3 minimal Ring0 hardware matrix'), total 70; predecessor_sha256 c619ffe5... re-matches the F2 acceptance.json file hash. scripts/phase6_verify.py contains both gates with fail-closed identity checks (7-identity exact set + totals 7/0/0; exactly one */report.json via f3_gdt_guest.py). NOTE: the runner additionally rejects partial evidence (see blocker 1), so contract content correctness does not imply passability.",
+    "6_red_disclosure": "PASS - the supplemental RED is disclosed, not hidden or claimed green: STATE.md line 26, FINAL_REPORT.md sections 8/11/12, and the contract f3_scope_note all state #SS/NMI NOT_VERIFIED with full_f3_acceptance=false; the supplemental report itself is HARNESS_FAIL. The causal narrative in FINAL_REPORT.md is however overstated (see blocker 2).",
+    "7_fabrication": "PARTIAL - all numeric claims (counts, selectors, GDTR/TR values, QMP samples, hashes) trace to pinned artifacts; the two exceptions are the unconfirmed livelock/oscillation root-cause claims in FINAL_REPORT.md section 8 (blocker 2)."
+  },
+  "scope_status": "Scope-compliant but not acceptable: the candidate stays strictly within the F3 authorized minimal Ring0 scope (no CPL3/USER/F4/F5, no F1/F2 reimplementation) and its minimal-matrix, host/B26, and preservation evidence is internally consistent; it is REJECTED because the #SS and NMI-before/during-DF obligations remain NOT_VERIFIED and the fail-closed acceptance runner cannot pass partial F3 evidence, and because FINAL_REPORT.md states an unconfirmed root cause as fact.",
+  "not_verified_disclosure": "#SS and NMI-before/during-DF are NOT_VERIFIED: the supplemental matrix (supplemental/prepared_20261021T172000Z/report.json) is a genuine KERNEL RED with overall=HARNESS_FAIL, all 8 scenarios FAIL TimeoutError at the final continue after the normalized checkpoint, driver_exit=2; the 'kernel livelock' root cause is a hypothesis not established by the pinned samples. full_f3_acceptance=false for those obligations; the minimal 10/10 GREEN is partial evidence only and cannot canonically pass the 70-gate acceptance.",
+  "full_f3_acceptance": false,
+  "discrepancies": [
+    "All 21 recomputed sha256 values match the parent pins exactly; no hash discrepancies found.",
+    "FINAL_REPORT.md 'GDTR readback: base 0x9629b000, limit 0x27' vs report check values [2725552, 39]: same values in decimal/hex (0x9629b000=2725552, 0x27=39) - consistent, not a discrepancy.",
+    "design_review_01.json uses key 'verdict' (not 'overall'); its file hash 8468ac7d... matches the STATE.md/FINAL_REPORT.md quoted verdict sha - consistent.",
+    "STATE.md line 25 and FINAL_REPORT.md section 9 correctly mark the candidate review as in progress/not eligible; no premature approval claimed anywhere."
+  ],
+  "reviewed_inputs": [
+    {
+      "path": "test_results/phase11f3_gdt_tss/hardware_green_02/f3_minimal_yh80anpm/report.json",
+      "sha256_computed_by_this_review": "4e2fb1549917d20e64be1c1d8d7d2373be2223d1050a5052649e23791a91e05c",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/host_serial_02.json",
+      "sha256_computed_by_this_review": "244fdce45a2e05f7e5722c9f1bf8ee1884d5e42b279eaed9fb4f4023cfd2e0fa",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/host_parallel_01.json",
+      "sha256_computed_by_this_review": "18a5c60f7c4f37f8860278e396805e181b77e5182f67efb28d8852d92b98c1b0",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/b26_parallel_01.json",
+      "sha256_computed_by_this_review": "fa1142607b857d7240f25bb70be7e7bb810aef93a029b1ac20e58772a446fc4d",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/f1_preservation_driver_01.json",
+      "sha256_computed_by_this_review": "7d5c0c11f9e7170f3ff95aaeadad7a68e2c2ea7b69c1f3c3158653f10f555b90",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/f2_preservation_driver_01.json",
+      "sha256_computed_by_this_review": "4fb58c8f13cf9b9f5be18521b0805ffc2c6499b03d89d2fdd6d304df9ed896ad",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/libtest_identity_readback_01.json",
+      "sha256_computed_by_this_review": "cc44795f638b4264729de0b943b35985cc7f7c8d028b8ef4eef792f3df2f62f7",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/supplemental/prepared_20261021T172000Z/report.json",
+      "sha256_computed_by_this_review": "b69e61995c204d826ab994233fbee2354499d9bd81aff37bba12bdc0fa704814",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "scripts/f3_gdt_guest.py",
+      "sha256_computed_by_this_review": "0dd26fd92007686274d791de9878efbdaf121057cfa15b4209a529fe42fe283e",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "scripts/f3_evidence.py",
+      "sha256_computed_by_this_review": "1f61c70d714f121e03a0526c7997d6d1f07f6ccab24ca1e8a29d87335b841ff4",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "scripts/test_f3_evidence.py",
+      "sha256_computed_by_this_review": "fc068fb808621a81f289e9bcbba4908b614406ba65fe29fd74e36ea337d9e4b9",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/gdt_tss.rs",
+      "sha256_computed_by_this_review": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/memory/privileged.rs",
+      "sha256_computed_by_this_review": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/memory/privileged_tests.rs",
+      "sha256_computed_by_this_review": "eb18b51752e82da382e9dc65941786e96943e642849f61055b859c9035ad7b17",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/memory/privileged_owner_tests.rs",
+      "sha256_computed_by_this_review": "a6cd21a45099f6a22b3d4d9ef0793e566fc796796f6ede875b7168fab3985fee",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/f3_entry.s",
+      "sha256_computed_by_this_review": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "scripts/phase6_verify.py",
+      "sha256_computed_by_this_review": "746776370e3c1522af58351764c7035ce35b90d1eaaa397e4efb9bd0d2470181",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/f3_acceptance_contract_01.json",
+      "sha256_computed_by_this_review": "c310dbd93e8902293a78ed217f660ea73aaab9766d8332bbeabe7ca8091d32a7",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/FINAL_REPORT.md",
+      "sha256_computed_by_this_review": "1d68d9d2df8eb55ffedaf84a91947280460e11770c02df41367cb37bbd449905",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/STATE.md",
+      "sha256_computed_by_this_review": "15b0c2a46d11400dedb8070409b51e6d75035c30c21beb620df300639a8e907c",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/reviews/design_review_01.json",
+      "sha256_computed_by_this_review": "8468ac7de2392f2c9f4153b4d31afb75c327ec7557df4171a3984d53632f660a",
+      "matches_parent_pin": true
+    }
+  ],
+  "hash_method": "sha256 of the review JSON serialized as UTF-8 with json.dumps(obj_without_verdict_sha256, sort_keys=True, separators=(',',':'))",
+  "verdict_sha256": "c85fd4b4c05b1563e80f9f68b599c45f1bd38a542b5a3ec21bd012e2c36754d9"
+}

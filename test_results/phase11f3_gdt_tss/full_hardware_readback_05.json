@@ -1,0 +1,19 @@
+{
+  "schema": "rosti.f3-full-evidence-validation.v1",
+  "overall": "PASS",
+  "scenario_count": 18,
+  "full_f3_acceptance": true,
+  "planned_only": [],
+  "hardware_cpl3": false,
+  "limitations": [
+    "Supplement only; full acceptance requires validated minimal plus supplement.",
+    "QEMU qemu32 emulator only; saved NMI RF behavior is specific to QEMU 10.2 commit 0f12d445bd, not physical Intel/AMD proof.",
+    "No F5 CPL3/USER/IOPL proof.",
+    "No full stack high-water/sufficiency proof.",
+    "NMI entry means after hardware task switch, before first emergency instruction; not mid task-switch.",
+    "NMI output means before first emitted UART OUT; no complete DF marker promised."
+  ],
+  "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f3_gdt_tss\\hardware_full_05\\f3_full_hteffvrb\\report.json",
+  "report_sha256": "04c113f7eabfff7aa347451ca79929e44bba4c4733351ac79122e034a9b10136",
+  "pin_count": 1056
+}

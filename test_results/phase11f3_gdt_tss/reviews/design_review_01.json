@@ -1,0 +1,147 @@
+{
+  "schema": "rosti.independent-security-design-review.v1",
+  "review_id": "phase11f3_design_review_01",
+  "review_kind": "independent read-only pre-implementation security design review",
+  "verdict": "APPROVE",
+  "blocker_count": 0,
+  "blockers": [],
+  "summary": "The pinned revision 01 defines a coherent bounded Ring-0 F3 implementation contract. No design blocker found. This approves the design only, not an implementation, measured stack sufficiency, runtime containment, acceptance, or CPL3 readiness.",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "head_observed": "8428cce8f1a3bf2200d6bac10ed26f03cf9bed22",
+  "branch_observed": "maintenance/phase10",
+  "design_path": "test_results/phase11f3_gdt_tss/design.md",
+  "design_raw_sha256": "ba3541c43739b0d84aeed31678ba46a58e4a18e30e4907633b858d9edf542d0a",
+  "hash_method": "Independently computed hashlib.sha256(Path(path).read_bytes()).hexdigest(); raw disk bytes, no newline normalization and no copied recovery digest substituted for computation.",
+  "raw_sha256": {
+    "test_results/phase11f3_gdt_tss/design.md": "ba3541c43739b0d84aeed31678ba46a58e4a18e30e4907633b858d9edf542d0a",
+    "test_results/phase11f3_gdt_tss/intel_task_extract.txt": "c419ca6193d292ee6b29ffe868222171ea70f4c82ee2cc532949270766a03c5e",
+    "test_results/phase11f2_exception_abi/intel_sdm_vol3_093.pdf": "77919be320f35da2782771ef2cb65a868cf68e62c8f8279f2ca61199cb70d1f8",
+    "src/gdt.rs": "fb6830e02a5f296e22551c5045bbd0263028520b4d334f285d2098fefa61957d",
+    "src/main.rs": "d1cf7c95f011730ea24c52ac7b42ca75b52367e379c02f89c4a58d31e8c269fd",
+    "src/interrupt.rs": "80e34c898414793fb1971c618219e314f4e80972b4af76a7e9a4ec2e8633860f",
+    "src/exception_entry.s": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+    "src/exception_abi.rs": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+    "src/exception_fatal.rs": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d",
+    "src/memory/mod.rs": "ce93759f998d8f3cedc2704bd2ea3e60590d0d1bfe2c4c2311849e546ab51026",
+    "src/memory/paging.rs": "735d8357df77c016fcf86ea9023a42f8dfad3f7454db0aacac8103ba674cd11c",
+    "src/memory/frame.rs": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+    "src/memory/retained_owner.rs": "858132a3b9449f00d32ed8f02d23a3fa11cc29d76d4724cc0ab8d8531ff1c261",
+    "docs/PHASE11_MEMORY_AUTHORITY.md": "5244237db942e416d2adc8b9bf02940cb06844244e2a9f9f724ff949bdfac952"
+  },
+  "review_coverage": {
+    "complete_design_read": true,
+    "complete_retained_task_extract_read": true,
+    "actual_source_excerpts_inspected": [
+      "src/gdt.rs:1-188 (complete)",
+      "src/main.rs:185-239 (boot installation and paging sequence)",
+      "src/interrupt.rs:1-310 (IDT representation, gate construction/load, F2 vector installation)",
+      "src/exception_entry.s:1-110 (complete)",
+      "src/exception_abi.rs:1-119 (complete)",
+      "src/exception_fatal.rs:1-170 (complete)",
+      "src/memory/retained_owner.rs:1-296 (complete)",
+      "src/memory/paging.rs:75-189,290-619 (flags, fixed growth window, owner fields, effective permissions, runtime map/unmap and identity-access checks)",
+      "src/memory/frame.rs:370-534 (allocation identities, lease validation, release/pin refusal)",
+      "src/memory/mod.rs:240-334 (paging publication, opt-in owner wrapper and heap growth)",
+      "docs/PHASE11_MEMORY_AUTHORITY.md:1-300,475-566 (accepted status and bounded F3/F5 authority)"
+    ],
+    "authority": [
+      "Retained Intel SDM Vol3 revision093 raw PDF digest verified independently.",
+      "Complete intel_task_extract.txt read: PDF297-306 TSS layout, descriptor, task register, task gate and switching; PDF217-218 shadow-stack material is not mistaken for the classic task gate specification.",
+      "Additional direct read-only PDF text extraction: PDF220 section7.12.2 confirms independent interrupt-task stack and error code on the NEW task stack; PDF237-238 confirms #DF abort, PF+PF classification, error zero and undefined saved CS/EIP; PDF307 confirms task-switch commit/fault limitations. No extracted files written."
+    ],
+    "recovery_source_pins_recomputed": true,
+    "recovery_source_pin_mismatches": [],
+    "f2_full_165_input_freeze_independently_repeated": false,
+    "historical_guest_observations_reexecuted": false
+  },
+  "areas": [
+    {
+      "id": 1,
+      "area": "Descriptor encoding and current selector compatibility",
+      "status": "PASS_DESIGN",
+      "evidence": "Design A/B; gdt.rs:54-65,130-188; exception_entry.s:10,77; interrupt.rs:95-103.",
+      "finding": "Independent arithmetic reproduces code 0x00cf99000000ffff / ffff00000099cf00 and data 0x00cf93000000ffff / ffff00000093cf00. These preserve actual execute-only code, accessed writable data, flat limits and selectors 8/16. Static3 limit23 and static5 limit39 use wire sizes; TSS type9/access89, limit67 and task-gate access85/reserved-zero encoding are appropriate. Explicit CS and data/SS reloads avoid relying on stale hidden segment caches. A future user-selector layout is not approved or silently assumed."
+    },
+    {
+      "id": 2,
+      "area": "Classic TSS layout, SS0/ESP0 and TR",
+      "status": "PASS_DESIGN",
+      "evidence": "Design B/C/H; Intel PDF298-304; exception_abi.rs:99-105.",
+      "finding": "The 104-byte classic TSS layout and iomap104 beyond limit103 are correct for CET disabled. Normal SS0=16 and transition ESP0=0x07c05000 are explicit. LTR18 must follow retained writable supervisor storage and mapping validation; STR and busy-bit readback are required. Emergency TSS uses the actual retained CR3, CS8/SS16, EFLAGS2, entry EIP and independent stack. LTR does not load the normal TSS execution-state fields; their initial zeros are not treated as a CPU task-state restore. No return to that saved task is claimed. CPL3 I/O denial and actual privilege stack switch remain F5 proofs, not host-test claims."
+    },
+    {
+      "id": 3,
+      "area": "Stack ownership, bounds, guards and identity-alias integration",
+      "status": "PASS_DESIGN",
+      "evidence": "Design D; paging.rs:88-104,304-320,429-505,545-619; retained_owner.rs:128-150; frame.rs:388-450.",
+      "finding": "Computed ranges are four transition pages plus four emergency pages with two absent lower guards in PDE31. The proposed private replacement transaction explicitly differs from ordinary map_owned, which rightly refuses existing present identity PTEs. It requires continuous owner/map/frame locking, conflict validation, runtime-pin/bitmap consistency, exact lease identity and pre-write supervisor identity validation. Ten-slot private reservation closes returning map/unmap before seal. Removed identity aliases of the old free physical window cannot be treated as accessible physical pointers; the design recognizes and requires refusal by later identity-access/lease checks. No extra backing is invented for guards. Sixteen KiB is expressly a cap pending emitted closure/nesting evidence, not an asserted high-water proof."
+    },
+    {
+      "id": 4,
+      "area": "F1 retained-owner lifecycle preservation",
+      "status": "PASS_DESIGN",
+      "evidence": "Design D/H/I; retained_owner.rs:7-67,162-221,249-275; memory/mod.rs:264-268; authority sectionE/F.",
+      "finding": "Extending only the existing Preparing owner on fresh boots, with no reset/unseal/second registry, is compatible with accepted one-shot retention. Partial acquisition/mapping failure retains backing and enters Terminal. The production routine remains divergent and opt-in; ordinary boot and F1 zero-stack guest mode remain separate. The plan requires same-source F1 ten-guest preservation instead of reopening F1 or treating a new preparer as equivalent evidence."
+    },
+    {
+      "id": 5,
+      "area": "F2 ABI and exception-entry retention",
+      "status": "PASS_DESIGN",
+      "evidence": "Design E/G; complete exception_entry.s and exception_abi.rs; exception_fatal.rs:94-169; Intel PDF220.",
+      "finding": "The mandatory 68-byte, 17-word F2 prefix and same-ring no-tail rule remain unchanged. Only admitted F3 IDT8 changes to a task gate; ordinary pre-F3 vector8 and vector12 remain F2 gates. The emergency path correctly does not decode an F2 frame: hardware saves the outgoing state in the old TSS and pushes the error on the new stack. Existing F2 guest IDT expectations may vary narrowly by admitted mode, not be globally weakened."
+    },
+    {
+      "id": 6,
+      "area": "Emergency task gate, fault-chain and NMI strategy",
+      "status": "PASS_DESIGN",
+      "evidence": "Design F/G; Intel PDF220,237-238,299-307; exception_entry.s:31,37,64-93; exception_fatal.rs:98-103.",
+      "finding": "An available emergency TSS behind an IDT task gate provides the needed stack replacement without pushes on corrupt old ESP. Emergency entry is bounded call-free assembly, no IRET/retry/busy clearing, with raw entry ESP captured before stack use. PF while delivering PF is a real #DF chain; UD2 with unusable ESP may first fail delivery into PF and only then PF again, so an INT8 marker is correctly excluded as proof. Real #SS is distinguished from invalid-selector #GP. Ordinary F2 NMI on the emergency stack is terminal; exact marker completion is not promised if NMI preempts output. Corrupted architectural tables/maps and recursive emergency entry are honestly excluded rather than implied survivable."
+    },
+    {
+      "id": 7,
+      "area": "Installation and failure ordering",
+      "status": "PASS_DESIGN",
+      "evidence": "Design D/G/H; main.rs:203-209; interrupt.rs:140-145; retained_owner.rs:253-274.",
+      "finding": "Acquisition, zeroing, mapping validation and retained TSS/GDT initialization dominate LGDT/LTR/task-gate publication. Guards are released before nonallocating hardware install; normal TR is verified before IDT8 publication, then raw IDT and actual state are validated before joint seal. The implementation must not reuse InterruptTable::load, which executes STI; the design explicitly requires CLI/no STI and only narrow IDT8 replacement. Post-partial-install refusal is terminal on the retained bootstrap stack through a separately audited path, not panic, rollback or shell continuation. NMI cannot be masked by CLI, but inherited NMI fatal code has no owner reentry, and the design calls for ordering tests."
+    },
+    {
+      "id": 8,
+      "area": "Frame and static-resource ceilings",
+      "status": "PASS_DESIGN",
+      "evidence": "Design D/I; retained_owner.rs:12-54; paging.rs:85-104.",
+      "finding": "Independent arithmetic gives F3 payload1+sentinel1+transition4+emergency4=10 frames; future user1+arena-table1 yields the retained policy ceiling12. PDE31 must already exist and no new F3 table/guard backing is allowed. Fixed Option lease slots, owner-family <=4096 bytes and separate descriptor/context <=4096 bytes avoid hidden growable registries and large local stack arrays. Current paging structures remain preexisting retained resources, not mislabeled new frame acquisitions. Exhaustion is terminal with bounded retention, not an unbounded search/retry."
+    },
+    {
+      "id": 9,
+      "area": "CPU-backed test oracles and acceptance integrity",
+      "status": "PASS_DESIGN",
+      "evidence": "Design G/I and review-sensitive section; actual baseline gdt.rs and F2 entry source.",
+      "finding": "The baseline RED is an actual missing-TR assertion after successful boot, not absent-marker/compiler failure. GREEN must invoke the real divergent production F3 path and read actual GDTR/TR/selectors/descriptors/TSS/IDT/PTEs, not synthetic privileged host models. Both RAM sizes, usable-stack PF controls, bad-ESP genuine DF, terminal halt/no-reset observation, NMI and inherited F1/F2 guests are required. Emitted fatal-closure/stack audit, exact host/B26 identities and fail-closed acceptance evidence remain explicit candidate gates. Runtime tests are appropriately not claimed run during design review."
+    }
+  ],
+  "candidate_review_obligations": [
+    "Prove eight real lease mappings plus two absent guards and private reservation across every returning map/unmap path; maintain pin/bitmap/accounting ordering under partial failures.",
+    "Exercise allocation selection of old removed/remapped identity-window frames and prove refusal before zeroing/table/physical-pointer writes; do not compensate with extra reserved frames or weakened checks.",
+    "Validate actual CR4.CET=0 and the full accepted CPU profile before classic TSS publication; retain exact actual CR3, supervisor writable descriptor/TSS storage and no live Rust shared references across hardware mutations.",
+    "Retain emitted closure evidence for normal F2 roots, emergency entry and each post-partial-install terminal refusal. Derive stack/nested-NMI bounds from the actual production ELF; the four-frame cap alone is insufficient.",
+    "Use a narrow no-STI IDT8 publisher, not existing InterruptTable::load. Demonstrate busy-state and raw task-gate/TSS readback and one-attempt refusal.",
+    "Require actual #DF transition TR20, bounded emergency ESP, error zero, correct terminal marker and controlled HLT with no reset. Do not interpret undefined saved #DF CS/EIP as trustworthy fault origin.",
+    "Resolve concrete #SS fixture selection honestly: a wrong SS selector producing #GP is not #SS evidence; any segment-limit fixture must retain a usable exception stack and exact emitted instructions.",
+    "Test NMI timing before and during emergency entry/output; separate containment from guaranteed complete diagnostic text when preempted. Do not classify an NMI-preempted incomplete DF oracle as a DF PASS.",
+    "Keep actual CPL3 stack switch/I/O denial NOT VERIFIED until F5. Preserve F1 mode, inherited F2 test identities, ordinary default behavior and exact canonical predecessor gate membership."
+  ],
+  "limitations": [
+    "No production F3 implementation exists in the reviewed snapshot; no correctness claim about future code is made.",
+    "No builds, host tests, QEMU runs, disassembly generation, production writes, historical-evidence changes or skill writes were performed.",
+    "Historical baseline guest GDTR/TR observations and full F2 acceptance are context, not independently rerun evidence in this design review.",
+    "Complete design and retained task extract were read; large source files were reviewed through the relevant excerpts listed, not represented as full-file semantic audits."
+  ],
+  "scope_compliance": {
+    "authorized_write_only": "test_results/phase11f3_gdt_tss/reviews/design_review_01.json",
+    "source_modified": false,
+    "builds_or_qemu_run": false,
+    "protected_files_modified": false,
+    "user_questions_asked": false,
+    "approval_requires_zero_blockers": true
+  }
+}

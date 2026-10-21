@@ -1,0 +1,102 @@
+{
+  "blocker_count":0,
+  "blockers":[],
+  "branch_observed":"maintenance/phase10",
+  "checks":{
+    "1":{
+      "evidence":"acceptance.json (test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json) parses as valid JSON; overall=='PASS'; gates_passed==70; gates_total==70; no top-level 'error' field present; source_base=='8428cce8f1a3bf2200d6bac10ed26f03cf9bed22'.",
+      "status":"PASS"
+    },
+    "10":{
+      "evidence":"reviews/candidate_review_05.json overall=='APPROVE', blocker_count==0, blockers==[]; full-file sha256 == 50501d79c4421a3698c9f8620a9867f70e5edf5eee3adcfbed118fc1cce0c777. Its reviewed_inputs[0..178] (179 source pins) equal acceptance.source_sha256 EXACTLY (path+hash); all matches_parent_pin true. head_observed 8428cce8... branch maintenance/phase10.",
+      "status":"PASS"
+    },
+    "11":{
+      "evidence":"No unreviewed source drift: independently re-hashed all 179 full_source_freeze_05.json pins against current on-disk bytes -> 0 missing, 0 mismatches. git HEAD 8428cce8f1a3bf2200d6bac10ed26f03cf9bed22 on branch maintenance/phase10 (freeze pins the on-disk working-tree state, which the acceptance and candidate_review_05 both pin).",
+      "status":"PASS"
+    },
+    "2":{
+      "evidence":"70-gate multiset from acceptance.gates[].gate equals f3_acceptance_contract_01.json expected_gate_multiset exactly (Counter equality, 70 unique names, all counts 1); expected_gate_total==70; predecessor_sha256=='c619ffe5c99de75701528b836e1ba1eeeb904720d279b3e6392050852359f0a9'; no missing/duplicate/substituted/impostor gates; all 70 gates status PASS exit_code 0.",
+      "status":"PASS"
+    },
+    "3":{
+      "evidence":"acceptance.source_sha256 (179-key map) == full_source_freeze_05.json (179 pins) EXACTLY (key-set and value equality). Independently re-hashed all 179 pins on disk: 0 missing, 0 mismatches vs freeze; 0 mismatches vs acceptance.source_sha256.",
+      "status":"PASS"
+    },
+    "4":{
+      "evidence":"nested F3 report test_results/f3acc/.../f3_gdt_tss/f3_full_39ioe29a/report.json: overall=='FULL_RING0_GREEN', full_f3_acceptance==true, planned_only==[], scenario_count==18, hardware_cpl3==false, driver_exit==0. acceptance.counts.f3_minimal_ring0_scenarios=={pass:18,fail:0}. acceptance.f3_evidence_sha256 has exactly 1056 pins; re-hashed all 1056 on disk: 0 missing, 0 mismatch.",
+      "status":"PASS"
+    },
+    "5":{
+      "evidence":"nested F2 report test_results/f3acc/.../f2_exception/f2_guest_bnq453he/report.json: overall PASS; 8 cases (ud/de/gp/pf x 128/512) each overall PASS. acceptance.counts.f2_exception_scenarios=={pass:8,fail:0}. f2_evidence_sha256 has 10 pins, all re-hashed 0 mismatch.",
+      "status":"PASS"
+    },
+    "6":{
+      "evidence":"acceptance.counts: f1_retained_owner=={pass:9,fail:0}; f2_exception_abi=={pass:7,fail:0}; f3_minimal_ring0=={pass:7,fail:0}; host=={pass:366,fail:0}. 03_host_tests.log tail: 'test result: ok. 366 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out' (2 inherited ignored).",
+      "status":"PASS"
+    },
+    "7":{
+      "evidence":"acceptance.iso records name 'rosti_phase11a_prerequisite_20261021T173237Z.iso', path dist/..., sha256 'bea601a5b6e29cc685d9f3b457d07eacffa1bcbfbafc9568661c05f503e8f3f6', bytes 11558912, kernel_sha256 'ce0de173849002b888ea44da939d125615fcc3609dffd8397852d58266800d69'. Independently re-hashed dist/rosti_phase11a_prerequisite_20261021T173237Z.iso on disk == bea601a5b6e29cc685d9f3b457d07eacffa1bcbfbafc9568661c05f503e8f3f6 (11558912 bytes).",
+      "status":"PASS"
+    },
+    "8":{
+      "evidence":"F3 (10 minimal + 8 supplemental) and F2 (8) hardware scenarios all record owned_qemu_exited==true (cleanup_action=='kill_owned_Popen', qemu_exit==1). Read-only process listing (tasklist) shows no qemu processes remaining.",
+      "status":"PASS"
+    },
+    "9":{
+      "evidence":"reviews/candidate_review_01.json full-file sha256 == d9f1f8b88d06a36a0d1c982a4531067cbb52406c32147338576986b74250ab01 (byte-identical, unedited); content is historical REJECT (overall REJECT, blocker_count 2).",
+      "status":"PASS"
+    }
+  },
+  "discrepancies":[],
+  "head_observed":"8428cce8f1a3bf2200d6bac10ed26f03cf9bed22",
+  "overall":"APPROVE",
+  "repository":"C:/Users/iamsv/Documents/Rust-OS",
+  "review_id":"final_canonical_readback_01",
+  "review_kind":"final-canonical-readback",
+  "reviewed_inputs":[
+    {
+      "matches_parent_pin":true,
+      "path":"test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json",
+      "sha256_computed_by_this_review":"2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b"
+    },
+    {
+      "matches_parent_pin":true,
+      "path":"test_results/phase11f3_gdt_tss/full_source_freeze_05.json",
+      "sha256_computed_by_this_review":"b9558699c6804af48b9cd11e7aec9af9629a953f84e92f4b00f3d3218d88f2f1"
+    },
+    {
+      "matches_parent_pin":true,
+      "path":"test_results/phase11f3_gdt_tss/f3_acceptance_contract_01.json",
+      "sha256_computed_by_this_review":"e8367edbaf7559ff24982356b6d63632eebe0c4e06280edfc59c4d24c05119d2"
+    },
+    {
+      "matches_parent_pin":true,
+      "path":"test_results/phase11f3_gdt_tss/reviews/candidate_review_01.json",
+      "sha256_computed_by_this_review":"d9f1f8b88d06a36a0d1c982a4531067cbb52406c32147338576986b74250ab01"
+    },
+    {
+      "matches_parent_pin":true,
+      "path":"test_results/phase11f3_gdt_tss/reviews/candidate_review_05.json",
+      "sha256_computed_by_this_review":"50501d79c4421a3698c9f8620a9867f70e5edf5eee3adcfbed118fc1cce0c777"
+    },
+    {
+      "matches_parent_pin":true,
+      "path":"test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/f3_gdt_tss/f3_full_39ioe29a/report.json",
+      "sha256_computed_by_this_review":"a74e8ee03694bbc1209fe9be9fd51270245ff7667406b036c86b78b00fb6bb84"
+    },
+    {
+      "matches_parent_pin":true,
+      "path":"test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/f2_exception/f2_guest_bnq453he/report.json",
+      "sha256_computed_by_this_review":"cc458bbf750ccd443df352a2e99a3192a8c20ae4829f9b34fc4a1942216f5ac1"
+    },
+    {
+      "matches_parent_pin":true,
+      "path":"dist/rosti_phase11a_prerequisite_20261021T173237Z.iso",
+      "sha256_computed_by_this_review":"bea601a5b6e29cc685d9f3b457d07eacffa1bcbfbafc9568661c05f503e8f3f6"
+    }
+  ],
+  "schema":"rosti.phase11f3.final-readback.v1",
+  "scope_status":"Read-only independent re-derivation of the completed Phase 11 F3 canonical acceptance. All 11 checks PASS with independently recomputed SHA-256 evidence (179 source pins, 1056 F3 evidence pins, 10 F2 evidence pins, ISO bytes, review file bytes). Non-blocking scope observations: (a) working tree has uncommitted changes vs git HEAD as expected \u2014 the freeze/acceptance pin the on-disk bytes, not HEAD; (b) three untracked non-source artifacts exist outside the 179-pin manifest and are not build inputs: d1/f, docs/ROSTI_INIT_ARCHITECTURE.md, scripts/b13_boot_fixture.py.backup; (c) candidate_review_05 discloses (non-blocking) that f3_acceptance_contract_01.json, FINAL_REPORT.md, STATE.md, full_hardware_readback_05.json, revision05_pipeline.json carry post-REJECT annotation/withdrawal language whose current hashes differ from review_01's historical pins while structural contract fields are unchanged.",
+  "verdict_sha256":"c40ed96566ceac5654151f7e351428dfb0984bd9c137520b901f437e54211a66"
+}

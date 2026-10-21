@@ -1,0 +1,30 @@
+{
+  "status": "F3_ACCEPTED",
+  "head": "8428cce8f1a3bf2200d6bac10ed26f03cf9bed22",
+  "branch": "maintenance/phase10",
+  "design_review": "APPROVE_ZERO_BLOCKERS_DESIGN_ONLY",
+  "candidate_review": "APPROVE_ZERO_BLOCKERS",
+  "final_readback": "APPROVE_ZERO_BLOCKERS",
+  "canonical_acceptance": "PASS_70_OF_70_EXIT_0",
+  "source_frozen_for_acceptance": true,
+  "protected_bytes_match": true,
+  "artifacts": {
+    "full_source_freeze_05.json": "b9558699c6804af48b9cd11e7aec9af9629a953f84e92f4b00f3d3218d88f2f1",
+    "revision05_pipeline.json": "43ebc946e6af4099d7b8cebd9fdaad5583d531f0de9b5ce509edb92694cce5a0",
+    "full_refresh_summary_05.json": "e1e1320c016135cc19ea3b8f22b772ea06035922acaef93980deba60c7ff246a",
+    "full_hardware_readback_05.json": "14e06bb7a00de436fdac0b6da3a83e0b05370681aacab985ef0221f218ae1e45",
+    "canonical_acceptance/acceptance.json": "2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b",
+    "reviews/candidate_review_01.json": "d9f1f8b88d06a36a0d1c982a4531067cbb52406c32147338576986b74250ab01",
+    "reviews/design_review_01.json": "8468ac7de2392f2c9f4153b4d31afb75c327ec7557df4171a3984d53632f660a",
+    "reviews/supplemental_observer_review_01.json": "9a0e6b8af943d6725f58a82518e4e35b68f22a96adc8c74718eb2c00ef509c07",
+    "reviews/candidate_review_05.json": "50501d79c4421a3698c9f8620a9867f70e5edf5eee3adcfbed118fc1cce0c777",
+    "reviews/final_canonical_readback_01.json": "a22a2e437caafaa701bfaba0072066ec0fd75a7074241e37acacf958d14f3cb2",
+    "stack_bound_review_02.json": "a3db19e0430dbbd56314978e7f8ca300353b0b2e1fd9fc4988f4482b65fd90fa"
+  },
+  "acceptance_artifacts": {
+    "iso_path": "dist/rosti_phase11a_prerequisite_20261021T173237Z.iso",
+    "iso_sha256": "bea601a5b6e29cc685d9f3b457d07eacffa1bcbfbafc9568661c05f503e8f3f6",
+    "kernel_sha256": "ce0de173849002b888ea44da939d125615fcc3609dffd8397852d58266800d69"
+  },
+  "production_kernel_sha256": "ce0de173849002b888ea44da939d125615fcc3609dffd8397852d58266800d69"
+}

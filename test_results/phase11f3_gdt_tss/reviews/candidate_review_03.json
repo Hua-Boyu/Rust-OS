@@ -1,0 +1,194 @@
+{
+  "schema": "rosti.phase11f3.candidate-review.v1",
+  "review_id": "candidate_review_03",
+  "review_kind": "independent_candidate_review",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "branch_observed": "maintenance/phase10",
+  "head_observed": "8428cce8f1a3bf2200d6bac10ed26f03cf9bed22",
+  "overall": "APPROVE",
+  "blocker_count": 0,
+  "blockers": [],
+  "criteria_assessment": {
+    "1_gdt_descriptors_selectors_privilege": "PASS - src/memory/privileged.rs:5-6 defines KERNEL_CODE=0x00cf99000000ffff (access 0x99=P|DPL0|S|code, read), KERNEL_DATA=0x00cf93000000ffff (0x93=P|DPL0|S|writable data); neither sets DPL3 (0x60) so no user descriptors. src/gdt_tss.rs f3_context.entries=[0,KERNEL_CODE,KERNEL_DATA,normal,emergency] gives selectors null=0x00, code=0x08, data=0x10, normal TSS=0x18, emergency TSS=0x20; install() writes descriptor(base,0x89) for both TSSes. src/interrupt.rs:159 DOUBLE_FAULT_TASK_GATE=0x0000850000200000 decodes to selector 0x0020 (emergency TSS) type=0x5 task gate, DPL0, P=1. cpu_readback expects normal descriptor busy (0x8b) after ltr, emergency available (0x89).",
+    "2_tss_layout_esp0_ss0_iomap": "PASS - src/memory/privileged.rs Tss is 104 bytes (const asserts size_of==104, align==4, offsets esp0=4/ss0=8/.../iomap=102); descriptor() hardcodes limit 103; Tss::new() sets iomap=104 (offset 102) => iomap base 104 > limit 103 => no I/O bitmap. src/gdt_tss.rs normal_state(): esp0=TRANSITION_TOP=0x07c05000, ss0=0x10; emergency_state(): esp0=EMERGENCY_TOP=0x07c0a000, ss0=0x10. Two contexts (F3Context.normal/.emergency).",
+    "3_ltr_selector_reload_hardware_ordering": "PASS - src/gdt_tss.rs install() (234-294): pre-checks cpu_profile/selectors_valid/context_valid/attempt/task_register()==0 BEFORE any write; writes both TSSes and 5 descriptors via write_volatile, then cli;lgdt;jmp $0x08;reload ds/es/fs/gs/ss=$0x10;ltr $0x18 => descriptors before lgdt, ltr after GDTR load. cpu_readback() (204-229) validates TR via str (task_register()!=0x18 => fail), sgdt limit==39/base==entries, normal busy 0x8b / emergency 0x89, 104-byte tss_matches; install returns true only after cpu_readback && install_double_fault_task_gate() && verify() => TR CPU readback before publication (ready()).",
+    "4_privileged_emergency_stack_ownership_guard": "PASS - src/memory/privileged.rs constants: TRANSITION_GUARD=0x07c00000, TRANSITION_BASE=0x07c01000, TRANSITION_TOP=0x07c05000, EMERGENCY_GUARD=0x07c05000, EMERGENCY_BASE=0x07c06000, EMERGENCY_TOP=0x07c0a000. install_privileged_stacks() (118-214) is a single finite transaction (mutation_allowed/retained/enabled/domain-gated) whose preflight dominates all writes; guard pages i==0 (0x07c00000) and i==5 (0x07c05000) are written entry=0 (unmapped). privileged_stacks_valid() (216-252) requires entry==0 && translate().is_none() for both guards and present/writable/!user for the 8 usable pages. retained_owner.rs prepare_f3_locked() (239-273) allocates 8 owned leases then calls install_privileged_stacks and records future_ranges; terminal partial failure retains reservation and leases; run_gdt_tss (276-332) admits fresh Preparing only, seals then verifies.",
+    "5_conditional_static_stack_bound_and_limitations": "PASS - stack_bound_parent_rerun_02.json (sha 57737a23...): schema f3_stack_bound_readonly_v2, overall=PASS, blockers=[]; sufficient_conservative_emitted_upperbound_bytes=1184, two_simultaneous_fatal_closures_plus_prefixes_and_DF_error_bytes=2578, emergency_stack_capacity_bytes=16384, headroom_bytes=13806, bound_expression=2*(C+(12+8+48+15+16+4))+4; runtime_highwater=NOT_MEASURED, builds_or_QEMU_run=False, unresolved_indirect_edges=[], unknown_esp_mutations=[], combined_recursive_cycles=[]. proof_limits state: static conditional proof not measured high-water; exactly one nested NMI (no arbitrary nesting); assumes uncorrupted immutable bytes; no claim of corrupt-GDT/TSS/CR3 or synchronous-fault survival. stack_bound_review_01.json (overall=BLOCKED) is the earlier finding of 3 unresolved atomic jump tables; stack_bound_review_02.json (overall=PASS) and stack_bound_parent_readback_02.json (bound_bytes=2578, table_count=3, decoded_targets=15, pin_drift=[], parent_rerun_sha256=57737a23..., child_review_sha256=a3db19e0...) confirm resolution; stack_bound_audit_02.py on-disk sha 7b5f7167... == helper_sha256.",
+    "6_unchanged_f2_frame_abi": "PASS - src/exception_abi.rs: FRAME_SIZE=68, VECTOR_OFFSET=48, 17 const offset asserts (gs0..eflags64) covering the full 68-byte mandatory prefix; src/exception_entry.s has '.if {frame_size} != 68' and '.if {vector_offset} != 48' hard errors. F2 pins unchanged: exception_abi.rs/exception_entry.s/exception_fatal.rs are byte-identical across full_source_freeze_01.json and full_source_freeze_03.json (96875f93.../a43dd7a8.../30a1c3f0...).",
+    "7_emitted_call_closure_bounded_fatal_paths": "PASS - emitted_fatal_audit_full_01.json: overall=PASS, reachable_function_count=27, roots=[f2_fatal, f2_unsupported, f3_emergency_entry, f3_emergency_terminal, f3_ready, f3_install_terminal, gdt_tss::fail], missing=[], indirect_calls=[], forbidden_calls=[], assembly_call_or_return=[], kernel_sha256=53de901b...; emitted_fatal_disassembly_full_01.txt present (sha 3ae78514...).",
+    "8_eighteen_hardware_scenarios_1056_pins": "PASS - hardware_full_03/f3_full_q0wd22ay/report.json (sha ff8cd7d1..., verified == report_sha256 in both revision03_pipeline.json and full_hardware_readback_03.json): overall=FULL_RING0_GREEN, driver_exit=0, full_f3_acceptance=true, planned_only=[], hardware_cpl3=false, scenario_count=18 (10 minimal + 8 supplemental ss_nonpresent/nmi_ready/nmi_entry/nmi_output x 128/512), source_input_count=179, source_freeze_stable=true. full_hardware_readback_03.json: overall=PASS, scenario_count=18, full_f3_acceptance=True, planned_only=[], hardware_cpl3=False, pin_count=1056, report_sha256=ff8cd7d1...",
+    "9_seventy_gate_contract_and_harness_integrity": "PASS - f3_acceptance_contract_01.json expected_gate_total=70: exactly the 68 F2 predecessor gate names (verified equal to the predecessor acceptance.json 'gate' list; gates_total=68/gates_passed=68) plus exactly the 2 F3 gates ('Phase 11F3 minimal Ring0 exact identity family', 'Phase 11F3 minimal Ring0 hardware matrix'). predecessor_sha256 c619ffe5... == on-disk hash of the F2 acceptance.json. scripts/phase6_verify.py:585-589 retains the fail-closed F3 gate ('if full_f3_acceptance is not True or planned_only: raise RuntimeError(...)'), and lines 461-478 the 7-identity exact F3 host set + totals 7/0/0.",
+    "10_resolution_of_both_blockers": "PASS - retained reviews/candidate_review_01.json is byte-identical (raw sha256 d9f1f8b88d06a36a0d1c982a4531067cbb52406c32147338576986b74250ab01, verified; not edited). Blocker 1 (full_f3_acceptance=false): resolved by hardware_full_03 (full_f3_acceptance=true, planned_only=[], 18/18 GREEN incl. ss_nonpresent and nmi_ready/entry/output x 128/512) + full_hardware_readback_03.json PASS pin_count=1056. Blocker 2 (FINAL_REPORT.md section 8 stated unproven livelock as fact): current FINAL_REPORT.md line 72 contains the withdrawal 'The earlier claims of genuine kernel RED and a proven task-gate livelock are withdrawn' and replaces the causal claim with the corrected observer finding (f2_fatal divergent, halts in its own Rust loop).",
+    "11_revision03_correction": "PASS - (a) F1 gate in scripts/phase6_verify.py:416-436 (9 identities + '--lib retained_owner') is byte-identical to the accepted F1-era phase6_verify.py (git d6f2c72) and to freeze_02; the freeze_02->freeze_03 diff touches ONLY the two F3 identities (lines 467-468) which changed from memory::paging::retained_owner::privileged_tests::f3_owner_* to memory::paging::privileged_owner_tests::f3_owner_*; (b) src/memory/paging.rs:79-81 now declares '#[cfg(test)] #[path=\"privileged_owner_tests.rs\"] mod privileged_owner_tests;' and src/memory/retained_owner.rs removed its '#[path=\"privileged_owner_tests.rs\"] mod privileged_tests;', so the two f3_owner tests live at memory::paging::privileged_owner_tests (module_path prefix 'paging::privileged_owner_tests', no 'retained_owner' segment); the authoritative 368-identity host list shows exactly 7 identities matching '::f3_' (== f3_required) and exactly 9 matching 'retained_owner' (== f1_required), with zero identities containing both 'f3_owner' and 'retained_owner'; (c) the freeze_02->freeze_03 diff is minimal and F3-scoped: retained_owner.rs changes are pub(super) visibility-only (compile-time; PREPARING/SEALED/TERMINAL/STATE/RetainedOwner+fields/OWNER/try_admit/CpuState+fields/MODEL_CPU/capacity/prepare_f3_locked) plus removal of the module decl; privileged_owner_tests.rs changes are import/path adjustments (super::retained_owner::..., tests::child_identity -> super::retained_owner::tests::child_identity, super::super::privileged -> super::privileged); no F1/F2 contract or required-identity change, no architecture/resource-ceiling change (MANIFEST 12-frame ceiling and privileged.rs stack constants unchanged); (d) the 4 changed files vs freeze_02 are exactly scripts/phase6_verify.py, src/memory/paging.rs, src/memory/privileged_owner_tests.rs, src/memory/retained_owner.rs (0 added, 0 removed)."
+  },
+  "scope_status": "Candidate stays within the F3 authorized minimal Ring0 scope (hardware_cpl3=false; no CPL3/USER/F4/F5 work). This review APPROVES the frozen 179-input revision03 candidate (GDT/TSS + privileged/emergency stacks after the minimal F1-gate-pollution correction), with the completed conditional stack-bound evidence and full 18-scenario Ring0 hardware evidence. It does NOT constitute the separate 70-gate canonical acceptance run: revision03_pipeline.json is PASS_FROZEN_HARDWARE_AND_REFRESH_ONLY with canonical_acceptance=false, which is expected and correctly disclosed.",
+  "not_verified_disclosure": "QEMU qemu32 emulation only: saved-NMI RF behavior is specific to QEMU 10.2 commit 0f12d445bd, not physical Intel/AMD proof. NMI observations are at/before the first emergency instruction (nmi_entry/nmi_output), not mid-task-switch. The stack bound is a static conditional proof (headroom 13806 bytes), NOT a measured runtime high-water mark; it covers exactly one nested NMI and assumes uncorrupted immutable bytes. No CPL3/USER/IOPL proof. No claim of corrupt-GDT/TSS/CR3 survival. Canonical 70-gate acceptance has NOT been run on revision03 (canonical_acceptance=false).",
+  "full_f3_acceptance": true,
+  "discrepancies": [
+    "All 179 SHA-256 pins in full_source_freeze_03.json recomputed against on-disk bytes: 0 missing, 0 mismatches.",
+    "git HEAD 8428cce8f1a3bf2200d6bac10ed26f03cf9bed22 on branch maintenance/phase10 confirmed; F3 files are untracked/modified in the working tree and frozen via SHA pins, not a git commit (expected for this slice).",
+    "full_source_freeze_03.json content is byte-identical (sha 9996e57f...) to the hardware_full_03 run's source_freeze_before.json / source_freeze_after.json, confirming the 179-input freeze is stable across the hardware invocation.",
+    "f3_acceptance_contract_01.json f3_scope_note is a REJECT2-era historical note (full_f3_acceptance=false, '#SS and NMI ... remain mandatory and NOT_VERIFIED'); it is superseded by the hardware_full_03 evidence and, by its own wording, 'waives no mandatory obligation and changes no gate identity or multiplicity' - not a defect in the current candidate.",
+    "STATE.md lines 3/26-27 still describe the revision02 harness-only pipeline as 'now revalidating' and list the revision02 proc as current, lagging behind the revision03 correction (FINAL_REPORT.md STATUS line is current: 'full Ring0 hardware18/18 GREEN ... canonical acceptance NOT RUN'). Documentation staleness only; no false PASS is claimed.",
+    "revision03_pipeline.json overall=PASS_FROZEN_HARDWARE_AND_REFRESH_ONLY with canonical_acceptance=false and steps full_pure_final_04/full_hardware_driver_03/full_refresh_driver_03 all exit 0 - refresh-only, not canonical acceptance (expected)."
+  ],
+  "reviewed_inputs": [
+    {
+      "path": "test_results/phase11f3_gdt_tss/full_source_freeze_03.json",
+      "sha256_computed_by_this_review": "9996e57fe982b2aa8de308a50791eed316480dfd6084eb9ec44eba7d15d40461",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/gdt.rs",
+      "sha256_computed_by_this_review": "02c845d9cd9c579e7f5461f365318a2ad6a88faf9567d9c9ca25b47485267599",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/gdt_tss.rs",
+      "sha256_computed_by_this_review": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/f3_entry.s",
+      "sha256_computed_by_this_review": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/interrupt.rs",
+      "sha256_computed_by_this_review": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/main.rs",
+      "sha256_computed_by_this_review": "3c36ce028b694c8bf31291480d078e8db6f4c9b9741ea813df03dcef338041ec",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/memory/privileged.rs",
+      "sha256_computed_by_this_review": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/memory/privileged_tests.rs",
+      "sha256_computed_by_this_review": "eb18b51752e82da382e9dc65941786e96943e642849f61055b859c9035ad7b17",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/memory/privileged_owner_tests.rs",
+      "sha256_computed_by_this_review": "c13ff318dfcc0ec7c80e5b2e4395784a39c9b1e27f2977855b9d35752541c047",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/memory/retained_owner.rs",
+      "sha256_computed_by_this_review": "8ca5edf9b5f57fac6c06690d40d7863cccfc03b3b4cd5c1abbba5f7280128197",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/memory/paging.rs",
+      "sha256_computed_by_this_review": "74359a99a54aee1120bb83747e42bfe502f65a378ec36d67ad518f5ca849d09f",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/exception_abi.rs",
+      "sha256_computed_by_this_review": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/exception_entry.s",
+      "sha256_computed_by_this_review": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "src/exception_fatal.rs",
+      "sha256_computed_by_this_review": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "scripts/phase6_verify.py",
+      "sha256_computed_by_this_review": "59392b3a98f191ef599d7830ab2f8c522e38e4e50c415e0309638c2aff7878f9",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/hardware_full_03/f3_full_q0wd22ay/report.json",
+      "sha256_computed_by_this_review": "ff8cd7d1827fdf176552cb517e75b65d131280ae3c26fd775dc22d3a5003dce7",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/full_refresh_summary_03.json",
+      "sha256_computed_by_this_review": "f038db714f9a81f78c6dfb07e03650d1e718965f6421431284f848deb2f64e6e",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/full_hardware_readback_03.json",
+      "sha256_computed_by_this_review": "59ec62370c6fe9fa946ca0c90ab221f58696fbc830b49223a2ee30ecbab9666d",
+      "matches_parent_pin": false
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/revision03_pipeline.json",
+      "sha256_computed_by_this_review": "b3a9b3415aea992a5c0831fd0562f352799207a29666791d0399be56cb2a1367",
+      "matches_parent_pin": false
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/f3_acceptance_contract_01.json",
+      "sha256_computed_by_this_review": "e8367edbaf7559ff24982356b6d63632eebe0c4e06280edfc59c4d24c05119d2",
+      "matches_parent_pin": false
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/FINAL_REPORT.md",
+      "sha256_computed_by_this_review": "af97fcfb9e9ab5c85dc456ce8b8c9231202df9aaaf19a8576ec2035c67f02340",
+      "matches_parent_pin": false
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/STATE.md",
+      "sha256_computed_by_this_review": "b418255532933af17906eea65344779fdb86662a62275fdcec8228baa11b8b53",
+      "matches_parent_pin": false
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/stack_bound_parent_readback_02.json",
+      "sha256_computed_by_this_review": "999980c3f12186e2c18b14a6162f2cc9c3050f994c314a757487d18d85124863",
+      "matches_parent_pin": false
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/stack_bound_review_01.json",
+      "sha256_computed_by_this_review": "a8cbb37456ab6497a0763e6e4b74f04304d289be10ab7573c34cabed0e44da0a",
+      "matches_parent_pin": false
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/emitted_fatal_audit_full_01.json",
+      "sha256_computed_by_this_review": "db0db3ffe8c9c29f619bd6905d578f4a972fc48e837174a095884ef0274b99ab",
+      "matches_parent_pin": false
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/emitted_fatal_disassembly_full_01.txt",
+      "sha256_computed_by_this_review": "3ae78514dff050e398010984c214a2aaef3af4ae7c2038edd48ef87fda10c935",
+      "matches_parent_pin": false
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/reviews/candidate_review_01.json",
+      "sha256_computed_by_this_review": "d9f1f8b88d06a36a0d1c982a4531067cbb52406c32147338576986b74250ab01",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/stack_bound_parent_rerun_02.json",
+      "sha256_computed_by_this_review": "57737a23adb67a108cb96daf73f0e25c27858919813eeea1006ee247a31d29a9",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/stack_bound_review_02.json",
+      "sha256_computed_by_this_review": "a3db19e0430dbbd56314978e7f8ca300353b0b2e1fd9fc4988f4482b65fd90fa",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f3_gdt_tss/stack_bound_audit_02.py",
+      "sha256_computed_by_this_review": "7b5f7167c13c61d40d721db58956f01cc89a31e2d4d01e70e2e1dc55a650c221",
+      "matches_parent_pin": true
+    },
+    {
+      "path": "test_results/phase11f2_exception_abi/canonical_acceptance_01/acceptance_20261020T225049Z_p25gcqvh/acceptance.json",
+      "sha256_computed_by_this_review": "c619ffe5c99de75701528b836e1ba1eeeb904720d279b3e6392050852359f0a9",
+      "matches_parent_pin": true
+    }
+  ],
+  "hash_method": "sha256 of the review JSON serialized as UTF-8 with json.dumps(obj_without_verdict_sha256, sort_keys=True, separators=(',',':'))",
+  "verdict_sha256": "b981eab3bf16361cc2142bcd2511b3eb670a2378b850bb71e20e729f2dfe131e"
+}
