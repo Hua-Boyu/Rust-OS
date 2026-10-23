@@ -1,0 +1,6 @@
+{
+  "overall": "FAIL",
+  "scope": "Parent canonical artifact readback; NOT independent final review",
+  "reader_sha256": "0bf645ef365c0d8977196273eaabbfad43c4c6da74b3c6713498d34b3af5c6b7",
+  "error": "PyCdlibInvalidInput('Could not find path')"
+}

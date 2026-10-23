@@ -1,0 +1,108 @@
+{
+  "source_sha256": {
+    "count": 187,
+    "bad": []
+  },
+  "artifact_sha256": {
+    "count": 81,
+    "bad": []
+  },
+  "source_membership": {
+    "rediscovered_exact": true,
+    "count": 187
+  },
+  "historical_manifest_02": {
+    "sha256": "070bb40f9f55e7868e378909ed794445638c3a7887f4e689dd6f67c9ec63fd78",
+    "pin_count": 64,
+    "bad": [
+      "test_results/phase11f4_user_arena/run_canonical_02.py"
+    ]
+  },
+  "historical_manifest_03": {
+    "sha256": "f50d86f092b90efd99307a46dfd2dbd7fc4dd9a91a98a418e440e5b5de29867f",
+    "pin_count": 67,
+    "bad": []
+  },
+  "parent_batch": {
+    "count": 61483,
+    "bad": []
+  },
+  "gates": {
+    "identities": [
+      "kernel formatting",
+      "host formatting",
+      "host tests",
+      "Phase 9.6 B11 host safety regressions",
+      "Phase 9.6 B18 host safety regressions",
+      "Phase 9.6 B26 host safety regressions",
+      "Phase 11A effective permission prerequisite",
+      "Phase 11A phase11_registry_reservation prerequisite",
+      "Phase 11A phase11_exception_abi prerequisite",
+      "Phase 11A phase11_runtime_pins prerequisite",
+      "Phase 11A phase11_structure_lifetime prerequisite",
+      "Phase 11A phase11_numeric_map prerequisite",
+      "Phase 11A phase11_unmap_authority prerequisite",
+      "Phase 11A phase11_generation_ownership prerequisite",
+      "Phase 11A phase11_generation_ledger prerequisite",
+      "Phase 11A phase11_generation_boundaries prerequisite",
+      "Phase 11A phase11_snapshot prerequisite",
+      "Phase 11A phase11_gdt prerequisite",
+      "Phase 11F1 retained-owner exact identity family",
+      "Phase 11F2 exception ABI exact identity family",
+      "Phase 11F3 minimal Ring0 exact identity family",
+      "RostiFS formatting",
+      "RostiFS host and crash recovery tests",
+      "RostiFS host tool safety and integration",
+      "RostiFS read boundary and transfer regressions",
+      "RostiFS write preservation regressions",
+      "Python media reader regressions",
+      "acceptance runner regressions",
+      "RostiFS harness regressions",
+      "Phase 9.5 benchmark contracts",
+      "Phase 9.6 boot metadata harness contracts",
+      "system image policy contracts",
+      "Phase 10B initramfs builder contracts",
+      "Phase 10B initramfs harness contracts",
+      "Phase 9.6 B13 boot entry host contracts",
+      "build read fault fixture",
+      "CPU read faults 128 and 512",
+      "build write fault fixture",
+      "CPU write faults 128 and 512",
+      "build initramfs failure fixture",
+      "production build",
+      "production fixture policy contracts",
+      "production feature and fault exclusion",
+      "Phase 9.6 B13 privileged boot entry and production handoff",
+      "Phase 9.6 B13 injection transport contracts",
+      "Phase 11F2 exception ABI hardware matrix",
+      "Phase 11F3 minimal Ring0 hardware matrix",
+      "Phase 9.6 integrated boot metadata ELF and GRUB safety",
+      "ELF validation",
+      "ten ELF boots 128 MiB",
+      "ten ELF boots 512 MiB",
+      "paging stability twenty ELF boots",
+      "keyboard integration",
+      "VGA backspace ELF",
+      "filesystem growth OOM ELF 128 MiB",
+      "block persistence ELF 128 MiB",
+      "RostiFS persistence ELF 128 MiB",
+      "filesystem growth OOM ELF 512 MiB",
+      "block persistence ELF 512 MiB",
+      "RostiFS persistence ELF 512 MiB",
+      "GRUB ISO build and boot",
+      "ISO paging 128 and 512",
+      "VGA backspace ISO",
+      "filesystem growth OOM ISO 128 MiB",
+      "block persistence ISO 128 MiB",
+      "RostiFS persistence ISO 128 MiB",
+      "filesystem growth OOM ISO 512 MiB",
+      "block persistence ISO 512 MiB",
+      "RostiFS persistence ISO 512 MiB",
+      "Phase 10B trusted initramfs guest matrix",
+      "Phase 11 F4 owned USER arena host contract",
+      "Phase 11 F4 owned USER arena Ring0 hardware matrix"
+    ],
+    "predecessor_sha256": "2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b",
+    "exact_70_plus_2": true
+  }
+}

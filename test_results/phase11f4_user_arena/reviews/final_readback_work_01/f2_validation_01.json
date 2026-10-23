@@ -1,0 +1,15 @@
+{
+  "scenario_count": 8,
+  "pins": {
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f2_exception\\f2_guest_onkcilw3\\report.json": "e332b38f249b7035b6a3c873eb674ee3e1040c82cf3f79723234f6fd1a8610f1",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f2_exception\\f2_guest_onkcilw3\\kernel.elf": "334e01997399caff7ca00ec5acbf247234d709a4407b81201f4c2fa37ebcdbf5",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f2_exception\\f2_guest_onkcilw3\\ud_128\\report.json": "a24e5dc96ee4e0c94193ee2169cb84dd56dec51f7d67b460b2869186e07f7ddf",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f2_exception\\f2_guest_onkcilw3\\ud_512\\report.json": "eb8a11f1feb8b612b300cd7bd4e96ac1113b0227cce6f0ce217bf612bb72e906",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f2_exception\\f2_guest_onkcilw3\\de_128\\report.json": "5db6c22d930561f87dc48323e0be16025cc9841f701a6a373d27804d2fad42f0",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f2_exception\\f2_guest_onkcilw3\\de_512\\report.json": "44845bc7213359b241512cea9140ec9d7b1ced404406079941e5ac5b55370e04",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f2_exception\\f2_guest_onkcilw3\\gp_128\\report.json": "c8551259e0c6292c8675a870682b54ebd961352e2c006c596b0c4fcc69f1129d",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f2_exception\\f2_guest_onkcilw3\\gp_512\\report.json": "7181c8751edea698beb866c3eca1d2b86a8b3e30f8f96288adf06a60b50b236e",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f2_exception\\f2_guest_onkcilw3\\pf_128\\report.json": "c476e122414fc22bc0292c86b283129203843aaa0293e0e7aed6a4a9cfce6430",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f2_exception\\f2_guest_onkcilw3\\pf_512\\report.json": "4327c6d3f9f8fb159cb06f0e36ef7881bef9987dfc73ab20c1e549b67e749833"
+  }
+}

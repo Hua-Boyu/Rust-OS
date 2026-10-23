@@ -1,0 +1,13 @@
+{
+  "schema": "rosti.f4-operator-disposition.v1",
+  "status": "EXPLICIT_USER_AUTHORIZATION_RECEIVED",
+  "question": "May F4 replace its unpublished-allocation rollback/capacity-restoration requirement with F1-compatible bounded terminal retention (retain all acquired frames, publish no USER PDE on prepublication failure, halt without retry)? This changes only the current F4 requirement; F1 remains unchanged.",
+  "user_response": "Authorize bounded terminal retention; revise design and obtain fresh independent approval",
+  "effect": "Supersedes only F4 unpublished-allocation rollback/capacity-restoration wording. Admitted failures retain all acquired resources and terminate, no retry. Pure preflight refusals remain nonmutating. No prepublication failure publishes the USER PDE. F1/F2/F3 contracts, resource ceilings and all other original F4 requirements remain unchanged.",
+  "implementation_authorized_by_this_record_alone": false,
+  "fresh_independent_design_approval_required": true,
+  "preserved_original_review": "test_results/phase11f4_user_arena/reviews/design_review_01.json",
+  "preserved_original_review_sha256": "abfa725eb85267ea32ec026a3a345c5dd2cd9aae0dc1cd5bd55d4811aa90678b",
+  "preserved_original_design": "test_results/phase11f4_user_arena/design_revision_01_reviewed.md",
+  "preserved_original_design_sha256": "b35761f661030178c88fa5f2a6c976b7ae7a529a9f1fa472474af8fbc86f4864"
+}

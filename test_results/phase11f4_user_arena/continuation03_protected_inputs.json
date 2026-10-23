@@ -1,0 +1,15 @@
+{
+  "scope": "Protected unrelated bytes captured during continuation03; never stage or edit these paths",
+  "starting_head": "d81672c4b314f0388e10e4c8dc9466b35ea89ce7",
+  "branch": "maintenance/phase10",
+  "protected_sha256": {
+    "README.md": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+    ".gitignore": "738ec129c381316b2c3ea4ff26bf502a072c4cc7eb7a3d7b074debdf58bc6bda",
+    "docs/ROSTI_INIT_ARCHITECTURE.md": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+    "scripts/b13_boot_fixture.py.backup": "3e86d2dd9061e42c1b79d5ad0d94efa513a407c19faa37fc2680a7ab5526a181"
+  },
+  "protected_directory": "d1/",
+  "directory_qualification": "No writes requested or performed; not a recursive content hash assertion",
+  "user_writer_coordination": "Other Rosti sessions paused; this session sole writer/build owner confirmed through clarify",
+  "process_qualification": "Empty managed list and native no-Cargo/rustc/QEMU/acceptance snapshot; infrastructure retained; not proof of every historical process exit"
+}

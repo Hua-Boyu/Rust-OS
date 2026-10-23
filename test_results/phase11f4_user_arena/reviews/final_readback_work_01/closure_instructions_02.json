@@ -1,0 +1,589 @@
+[
+  {
+    "name": "_RNvMsy_NtNtCs6HBAfCNWxyx_4core4sync6atomicINtB5_6AtomichE6as_ptrCscre938AonzA_6kernel",
+    "instructions": [
+      {
+        "address": 2213600,
+        "bytes": "83 ec 08",
+        "op": "subl",
+        "args": "$0x8, %esp",
+        "line": "  21c6e0: 83 ec 08                     \tsubl\t$0x8, %esp"
+      },
+      {
+        "address": 2213603,
+        "bytes": "8b 44 24 0c",
+        "op": "movl",
+        "args": "0xc(%esp), %eax",
+        "line": "  21c6e3: 8b 44 24 0c                  \tmovl\t0xc(%esp), %eax"
+      },
+      {
+        "address": 2213607,
+        "bytes": "89 44 24 04",
+        "op": "movl",
+        "args": "%eax, 0x4(%esp)",
+        "line": "  21c6e7: 89 44 24 04                  \tmovl\t%eax, 0x4(%esp)"
+      },
+      {
+        "address": 2213611,
+        "bytes": "89 04 24",
+        "op": "movl",
+        "args": "%eax, (%esp)",
+        "line": "  21c6eb: 89 04 24                     \tmovl\t%eax, (%esp)"
+      },
+      {
+        "address": 2213614,
+        "bytes": "83 c4 08",
+        "op": "addl",
+        "args": "$0x8, %esp",
+        "line": "  21c6ee: 83 c4 08                     \taddl\t$0x8, %esp"
+      },
+      {
+        "address": 2213617,
+        "bytes": "c3",
+        "op": "retl",
+        "args": "",
+        "line": "  21c6f1: c3                           \tretl"
+      },
+      {
+        "address": 2213618,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6f2: cc                           \tint3"
+      },
+      {
+        "address": 2213619,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6f3: cc                           \tint3"
+      },
+      {
+        "address": 2213620,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6f4: cc                           \tint3"
+      },
+      {
+        "address": 2213621,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6f5: cc                           \tint3"
+      },
+      {
+        "address": 2213622,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6f6: cc                           \tint3"
+      },
+      {
+        "address": 2213623,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6f7: cc                           \tint3"
+      },
+      {
+        "address": 2213624,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6f8: cc                           \tint3"
+      },
+      {
+        "address": 2213625,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6f9: cc                           \tint3"
+      },
+      {
+        "address": 2213626,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6fa: cc                           \tint3"
+      },
+      {
+        "address": 2213627,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6fb: cc                           \tint3"
+      },
+      {
+        "address": 2213628,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6fc: cc                           \tint3"
+      },
+      {
+        "address": 2213629,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6fd: cc                           \tint3"
+      },
+      {
+        "address": 2213630,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6fe: cc                           \tint3"
+      },
+      {
+        "address": 2213631,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  21c6ff: cc                           \tint3"
+      }
+    ]
+  },
+  {
+    "name": "_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner11f4_terminal",
+    "instructions": [
+      {
+        "address": 2550176,
+        "bytes": "53",
+        "op": "pushl",
+        "args": "%ebx",
+        "line": "  26e9a0: 53                           \tpushl\t%ebx"
+      },
+      {
+        "address": 2550177,
+        "bytes": "83 ec 14",
+        "op": "subl",
+        "args": "$0x14, %esp",
+        "line": "  26e9a1: 83 ec 14                     \tsubl\t$0x14, %esp"
+      },
+      {
+        "address": 2550180,
+        "bytes": "e8 00 00 00 00",
+        "op": "calll",
+        "args": "0x26e9a9 <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner11f4_terminal+0x9>",
+        "line": "  26e9a4: e8 00 00 00 00               \tcalll\t0x26e9a9 <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner11f4_terminal+0x9>"
+      },
+      {
+        "address": 2550185,
+        "bytes": "5b",
+        "op": "popl",
+        "args": "%ebx",
+        "line": "  26e9a9: 5b                           \tpopl\t%ebx"
+      },
+      {
+        "address": 2550186,
+        "bytes": "81 c3 4b d8 0a 00",
+        "op": "addl",
+        "args": "$0xad84b, %ebx          # imm = 0xAD84B",
+        "line": "  26e9aa: 81 c3 4b d8 0a 00            \taddl\t$0xad84b, %ebx          # imm = 0xAD84B"
+      },
+      {
+        "address": 2550192,
+        "bytes": "89 5c 24 04",
+        "op": "movl",
+        "args": "%ebx, 0x4(%esp)",
+        "line": "  26e9b0: 89 5c 24 04                  \tmovl\t%ebx, 0x4(%esp)"
+      },
+      {
+        "address": 2550196,
+        "bytes": "8a 44 24 1c",
+        "op": "movb",
+        "args": "0x1c(%esp), %al",
+        "line": "  26e9b4: 8a 44 24 1c                  \tmovb\t0x1c(%esp), %al"
+      },
+      {
+        "address": 2550200,
+        "bytes": "88 44 24 0b",
+        "op": "movb",
+        "args": "%al, 0xb(%esp)",
+        "line": "  26e9b8: 88 44 24 0b                  \tmovb\t%al, 0xb(%esp)"
+      },
+      {
+        "address": 2550204,
+        "bytes": "24 01",
+        "op": "andb",
+        "args": "$0x1, %al",
+        "line": "  26e9bc: 24 01                        \tandb\t$0x1, %al"
+      },
+      {
+        "address": 2550206,
+        "bytes": "88 44 24 13",
+        "op": "movb",
+        "args": "%al, 0x13(%esp)",
+        "line": "  26e9be: 88 44 24 13                  \tmovb\t%al, 0x13(%esp)"
+      },
+      {
+        "address": 2550210,
+        "bytes": "8d 83 fc 6b 11 00",
+        "op": "leal",
+        "args": "0x116bfc(%ebx), %eax",
+        "line": "  26e9c2: 8d 83 fc 6b 11 00            \tleal\t0x116bfc(%ebx), %eax"
+      },
+      {
+        "address": 2550216,
+        "bytes": "89 04 24",
+        "op": "movl",
+        "args": "%eax, (%esp)",
+        "line": "  26e9c8: 89 04 24                     \tmovl\t%eax, (%esp)"
+      },
+      {
+        "address": 2550219,
+        "bytes": "e8 10 dd fa ff",
+        "op": "calll",
+        "args": "0x21c6e0 <_RNvMsy_NtNtCs6HBAfCNWxyx_4core4sync6atomicINtB5_6AtomichE6as_ptrCscre938AonzA_6kernel>",
+        "line": "  26e9cb: e8 10 dd fa ff               \tcalll\t0x21c6e0 <_RNvMsy_NtNtCs6HBAfCNWxyx_4core4sync6atomicINtB5_6AtomichE6as_ptrCscre938AonzA_6kernel>"
+      },
+      {
+        "address": 2550224,
+        "bytes": "89 c1",
+        "op": "movl",
+        "args": "%eax, %ecx",
+        "line": "  26e9d0: 89 c1                        \tmovl\t%eax, %ecx"
+      },
+      {
+        "address": 2550226,
+        "bytes": "8a 44 24 0b",
+        "op": "movb",
+        "args": "0xb(%esp), %al",
+        "line": "  26e9d2: 8a 44 24 0b                  \tmovb\t0xb(%esp), %al"
+      },
+      {
+        "address": 2550230,
+        "bytes": "c6 01 03",
+        "op": "movb",
+        "args": "$0x3, (%ecx)",
+        "line": "  26e9d6: c6 01 03                     \tmovb\t$0x3, (%ecx)"
+      },
+      {
+        "address": 2550233,
+        "bytes": "a8 01",
+        "op": "testb",
+        "args": "$0x1, %al",
+        "line": "  26e9d9: a8 01                        \ttestb\t$0x1, %al"
+      },
+      {
+        "address": 2550235,
+        "bytes": "75 10",
+        "op": "jne",
+        "args": "0x26e9ed <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner11f4_terminal+0x4d>",
+        "line": "  26e9db: 75 10                        \tjne\t0x26e9ed <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner11f4_terminal+0x4d>"
+      },
+      {
+        "address": 2550237,
+        "bytes": "8b 44 24 04",
+        "op": "movl",
+        "args": "0x4(%esp), %eax",
+        "line": "  26e9dd: 8b 44 24 04                  \tmovl\t0x4(%esp), %eax"
+      },
+      {
+        "address": 2550241,
+        "bytes": "8d 80 51 07 fa ff",
+        "op": "leal",
+        "args": "-0x5f8af(%eax), %eax",
+        "line": "  26e9e1: 8d 80 51 07 fa ff            \tleal\t-0x5f8af(%eax), %eax"
+      },
+      {
+        "address": 2550247,
+        "bytes": "89 44 24 0c",
+        "op": "movl",
+        "args": "%eax, 0xc(%esp)",
+        "line": "  26e9e7: 89 44 24 0c                  \tmovl\t%eax, 0xc(%esp)"
+      },
+      {
+        "address": 2550251,
+        "bytes": "eb 0e",
+        "op": "jmp",
+        "args": "0x26e9fb <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner11f4_terminal+0x5b>",
+        "line": "  26e9eb: eb 0e                        \tjmp\t0x26e9fb <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner11f4_terminal+0x5b>"
+      },
+      {
+        "address": 2550253,
+        "bytes": "8b 44 24 04",
+        "op": "movl",
+        "args": "0x4(%esp), %eax",
+        "line": "  26e9ed: 8b 44 24 04                  \tmovl\t0x4(%esp), %eax"
+      },
+      {
+        "address": 2550257,
+        "bytes": "8d 80 73 07 fa ff",
+        "op": "leal",
+        "args": "-0x5f88d(%eax), %eax",
+        "line": "  26e9f1: 8d 80 73 07 fa ff            \tleal\t-0x5f88d(%eax), %eax"
+      },
+      {
+        "address": 2550263,
+        "bytes": "89 44 24 0c",
+        "op": "movl",
+        "args": "%eax, 0xc(%esp)",
+        "line": "  26e9f7: 89 44 24 0c                  \tmovl\t%eax, 0xc(%esp)"
+      },
+      {
+        "address": 2550267,
+        "bytes": "8b 5c 24 04",
+        "op": "movl",
+        "args": "0x4(%esp), %ebx",
+        "line": "  26e9fb: 8b 5c 24 04                  \tmovl\t0x4(%esp), %ebx"
+      },
+      {
+        "address": 2550271,
+        "bytes": "8b 44 24 0c",
+        "op": "movl",
+        "args": "0xc(%esp), %eax",
+        "line": "  26e9ff: 8b 44 24 0c                  \tmovl\t0xc(%esp), %eax"
+      },
+      {
+        "address": 2550275,
+        "bytes": "89 04 24",
+        "op": "movl",
+        "args": "%eax, (%esp)",
+        "line": "  26ea03: 89 04 24                     \tmovl\t%eax, (%esp)"
+      },
+      {
+        "address": 2550278,
+        "bytes": "e8 d5 14 00 00",
+        "op": "calll",
+        "args": "0x26fee0 <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner18f4_terminal_serial>",
+        "line": "  26ea06: e8 d5 14 00 00               \tcalll\t0x26fee0 <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner18f4_terminal_serial>"
+      }
+    ]
+  },
+  {
+    "name": "f4_arena_terminal",
+    "instructions": [
+      {
+        "address": 2550283,
+        "bytes": "fa",
+        "op": "cli",
+        "args": "",
+        "line": "  26ea0b: fa                           \tcli"
+      },
+      {
+        "address": 2550284,
+        "bytes": "f4",
+        "op": "hlt",
+        "args": "",
+        "line": "  26ea0c: f4                           \thlt"
+      },
+      {
+        "address": 2550285,
+        "bytes": "eb fc",
+        "op": "jmp",
+        "args": "0x26ea0b <f4_arena_terminal>",
+        "line": "  26ea0d: eb fc                        \tjmp\t0x26ea0b <f4_arena_terminal>"
+      },
+      {
+        "address": 2550287,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  26ea0f: cc                           \tint3"
+      }
+    ]
+  },
+  {
+    "name": "_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner18f4_terminal_serial",
+    "instructions": [
+      {
+        "address": 2555616,
+        "bytes": "57",
+        "op": "pushl",
+        "args": "%edi",
+        "line": "  26fee0: 57                           \tpushl\t%edi"
+      },
+      {
+        "address": 2555617,
+        "bytes": "56",
+        "op": "pushl",
+        "args": "%esi",
+        "line": "  26fee1: 56                           \tpushl\t%esi"
+      },
+      {
+        "address": 2555618,
+        "bytes": "83 ec 08",
+        "op": "subl",
+        "args": "$0x8, %esp",
+        "line": "  26fee2: 83 ec 08                     \tsubl\t$0x8, %esp"
+      },
+      {
+        "address": 2555621,
+        "bytes": "8b 74 24 14",
+        "op": "movl",
+        "args": "0x14(%esp), %esi",
+        "line": "  26fee5: 8b 74 24 14                  \tmovl\t0x14(%esp), %esi"
+      },
+      {
+        "address": 2555625,
+        "bytes": "89 34 24",
+        "op": "movl",
+        "args": "%esi, (%esp)",
+        "line": "  26fee9: 89 34 24                     \tmovl\t%esi, (%esp)"
+      },
+      {
+        "address": 2555628,
+        "bytes": "c7 44 24 04 22 00 00 00",
+        "op": "movl",
+        "args": "$0x22, 0x4(%esp)",
+        "line": "  26feec: c7 44 24 04 22 00 00 00      \tmovl\t$0x22, 0x4(%esp)"
+      },
+      {
+        "address": 2555636,
+        "bytes": "bf 22 00 00 00",
+        "op": "movl",
+        "args": "$0x22, %edi",
+        "line": "  26fef4: bf 22 00 00 00               \tmovl\t$0x22, %edi"
+      },
+      {
+        "address": 2555641,
+        "bytes": "b9 a0 86 01 00",
+        "op": "movl",
+        "args": "$0x186a0, %ecx          # imm = 0x186A0",
+        "line": "  26fef9: b9 a0 86 01 00               \tmovl\t$0x186a0, %ecx          # imm = 0x186A0"
+      },
+      {
+        "address": 2555646,
+        "bytes": "66 ba fd 03",
+        "op": "movw",
+        "args": "$0x3fd, %dx             # imm = 0x3FD",
+        "line": "  26fefe: 66 ba fd 03                  \tmovw\t$0x3fd, %dx             # imm = 0x3FD"
+      },
+      {
+        "address": 2555650,
+        "bytes": "ec",
+        "op": "inb",
+        "args": "%dx, %al",
+        "line": "  26ff02: ec                           \tinb\t%dx, %al"
+      },
+      {
+        "address": 2555651,
+        "bytes": "a8 20",
+        "op": "testb",
+        "args": "$0x20, %al",
+        "line": "  26ff03: a8 20                        \ttestb\t$0x20, %al"
+      },
+      {
+        "address": 2555653,
+        "bytes": "75 05",
+        "op": "jne",
+        "args": "0x26ff0c <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner18f4_terminal_serial+0x2c>",
+        "line": "  26ff05: 75 05                        \tjne\t0x26ff0c <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner18f4_terminal_serial+0x2c>"
+      },
+      {
+        "address": 2555655,
+        "bytes": "49",
+        "op": "decl",
+        "args": "%ecx",
+        "line": "  26ff07: 49                           \tdecl\t%ecx"
+      },
+      {
+        "address": 2555656,
+        "bytes": "75 f8",
+        "op": "jne",
+        "args": "0x26ff02 <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner18f4_terminal_serial+0x22>",
+        "line": "  26ff08: 75 f8                        \tjne\t0x26ff02 <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner18f4_terminal_serial+0x22>"
+      },
+      {
+        "address": 2555658,
+        "bytes": "eb 07",
+        "op": "jmp",
+        "args": "0x26ff13 <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner18f4_terminal_serial+0x33>",
+        "line": "  26ff0a: eb 07                        \tjmp\t0x26ff13 <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner18f4_terminal_serial+0x33>"
+      },
+      {
+        "address": 2555660,
+        "bytes": "8a 06",
+        "op": "movb",
+        "args": "(%esi), %al",
+        "line": "  26ff0c: 8a 06                        \tmovb\t(%esi), %al"
+      },
+      {
+        "address": 2555662,
+        "bytes": "66 ba f8 03",
+        "op": "movw",
+        "args": "$0x3f8, %dx             # imm = 0x3F8",
+        "line": "  26ff0e: 66 ba f8 03                  \tmovw\t$0x3f8, %dx             # imm = 0x3F8"
+      },
+      {
+        "address": 2555666,
+        "bytes": "ee",
+        "op": "outb",
+        "args": "%al, %dx",
+        "line": "  26ff12: ee                           \toutb\t%al, %dx"
+      },
+      {
+        "address": 2555667,
+        "bytes": "46",
+        "op": "incl",
+        "args": "%esi",
+        "line": "  26ff13: 46                           \tincl\t%esi"
+      },
+      {
+        "address": 2555668,
+        "bytes": "4f",
+        "op": "decl",
+        "args": "%edi",
+        "line": "  26ff14: 4f                           \tdecl\t%edi"
+      },
+      {
+        "address": 2555669,
+        "bytes": "75 e2",
+        "op": "jne",
+        "args": "0x26fef9 <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner18f4_terminal_serial+0x19>",
+        "line": "  26ff15: 75 e2                        \tjne\t0x26fef9 <_RNvNtNtNtCscre938AonzA_6kernel6memory6paging14retained_owner18f4_terminal_serial+0x19>"
+      },
+      {
+        "address": 2555671,
+        "bytes": "83 c4 08",
+        "op": "addl",
+        "args": "$0x8, %esp",
+        "line": "  26ff17: 83 c4 08                     \taddl\t$0x8, %esp"
+      },
+      {
+        "address": 2555674,
+        "bytes": "5e",
+        "op": "popl",
+        "args": "%esi",
+        "line": "  26ff1a: 5e                           \tpopl\t%esi"
+      },
+      {
+        "address": 2555675,
+        "bytes": "5f",
+        "op": "popl",
+        "args": "%edi",
+        "line": "  26ff1b: 5f                           \tpopl\t%edi"
+      },
+      {
+        "address": 2555676,
+        "bytes": "c3",
+        "op": "retl",
+        "args": "",
+        "line": "  26ff1c: c3                           \tretl"
+      },
+      {
+        "address": 2555677,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  26ff1d: cc                           \tint3"
+      },
+      {
+        "address": 2555678,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  26ff1e: cc                           \tint3"
+      },
+      {
+        "address": 2555679,
+        "bytes": "cc",
+        "op": "int3",
+        "args": "",
+        "line": "  26ff1f: cc                           \tint3"
+      }
+    ]
+  }
+]

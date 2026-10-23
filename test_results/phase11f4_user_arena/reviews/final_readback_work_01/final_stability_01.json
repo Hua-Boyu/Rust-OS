@@ -1,0 +1,29 @@
+{
+  "overall": "PASS",
+  "counts": {
+    "source": {
+      "count": 187,
+      "mismatches": []
+    },
+    "candidate_artifacts": {
+      "count": 81,
+      "mismatches": []
+    },
+    "candidate_reviewer_evidence": {
+      "count": 28,
+      "mismatches": []
+    },
+    "canonical_artifacts": {
+      "count": 19149,
+      "mismatches": []
+    },
+    "component_artifacts": {
+      "count": 61483,
+      "mismatches": []
+    }
+  },
+  "head": "d81672c4b314f0388e10e4c8dc9466b35ea89ce7",
+  "branch": "maintenance/phase10",
+  "active_shared_processes": [],
+  "qualification": "Final snapshot, not replacement for invocation exits"
+}

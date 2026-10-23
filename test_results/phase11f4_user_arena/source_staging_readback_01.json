@@ -1,0 +1,57 @@
+{
+  "overall": "PASS",
+  "head_before": "d81672c4b314f0388e10e4c8dc9466b35ea89ce7",
+  "staged_paths": [
+    "linker.ld",
+    "scripts/f4_arena_guest.py",
+    "scripts/f4_dwarf.py",
+    "scripts/f4_evidence.py",
+    "scripts/f4_ready_guest.py",
+    "scripts/f4_user_guest.py",
+    "scripts/phase6_verify.py",
+    "scripts/test_acceptance_harness.py",
+    "src/memory/f4_b26_tests.rs",
+    "src/memory/f4_user_arena_tests.rs",
+    "src/memory/mod.rs",
+    "src/memory/paging.rs",
+    "src/memory/retained_owner.rs",
+    "src/memory/user_arena.rs"
+  ],
+  "staged_raw_sha256": {
+    "linker.ld": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+    "scripts/f4_arena_guest.py": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+    "scripts/f4_dwarf.py": "69f975db576cc6e7d807586671801809d797f258a5542abc5ff6f7fd34909e2f",
+    "scripts/f4_evidence.py": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+    "scripts/f4_ready_guest.py": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+    "scripts/f4_user_guest.py": "e5cdc25555a0da366f3dd45508fff4770d9311f2abaf85eb2e5c1c5ade57b473",
+    "scripts/phase6_verify.py": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+    "scripts/test_acceptance_harness.py": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+    "src/memory/f4_b26_tests.rs": "2b527dd7764dc709914959b2cd06c7127402cde554078f987eca1aeb8cac72fc",
+    "src/memory/f4_user_arena_tests.rs": "4fe8da1bb4ac93e4884b8d270fce08e34de15bee1d1d4e595778e260a5c80509",
+    "src/memory/mod.rs": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+    "src/memory/paging.rs": "749c0aaa4752da2d991014fdc0464826d6d53dc2c97c166a3ca76f165685cbd9",
+    "src/memory/retained_owner.rs": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+    "src/memory/user_arena.rs": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d"
+  },
+  "protected_bytes_match": true,
+  "source_pin_count": 187,
+  "source_stable": true,
+  "whitespace": {
+    "default": {
+      "actual_exit": 2,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f4_user_arena\\staged_source_whitespace_default_01.log",
+      "sha256": "81984d5f4d4ad8ddbb333ce6368953244aa4f29974cc69f25d3902e6c1943d82"
+    },
+    "normal_paths": {
+      "actual_exit": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f4_user_arena\\staged_source_whitespace_normal_paths_01.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "immutable_crlf_runner": {
+      "actual_exit": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f4_user_arena\\staged_source_whitespace_immutable_crlf_runner_01.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "qualification": "Default CRLF diagnostics retained; ordinary paths default-checked and exact reviewed CRLF runner separately checked with scoped cr-at-eol, no persistent config or normalization. No commit yet."
+}

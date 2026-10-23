@@ -1,0 +1,68 @@
+{
+  "scope": "Fresh parent raw-byte recovery, not independent approval or acceptance",
+  "started_utc": "2026-10-23T03:06:19.986244+00:00",
+  "manifest02": {
+    "sha256": "070bb40f9f55e7868e378909ed794445638c3a7887f4e689dd6f67c9ec63fd78",
+    "source": {
+      "count": 187,
+      "mismatches": []
+    },
+    "membership_exact": true,
+    "discovered_map_exact": true,
+    "artifacts": {
+      "count": 64,
+      "mismatches": [
+        {
+          "path": "test_results/phase11f4_user_arena/run_canonical_02.py",
+          "expected": "809fa5c453be32e0f67de73cb4710f042840664ae29f5e2dc3ce4e0f22c72a74",
+          "actual": "671fefdfb49c477b45e04fd4276c46289bde88622159eed42113cec562921e88"
+        }
+      ]
+    }
+  },
+  "manifest03": {
+    "sha256": "f50d86f092b90efd99307a46dfd2dbd7fc4dd9a91a98a418e440e5b5de29867f",
+    "source": {
+      "count": 187,
+      "mismatches": []
+    },
+    "membership_exact": true,
+    "discovered_map_exact": true,
+    "artifacts": {
+      "count": 67,
+      "mismatches": []
+    }
+  },
+  "manifest04": {
+    "sha256": "0b56cff4baefb9763152e68332e2b7bdee8cb95a30fbc6bb17bffbc8cdc17765",
+    "source": {
+      "count": 187,
+      "mismatches": []
+    },
+    "membership_exact": true,
+    "discovered_map_exact": true,
+    "artifacts": {
+      "count": 81,
+      "mismatches": []
+    }
+  },
+  "parent_components": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f4_user_arena\\parent_components_readback_05.json",
+    "sha256": "e4035a2fce4ad3f7a809340e87a485d866b44b3ab8ebc5187ea614bda109c757",
+    "overall": "PASS",
+    "source_map_exact": true,
+    "artifacts": {
+      "count": 61483,
+      "mismatches": []
+    }
+  },
+  "historical": {
+    "count": 6,
+    "mismatches": []
+  },
+  "source_stable": true,
+  "source_count": 187,
+  "retained_owner_sha256": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+  "elapsed_seconds": 239.14100000006147,
+  "overall": "PASS"
+}

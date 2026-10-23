@@ -1,0 +1,47 @@
+{
+  "name": "f4_focused_02",
+  "argv": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml",
+    "--target",
+    "x86_64-pc-windows-msvc",
+    "--lib",
+    "f4_user_arena_tests::",
+    "--",
+    "--test-threads=1"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "started_utc": "2026-10-22T13:42:55.559486+00:00",
+  "status": "EXPECTED",
+  "recorder_sha256": "745707358bed2ac89c93d76d96095b97f568b214d05eb7c20832e8f308b3d5b4",
+  "exit_code": 0,
+  "ended_utc": "2026-10-22T13:42:57.189516+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f4_user_arena\\commands\\f4_focused_02.log",
+  "log_sha256": "99470b4c54b12d7c8a055a6a80f119a75b348c8b6c57dabafaab8b9bde3fbeb8",
+  "summaries": [
+    [
+      "12",
+      "0",
+      "0"
+    ]
+  ],
+  "listed": [],
+  "passed": [
+    "memory::paging::f4_user_arena_tests::effective_permissions_and_guards_match_contract",
+    "memory::paging::f4_user_arena_tests::layout_preserves_fixed_ceiling",
+    "memory::paging::f4_user_arena_tests::preserves_state_on_preflight_refusal",
+    "memory::paging::f4_user_arena_tests::publishes_exact_two_owned_user_leaves",
+    "memory::paging::f4_user_arena_tests::refuses_foreign_and_stale_leases",
+    "memory::paging::f4_user_arena_tests::refuses_inaccessible_table_and_payload_aliases",
+    "memory::paging::f4_user_arena_tests::refuses_occupied_directory_without_promotion",
+    "memory::paging::f4_user_arena_tests::refuses_reserved_structure_and_duplicate_frames",
+    "memory::paging::f4_user_arena_tests::refuses_unaligned_outside_and_overflow_ranges",
+    "memory::paging::f4_user_arena_tests::rejects_unexpected_user_supervisor_inventory",
+    "memory::paging::f4_user_arena_tests::retains_bounded_prefix_on_acquisition_failure",
+    "memory::paging::f4_user_arena_tests::seal_blocks_unmap_release_retry_and_cr3_switch"
+  ],
+  "ignored": []
+}

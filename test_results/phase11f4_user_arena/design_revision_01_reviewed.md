@@ -1,0 +1,104 @@
+# Phase 11 F4 owned USER arena — design revision 01
+
+STATUS: PROPOSAL ONLY. No production implementation or F4 runtime result. Independent design APPROVE/zero blockers is mandatory before implementation.
+
+Baseline: branch maintenance/phase10, HEAD d81672c4b314f0388e10e4c8dc9466b35ea89ce7. F3 fd4b49d and F2 e99d82f verified ancestors. recovery_01.json recomputes all179 F3 source pins without mismatch and the canonical acceptance raw SHA256 2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b (historical PASS70/70). Two read-separated baseline hash snapshots were stable; no absolute exclusive-writer claim follows. Preserve unrelated work and every predecessor verdict, notably F3 candidate_review_01 REJECT.
+
+## A. Existing authority and precise extension boundary
+
+- PageMap private directory/domain/retained/tables/boot_pins/payload_bitmap are src/memory/paging.rs:167–188. Creation build_identity_map_with_backing_in_place:804–908 borrows pre-reserved vectors, stamps structure pins, fills supervisor borrowed identity mappings except null/growth; moves backing only on success. PAGE_MAP and FRAME_ALLOC are private static owners (src/memory/mod.rs:46–61); heap -> map -> frames, with retained owner outermost in admitted nonallocating terminal paths.
+- map_owned(fa,linear,&FrameLease,perms):334–349 authenticates live lease/domain, then map_authorized:392–518 refuses USER/nonpresent, null/outside managed+growth, privileged reservation and owned/structure aliases, preflights writable supervisor identity accessibility for a new table, pins before PTE publication. Keep its API and USER refusal unchanged.
+- unmap_owned(fa,linear,&FrameLease):525 binds current lease identity; core:557–636 additionally requires exact current payload and clears PTE/invalidate before unpin. Keep it unchanged except, if necessary, a narrowly compatible arena-reservation refusal; no general USER unmap.
+- FrameLease private addr/id/domain, no Clone/Copy (frame.rs:88–112). allocate_owned:423–431 issues the move-only token; owns_live_lease:438–451 checks initialized current domain/live id/non-growth eligibility. release_frame:524–545 consumes a token; release core:458–511 refuses runtime/structure pins. Runtime and structure bitmap pins protect physical release, not virtual lifetime. Borrowed supervisor identity aliases are not exclusive runtime owners.
+- Existing RetainedOwner static slots/state are retained_owner.rs:7–71; identity check:132–154 requires same current CR3, PG/WP, non-PAE/non-PSE, retained structures and supervisor writable backing. prepare_stage:173–236 acquires payload+sentinel and can stay Preparing. prepare_f3_locked:239–273 adds eight supervisor stack leases and publishes fixed guarded F3 stacks without sealing. run_gdt_tss:275–332 installs accepted GDT/TSS then jointly seals/terminates. Do not change its behavior or unseal it. F4 adds a separate divergent entry extending fresh Preparing, reuses prepare_f3_locked, installs the same F3 context, and seals once after F4 validation.
+- F3 installed GDT is exactly five entries: null/kernel code08/kernel data10/normal TSS18/emergency TSS20 (gdt_tss.rs:14–38); no user selectors exist. F4 MUST NOT add them. F5 will require separate authorization for user segment setup and actual CPL3 entry. Ordinary early GDT remains unchanged.
+
+## B. Finite contract and lifetime
+
+One fixed arena [0x40000000,0x40400000), exactly one 4MiB PDE256 region, 4096-byte pages, 1024 slots. This preserves the reviewed F1 v2 design policy (v2_design.md:14–52), not a new ceiling.
+
+| Range | Meaning | Effective flags |
+|---|---|---|
+| [0x40000000,0x40000800) | Future code bytes, within first payload page | P/U, RO |
+| [0x40000800,0x40001000) | Embedded read-only data, same owned page | P/U, RO |
+| [0x40001000,0x403fe000) | Unused, absent | no access |
+| [0x403fe000,0x403ff000) | Lower user-stack guard (PTE1022) | absent |
+| [0x403ff000,0x40400000) | One user stack page (PTE1023), writable storage | P/U/RW |
+
+There is NO independent writable-data page and no claim of subpage code/data protection. Code+RO data share one permission page. Stack/data capacity is one page. A request needing another frame is refused; changing this limit is outside authorization. Upper boundary is absent PDE257, explicitly verified; no mapped page is added above the arena. Guard is an unmapped virtual page, not a guarantee against a stack jump over it, Ring0 physical-alias misuse, or unbounded overflow. No USER mapping exists outside exactly the two prescribed slots.
+
+Reuse owner.payload for RO code/data, retain owner.sentinel supervisor-only. Add exactly user_stack and arena_table Option<FrameLease> slots to SAME static owner. No leases, guards, references or callbacks escape. Reserve metadata structurally at compile time, const static initialization, existing owner+mutex+latch+manifest+F4 scalar capture <=4096 bytes. No Vec/String/heap allocation in F4 transaction or terminal path. Existing descriptor/context family remains <=4096, unchanged. Narrow PageMap user_arena_reserved bool may be added if needed to enforce permanent fixed-slot refusal; ordinary APIs remain supervisor-only and outside-window refusal remains effective. No returning public F4 prepare API.
+
+One admitted boot attempt only. Fresh Preparing can extend; Sealed and Terminal never reopen. No teardown, transfer, COW, sharing, recoverable exit, retry, or replacement while CPU-reachable. Failure after acquisition retains leases in static owner and closes Terminal; success jointly seals then terminates in Ring0. No return to shell, no CPL3, no CR3 switch. F4 cannot retroactively modify an already sealed F1/F3 invocation.
+
+## C. Admission, ownership, staging and atomic publication
+
+Only the separate nonreturning F4 wrapper may admit: CLI -> Dormant-to-Preparing CAS -> owner -> PAGE_MAP -> FRAME_ALLOC. No IRQ/NMI owner reentry; one-vCPU fixture. Static helpers may return scalar status inside this wrapper, never references. No allocator callback/formatting/heap access under guards.
+
+1. Validate exact manifest/ranges/alignment, CPU identity (PE,PG,WP, matching aligned CR3, CR4.PAE/PSE/CET off, CPL0/IF0), initialized map/domain/retained table roles. Require map.window_end <=0x40000000. Require tables[256]==0 AND raw PDE256==0; PDE257 absent. Existing supervisor mappings must have no USER bit at either level, no PS PDE, and every present PDE table must agree with owned table inventory and be structure-pinned, identity-accessible supervisor RW. Audit every present supervisor PTE before USER admission, bounded 1024*1024 entries maximum; no dynamically allocated audit storage.
+2. Reuse prepare_f3_locked before sealing on fresh boot, not the already divergent F3 wrapper. All10 inherited resources remain retained. Validate payload lease again for intended USER use; it must be live same-domain, not runtime/structure-pinned, not privileged backing, kernel image/stack, boot pin, metadata, descriptors or MMIO. Coverage/reservation/live-role checks and retained authority are required in addition to flags. The frame allocator excludes boot/firmware reservations; explicit kernel_bounds/boot_pins/structure/duplicate checks add defense in depth. Both full physical page aliases must be effective supervisor RW identity mappings before zeroing.
+3. Metadata capacity is already fixed. Acquire at most one stack lease and one table lease directly into permanent owner slots; no fallback/search loop. Check each current lease/domain/allocation/role and writable supervisor identity alias, all12 frame identities distinct. Inaccessible first candidates are refusal, never arbitrary-pointer writes. Table is a leased ordinary frame until changed to structure role under continuous allocator ownership; it is never a runtime payload. Require zero existing arena PDE throughout staging.
+4. Revalidate all request/lease/role/supervisor invariants before writes. Zero only the two owned payload frames and new table through validated supervisor aliases. No caller buffer/callback. F4 initializes a fixed bounded future-payload byte pattern and stack zeros; never executes them. Record exact bytes for guest readback. F5 may supply actual code only on a fresh source-revised admitted boot.
+5. Pin code/stack as runtime payloads and update existing payload_bitmap; structure-pin table, retaining its lease too. These mutations occur only after complete preflight; unexpected helper refusal terminates fail-closed, retains any pins/resources and never publishes PDE. Fill ONLY PTE0=payload|P|U|RUNTIME (no RW), PTE1023=stack|P|U|RW|RUNTIME; all others0. Both leases already reside in retained owner before any USER PTE exists; the table is still unreachable through USER virtual space.
+6. Commit with no remaining fallible action: store tables[256], accounting/reservation fields, then raw PDE256=table|P|RW|U as the LAST hardware publication. On x86 same-CPU ordered memory stores, ordinary compiler sequencing/volatile entry helpers must ensure initialized leaves and pins precede PDE store. Invalidate the two new translations (and upper/lower boundary if needed) without replacing CR3. No privileged PDE is promoted. No fallible callback, allocation, release or validation result is allowed between first USER exposure and successful commit return.
+7. Release all guards; install unchanged F3 GDT/TSS using existing nonallocating install. Final supervisor/arena/owner/CPU validation precedes one irreversible seal. An unexpected AFTER-COMMIT validation failure is terminal retention of the COMPLETE arena, not rollback or a recoverable partial mapping. It never reports GREEN. No partial USER arena is returned on any refusal. Candidate review must distinguish complete-but-terminal postcommit invariant corruption from ordinary request refusal.
+
+### Refusal versus rollback — explicit compatibility decision
+
+F1's accepted v2 design:52 explicitly forbids releasing acquired resources on any failed attempt, including before publication. F4 therefore uses bounded TERMINAL RETENTION, not allocation rollback/retry. A pure rejected request/helper preflight leaves PTE/PDE/pin/capacity/lease state unchanged (diagnostics only if documented). Once the one-shot orchestration has acquired resources, failure retains the exact bounded prefix and globally denies further mutation; capacity is not restored and no restoration is claimed. Staged table/PTE writes remain CPU-unpublished until final PDE. No prepublication failure may install PDE256. This is not a new ownership model or ceiling. Independent review must expressly decide whether this satisfies the current F4 rollback/no-partial-exposure requirements; if release restoration is mandatory despite accepted F1, STOP rather than silently changing F1.
+
+## D. x86 mode, permissions and limits
+
+Source mode evidence: paging.rs:804–908 uses 1024-entry u32 directories and tables with 4KiB leaves; :316–328 computes effective permissions; :969–996 enables PG and CR0.WP. retained_owner.rs:132–142 checks CR0.PG/WP, CR4.PAE/PSE off. This is ordinary 32-bit non-PAE paging, not NX-capable per page. Hardware proof is still required: at baseline RED and every GREEN guest capture actual CR0/CR3/CR4, CS, EFLAGS, CPUID0/1 and extended feature leaf if supported (report raw feature words; do not invent unavailable leaf support). Pin actual single-vCPU qemu32 invocation and firmware/ELF.
+
+PRESENT and U/S must be set in BOTH PDE and PTE; U at a leaf under S-only PDE does not grant CPL3 access. Effective RW requires both levels (supervisor writes also honor CR0.WP=1). Dedicated arena PDE is P/RW/U; RO leaf remains RO, stack RW. Kernel PDE/PTE remain supervisor-only, including physical aliases of owned USER frames. USER cannot reach kernel image, stacks, page tables/directories, descriptor/TSS, allocator/retained metadata, MMIO through any USER alias. All other USER-bit leaves/directories are rejected, and physical identity audit checks exactly allowed frames, not merely flag counts.
+
+Non-PAE has NO per-page NX. RO code/data is not writable via its USER mapping, but writable stack is also executable on hardware. This is intended software code/noncode placement, NOT hardware-enforced W^X/NX. Do not claim execute-disable or cross-process isolation. Existing Ring0 supervisor aliases can write code bytes; cooperative sealed kernel authority is part of the threat model. F4's Ring0 table inspection and CR0.WP faults DO NOT prove CPL3 access denial or a future privilege stack switch. F5 actual Ring3 proof remains mandatory.
+
+## E. Compatibility and resource accounting
+
+Inherited F1 ordinary payload+sentinel2 + F3 transition4+emergency4 =10 frames, of which payload is reused for USER code; new stack1+arena table1 yields12 total =49152 bytes. USER payload2=8192 bytes included, not added; new table4096 included. Existing directory/tables retained separately with no new directory. Guards/holes0 physical frames. Static owner family<=4096 and F3 descriptor family<=4096, existing allocator ledger/bitmap and PageMap vectors unchanged in capacity. No new heap reservation. Preserve MANIFEST ceiling and F1/F2/F3 exact inherited family identities. Target sizeof/ELF section deltas, frame identities/free+allocated+reserved deltas, emitted preparation stack frames and RAM128/512 viability require actual verification; this ceiling is NOT measured stack/heap high-water.
+
+F2 source/68-byte prefix, assembly offsets and fatal semantics remain byte-identical. F3 GDT/TSS source/emergency policy remain byte-identical; new wrapper uses exactly same install/verify functions after retained backing exists. F3 emergency bound remains2578/16384/headroom13806 CONDITIONAL one-nested-NMI only; F4 does not claim a newly measured or unconditional bound. Existing stack mappings and guards remain supervisor-only, no USER exposure of their physical frames. Historical F1 independent final-readback gap remains disclosed.
+
+## F. Hardware RED -> GREEN plan
+
+After independent APPROVE only, create a disposable-source fixture using established source_snapshot, postpaging injection/stripping-equality, GDB RSP/QMP physical capture helpers; no writes to accepted ISO/default target. Baseline compiles accepted F3 source, reaches postpaging Ring0 checkpoint and asserts actual PDE256/PTE0 user-present with retained backing. Existing PDE256 is absent; require captured CPU CR3 and raw4096 directory bytes, explicit expected/observed assertion failure and driver nonzero1. A timeout, build error, missing marker or zero tests is HARNESS_FAIL, never RED. If present already, characterize rather than manufacture failure. Store original failed record unchanged.
+
+GREEN same ready oracle invokes actual divergent F4 wrapper; controlled checkpoints are before publication and terminal-ready (owned breakpoints, paused+EIP verified before QMP pmemsave). Capture directory and every present table, payload/stack bytes, owner scalar/lease identity storage and relevant CPU state. Compare full before/after supervisor bytes allowing only documented CPU A/D changes plus F3's already-reviewed ten-slot stack transformation; no USER promotion in any predecessor PDE. Effective user leaves exactly2, correct physical backing, guards/unused slots absent, capacity12, table structure-pin, payload runtime-pins, no lease export/second attempt. No CPL3 fixture instructions.
+
+Six scenario identities per RAM128/512 =>12 planned F4 guest invocations:
+1. ready: complete map/ownership/CPU/descriptor supervisor readback and terminal, CPL0 throughout.
+2. code_write: Ring0 write through USER RO code VA with WP1 -> real #PF, exact CR2/error W/P bits, F2 mandatory frame and retained backing.
+3. lower_guard: Ring0 read absent0x403fe000 -> real #PF, exact CR2 and nonpresent error.
+4. unused_hole: Ring0 read0x40001000 -> real #PF.
+5. occupied_refusal: controlled dedicated fixture preinstalls supervisor PDE256, F4 refuses WITHOUT promoting it; preserve captured pre/post bytes and bounded terminal prefix.
+6. capacity_refusal: controlled deterministic first-new-F4-allocation denial after F3 preparation, arena PDE remains absent, exact retained10 prefix/terminal, no USER leaf exposure.
+
+Fixture mutations are confined to disposable staged test copies, explicitly diffed/pinned and not represented as production execution on unmodified source. Baseline uses unchanged production bodies; GREEN probes inject only assertions/checkpoints/failure hooks with independently reviewed transformation. Preserve full serial, register packets, physical dumps, ELF/source identity, owned QEMU exit/kill-wait. Require at both RAM sizes. Additional per-stage refusal and stale/foreign/structure/alias/overflow controls run host against real implementation, not invented hardware proof.
+
+## G. Exact host/B26/acceptance plan
+
+Create dedicated sibling module memory::paging::f4_user_arena_tests, never retained_owner filter. Twelve planned exact test names, each exercised with nonzero libtest summary:
+- layout_preserves_fixed_ceiling
+- publishes_exact_two_owned_user_leaves
+- refuses_foreign_and_stale_leases
+- refuses_reserved_structure_and_duplicate_frames
+- refuses_occupied_directory_without_promotion
+- refuses_unaligned_outside_and_overflow_ranges
+- rejects_unexpected_user_supervisor_inventory
+- refuses_inaccessible_table_and_payload_aliases
+- preserves_state_on_preflight_refusal
+- retains_bounded_prefix_on_acquisition_failure
+- seal_blocks_unmap_release_retry_and_cr3_switch
+- effective_permissions_and_guards_match_contract
+
+Tests must use real FrameAllocator/PageMap/retained owner and isolated child processes for irreversible global state as established. Source test declarations and --list determine actual identities, not guessed totals. B26 add three independently rooted F4 controls: no allocation under owner/map/frame locks, no destruction under these locks, and no fallback on F4 refusal. Keep existing134 identities intact; exact actual new counts derived after execution.
+
+Run host Cargo outside repository at C:/Users/iamsv with absolute tests_kernel manifest and verified host target/config; recorder run_step.py schema inspected (name,cwd,expected,argv...), store F4 logs task-local using reviewed new recorder rather than overwriting historical records. Require exit0, >=1 passed,0 failed, exact successful/ignored identities; no zero-filter pass. Full host and B26 serial/parallel/list, formatting/build/ELF, F1 guests10/F2 guests8/F3 guests18, all on same frozen final source. Canonical two new gate identities: `Phase 11 F4 owned USER arena host contract` (the exact12 tests) and `Phase 11 F4 owned USER arena Ring0 hardware matrix` (exact12 scenario/RAM identities, full pin validation). Reviewed total =70+2=72; retain predecessor70 multiset byte-sourced from canonical F3 acceptance. This is a proposed contract, not a result. Require missing/duplicate/substituted/impostor/zero-test/refusal-evidence/source-drift negative controls.
+
+Freeze uniquely numbered complete source/build input membership, raw SHA256 and task harness/dependency inputs only after stabilization; candidate reviewer separately APPROVE0 covering actual complete evidence and harness. Parent rechecks every reviewed raw pin. Launch exactly one canonical acceptance with short root test_results/f4acc, documented background notification, timeout900 unchanged, no polling or competing build/QEMU, never unlink acceptance lock. Fresh independent final readback mandatory after actual exit0/PASS72 with complete gate multiset, artifact/source hashes and cleanup. No commit/acceptance claim before mandatory stages. Local scoped commits exclude all protected work. No push/deployment.
+
+## H. Design review stop criteria
+
+Independent reviewer must rederive permissions/ownership/publication, kernel isolation, bounds/ceiling, guards, exact rollback-versus-terminal-retention compatibility, F1/F2/F3 preservation, Ring0 limits and gate identities; record complete verdict+exact design/source hashes. Any missing architectural authority, incompatible failure semantics, inaccessible-resource viability, unsafe lock/stack requirement, needed extra frame/ownership model/predecessor change blocks implementation. Up to two substantive design revisions only. Internal assessment cannot replace independent approval.

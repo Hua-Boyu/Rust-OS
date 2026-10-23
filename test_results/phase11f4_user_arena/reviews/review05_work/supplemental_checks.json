@@ -1,0 +1,252 @@
+{
+  "raw_elf_literals": {
+    "elf_sha256": "db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892",
+    "bytes": [
+      {
+        "hex": "46342055534552206172656e61204641494c2052696e6730207465726d696e616c0a",
+        "length": 34
+      },
+      {
+        "hex": "46342055534552206172656e6120504153532052696e6730207465726d696e616c0a",
+        "length": 34
+      }
+    ],
+    "serial_protocol": {
+      "THR": 1016,
+      "LSR": 1021,
+      "THRE": 32,
+      "width_bits": 8,
+      "polls_per_byte": 100000,
+      "byte_count": 34,
+      "max_polls": 3400000,
+      "timeout_policy": "drop current byte and advance, identical to shared driver"
+    },
+    "closure": {
+      "blocks": 4,
+      "edges": 11,
+      "forbidden": 0,
+      "unresolved": 0
+    }
+  },
+  "target_resources": {
+    "owner_mutex": {
+      "address": 4402200,
+      "size": 472
+    },
+    "state": {
+      "address": 4402672,
+      "size": 1
+    },
+    "owner_plus_latch_manifest": 485,
+    "descriptors": {
+      "address": 3248160,
+      "size": 272
+    },
+    "atomic_pointer_matches_state": true,
+    "layout_sha256": "6596278437b4f4bf26163082cfc467b7f9eaeef143b149873f65d610d0c4f4c0",
+    "fresh_green_layout": {
+      "schema": "rosti.f4-target-dwarf.v1",
+      "kernel_sha256": "db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "readelf",
+        "--debug-dump=info",
+        "/mnt/c/Users/iamsv/Documents/Rust-OS/test_results/phase11f4_user_arena/correction_green_02/kernel.elf"
+      ],
+      "readelf_exit": 0,
+      "readelf_version": "GNU readelf (GNU Binutils for Ubuntu) 2.42",
+      "readelf_stdout_sha256": "ddda6a1853f6b66d0646323716985d9aec6b08369f00396407bb28bba3f2b937",
+      "RetainedOwner": {
+        "size": 468,
+        "fields": {
+          "payload": 0,
+          "sentinel": 20,
+          "transition": 40,
+          "emergency": 120,
+          "user_stack": 200,
+          "arena_table": 220,
+          "arena_capture": 240,
+          "directory": 304,
+          "allocator_domain": 312,
+          "window_end": 316,
+          "table_count": 324,
+          "mapped_count": 328,
+          "capacity_before": 332,
+          "capacity_after": 344,
+          "future_ranges": 356,
+          "capture": 404
+        }
+      },
+      "FrameAllocator": {
+        "size": 311528,
+        "fields": {
+          "free": 0,
+          "ever": 8192,
+          "covered": 16384,
+          "ncov": 24576,
+          "growth_claimed": 32768,
+          "runtime_pins": 32960,
+          "structure_pins": 41152,
+          "alloc_id": 49344,
+          "next_id": 311488,
+          "domain": 311492,
+          "stats": 311496,
+          "initialized": 311524
+        }
+      },
+      "FrameLease": {
+        "size": 16,
+        "fields": {
+          "addr": 0,
+          "id": 8,
+          "domain": 12
+        }
+      },
+      "FrameStats": {
+        "size": 28,
+        "fields": {
+          "total_frames": 0,
+          "reserved_frames": 4,
+          "free_frames": 8,
+          "allocated_frames": 12,
+          "double_frees": 16,
+          "invalid_frees": 20,
+          "bitmap_frames": 24
+        }
+      },
+      "OwnerMutex": {
+        "size": 472,
+        "fields": {
+          "inner": 0,
+          "lock": 468
+        }
+      },
+      "AllocatorMutex": {
+        "size": 311532,
+        "fields": {
+          "inner": 0,
+          "lock": 311528
+        }
+      },
+      "owner_inner_offset": 0,
+      "allocator_inner_offset": 0,
+      "OptionFrameLease": {
+        "size": 20,
+        "discriminant_offset": 0,
+        "some_discriminant": 1,
+        "none_discriminant": 0,
+        "lease_offset": 4
+      }
+    }
+  },
+  "historical_red": {
+    "correction_red_01": {
+      "root": 2550176,
+      "elf_sha256": "241ecb209f9a2687daa430d5ff0f0e2596937eb829f7d080fb868122cd0bb516",
+      "disassembly_sha256": "bbdf31e96b1f749d27563f914a86c29aa599bfe177343ee89f1a45321c1e5972",
+      "decoded_instruction_count": 210959,
+      "result": "RED",
+      "blocks": 158,
+      "edges": 656,
+      "unresolved": 7,
+      "forbidden": 30,
+      "recovery_issues": 37
+    },
+    "correction_green_01": {
+      "root": 2550176,
+      "elf_sha256": "a21454d323c908aa1bdeb2dc8ee72c13a0dd0f8ca0c0ec5ac9384ce90e5df3eb",
+      "disassembly_sha256": "836d8b46270f6932065e87f57c9a6b6624fb60465491bde370e3f77d87c9dd4b",
+      "decoded_instruction_count": 210954,
+      "result": "RED",
+      "blocks": 157,
+      "edges": 653,
+      "unresolved": 7,
+      "forbidden": 30,
+      "recovery_issues": 37
+    }
+  },
+  "focused": {
+    "exact_passed": [
+      "memory::paging::f4_user_arena_tests::effective_permissions_and_guards_match_contract",
+      "memory::paging::f4_user_arena_tests::layout_preserves_fixed_ceiling",
+      "memory::paging::f4_user_arena_tests::preserves_state_on_preflight_refusal",
+      "memory::paging::f4_user_arena_tests::publishes_exact_two_owned_user_leaves",
+      "memory::paging::f4_user_arena_tests::refuses_foreign_and_stale_leases",
+      "memory::paging::f4_user_arena_tests::refuses_inaccessible_table_and_payload_aliases",
+      "memory::paging::f4_user_arena_tests::refuses_occupied_directory_without_promotion",
+      "memory::paging::f4_user_arena_tests::refuses_reserved_structure_and_duplicate_frames",
+      "memory::paging::f4_user_arena_tests::refuses_unaligned_outside_and_overflow_ranges",
+      "memory::paging::f4_user_arena_tests::rejects_unexpected_user_supervisor_inventory",
+      "memory::paging::f4_user_arena_tests::retains_bounded_prefix_on_acquisition_failure",
+      "memory::paging::f4_user_arena_tests::seal_blocks_unmap_release_retry_and_cr3_switch"
+    ],
+    "ignored": 0,
+    "exit": 0
+  },
+  "historical_host": {
+    "raw_sha256": "4126faeb21a8a68e458e409eaf5e8dbb601bea37e67cc8cf36e568cfb8820bb2",
+    "preserved": 368,
+    "added": 12,
+    "removed": 0
+  },
+  "historical_b26": {
+    "raw_sha256": "832c789c57b75c8cbfe6ce4fdab00c3f9b687be4f0c3cc48c8d663c40da56e4d",
+    "preserved": 134,
+    "added": 15,
+    "removed": 0
+  },
+  "raw_f2_frames": {
+    "identities": [
+      [
+        "ud",
+        128
+      ],
+      [
+        "ud",
+        512
+      ],
+      [
+        "de",
+        128
+      ],
+      [
+        "de",
+        512
+      ],
+      [
+        "gp",
+        128
+      ],
+      [
+        "gp",
+        512
+      ],
+      [
+        "pf",
+        128
+      ],
+      [
+        "pf",
+        512
+      ]
+    ],
+    "status": "PASS"
+  },
+  "component_log_and_production_binding": true,
+  "authority": {
+    "test_results\\phase11f4_user_arena\\candidate_manifest_02.json": "070bb40f9f55e7868e378909ed794445638c3a7887f4e689dd6f67c9ec63fd78",
+    "test_results\\phase11f4_user_arena\\reviews\\design_review_02.json": "719aa78173cff2c8dcca7b91c5cb8e21b1e466a3bbb9520c6e2e774c5ea12ce7",
+    "test_results\\phase11f4_user_arena\\reviews\\candidate_review_01.json": "0181d8707e0fa5ab12f4d09a3e0500d497072c5af12277f84395d390468cd50e",
+    "test_results\\phase11f4_user_arena\\reviews\\candidate_review_02.json": "a89bf90074bfec861a5d488a06ca4590674eb747c6f56e21a7ea2b800e99832f",
+    "reviews\\candidate_review_02.json": "1bc18068b077d641ef598899f513b9c5b6cbe5ea516d67c720ed83e536dbe49a",
+    "test_results\\f3acc\\acceptance_20261021T173237Z_upgt4pc_\\acceptance.json": "2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b"
+  },
+  "remaining_artifact_mismatch": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f4_user_arena\\run_canonical_02.py",
+    "expected": "809fa5c453be32e0f67de73cb4710f042840664ae29f5e2dc3ce4e0f22c72a74",
+    "observed": "671fefdfb49c477b45e04fd4276c46289bde88622159eed42113cec562921e88"
+  }
+}

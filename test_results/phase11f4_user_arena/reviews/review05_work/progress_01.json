@@ -1,0 +1,6 @@
+{
+  "reviewer": "Hermes gpt-6.1-sol independent delegated reviewer, current live session",
+  "start": "2026-10-23T03:13:38.854738+00:00",
+  "scope": "manifest04 comprehensive read-only; no source writes/builds/Cargo/QEMU/acceptance/regression reruns",
+  "prior_reports_not_approval": true
+}

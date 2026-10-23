@@ -1,0 +1,21 @@
+{
+  "name": "f4_components_05",
+  "argv": [
+    "C:\\Users\\iamsv\\AppData\\Local/hermes/hermes-agent/venv/Scripts/python.exe",
+    "-B",
+    "test_results/phase11f4_user_arena/verify_components_03.py",
+    "C:/Users/iamsv/Documents/Rust-OS/test_results/f4p05"
+  ],
+  "cwd": "C:/Users/iamsv/Documents/Rust-OS",
+  "started_utc": "2026-10-22T13:29:34.218848+00:00",
+  "status": "EXPECTED",
+  "recorder_sha256": "745707358bed2ac89c93d76d96095b97f568b214d05eb7c20832e8f308b3d5b4",
+  "exit_code": 0,
+  "ended_utc": "2026-10-22T13:40:56.573682+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f4_user_arena\\commands\\f4_components_05.log",
+  "log_sha256": "456b2909f5a4bfcbd330461ee0667cdca04b9514e00ff16421a3314bbf22d1c3",
+  "summaries": [],
+  "listed": [],
+  "passed": [],
+  "ignored": []
+}

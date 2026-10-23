@@ -1,0 +1,11 @@
+{
+  "root": 2550176,
+  "elf_sha256": "db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892",
+  "disassembly_sha256": "43c8300b34ea48dc9ef5fad0a6717e6433d582e7661a3a983757b1f309680e94",
+  "decoded_instruction_count": 210970,
+  "result": "GREEN",
+  "blocks": 4,
+  "edges": 11,
+  "unresolved": 0,
+  "forbidden": 0
+}

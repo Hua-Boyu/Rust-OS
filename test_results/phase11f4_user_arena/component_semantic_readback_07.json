@@ -1,0 +1,48 @@
+{
+  "scope": "Fresh parent offline semantic readback, NOT fresh test execution, independent approval, or canonical acceptance",
+  "overall": "PASS",
+  "source_count": 187,
+  "manifest_sha256": "0b56cff4baefb9763152e68332e2b7bdee8cb95a30fbc6bb17bffbc8cdc17765",
+  "scenario_counts": {
+    "f2": 8,
+    "f3": 18,
+    "f4": 12
+  },
+  "validated_artifact_counts": {
+    "f2": 10,
+    "f3": 1078,
+    "f4": 12757
+  },
+  "tests": {
+    "host": {
+      "listed": 380,
+      "passed": 378,
+      "ignored": 2,
+      "serial_parallel_membership_exact": true
+    },
+    "b26": {
+      "listed": 149,
+      "passed": 149,
+      "ignored": 0,
+      "serial_parallel_membership_exact": true
+    }
+  },
+  "ready_serial": [
+    {
+      "ram_mib": 128,
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4p05\\f4\\ready_128\\serial.txt",
+      "sha256": "9682a234b3fec6d3d409d047bd0b796b49247fe12213daa878b1c3b184292064"
+    },
+    {
+      "ram_mib": 512,
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4p05\\f4\\ready_512\\serial.txt",
+      "sha256": "9682a234b3fec6d3d409d047bd0b796b49247fe12213daa878b1c3b184292064"
+    }
+  ],
+  "F3_predecessor_sha256": "2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b",
+  "gate_count": 72,
+  "gate_multiset_exact": true,
+  "component_report_sha256": "f02ff564ed47d74e8f73f41efd4487ca736ff33952b689a0d26bb1d8f58df0f6",
+  "reader_sha256": "b9ad9fb93477e3922fb3d4a0fd6d5feb7b5e220704b95900183e9f41452136d7",
+  "elapsed_seconds": 72.21899999992456
+}

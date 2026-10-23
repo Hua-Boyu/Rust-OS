@@ -1,0 +1,6 @@
+{
+  "scope": "Fresh parent offline semantic readback, NOT fresh test execution, independent approval, or canonical acceptance",
+  "overall": "FAIL",
+  "error": "RuntimeError('ready RAM evidence')",
+  "elapsed_seconds": 53.125
+}

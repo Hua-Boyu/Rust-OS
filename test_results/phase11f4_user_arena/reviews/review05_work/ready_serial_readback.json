@@ -1,0 +1,24 @@
+{
+  "ready": [
+    {
+      "ram_mib": 128,
+      "path": "test_results/f4p05/f4/ready_128/serial.txt",
+      "sha256": "9682a234b3fec6d3d409d047bd0b796b49247fe12213daa878b1c3b184292064",
+      "raw_log_bytes": 328,
+      "terminal_marker_hex": "46342055534552206172656e6120504153532052696e6730207465726d696e616c0a",
+      "terminal_marker_bytes": 34,
+      "exact_marker": true
+    },
+    {
+      "ram_mib": 512,
+      "path": "test_results/f4p05/f4/ready_512/serial.txt",
+      "sha256": "9682a234b3fec6d3d409d047bd0b796b49247fe12213daa878b1c3b184292064",
+      "raw_log_bytes": 328,
+      "terminal_marker_hex": "46342055534552206172656e6120504153532052696e6730207465726d696e616c0a",
+      "terminal_marker_bytes": 34,
+      "exact_marker": true
+    }
+  ],
+  "qualification": "The full log is328 bytes including prior boot diagnostics; exactly one F4 terminal marker is34 bytes. Initial reviewer whole-log==34 assertion failed due to this overstrong utility assumption, corrected offline marker extraction; no source defect or rerun.",
+  "parent_steering": "Parent says semantic_readback06 path-discovery FAIL preserved,07 corrected offline PASS; no reliance on those unpinned supplements."
+}

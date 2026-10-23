@@ -1,0 +1,162 @@
+[
+  {
+    "case": "ud",
+    "ram": 128,
+    "files": [
+      "before_hardware.txt",
+      "callee_hardware.txt",
+      "cpu_idt.bin",
+      "f2_fatal_register_packet.txt",
+      "f2_fault_ud_register_packet.txt",
+      "f2_normalized_register_packet.txt",
+      "f2_trigger_ud_register_packet.txt",
+      "mandatory_prefix.bin",
+      "qemu.log",
+      "reentry_hardware.txt",
+      "report.json",
+      "serial.txt",
+      "stderr.txt",
+      "terminal_hardware.txt"
+    ]
+  },
+  {
+    "case": "ud",
+    "ram": 512,
+    "files": [
+      "before_hardware.txt",
+      "callee_hardware.txt",
+      "cpu_idt.bin",
+      "f2_fatal_register_packet.txt",
+      "f2_fault_ud_register_packet.txt",
+      "f2_normalized_register_packet.txt",
+      "f2_trigger_ud_register_packet.txt",
+      "mandatory_prefix.bin",
+      "qemu.log",
+      "reentry_hardware.txt",
+      "report.json",
+      "serial.txt",
+      "stderr.txt",
+      "terminal_hardware.txt"
+    ]
+  },
+  {
+    "case": "de",
+    "ram": 128,
+    "files": [
+      "before_hardware.txt",
+      "callee_hardware.txt",
+      "cpu_idt.bin",
+      "f2_fatal_register_packet.txt",
+      "f2_fault_de_register_packet.txt",
+      "f2_normalized_register_packet.txt",
+      "f2_trigger_ud_register_packet.txt",
+      "mandatory_prefix.bin",
+      "qemu.log",
+      "reentry_hardware.txt",
+      "report.json",
+      "serial.txt",
+      "stderr.txt",
+      "terminal_hardware.txt"
+    ]
+  },
+  {
+    "case": "de",
+    "ram": 512,
+    "files": [
+      "before_hardware.txt",
+      "callee_hardware.txt",
+      "cpu_idt.bin",
+      "f2_fatal_register_packet.txt",
+      "f2_fault_de_register_packet.txt",
+      "f2_normalized_register_packet.txt",
+      "f2_trigger_ud_register_packet.txt",
+      "mandatory_prefix.bin",
+      "qemu.log",
+      "reentry_hardware.txt",
+      "report.json",
+      "serial.txt",
+      "stderr.txt",
+      "terminal_hardware.txt"
+    ]
+  },
+  {
+    "case": "gp",
+    "ram": 128,
+    "files": [
+      "before_hardware.txt",
+      "callee_hardware.txt",
+      "cpu_idt.bin",
+      "f2_fatal_register_packet.txt",
+      "f2_fault_gp_register_packet.txt",
+      "f2_normalized_register_packet.txt",
+      "f2_trigger_ud_register_packet.txt",
+      "mandatory_prefix.bin",
+      "qemu.log",
+      "reentry_hardware.txt",
+      "report.json",
+      "serial.txt",
+      "stderr.txt",
+      "terminal_hardware.txt"
+    ]
+  },
+  {
+    "case": "gp",
+    "ram": 512,
+    "files": [
+      "before_hardware.txt",
+      "callee_hardware.txt",
+      "cpu_idt.bin",
+      "f2_fatal_register_packet.txt",
+      "f2_fault_gp_register_packet.txt",
+      "f2_normalized_register_packet.txt",
+      "f2_trigger_ud_register_packet.txt",
+      "mandatory_prefix.bin",
+      "qemu.log",
+      "reentry_hardware.txt",
+      "report.json",
+      "serial.txt",
+      "stderr.txt",
+      "terminal_hardware.txt"
+    ]
+  },
+  {
+    "case": "pf",
+    "ram": 128,
+    "files": [
+      "before_hardware.txt",
+      "callee_hardware.txt",
+      "cpu_idt.bin",
+      "f2_fatal_register_packet.txt",
+      "f2_fault_pf_register_packet.txt",
+      "f2_normalized_register_packet.txt",
+      "f2_trigger_ud_register_packet.txt",
+      "mandatory_prefix.bin",
+      "qemu.log",
+      "reentry_hardware.txt",
+      "report.json",
+      "serial.txt",
+      "stderr.txt",
+      "terminal_hardware.txt"
+    ]
+  },
+  {
+    "case": "pf",
+    "ram": 512,
+    "files": [
+      "before_hardware.txt",
+      "callee_hardware.txt",
+      "cpu_idt.bin",
+      "f2_fatal_register_packet.txt",
+      "f2_fault_pf_register_packet.txt",
+      "f2_normalized_register_packet.txt",
+      "f2_trigger_ud_register_packet.txt",
+      "mandatory_prefix.bin",
+      "qemu.log",
+      "reentry_hardware.txt",
+      "report.json",
+      "serial.txt",
+      "stderr.txt",
+      "terminal_hardware.txt"
+    ]
+  }
+]

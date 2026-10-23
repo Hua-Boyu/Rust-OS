@@ -1,0 +1,48 @@
+{
+  "scope": "Parent integration checkpoint, NOT independent approval",
+  "initial_recovery_pin_count": 191,
+  "allowed_initial_source_drift": {
+    "linker.ld": [
+      "adaf15f9565cc884ed5e33168aeba56f9a8330553fa7176357df5b87e90911a7",
+      "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61"
+    ],
+    "scripts/phase6_verify.py": [
+      "c13d6d12692acc918d74c0dbc967e21c0ca8a7f2e2677513b05e0ae12af75f1d",
+      "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d"
+    ],
+    "scripts/test_acceptance_harness.py": [
+      "e4915570ad14f3489264dc051ca49cb3ddb06d62ea838e2f24409d3ce7827c9a",
+      "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b"
+    ],
+    "src/memory/mod.rs": [
+      "38429eed8fb2b6d48a3816315b3315b30ba76f23caf6f11aa8265b46e935d7d6",
+      "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab"
+    ],
+    "src/memory/paging.rs": [
+      "74359a99a54aee1120bb83747e42bfe502f65a378ec36d67ad518f5ca849d09f",
+      "749c0aaa4752da2d991014fdc0464826d6d53dc2c97c166a3ca76f165685cbd9"
+    ],
+    "src/memory/retained_owner.rs": [
+      "8ca5edf9b5f57fac6c06690d40d7863cccfc03b3b4cd5c1abbba5f7280128197",
+      "021e3dbe0cea0e8e0aca9cb544e2bd782c39d02c2fc4eb5ddf1b80b55d4879a3"
+    ]
+  },
+  "implementation_note_sha256": {
+    "driver_writer_01.txt": "cdd8340ee30cd559f35dfc9343417bee9266f80f36a601cfb4b00df6a3357c5e",
+    "runner_writer_01.txt": "cb8e320460cc72a136ba00bb0e2883f9e0ca67f33b12df613d4a8106b64f14be"
+  },
+  "current_hashes": {
+    "scripts/phase6_verify.py": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+    "scripts/test_acceptance_harness.py": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+    "scripts/f4_arena_guest.py": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+    "scripts/f4_evidence.py": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef"
+  },
+  "corrections": [
+    "Canonical runner passes explicit owned child matrix to direct-output driver; mock matches actual API; RED and focused GREEN preserved.",
+    "Nested bare python resolves uv base without psutil/pycdlib. Component03 failed before Cargo/QEMU; component04 uses verified absolute Hermes venv interpreter, no package installs.",
+    "Writer summary prose called PTE0x205 accessed. Raw bit0x200 is software owned; actual A bit0x20 unset. Preserve original summary; production/validator masks already correct."
+  ],
+  "active_mock": "proc_9d99461ee543",
+  "active_components": "proc_830c0b450d51",
+  "component_root": "test_results/f4p04"
+}

@@ -1,0 +1,857 @@
+{
+  "schema": "phase11f4-independent-design-review-02",
+  "review_role": "fresh independent read-only design reviewer",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "branch_observed": "maintenance/phase10",
+  "head_observed": "d81672c4b314f0388e10e4c8dc9466b35ea89ce7",
+  "design_revision": "02",
+  "design_path": "test_results/phase11f4_user_arena/design.md",
+  "design_raw_sha256": "ea0a49eda8784d358995d556046adfa89ca9d4bafd89070765816c6aedf086ee",
+  "verdict": "APPROVE",
+  "blocker_count": 0,
+  "blockers": [],
+  "overall_reason": "Both original blockers are resolved by the exact scoped operator disposition and explicit F4-local SMAP0/positive-control fault oracle. Independent source/Intel rederivation finds no remaining design blocker. Approval is solely for the bounded F4 proposal and its mandatory implementation/evidence obligations, not candidate, acceptance, CPL3 or deployment approval.",
+  "implementation_authorized": true,
+  "authorization_scope": "May begin only the reviewed F4 implementation on fresh Preparing under the unchanged twelve-frame ceiling and all stated gates. No permission to waive later candidate review/final readback or alter predecessors.",
+  "prior_blocker_dispositions": [
+    {
+      "id": "F4-D01-B1",
+      "status": "RESOLVED_BY_EXPLICIT_SCOPED_USER_DISPOSITION",
+      "user_response": "Authorize bounded terminal retention; revise design and obtain fresh independent approval",
+      "F1_changed": false,
+      "waived": false
+    },
+    {
+      "id": "F4-D01-B2",
+      "status": "RESOLVED_IN_DESIGN_REQUIRES_FUTURE_CPU_PROOF",
+      "F2_F3_profile_changed": false,
+      "waived": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "complete_revision_and_predecessor_review",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Read complete revision02 (108 lines), preserved revision01 (104 lines), complete original review01 including its raw map and limitations (827 lines), parent readback and operator disposition. Review01 raw bytes and preserved design match their stipulated digests. Revision02 changes are reviewed independently, not inferred from the earlier reviewer or user authorization.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md",
+        "test_results/phase11f4_user_arena/design_revision_01_reviewed.md",
+        "test_results/phase11f4_user_arena/reviews/design_review_01.json",
+        "test_results/phase11f4_user_arena/reviews/parent_design_readback_01.json",
+        "test_results/phase11f4_user_arena/operator_disposition_01.json"
+      ]
+    },
+    {
+      "name": "B1_exact_scoped_disposition_resolves_contract_conflict",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "The direct user response is exactly \"Authorize bounded terminal retention; revise design and obtain fresh independent approval\". Its scoped question/effect supersedes only the current F4 unpublished-allocation rollback/capacity-restoration requirement. F1 v2 section3:52 and section7:112-119 still require bounded terminal retention, including before publication. Revision02 C explicitly follows that policy and never labels it rollback. No F1 release/retry/unseal or expanded ceiling is authorized; the operator record by itself does not approve the design. Original blocker F4-D01-B1 is resolved by explicit requirement disposition, not waived.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:5,34,48-50",
+        "test_results/phase11f4_user_arena/operator_disposition_01.json",
+        "test_results/phase11f1_retained_owner/v2_design.md:48-62,108-119",
+        "src/memory/retained_owner.rs:156-163,198-218,247-264"
+      ]
+    },
+    {
+      "name": "B2_SMAP_causality_and_positive_control_resolved",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Revision02 requires F4-local observed CR4.SMAP bit21=0 at admission and again at the stopped positive-control/fault captures, without modifying control registers or inherited F2/F3 profiles. It records raw AC and SMEP. A successful CPL0 USER-stack read/write/readback with WP1 precedes the explicit CPL0 RO code store; exact vector14, CR2=0x40000000, saved CPL0 CS, faulting EIP/instruction and P1/W1/U0/RSVD0/I-D0 are mandatory. SMAP is therefore excluded as the independent denial cause. SMEP governs fetch, not these data accesses; no USER fetch is permitted. Original blocker F4-D01-B2 is resolved at design level, with real CPU evidence still mandatory.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:40,54,74",
+        "src/gdt_tss.rs:95-110",
+        "src/exception_abi.rs:98-105",
+        "Intel SDM revision093 PDF145-147,150"
+      ]
+    },
+    {
+      "name": "CPU_feature_enumeration_is_bounded_and_honest",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "CPUID0 maximum standard leaf gates CPUID7.0; report raw feature words rather than inventing unsupported leaves. Extended feature leaf is queried only if supported. Intel PDF118 independently identifies SMEP at CPUID7.0 EBX7 and SMAP at EBX20. CPU captures include actual CR0/CR3/CR4/CS/EFLAGS at RED and each GREEN guest, PE/PG/WP, aligned matching CR3, non-PAE/non-PSE/non-CET, CPL0/IF0, and pinned one-vCPU qemu32 operands. Existing F3 checks do not themselves establish SMAP0; the new check is correctly local.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:40,54,74",
+        "src/gdt_tss.rs:95-123",
+        "Intel SDM revision093 PDF118,145-147"
+      ]
+    },
+    {
+      "name": "lease_identity_and_physical_role_authority",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "FrameLease private addr/id/domain and non-Copy/non-Clone ownership, initialized same-domain ledger identity, complete live allocation/coverage/reservation checks are needed, not merely not-free. Static owning slots precede any pin or USER exposure. New payloads exclude runtime pins, structure pins, boot/kernel/metadata/descriptor/MMIO/privileged backing and duplicate identities. Inherited eight F3 stack leases are instead validated in their expected pinned roles. Table remains an ordinary retained lease until structure installation under continuous frame ownership, never a runtime payload. Supervisor borrowed identity aliases do not create duplicate release authority.",
+      "references": [
+        "src/memory/frame.rs:88-112,388-451,458-545,585-651",
+        "src/memory/privileged.rs:161-182,230-249",
+        "test_results/phase11f4_user_arena/design.md:14-15,32,41-44"
+      ]
+    },
+    {
+      "name": "physical_pointer_accessibility_and_inventory_audit",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Before any physical zero/store/dereference, require complete writable supervisor identity translation plus live role/ownership. Compare raw PDE table physical address to trusted PageMap inventory, validate structure pin/alias before dereferencing it, then audit present PTEs. Bounded 1024x1024 traversal uses no allocating scratch. Reject unexpected USER bits at either level, PS PDEs and inconsistent inventory. First inaccessible allocation candidate is terminally retained without a search/fallback, not dereferenced or freed. Known pointers and the active aligned CR3/directory must be validated before raw table access.",
+      "references": [
+        "src/memory/paging.rs:167-188,470-495",
+        "src/memory/retained_owner.rs:132-154",
+        "test_results/phase11f4_user_arena/design.md:40-43"
+      ]
+    },
+    {
+      "name": "PDE_PTE_permissions_independently_derived",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Ordinary non-PAE paging uses 1024 u32 entries in each 4096-byte directory/table. P and U/S must permit access at both levels; with WP1, RW must also be1 at both levels for the proposed supervisor store. PDE256 P/RW/U, PS0 plus PTE0 P/U/RO/runtime and PTE1023 P/U/RW/runtime gives exactly the requested effective rights. RUNTIME is software metadata, not a hardware permission. CPL0 fault error U0 describes access privilege, not the USER target bit. No per-page NX exists here.",
+      "references": [
+        "src/memory/paging.rs:91-113,312-328,804-908,969-998",
+        "Intel SDM revision093 PDF114,117,119-122,145-148,150",
+        "test_results/phase11f4_user_arena/design.md:44-45,54-58"
+      ]
+    },
+    {
+      "name": "layout_bounds_and_guard_limits",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Independent arithmetic gives PDE index256 for 0x40000000, 4MiB endpoint0x40400000 and PTE1023 for0x403ff000. Slot0 shares code [0,0x800) and RO data [0x800,0x1000), with no subpage isolation. Slots1..1022 are absent;1022 is lower stack guard. PDE257 is absent upper boundary, not an acquired guard frame. All ranges/alignment/overflow and window_end<=arena base must be preflighted. No independent writable-data page, skipped-guard protection, arbitrary-overflow containment, hostile-Ring0 or cross-process isolation is claimed.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:20-30,40,58",
+        "src/memory/paging.rs:104-113"
+      ]
+    },
+    {
+      "name": "no_kernel_USER_exposure",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Only two prescribed effective USER leaves and only the exact two owned physical payload identities may appear. No predecessor PDE is promoted. All kernel image/stacks, sentinel, transition/emergency frames, tables/directory, descriptor/TSS, allocator and retained metadata and MMIO stay supervisor-only, including physical identity aliases of USER payloads. Preflight audit rejects preexisting unexpected U bits; final/readback validates full physical identity, not counts alone. Supervisor RW aliases intentionally allow cooperative Ring0 writes to RO payload; that is disclosed rather than misrepresented as immutability against Ring0.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:30,40-46,56-58,70",
+        "src/memory/paging.rs:392-459",
+        "src/memory/privileged.rs:118-252"
+      ]
+    },
+    {
+      "name": "fixed_frame_and_static_metadata_ceiling",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Recomputed inventory 1 payload+1 sentinel+4 transition+4 emergency+1 user_stack+1 arena_table=12 frames=49152 bytes. USER two pages=8192 and the table4096 are included, not added; no new directory, no physical guard or new privileged table. New fixed Option slots extend the same const-initialized owner. Existing vectors/bitmaps retain capacity; no new heap reservation. Owner/mutex/latch/manifest/F4 captures <=4096 and existing descriptor family <=4096 are explicit compile-time/target verification obligations, not measured high-water. No by-value allocator/map/owner temporaries are authorized.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:32,41-43,62-64",
+        "src/memory/retained_owner.rs:13-58",
+        "test_results/phase11f1_retained_owner/v2_design.md:14-46",
+        "src/gdt_tss.rs:14-71"
+      ]
+    },
+    {
+      "name": "explicit_volatile_release_barrier_last_PDE_publication",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Existing write_entry uses ptr::write, not volatile. Revision02 explicitly selects F4-local volatile entry writes and compiler_fence(Ordering::Release) immediately before the final volatile PDE256 store, rather than attributing ordering to the old helper. Static owning slots, exact role pins, bitmap mirrors, initialized leaves and PageMap inventory/accounting all precede publication. The active map sees raw PDE256==0 throughout staging; final aligned u32 store publishes the complete table. Same-CPU x86 store ordering plus the compiler barrier is the stated bounded single-vCPU mechanism; verify emitted earlier stores/barrier dominance and final publication, not just source order. INVLPG follows for the two new mappings with no CR3 replacement. No fallible action or callback is allowed in the exposure/commit interval.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:42-46",
+        "src/memory/paging.rs:503-517,700-761"
+      ]
+    },
+    {
+      "name": "refusal_atomicity_and_all_stage_retained_prefixes",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Pure rejected request/helper preflight leaves PTE/PDE/pins/capacity/lease state unchanged except expressly documented diagnostics. Consuming the one-shot attempt/closing Terminal is separate from resource restoration. Earlier inherited acquisition failures retain exact0..10 prefixes as F1/F3 already do. First F4 stack denial retains10; acquired stack/inaccessible stack or table denial retains11; acquired table/inaccessible table, late validation, zero/staging/pin refusal retains12 and any already committed pins/unreachable bytes. No prepublication failure installs PDE256. No release, replacement, search, retry or capacity-restoration assertion is permitted. Tests must enumerate all stages, not just first denial. Partial F3 supervisor preparation can exist on terminal failure, but no partial USER arena returns. After publication, later validation/GDT-install failure retains the complete arena, halts and never reports GREEN.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:34,42-50,77-80,94",
+        "src/memory/retained_owner.rs:156-163,173-273",
+        "src/memory/privileged.rs:191-213"
+      ]
+    },
+    {
+      "name": "one_shot_lock_lifetime_and_freeze_preservation",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "CLI then Dormant->Preparing CAS before owner->PAGE_MAP->FRAME_ALLOC; single-vCPU/nonreentrant main-context only, no IRQ/NMI/fatal owner access. No heap/formatting/callback/drop under guards. New F4 wrapper returns! and reuses prepare_f3_locked while Preparing; never calls divergent run_gdt_tss or reopens Sealed/Terminal. All owner guards drop before existing GDT install/terminal. Final validation then a single seal and Terminal deny generic/owned map/unmap/release/reset/pins/alternate-map activation/reload. Pins alone do not prevent virtual unmap; global freeze plus fixed-window ordinary refusal do. No references/leases/callbacks escape.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:15,32-46",
+        "src/memory/retained_owner.rs:60-72,166-273,275-332,359-384",
+        "src/memory/paging.rs:334-348,525-538,557-581,744-761,969-998",
+        "src/memory/mod.rs:19-20,45-62"
+      ]
+    },
+    {
+      "name": "F1_F2_F3_contract_compatibility",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "F1 failure contract is unchanged; only current conflicting F4 restoration wording was superseded. F2 mandatory68-byte normalized prefix/offsets48,52,56,60,64 and fatal nonreturning assembly are retained byte-identically. PF14 hardware-error delivery and no IRET/optional CPL3 tail remain applicable. F3 exact five-entry GDT null/code08/data10/TSS18/emergency20, accepted stack roles/guards and install/verify remain byte-identical. Wrapper integration is fresh-Preparing only. Existing conditional2578/16384 one-nested-NMI bound is not a fresh measurement. Preserve exact inherited families and rerun F1 ten/F2 eight/F3 eighteen guests on the eventual frozen implementation; historical F1 final-readback gap is still disclosed.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:15-16,62-64,102",
+        "src/exception_abi.rs:12-105",
+        "src/exception_entry.s:3-110",
+        "src/exception_fatal.rs:94-169",
+        "src/gdt_tss.rs:14-38,95-123,204-309",
+        "src/f3_entry.s:1-76"
+      ]
+    },
+    {
+      "name": "no_CPL3_or_execute_disable_claim",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "No USER GDT selectors, CPL3 transfer, privilege-stack-switch proof, F5 payload execution or USER instruction fetch. Ring0 table inspection and data faults do not establish actual Ring3 protection. Non-PAE has no per-page NX: writable stack is hardware executable, code/data permission granularity is one page. SMEP can deny supervisor fetch separately but is not NX/W^X. Future code or F5 requires a separate fresh source-revised boot and authorization.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:16,30,43,54-58,64,70-80"
+      ]
+    },
+    {
+      "name": "host_MIRROR_preseed_all_layout_B26_design",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Existing zero_table cfg(test) allocates a new Vec and HashMap insert can replace/drop an old Vec even when a key exists. The proposed F4-local mirror initializer instead zeroes an existing Vec in place. B26 preseeds all finite candidate mirrors outside owner guards and outside observation, then executes the real transaction under actual owner/map/frame guards with all-layout allocation AND destruction observation, no layout exemption or allocating fallback. The inherited detector predicate already includes retained OWNER. Tests must prove no Vec allocation/replacement/drop on observed path and keep self-controls active. Ordinary functional missing-mirror allocation is explicitly model-only, not evidence of allocation-free production. Preseed metadata is host-only, not production frame acquisition. Emitted production call/stack audit is a separate mandatory check.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:98-100",
+        "src/memory/paging.rs:714-730,912-921",
+        "src/memory/mod.rs:17-25",
+        "tests_b26/src/lib.rs:48-120"
+      ]
+    },
+    {
+      "name": "exact_host_family_and_B26_membership",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Parsed exactly12 proposed names including cr3 (digits must not be excluded by enumeration regex), equal to the original proposed list. They belong to sibling memory::paging::f4_user_arena_tests, not retained_owner filter. Require declaration/libtest --list equality, exact nonzero summaries, serial/default-parallel runs and isolated exact-one children for irreversible globals. B26 includes the shared module, so its12 tests plus three new independently rooted allocation/destruction/no-fallback controls must join the inherited134 identities; final actual membership/count comes from execution. These are proposed identities, not tests that currently exist or pass.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:84-102",
+        "tests_b26/src/lib.rs:37-46"
+      ]
+    },
+    {
+      "name": "baseline_RED_and_stopped_guest_oracles",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Baseline unchanged production bodies must reach actual postpaging EIP/CR3 and raw directory capture with absent PDE256, then explicit requested-presence assertion failure and driver exit1. Never dereference an absent table, count a timeout/build error/zero test as RED, or fabricate failure if baseline differs. GREEN requires verified paused EIP and QMP physical capture before publication and terminal-ready, full present-table/owner/lease/bytes/register evidence, supervisor byte comparison allowing only CPU A/D and accepted F3 ten-slot transform. Controlled fixture deltas must strip byte-identically to frozen production bodies and be separately pinned; machine code equivalence is not inferred. Owned process termination/wait and full provenance are mandatory.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:66-80",
+        "src/memory/paging.rs:700-724"
+      ]
+    },
+    {
+      "name": "exact_twelve_guest_scenarios",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Programmatically enumerated six scenarios x RAM128/512 =12 distinct planned invocations: ready, code_write, lower_guard, unused_hole, occupied_refusal, capacity_refusal. code_write contains the positive control in the same scenario. lower_guard/unused_hole use real nonpresent CPL0 read faults, not claimed CPL3 denial. occupied supervisor PDE256 must remain unchanged/refused; capacity denial occurs only after inherited10. Other late-stage pin/role/alias/stale/foreign/overflow/acquisition failures remain mandatory real-implementation host parameter cases. No extra scenario/gate or weakened inherited matrix is introduced.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:72-80,102"
+      ]
+    },
+    {
+      "name": "historical_pins_and_two_gate_acceptance_contract",
+      "outcome": "PASS_AT_DESIGN_LEVEL",
+      "detail": "Independently recomputed all179 canonical source hashes with zero mismatches. Canonical raw acceptance is 2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b, historical overall PASS,70 rows/all PASS/exit0, declared70/70. Its gate multiset matches review01. Recomputed all195 unchanged review01 paths with zero mismatches; only the current design path intentionally differs and original reviewed bytes remain preserved. Preserve the predecessor70 multiset and add exactly the two named F4 gates -> proposed72, host gate exact12 names and hardware gate exact12 scenario/RAM identities with all owned pins/status/cleanup. Missing/duplicate/substituted/impostor/zero-test/refusal/source-drift controls, frozen complete inputs, candidate independent review and fresh final readback remain mandatory. No PASS72 or implementation result is claimed.",
+      "references": [
+        "test_results/phase11f4_user_arena/design.md:7,102-104",
+        "test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json",
+        "test_results/phase11f4_user_arena/reviews/design_review_01.json"
+      ]
+    }
+  ],
+  "architectural_reference": {
+    "path": "test_results/phase11f2_exception_abi/intel_sdm_vol3_093.pdf",
+    "raw_sha256": "77919be320f35da2782771ef2cb65a868cf68e62c8f8279f2ca61199cb70d1f8",
+    "directly_extracted_and_read_pdf_pages": [
+      118,
+      145,
+      146,
+      147,
+      150
+    ],
+    "supplied_extracts_read_complete": [
+      "test_results/phase11f4_user_arena/intel_paging_extract_01.txt",
+      "test_results/phase11f4_user_arena/intel_paging_access_rights_01.txt"
+    ],
+    "other_extracted_pages_read": [
+      114,
+      117,
+      119,
+      120,
+      121,
+      122,
+      148
+    ],
+    "method": "Installed pypdf read-only direct extraction, independent raw PDF hash; no reference downloads/writes."
+  },
+  "exact_proposed_host_test_names": [
+    "layout_preserves_fixed_ceiling",
+    "publishes_exact_two_owned_user_leaves",
+    "refuses_foreign_and_stale_leases",
+    "refuses_reserved_structure_and_duplicate_frames",
+    "refuses_occupied_directory_without_promotion",
+    "refuses_unaligned_outside_and_overflow_ranges",
+    "rejects_unexpected_user_supervisor_inventory",
+    "refuses_inaccessible_table_and_payload_aliases",
+    "preserves_state_on_preflight_refusal",
+    "retains_bounded_prefix_on_acquisition_failure",
+    "seal_blocks_unmap_release_retry_and_cr3_switch",
+    "effective_permissions_and_guards_match_contract"
+  ],
+  "exact_proposed_guest_matrix": [
+    {
+      "scenario": "ready",
+      "ram_mib": 128
+    },
+    {
+      "scenario": "code_write",
+      "ram_mib": 128
+    },
+    {
+      "scenario": "lower_guard",
+      "ram_mib": 128
+    },
+    {
+      "scenario": "unused_hole",
+      "ram_mib": 128
+    },
+    {
+      "scenario": "occupied_refusal",
+      "ram_mib": 128
+    },
+    {
+      "scenario": "capacity_refusal",
+      "ram_mib": 128
+    },
+    {
+      "scenario": "ready",
+      "ram_mib": 512
+    },
+    {
+      "scenario": "code_write",
+      "ram_mib": 512
+    },
+    {
+      "scenario": "lower_guard",
+      "ram_mib": 512
+    },
+    {
+      "scenario": "unused_hole",
+      "ram_mib": 512
+    },
+    {
+      "scenario": "occupied_refusal",
+      "ram_mib": 512
+    },
+    {
+      "scenario": "capacity_refusal",
+      "ram_mib": 512
+    }
+  ],
+  "exact_two_new_gates": [
+    "Phase 11 F4 owned USER arena host contract",
+    "Phase 11 F4 owned USER arena Ring0 hardware matrix"
+  ],
+  "inherited_gate_multiset": [
+    {
+      "gate": "kernel formatting",
+      "multiplicity": 1
+    },
+    {
+      "gate": "host formatting",
+      "multiplicity": 1
+    },
+    {
+      "gate": "host tests",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 9.6 B11 host safety regressions",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 9.6 B18 host safety regressions",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 9.6 B26 host safety regressions",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A effective permission prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A phase11_registry_reservation prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A phase11_exception_abi prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A phase11_runtime_pins prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A phase11_structure_lifetime prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A phase11_numeric_map prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A phase11_unmap_authority prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A phase11_generation_ownership prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A phase11_generation_ledger prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A phase11_generation_boundaries prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A phase11_snapshot prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11A phase11_gdt prerequisite",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11F1 retained-owner exact identity family",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11F2 exception ABI exact identity family",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11F3 minimal Ring0 exact identity family",
+      "multiplicity": 1
+    },
+    {
+      "gate": "RostiFS formatting",
+      "multiplicity": 1
+    },
+    {
+      "gate": "RostiFS host and crash recovery tests",
+      "multiplicity": 1
+    },
+    {
+      "gate": "RostiFS host tool safety and integration",
+      "multiplicity": 1
+    },
+    {
+      "gate": "RostiFS read boundary and transfer regressions",
+      "multiplicity": 1
+    },
+    {
+      "gate": "RostiFS write preservation regressions",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Python media reader regressions",
+      "multiplicity": 1
+    },
+    {
+      "gate": "acceptance runner regressions",
+      "multiplicity": 1
+    },
+    {
+      "gate": "RostiFS harness regressions",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 9.5 benchmark contracts",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 9.6 boot metadata harness contracts",
+      "multiplicity": 1
+    },
+    {
+      "gate": "system image policy contracts",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 10B initramfs builder contracts",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 10B initramfs harness contracts",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 9.6 B13 boot entry host contracts",
+      "multiplicity": 1
+    },
+    {
+      "gate": "build read fault fixture",
+      "multiplicity": 1
+    },
+    {
+      "gate": "CPU read faults 128 and 512",
+      "multiplicity": 1
+    },
+    {
+      "gate": "build write fault fixture",
+      "multiplicity": 1
+    },
+    {
+      "gate": "CPU write faults 128 and 512",
+      "multiplicity": 1
+    },
+    {
+      "gate": "build initramfs failure fixture",
+      "multiplicity": 1
+    },
+    {
+      "gate": "production build",
+      "multiplicity": 1
+    },
+    {
+      "gate": "production fixture policy contracts",
+      "multiplicity": 1
+    },
+    {
+      "gate": "production feature and fault exclusion",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 9.6 B13 privileged boot entry and production handoff",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 9.6 B13 injection transport contracts",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11F2 exception ABI hardware matrix",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 11F3 minimal Ring0 hardware matrix",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 9.6 integrated boot metadata ELF and GRUB safety",
+      "multiplicity": 1
+    },
+    {
+      "gate": "ELF validation",
+      "multiplicity": 1
+    },
+    {
+      "gate": "ten ELF boots 128 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "ten ELF boots 512 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "paging stability twenty ELF boots",
+      "multiplicity": 1
+    },
+    {
+      "gate": "keyboard integration",
+      "multiplicity": 1
+    },
+    {
+      "gate": "VGA backspace ELF",
+      "multiplicity": 1
+    },
+    {
+      "gate": "filesystem growth OOM ELF 128 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "block persistence ELF 128 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "RostiFS persistence ELF 128 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "filesystem growth OOM ELF 512 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "block persistence ELF 512 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "RostiFS persistence ELF 512 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "GRUB ISO build and boot",
+      "multiplicity": 1
+    },
+    {
+      "gate": "ISO paging 128 and 512",
+      "multiplicity": 1
+    },
+    {
+      "gate": "VGA backspace ISO",
+      "multiplicity": 1
+    },
+    {
+      "gate": "filesystem growth OOM ISO 128 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "block persistence ISO 128 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "RostiFS persistence ISO 128 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "filesystem growth OOM ISO 512 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "block persistence ISO 512 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "RostiFS persistence ISO 512 MiB",
+      "multiplicity": 1
+    },
+    {
+      "gate": "Phase 10B trusted initramfs guest matrix",
+      "multiplicity": 1
+    }
+  ],
+  "planned_gate_total": 72,
+  "resource_rederivation": {
+    "inherited_payload": 1,
+    "inherited_supervisor_sentinel": 1,
+    "inherited_transition": 4,
+    "inherited_emergency": 4,
+    "new_user_stack": 1,
+    "new_arena_table": 1,
+    "total_incremental_frames": 12,
+    "total_frame_bytes": 49152,
+    "USER_payload_bytes_included": 8192,
+    "new_directory_frames": 0,
+    "physical_guard_frames": 0,
+    "owner_family_static_cap_bytes": 4096,
+    "unchanged_descriptor_family_static_cap_bytes": 4096,
+    "measured_high_water": null
+  },
+  "raw_sha256": {
+    ".cargo/config.toml": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+    ".gitattributes": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218",
+    ".gitignore": "738ec129c381316b2c3ea4ff26bf502a072c4cc7eb7a3d7b074debdf58bc6bda",
+    "Cargo.lock": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+    "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+    "HANDOVER.md": "ada1a440efe605dc87befd581fa1cad2f93993e17bf8cbfbf4843432e0faaf60",
+    "NEXT_SESSION_PROMPT.md": "a4ec9e3f289185e8139b6e71b032ad3fc5aa1874a5bc5b4a2e4bc2fcad6a6fdf",
+    "README.md": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+    "crates/rostifs/Cargo.lock": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb",
+    "crates/rostifs/Cargo.toml": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920",
+    "crates/rostifs/src/additional_tests.rs": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df",
+    "crates/rostifs/src/bin/mkrostifs.rs": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252",
+    "crates/rostifs/src/bin/rostifs-inspect.rs": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c",
+    "crates/rostifs/src/bin/rostifsck.rs": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36",
+    "crates/rostifs/src/bin/support/mod.rs": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041",
+    "crates/rostifs/src/block.rs": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06",
+    "crates/rostifs/src/checksum.rs": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e",
+    "crates/rostifs/src/crash_tests.rs": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9",
+    "crates/rostifs/src/engine.rs": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a",
+    "crates/rostifs/src/format.rs": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700",
+    "crates/rostifs/src/lib.rs": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31",
+    "crates/rostifs/src/occupancy_tests.rs": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42",
+    "crates/rostifs/src/vfs.rs": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713",
+    "crates/rostifs/tests/host_tools.rs": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b",
+    "crates/rostifs/tests/read_performance.rs": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29",
+    "crates/rostifs/tests/write_preservation.rs": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9",
+    "docs/PHASE11_HANDOVER.md": "14da2e794f42af8d8e00dd36a0ac1b5b4892694d0e056a8a95cd871b898962fa",
+    "docs/PHASE11_MEMORY_AUTHORITY.md": "97af4a7dc261a85daf483943e85b5adfd7b418c54dda44741671ea35516410fc",
+    "docs/ROSTI_INIT_ARCHITECTURE.md": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+    "linker.ld": "adaf15f9565cc884ed5e33168aeba56f9a8330553fa7176357df5b87e90911a7",
+    "rust-toolchain.toml": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95",
+    "scripts/b13_boot_fixture.py": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef",
+    "scripts/b13_boot_fixture.py.backup": "3e86d2dd9061e42c1b79d5ad0d94efa513a407c19faa37fc2680a7ab5526a181",
+    "scripts/b13_entry_inject.py": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+    "scripts/b13_fixture/Cargo.lock": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+    "scripts/b13_fixture/Cargo.toml": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+    "scripts/b13_fixture/linker.ld": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+    "scripts/b13_fixture/main.rs": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a",
+    "scripts/b13_grub_smoke.py": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+    "scripts/b13_stress_replay.py": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e",
+    "scripts/backspace_test.py": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+    "scripts/block_test.py": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+    "scripts/boot_metadata_test.py": "02ac3da0b606504d1f141ad5762adcf12ec581e11b1d102f79b7c95e19924e3f",
+    "scripts/boot_test.py": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+    "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+    "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+    "scripts/deploy-proxmox.py": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+    "scripts/f1_capture.py": "69fbf12be0c4a6472bd7cabb475ed2f46f55182a71b3d14edb12e7207ba08bed",
+    "scripts/f1_evidence.py": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+    "scripts/f1_guest_fixture.rs": "5d1bcea94ebf55fc1cf7f4937274a1598835689cbd625c0b45980ec7bb92b390",
+    "scripts/f1_retained_guest.py": "0bf5a38f13f1984761a1b80b3f73632b6eb381bf67121e2fb2fe7d9d327eca08",
+    "scripts/f2_evidence.py": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+    "scripts/f2_exception_guest.py": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+    "scripts/f3_evidence.py": "1f61c70d714f121e03a0526c7997d6d1f07f6ccab24ca1e8a29d87335b841ff4",
+    "scripts/f3_full_evidence.py": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+    "scripts/f3_full_guest.py": "e06eb05e69d782b14bcdf884d66f824e9fda32fc03b844ab989a55c2793e6374",
+    "scripts/f3_gdt_guest.py": "0dd26fd92007686274d791de9878efbdaf121057cfa15b4209a529fe42fe283e",
+    "scripts/f3_supplemental.py": "c00f9f875f8c3946089f3418c57c36cf84477ac403060b5f6b2395f69c3ce5b5",
+    "scripts/f3_supplemental_evidence.py": "35abc89301f7603f53517a9654fe2eb930d00f9d927f0ff1e8fca255d1dff283",
+    "scripts/fs_test.py": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+    "scripts/keyboard_test.py": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+    "scripts/live_phase5_check.py": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+    "scripts/mem_probe.py": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+    "scripts/numeric_map_api_probe.rs": "4dffd562babfdd6c2b1e68626b68081dc934b0a984cb6eeb37900aa043bba929",
+    "scripts/paging_test.py": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+    "scripts/phase10_grub_module_probe.py": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b",
+    "scripts/phase10_initramfs_test.py": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+    "scripts/phase10_module_probe.py": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800",
+    "scripts/phase10_repro_one.py": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d",
+    "scripts/phase6_verify.py": "c13d6d12692acc918d74c0dbc967e21c0ca8a7f2e2677513b05e0ae12af75f1d",
+    "scripts/phase9_5_bench.py": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4",
+    "scripts/qemu_boot_test.sh": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699",
+    "scripts/rostifs_test.py": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+    "scripts/run_tests.sh": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8",
+    "scripts/sendkey_probe.py": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+    "scripts/stability_probe.sh": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8",
+    "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+    "scripts/test_acceptance_harness.py": "e4915570ad14f3489264dc051ca49cb3ddb06d62ea838e2f24409d3ce7827c9a",
+    "scripts/test_b13_boot.py": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+    "scripts/test_b13_entry_inject.py": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2",
+    "scripts/test_boot_metadata_harness.py": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267",
+    "scripts/test_build_initramfs.py": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b",
+    "scripts/test_f1_capture.py": "691a91c475d30c8e5273d978363fda9f0cd8d719c23a224663b6af5c535251aa",
+    "scripts/test_f2_evidence.py": "ba2b68a8d0493b1bb9cc8a644cdf097086aa036a860d7f02b6464f2165f8137b",
+    "scripts/test_f3_evidence.py": "fc068fb808621a81f289e9bcbba4908b614406ba65fe29fd74e36ea337d9e4b9",
+    "scripts/test_f3_full_evidence.py": "8021752e7c37f70a324fe94c8964b48820658600eb303704c7ee640169ac6718",
+    "scripts/test_f3_supplemental.py": "78e5643fac502109091f28ce404d91deffbc53670986265d99017086bf442508",
+    "scripts/test_fs_harness.py": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+    "scripts/test_phase10_initramfs_harness.py": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+    "scripts/test_phase9_5_bench.py": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476",
+    "scripts/test_production_fixture_policy.py": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+    "scripts/test_rostifs_harness.py": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac",
+    "scripts/test_system_image_policy.py": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d",
+    "scripts/unmap_api_probe.rs": "66a64d2f4435fc2db8618ba30618823098547613fc79c33c85652e080f032669",
+    "scripts/validate_elf.py": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+    "scripts/verify_production.py": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+    "scripts/verify_proxmox_backspace.py": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+    "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+    "src/block.rs": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+    "src/boot.s": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+    "src/boot_inventory.rs": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+    "src/cpu.rs": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+    "src/exception_abi.rs": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+    "src/exception_abi_tests.rs": "b8fb3beee2535bf37354c0d5232310b58bc4e929284678df17a2de0a415352f7",
+    "src/exception_entry.s": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+    "src/exception_fatal.rs": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d",
+    "src/f3_entry.s": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+    "src/fd.rs": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+    "src/fs/archive.rs": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+    "src/fs/mod.rs": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+    "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+    "src/fs/rosti.rs": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+    "src/fs/vfs.rs": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+    "src/fs_commands.rs": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+    "src/fs_stress.rs": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+    "src/gdt.rs": "02c845d9cd9c579e7f5461f365318a2ad6a88faf9567d9c9ca25b47485267599",
+    "src/gdt_tss.rs": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+    "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+    "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+    "src/interrupt.rs": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+    "src/io/mod.rs": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+    "src/io/ports.rs": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+    "src/io/serial.rs": "cfe78862ad6c368e5c0d124d9fa2655fd5f953ab223bf81adad8de89f0d3161d",
+    "src/io/vga.rs": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+    "src/kbd.rs": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+    "src/main.rs": "3c36ce028b694c8bf31291480d078e8db6f4c9b9741ea813df03dcef338041ec",
+    "src/memory/boot_copy.rs": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+    "src/memory/frame.rs": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+    "src/memory/generation_boundary_tests.rs": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+    "src/memory/generation_ownership_tests.rs": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+    "src/memory/mapping_pin_tests.rs": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816",
+    "src/memory/mod.rs": "38429eed8fb2b6d48a3816315b3315b30ba76f23caf6f11aa8265b46e935d7d6",
+    "src/memory/module_access_tests.rs": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+    "src/memory/numeric_map_authority_tests.rs": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475",
+    "src/memory/ownership_observation_tests.rs": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+    "src/memory/paging.rs": "74359a99a54aee1120bb83747e42bfe502f65a378ec36d67ad518f5ca849d09f",
+    "src/memory/phase11_permission_tests.rs": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+    "src/memory/phase11a2_abi_tests.rs": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+    "src/memory/phase11a2_ownership_tests.rs": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+    "src/memory/privileged.rs": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+    "src/memory/privileged_owner_tests.rs": "c13ff318dfcc0ec7c80e5b2e4395784a39c9b1e27f2977855b9d35752541c047",
+    "src/memory/privileged_tests.rs": "eb18b51752e82da382e9dc65941786e96943e642849f61055b859c9035ad7b17",
+    "src/memory/retained_owner.rs": "8ca5edf9b5f57fac6c06690d40d7863cccfc03b3b4cd5c1abbba5f7280128197",
+    "src/memory/retained_owner_policy_tests.rs": "e8b9d2a03d0a90f73d54322c6cbfd80e2ff93aabb8d6bf914598b2656976387d",
+    "src/memory/retained_owner_tests.rs": "5729867aa1d2e86776a70edb028a10a93de70e43036355f219ef218f8cdbc76b",
+    "src/memory/review_r1_tests.rs": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+    "src/memory/runtime_table_access_tests.rs": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+    "src/memory/structure_lifetime_tests.rs": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+    "src/memory/unmap_authority_tests.rs": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76",
+    "src/memory/virtual_page_zero_tests.rs": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d",
+    "src/multiboot.rs": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+    "src/phase11_gdt_tests.rs": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+    "src/reboot.rs": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+    "src/shell.rs": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+    "src/storage.rs": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+    "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+    "src/timer.rs": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+    "src/utils/bits.rs": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+    "src/utils/mod.rs": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+    "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+    "system/README.txt": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+    "system/docs/recovery.txt": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+    "target.json": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+    "test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json": "2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b",
+    "test_results/phase11f1_retained_owner/v2_design.md": "aa030803e51c5c9a3102c7d2bf3507c4702d3ef51d0fe18ae1f49cbcd0646db6",
+    "test_results/phase11f2_exception_abi/intel_sdm_vol3_093.pdf": "77919be320f35da2782771ef2cb65a868cf68e62c8f8279f2ca61199cb70d1f8",
+    "test_results/phase11f3_gdt_tss/reviews/candidate_review_01.json": "d9f1f8b88d06a36a0d1c982a4531067cbb52406c32147338576986b74250ab01",
+    "test_results/phase11f3_gdt_tss/reviews/candidate_review_05.json": "50501d79c4421a3698c9f8620a9867f70e5edf5eee3adcfbed118fc1cce0c777",
+    "test_results/phase11f3_gdt_tss/reviews/final_canonical_readback_01.json": "a22a2e437caafaa701bfaba0072066ec0fd75a7074241e37acacf958d14f3cb2",
+    "test_results/phase11f4_user_arena/design.md": "ea0a49eda8784d358995d556046adfa89ca9d4bafd89070765816c6aedf086ee",
+    "test_results/phase11f4_user_arena/design_revision_01_reviewed.md": "b35761f661030178c88fa5f2a6c976b7ae7a529a9f1fa472474af8fbc86f4864",
+    "test_results/phase11f4_user_arena/intel_paging_access_rights_01.txt": "cf903ff48f7ac63ea66c7f1aab83040e050efe98cf9a9af48e4994d502dd9e33",
+    "test_results/phase11f4_user_arena/intel_paging_extract_01.txt": "9806b6a17d4df64f323acd4821592bd932874aaea5a7e73dd47906e07d14658a",
+    "test_results/phase11f4_user_arena/operator_disposition_01.json": "2a9190371e5b803659d2968c62f515c52e3c72782a613617a82d8cab51d78030",
+    "test_results/phase11f4_user_arena/recovery_01.json": "e2289afae9ae263b353698e70abc0c51fda12b4b14a6f0a0b236042b63621972",
+    "test_results/phase11f4_user_arena/reviews/design_review_01.json": "abfa725eb85267ea32ec026a3a345c5dd2cd9aae0dc1cd5bd55d4811aa90678b",
+    "test_results/phase11f4_user_arena/reviews/parent_design_readback_01.json": "beb2abb90717d998528265da28f6e584dc00f564e69ae5df369f6aaed9ca274a",
+    "tests_b26/Cargo.lock": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e",
+    "tests_b26/Cargo.toml": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3",
+    "tests_b26/src/growth_tests.rs": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16",
+    "tests_b26/src/lib.rs": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+    "tests_b26/src/refusal_tests.rs": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706",
+    "tests_b26/src/registry_tests.rs": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111",
+    "tests_b26/src/retry_tests.rs": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+    "tests_b26/src/validation_allocation_tests.rs": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70",
+    "tests_b26/src/validation_tests.rs": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+    "tests_kernel/.cargo/config.toml": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53",
+    "tests_kernel/Cargo.lock": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+    "tests_kernel/Cargo.toml": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+    "tests_kernel/src/archive_vfs_tests.rs": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+    "tests_kernel/src/b11_frame_tests.rs": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+    "tests_kernel/src/b11_standalone.rs": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+    "tests_kernel/src/b18_inventory_tests.rs": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b",
+    "tests_kernel/src/b18_outcome_tests.rs": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0",
+    "tests_kernel/src/block_tests.rs": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430",
+    "tests_kernel/src/fs_tests.rs": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+    "tests_kernel/src/initramfs_tests.rs": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+    "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+    "tests_kernel/src/lib.rs": "17838391617df1833149e84631b33feff6077f7a52696111a375db7eea94a34c",
+    "tests_kernel/src/maintenance_measurements.rs": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f",
+    "tests_kernel/src/mount_tests.rs": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd"
+  },
+  "hash_review_scope": {
+    "raw_input_count": 201,
+    "all_raw_dictionary_paths": "All201 paths independently opened as raw bytes and SHA256 recomputed. All179 canonical source pins and195 unchanged original-review pins compared without mismatch. The original196th path is the intentionally revised current design; its old bytes are separately preserved/pinned. No original reviewer pin is rewritten.",
+    "semantic_review": "Complete current design, original review, preserved original design, parent readback and operator disposition; complete supplied Intel extracts; direct PDF118/145-147/150. Targeted paging/frame/mod/privileged/GDT-TSS/exception ABI/entry/fatal/F3-entry source excerpts cited in checks; retained_owner read through all406 lines. F1 v2 policy sections1-8 and targeted inventory/failure contract; B26 allocator observation code. Canonical JSON parsed for source hashes/status/count/gates, not recursive child audit.",
+    "other_baseline_paths": "Raw integrity only; no assertion of full semantic review of every baseline input or historical verdict."
+  },
+  "verification": {
+    "host_names_match_original": true,
+    "canonical_source_pin_count": 179,
+    "canonical_source_mismatches": {},
+    "canonical_status": "PASS",
+    "canonical_gates_passed": 70,
+    "canonical_gates_total": 70,
+    "canonical_gate_rows": 70,
+    "canonical_all_gate_rows_pass": true,
+    "prior_pin_mismatches_except_revised_design": {}
+  },
+  "scope_limitations": [
+    "Only the new verdict file is written. Review01, original design preservation, current design, production sources, unrelated dirty files and all historical evidence are not edited.",
+    "No Cargo, QEMU, tests, build, acceptance, deployment, push, commit, configuration or source modifications performed.",
+    "All PASS_AT_DESIGN_LEVEL findings are proposal judgments with explicit future evidence obligations; no measured stack/heap/target viability or hardware protection proof is claimed.",
+    "No CPL3/F5/user selectors/general teardown/new ownership model/new ceiling/predecessor policy change is authorized.",
+    "Historical canonical source/gate integrity was checked, not every nested artifact or historical process exit; F1 historical readback gap is not silently closed.",
+    "Stable read hashes do not establish exclusive-writer ownership.",
+    "One read-only Python quoting attempt failed with SyntaxError and was retried successfully. An initial host-name regex excluded digit3 and reported11; corrected digit-aware parsing independently verified12 and exact list equality. Neither probe error changed files or constitutes a design defect."
+  ],
+  "completion": "Fresh independent design APPROVE/zero blockers for exactly the pinned revision02. Preserve this and all predecessor review bytes; future changed design/evidence requires a new independently scoped record."
+}

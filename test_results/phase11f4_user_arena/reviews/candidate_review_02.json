@@ -1,0 +1,19 @@
+{
+  "review_id": "candidate_review_02",
+  "verdict": "APPROVE",
+  "blockers": [],
+  "checks": {
+    "source_freeze": "PASS: src/memory/retained_owner.rs sha256=53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+    "emitted_closure_green": "PASS: 4 blocks/11 edges/0 forbidden/0 unresolved, ELF db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892",
+    "mock_timing": "PASS: overall=PASS, suite_seconds=604.056 < 900",
+    "manifest_predecessor": "PASS: candidate_manifest_02.json contains F3_predecessor_sha256 2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b",
+    "design_review": "PASS: design_review_02.json verdict includes APPROVE",
+    "f3_predecessor": "PASS: candidate_review_01.json verdict includes REJECT"
+  },
+  "hashes_rechecked": {
+    "src/memory/retained_owner.rs": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+    "candidate_manifest_02.json": "070bb40f9f55e7868e378909ed794445638c3a7887f4e689dd6f67c9ec63fd78",
+    "kernel.elf": "db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892"
+  },
+  "notes": "Independent read-only review; no builds/tests/QEMU. Note: mock_isolated_04 report.json stores suite_seconds at top level, not under metrics; value satisfies the <900 requirement."
+}

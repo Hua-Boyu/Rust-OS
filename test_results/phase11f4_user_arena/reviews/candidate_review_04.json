@@ -1,0 +1,1207 @@
+{
+  "schema": "rosti.f4-independent-candidate-review.v4",
+  "review_id": "candidate_review_04",
+  "review_complete": true,
+  "reviewed_at_utc": "2026-10-23T02:45:13.313384+00:00",
+  "verdict": "REJECT",
+  "blocker_count": 2,
+  "blockers": [
+    {
+      "id": "F4-C04-B1",
+      "severity": "BLOCKER",
+      "area": "Canonical launcher independent-approval admission",
+      "finding": "The frozen launcher does not enforce the required complete review policy. Lines 21-26 authenticate the supplied bytes but accept any JSON with verdict APPROVE and blockers []; the actual insufficient candidate_review_02.json satisfies that predicate. It does not require review_complete, blocker_count zero, authorizes_canonical_acceptance true, complete schema, exact manifest03 identity, or the reviewed source map. The parent-validation comment is not an implemented rejection of the specifically prohibited review02.",
+      "evidence": {
+        "launcher_path": "test_results/phase11f4_user_arena/run_canonical_02.py",
+        "launcher_sha256": "671fefdfb49c477b45e04fd4276c46289bde88622159eed42113cec562921e88",
+        "lines": [
+          21,
+          26
+        ],
+        "insufficient_review_path": "test_results/phase11f4_user_arena/reviews/candidate_review_02.json",
+        "insufficient_review_sha256": "a89bf90074bfec861a5d488a06ca4590674eb747c6f56e21a7ea2b800e99832f",
+        "static_predicate_result_for_insufficient_review02": true,
+        "review02_review_complete": null,
+        "review02_authorizes_canonical_acceptance": null,
+        "qualification": "Evaluated the literal admission predicate against existing JSON only; did not execute or import the launcher, and did not launch acceptance."
+      },
+      "required_resolution": "Create a new task-local launcher revision that fail-closed validates a complete independently authorized review against the exact new manifest and source freeze, explicitly refuses insufficient review02 and all REJECT/incomplete/contradictory reviews, and records exact review and manifest identities. Preserve current launcher/freeze/reviews, obtain a new immutable artifact manifest and independent resolution review. A later approved run must supply that complete review path and its exact raw hash explicitly, never review02."
+    },
+    {
+      "id": "F4-C04-B2",
+      "severity": "BLOCKER",
+      "area": "Frozen launcher-to-canonical-readback manifest provenance contract",
+      "finding": "The new candidate still freezes canonical_readback_02.py, which cannot consume this launcher and manifest03 as written. Reader lines 41-45 hard-code candidate_manifest_02.json and require d[\"candidate_manifest_sha256\"]. Launcher lines 42-57 never record candidate_manifest_sha256 (or a manifest path). Thus even a completed otherwise passing canonical run deterministically fails the required parent readback with a missing-key error; adding that field alone still leaves the reader authenticating manifest02, whose old launcher pin is known not to match. Its review field contract also expects candidate_manifest_sha256 for that obsolete manifest.",
+      "evidence": {
+        "reader_path": "test_results/phase11f4_user_arena/canonical_readback_02.py",
+        "reader_sha256": "46af6a2c5611996a8b44d6572708687e7fae67ed1d80f0361b7dd5237d11e4e8",
+        "reader_lines": [
+          41,
+          45
+        ],
+        "driver_record_lines": [
+          42,
+          57
+        ],
+        "absent_driver_field": "candidate_manifest_sha256",
+        "reader_hard_coded_manifest": "candidate_manifest_02.json",
+        "new_candidate_manifest": "candidate_manifest_03.json",
+        "qualification": "Entire launcher and reader inspected statically; no readback or acceptance execution was attempted."
+      },
+      "required_resolution": "Provide mutually consistent task-local launcher/readback revisions that record and verify the same exact newly reviewed manifest path/hash, complete review path/hash, source map, invocation command/output, actual exit and gate multiset. Do not rewrite the historical manifest02 pin or prior REJECT. Freeze all revised artifact bytes in a new immutable candidate and obtain independent approval before the canonical run; do not defer repair until after running a frozen acceptance."
+    }
+  ],
+  "authorizes_canonical_acceptance": false,
+  "authorizes_CPL3": false,
+  "head": "d81672c4b314f0388e10e4c8dc9466b35ea89ce7",
+  "branch": "maintenance/phase10",
+  "candidate_manifest": {
+    "path": "test_results/phase11f4_user_arena/candidate_manifest_03.json",
+    "sha256": "f50d86f092b90efd99307a46dfd2dbd7fc4dd9a91a98a418e440e5b5de29867f"
+  },
+  "candidate_manifest_sha256": "f50d86f092b90efd99307a46dfd2dbd7fc4dd9a91a98a418e440e5b5de29867f",
+  "source_manifest": {
+    "path": "test_results/f4p05/source_before.json",
+    "sha256": "21ca631a1762898281ab4aff55705dc54a54cedfdf5c6cf6f647d81df52a9822",
+    "pin_count": 187,
+    "membership_rediscovered_exact": true
+  },
+  "source_sha256": {
+    ".cargo/config.toml": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+    ".gitattributes": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218",
+    "Cargo.lock": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+    "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+    "crates/rostifs/Cargo.lock": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb",
+    "crates/rostifs/Cargo.toml": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920",
+    "crates/rostifs/src/additional_tests.rs": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df",
+    "crates/rostifs/src/bin/mkrostifs.rs": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252",
+    "crates/rostifs/src/bin/rostifs-inspect.rs": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c",
+    "crates/rostifs/src/bin/rostifsck.rs": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36",
+    "crates/rostifs/src/bin/support/mod.rs": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041",
+    "crates/rostifs/src/block.rs": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06",
+    "crates/rostifs/src/checksum.rs": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e",
+    "crates/rostifs/src/crash_tests.rs": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9",
+    "crates/rostifs/src/engine.rs": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a",
+    "crates/rostifs/src/format.rs": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700",
+    "crates/rostifs/src/lib.rs": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31",
+    "crates/rostifs/src/occupancy_tests.rs": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42",
+    "crates/rostifs/src/vfs.rs": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713",
+    "crates/rostifs/tests/host_tools.rs": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b",
+    "crates/rostifs/tests/read_performance.rs": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29",
+    "crates/rostifs/tests/write_preservation.rs": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9",
+    "linker.ld": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+    "rust-toolchain.toml": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95",
+    "scripts/b13_boot_fixture.py": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef",
+    "scripts/b13_entry_inject.py": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+    "scripts/b13_fixture/Cargo.lock": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+    "scripts/b13_fixture/Cargo.toml": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+    "scripts/b13_fixture/linker.ld": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+    "scripts/b13_fixture/main.rs": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a",
+    "scripts/b13_grub_smoke.py": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+    "scripts/b13_stress_replay.py": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e",
+    "scripts/backspace_test.py": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+    "scripts/block_test.py": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+    "scripts/boot_metadata_test.py": "02ac3da0b606504d1f141ad5762adcf12ec581e11b1d102f79b7c95e19924e3f",
+    "scripts/boot_test.py": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+    "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+    "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+    "scripts/deploy-proxmox.py": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+    "scripts/f1_capture.py": "69fbf12be0c4a6472bd7cabb475ed2f46f55182a71b3d14edb12e7207ba08bed",
+    "scripts/f1_evidence.py": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+    "scripts/f1_guest_fixture.rs": "5d1bcea94ebf55fc1cf7f4937274a1598835689cbd625c0b45980ec7bb92b390",
+    "scripts/f1_retained_guest.py": "0bf5a38f13f1984761a1b80b3f73632b6eb381bf67121e2fb2fe7d9d327eca08",
+    "scripts/f2_evidence.py": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+    "scripts/f2_exception_guest.py": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+    "scripts/f3_evidence.py": "1f61c70d714f121e03a0526c7997d6d1f07f6ccab24ca1e8a29d87335b841ff4",
+    "scripts/f3_full_evidence.py": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+    "scripts/f3_full_guest.py": "e06eb05e69d782b14bcdf884d66f824e9fda32fc03b844ab989a55c2793e6374",
+    "scripts/f3_gdt_guest.py": "0dd26fd92007686274d791de9878efbdaf121057cfa15b4209a529fe42fe283e",
+    "scripts/f3_supplemental.py": "c00f9f875f8c3946089f3418c57c36cf84477ac403060b5f6b2395f69c3ce5b5",
+    "scripts/f3_supplemental_evidence.py": "35abc89301f7603f53517a9654fe2eb930d00f9d927f0ff1e8fca255d1dff283",
+    "scripts/f4_arena_guest.py": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+    "scripts/f4_dwarf.py": "69f975db576cc6e7d807586671801809d797f258a5542abc5ff6f7fd34909e2f",
+    "scripts/f4_evidence.py": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+    "scripts/f4_ready_guest.py": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+    "scripts/f4_user_guest.py": "e5cdc25555a0da366f3dd45508fff4770d9311f2abaf85eb2e5c1c5ade57b473",
+    "scripts/fs_test.py": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+    "scripts/keyboard_test.py": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+    "scripts/live_phase5_check.py": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+    "scripts/mem_probe.py": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+    "scripts/numeric_map_api_probe.rs": "4dffd562babfdd6c2b1e68626b68081dc934b0a984cb6eeb37900aa043bba929",
+    "scripts/paging_test.py": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+    "scripts/phase10_grub_module_probe.py": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b",
+    "scripts/phase10_initramfs_test.py": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+    "scripts/phase10_module_probe.py": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800",
+    "scripts/phase10_repro_one.py": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d",
+    "scripts/phase6_verify.py": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+    "scripts/phase9_5_bench.py": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4",
+    "scripts/qemu_boot_test.sh": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699",
+    "scripts/rostifs_test.py": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+    "scripts/run_tests.sh": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8",
+    "scripts/sendkey_probe.py": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+    "scripts/stability_probe.sh": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8",
+    "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+    "scripts/test_acceptance_harness.py": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+    "scripts/test_b13_boot.py": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+    "scripts/test_b13_entry_inject.py": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2",
+    "scripts/test_boot_metadata_harness.py": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267",
+    "scripts/test_build_initramfs.py": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b",
+    "scripts/test_f1_capture.py": "691a91c475d30c8e5273d978363fda9f0cd8d719c23a224663b6af5c535251aa",
+    "scripts/test_f2_evidence.py": "ba2b68a8d0493b1bb9cc8a644cdf097086aa036a860d7f02b6464f2165f8137b",
+    "scripts/test_f3_evidence.py": "fc068fb808621a81f289e9bcbba4908b614406ba65fe29fd74e36ea337d9e4b9",
+    "scripts/test_f3_full_evidence.py": "8021752e7c37f70a324fe94c8964b48820658600eb303704c7ee640169ac6718",
+    "scripts/test_f3_supplemental.py": "78e5643fac502109091f28ce404d91deffbc53670986265d99017086bf442508",
+    "scripts/test_fs_harness.py": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+    "scripts/test_phase10_initramfs_harness.py": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+    "scripts/test_phase9_5_bench.py": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476",
+    "scripts/test_production_fixture_policy.py": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+    "scripts/test_rostifs_harness.py": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac",
+    "scripts/test_system_image_policy.py": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d",
+    "scripts/unmap_api_probe.rs": "66a64d2f4435fc2db8618ba30618823098547613fc79c33c85652e080f032669",
+    "scripts/validate_elf.py": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+    "scripts/verify_production.py": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+    "scripts/verify_proxmox_backspace.py": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+    "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+    "src/block.rs": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+    "src/boot.s": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+    "src/boot_inventory.rs": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+    "src/cpu.rs": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+    "src/exception_abi.rs": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+    "src/exception_abi_tests.rs": "b8fb3beee2535bf37354c0d5232310b58bc4e929284678df17a2de0a415352f7",
+    "src/exception_entry.s": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+    "src/exception_fatal.rs": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d",
+    "src/f3_entry.s": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+    "src/fd.rs": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+    "src/fs/archive.rs": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+    "src/fs/mod.rs": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+    "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+    "src/fs/rosti.rs": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+    "src/fs/vfs.rs": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+    "src/fs_commands.rs": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+    "src/fs_stress.rs": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+    "src/gdt.rs": "02c845d9cd9c579e7f5461f365318a2ad6a88faf9567d9c9ca25b47485267599",
+    "src/gdt_tss.rs": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+    "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+    "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+    "src/interrupt.rs": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+    "src/io/mod.rs": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+    "src/io/ports.rs": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+    "src/io/serial.rs": "cfe78862ad6c368e5c0d124d9fa2655fd5f953ab223bf81adad8de89f0d3161d",
+    "src/io/vga.rs": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+    "src/kbd.rs": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+    "src/main.rs": "3c36ce028b694c8bf31291480d078e8db6f4c9b9741ea813df03dcef338041ec",
+    "src/memory/boot_copy.rs": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+    "src/memory/f4_b26_tests.rs": "2b527dd7764dc709914959b2cd06c7127402cde554078f987eca1aeb8cac72fc",
+    "src/memory/f4_user_arena_tests.rs": "4fe8da1bb4ac93e4884b8d270fce08e34de15bee1d1d4e595778e260a5c80509",
+    "src/memory/frame.rs": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+    "src/memory/generation_boundary_tests.rs": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+    "src/memory/generation_ownership_tests.rs": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+    "src/memory/mapping_pin_tests.rs": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816",
+    "src/memory/mod.rs": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+    "src/memory/module_access_tests.rs": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+    "src/memory/numeric_map_authority_tests.rs": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475",
+    "src/memory/ownership_observation_tests.rs": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+    "src/memory/paging.rs": "749c0aaa4752da2d991014fdc0464826d6d53dc2c97c166a3ca76f165685cbd9",
+    "src/memory/phase11_permission_tests.rs": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+    "src/memory/phase11a2_abi_tests.rs": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+    "src/memory/phase11a2_ownership_tests.rs": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+    "src/memory/privileged.rs": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+    "src/memory/privileged_owner_tests.rs": "c13ff318dfcc0ec7c80e5b2e4395784a39c9b1e27f2977855b9d35752541c047",
+    "src/memory/privileged_tests.rs": "eb18b51752e82da382e9dc65941786e96943e642849f61055b859c9035ad7b17",
+    "src/memory/retained_owner.rs": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+    "src/memory/retained_owner_policy_tests.rs": "e8b9d2a03d0a90f73d54322c6cbfd80e2ff93aabb8d6bf914598b2656976387d",
+    "src/memory/retained_owner_tests.rs": "5729867aa1d2e86776a70edb028a10a93de70e43036355f219ef218f8cdbc76b",
+    "src/memory/review_r1_tests.rs": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+    "src/memory/runtime_table_access_tests.rs": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+    "src/memory/structure_lifetime_tests.rs": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+    "src/memory/unmap_authority_tests.rs": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76",
+    "src/memory/user_arena.rs": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+    "src/memory/virtual_page_zero_tests.rs": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d",
+    "src/multiboot.rs": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+    "src/phase11_gdt_tests.rs": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+    "src/reboot.rs": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+    "src/shell.rs": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+    "src/storage.rs": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+    "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+    "src/timer.rs": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+    "src/utils/bits.rs": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+    "src/utils/mod.rs": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+    "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+    "system/docs/recovery.txt": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+    "system/README.txt": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+    "target.json": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+    "tests_b26/Cargo.lock": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e",
+    "tests_b26/Cargo.toml": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3",
+    "tests_b26/src/growth_tests.rs": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16",
+    "tests_b26/src/lib.rs": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+    "tests_b26/src/refusal_tests.rs": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706",
+    "tests_b26/src/registry_tests.rs": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111",
+    "tests_b26/src/retry_tests.rs": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+    "tests_b26/src/validation_allocation_tests.rs": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70",
+    "tests_b26/src/validation_tests.rs": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+    "tests_kernel/.cargo/config.toml": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53",
+    "tests_kernel/Cargo.lock": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+    "tests_kernel/Cargo.toml": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+    "tests_kernel/src/archive_vfs_tests.rs": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+    "tests_kernel/src/b11_frame_tests.rs": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+    "tests_kernel/src/b11_standalone.rs": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+    "tests_kernel/src/b18_inventory_tests.rs": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b",
+    "tests_kernel/src/b18_outcome_tests.rs": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0",
+    "tests_kernel/src/block_tests.rs": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430",
+    "tests_kernel/src/fs_tests.rs": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+    "tests_kernel/src/initramfs_tests.rs": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+    "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+    "tests_kernel/src/lib.rs": "17838391617df1833149e84631b33feff6077f7a52696111a375db7eea94a34c",
+    "tests_kernel/src/maintenance_measurements.rs": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f",
+    "tests_kernel/src/mount_tests.rs": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd"
+  },
+  "review03": {
+    "path": "test_results/phase11f4_user_arena/reviews/candidate_review_03.json",
+    "sha256": "6aa94d5d4c4bd0792ac21ddc6122849da585bf62d3fbc7b7b4ef322971d2216c",
+    "original_verdict": "REJECT",
+    "original_preserved": true,
+    "incorporation_policy": "Complete unchanged scoped findings only; original rejection is not rewritten or self-promoted."
+  },
+  "resolved_prior_blockers": [
+    {
+      "id": "F4-C03-B1",
+      "status": "RESOLVED_FOR_MANIFEST03_IDENTITY_ONLY",
+      "safe_launcher_approval": false
+    }
+  ],
+  "identity_sha256": {
+    "candidate_manifest_02.json": "070bb40f9f55e7868e378909ed794445638c3a7887f4e689dd6f67c9ec63fd78",
+    "candidate_manifest_03.json": "f50d86f092b90efd99307a46dfd2dbd7fc4dd9a91a98a418e440e5b5de29867f",
+    "run_canonical_02.py": "671fefdfb49c477b45e04fd4276c46289bde88622159eed42113cec562921e88",
+    "freeze_candidate_03.py": "e8b785693e035f7e7e896d6911f327100098a37e220712bb9c596231d67350b8",
+    "reviews/candidate_review_03.json": "6aa94d5d4c4bd0792ac21ddc6122849da585bf62d3fbc7b7b4ef322971d2216c",
+    "reviews/candidate_review_02.json": "a89bf90074bfec861a5d488a06ca4590674eb747c6f56e21a7ea2b800e99832f"
+  },
+  "checks": [
+    {
+      "area": "Artifact-only supplement scope and review03 authenticity",
+      "status": "PASS",
+      "findings": [
+        "Read complete candidate_review_03.json and entire current launcher/freeze helper/readback. Review03 raw SHA256 equals the externally supplied independent identity and remains REJECT; it was not promoted or modified.",
+        "Only artifact resolution is newly reviewed. Unchanged earlier source, unsafe-code, emitted-closure, host, guest and timing findings are incorporated in full below with their original qualifications. Insufficient review02 is not an approval basis.",
+        "No production edits, builds, tests, guest execution, QEMU, acceptance launch, process kill, lock unlink or timeout change was performed."
+      ]
+    },
+    {
+      "area": "New artifact freeze and F4-C03-B1 identity resolution",
+      "status": "PASS",
+      "findings": [
+        "All 67 candidate pins match actual bytes. Compared to manifest02, exactly one of its 64 existing pins changes: the launcher old 809fa5c453be32e0f67de73cb4710f042840664ae29f5e2dc3ce4e0f22c72a74 to current 671fefdfb49c477b45e04fd4276c46289bde88622159eed42113cec562921e88.",
+        "The three additions are preserved manifest02, immutable review03 REJECT and freeze_candidate_03.py. All other manifest metadata remains inherited apart from explicit new freeze/provenance fields.",
+        "Freeze helper uses explicit exceptions and optimization refusal, authenticates manifest02/review03, checks exactly the known one-pin delta, rehashes component pins, rediscoveries sources before/after, and creates manifest03 exclusively. It documents the overwrite provenance gap rather than pretending to recover authenticated original launcher bytes.",
+        "F4-C03-B1 pin mismatch is resolved in manifest03; safe-launch authorization is nevertheless withheld for the new blockers below."
+      ],
+      "evidence": {
+        "hash_groups": {
+          "source": {
+            "count": 187,
+            "mismatches": []
+          },
+          "candidate_artifacts": {
+            "count": 67,
+            "mismatches": []
+          },
+          "component_artifacts": {
+            "count": 61483,
+            "mismatches": []
+          },
+          "review03_work": {
+            "count": 19,
+            "mismatches": []
+          }
+        },
+        "source_rediscovery_exact": true,
+        "source_before_exact": true,
+        "artifact_delta_paths": [
+          "test_results/phase11f4_user_arena/run_canonical_02.py"
+        ],
+        "added_artifacts": [
+          "test_results/phase11f4_user_arena/candidate_manifest_02.json",
+          "test_results/phase11f4_user_arena/freeze_candidate_03.py",
+          "test_results/phase11f4_user_arena/reviews/candidate_review_03.json"
+        ],
+        "gate_multiset_exact": true,
+        "gate_count": 72,
+        "identity_sha256": {
+          "candidate_manifest_02.json": "070bb40f9f55e7868e378909ed794445638c3a7887f4e689dd6f67c9ec63fd78",
+          "candidate_manifest_03.json": "f50d86f092b90efd99307a46dfd2dbd7fc4dd9a91a98a418e440e5b5de29867f",
+          "run_canonical_02.py": "671fefdfb49c477b45e04fd4276c46289bde88622159eed42113cec562921e88",
+          "freeze_candidate_03.py": "e8b785693e035f7e7e896d6911f327100098a37e220712bb9c596231d67350b8",
+          "reviews/candidate_review_03.json": "6aa94d5d4c4bd0792ac21ddc6122849da585bf62d3fbc7b7b4ef322971d2216c",
+          "reviews/candidate_review_02.json": "a89bf90074bfec861a5d488a06ca4590674eb747c6f56e21a7ea2b800e99832f"
+        },
+        "elapsed_seconds": 21.015999999945052,
+        "canonical_root_exists": false
+      }
+    },
+    {
+      "area": "Complete launcher semantics and invocation ownership",
+      "status": "FAIL",
+      "findings": [
+        "ROOT parents[2] resolves to this repository. -B runner command, cwd and source_before are explicit. The optimization guard, f4p05/source_before equality, fresh process busy scan, exclusive c02 mkdir, exclusive driver.log, one Popen/wait actual exit, post-run source snapshot, exact 72 gate multiset and nonzero/incomplete refusal are present.",
+        "Busy scanning is a bounded observational check, not an atomic ownership guarantee. AccessDenied is ignored; the real phase6 runner OS lock still serializes acceptance and is retained through restoration. Launcher performs no lock unlink or process termination.",
+        "phase6_verify.py lines434-439 treats --output-dir as a parent and creates acceptance_<timestamp>_<unique> beneath it. Launcher acceptance_*/acceptance.json discovery matches this actual layout. c02 is absent at review time. No report-parent mismatch was found.",
+        "Launcher makes no polling calls: proc.wait waits the captured child. The operator must still use exactly one background NOTIFIED launch and refrain from polling/source/harness edits/foreign process kills while it runs; Python cannot enforce Hermes notification settings.",
+        "Admission and driver/readback provenance contracts fail as detailed in F4-C04-B1/B2. No approval or execution is authorized."
+      ]
+    },
+    {
+      "area": "Windows F3 path and unchanged timeout qualification",
+      "status": "PASS_WITH_DISCLOSED_LIMIT",
+      "findings": [
+        "Traced runner f3_gdt_tss output through f3_full_guest.py invocation child, minimal child and fixed supplemental/f3_supplemental_owned directory. The proposed c02 root is short and actual acceptance nesting is included in length projection.",
+        "Read-only projection of existing frozen F3 relative artifact names into the proposed canonical tree gives a longest host build/debug .rlib path of255 characters; target build/target .rlib can reach270 and incremental objects291. This is a path-length projection, not a build or proof that every tool supports long paths. The prior Windows link.exe failure concerned host build/debug dependencies; the projected longest such path remains below260 but has little margin. Any root deepening requires a fresh review; a shorter root is preferable if artifacts are revised.",
+        "Source-pinned runner line777 retains timeout=900 for acceptance runner regressions. No timeout was raised. Existing mock timing and all qualifications are incorporated unchanged from review03."
+      ]
+    }
+  ],
+  "incorporated_review03_complete_unchanged_scoped_checks": [
+    {
+      "area": "Review independence and scope",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "Review independence and scope",
+        "status": "PASS",
+        "findings": [
+          "Independent source/semantics and complete emitted terminal closure review, with fresh absolute-path Rust LLVM objdump execution on existing ELFs. No builds, tests, QEMU, source edits or canonical acceptance were executed.",
+          "Previous review02 APPROVE is explicitly NOT relied upon. Original REJECT, insufficient review02 and root partial draft remain byte-preserved. Read-only evidence validators were inspected and independently invoked, with raw frame/log/literal corroboration rather than status/hash spot checks alone."
+        ],
+        "evidence": {
+          "test_results\\phase11f4_user_arena\\candidate_manifest_02.json": "070bb40f9f55e7868e378909ed794445638c3a7887f4e689dd6f67c9ec63fd78",
+          "test_results\\phase11f4_user_arena\\reviews\\design_review_02.json": "719aa78173cff2c8dcca7b91c5cb8e21b1e466a3bbb9520c6e2e774c5ea12ce7",
+          "test_results\\phase11f4_user_arena\\reviews\\candidate_review_01.json": "0181d8707e0fa5ab12f4d09a3e0500d497072c5af12277f84395d390468cd50e",
+          "test_results\\phase11f4_user_arena\\reviews\\candidate_review_02.json": "a89bf90074bfec861a5d488a06ca4590674eb747c6f56e21a7ea2b800e99832f",
+          "reviews\\candidate_review_02.json": "1bc18068b077d641ef598899f513b9c5b6cbe5ea516d67c720ed83e536dbe49a",
+          "test_results\\f3acc\\acceptance_20261021T173237Z_upgt4pc_\\acceptance.json": "2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b"
+        }
+      }
+    },
+    {
+      "area": "Candidate source and discovered membership",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "Candidate source and discovered membership",
+        "status": "PASS",
+        "findings": [
+          "All 187 manifest source pins were rehashed; source_snapshot rediscovered exactly the same 187-member set and raw hashes.",
+          "All 187 frozen f4p05 source copies match current source. f4p04 and f4p05 have identical membership; only src/memory/retained_owner.rs changed, from 021e3dbe0cea0e8e0aca9cb544e2bd782c39d02c2fc4eb5ddf1b80b55d4879a3 to 53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8."
+        ],
+        "evidence": {
+          "equal": true,
+          "membership_equal_old": true,
+          "delta": [
+            "src/memory/retained_owner.rs"
+          ],
+          "steps": [
+            {
+              "name": "production_format",
+              "exit_code": 0,
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "production_build",
+              "exit_code": 0,
+              "log_sha256": "07d3b55bcb63096dd7813bc19ec3814c8c3ab0689945656eba3436aa78550872"
+            },
+            {
+              "name": "production_elf",
+              "exit_code": 0,
+              "log_sha256": "fd398eebcba3d145b6e9b3037240da51bd4dffc28f3efce8092f5ee5a68a23a5"
+            },
+            {
+              "name": "host_b26",
+              "exit_code": 0,
+              "log_sha256": "30198c4030ff99a85202e2890b1d3a61aaf1906a02316e8048de83f6a19ea263"
+            },
+            {
+              "name": "f1",
+              "exit_code": 0,
+              "log_sha256": "4f3cca0cefa318c07f66cb7fe64b236ffe73c8af1facc907a60136d8f1f112cd"
+            },
+            {
+              "name": "f2",
+              "exit_code": 0,
+              "log_sha256": "bac0c482d5ced564e03bd498b05a599e85cf5ab731352b579f5e54780471defd"
+            },
+            {
+              "name": "f3",
+              "exit_code": 0,
+              "log_sha256": "9b9c402f91f05e45c2bb35f7b143e43362a33eae74936904e7612fce6547d615"
+            },
+            {
+              "name": "f4",
+              "exit_code": 0,
+              "log_sha256": "8c48f0ac918611c2cf66c5de65db97a9ab4ca920c635e6718403e4281c4fa101"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "area": "Full parent component artifact batch",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "Full parent component artifact batch",
+        "status": "PASS",
+        "findings": [
+          "Rehashed every one of the 61483 parent artifact pins, twice during this review, with no mismatches. Parent report hash is e4035a2fce4ad3f7a809340e87a485d866b44b3ab8ebc5187ea614bda109c757.",
+          "All eight exact component steps have exit0 and matching raw log hashes: production_format, production_build, production_elf, host_b26, f1, f2, f3, f4. Production ELF bytes match corrected retained ELF, not historical RED metadata."
+        ],
+        "evidence": {
+          "parent_pin_count": 61483,
+          "component_report_sha256": "f02ff564ed47d74e8f73f41efd4487ca736ff33952b689a0d26bb1d8f58df0f6",
+          "production_kernel_sha256": "db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892"
+        }
+      }
+    },
+    {
+      "area": "Atomic state publication: Rust aliasing, compiler and x86 ordering",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "Atomic state publication: Rust aliasing, compiler and x86 ordering",
+        "status": "PASS",
+        "findings": [
+          "Read actual f4_terminal and all Acquire observers. STATE remains one live AtomicU8, with UnsafeCell interior storage accessed through AtomicU8::as_ptr; there is no forged mutable/shared non-atomic Rust reference. Fresh symbols plus PIC arithmetic resolve the emitted pointer to the actual one-byte STATE symbol.",
+          "The store asm has default read/write memory effects and is neither pure, nomem nor readonly. Thus publication cannot be compiler-hoisted ahead of prior retained-owner memory writes, nor can later UART memory operations move before it. nostack and preserves_flags are truthful for this MOV; inputs are consumed but not modified.",
+          "Actual MOVB immediate3 at 0x26e9d6 is a nontearing one-byte x86 store to normal kernel memory. Release suitability depends on BOTH the compiler memory barrier and x86 normal-memory store ordering, not atomicity alone. No locked RMW or hardware fence is needed for this target store-release operation. AtomicU8::as_ptr emits only stack moves and RET, no ordering dispatcher or panic edges.",
+          "This is a target-specific inline-asm synchronization implementation, not a portable Rust Ordering::Release library call or a claim that arbitrary raw byte writes synchronize. The admitted runtime is single-vCPU/CPL0/IF0; Rust owner observers cannot concurrently reenter, and IRQ/NMI/fatal owner reentry is forbidden by the accepted policy. Unchanged Acquire observers and irreversible state>=SEALED policy remain intact. No SMP, device-memory, racing non-atomic access or generalized mixed-width guarantee is inferred."
+        ],
+        "evidence": {
+          "state_symbol": {
+            "address": 4402672,
+            "size": 1
+          },
+          "retained_owner_sha256": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8"
+        }
+      }
+    },
+    {
+      "area": "UART helper: literal bytes, provenance and compatibility",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "UART helper: literal bytes, provenance and compatibility",
+        "status": "PASS",
+        "findings": [
+          "Read shared src/io/serial.rs putc/puts and the complete private helper. Both implement byte-wide COM1 THR0x3f8, LSR0x3fd, THRE mask0x20, at most100000 readiness polls per current byte, write only when ready, otherwise drop that current byte and advance. There is no newline conversion, formatting, extra UART initialization or shared-driver edit.",
+          "The only arguments are immutable static typed [u8;34] PASS/FAIL arrays. Raw file-backed ELF loads selected by the actual PIC/LEA offsets match BOTH literal byte strings exactly, including final LF. The pointer reads only byte0 through byte33; the final one-past pointer is never dereferenced and cannot wrap at the observed addresses.",
+          "The pointer and remaining operands are inout(reg), not lateout, and EAX/ECX/EDX are early outputs; register overlap with live inputs is prohibited. Emitted ESI pointer and EDI count are distinct. EAX/ECX/EDX and flags are declared clobbered; DX and AL I/O widths are correct; no DF dependence. Compiler-generated ESI/EDI saves/restores satisfy the ABI. nostack applies only to the asm, not its generated prologue."
+        ],
+        "evidence": {
+          "elf_sha256": "db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892",
+          "bytes": [
+            {
+              "hex": "46342055534552206172656e61204641494c2052696e6730207465726d696e616c0a",
+              "length": 34
+            },
+            {
+              "hex": "46342055534552206172656e6120504153532052696e6730207465726d696e616c0a",
+              "length": 34
+            }
+          ],
+          "serial_protocol": {
+            "THR": 1016,
+            "LSR": 1021,
+            "THRE": 32,
+            "width_bits": 8,
+            "polls_per_byte": 100000,
+            "byte_count": 34,
+            "max_polls": 3400000,
+            "timeout_policy": "drop current byte and advance, identical to shared driver"
+          },
+          "closure": {
+            "blocks": 4,
+            "edges": 11,
+            "forbidden": 0,
+            "unresolved": 0
+          }
+        }
+      }
+    },
+    {
+      "area": "Complete emitted F4 terminal call/control closure",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "Complete emitted F4 terminal call/control closure",
+        "status": "PASS",
+        "findings": [
+          "Fresh Rust LLVM objdump -d decoded 210970 instructions from ELF db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892. Examined every instruction in all four reachable symbol blocks, not just prologues. Both conditional literal-selection arms, direct calls/tails, helper loop branches, root-to-marker fallthrough and marker backedge are included.",
+          "The only blocks are f4_terminal, trivial AtomicU8::as_ptr, f4_terminal_serial, and f4_arena_terminal. Eleven recorded control edges include the balanced PIC call-next/pop, which is not recursion. No indirect call/jump, unresolved destination, allocation, lock, panic, formatting, recursion or unknown helper remains. Returns are ordinary matched ABI returns from as_ptr and the UART helper.",
+          "Inner poll starts at100000 and decrements only on not-ready; timeout bypasses load/OUT. Both ready and timeout paths advance pointer once and decrement count once; count starts34. Thus all output paths finish after at most3400000 INs and34 OUTs. Only the intentional CLI/HLT/JMP terminal loop is unbounded.",
+          "The emitted marker is exactly FA F4 EB FC at0x26ea0b, with no return to shell. Root saves EBX and reserves20 bytes; helper saves EDI/ESI and reserves8 bytes, then restores. Root/leaf worst additional stack consumption is44 bytes below terminal entry (caller/exception frames excluded); this is not total kernel stack high-water."
+        ],
+        "evidence": {
+          "root": 2550176,
+          "elf_sha256": "db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892",
+          "disassembly_sha256": "43c8300b34ea48dc9ef5fad0a6717e6433d582e7661a3a983757b1f309680e94",
+          "decoded_instruction_count": 210970,
+          "result": "GREEN",
+          "blocks": 4,
+          "edges": 11,
+          "unresolved": 0,
+          "forbidden": 0
+        }
+      }
+    },
+    {
+      "area": "Preserved RED and failed first correction",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "Preserved RED and failed first correction",
+        "status": "PASS",
+        "findings": [
+          "Freshly disassembled BOTH historical ELFs into new task-local directories. Original RED is158 blocks/656 edges/30 forbidden/7 unresolved; first failed correction remains RED157/653/30/7. Neither is mislabeled as corrected GREEN or as an observed runtime panic.",
+          "correction_recovery_02.json retains37 issue shortest-path records for each failed attempt. Their roots and reachability agree with the fresh graphs; removal of atomic dispatch alone did not remove shared serial iterator/pointer-precondition panic dependencies."
+        ],
+        "evidence": {
+          "correction_red_01": {
+            "root": 2550176,
+            "elf_sha256": "241ecb209f9a2687daa430d5ff0f0e2596937eb829f7d080fb868122cd0bb516",
+            "disassembly_sha256": "bbdf31e96b1f749d27563f914a86c29aa599bfe177343ee89f1a45321c1e5972",
+            "decoded_instruction_count": 210959,
+            "result": "RED",
+            "blocks": 158,
+            "edges": 656,
+            "unresolved": 7,
+            "forbidden": 30,
+            "recovery_issues": 37
+          },
+          "correction_green_01": {
+            "root": 2550176,
+            "elf_sha256": "a21454d323c908aa1bdeb2dc8ee72c13a0dd0f8ca0c0ec5ac9384ce90e5df3eb",
+            "disassembly_sha256": "836d8b46270f6932065e87f57c9a6b6624fb60465491bde370e3f77d87c9dd4b",
+            "decoded_instruction_count": 210954,
+            "result": "RED",
+            "blocks": 157,
+            "edges": 653,
+            "unresolved": 7,
+            "forbidden": 30,
+            "recovery_issues": 37
+          }
+        }
+      }
+    },
+    {
+      "area": "USER arena ownership, admission, alias and isolation semantics",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "USER arena ownership, admission, alias and isolation semantics",
+        "status": "PASS",
+        "findings": [
+          "Read complete user_arena.rs and F4 retained orchestration. Exactly one dedicated PDE256 covers [0x40000000,0x40400000); preflight requires PDE256/PDE257 and trusted table slots absent. PDE257 remains absent. Ordinary map APIs still reject USER and nonpresent requests; narrow reservation denies mutation of the full arena, including holes and guard.",
+          "Supervisor inventory checks retained domain, owned directory/table roles, present writable supervisor identity aliases and exact raw-PDE/trusted-table agreement before table scanning. Every non-arena PTE USER bit is refused. The window is below arena; unsupported CR4.PAE/PSE/CET/SMAP and non-IF0/CPL0 profiles are refused without changing control registers.",
+          "All12 retained lease addresses are distinct, live same-domain owned allocations. New-frame checks reject runtime/structure roles, existing payload registry, kernel bounds, boot pin spans and privileged region, and require effective supervisor RW identity backing before writes. A live managed FrameLease bounds address arithmetic. No USER alias to kernel/descriptors/allocator/paging structures or extra payload is introduced.",
+          "Code/data is one owned P/U/RO leaf at0x40000000, stack one P/U/RW leaf at0x403ff000; PDE is P/RW/U. Effective permissions intersect BOTH levels. PTE1..1022 are exactly zero, including guard0x403fe000; no per-page NX exists. Ring0 aliases remain supervisor RW by explicit cooperative design, not a CPL3 isolation claim."
+        ],
+        "evidence": {
+          "user_arena_sha256": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+          "paging_sha256": "749c0aaa4752da2d991014fdc0464826d6d53dc2c97c166a3ca76f165685cbd9"
+        }
+      }
+    },
+    {
+      "area": "Publication, retention and resource policy",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "Publication, retention and resource policy",
+        "status": "PASS",
+        "findings": [
+          "Fresh Dormant->Preparing CAS is one-shot. Ownership slots acquire inherited10 then stack/table directly into static permanent owner, at most12 frames total. No retry/reset/teardown/rollback or returning production preparation API exists. Owner->PAGE_MAP->FRAME_ALLOC guards are continuously held during construction and released before GDT/TSS installation/terminal output.",
+          "All checked accounting additions and request/role/accessibility checks precede byte and pin writes. Zero only owned code/stack and new table, install runtime pins/registry and table structure pin, fill two PTEs, set trusted inventory/accounting/reservation, compiler release fence, THEN volatile PDE256 publication as last hardware exposure, followed by two INVLPGs and scalar accounting. Actual green disassembly confirms this ordering: staged stores at0x2569a9/0x2569d4, release compiler-fence call0x256a37, directory store0x256a6a, then INVLPG calls0x256a85/0x256aa0.",
+          "Unexpected pin refusal remains unpublished; already acquired prefix is statically retained and the wrapper closes Terminal. Postcommit validation failure retains complete arena and terminates FAIL; it is not a successful partial map nor recoverable rollback. Final validation precedes irreversible seal, and Terminal mutation observers deny unmap/free/allocate/retry/CR3 replacement.",
+          "User-authorized bounded terminal retention explicitly supersedes only F4 prepublication rollback/restoration. Verified host controls cover prefixes10/11/12 and actual capacity preservation on pure preflight refusal. No capacity-restoration claim is made after acquisition.",
+          "Fresh green ELF/DWARF gives owner mutex472 bytes, latch1 and conservative manifest12 =>485<=4096; descriptor family272<=4096. Twelve retained4096-byte frames total49152, including USER payload8192 and new table4096; no new directory/heap reservation or resource ceiling. Prologues are observations, not cumulative caller/IRQ/NMI stack/heap high-water."
+        ],
+        "evidence": {
+          "target_resources": {
+            "owner_mutex": {
+              "address": 4402200,
+              "size": 472
+            },
+            "state": {
+              "address": 4402672,
+              "size": 1
+            },
+            "owner_plus_latch_manifest": 485,
+            "descriptors": {
+              "address": 3248160,
+              "size": 272
+            },
+            "atomic_pointer_matches_state": true,
+            "layout_sha256": "6596278437b4f4bf26163082cfc467b7f9eaeef143b149873f65d610d0c4f4c0"
+          },
+          "publication_disassembly_sha256": "9b162325c2566447cfe1ba2e50e8a289cf9a58402a6f22f2e338af4210708c40"
+        }
+      }
+    },
+    {
+      "area": "Host, B26, focused identities and model qualification",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "Host, B26, focused identities and model qualification",
+        "status": "PASS",
+        "findings": [
+          "Parsed real serial, default-parallel and --list logs; full successful+ignored multisets agree exactly in each harness. Host380 listed =378 passed+2 exact inherited ignored; B26149 listed/passed with0 ignored. Each process recorded exit0 and raw summary matches parsed successes. No zero-filter acceptance.",
+          "Compared historical canonical host raw log368 members against current380: all368 preserved and only12 F4 additions. Compared historical full B26 --list134 against149: all134 preserved and only12 shared F4+3 independent B26 additions. Also checked preimplementation baseline membership. This does not confuse filtered canonical B26 gates with full-suite identities.",
+          "Derived all12 F4 and3 B26 identities from real Rust #[test] declarations, not report totals. Focused recorder/raw log has exactly12/12, no ignored, exit0.",
+          "Read all12 test bodies and all B26 controls. Mutating tests use exact-one fresh subprocesses with explicit one-passed summaries. Foreign/stale/duplicate/reserved/structure/inaccessible aliases, accounting overflow/ranges, occupied raw/trusted directories, effective flag intersections, retained failure prefixes, seal/CR3/release/unmap denials are asserted against real implementations.",
+          "B26 pre-seeds existing mirror Vec backing OUTSIDE owner guards/observation, then observes real owner/map/frame locks with all-layout allocation/destruction counters and no layout exemption. Success/refusal assert zero alloc/dealloc and unchanged pointers/capacities. This is honestly a host mirror model, not physical CPU write proof."
+        ],
+        "evidence": {
+          "host": {
+            "host": {
+              "listed": 380,
+              "serial_parallel_exact": true,
+              "passed": 378,
+              "ignored": 2,
+              "baseline_listed": 368,
+              "baseline_removed": {},
+              "added": [
+                "memory::paging::f4_user_arena_tests::effective_permissions_and_guards_match_contract",
+                "memory::paging::f4_user_arena_tests::layout_preserves_fixed_ceiling",
+                "memory::paging::f4_user_arena_tests::preserves_state_on_preflight_refusal",
+                "memory::paging::f4_user_arena_tests::publishes_exact_two_owned_user_leaves",
+                "memory::paging::f4_user_arena_tests::refuses_foreign_and_stale_leases",
+                "memory::paging::f4_user_arena_tests::refuses_inaccessible_table_and_payload_aliases",
+                "memory::paging::f4_user_arena_tests::refuses_occupied_directory_without_promotion",
+                "memory::paging::f4_user_arena_tests::refuses_reserved_structure_and_duplicate_frames",
+                "memory::paging::f4_user_arena_tests::refuses_unaligned_outside_and_overflow_ranges",
+                "memory::paging::f4_user_arena_tests::rejects_unexpected_user_supervisor_inventory",
+                "memory::paging::f4_user_arena_tests::retains_bounded_prefix_on_acquisition_failure",
+                "memory::paging::f4_user_arena_tests::seal_blocks_unmap_release_retry_and_cr3_switch"
+              ]
+            },
+            "b26": {
+              "listed": 149,
+              "serial_parallel_exact": true,
+              "passed": 149,
+              "ignored": 0,
+              "baseline_listed": 134,
+              "baseline_removed": {},
+              "added": [
+                "memory::paging::f4_b26_tests::b26_f4_no_allocation_under_owner_map_frame_locks",
+                "memory::paging::f4_b26_tests::b26_f4_no_destruction_under_owner_map_frame_locks",
+                "memory::paging::f4_b26_tests::b26_f4_refusal_has_no_fallback",
+                "memory::paging::f4_user_arena_tests::effective_permissions_and_guards_match_contract",
+                "memory::paging::f4_user_arena_tests::layout_preserves_fixed_ceiling",
+                "memory::paging::f4_user_arena_tests::preserves_state_on_preflight_refusal",
+                "memory::paging::f4_user_arena_tests::publishes_exact_two_owned_user_leaves",
+                "memory::paging::f4_user_arena_tests::refuses_foreign_and_stale_leases",
+                "memory::paging::f4_user_arena_tests::refuses_inaccessible_table_and_payload_aliases",
+                "memory::paging::f4_user_arena_tests::refuses_occupied_directory_without_promotion",
+                "memory::paging::f4_user_arena_tests::refuses_reserved_structure_and_duplicate_frames",
+                "memory::paging::f4_user_arena_tests::refuses_unaligned_outside_and_overflow_ranges",
+                "memory::paging::f4_user_arena_tests::rejects_unexpected_user_supervisor_inventory",
+                "memory::paging::f4_user_arena_tests::retains_bounded_prefix_on_acquisition_failure",
+                "memory::paging::f4_user_arena_tests::seal_blocks_unmap_release_retry_and_cr3_switch"
+              ]
+            }
+          },
+          "focused": {
+            "exact_passed": [
+              "memory::paging::f4_user_arena_tests::effective_permissions_and_guards_match_contract",
+              "memory::paging::f4_user_arena_tests::layout_preserves_fixed_ceiling",
+              "memory::paging::f4_user_arena_tests::preserves_state_on_preflight_refusal",
+              "memory::paging::f4_user_arena_tests::publishes_exact_two_owned_user_leaves",
+              "memory::paging::f4_user_arena_tests::refuses_foreign_and_stale_leases",
+              "memory::paging::f4_user_arena_tests::refuses_inaccessible_table_and_payload_aliases",
+              "memory::paging::f4_user_arena_tests::refuses_occupied_directory_without_promotion",
+              "memory::paging::f4_user_arena_tests::refuses_reserved_structure_and_duplicate_frames",
+              "memory::paging::f4_user_arena_tests::refuses_unaligned_outside_and_overflow_ranges",
+              "memory::paging::f4_user_arena_tests::rejects_unexpected_user_supervisor_inventory",
+              "memory::paging::f4_user_arena_tests::retains_bounded_prefix_on_acquisition_failure",
+              "memory::paging::f4_user_arena_tests::seal_blocks_unmap_release_retry_and_cr3_switch"
+            ],
+            "ignored": 0,
+            "exit": 0
+          },
+          "historical_host": {
+            "raw_sha256": "4126faeb21a8a68e458e409eaf5e8dbb601bea37e67cc8cf36e568cfb8820bb2",
+            "preserved": 368,
+            "added": 12,
+            "removed": 0
+          },
+          "historical_b26": {
+            "raw_sha256": "832c789c57b75c8cbfe6ce4fdab00c3f9b687be4f0c3cc48c8d663c40da56e4d",
+            "preserved": 134,
+            "added": 15,
+            "removed": 0
+          }
+        }
+      }
+    },
+    {
+      "area": "F1 fresh guest preservation",
+      "status": "PASS_WITH_DISCLOSED_LIMIT",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "F1 fresh guest preservation",
+        "status": "PASS_WITH_DISCLOSED_LIMIT",
+        "findings": [
+          "Verified exact cases0..4 x RAM128/512, every invocation-owned child path, PASS, actual owned QEMU exit1 and cleanup, exact stopped-checkpoint schedules (case0:15, others14), capture_complete, paused status, CPL0 and stable repeated hardware.",
+          "All component tree bytes are in the independently rehashed61483-pin batch. This bounded fresh preservation review does NOT repair the inherited historical F1 independent final-readback gap; the approved design carries that gap explicitly."
+        ],
+        "evidence": {
+          "status": "PASS_BOUNDED_PRESERVATION",
+          "rows": [
+            {
+              "case": 0,
+              "ram_mib": 128,
+              "checkpoints": 15,
+              "exit": 1
+            },
+            {
+              "case": 0,
+              "ram_mib": 512,
+              "checkpoints": 15,
+              "exit": 1
+            },
+            {
+              "case": 1,
+              "ram_mib": 128,
+              "checkpoints": 14,
+              "exit": 1
+            },
+            {
+              "case": 1,
+              "ram_mib": 512,
+              "checkpoints": 14,
+              "exit": 1
+            },
+            {
+              "case": 2,
+              "ram_mib": 128,
+              "checkpoints": 14,
+              "exit": 1
+            },
+            {
+              "case": 2,
+              "ram_mib": 512,
+              "checkpoints": 14,
+              "exit": 1
+            },
+            {
+              "case": 3,
+              "ram_mib": 128,
+              "checkpoints": 14,
+              "exit": 1
+            },
+            {
+              "case": 3,
+              "ram_mib": 512,
+              "checkpoints": 14,
+              "exit": 1
+            },
+            {
+              "case": 4,
+              "ram_mib": 128,
+              "checkpoints": 14,
+              "exit": 1
+            },
+            {
+              "case": 4,
+              "ram_mib": 512,
+              "checkpoints": 14,
+              "exit": 1
+            }
+          ],
+          "legacy_final_readback_gap_not_closed": true
+        }
+      }
+    },
+    {
+      "area": "F2 and F3 predecessor ABI/TSS preservation",
+      "status": "PASS_WITH_DISCLOSED_LIMIT",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "F2 and F3 predecessor ABI/TSS preservation",
+        "status": "PASS_WITH_DISCLOSED_LIMIT",
+        "findings": [
+          "Verified F2 exception ABI/entry/fatal, F3 GDT/TSS/entry/privileged implementation and shared serial raw hashes remain byte-identical to the authenticated F3 predecessor freeze. Narrow F4 terminal additions do not edit those bodies.",
+          "Independently invoked source-bound F2/F3 offline validators: exact F2 ud/de/gp/pf x128/512 (8) and full F3 matrix18; child identity, actual command mode/RAM, mandatory checks, ELF binding and cleanup verified. In addition independently decoded all eight raw68-byte F2 mandatory prefixes and matched actual fault/normalized register packets, saved GPR/selectors, vector/error, EIP/CS, RF-adjusted flags, stack geometry and terminal HLT.",
+          "F3 emergency static stack bound remains conditional on one nested NMI (2578/16384, disclosed headroom13806), not an unconditional newly measured F4 stack guarantee."
+        ],
+        "evidence": {
+          "f2": {
+            "status": "PASS",
+            "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4p05\\f2\\f2_guest_t9p1i7pn\\report.json",
+            "report_sha256": "7ba42023437dd4fc33749d7d6ee9793c4b196db3ff135defd26290c31899d73f",
+            "validated_pins": 10,
+            "scenarios": 8
+          },
+          "f3": {
+            "status": "PASS",
+            "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4p05\\f3\\f3_full_oq15f0xy\\report.json",
+            "report_sha256": "16b33de1ffe204602d0ebb54b7f18f882b31d6ade74a9f964b8506017c6b3132",
+            "validated_pins": 1078,
+            "scenarios": 18
+          },
+          "unchanged_source_sha256": {
+            "src/exception_abi.rs": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+            "src/exception_entry.s": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+            "src/exception_fatal.rs": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d",
+            "src/gdt_tss.rs": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+            "src/f3_entry.s": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+            "src/memory/privileged.rs": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+            "src/io/serial.rs": "cfe78862ad6c368e5c0d124d9fa2655fd5f953ab223bf81adad8de89f0d3161d"
+          },
+          "raw_f2_frames": {
+            "identities": [
+              [
+                "ud",
+                128
+              ],
+              [
+                "ud",
+                512
+              ],
+              [
+                "de",
+                128
+              ],
+              [
+                "de",
+                512
+              ],
+              [
+                "gp",
+                128
+              ],
+              [
+                "gp",
+                512
+              ],
+              [
+                "pf",
+                128
+              ],
+              [
+                "pf",
+                512
+              ]
+            ],
+            "status": "PASS"
+          }
+        }
+      }
+    },
+    {
+      "area": "F4 complete physical/hardware matrix",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "F4 complete physical/hardware matrix",
+        "status": "PASS",
+        "findings": [
+          "Inspected f4_evidence.py complete validator and independently reran it against invocation-owned f4p05 report: exactly ready, code_write, lower_guard, unused_hole, occupied_refusal, capacity_refusal x128/512,12 unique identities;12757 source/artifact pins and all raw frozen membership validated.",
+          "Validation rederives target layout from each exact ELF, source transformations/stripping equality, QEMU/tool/firmware operands and single-vCPU/CPL0 profile. Paused EIPs/registers and repeated directory/table/owner/allocator/state images are bound to actual GDB/QMP transport pmemsave origins, not only summary flags.",
+          "Full raw inventories enforce only two USER leaves, exact lease/ledger/runtime/structure roles, effective supervisor aliases, absent holes/guards, unchanged other PDE/PTE bytes modulo CPU A/D, retained12-frame capacity and code/data/stack patterns. GDT/TR/TSS/IDT task-gate bytes remain exact F3 values.",
+          "Real stack write/readback positive control succeeds with WP1 and SMAP0; code-write PF has error3/CR2=0x40000000, guard/hole reads nonpresent faults; F2 normalized68-byte frames and real QEMU exception trace are checked. Occupied and capacity refusals preserve exact PDE and acquired prefix0/10. Terminal HLT/no shell/CPL0/owned cleanup are enforced. No CPL3 execution is claimed."
+        ],
+        "evidence": {
+          "status": "PASS",
+          "report": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4p05\\f4\\report.json",
+          "report_sha256": "5a2d28890235b80199b1c1ef1994717947ae9b30063b6ba4bf997e13531c0c29",
+          "validated_pins": 12757,
+          "scenarios": 12
+        }
+      }
+    },
+    {
+      "area": "Fresh mock calibration and fail-closed acceptance integration",
+      "status": "PASS",
+      "basis": "Explicitly incorporated complete scoped finding from authenticated review03, not review02. All 187 source pins, 61483 component artifact pins, candidate artifacts, and all 19 review03 work pins were independently rehashed unchanged in this supplement.",
+      "prior_review_check": {
+        "area": "Fresh mock calibration and fail-closed acceptance integration",
+        "status": "PASS",
+        "findings": [
+          "Parsed89 unique actual verbose unittest successes and independently enumerated89 source AST test methods. Source/report expected/passed and raw-log identities agree as exact multisets; no skips. Actual recorded exit0, suite604.056s, wall604.420999999973s, under unchanged900s (margin295.579000000027s). No historical timing substituted or expensive test rerun performed.",
+          "Authenticated predecessor acceptance hash2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b and actual70 predecessor gate multiset. Current72 identities are exactly those70 plus the two reviewed F4 gates, with no disappearance/substitution/duplicate. Source still sets acceptance-runner-regression timeout900.",
+          "Read integration changes and mock controls for missing/failed/impostor drivers, aggregate ambiguity, zero/missing/extra/duplicate/substituted test identities, source/cleanup/validator refusal and every returned late pin. Canonical acceptance and independent final canonical readback remain future mandatory gates, not results of this candidate review."
+        ],
+        "evidence": {
+          "mock": {
+            "status": "PASS",
+            "declared": 89,
+            "actual_verbose_ok": 89,
+            "skips": 0,
+            "suite_seconds": 604.056,
+            "wall_seconds": 604.420999999973,
+            "unchanged_timeout": 900,
+            "margin_seconds": 295.579000000027,
+            "identities": [
+              "AcceptanceLockTests.test_contending_main_refuses_before_reports_or_builds",
+              "AcceptanceLockTests.test_os_lock_releases_after_normal_and_forced_owner_exit",
+              "Phase10EvidenceTests.test_explicit_complete_phase10_matrix_required",
+              "SourceFreezeTests.test_b13_host_and_privileged_handoff_gates_are_required",
+              "SourceFreezeTests.test_b13_injection_transport_regressions_are_required",
+              "SourceFreezeTests.test_b13_missing_or_incomplete_privileged_proof_cannot_publish",
+              "SourceFreezeTests.test_b26_detector_controls_cannot_disappear_or_be_substituted",
+              "SourceFreezeTests.test_b26_detector_identities_match_real_rust_declarations",
+              "SourceFreezeTests.test_b26_full_exact_membership_cannot_shrink_or_substitute",
+              "SourceFreezeTests.test_b26_full_membership_and_f4_controls_are_source_declared",
+              "SourceFreezeTests.test_b26_growth_isolation_coverage_cannot_shrink",
+              "SourceFreezeTests.test_bad_mandatory_report_cannot_publish",
+              "SourceFreezeTests.test_boot_metadata_matrix_cannot_shrink_after_validation",
+              "SourceFreezeTests.test_checkout_attributes_are_frozen",
+              "SourceFreezeTests.test_current_milestone_is_only_phase11_prerequisite",
+              "SourceFreezeTests.test_domain_and_isolation_host_coverage_cannot_shrink",
+              "SourceFreezeTests.test_empty_or_unobserved_host_safety_suites_cannot_publish",
+              "SourceFreezeTests.test_f2_ambiguous_owned_aggregate_cannot_publish",
+              "SourceFreezeTests.test_f2_every_returned_pin_is_frozen_through_publication",
+              "SourceFreezeTests.test_f2_exception_abi_bad_identities_cannot_publish",
+              "SourceFreezeTests.test_f2_exception_abi_exact_family_is_mandatory",
+              "SourceFreezeTests.test_f2_exception_abi_identities_match_real_declarations",
+              "SourceFreezeTests.test_f2_hardware_matrix_is_one_mandatory_gate",
+              "SourceFreezeTests.test_f2_missing_or_failed_driver_cannot_publish",
+              "SourceFreezeTests.test_f2_missing_report_or_validator_failure_cannot_publish",
+              "SourceFreezeTests.test_f3_actual_minimal_only_validator_cannot_publish",
+              "SourceFreezeTests.test_f3_bad_host_identities_cannot_publish",
+              "SourceFreezeTests.test_f3_contradictory_matrix_driver_and_cleanup_refuse",
+              "SourceFreezeTests.test_f3_every_returned_pin_is_frozen_until_publication",
+              "SourceFreezeTests.test_f3_exact_family_matches_source_declarations",
+              "SourceFreezeTests.test_f3_hardware_matrix_is_one_owned_validated_gate",
+              "SourceFreezeTests.test_f3_missing_failed_driver_report_and_validator_refuse",
+              "SourceFreezeTests.test_f3_predecessor_identity_and_late_pin_refusals",
+              "SourceFreezeTests.test_f3_unvalidated_extra_report_cannot_bypass_generic_schema",
+              "SourceFreezeTests.test_f4_every_returned_pin_and_driver_log_remains_frozen",
+              "SourceFreezeTests.test_f4_exact_contract_and_only_two_gate_delta",
+              "SourceFreezeTests.test_f4_guest_identity_source_cleanup_and_validator_refusal",
+              "SourceFreezeTests.test_f4_host_identity_refusals",
+              "SourceFreezeTests.test_f4_missing_failed_malformed_and_impostor_driver_or_aggregate_refuse",
+              "SourceFreezeTests.test_f4_unvalidated_report_cannot_bypass_generic_parser",
+              "SourceFreezeTests.test_failed_harness_report_cannot_pass_or_publish",
+              "SourceFreezeTests.test_failed_source_freeze_does_not_publish_versioned_iso",
+              "SourceFreezeTests.test_integrated_boot_metadata_guests_are_mandatory_and_sequential",
+              "SourceFreezeTests.test_invalid_report_schemas_and_declared_totals_cannot_pass",
+              "SourceFreezeTests.test_late_b13_evidence_corruption_cannot_publish",
+              "SourceFreezeTests.test_missing_mandatory_reports_cannot_publish",
+              "SourceFreezeTests.test_missing_or_empty_boot_metadata_evidence_cannot_publish",
+              "SourceFreezeTests.test_missing_or_partial_phase10_report_cannot_publish",
+              "SourceFreezeTests.test_missing_read_regression_cannot_publish",
+              "SourceFreezeTests.test_missing_write_regression_cannot_publish",
+              "SourceFreezeTests.test_nine_boot_rows_cannot_publish",
+              "SourceFreezeTests.test_numeric_map_authority_bad_identities_cannot_publish",
+              "SourceFreezeTests.test_numeric_map_authority_identities_match_real_declarations",
+              "SourceFreezeTests.test_numeric_map_authority_prerequisite_is_mandatory",
+              "SourceFreezeTests.test_phase10_builder_contract_and_complete_guest_gates_are_mandatory",
+              "SourceFreezeTests.test_phase10_evidence_is_frozen_through_publication",
+              "SourceFreezeTests.test_phase11_exception_abi_bad_identities_cannot_publish",
+              "SourceFreezeTests.test_phase11_exception_abi_prerequisite_is_mandatory",
+              "SourceFreezeTests.test_phase11_f1_retained_owner_gate_is_mandatory",
+              "SourceFreezeTests.test_phase11_generation_bad_identities_cannot_publish",
+              "SourceFreezeTests.test_phase11_generation_identities_match_real_rust_declarations",
+              "SourceFreezeTests.test_phase11_generation_prerequisites_are_mandatory",
+              "SourceFreezeTests.test_phase11_missing_or_wrong_f1_identities_cannot_publish",
+              "SourceFreezeTests.test_phase11_missing_or_wrong_permission_tests_cannot_publish",
+              "SourceFreezeTests.test_phase11_owned_snapshot_and_gdt_tests_are_mandatory",
+              "SourceFreezeTests.test_phase11_permission_prerequisite_gate_is_mandatory",
+              "SourceFreezeTests.test_phase11_prerequisite_identities_cannot_be_substituted",
+              "SourceFreezeTests.test_phase11_registry_reservation_bad_identities_cannot_publish",
+              "SourceFreezeTests.test_phase11_registry_reservation_prerequisite_is_mandatory",
+              "SourceFreezeTests.test_phase11_runtime_pin_bad_identities_cannot_publish",
+              "SourceFreezeTests.test_phase11_runtime_pin_identities_match_real_rust_declarations",
+              "SourceFreezeTests.test_phase11_runtime_pin_prerequisite_is_mandatory",
+              "SourceFreezeTests.test_phase11_structure_lifetime_bad_identities_cannot_publish",
+              "SourceFreezeTests.test_phase11_structure_lifetime_identities_match_real_rust_declarations",
+              "SourceFreezeTests.test_phase11_structure_lifetime_prerequisite_is_mandatory",
+              "SourceFreezeTests.test_phase9_6_host_safety_suites_cannot_disappear",
+              "SourceFreezeTests.test_portable_source_added_during_acceptance_is_rejected",
+              "SourceFreezeTests.test_production_fixture_policy_gate_is_mandatory",
+              "SourceFreezeTests.test_ramfs_baseline_listing_requires_exact_103_checks",
+              "SourceFreezeTests.test_read_boundary_and_transfer_regressions_are_required",
+              "SourceFreezeTests.test_safety_fixture_build_inputs_are_frozen",
+              "SourceFreezeTests.test_source_added_during_acceptance_is_rejected",
+              "SourceFreezeTests.test_stable_source_can_finish",
+              "SourceFreezeTests.test_system_assets_with_any_extension_are_frozen",
+              "SourceFreezeTests.test_target_configuration_changed_during_acceptance_is_rejected",
+              "SourceFreezeTests.test_unmap_authority_bad_identities_cannot_publish",
+              "SourceFreezeTests.test_unmap_authority_identities_match_real_declarations",
+              "SourceFreezeTests.test_unmap_authority_prerequisite_is_mandatory",
+              "SourceFreezeTests.test_write_preservation_regressions_are_required"
+            ]
+          },
+          "gates": {
+            "predecessor": 70,
+            "f4": 2,
+            "exact": true,
+            "predecessor_contract": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f3acc\\acceptance_20261021T173237Z_upgt4pc_\\acceptance.json"
+          }
+        }
+      }
+    }
+  ],
+  "hash_verification": {
+    "path": "test_results/phase11f4_user_arena/reviews/review04_hash_verification.json",
+    "sha256": "55f4c3f61a118e82fd72af8c1d4341618a18d0366d79269980a1cf473eed1176",
+    "results": {
+      "hash_groups": {
+        "source": {
+          "count": 187,
+          "mismatches": []
+        },
+        "candidate_artifacts": {
+          "count": 67,
+          "mismatches": []
+        },
+        "component_artifacts": {
+          "count": 61483,
+          "mismatches": []
+        },
+        "review03_work": {
+          "count": 19,
+          "mismatches": []
+        }
+      },
+      "source_rediscovery_exact": true,
+      "source_before_exact": true,
+      "artifact_delta_paths": [
+        "test_results/phase11f4_user_arena/run_canonical_02.py"
+      ],
+      "added_artifacts": [
+        "test_results/phase11f4_user_arena/candidate_manifest_02.json",
+        "test_results/phase11f4_user_arena/freeze_candidate_03.py",
+        "test_results/phase11f4_user_arena/reviews/candidate_review_03.json"
+      ],
+      "gate_multiset_exact": true,
+      "gate_count": 72,
+      "identity_sha256": {
+        "candidate_manifest_02.json": "070bb40f9f55e7868e378909ed794445638c3a7887f4e689dd6f67c9ec63fd78",
+        "candidate_manifest_03.json": "f50d86f092b90efd99307a46dfd2dbd7fc4dd9a91a98a418e440e5b5de29867f",
+        "run_canonical_02.py": "671fefdfb49c477b45e04fd4276c46289bde88622159eed42113cec562921e88",
+        "freeze_candidate_03.py": "e8b785693e035f7e7e896d6911f327100098a37e220712bb9c596231d67350b8",
+        "reviews/candidate_review_03.json": "6aa94d5d4c4bd0792ac21ddc6122849da585bf62d3fbc7b7b4ef322971d2216c",
+        "reviews/candidate_review_02.json": "a89bf90074bfec861a5d488a06ca4590674eb747c6f56e21a7ea2b800e99832f"
+      },
+      "elapsed_seconds": 21.015999999945052,
+      "canonical_root_exists": false
+    }
+  },
+  "candidate_artifact_sha256": {
+    "test_results/f4p05/source_before.json": "21ca631a1762898281ab4aff55705dc54a54cedfdf5c6cf6f647d81df52a9822",
+    "test_results/f4p05/report.json": "f02ff564ed47d74e8f73f41efd4487ca736ff33952b689a0d26bb1d8f58df0f6",
+    "test_results/f4p05/host_b26/report.json": "f144d1ce9d03f97fa3e93e3bd010e13900019c0f0cf5c26e52b5a9b0363eb022",
+    "test_results/phase11f4_user_arena/correction_checkpoint_01.json": "18c60d97eb5790b103f174ea5928526344118c9ead90187dd143559ea9aad1d2",
+    "test_results/phase11f4_user_arena/correction_recovery_02.py": "b98a51b08cd0827d53fcbb0663a8c3898e7ea3e38a13f5ff1f818c81b46e58cf",
+    "test_results/phase11f4_user_arena/correction_recovery_02.json": "963364e3bb329183524409c34a2b3212eaf96353abd71ae8ff5d2a4e4f6f1555",
+    "test_results/phase11f4_user_arena/terminal_contract_02.py": "81c95081bd1df76df0b5847f24bbc95bf7ea430bcddf3e3f56399dc432c8c20c",
+    "test_results/phase11f4_user_arena/terminal_contract_02.json": "1b33bd0035a4ed51c1306d0417472ad6d570fa3f788cca427f6c2ec8fcbcfc28",
+    "test_results/phase11f4_user_arena/decisions.md": "a7b82c73a09ee56ea06f0ccf036e008349b49c7608e8ea3b53cf56589e4c8382",
+    "test_results/phase11f4_user_arena/parent_components_readback_05.py": "f797aa7359eb3607fd9597c4ca069c1509f38901c0e25b06b0fc0242ba62de86",
+    "test_results/phase11f4_user_arena/parent_components_readback_05.json": "e4035a2fce4ad3f7a809340e87a485d866b44b3ab8ebc5187ea614bda109c757",
+    "test_results/phase11f4_user_arena/verify_components_03.py": "f365bba2510e2aeb980a486d1db36ef2e73175425d071939529ece3961816003",
+    "test_results/phase11f4_user_arena/host_matrix_01.py": "082ed010dd7cd1dc01ad34ca58af0f52065bba33c45de8eb7fcbb1512c551cb9",
+    "test_results/phase11f4_user_arena/run_canonical_02.py": "671fefdfb49c477b45e04fd4276c46289bde88622159eed42113cec562921e88",
+    "test_results/phase11f4_user_arena/make_candidate_manifest_02.py": "4d4ef57c88d2c304fd625885b65c5744f9389c43dba1edb9c8ec973194368b96",
+    "test_results/phase11f4_user_arena/mock_isolated_04.py": "c8949a97539e8497c28f1dd83a8407f7308669073ad639710ed4ddb3c2b04c12",
+    "test_results/phase11f4_user_arena/mock_isolated_04/report.json": "cc296d6b7c06028b246ba01dce69a14d8d9762c047612e93345bb4b5edf0daa7",
+    "test_results/phase11f4_user_arena/mock_isolated_04/mock.log": "b335af4c5c582dc3cebc266fbc1ae0f9ea205f2930175a33b89b27483e5e1e52",
+    "test_results/phase11f4_user_arena/commands/f4_focused_02.json": "89cf9aaf6ba50396bcb9df8c290906b93cbd6e3b7bd5c23a7ecf003cf06f43d1",
+    "test_results/phase11f4_user_arena/commands/f4_focused_02.log": "99470b4c54b12d7c8a055a6a80f119a75b348c8b6c57dabafaab8b9bde3fbeb8",
+    "test_results/phase11f4_user_arena/commands/f4_components_05.json": "768f270509c3b5b2ec67cc5099652ce8c541df6081ce8d8e5ebab248e38fdc24",
+    "test_results/phase11f4_user_arena/commands/f4_components_05.log": "456b2909f5a4bfcbd330461ee0667cdca04b9514e00ff16421a3314bbf22d1c3",
+    "test_results/phase11f4_user_arena/reviews/candidate_review_01.json": "0181d8707e0fa5ab12f4d09a3e0500d497072c5af12277f84395d390468cd50e",
+    "test_results/phase11f4_user_arena/reviews/design_review_01.json": "abfa725eb85267ea32ec026a3a345c5dd2cd9aae0dc1cd5bd55d4811aa90678b",
+    "test_results/phase11f4_user_arena/reviews/design_review_02.json": "719aa78173cff2c8dcca7b91c5cb8e21b1e466a3bbb9520c6e2e774c5ea12ce7",
+    "test_results/phase11f4_user_arena/design.md": "ea0a49eda8784d358995d556046adfa89ca9d4bafd89070765816c6aedf086ee",
+    "test_results/phase11f4_user_arena/design_revision_01_reviewed.md": "b35761f661030178c88fa5f2a6c976b7ae7a529a9f1fa472474af8fbc86f4864",
+    "test_results/phase11f4_user_arena/operator_disposition_01.json": "2a9190371e5b803659d2968c62f515c52e3c72782a613617a82d8cab51d78030",
+    "test_results/phase11f4_user_arena/parent_integration_02.json": "f6c645183ca635410171fffcceb0abe3fe11dfa6c292c87e28aa07351a5f72fd",
+    "test_results/phase11f4_user_arena/production_audit_02/report.json": "adf36d7ddbadfe1660db05973beaefe06342e4392843584d468c3e558a9a3bcb",
+    "test_results/phase11f4_user_arena/canonical_readback_02.py": "46af6a2c5611996a8b44d6572708687e7fae67ed1d80f0361b7dd5237d11e4e8",
+    "test_results/phase11f4_user_arena/correction_red_01/build.stderr": "f42aced32bbbca0bea7a71d3f2c38789343676a3e4ad404c07ee4d7a9239c761",
+    "test_results/phase11f4_user_arena/correction_red_01/build.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_results/phase11f4_user_arena/correction_red_01/closure.json": "e9b51abf3225a7201b820e492ad46bd210e7e154c0d1f03293e9555d7be70385",
+    "test_results/phase11f4_user_arena/correction_red_01/compiler.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_results/phase11f4_user_arena/correction_red_01/compiler.stdout": "39a22e48184d520ea2ac97f4e081d19c603119d6ec27402e87d747315bd82bc7",
+    "test_results/phase11f4_user_arena/correction_red_01/disassembly.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_results/phase11f4_user_arena/correction_red_01/disassembly.txt": "bbdf31e96b1f749d27563f914a86c29aa599bfe177343ee89f1a45321c1e5972",
+    "test_results/phase11f4_user_arena/correction_red_01/kernel.elf": "241ecb209f9a2687daa430d5ff0f0e2596937eb829f7d080fb868122cd0bb516",
+    "test_results/phase11f4_user_arena/correction_red_01/report.json": "c698ae4988231d8916d6911c995c45dbdef28d0c7938a2dc5e3d350b105dfda1",
+    "test_results/phase11f4_user_arena/correction_red_01/source_after.json": "46709c842b113c9415643e4b9602a38f68b3babf5d5326e67fc722954216a9c2",
+    "test_results/phase11f4_user_arena/correction_red_01/source_before.json": "46709c842b113c9415643e4b9602a38f68b3babf5d5326e67fc722954216a9c2",
+    "test_results/phase11f4_user_arena/correction_green_01/build.stderr": "6dc75a92a70d80743e6fd84857f19e7ad685175d6b8c0b972ab1e11ec55fa5b7",
+    "test_results/phase11f4_user_arena/correction_green_01/build.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_results/phase11f4_user_arena/correction_green_01/closure.json": "1ddf2eec25513082240caf84376111db0b5f267fba054df66039d59a201a9417",
+    "test_results/phase11f4_user_arena/correction_green_01/compiler.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_results/phase11f4_user_arena/correction_green_01/compiler.stdout": "39a22e48184d520ea2ac97f4e081d19c603119d6ec27402e87d747315bd82bc7",
+    "test_results/phase11f4_user_arena/correction_green_01/disassembly.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_results/phase11f4_user_arena/correction_green_01/disassembly.txt": "836d8b46270f6932065e87f57c9a6b6624fb60465491bde370e3f77d87c9dd4b",
+    "test_results/phase11f4_user_arena/correction_green_01/kernel.elf": "a21454d323c908aa1bdeb2dc8ee72c13a0dd0f8ca0c0ec5ac9384ce90e5df3eb",
+    "test_results/phase11f4_user_arena/correction_green_01/report.json": "3a168626d304868d4214b6e14ed8e15dd585a92d3b779990c4c1452f603e517a",
+    "test_results/phase11f4_user_arena/correction_green_01/source_before.json": "1a93cc0266706b4978d8b58e16332d79e5d8ee680fd043d89ee43d7f5d5f55cd",
+    "test_results/phase11f4_user_arena/correction_green_02/build.stderr": "713c001106a02e6534c6d3061f252c895f7794b18d29d69d85a035e4389e65e5",
+    "test_results/phase11f4_user_arena/correction_green_02/build.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_results/phase11f4_user_arena/correction_green_02/closure.json": "23e2e213eac242a5b8f113755e045ba8e3639df73ab426d3fc2c539355ed6517",
+    "test_results/phase11f4_user_arena/correction_green_02/compiler.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_results/phase11f4_user_arena/correction_green_02/compiler.stdout": "39a22e48184d520ea2ac97f4e081d19c603119d6ec27402e87d747315bd82bc7",
+    "test_results/phase11f4_user_arena/correction_green_02/disassembly.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_results/phase11f4_user_arena/correction_green_02/disassembly.txt": "43c8300b34ea48dc9ef5fad0a6717e6433d582e7661a3a983757b1f309680e94",
+    "test_results/phase11f4_user_arena/correction_green_02/kernel.elf": "db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892",
+    "test_results/phase11f4_user_arena/correction_green_02/report.json": "9854543f0fd36c4ec4b38e7b64f58430bcb78f536c0ac4c917ba8e38a6b35796",
+    "test_results/phase11f4_user_arena/correction_green_02/source_after.json": "21ca631a1762898281ab4aff55705dc54a54cedfdf5c6cf6f647d81df52a9822",
+    "test_results/phase11f4_user_arena/correction_green_02/source_before.json": "21ca631a1762898281ab4aff55705dc54a54cedfdf5c6cf6f647d81df52a9822",
+    "test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json": "2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b",
+    "test_results/phase11f4_user_arena/candidate_manifest_02.json": "070bb40f9f55e7868e378909ed794445638c3a7887f4e689dd6f67c9ec63fd78",
+    "test_results/phase11f4_user_arena/reviews/candidate_review_03.json": "6aa94d5d4c4bd0792ac21ddc6122849da585bf62d3fbc7b7b4ef322971d2216c",
+    "test_results/phase11f4_user_arena/freeze_candidate_03.py": "e8b785693e035f7e7e896d6911f327100098a37e220712bb9c596231d67350b8"
+  },
+  "component_pin_index": {
+    "path": "test_results/phase11f4_user_arena/parent_components_readback_05.json",
+    "sha256": "e4035a2fce4ad3f7a809340e87a485d866b44b3ab8ebc5187ea614bda109c757",
+    "independently_rehashed_pins": 61483,
+    "mismatches": []
+  },
+  "predecessor": {
+    "path": "test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json",
+    "sha256": "2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b",
+    "preserved_gates": 70,
+    "f4_added_gates": 2,
+    "complete_gate_count": 72,
+    "exact_multiset": true
+  },
+  "authorization_criteria": [
+    "All candidate/source/component pins and exact source membership remain valid; no production regression evidence changes.",
+    "Complete independent review coverage is preserved, including emitted terminal closure, atomic compiler/hardware semantics, UART literal/protocol/bounds/clobbers, USER ownership/permissions/publication/resource policy, real host/B26 identities, F1/F2/F3/F4 hardware and exact predecessor gates, and unchanged900 mock calibration.",
+    "Launcher refuses inadequate review02 and any incomplete/REJECT/unauthorized verdict, and binds the explicitly supplied complete approved review and exact expected raw hash to the exact new immutable manifest and source map.",
+    "Launcher/readback agree on exact manifest, invocation/output ownership, actual process exit, complete source-before/after and exact72 gate multiset.",
+    "Any artifact repair receives a new immutable freeze and independent review; old manifests/rejections remain unchanged.",
+    "Only after complete APPROVE/zero blockers may parent perform one background NOTIFIED canonical run, no polls, no source/harness edits while running, no foreign kills or lock unlinking; final independent canonical readback is still required."
+  ],
+  "limitations": [
+    "Bounded one-shot cooperative single-vCPU Ring0 retention, not rollback, general teardown, SMP or privilege isolation.",
+    "No CPL3 or F5 approval; non-PAE no NX/hardware W^X; supervisor physical aliases remain writable.",
+    "Historical F1 final-readback gap remains explicitly disclosed.",
+    "F3 emergency stack bound conditional on one nested NMI; total caller/interrupt/heap high-water unmeasured.",
+    "Strict emitted no-panic/lock/allocator closure is scoped to F4 terminal, not inherited F1/F2/F3/shared serial or all preparation code.",
+    "UART poll bounds are iteration bounds, not wall-clock delivery guarantees; timeout may drop bytes.",
+    "Canonical acceptance, final independent canonical readback, commits/push/deploy not performed or authorized."
+  ],
+  "not_executed": [
+    "production edits",
+    "builds",
+    "tests",
+    "QEMU",
+    "acceptance launch",
+    "canonical readback execution"
+  ],
+  "created_files": [
+    "test_results/phase11f4_user_arena/reviews/review04_hash_verification.json",
+    "test_results/phase11f4_user_arena/reviews/review04_finalize.py",
+    "test_results/phase11f4_user_arena/reviews/candidate_review_04.json"
+  ]
+}

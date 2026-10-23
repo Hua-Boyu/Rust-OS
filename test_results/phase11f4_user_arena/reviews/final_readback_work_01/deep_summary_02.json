@@ -1,0 +1,270 @@
+{
+  "specialized": {
+    "f2": {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f2_exception\\f2_guest_onkcilw3\\report.json",
+      "sha256": "e332b38f249b7035b6a3c873eb674ee3e1040c82cf3f79723234f6fd1a8610f1",
+      "scenarios": 8,
+      "pin_count": 10
+    },
+    "f3": {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f3_gdt_tss\\f3_full_6gwqnxu7\\report.json",
+      "sha256": "bedf6a4afc5b6b6f5c1ef59b895d8899e9940372c7948f3f6814c3a4dcc9f89c",
+      "scenarios": 18,
+      "pin_count": 1078
+    },
+    "f4": {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\f4_user_arena\\matrix\\report.json",
+      "sha256": "0fe087c2085dd231f7f1bc825dc57f2f40088b0bec5245b1cf1d30b5aaf8a7d4",
+      "scenarios": 12,
+      "pin_count": 12757
+    },
+    "f1_component": {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4p05\\f1\\f1_retained_xj8h0cpm\\report.json",
+      "scenarios": 10,
+      "snapshots": 142,
+      "pins": 46637
+    }
+  },
+  "B13_host": {
+    "status": "PASS",
+    "scope": "source-level bounded model, not privileged execution",
+    "source_sha256": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+    "tests_run": 3,
+    "failures": []
+  },
+  "required_rows": {
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_128\\boot_results.csv": {
+      "rows": 10,
+      "sha256": "44fd9720406940519e7fd3141e7b00d57c82d71dc3345634e4bc78c74d053e7f"
+    },
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_512\\boot_results.csv": {
+      "rows": 10,
+      "sha256": "8354f3abfd076a6038e327eccfcea4a5d3a640c5ea77fae85691c00efb9a28b5"
+    },
+    "read_fault": {
+      "rows": 2,
+      "sha256": "2ffa3f267d7f5af3a718cd393ff9b90f187f999bdae9bd5c45aeddfc11d04243"
+    },
+    "write_fault": {
+      "rows": 2,
+      "sha256": "4967067004b89ac9666ef607dcb9f6af4dd3c4a7fbf6546a828e1ecb642bc89d"
+    },
+    "paging": {
+      "rows": 20,
+      "sha256": "2bc9bf4ad43a3cd78b4e94fde44cfe71f452051a6d488d6b6045215fad4ddf16"
+    },
+    "iso_paging": {
+      "rows": 2,
+      "sha256": "a8bce40432c8165ef4524d2b195096d09550646866e4463550f949268b774a88"
+    },
+    "fs_elf_128": {
+      "rows": 103,
+      "sha256": "24b59fc8b26ff33d2d7174421440857ec8b8e040db817d29074eb0b32661debe"
+    },
+    "block_elf_128": {
+      "rows": 98,
+      "sha256": "98a5c81ba56fa6908a03cb5a6c972a278cdf5efbfa8fe1275438171935297e3c"
+    },
+    "rostifs_elf_128": {
+      "rows": 168,
+      "sha256": "3a4d4094e5d674fb6cd96e35b54cf58af47dd801fd5345af4578931ae203736e"
+    },
+    "fs_elf_512": {
+      "rows": 103,
+      "sha256": "9c6eeaae910d78cc74f3929d124e2b1e411ffa4ea3c14c303748bcb4f0ad38bb"
+    },
+    "block_elf_512": {
+      "rows": 98,
+      "sha256": "642328f4d08d80d8e9a1348db322bf118f9a869abc4e59ee0e35681c930ab4e5"
+    },
+    "rostifs_elf_512": {
+      "rows": 168,
+      "sha256": "94c516cbc571d300030a28df915fa36abf8650857cc9d116654e2b1ac9484448"
+    },
+    "fs_iso_128": {
+      "rows": 103,
+      "sha256": "289fa66e58113a3c4df1874854fc97ccd8a8e0d0ad3608a2384cf2f6325d11f3"
+    },
+    "block_iso_128": {
+      "rows": 98,
+      "sha256": "d3195bb64874c4b351929baabdcec01824aee612b8e80b351d6accaee714d4bc"
+    },
+    "rostifs_iso_128": {
+      "rows": 168,
+      "sha256": "0c1c34bc7a32ef899ae0b2621ce650edc4e3797401c4d20c31ff1cfc8c4de09e"
+    },
+    "fs_iso_512": {
+      "rows": 103,
+      "sha256": "55eb599b3d76af7e3ed75737443ea56492c2fb7ea1a34a2a856e7a8737599979"
+    },
+    "block_iso_512": {
+      "rows": 98,
+      "sha256": "6e250abb95c365835de36cd92469f6046e1ce6b202afa5921888b0ef82ab7192"
+    },
+    "rostifs_iso_512": {
+      "rows": 168,
+      "sha256": "c43c357c7e66df7e38408b8e87cc59910a51460afce18b058c97217197f5c485"
+    }
+  },
+  "phase10_scenarios": 56,
+  "generic_nested_report_count": 154,
+  "generic_nested_report_paths": [
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_elf_128\\block_ram128_og6n2ugi\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_elf_128\\block_ram128_og6n2ugi\\absent\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_elf_128\\block_ram128_og6n2ugi\\owned_reboot\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_elf_128\\block_ram128_og6n2ugi\\owned_restart\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_elf_128\\block_ram128_og6n2ugi\\unowned\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_elf_512\\block_ram512_yq61ggwh\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_elf_512\\block_ram512_yq61ggwh\\absent\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_elf_512\\block_ram512_yq61ggwh\\owned_reboot\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_elf_512\\block_ram512_yq61ggwh\\owned_restart\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_elf_512\\block_ram512_yq61ggwh\\unowned\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_iso_128\\block_ram128_bhual4yk\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_iso_128\\block_ram128_bhual4yk\\absent\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_iso_128\\block_ram128_bhual4yk\\owned_reboot\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_iso_128\\block_ram128_bhual4yk\\owned_restart\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_iso_128\\block_ram128_bhual4yk\\unowned\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_iso_512\\block_ram512_wn2agby_\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_iso_512\\block_ram512_wn2agby_\\absent\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_iso_512\\block_ram512_wn2agby_\\owned_reboot\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_iso_512\\block_ram512_wn2agby_\\owned_restart\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\block_iso_512\\block_ram512_wn2agby_\\unowned\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_128_countedoverflow\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_128_frameexhaustion\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_128_headerbad\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_128_invalidmagic\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_128_mmaptruncated\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_128_module-overlap\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_128_modulein-growth\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_128_nomodule\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_128_null\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_128_reservedgrowth\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_128_validmodule\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_512_countedoverflow\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_512_frameexhaustion\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_512_headerbad\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_512_invalidmagic\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_512_mmaptruncated\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_512_module-overlap\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_512_modulein-growth\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_512_nomodule\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_512_null\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_512_reservedgrowth\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\elf_512_validmodule\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_128_countedoverflow\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_128_frameexhaustion\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_128_headerbad\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_128_invalidmagic\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_128_mmaptruncated\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_128_module-overlap\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_128_modulein-growth\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_128_nomodule\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_128_null\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_128_reservedgrowth\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_128_validmodule\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_512_countedoverflow\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_512_frameexhaustion\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_512_headerbad\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_512_invalidmagic\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_512_mmaptruncated\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_512_module-overlap\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_512_modulein-growth\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_512_nomodule\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_512_null\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_512_reservedgrowth\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\boot_metadata\\boot_metadata_q6i6ol0h\\iso_512_validmodule\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\fs_elf_128\\20261023_120414_ram128_7mtbijfz\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\fs_elf_512\\20261023_120709_ram512_4sdbh2ol\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\fs_iso_128\\20261023_121045_ram128_ysurzyf4\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\fs_iso_512\\20261023_121346_ram512_ynu46v_b\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\iso_paging\\20261023_121028_paging\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\paging\\20261023_120315_paging\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_absent\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_bad-digest\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_corrupt-rostifs\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_duplicate\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_invalid-descriptor\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_malformed\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_missing-storage\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_mount-collision\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_mount-failure\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_oversize\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_reboot-after-failure\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_resource-exhaustion\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_truncated\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_128_trusted\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_absent\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_bad-digest\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_corrupt-rostifs\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_duplicate\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_invalid-descriptor\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_malformed\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_missing-storage\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_mount-collision\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_mount-failure\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_oversize\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_reboot-after-failure\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_resource-exhaustion\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_truncated\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\elf_512_trusted\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_absent\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_bad-digest\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_corrupt-rostifs\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_duplicate\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_invalid-descriptor\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_malformed\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_missing-storage\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_mount-collision\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_mount-failure\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_oversize\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_reboot-after-failure\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_resource-exhaustion\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_truncated\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_128_trusted\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_absent\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_bad-digest\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_corrupt-rostifs\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_duplicate\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_invalid-descriptor\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_malformed\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_missing-storage\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_mount-collision\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_mount-failure\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_oversize\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_reboot-after-failure\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_resource-exhaustion\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_truncated\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\phase10\\20261023_121646_phase10_4w5t9w3_\\iso_512_trusted\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\read_fault\\20261023_114342_fault\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_128\\rostifs_ram128_9105ai_y\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_128\\rostifs_ram128_9105ai_y\\boot1_write\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_128\\rostifs_ram128_9105ai_y\\boot2_read_delete\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_128\\rostifs_ram128_9105ai_y\\boot3_deleted\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_128\\rostifs_ram128_9105ai_y\\corrupt\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_128\\rostifs_ram128_9105ai_y\\unowned\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_512\\rostifs_ram512_0xz0wxw2\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_512\\rostifs_ram512_0xz0wxw2\\boot1_write\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_512\\rostifs_ram512_0xz0wxw2\\boot2_read_delete\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_512\\rostifs_ram512_0xz0wxw2\\boot3_deleted\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_512\\rostifs_ram512_0xz0wxw2\\corrupt\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_elf_512\\rostifs_ram512_0xz0wxw2\\unowned\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_128\\rostifs_ram128_xvsadxqh\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_128\\rostifs_ram128_xvsadxqh\\boot1_write\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_128\\rostifs_ram128_xvsadxqh\\boot2_read_delete\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_128\\rostifs_ram128_xvsadxqh\\boot3_deleted\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_128\\rostifs_ram128_xvsadxqh\\corrupt\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_128\\rostifs_ram128_xvsadxqh\\unowned\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_512\\rostifs_ram512_4lj_go2w\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_512\\rostifs_ram512_4lj_go2w\\boot1_write\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_512\\rostifs_ram512_4lj_go2w\\boot2_read_delete\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_512\\rostifs_ram512_4lj_go2w\\boot3_deleted\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_512\\rostifs_ram512_4lj_go2w\\corrupt\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\rostifs_iso_512\\rostifs_ram512_4lj_go2w\\unowned\\report.json",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03\\acceptance_20261023T032857Z_we8akw8p\\write_fault\\20261023_114349_fault\\report.json"
+  ],
+  "generic_count_qualification": "Cardinality/true-check validation; not distinct guest count or full historical process proof",
+  "boot_metadata_44_not_F1": true,
+  "canonical_F1_hardware_present": false
+}

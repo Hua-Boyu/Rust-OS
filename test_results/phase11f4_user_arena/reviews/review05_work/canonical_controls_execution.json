@@ -1,0 +1,10 @@
+{
+  "command": [
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+    "-B",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f4_user_arena\\test_canonical_03.py"
+  ],
+  "exit_code": 0,
+  "log_sha256": "e2539ad8cbe27c9163f5ccbceffb5ecb692683ab03fa808581353f258cbca851",
+  "qualification": "Python-only mocks/refusals, not real acceptance"
+}

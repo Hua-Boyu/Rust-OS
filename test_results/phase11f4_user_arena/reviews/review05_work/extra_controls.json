@@ -1,0 +1,97 @@
+{
+  "qualification": "Reviewer-authored Python-only mock controls; never real runner execution",
+  "launcher_cases": [
+    {
+      "case": "success",
+      "PASS": true,
+      "spawn_mock_calls": 1,
+      "real_spawn_calls": 0,
+      "wait_observed": 1,
+      "error": null,
+      "admission_calls": 2,
+      "scope": "MOCK ONLY not acceptance evidence"
+    },
+    {
+      "case": "nonzero",
+      "PASS": true,
+      "spawn_mock_calls": 1,
+      "real_spawn_calls": 0,
+      "wait_observed": 1,
+      "error": "runner nonzero/source drift",
+      "admission_calls": 2,
+      "scope": "MOCK ONLY not acceptance evidence"
+    },
+    {
+      "case": "ambiguous",
+      "PASS": true,
+      "spawn_mock_calls": 1,
+      "real_spawn_calls": 0,
+      "wait_observed": 1,
+      "error": "missing/ambiguous invocation acceptance",
+      "admission_calls": 2,
+      "scope": "MOCK ONLY not acceptance evidence"
+    },
+    {
+      "case": "source_drift",
+      "PASS": true,
+      "spawn_mock_calls": 1,
+      "real_spawn_calls": 0,
+      "wait_observed": 1,
+      "error": "runner nonzero/source drift",
+      "admission_calls": 2,
+      "scope": "MOCK ONLY not acceptance evidence"
+    },
+    {
+      "case": "reuse",
+      "PASS": true,
+      "spawn_mock_calls": 0,
+      "real_spawn_calls": 0,
+      "wait_observed": 0,
+      "error": "refuse canonical output reuse",
+      "admission_calls": 2,
+      "scope": "MOCK ONLY not acceptance evidence"
+    },
+    {
+      "case": "late_artifact_drift",
+      "PASS": true,
+      "spawn_mock_calls": 0,
+      "real_spawn_calls": 0,
+      "wait_observed": 0,
+      "error": "candidate artifact drift C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f4_user_arena\\MOCK_canonical03_gsrhvzdk\\test_results\\phase11f4_user_arena\\run_canonical_03.py",
+      "admission_calls": 2,
+      "scope": "MOCK ONLY not acceptance evidence"
+    }
+  ],
+  "canonical_controls_exact_identities": [
+    "test_actual_historical_reviews_rejected_before_spawn",
+    "test_actual_launcher_cli_rejects_review02_without_output",
+    "test_actual_optimized_python_refused_before_acceptance",
+    "test_ambiguous_invocation_acceptance",
+    "test_check_area_missing_failed_duplicate_or_dict",
+    "test_complete_mock_review_admitted_pure_only",
+    "test_contradictions_and_nonzero_blockers",
+    "test_driver_command_ownership_exit_and_source_contradictions",
+    "test_driver_missing_manifest_metadata_or_stale_schema",
+    "test_duplicate_json_keys_refused",
+    "test_dynamic_mock_driver_roundtrip_pure_only",
+    "test_exact72_gate_multiset_and_failed_gate_refusals",
+    "test_inherited_deep_evidence_checks_preserved",
+    "test_malformed_review_launcher_rejects_without_output_or_spawn",
+    "test_manifest_hash_disagreement",
+    "test_manifest_path_disagreement",
+    "test_mutated_artifact_refused",
+    "test_mutated_source_bytes",
+    "test_readers_import_without_side_effects",
+    "test_real_runner_cli_nesting_static_contract",
+    "test_required_fields_each_missing",
+    "test_source_and_artifact_declared_count_refusals",
+    "test_stale_acceptance_bytes",
+    "test_stale_manifest_bytes",
+    "test_stale_review_hash",
+    "test_stale_source_membership_and_hash",
+    "test_tools_must_be_frozen"
+  ],
+  "canonical_controls_count": 27,
+  "short_output_parent": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f4acc\\c03",
+  "production_output_absent": true
+}

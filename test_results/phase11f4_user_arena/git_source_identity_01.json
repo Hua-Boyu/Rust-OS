@@ -1,0 +1,191 @@
+{
+  "scope": "Parent precommit read-only source/Git identity inventory, not staging or acceptance",
+  "head": "d81672c4b314f0388e10e4c8dc9466b35ea89ce7",
+  "source_count": 187,
+  "changed_or_untracked": [
+    {
+      "path": ".cargo/config.toml",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "1bb7d373f2e005a68a87343e04bb04b3e48618333d2b3ab6428c03217b0cacf0",
+      "raw_sha256": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+      "working_crlf_count": 10
+    },
+    {
+      "path": "Cargo.toml",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "1e1f4a01411ae5163123511074e0b9f7301ac1f8d8852f32ff5e5341a67bbc25",
+      "raw_sha256": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+      "working_crlf_count": 24
+    },
+    {
+      "path": "crates/rostifs/Cargo.toml",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "9427c8adb79e57e6bab62d6a8bb5514169e0bc4fa6eeb5cb013eb0a962ff6293",
+      "raw_sha256": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920",
+      "working_crlf_count": 27
+    },
+    {
+      "path": "linker.ld",
+      "classification": "SEMANTIC_SOURCE_CHANGE",
+      "HEAD_blob_sha256": "adaf15f9565cc884ed5e33168aeba56f9a8330553fa7176357df5b87e90911a7",
+      "raw_sha256": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+      "working_crlf_count": 0
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "2ce1c1fe5e79a52424c9d88d99f5a2c95dcf5b4f4a82431bb9e5710cfb39e184",
+      "raw_sha256": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95",
+      "working_crlf_count": 2
+    },
+    {
+      "path": "scripts/b13_boot_fixture.py",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "2fb56cb3281301e105b8033b4618c25d74cecc52e51d7854b4774f7bb8df1132",
+      "raw_sha256": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef",
+      "working_crlf_count": 115
+    },
+    {
+      "path": "scripts/f4_arena_guest.py",
+      "classification": "FROZEN_UNTRACKED_SOURCE",
+      "raw_sha256": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac"
+    },
+    {
+      "path": "scripts/f4_dwarf.py",
+      "classification": "FROZEN_UNTRACKED_SOURCE",
+      "raw_sha256": "69f975db576cc6e7d807586671801809d797f258a5542abc5ff6f7fd34909e2f"
+    },
+    {
+      "path": "scripts/f4_evidence.py",
+      "classification": "FROZEN_UNTRACKED_SOURCE",
+      "raw_sha256": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef"
+    },
+    {
+      "path": "scripts/f4_ready_guest.py",
+      "classification": "FROZEN_UNTRACKED_SOURCE",
+      "raw_sha256": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8"
+    },
+    {
+      "path": "scripts/f4_user_guest.py",
+      "classification": "FROZEN_UNTRACKED_SOURCE",
+      "raw_sha256": "e5cdc25555a0da366f3dd45508fff4770d9311f2abaf85eb2e5c1c5ade57b473"
+    },
+    {
+      "path": "scripts/phase6_verify.py",
+      "classification": "SEMANTIC_SOURCE_CHANGE",
+      "HEAD_blob_sha256": "dd53d96f590c6c0aa0088b8543467a98ed6a2806512f346664ce407b340043d4",
+      "raw_sha256": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+      "working_crlf_count": 1082
+    },
+    {
+      "path": "scripts/test_acceptance_harness.py",
+      "classification": "SEMANTIC_SOURCE_CHANGE",
+      "HEAD_blob_sha256": "e4915570ad14f3489264dc051ca49cb3ddb06d62ea838e2f24409d3ce7827c9a",
+      "raw_sha256": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+      "working_crlf_count": 0
+    },
+    {
+      "path": "src/allocator.rs",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "6e86a9252ac3a1dc731165bd36b32dd9f2319f1443ba3a3af1e6066d9449eaad",
+      "raw_sha256": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+      "working_crlf_count": 391
+    },
+    {
+      "path": "src/boot.s",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "8930803a021f0a64109dc2f580e5599b81ccac88cef6d21f9eb994c4a67ff0e0",
+      "raw_sha256": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+      "working_crlf_count": 59
+    },
+    {
+      "path": "src/gdt.rs",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "e7ccf7b2de807df9105cfd3b2f4fa4930f4f9833ad5837ecf7b5cec2e2a5e126",
+      "raw_sha256": "02c845d9cd9c579e7f5461f365318a2ad6a88faf9567d9c9ca25b47485267599",
+      "working_crlf_count": 194
+    },
+    {
+      "path": "src/io/mod.rs",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "773410d29d1676ea06607c2a64b573f712d1e2ac9559c77b60fe29e85823d822",
+      "raw_sha256": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+      "working_crlf_count": 3
+    },
+    {
+      "path": "src/io/vga.rs",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "ff6b1e479f2b81e406f977af439c62c70c54994bcc3d66811ec073a1415a7b25",
+      "raw_sha256": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+      "working_crlf_count": 185
+    },
+    {
+      "path": "src/memory/f4_b26_tests.rs",
+      "classification": "FROZEN_UNTRACKED_SOURCE",
+      "raw_sha256": "2b527dd7764dc709914959b2cd06c7127402cde554078f987eca1aeb8cac72fc"
+    },
+    {
+      "path": "src/memory/f4_user_arena_tests.rs",
+      "classification": "FROZEN_UNTRACKED_SOURCE",
+      "raw_sha256": "4fe8da1bb4ac93e4884b8d270fce08e34de15bee1d1d4e595778e260a5c80509"
+    },
+    {
+      "path": "src/memory/mod.rs",
+      "classification": "SEMANTIC_SOURCE_CHANGE",
+      "HEAD_blob_sha256": "38429eed8fb2b6d48a3816315b3315b30ba76f23caf6f11aa8265b46e935d7d6",
+      "raw_sha256": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+      "working_crlf_count": 0
+    },
+    {
+      "path": "src/memory/paging.rs",
+      "classification": "SEMANTIC_SOURCE_CHANGE",
+      "HEAD_blob_sha256": "74359a99a54aee1120bb83747e42bfe502f65a378ec36d67ad518f5ca849d09f",
+      "raw_sha256": "749c0aaa4752da2d991014fdc0464826d6d53dc2c97c166a3ca76f165685cbd9",
+      "working_crlf_count": 0
+    },
+    {
+      "path": "src/memory/retained_owner.rs",
+      "classification": "SEMANTIC_SOURCE_CHANGE",
+      "HEAD_blob_sha256": "8ca5edf9b5f57fac6c06690d40d7863cccfc03b3b4cd5c1abbba5f7280128197",
+      "raw_sha256": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+      "working_crlf_count": 0
+    },
+    {
+      "path": "src/memory/user_arena.rs",
+      "classification": "FROZEN_UNTRACKED_SOURCE",
+      "raw_sha256": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d"
+    },
+    {
+      "path": "src/utils/bits.rs",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "721d06562d4f3fe13c71c163f223d1163598b8aea8b3460e224fc9a5dafb36d3",
+      "raw_sha256": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+      "working_crlf_count": 68
+    },
+    {
+      "path": "src/utils/mod.rs",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "eefaaac74322951aef244266b10f0da3e9946e431d6a1ad44273bfb8fad973fd",
+      "raw_sha256": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+      "working_crlf_count": 2
+    },
+    {
+      "path": "src/utils/mutex.rs",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "3bfd28591f13205a339e67bc6551078add5869fcee9c6d6910089add0fd2b0bd",
+      "raw_sha256": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+      "working_crlf_count": 67
+    },
+    {
+      "path": "target.json",
+      "classification": "NEWLINE_ONLY",
+      "HEAD_blob_sha256": "b104a3063275a7ed79338d75919751eb2ca14b95644a720db04a2690b10e36a8",
+      "raw_sha256": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+      "working_crlf_count": 22
+    }
+  ],
+  "changed_or_untracked_count": 28,
+  "protected_bytes_match": true,
+  "proposed_staging_policy": "Only after final independent approval: explicit task paths with command-scoped core.autocrlf=false; compare all staged raw blobs with working freeze, preserve protected paths unstaged; no persistent config or working-source normalization",
+  "overall": "PASS"
+}

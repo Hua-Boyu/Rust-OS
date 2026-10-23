@@ -1,4 +1,34 @@
-## Current — F3 GDT/TSS/privileged stacks ACCEPTED (2026-10-22)
+## Current — Phase11 F4 owned USER arena ACCEPTED
+
+F4 is accepted: one canonical PASS72/72, actual exit0, exact70 preserved F3 gates
+plus two F4 gates. Acceptance:
+`test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json`
+(raw `3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4`).
+Comprehensive candidate05 APPROVE0/all19 areas
+(`fbcb7dad91b437393379fcbd9211cd4f9362be4445128848b0bd36e22a53d3d9`);
+separate final canonical readback01 APPROVE0/all20 findings
+(`c5a423c9ac83d3e753609822cbb84dbd51170abbe292e81ac4ae495083db47f0`),
+including explicit independent resolution of the numbered ISO-reader correction.
+Source187/raw frozen; manifest04
+`0b56cff4baefb9763152e68332e2b7bdee8cb95a30fbc6bb17bffbc8cdc17765`.
+Host378/0/2 ignored, B26149/0/0, focusedF412; F1 guests10/10 are reusable
+source-identical f4p05 preservation, canonical F2/F3/F4 guests8/18/12 at128/512MiB.
+Terminal strict emitted closure4 blocks/11 edges/zero forbidden/unresolved;
+GREEN ELF `db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892`.
+Arena0x40000000..0x40400000: owned RO USER code/data and RW USER stack,
+absent guards/holes,12 retained frames, PDE-last publication. Bounded terminal
+retention is NOT rollback/capacity restoration. Non-PAE/no NX/hardware W^X;
+no CPL3 execution or user-mode release-readiness claim. Historical F1 full
+final-readback gap and F3 static conditional one-nested-NMI stack bound remain.
+Original REJECTs and narrow excluded review02 are preserved, not rewritten.
+
+**F5 requires separate fresh authorization; do not start F5/CPL3.** No push or
+deployment. Next safe command: `git status --short`, CWD
+`C:/Users/iamsv/Documents/Rust-OS`. Full report and current identities:
+`test_results/phase11f4_user_arena/FINAL_REPORT.md`, `STATE.md`,
+`evidence_manifest.json`. Do not restart tests or frozen implementation.
+
+## Historical — F3 GDT/TSS/privileged stacks ACCEPTED (2026-10-22)
 
 F3 IS ACCEPTED: canonical 70/70 exit 0 at test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json
 (sha 2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b); source frozen at
