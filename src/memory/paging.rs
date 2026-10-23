@@ -30,6 +30,8 @@ use alloc::vec::Vec;
 pub(crate) mod privileged;
 #[path = "retained_owner.rs"]
 pub(crate) mod retained_owner;
+#[path = "user_arena.rs"]
+pub(crate) mod user_arena;
 use retained_owner::mutation_allowed;
 
 #[cfg(test)]
@@ -79,6 +81,14 @@ mod retained_owner_tests;
 #[cfg(test)]
 #[path = "privileged_owner_tests.rs"]
 mod privileged_owner_tests;
+
+#[cfg(test)]
+#[path = "f4_user_arena_tests.rs"]
+mod f4_user_arena_tests;
+
+#[cfg(all(test, feature = "b26-observation"))]
+#[path = "f4_b26_tests.rs"]
+mod f4_b26_tests;
 
 pub const PAGE_SIZE: usize = 4096;
 pub const ENTRY_PRESENT: u32 = 1 << 0;
@@ -183,6 +193,8 @@ pub struct PageMap {
     payload_bitmap: Vec<u8>,
     // Fixed ten-slot F3 reservation; no returning mapper may alter it.
     privileged_reserved: bool,
+    // F4 reserves its entire dedicated PDE, including holes and guard.
+    user_arena_reserved: bool,
     stats: PagingStats,
     window_end: u64,
 }
@@ -399,7 +411,9 @@ impl PageMap {
         if !mutation_allowed() {
             return false;
         }
-        if self.privileged_slot(linear) {
+        if self.privileged_slot(linear)
+            || (self.user_arena_reserved && linear >= user_arena::START && linear < user_arena::END)
+        {
             self.stats.map_rejects += 1;
             return false;
         }
@@ -563,7 +577,9 @@ impl PageMap {
         if !mutation_allowed() {
             return false;
         }
-        if self.privileged_slot(linear) {
+        if self.privileged_slot(linear)
+            || (self.user_arena_reserved && linear >= user_arena::START && linear < user_arena::END)
+        {
             self.stats.unmap_rejects += 1;
             return false;
         }
@@ -904,6 +920,7 @@ pub(crate) fn build_identity_map_with_backing_in_place(
         boot_pins: core::mem::take(boot_pins),
         payload_bitmap: core::mem::take(payload_bitmap),
         privileged_reserved: false,
+        user_arena_reserved: false,
         stats,
         window_end,
     })

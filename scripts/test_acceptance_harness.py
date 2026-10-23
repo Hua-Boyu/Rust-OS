@@ -14,6 +14,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+import f4_evidence
 import f2_evidence
 import f3_evidence
 import test_f3_evidence as f3_models
@@ -246,7 +247,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertTrue(any(str(c).replace("\\", "/").endswith("tests_kernel/Cargo.toml")
                             for c in commands[0]))
         self.assertEqual(self.last_report["counts"]["f2_exception_abi"], {"pass": 7, "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 70)
+        self.assertEqual(self.last_report["gates_total"], 72)
         gates = [g["gate"] for g in self.last_report["gates"]]
         self.assertEqual(gates.count("Phase 11F2 exception ABI exact identity family"), 1)
 
@@ -313,8 +314,8 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(validate.call_args.args[1], self.last_report["source_sha256"])
         self.assertEqual(self.last_report["counts"]["f2_exception_scenarios"], {"pass": 8, "fail": 0})
         self.assertEqual(len(self.last_report["f2_evidence_sha256"]), 10)
-        self.assertEqual(self.last_report["gates_total"], 70)
-        self.assertEqual(self.last_report["gates_passed"], 70)
+        self.assertEqual(self.last_report["gates_total"], 72)
+        self.assertEqual(self.last_report["gates_passed"], 72)
         self.assertEqual(sum(g["gate"] == "Phase 11F2 exception ABI hardware matrix"
                              for g in self.last_report["gates"]), 1)
 
@@ -428,7 +429,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(self.last_report["counts"]["f3_minimal_ring0_scenarios"],
                          {"pass": len(f3_full_evidence.REQUIRED), "fail": 0})
         self.assertGreater(len(self.last_report["f3_evidence_sha256"]), len(f3_full_evidence.REQUIRED))
-        self.assertEqual(self.last_report["gates_passed"], 70)
+        self.assertEqual(self.last_report["gates_passed"], 72)
         self.assertEqual(Counter(g["gate"] for g in self.last_report["gates"])[
             "Phase 11F3 minimal Ring0 hardware matrix"], 1)
 
@@ -555,6 +556,154 @@ class SourceFreezeTests(unittest.TestCase):
             families[key] = (filter_name, [prefix + name for name in names])
         return families
 
+    def declared_f4_names(self):
+        source = (Path(__file__).resolve().parents[1] / "src/memory/f4_user_arena_tests.rs").read_text()
+        names = re.findall(r"(?m)^#\[test\]\s*\nfn (\w+)\(", source)
+        self.assertEqual(len(names), 12)
+        self.assertEqual(len(set(names)), 12)
+        return ["memory::paging::f4_user_arena_tests::" + name for name in names]
+
+    def test_f4_exact_contract_and_only_two_gate_delta(self):
+        self.assertEqual(Counter(acceptance.F4_HOST_REQUIRED), Counter(self.declared_f4_names()))
+        self.assertEqual(acceptance.F3_PREDECESSOR_PATH,
+                         "test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json")
+        self.assertEqual(acceptance.F3_PREDECESSOR_SHA256,
+                         "2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b")
+        self.assertEqual(self.simulate(lambda root: None), 0)
+        actual = Counter(g["gate"] for g in self.last_report["gates"])
+        predecessor = Counter(acceptance.F3_PREDECESSOR_GATES)
+        self.assertEqual(sum(predecessor.values()), 70)
+        self.assertFalse(predecessor - actual)
+        self.assertEqual(actual - predecessor, Counter({
+            "Phase 11 F4 owned USER arena host contract": 1,
+            "Phase 11 F4 owned USER arena Ring0 hardware matrix": 1}))
+        self.assertEqual(self.last_report["gates_passed"], 72)
+        host_index = next(i for i,c in enumerate(self.last_commands) if "f4_user_arena_tests::" in c)
+        host = self.last_commands[host_index]
+        self.assertEqual(host[host.index("--target")+1], "x86_64-pc-windows-msvc")
+        self.assertEqual(self.last_cwds[host_index], Path.home())
+        matrix = next(c for c in self.last_commands if any(str(a).endswith("f4_arena_guest.py") for a in c))
+        output = Path(matrix[matrix.index("--output-dir")+1])
+        self.assertEqual(output.name, "matrix")
+        self.assertEqual(output.parent.name, "f4_user_arena")
+        self.assertEqual(len(self.last_f4_calls), 1)
+        # The real driver writes directly into the supplied unique output.
+        # Do not model an extra generated child that the driver never creates.
+        self.assertEqual(self.last_f4_calls[0][0], output / "report.json")
+        self.assertEqual(self.last_f4_calls[0][1], self.last_report["source_sha256"])
+        self.assertIn("scripts/f4_arena_guest.py", self.last_report["source_sha256"])
+        self.assertEqual(self.last_report["counts"]["f4_owned_user_arena_host"], {"pass":12,"fail":0})
+        self.assertEqual(self.last_report["counts"]["f4_owned_user_arena_scenarios"], {"pass":12,"fail":0})
+        self.assertTrue(self.last_report["f4_evidence_sha256"])
+        self.assertGreaterEqual(self.last_timeouts[self.last_commands.index(matrix)], 2100)
+
+    def test_f4_host_identity_refusals(self):
+        names = self.declared_f4_names()
+        def output(rows, summary=True):
+            return ("".join(f"test {name} ... ok\n" for name in rows)
+                    + (f"test result: ok. {len(rows)} passed; 0 failed; 0 ignored\n" if summary else ""))
+        for text in ("", output([]), output(names[:-1]), output(names+[names[0]]),
+                     output(names[:-1]+[names[0]]), output(names[:-1]+["impostor::"+names[-1]]),
+                     output(names,False), output(names).replace("0 ignored","1 ignored"),
+                     output(names).replace("0 failed","1 failed")):
+            with self.subTest(output=text):
+                self.assertEqual(self.simulate(lambda root: None,
+                    safety_output={"f4_user_arena_tests::":text}), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+                self.assertNotIn("f4_owned_user_arena_host", self.last_report["counts"])
+
+    def test_f4_missing_failed_malformed_and_impostor_driver_or_aggregate_refuse(self):
+        options = [{"missing_script":"f4_arena_guest.py"}, {"failed_script":"f4_arena_guest.py"},
+                   {"f4_report":None}, {"f4_report":"ambiguous"}, {"f4_report":"malformed"},
+                   {"f4_report":{}}, {"f4_driver":"missing"}, {"f4_driver":"malformed"},
+                   {"f4_driver":"duplicate"}, {"f4_driver":{"output":"impostor"}},
+                   {"f4_driver":{"driver_exit":1}}, {"f4_driver":{"overall":"FAIL"}}]
+        for option in options:
+            with self.subTest(option=option):
+                self.assertEqual(self.simulate(lambda root: None, **option), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+                self.assertNotIn("f4_owned_user_arena_scenarios", self.last_report["counts"])
+
+    def test_f4_guest_identity_source_cleanup_and_validator_refusal(self):
+        mutations = [lambda e:e.update(overall="FAIL"), lambda e:e.update(source_sha256={}),
+                     lambda e:e["scenarios"].pop(),
+                     lambda e:e["scenarios"][0].update(scenario="impostor"),
+                     lambda e:e["scenarios"][0].update(cleanup=False),
+                     lambda e:e["scenarios"][0].update(kernel_sha256="0"*64)]
+        for mutate in mutations:
+            with self.subTest(mutation=mutate):
+                self.assertEqual(self.simulate(lambda root: None, f4_report=mutate), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+        def refuse(*args):
+            raise ValueError("F4 validator refused")
+        self.assertEqual(self.simulate(lambda root: None, f4_validator=refuse), 1)
+        self.assertEqual(self.last_report["error"], "F4 validator refused")
+        self.assertEqual(self.last_versioned_count, 0)
+
+    def test_f4_every_returned_pin_and_driver_log_remains_frozen(self):
+        for relative in ("report.json", "kernel.elf", "ready_128/guest_report.json", "DRIVER_LOG", "PRODUCTION_KERNEL"):
+            def mutate(root):
+                folder = next((root/"test_results").glob("phase*/acceptance_*/f4_user_arena/*"))
+                target = folder/relative
+                if relative == "DRIVER_LOG":
+                    target = next(folder.parent.parent.glob("*_phase_11_f4_owned_user_arena_ring0_hardware_matrix.log"))
+                if relative == "PRODUCTION_KERNEL":
+                    target = root/"target/target/debug/kernel"
+                target.write_bytes(target.read_bytes()+b"UNIT MODEL mutation")
+            with self.subTest(pin=relative):
+                self.assertEqual(self.simulate(mutate), 1)
+                self.assertEqual(self.last_versioned_count, 0)
+                self.assertEqual(self.last_report["error"], "F4 validated hardware evidence changed during acceptance")
+
+    def test_f4_unvalidated_report_cannot_bypass_generic_parser(self):
+        def mutate(root):
+            folder = next((root/"test_results").glob("phase*/acceptance_*/f4_user_arena/*"))/"unvalidated"
+            folder.mkdir()
+            (folder/"report.json").write_text(json.dumps({"overall":"PASS","schema":"UNIT_MODEL_ONLY_F4"}))
+        self.assertEqual(self.simulate(mutate), 1)
+        self.assertEqual(self.last_versioned_count, 0)
+
+    def test_f3_predecessor_identity_and_late_pin_refusals(self):
+        for mutate in (lambda e:e["gates"].pop(),
+                       lambda e:e["gates"][-1].update(gate=e["gates"][0]["gate"]),
+                       lambda e:e["gates"][-1].update(gate="impostor")):
+            with self.subTest(mutation=mutate):
+                self.assertEqual(self.simulate(lambda root: None, predecessor_mutation=mutate), 1)
+                self.assertEqual(self.last_report["error"], "F3 predecessor gate identity multiset mismatch")
+                self.assertEqual(self.last_versioned_count, 0)
+        def corrupt(root):
+            path = root/acceptance.F3_PREDECESSOR_PATH
+            path.write_bytes(path.read_bytes()+b" ")
+        self.assertEqual(self.simulate(corrupt), 1)
+        self.assertEqual(self.last_report["error"], "F3 predecessor acceptance changed during acceptance")
+        self.assertEqual(self.last_versioned_count, 0)
+
+    def test_b26_full_membership_and_f4_controls_are_source_declared(self):
+        root = Path(__file__).resolve().parents[1]
+        sources = (list((root/"src").rglob("*.rs")) + list((root/"tests_b26/src").rglob("*.rs"))
+                   + list((root/"tests_kernel/src").rglob("*.rs")))
+        declared = set()
+        for path in sources:
+            declared.update(re.findall(r"#\[test\]\s*fn (\w+)\(",path.read_text()))
+        self.assertEqual(len(acceptance.B26_REQUIRED), 149)
+        self.assertEqual(len(set(acceptance.B26_REQUIRED)),149)
+        self.assertTrue(all(name.split("::")[-1] in declared for name in acceptance.B26_REQUIRED))
+        controls = re.findall(r"#\[test\]\s*fn (\w+)\(",(root/"src/memory/f4_b26_tests.rs").read_text())
+        self.assertEqual(len(controls),3)
+        self.assertTrue(set("memory::paging::f4_b26_tests::"+n for n in controls) <= set(acceptance.B26_REQUIRED))
+        self.assertTrue(set(self.declared_f4_names()) <= set(acceptance.B26_REQUIRED))
+        paging = (root/"src/memory/paging.rs").read_text()
+        self.assertRegex(paging,r'(?s)#\[cfg\(all\(test, feature = "b26-observation"\)\)\].{0,120}mod f4_b26_tests;')
+        self.assertIn('default = ["b26-observation"]',(root/"tests_b26/Cargo.toml").read_text())
+
+    def test_b26_full_exact_membership_cannot_shrink_or_substitute(self):
+        names = list(acceptance.B26_REQUIRED)
+        for rows in (names[:-1], names[:-1]+["impostor::b26_control"], names+[names[0]]):
+            text = "".join(f"test {n} ... ok\n" for n in rows)+f"test result: ok. {len(rows)} passed; 0 failed; 0 ignored\n"
+            with self.subTest(rows=len(rows)):
+                self.assertEqual(self.simulate(lambda root: None,safety_output={"b26_":text}),1)
+                self.assertEqual(self.last_versioned_count,0)
+
     def declared_b26_detector_names(self):
         source = (Path(__file__).resolve().parents[1] / "src/memory/ownership_observation_tests.rs").read_text()
         names = re.findall(r"(?m)^#\[test\]\s*\nfn (b26_\w+)\(", source)
@@ -588,9 +737,12 @@ class SourceFreezeTests(unittest.TestCase):
     def simulate(self, mutation, omit_reports=False, boot_rows=10, read_tests=4, write_tests=3,
                  safety_output=None, metadata_report="valid", b13_report="valid",
                  phase10_report="valid", failed_script=None, fs_checks=103,
-                 f2_report="valid", missing_script=None, f3_report="valid", f3_complete=True):
+                 f2_report="valid", missing_script=None, f3_report="valid", f3_complete=True,
+                 f4_report="valid", f4_driver="valid", f4_validator=None, predecessor_mutation=None):
         self.last_commands = []
         self.last_timeouts = []
+        self.last_cwds = []
+        self.last_f4_calls = []
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             for path in ("src/main.rs", "tests_kernel/src/lib.rs", "scripts/a.py", "Cargo.toml", "linker.ld", "target.json", ".cargo/config.toml"):
@@ -609,6 +761,21 @@ class SourceFreezeTests(unittest.TestCase):
             for name,raw in f3_full_models.default_sources().items():
                 if not (root/name).exists() or name in ("src/exception_entry.s","src/f3_entry.s"):
                     f3_models.write(root/name,raw)
+            # Controlled mock-only predecessor, never read ignored real acceptance paths.
+            predecessor = {"UNIT_MODEL_ONLY": True, "overall": "PASS", "gates_total": 70,
+                           "gates_passed": 70, "gates": [
+                               {"gate": name, "status": "PASS", "exit_code": 0}
+                               for name in acceptance.F3_PREDECESSOR_GATES]}
+            if predecessor_mutation:
+                predecessor_mutation(predecessor)
+            predecessor_path = root / acceptance.F3_PREDECESSOR_PATH
+            predecessor_path.parent.mkdir(parents=True)
+            predecessor_path.write_text(json.dumps(predecessor))
+            predecessor_digest = acceptance.sha256(predecessor_path)
+            for name in ("scripts/f4_arena_guest.py", "scripts/f4_evidence.py", "src/memory/user_arena.rs"):
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("UNIT MODEL ONLY " + name + "\n")
             kernel = root / "target/target/debug/kernel"
             kernel.parent.mkdir(parents=True)
             kernel.write_bytes(b"fixture kernel")
@@ -616,13 +783,14 @@ class SourceFreezeTests(unittest.TestCase):
             def run(command, **kwargs):
                 self.last_commands.append(command)
                 self.last_timeouts.append(kwargs.get("timeout"))
+                self.last_cwds.append(kwargs.get("cwd"))
                 script_name = next((Path(str(c)).name for c in command if str(c).endswith(".py")), "")
                 if script_name == missing_script:
                     raise FileNotFoundError(script_name)
                 # Simulate successful gates solely to reach the real final source-freeze check.
                 output = kwargs["stdout"]
                 prerequisite = next((c for c in command if c in (
-                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::", "phase11a2_abi_tests::", "mapping_pin_tests::", "structure_lifetime_tests::", "numeric_map_authority_tests::", "unmap_authority_tests::", "generation_ownership_tests::", "generation_ledger_tests::", "generation_boundary_tests::", "retained_owner", "exception_abi::tests::", "::f3_")), None)
+                    "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::", "phase11a2_abi_tests::", "mapping_pin_tests::", "structure_lifetime_tests::", "numeric_map_authority_tests::", "unmap_authority_tests::", "generation_ownership_tests::", "generation_ledger_tests::", "generation_boundary_tests::", "retained_owner", "exception_abi::tests::", "::f3_", "f4_user_arena_tests::")), None)
                 if prerequisite:
                     names = (["heap_growth_maps_one_page_on_demand"]
                              if prerequisite == "heap_growth_maps_one_page_on_demand" else [
@@ -664,12 +832,16 @@ class SourceFreezeTests(unittest.TestCase):
                         names = self.declared_f2_exception_abi_names()
                     if prerequisite == "::f3_":
                         names = self.declared_f3_names()
+                    if prerequisite == "f4_user_arena_tests::":
+                        names = self.declared_f4_names()
                     text = (safety_output or {}).get(prerequisite,
                         "".join(f"test {name} ... ok\n" for name in names)
                         + f"test result: ok. {len(names)} passed; 0 failed; 0 ignored\n")
                     output.write(text.encode())
                     return type("Result", (), {"returncode": 0})()
                 safety_filter = next((c for c in command if c in ("b11_", "b18_inventory_tests::", "b26_", "phase11_permission_tests::")), None)
+                if "test" in command and any(str(c).replace("\\", "/").endswith("tests_b26/Cargo.toml") for c in command):
+                    safety_filter = "b26_"
                 if safety_filter:
                     if safety_filter == "phase11_permission_tests::":
                         names = (
@@ -684,8 +856,7 @@ class SourceFreezeTests(unittest.TestCase):
                             + "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 265 filtered out\n")
                         output.write(text.encode())
                         return type("Result", (), {"returncode": 0})()
-                    names = (["growth_tests::b26_growth_failure_does_not_consume_reserved_frame"]
-                             + self.declared_b26_detector_names() if safety_filter == "b26_"
+                    names = (list(acceptance.B26_REQUIRED) if safety_filter == "b26_"
                              else [f"safety::{safety_filter}fixture"])
                     text = (safety_output or {}).get(safety_filter,
                         "".join(f"test {name} ... ok\n" for name in names)
@@ -778,6 +949,40 @@ class SourceFreezeTests(unittest.TestCase):
                     f3_models.dump(folder/"report.json",evidence)
                     if f3_report == "ambiguous":
                         f3_models.dump(folder.with_name("f3_full_ambiguous_UNIT_MODEL")/"report.json",evidence)
+                if script_name == "f4_arena_guest.py" and f4_report is not None:
+                    folder = Path(command[command.index("--output-dir") + 1])
+                    folder.mkdir(parents=True)
+                    evidence = {"schema": "UNIT_MODEL_ONLY_F4", "overall": "PASS", "source_sha256": acceptance.source_snapshot(),
+                                "scenarios": [], "frozen_bytes": {}}
+                    artifact = folder / "kernel.elf"
+                    artifact.write_bytes(b"UNIT MODEL ONLY, not a real guest ELF")
+                    evidence["frozen_bytes"]["kernel.elf"] = acceptance.sha256(artifact)
+                    for case, ram in f4_evidence.REQUIRED:
+                        child = folder / (case + "_" + str(ram)) / "guest_report.json"
+                        child.parent.mkdir()
+                        row = {"scenario": case, "ram_mib": ram, "overall": "PASS", "cleanup": True,
+                               "kernel_sha256": acceptance.sha256(artifact)}
+                        child.write_text(json.dumps(row))
+                        evidence["scenarios"].append({**row, "report": str(child)})
+                        evidence["frozen_bytes"][child.relative_to(folder).as_posix()] = acceptance.sha256(child)
+                    if callable(f4_report):
+                        f4_report(evidence)
+                    elif f4_report not in ("valid", "ambiguous", "malformed"):
+                        evidence = f4_report
+                    report_path = folder / "report.json"
+                    report_path.write_text("{malformed" if f4_report == "malformed" else json.dumps(evidence))
+                    if f4_report == "ambiguous":
+                        other = folder.with_name("f4_impostor_UNIT_MODEL")
+                        other.mkdir()
+                        (other / "report.json").write_text(json.dumps(evidence))
+                    driver = {"overall": "PASS", "driver_exit": 0, "output": str(folder), "hardware_cpl3": False}
+                    if isinstance(f4_driver, dict):
+                        driver.update(f4_driver)
+                    text = json.dumps(driver) + "\n"
+                    if f4_driver == "missing": text = ""
+                    if f4_driver == "malformed": text = "{malformed\n"
+                    if f4_driver == "duplicate": text += text
+                    output.write(text.encode())
                 if script_name == "phase10_initramfs_test.py" and phase10_report is not None:
                     folder = Path(command[command.index("--output-dir") + 1]) / "fixture"
                     folder.mkdir(parents=True, exist_ok=True)
@@ -845,7 +1050,35 @@ class SourceFreezeTests(unittest.TestCase):
                     # Scope refusal control only; never promote minimal evidence.
                     result = {**result,"full_f3_acceptance":False,"planned_only":f3_evidence.PLANNED}
                 return result
-            with patch.object(acceptance, "PROJECT", root), patch.object(sys, "argv", ["phase6_verify.py"]), patch.object(acceptance.subprocess, "run", side_effect=run), patch.object(acceptance.subprocess, "check_output", return_value="fixture-head\n"), f3_full_models.model_environment(root), patch.object(f3_full_evidence,"validate",side_effect=unit_full_validator), contextlib.redirect_stdout(io.StringIO()):
+            def unit_f4_validator(path, expected_source):
+                self.last_f4_calls.append((Path(path), expected_source))
+                if f4_validator is not None:
+                    return f4_validator(path, expected_source)
+                # Explicit mock evidence only: exercise runner integration, never
+                # substitute this model for real CPU/ELF evidence validation.
+                path = Path(path)
+                evidence = json.loads(path.read_text())
+                if (evidence.get("schema") != "UNIT_MODEL_ONLY_F4" or evidence.get("overall") != "PASS"
+                        or evidence.get("source_sha256") != expected_source):
+                    raise ValueError("F4 unit validator refused source/status/schema")
+                rows = evidence["scenarios"]
+                if Counter((row["scenario"], row["ram_mib"]) for row in rows) != Counter(f4_evidence.REQUIRED):
+                    raise ValueError("F4 unit validator refused identities")
+                pins = {str(path): acceptance.sha256(path)}
+                kernel_sha = acceptance.sha256(path.parent / "kernel.elf")
+                for row in rows:
+                    child = Path(row["report"])
+                    if (row.get("overall") != "PASS" or row.get("cleanup") is not True
+                            or row.get("kernel_sha256") != kernel_sha or not child.is_relative_to(path.parent)
+                            or json.loads(child.read_text()) != {k:v for k,v in row.items() if k != "report"}):
+                        raise ValueError("F4 unit validator refused guest/cleanup/artifact")
+                for name, digest in evidence["frozen_bytes"].items():
+                    target = path.parent / name
+                    if acceptance.sha256(target) != digest:
+                        raise ValueError("F4 unit validator refused frozen bytes")
+                    pins[str(target)] = digest
+                return {"overall": "PASS", "scenario_count": len(rows), "pins": pins}
+            with patch.object(acceptance, "F3_PREDECESSOR_SHA256", predecessor_digest), patch.object(f4_evidence, "validate_aggregate", side_effect=unit_f4_validator), patch.object(acceptance, "PROJECT", root), patch.object(sys, "argv", ["phase6_verify.py"]), patch.object(acceptance.subprocess, "run", side_effect=run), patch.object(acceptance.subprocess, "check_output", return_value="fixture-head\n"), f3_full_models.model_environment(root), patch.object(f3_full_evidence,"validate",side_effect=unit_full_validator), contextlib.redirect_stdout(io.StringIO()):
                 code = acceptance.main()
             self.last_versioned_count = len(list((root / "dist").glob("rosti_phase*.iso")))
             reports = list((root / "test_results").glob("phase*/acceptance_*/acceptance.json"))
@@ -885,7 +1118,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(len(commands), 1)
         self.assertIn("--test-threads=1", commands[0])
         self.assertEqual(self.last_report["counts"]["f1_retained_owner"], {"pass": 9, "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 70)
+        self.assertEqual(self.last_report["gates_total"], 72)
 
     def test_phase11_missing_or_wrong_f1_identities_cannot_publish(self):
         declared = self.declared_f1_retained_owner_names()
@@ -938,8 +1171,8 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(Path(guest[guest.index("--output-dir") + 1]).name, "phase10")
         self.assertEqual(self.last_report["counts"]["phase10_scenarios"],
                          {"pass": 4 * len(acceptance.PHASE10_CASES), "fail": 0})
-        # Preserve all 68 predecessor gates; add only F3 host and hardware gates.
-        self.assertEqual(self.last_report["gates_total"], 70)
+        # Preserve all 70 predecessor gates; add only the two approved F4 gates.
+        self.assertEqual(self.last_report["gates_total"], 72)
         for name in scripts:
             with self.subTest(failed=name):
                 self.assertEqual(self.simulate(lambda root: None, failed_script=name), 1)
@@ -979,11 +1212,12 @@ class SourceFreezeTests(unittest.TestCase):
                                            ("b18", "b18_inventory_tests::", "tests_kernel/Cargo.toml"),
                                            ("b26", "b26_", "tests_b26/Cargo.toml")):
             with self.subTest(suite=key):
-                commands = [c for c in self.last_commands if filter_name in c]
+                commands = [c for c in self.last_commands if (filter_name in c if key != "b26" else
+                            "test" in c and any(str(a).replace("\\", "/").endswith(manifest) for a in c))]
                 self.assertEqual(len(commands), 1)
                 self.assertIn("--lib", commands[0])
                 self.assertTrue(any(str(c).replace("\\", "/").endswith(manifest) for c in commands[0]))
-                self.assertEqual(self.last_report["counts"][key], {"pass": 6 if key == "b26" else 1, "fail": 0})
+                self.assertEqual(self.last_report["counts"][key], {"pass": 149 if key == "b26" else 1, "fail": 0})
 
     def test_empty_or_unobserved_host_safety_suites_cannot_publish(self):
         for filter_name in ("b11_", "b18_inventory_tests::", "b26_"):
@@ -1220,7 +1454,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertTrue(any(str(c).replace("\\", "/").endswith("tests_kernel/Cargo.toml")
                             for c in commands[0]))
         self.assertEqual(self.last_report["counts"]["phase11_structure_lifetime"], {"pass": 5, "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 70)
+        self.assertEqual(self.last_report["gates_total"], 72)
 
     def test_phase11_structure_lifetime_bad_identities_cannot_publish(self):
         names = self.declared_structure_lifetime_names()
@@ -1271,7 +1505,7 @@ class SourceFreezeTests(unittest.TestCase):
             self.assertIn("--lib", commands[0])
             self.assertIn("--test-threads=1", commands[0])
             self.assertEqual(self.last_report["counts"][key], {"pass": len(names), "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 70)
+        self.assertEqual(self.last_report["gates_total"], 72)
 
     def test_phase11_generation_bad_identities_cannot_publish(self):
         for key, (filter_name, names) in self.declared_generation_families().items():

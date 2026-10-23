@@ -39,7 +39,7 @@ SECTIONS
 
     /* Retain the opt-in terminal F3 contract for production emitted-code audit.
        KEEP is not a boot invocation; ordinary kernel_main never calls it. */
-    .text ALIGN(4K) : { KEEP(*(.text.f3_contract)) *(.text*) } >kernel
+    .text ALIGN(4K) : { KEEP(*(.text.f3_contract)) KEEP(*(.text.f4_contract)) *(.text*) } >kernel
 
     /* Read-only data. */
     .rodata ALIGN(4K) : { *(.rodata*) } >kernel

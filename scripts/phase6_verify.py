@@ -6,6 +6,7 @@ Evidence lives beneath test_results/phase11; logs and counts are real subprocess
 results. Preserve the currently built ISO before packaging the replacement.
 """
 import argparse
+from collections import Counter
 from contextlib import contextmanager
 import csv
 import datetime
@@ -59,6 +60,263 @@ def acceptance_lock(project):
 
 def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+
+# Frozen F3 canonical gate identity oracle; runtime also authenticates its artifact.
+F3_PREDECESSOR_PATH = "test_results/f3acc/acceptance_20261021T173237Z_upgt4pc_/acceptance.json"
+F3_PREDECESSOR_SHA256 = "2b74191d827fa477fa60433450b4618935fe1e89fab87cd49d039a1bcf9e431b"
+F3_PREDECESSOR_GATES = ('kernel formatting',
+ 'host formatting',
+ 'host tests',
+ 'Phase 9.6 B11 host safety regressions',
+ 'Phase 9.6 B18 host safety regressions',
+ 'Phase 9.6 B26 host safety regressions',
+ 'Phase 11A effective permission prerequisite',
+ 'Phase 11A phase11_registry_reservation prerequisite',
+ 'Phase 11A phase11_exception_abi prerequisite',
+ 'Phase 11A phase11_runtime_pins prerequisite',
+ 'Phase 11A phase11_structure_lifetime prerequisite',
+ 'Phase 11A phase11_numeric_map prerequisite',
+ 'Phase 11A phase11_unmap_authority prerequisite',
+ 'Phase 11A phase11_generation_ownership prerequisite',
+ 'Phase 11A phase11_generation_ledger prerequisite',
+ 'Phase 11A phase11_generation_boundaries prerequisite',
+ 'Phase 11A phase11_snapshot prerequisite',
+ 'Phase 11A phase11_gdt prerequisite',
+ 'Phase 11F1 retained-owner exact identity family',
+ 'Phase 11F2 exception ABI exact identity family',
+ 'Phase 11F3 minimal Ring0 exact identity family',
+ 'RostiFS formatting',
+ 'RostiFS host and crash recovery tests',
+ 'RostiFS host tool safety and integration',
+ 'RostiFS read boundary and transfer regressions',
+ 'RostiFS write preservation regressions',
+ 'Python media reader regressions',
+ 'acceptance runner regressions',
+ 'RostiFS harness regressions',
+ 'Phase 9.5 benchmark contracts',
+ 'Phase 9.6 boot metadata harness contracts',
+ 'system image policy contracts',
+ 'Phase 10B initramfs builder contracts',
+ 'Phase 10B initramfs harness contracts',
+ 'Phase 9.6 B13 boot entry host contracts',
+ 'build read fault fixture',
+ 'CPU read faults 128 and 512',
+ 'build write fault fixture',
+ 'CPU write faults 128 and 512',
+ 'build initramfs failure fixture',
+ 'production build',
+ 'production fixture policy contracts',
+ 'production feature and fault exclusion',
+ 'Phase 9.6 B13 privileged boot entry and production handoff',
+ 'Phase 9.6 B13 injection transport contracts',
+ 'Phase 11F2 exception ABI hardware matrix',
+ 'Phase 11F3 minimal Ring0 hardware matrix',
+ 'Phase 9.6 integrated boot metadata ELF and GRUB safety',
+ 'ELF validation',
+ 'ten ELF boots 128 MiB',
+ 'ten ELF boots 512 MiB',
+ 'paging stability twenty ELF boots',
+ 'keyboard integration',
+ 'VGA backspace ELF',
+ 'filesystem growth OOM ELF 128 MiB',
+ 'block persistence ELF 128 MiB',
+ 'RostiFS persistence ELF 128 MiB',
+ 'filesystem growth OOM ELF 512 MiB',
+ 'block persistence ELF 512 MiB',
+ 'RostiFS persistence ELF 512 MiB',
+ 'GRUB ISO build and boot',
+ 'ISO paging 128 and 512',
+ 'VGA backspace ISO',
+ 'filesystem growth OOM ISO 128 MiB',
+ 'block persistence ISO 128 MiB',
+ 'RostiFS persistence ISO 128 MiB',
+ 'filesystem growth OOM ISO 512 MiB',
+ 'block persistence ISO 512 MiB',
+ 'RostiFS persistence ISO 512 MiB',
+ 'Phase 10B trusted initramfs guest matrix')
+F4_GATES = (
+    "Phase 11 F4 owned USER arena host contract",
+    "Phase 11 F4 owned USER arena Ring0 hardware matrix",
+)
+F4_HOST_REQUIRED = ('memory::paging::f4_user_arena_tests::layout_preserves_fixed_ceiling',
+ 'memory::paging::f4_user_arena_tests::publishes_exact_two_owned_user_leaves',
+ 'memory::paging::f4_user_arena_tests::refuses_foreign_and_stale_leases',
+ 'memory::paging::f4_user_arena_tests::refuses_reserved_structure_and_duplicate_frames',
+ 'memory::paging::f4_user_arena_tests::refuses_occupied_directory_without_promotion',
+ 'memory::paging::f4_user_arena_tests::refuses_unaligned_outside_and_overflow_ranges',
+ 'memory::paging::f4_user_arena_tests::rejects_unexpected_user_supervisor_inventory',
+ 'memory::paging::f4_user_arena_tests::refuses_inaccessible_table_and_payload_aliases',
+ 'memory::paging::f4_user_arena_tests::preserves_state_on_preflight_refusal',
+ 'memory::paging::f4_user_arena_tests::retains_bounded_prefix_on_acquisition_failure',
+ 'memory::paging::f4_user_arena_tests::seal_blocks_unmap_release_retry_and_cr3_switch',
+ 'memory::paging::f4_user_arena_tests::effective_permissions_and_guards_match_contract')
+# Captured from actual full B26 --list, independently compared to Rust declarations
+# by test_acceptance_harness.py. Includes all inherited 134 + 12 + 3 identities.
+B26_REQUIRED = ('b26_borrowed_builder_retains_failure_backing_and_transfers_on_success',
+ 'b26_prepare_directory_exhaustion_never_enters_heap_under_frame_guard',
+ 'b26_prepare_partial_exhaustion_restores_frames_and_unlocks_before_vec_ops',
+ 'b26_validation::b26_validation_failure_returns_directory_and_table_frames_without_locked_drop',
+ 'growth_tests::b26_growth_failure_does_not_consume_reserved_frame',
+ 'memory::boot_copy::tests::copy_checks_before_read_and_owns_bytes',
+ 'memory::boot_copy::tests::rejects_span_paging_and_mapping_before_source_access',
+ 'memory::frame::b11_tests::b11_boot_and_bootstrap_heap_override_growth_reservation',
+ 'memory::frame::b11_tests::b11_bootinfo_span_overflow_never_panics_or_wraps',
+ 'memory::frame::b11_tests::b11_competing_mmap_reservations_deny_growth_in_any_order',
+ 'memory::frame::b11_tests::b11_empty_bootstrap_span_does_not_deny_growth',
+ 'memory::frame::b11_tests::b11_exact_growth_denial_does_not_skip_to_later_eligible_frame',
+ 'memory::frame::b11_tests::b11_explicit_boot_spans_deny_all_touched_frames_and_dedupe_accounting',
+ 'memory::frame::b11_tests::b11_general_pool_obeys_pins_kernel_vga_and_live_ownership',
+ 'memory::frame::b11_tests::b11_growth_requires_complete_usable_frame_and_exact_valid_address',
+ 'memory::frame::b11_tests::b11_invalid_explicit_span_fails_closed_even_after_reinitialization',
+ 'memory::frame::b11_tests::b11_released_growth_frame_returns_to_growth_only_pool',
+ 'memory::frame::b11_tests::b11_reservation_union_matches_independent_small_window_oracle',
+ 'memory::frame::b11_tests::b11_reserved_overflow_denies_growth_to_end_without_wrapping',
+ 'memory::frame::domain_tests::runtime_pin_both_reset_entries_preserve_every_live_inventory_field',
+ 'memory::frame::domain_tests::runtime_pin_domain_issuer_retires_at_maximum_without_wrap',
+ 'memory::frame::generation_boundary_tests::generation_boundary_exhaustion_survives_reset_without_capacity_loss',
+ 'memory::frame::generation_boundary_tests::generation_boundary_growth_claim_has_no_ordinary_identity',
+ 'memory::frame::generation_boundary_tests::generation_boundary_malformed_lease_preserves_current_owner',
+ 'memory::frame::generation_boundary_tests::generation_boundary_reset_preserves_issuer_and_rejects_old_domain',
+ 'memory::frame::generation_boundary_tests::generation_boundary_static_ledger_budget',
+ 'memory::frame::generation_boundary_tests::generation_boundary_structure_pin_refuses_matching_lease',
+ 'memory::frame::generation_ledger_tests::generation_safe_double_release_by_forged_copy_is_refused',
+ 'memory::frame::generation_ledger_tests::generation_safe_identity_exhaustion_is_permanent_not_wrapping',
+ 'memory::frame::generation_ledger_tests::generation_safe_ledger_identity_never_repeats_across_cycles',
+ 'memory::frame::generation_ledger_tests::generation_safe_raw_allocated_frame_has_no_lease_release_path',
+ 'memory::frame::generation_ledger_tests::generation_safe_raw_free_path_clears_ledger_identity',
+ 'memory::frame::generation_ledger_tests::generation_safe_stale_forged_lease_cannot_release_reused_frame',
+ 'memory::module_access_tests::module_access_requires_every_page_identity_mapped_and_pinned',
+ 'memory::module_access_tests::pins_alone_do_not_grant_missing_or_nonidentity_access',
+ 'memory::ownership_observation_tests::b26_detector_observes_frame_only_allocation',
+ 'memory::ownership_observation_tests::b26_detector_observes_frame_only_destruction',
+ 'memory::ownership_observation_tests::b26_detector_observes_page_map_only_allocation',
+ 'memory::ownership_observation_tests::b26_detector_observes_page_map_only_destruction',
+ 'memory::ownership_observation_tests::b26_page_map_only_attempt_is_not_classified_unlocked',
+ 'memory::paging::f4_b26_tests::b26_f4_no_allocation_under_owner_map_frame_locks',
+ 'memory::paging::f4_b26_tests::b26_f4_no_destruction_under_owner_map_frame_locks',
+ 'memory::paging::f4_b26_tests::b26_f4_refusal_has_no_fallback',
+ 'memory::paging::f4_user_arena_tests::effective_permissions_and_guards_match_contract',
+ 'memory::paging::f4_user_arena_tests::layout_preserves_fixed_ceiling',
+ 'memory::paging::f4_user_arena_tests::preserves_state_on_preflight_refusal',
+ 'memory::paging::f4_user_arena_tests::publishes_exact_two_owned_user_leaves',
+ 'memory::paging::f4_user_arena_tests::refuses_foreign_and_stale_leases',
+ 'memory::paging::f4_user_arena_tests::refuses_inaccessible_table_and_payload_aliases',
+ 'memory::paging::f4_user_arena_tests::refuses_occupied_directory_without_promotion',
+ 'memory::paging::f4_user_arena_tests::refuses_reserved_structure_and_duplicate_frames',
+ 'memory::paging::f4_user_arena_tests::refuses_unaligned_outside_and_overflow_ranges',
+ 'memory::paging::f4_user_arena_tests::rejects_unexpected_user_supervisor_inventory',
+ 'memory::paging::f4_user_arena_tests::retains_bounded_prefix_on_acquisition_failure',
+ 'memory::paging::f4_user_arena_tests::seal_blocks_unmap_release_retry_and_cr3_switch',
+ 'memory::paging::generation_ownership_tests::generation_safe_double_release_of_lease_is_refused',
+ 'memory::paging::generation_ownership_tests::generation_safe_foreign_domain_lease_is_refused',
+ 'memory::paging::generation_ownership_tests::generation_safe_lease_transfer_then_release',
+ 'memory::paging::generation_ownership_tests::generation_safe_mapped_lease_release_is_refused_until_unmapped',
+ 'memory::paging::generation_ownership_tests::generation_safe_rejected_map_preserves_lease',
+ 'memory::paging::generation_ownership_tests::generation_safe_repeated_allocate_release_cycles_keep_state',
+ 'memory::paging::generation_ownership_tests::generation_safe_reset_with_live_lease_is_refused',
+ 'memory::paging::generation_ownership_tests::generation_safe_stale_lease_cannot_release_reused_frame',
+ 'memory::paging::mapping_pin_tests::runtime_mapping_pin_cross_map_exclusion_and_boot_alias_preservation',
+ 'memory::paging::mapping_pin_tests::runtime_mapping_pin_empty_reset_invalidates_previous_map_domain',
+ 'memory::paging::mapping_pin_tests::runtime_mapping_pin_foreign_allocator_cannot_mutate_map',
+ 'memory::paging::mapping_pin_tests::runtime_mapping_pin_foreign_unmap_and_release_leave_both_domains_intact',
+ 'memory::paging::mapping_pin_tests::runtime_mapping_pin_inconsistent_runtime_mirrors_refuse_unmap',
+ 'memory::paging::mapping_pin_tests::runtime_mapping_pin_live_allocator_reset_is_nonmutating',
+ 'memory::paging::mapping_pin_tests::runtime_mapping_pin_refuses_free_of_ordinary_and_growth_payloads',
+ 'memory::paging::mapping_pin_tests::runtime_mapping_pin_table_exhaustion_does_not_pin_caller_payload',
+ 'memory::paging::mapping_pin_tests::shared_mapping_retained_lease_remap_refuses_old_and_foreign_unmap',
+ 'memory::paging::mapping_pin_tests::shared_mapping_same_and_cross_map_refusal_is_state_atomic',
+ 'memory::paging::mapping_pin_tests::shared_mapping_table_failure_then_retry_preserves_lease_and_capacity',
+ 'memory::paging::numeric_map_authority_tests::numeric_map_exhaustion_retains_lease_and_allows_retry',
+ 'memory::paging::numeric_map_authority_tests::numeric_map_existing_runtime_pin_refuses_second_map',
+ 'memory::paging::numeric_map_authority_tests::numeric_map_foreign_domain_is_state_atomic',
+ 'memory::paging::numeric_map_authority_tests::numeric_map_growth_specialization_cannot_admit_ordinary_backing',
+ 'memory::paging::numeric_map_authority_tests::numeric_map_live_lease_borrow_pins_until_unmap',
+ 'memory::paging::numeric_map_authority_tests::numeric_map_production_api_rejects_numeric_and_private_core_calls',
+ 'memory::paging::numeric_map_authority_tests::numeric_map_refusal_retains_lease_for_conflict_and_permissions',
+ 'memory::paging::numeric_map_authority_tests::numeric_map_released_identity_is_state_atomic',
+ 'memory::paging::numeric_map_authority_tests::numeric_map_stale_reused_identity_is_state_atomic',
+ 'memory::paging::phase11_permission_tests::phase11_identity_maps_remain_supervisor_at_128_and_512_mib',
+ 'memory::paging::phase11_permission_tests::phase11_nonpresent_map_is_rejected_without_side_effects',
+ 'memory::paging::phase11_permission_tests::phase11_permissions_intersect_both_paging_levels',
+ 'memory::paging::phase11_permission_tests::phase11_rejected_requests_preserve_existing_table_and_mapping',
+ 'memory::paging::phase11_permission_tests::phase11_unowned_user_map_is_rejected_before_table_allocation',
+ 'memory::paging::phase11a2_abi_tests::phase11a2_error_code_vectors_are_classified',
+ 'memory::paging::phase11a2_abi_tests::phase11a2_fault_origin_reads_saved_cs_ring',
+ 'memory::paging::phase11a2_abi_tests::phase11a2_gp_error_code_is_selector_format',
+ 'memory::paging::phase11a2_abi_tests::phase11a2_pf_error_code_keeps_page_semantics',
+ 'memory::paging::phase11a2_ownership_tests::phase11a2_free_pool_frame_alias_is_rejected',
+ 'memory::paging::phase11a2_ownership_tests::phase11a2_growth_claimed_frame_maps_exactly_once_and_rolls_back',
+ 'memory::paging::phase11a2_ownership_tests::phase11a2_live_page_structure_alias_is_rejected_as_payload',
+ 'memory::paging::phase11a2_ownership_tests::phase11a2_null_frame_mapping_is_rejected_without_side_effects',
+ 'memory::paging::phase11a2_ownership_tests::phase11a2_payload_frame_cannot_alias_two_active_slots',
+ 'memory::paging::phase11a2_ownership_tests::phase11a2_reserved_and_uncovered_frames_cannot_enter_runtime_mapping',
+ 'memory::paging::phase11a2_ownership_tests::phase11a2_unmap_then_release_restores_allocator_ownership',
+ 'memory::paging::phase11a2_ownership_tests::phase11a2_unmapping_boot_alias_preserves_live_runtime_payload_reference',
+ 'memory::paging::privileged::tests::f3_conflict_and_missing_lease_refuse_before_any_pte_write',
+ 'memory::paging::privileged::tests::f3_descriptor_wire_bytes_preserve_kernel_selectors',
+ 'memory::paging::privileged::tests::f3_eight_owned_pages_two_absent_guards_and_no_new_table',
+ 'memory::paging::privileged::tests::f3_old_guard_physical_candidate_refused_before_table_write',
+ 'memory::paging::privileged::tests::f3_tss_layout_and_absent_io_bitmap',
+ 'memory::paging::privileged_owner_tests::f3_owner_partial_oom_retains_every_acquired_lease_terminally',
+ 'memory::paging::privileged_owner_tests::f3_owner_ten_frames_stay_preparing_until_cpu_install',
+ 'memory::paging::retained_owner::tests::alias_failure_retains_current_identity',
+ 'memory::paging::retained_owner::tests::b26_detector_observes_smoke_only_allocation',
+ 'memory::paging::retained_owner::tests::b26_detector_observes_smoke_only_destruction',
+ 'memory::paging::retained_owner::tests::final_identity_failure_retains_two_and_never_seals',
+ 'memory::paging::retained_owner::tests::first_allocation_failure_retains_zero_and_consumes_attempt',
+ 'memory::paging::retained_owner::tests::one_shot_preparation_retains_exact_two_within_policy',
+ 'memory::paging::retained_owner::tests::ordinary_unsealed_mapping_release_preserves_behavior',
+ 'memory::paging::retained_owner::tests::sealed_mutation_matrix_and_alternate_cr3_preserve_exact_state',
+ 'memory::paging::retained_owner::tests::second_allocation_failure_retains_exact_payload',
+ 'memory::paging::retained_owner::tests::wrong_hardware_identity_fails_before_acquisition',
+ 'memory::paging::retained_owner_tests::sealed_release_and_unmap_preserve_live_ownership',
+ 'memory::paging::runtime_table_access_tests::runtime_table_nonidentity_alias_is_rejected_without_writes',
+ 'memory::paging::runtime_table_access_tests::runtime_table_readonly_alias_at_either_level_is_rejected_without_writes',
+ 'memory::paging::runtime_table_access_tests::runtime_table_removed_identity_alias_is_rejected_without_writes',
+ 'memory::paging::runtime_table_access_tests::runtime_table_restored_identity_alias_allows_retry',
+ 'memory::paging::runtime_table_access_tests::runtime_table_user_accessible_alias_is_rejected_without_writes',
+ 'memory::paging::structure_lifetime_tests::structure_cleanup_cpu_activated_map_cannot_release_structures',
+ 'memory::paging::structure_lifetime_tests::structure_cleanup_inconsistent_role_refuses_before_any_release',
+ 'memory::paging::structure_lifetime_tests::structure_cleanup_publication_and_cr3_reload_retain_backing',
+ 'memory::paging::structure_lifetime_tests::structure_cleanup_released_map_cannot_observe_mutate_or_activate_reused_frames',
+ 'memory::paging::structure_lifetime_tests::structure_cleanup_repeated_release_cannot_free_reused_map_backing',
+ 'memory::paging::unmap_authority_tests::unmap_authority_production_api_rejects_numeric_and_private_core_calls',
+ 'memory::paging::unmap_authority_tests::unmap_authority_stale_generation_and_foreign_domain_refuse_without_mutation',
+ 'memory::paging::unmap_authority_tests::unmap_authority_stale_lease_cannot_unmap_replacement_mapping',
+ 'memory::paging::virtual_page_zero_tests::vpz_nonzero_growth_slots_still_admit_normally',
+ 'memory::paging::virtual_page_zero_tests::vpz_ordinary_map_at_virtual_zero_is_refused_without_side_effects',
+ 'memory::paging::virtual_page_zero_tests::vpz_unmap_at_virtual_zero_is_refused_without_side_effects',
+ 'memory::review_r1_tests::review_r1_live_page_structure_identity_aliases_stay_mapped',
+ 'memory::review_r1_tests::review_r1_pin_backing_retained_on_failure_and_moved_on_success',
+ 'memory::review_r1_tests::review_r1_pin_span_address_checks_and_clipping',
+ 'memory::review_r1_tests::review_r1_production_prepare_pins_one_byte_module_and_metadata_partial_tails',
+ 'memory::review_r1_tests::review_r1_usable_range_starting_in_growth_still_validates_its_tail',
+ 'memory::review_r1_tests::review_r1_validation_checks_pinned_non_growth_pages_not_growth_holes',
+ 'refusal_tests::b26_owner_rejection_paths_never_allocate_or_destroy_under_either_guard',
+ 'refusal_tests::b26_phase11a2_registry_backing_refusal_has_no_fallback_allocation_or_frame_mutation',
+ 'refusal_tests::b26_r3_pin_backing_refusal_has_no_fallback_allocation_or_frame_mutation',
+ 'refusal_tests::b26_r3_table_backing_refusal_has_no_fallback_allocation_or_frame_mutation',
+ 'registry_tests::b26_registry_backing_is_retained_on_rollback_and_moved_on_success',
+ 'registry_tests::b26_registry_invalid_backing_is_rejected_before_frame_mutation',
+ 'retry_tests::b26_failed_builder_clears_released_slots_before_retry',
+ 'utils::bits::tests::single_bit_clear_preserves_every_neighbor_for_all_widths',
+ 'validation_allocation_tests::b26_r3_prepare_validation_needs_only_three_fallible_backing_allocations')
+
+
+def predecessor_contract():
+    path = PROJECT / F3_PREDECESSOR_PATH
+    if sha256(path) != F3_PREDECESSOR_SHA256:
+        raise RuntimeError("F3 predecessor acceptance digest mismatch")
+    evidence = json.loads(path.read_text())
+    rows = evidence.get("gates", [])
+    if (evidence.get("overall") != "PASS" or evidence.get("gates_total") != 70
+            or evidence.get("gates_passed") != 70 or len(rows) != 70
+            or any(row.get("status") != "PASS" or row.get("exit_code") != 0 for row in rows)
+            or Counter(row.get("gate") for row in rows) != Counter(F3_PREDECESSOR_GATES)):
+        raise RuntimeError("F3 predecessor gate identity multiset mismatch")
+    return path
 
 
 def source_snapshot():
@@ -210,6 +468,8 @@ def _run_acceptance():
     try:
         report["source_base"] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=PROJECT, text=True).strip()
         report["source_sha256"] = source_snapshot()
+        predecessor_path = predecessor_contract()
+        report["f3_predecessor"] = {"path": F3_PREDECESSOR_PATH, "sha256": F3_PREDECESSOR_SHA256}
         gate("kernel formatting", ["cargo", "fmt", "--check"])
         gate("host formatting", ["cargo", "+nightly", "fmt", "--manifest-path", str(PROJECT / "tests_kernel/Cargo.toml"), "--check"])
         text = gate("host tests", ["cargo", "+nightly", "test", "--manifest-path", str(PROJECT / "tests_kernel/Cargo.toml")], cwd=Path.home())
@@ -239,16 +499,17 @@ def _run_acceptance():
                 ("b11", "b11_", "tests_kernel/Cargo.toml"),
                 ("b18", "b18_inventory_tests::", "tests_kernel/Cargo.toml"),
                 ("b26", "b26_", "tests_b26/Cargo.toml")):
-            text = gate(f"Phase 9.6 {key.upper()} host safety regressions",
-                        ["cargo", "+nightly", "test", "--manifest-path", str(PROJECT / host_manifest),
-                         "--lib", filter_name, "--", "--test-threads=1"], cwd=Path.home())
+            command = ["cargo", "+nightly", "test", "--manifest-path", str(PROJECT / host_manifest),
+                       "--lib", *([] if key == "b26" else [filter_name]),
+                       "--", "--test-threads=1"]
+            text = gate(f"Phase 9.6 {key.upper()} host safety regressions", command, cwd=Path.home())
             totals = re.findall(r"test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored", text)
             observed = re.findall(r"^test (\S+) \.\.\. ok\s*$", text, re.M)
             if (len(totals) != 1 or int(totals[0][0]) == 0
                     or int(totals[0][1]) != 0 or int(totals[0][2]) != 0
                     or len(observed) != int(totals[0][0])
                     or len(set(observed)) != len(observed)
-                    or any(filter_name not in name for name in observed)):
+                    or (key != "b26" and any(filter_name not in name for name in observed))):
                 raise RuntimeError(f"{key.upper()} safety test totals missing, empty or inconsistent")
             if (key == "b26" and
                     "growth_tests::b26_growth_failure_does_not_consume_reserved_frame" not in observed):
@@ -265,6 +526,8 @@ def _run_acceptance():
                 }
                 if not mandatory_b26_detectors.issubset(observed):
                     raise RuntimeError("mandatory B26 owner-only detector controls missing")
+            if key == "b26" and Counter(observed) != Counter(B26_REQUIRED):
+                raise RuntimeError("B26 full exact identity multiset missing or inconsistent")
             report["counts"][key] = {"pass": len(observed), "fail": 0}
         # This is only the first memory-permission prerequisite, NOT CPL3
         # acceptance. Keep the exact test identities mandatory and fail closed.
@@ -477,6 +740,17 @@ def _run_acceptance():
                 or len(observed) != len(f3_required) or set(observed) != f3_required):
             raise RuntimeError("F3 minimal Ring0 tests missing or inconsistent")
         report["counts"]["f3_minimal_ring0"] = {"pass": len(observed), "fail": 0}
+        text = gate(F4_GATES[0],
+                    ["cargo", "+nightly", "test", "--manifest-path",
+                     str(PROJECT / "tests_kernel/Cargo.toml"), "--target", "x86_64-pc-windows-msvc",
+                     "--lib", "f4_user_arena_tests::", "--", "--test-threads=1"], cwd=Path.home())
+        observed = re.findall(r"^test (\S+) \.\.\. ok\s*$", text, re.M)
+        totals = re.findall(r"test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored", text)
+        if (len(F4_HOST_REQUIRED) != 12 or totals != [("12", "0", "0")]
+                or Counter(observed) != Counter(F4_HOST_REQUIRED)):
+            raise RuntimeError("F4 owned USER arena host identities missing or inconsistent")
+        report["counts"]["f4_owned_user_arena_host"] = {"pass": len(observed), "fail": 0}
+
         manifest = str(PROJECT / "crates/rostifs/Cargo.toml")
         gate("RostiFS formatting", ["cargo", "+nightly", "fmt", "--manifest-path", manifest, "--check"])
         text = gate("RostiFS host and crash recovery tests", ["cargo", "+nightly", "test", "--manifest-path", manifest, "--", "--nocapture"], timeout=300, cwd=Path.home())
@@ -592,6 +866,44 @@ def _run_acceptance():
         report["f3_evidence_sha256"] = f3_validated["pins"]
         f3_reports = {Path(path) for path in f3_validated["pins"]
                       if Path(path).name in {"report.json", "guest_report.json"}}
+        f4_output = run / "f4_user_arena"
+        f4_kernel = PROJECT / "target/target/debug/kernel"
+        report["f4_production_kernel_sha256"] = sha256(f4_kernel)
+        driver_text = gate(F4_GATES[1],
+                           script("f4_arena_guest.py", "--output-dir", f4_output / "matrix"), timeout=2100)
+        f4_paths = list(f4_output.glob("*/report.json"))
+        if len(f4_paths) != 1:
+            raise RuntimeError("missing or ambiguous mandatory F4 hardware report")
+        f4_path = f4_paths[0].resolve()
+        driver_rows = []
+        for line in driver_text.splitlines():
+            try:
+                row = json.loads(line)
+            except ValueError:
+                continue
+            if isinstance(row, dict) and "output" in row and "driver_exit" in row:
+                driver_rows.append(row)
+        if (len(driver_rows) != 1 or driver_rows[0].get("overall") != "PASS"
+                or driver_rows[0].get("driver_exit") != 0
+                or Path(driver_rows[0]["output"]).resolve() != f4_path.parent
+                or f4_path.parent.parent != f4_output.resolve()):
+            raise RuntimeError("F4 driver completion/owned report identity mismatch")
+        import f4_evidence
+        f4_validated = f4_evidence.validate_aggregate(f4_path, report["source_sha256"])
+        pins = f4_validated.get("pins")
+        if (f4_validated.get("overall") != "PASS" or f4_validated.get("scenario_count") != 12
+                or not isinstance(pins, dict) or not pins or str(f4_path) not in pins):
+            raise RuntimeError("F4 validator returned incomplete matrix/pins")
+        for path, digest in pins.items():
+            owned = Path(path)
+            if (not owned.is_absolute() or not owned.resolve().is_relative_to(f4_path.parent)
+                    or not re.fullmatch(r"[0-9a-f]{64}", digest) or sha256(owned) != digest):
+                raise RuntimeError("F4 validator pin ownership/digest mismatch")
+        f4_log = PROJECT / report["gates"][-1]["log"]
+        report["f4_driver_log_sha256"] = sha256(f4_log)
+        report["f4_evidence_sha256"] = pins
+        report["counts"]["f4_owned_user_arena_scenarios"] = {"pass": 12, "fail": 0}
+        f4_reports = {Path(path) for path in pins if Path(path).name in {"report.json", "guest_report.json"}}
         metadata_output = run / "boot_metadata"
         gate("Phase 9.6 integrated boot metadata ELF and GRUB safety",
              script("boot_metadata_test.py", "--boot", "both", "--ram", 128, 512,
@@ -681,6 +993,16 @@ def _run_acceptance():
         if any(sha256(Path(path)) != digest
                for path, digest in f3_validated["pins"].items()):
             raise RuntimeError("F3 validated hardware evidence changed during acceptance")
+        if (any(sha256(Path(path)) != digest for path, digest in f4_validated["pins"].items())
+                or sha256(f4_log) != report["f4_driver_log_sha256"]
+                or sha256(f4_kernel) != report["f4_production_kernel_sha256"]):
+            raise RuntimeError("F4 validated hardware evidence changed during acceptance")
+        if sha256(predecessor_path) != F3_PREDECESSOR_SHA256:
+            raise RuntimeError("F3 predecessor acceptance changed during acceptance")
+        expected_gates = Counter(F3_PREDECESSOR_GATES) + Counter(F4_GATES)
+        if (sum(expected_gates.values()) != 72
+                or Counter(g["gate"] for g in report["gates"]) != expected_gates):
+            raise RuntimeError("canonical gate identity multiset mismatch")
         if sha256(metadata_path) != metadata_digest:
             raise RuntimeError("boot metadata validated matrix changed during acceptance")
         phase10_scenarios = phase10_evidence(json.loads(phase10_path.read_text()), phase10_path)
@@ -704,10 +1026,10 @@ def _run_acceptance():
             if len(rows) != expected:
                 raise RuntimeError(f"incomplete mandatory checks: {directory}: {len(rows)}/{expected}")
         for p in run.rglob("report.json"):
-            # Only exact B13/F2/F3 specialized reports validated above are exempt;
-            # every F2/F3 validator-returned pin was rechecked before publication.
+            # Only exact B13/F2/F3/F4 specialized reports validated above are exempt;
+            # every F2/F3/F4 validator-returned pin was rechecked before publication.
             # Never exempt any other discovered report.
-            if p in b13_reports or p in f2_reports or p in f3_reports:
+            if p in b13_reports or p in f2_reports or p in f3_reports or p in f4_reports:
                 continue
             evidence = json.loads(p.read_text())
             key = str(p.relative_to(run))

@@ -274,6 +274,14 @@ pub(crate) extern "C" fn run_gdt_tss() -> ! {
     paging::retained_owner::run_gdt_tss()
 }
 
+/// F4 opt-in, one-shot terminal Ring0 path; ordinary boot does not call it.
+#[cfg(all(not(test), target_os = "none"))]
+#[unsafe(export_name = "f4_run_user_arena")]
+#[unsafe(link_section = ".text.f4_contract")]
+pub(crate) extern "C" fn run_user_arena() -> ! {
+    paging::retained_owner::run_user_arena()
+}
+
 pub fn page_directory() -> Option<u64> {
     PAGE_MAP.lock().as_ref().map(|pm| pm.directory())
 }

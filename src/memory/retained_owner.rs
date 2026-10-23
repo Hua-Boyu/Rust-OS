@@ -1,5 +1,6 @@
 //! Finite, cooperative single-vCPU Ring-0 terminal authority.
-//! No reset, shared ownership, USER publication, teardown or CPL3 entry.
+//! No reset, shared ownership, teardown or CPL3 entry. F4 alone publishes its
+//! finite owned USER arena during fresh Preparing, before the joint seal.
 use super::*;
 use crate::utils::mutex::SpinMutex;
 use core::sync::atomic::{AtomicU8, Ordering};
@@ -17,6 +18,11 @@ pub(super) struct RetainedOwner {
     pub(super) sentinel: Option<frame::FrameLease>,
     pub(super) transition: [Option<frame::FrameLease>; 4],
     pub(super) emergency: [Option<frame::FrameLease>; 4],
+    pub(super) user_stack: Option<frame::FrameLease>,
+    pub(super) arena_table: Option<frame::FrameLease>,
+    // outcome, acquired, code, stack, table, PDE, codePTE, stackPTE,
+    // CR3, CR4, EFLAGS, free-before-F4, free-after, allocated-after, ready, seal.
+    pub(super) arena_capture: [u32; 16],
     directory: u64,
     allocator_domain: u32,
     window_end: u64,
@@ -35,6 +41,9 @@ impl RetainedOwner {
             sentinel: None,
             transition: [const { None }; 4],
             emergency: [const { None }; 4],
+            user_stack: None,
+            arena_table: None,
+            arena_capture: [0; 16],
             directory: 0,
             allocator_domain: 0,
             window_end: 0,
@@ -270,6 +279,254 @@ pub(super) fn prepare_f3_locked(
     owner.capture[13] = owner.capacity_after[1] as u32;
     owner.capture[15] = PREPARING as u32;
     true
+}
+
+fn f4_flags() -> u32 {
+    #[cfg(test)]
+    return 2;
+    #[cfg(not(test))]
+    unsafe {
+        let flags: u32;
+        core::arch::asm!("pushfd", "pop {0:e}", out(reg) flags, options(preserves_flags));
+        flags
+    }
+}
+
+fn f4_profile(pm: &PageMap, fa: &FrameAllocator) -> bool {
+    let cpu = hardware();
+    identity(pm, fa, cpu)
+        && cpu.cr0 & 1 != 0
+        && cpu.cr4 & ((1 << 23) | (1 << 21)) == 0
+        && f4_flags() & ((1 << 17) | (1 << 14) | (3 << 12) | (1 << 9)) == 0
+}
+
+pub(super) fn prepare_f4_locked(
+    owner: &mut RetainedOwner,
+    pm: &mut PageMap,
+    fa: &mut FrameAllocator,
+) -> bool {
+    if STATE.load(Ordering::Acquire) != PREPARING
+        || !f4_profile(pm, fa)
+        || !user_arena::preflight_map(pm, fa, user_arena::LAYOUT)
+    {
+        return close_failure(owner, fa, 12);
+    }
+    if !prepare_f3_locked(owner, pm, fa) {
+        return false;
+    }
+    prepare_arena_locked(owner, pm, fa)
+}
+
+pub(super) fn prepare_arena_locked(
+    owner: &mut RetainedOwner,
+    pm: &mut PageMap,
+    fa: &mut FrameAllocator,
+) -> bool {
+    if STATE.load(Ordering::Acquire) != PREPARING
+        || owner.capture[1] != 10
+        || owner.user_stack.is_some()
+        || owner.arena_table.is_some()
+        || !f4_profile(pm, fa)
+        || !user_arena::preflight_map(pm, fa, user_arena::LAYOUT)
+    {
+        return close_failure(owner, fa, 18);
+    }
+    owner.arena_capture[11] = capacity(fa)[0] as u32;
+    owner.user_stack = fa.allocate_owned();
+    if owner.user_stack.is_none() {
+        return close_failure(owner, fa, 13);
+    }
+    owner.capture[1] += 1;
+    // F4_DENY_TABLE: no fallback or release of the retained stack lease.
+    if owner
+        .user_stack
+        .as_ref()
+        .is_none_or(|l| !user_arena::new_frame(pm, fa, l))
+    {
+        return close_failure(owner, fa, 19);
+    }
+    owner.arena_table = fa.allocate_owned();
+    if owner.arena_table.is_none() {
+        return close_failure(owner, fa, 14);
+    }
+    owner.capture[1] += 1;
+    let (Some(code), Some(stack), Some(table)) = (
+        owner.payload.as_ref().map(frame::FrameLease::frame_addr),
+        owner.user_stack.as_ref().map(frame::FrameLease::frame_addr),
+        owner
+            .arena_table
+            .as_ref()
+            .map(frame::FrameLease::frame_addr),
+    ) else {
+        return close_failure(owner, fa, 15);
+    };
+    if !f4_profile(pm, fa) || !user_arena::install(pm, fa, owner, user_arena::LAYOUT) {
+        return close_failure(owner, fa, 15);
+    }
+    owner.future_ranges[0] = [
+        user_arena::START as u32,
+        user_arena::END as u32,
+        user_arena::GUARD as u32,
+        1,
+    ];
+    let after = capacity(fa);
+    owner.capacity_after = after;
+    owner.arena_capture = [
+        0,
+        owner.capture[1],
+        code as u32,
+        stack as u32,
+        table as u32,
+        read_entry(pm.directory, 256),
+        pm.entry(user_arena::START).unwrap_or(0),
+        pm.entry(user_arena::STACK).unwrap_or(0),
+        hardware().cr3,
+        hardware().cr4,
+        f4_flags(),
+        owner.arena_capture[11],
+        after[0] as u32,
+        after[1] as u32,
+        1,
+        PREPARING as u32,
+    ];
+    true
+}
+
+#[cfg(all(not(test), target_os = "none"))]
+pub(in crate::memory) fn run_user_arena() -> ! {
+    unsafe {
+        core::arch::asm!("cli", options(nomem, nostack));
+    }
+    if !try_admit() {
+        f4_terminal(false);
+    }
+    let directory = {
+        let mut retained = OWNER.lock();
+        let mut map = crate::memory::PAGE_MAP.lock();
+        let mut frames = crate::memory::FRAME_ALLOC.lock();
+        match map.as_mut() {
+            Some(pm) if crate::memory::PAGING_ENABLED.load(Ordering::Acquire) => {
+                if prepare_f4_locked(&mut retained, pm, &mut frames) {
+                    Some(pm.directory as u32)
+                } else {
+                    None
+                }
+            }
+            _ => {
+                close_failure(&mut retained, &frames, 16);
+                None
+            }
+        }
+    };
+    let Some(directory) = directory else {
+        f4_terminal(false);
+    };
+    if !crate::gdt_tss::install(directory) {
+        f4_terminal(false);
+    }
+    let valid = {
+        let mut retained = OWNER.lock();
+        let map = crate::memory::PAGE_MAP.lock();
+        let frames = crate::memory::FRAME_ALLOC.lock();
+        let valid = map
+            .as_ref()
+            .is_some_and(|pm| f4_profile(pm, &frames) && user_arena::valid(pm, &frames, &retained));
+        if valid {
+            retained.arena_capture[15] = SEALED as u32;
+            STATE.store(SEALED, Ordering::Release);
+        } else {
+            close_failure(&mut retained, &frames, 17);
+        }
+        valid
+    };
+    if !valid || !crate::gdt_tss::verify(directory) {
+        f4_terminal(false);
+    }
+    f4_terminal(true)
+}
+
+#[cfg(all(not(test), target_os = "none"))]
+#[inline(never)]
+fn f4_terminal(success: bool) -> ! {
+    // SAFETY: STATE.as_ptr() exposes the live AtomicU8's UnsafeCell without
+    // creating a non-atomic reference. This x86 byte MOV is an atomic store,
+    // not a Rust non-atomic access: byte stores cannot tear. x86 store ordering
+    // plus asm's default read/write memory clobber supplies Release ordering
+    // with the unchanged Acquire observers. Do not add nomem/readonly/pure:
+    // prior retained-owner writes must precede this store and serial output
+    // must follow it. No registers/flags/stack are changed except the memory
+    // operand; no generic ordering dispatcher or panic helper is reachable.
+    unsafe {
+        core::arch::asm!(
+            "mov byte ptr [{state}], {terminal}",
+            state = in(reg) STATE.as_ptr(),
+            terminal = const TERMINAL,
+            options(nostack, preserves_flags)
+        );
+    }
+    f4_terminal_serial(if success {
+        b"F4 USER arena PASS Ring0 terminal\n"
+    } else {
+        b"F4 USER arena FAIL Ring0 terminal\n"
+    });
+    loop {
+        unsafe {
+            core::arch::asm!(
+                ".global f4_arena_terminal",
+                ".set f4_arena_terminal, .",
+                "cli",
+                "hlt",
+                options(nostack)
+            );
+        }
+    }
+}
+
+// F4-private equivalent of serial::puts/putc, without emitted iterator/panic
+// dependencies. Keep both messages fixed-size; no general string/pointer API.
+#[cfg(all(not(test), target_os = "none"))]
+#[inline(never)]
+fn f4_terminal_serial(message: &'static [u8; 34]) {
+    // SAFETY: F4 runs at CPL0, IF0 on the admitted single vCPU; serial was
+    // initialized by the existing driver. COM1 THR=0x3f8, LSR=0x3fd, THRE=0x20;
+    // byte I/O and the 100000-poll/drop-on-timeout policy match serial::putc.
+    // The static 34-byte allocation stays readable throughout. Each iteration
+    // reads at most its current byte, then advances once; the final one-past
+    // pointer is never dereferenced. No Rust unchecked arithmetic is used.
+    // EAX/ECX/EDX and flags are clobbered; pointer/count are private scratch
+    // registers. No stack access, calls, DF dependence or indirect branches.
+    // Default asm memory effects preserve compiler ordering with publication
+    // and the static bytes; do not add pure/nomem/readonly/preserves_flags.
+    // IN/OUT execute in program order. At most 34*100000 LSR reads and 34 THR
+    // writes; this is an iteration bound, not a wall-clock UART guarantee.
+    unsafe {
+        core::arch::asm!(
+            "2:",
+            "mov ecx, 100000",
+            "mov dx, 0x3fd",
+            "3:",
+            "in al, dx",
+            "test al, 0x20",
+            "jnz 4f",
+            "dec ecx",
+            "jnz 3b",
+            "jmp 5f",
+            "4:",
+            "mov al, byte ptr [{pointer}]",
+            "mov dx, 0x3f8",
+            "out dx, al",
+            "5:",
+            "inc {pointer}",
+            "dec {remaining}",
+            "jnz 2b",
+            pointer = inout(reg) message.as_ptr() => _,
+            remaining = inout(reg) 34usize => _,
+            out("eax") _,
+            out("ecx") _,
+            out("edx") _,
+            options(nostack)
+        );
+    }
 }
 
 /// F3 extends fresh Preparing only. No returning preparation or unseal API.
