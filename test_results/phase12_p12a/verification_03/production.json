@@ -1,0 +1,16 @@
+{
+  "command": [
+    "cargo",
+    "+nightly",
+    "build"
+  ],
+  "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "timeout_seconds": 300,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 944201728,
+  "log": "test_results/phase12_p12a/verification_03/production.log",
+  "exit_code": 0,
+  "elapsed_seconds": 5.75,
+  "sha256": "0665d09933544d42d8549365f6f35f7c76ccebdb3b5241cf5bb4a0e9faa3babd"
+}

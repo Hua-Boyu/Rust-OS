@@ -1,0 +1,43 @@
+{
+  "status": "APPROVE_ZERO_BLOCKERS_COMPLETE_SCOPE_VERIFIED",
+  "review_path": "test_results/phase12_p12a/reviews/candidate_review_01.json",
+  "review_raw_sha256": "d1f561f03079af1cbc2b7f14371d78cc372eae4a5368ee6f50abf2396296fa06",
+  "verdict": "APPROVE",
+  "complete_scope": true,
+  "blockers": [],
+  "area_count": 15,
+  "input_readback": {
+    "path": "test_results/phase12_p12a/reviews/candidate_review_01.json",
+    "input_count": 450,
+    "identity": "externally_pinned_raw_no_self_digest"
+  },
+  "source_freeze_readback": {
+    "input_count": 298,
+    "canonical_count": 236
+  },
+  "historical_budget_disclosure_reviewed": {
+    "correction_cycles": "UNKNOWN",
+    "attempts_by_defect": "UNKNOWN",
+    "reset": false,
+    "new_packages_used": 1,
+    "new_packages_max": 1,
+    "independently_reviewed": true
+  },
+  "original_logical_RED_disclosure_reviewed": {
+    "runtime_log_authentic": true,
+    "executed": 24,
+    "passed": 3,
+    "failed": 21,
+    "historical_cargo_exit": 101,
+    "exit_source": "secondary authenticated historical command, not fresh run",
+    "executed_scaffold_and_tests_raw_identity": "UNVERIFIABLE_HISTORICAL",
+    "post_RED_changes_disclosed": [
+      "Unknown completion oracle InvalidTransition -> UnknownId",
+      "Four inhibition assertions removed from replay"
+    ],
+    "unchanged_tests_TDD_claim": false,
+    "independently_reviewed": true
+  },
+  "delegation": "deleg_dd4c19c7/sa-0-fa1b8574 actual separate context, completed transcript authenticates exact verdict; not parent self approval",
+  "acceptance": "NOT_APPLICABLE_NO_NEW_GATES; scoped commits/push still pending"
+}

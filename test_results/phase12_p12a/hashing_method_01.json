@@ -1,0 +1,13 @@
+{
+  "method": "EXTERNAL_RAW_SHA256_NO_MANIFEST_SELF_HASH",
+  "established_schemas": [
+    "rosti.p12a-evidence.v1 status/artifacts, no self hash",
+    "rosti.f5-final-evidence-manifest.v1: self_hash is explanatory text 'deliberately excluded; postcommit receipt binds final manifest and exact final HEAD without a self-referential hash'; raw external digest, not an embedded own hash"
+  ],
+  "manifest_path": "test_results/phase12_p12a/evidence_manifest.json",
+  "external_index_path": "test_results/phase12_p12a/manifest_index_01.json",
+  "excluded_fields": null,
+  "canonical_serialization": null,
+  "review_rule": "Existing design_review_01 has no self_sha256; immutable raw externally pinned. If a new independent review uses self_sha256, verify only its explicitly documented canonical JSON excluding self_sha256 per contract221-229; do not fabricate historical self digest.",
+  "negative_controls": "Task-local test_integrity_02.py must reject missing evidence, wrong external digest, missing required pin, wrong path, changed review, invalid canonicalization, malformed JSON, circular self claim."
+}

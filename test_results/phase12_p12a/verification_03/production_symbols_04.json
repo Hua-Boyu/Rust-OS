@@ -1,0 +1,16 @@
+{
+  "command": [
+    "C:\\Users\\iamsv\\.rustup\\toolchains\\nightly-2025-02-17-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\bin\\llvm-objdump.exe",
+    "--syms",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel"
+  ],
+  "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "timeout_seconds": 300,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 820310016,
+  "log": "test_results/phase12_p12a/verification_03/production_symbols_04.log",
+  "exit_code": 0,
+  "elapsed_seconds": 0.030999999959021807,
+  "sha256": "888d8b301d4bf8f1605df1e6ac9508fc96851d00782d5c839288be9c8d96ab13"
+}

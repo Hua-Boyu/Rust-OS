@@ -1,0 +1,235 @@
+{
+  "schema": "rosti.p12a-remote-backup-receipt.v1",
+  "created_utc": "2026-10-25T12:56:34.264058+00:00",
+  "GIT_BACKUP": "COMPLETE",
+  "original_branch": "maintenance/phase10",
+  "original_head": "d9cebe28eb5139b6b614b7000688857361e2afc4",
+  "branch": "wip/phase12-p12a-checkpoint",
+  "remote": "origin",
+  "local_checkpoint_sha": "c03e13fb67f38b3ea6d968afba020e1c4772a9f9",
+  "remote_checkpoint_sha": "c03e13fb67f38b3ea6d968afba020e1c4772a9f9",
+  "push_command": [
+    "git",
+    "push",
+    "-u",
+    "origin",
+    "wip/phase12-p12a-checkpoint"
+  ],
+  "push_exit_code": 0,
+  "push_warning": "GitHub accepted push with warning: historical final_canonical_readback_01.json is 54.84 MB; no history rewritten",
+  "manifest": "test_results/phase12_p12a/git_backup_manifest_01.json",
+  "protected_readback": [
+    {
+      "path": "README.md",
+      "match": true
+    },
+    {
+      "path": ".gitignore",
+      "match": true
+    },
+    {
+      "path": "src/exception_entry.s",
+      "match": true
+    },
+    {
+      "path": "test_results/phase11f4_user_arena/FINAL_REPORT.md",
+      "match": true
+    },
+    {
+      "path": "d1/f",
+      "match": true
+    },
+    {
+      "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+      "match": true
+    },
+    {
+      "path": "reviews/candidate_review_02.json",
+      "match": true
+    },
+    {
+      "path": "scripts/b13_boot_fixture.py.backup",
+      "match": true
+    }
+  ],
+  "committed_raw_blob_readback": [
+    {
+      "path": "src/p12a_policy.rs",
+      "match": true
+    },
+    {
+      "path": "tests_kernel/src/p12a_policy_tests.rs",
+      "match": true
+    },
+    {
+      "path": "tests_kernel/src/lib.rs",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/artifact_manifest_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/authoring_diagnostics_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/decisions.md",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/design.md",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/discovery_delivery_checks_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/KICKOFF_REPORT.md",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/parent_review_readback_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/review_inputs_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/reviews/design_review_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/risks.md",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/source_inventory.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/STATE.md",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_design/STATE_review_snapshot_01.md",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/baseline_01.py",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/decisions.md",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/evidence_manifest.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/filter_audit_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/FINAL_REPORT.md",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/p12a_allowlist.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/p12a_contract.md",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/preflight_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/preflight_01.py",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/review_inputs_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/reviews/design_review_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/reviews/readiness_audit_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/phase12_p12a/STATE.md",
+      "match": true
+    },
+    {
+      "path": "test_results/p12a/b01/report.json",
+      "match": true
+    },
+    {
+      "path": "test_results/p12a/f01/source_freeze_01.json",
+      "match": true
+    },
+    {
+      "path": "test_results/p12a/parent_readback_01.py",
+      "match": true
+    },
+    {
+      "path": "test_results/p12a/v01/mock_gate_readback.json",
+      "match": true
+    }
+  ],
+  "verification": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stdout": "c03e13fb67f38b3ea6d968afba020e1c4772a9f9\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "ls-remote",
+        "origin",
+        "refs/heads/wip/phase12-p12a-checkpoint"
+      ],
+      "exit_code": 0,
+      "stdout": "c03e13fb67f38b3ea6d968afba020e1c4772a9f9\trefs/heads/wip/phase12-p12a-checkpoint\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "d9cebe28eb5139b6b614b7000688857361e2afc4",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "status": {
+    "command": [
+      "git",
+      "status",
+      "--porcelain=v1",
+      "-uall"
+    ],
+    "exit_code": 0,
+    "stdout": " M .gitignore\n M README.md\n M src/exception_entry.s\n M test_results/phase11f4_user_arena/FINAL_REPORT.md\n?? d1/f\n?? docs/ROSTI_INIT_ARCHITECTURE.md\n?? reviews/candidate_review_02.json\n?? scripts/b13_boot_fixture.py.backup\n",
+    "stderr": ""
+  }
+}

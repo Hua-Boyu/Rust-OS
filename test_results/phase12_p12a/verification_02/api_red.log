@@ -1,0 +1,118 @@
+error[E0015]: cannot call non-const associated function `Policy::new` in constants
+ --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:5:25
+  |
+5 | const INITIAL: Policy = Policy::new();
+  |                         ^^^^^^^^^^^^^
+  |
+  = note: calls in constants are limited to constant functions, tuple structs and tuple variants
+
+error[E0277]: the trait bound `State: Eq` is not satisfied
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:8:16
+   |
+ 8 |     eq_bound::<State>();
+   |                ^^^^^ the trait `Eq` is not implemented for `State`
+   |
+note: required by a bound in `eq_bound`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:6:16
+   |
+ 6 | fn eq_bound<T: Eq>() {}
+   |                ^^ required by this bound in `eq_bound`
+help: consider annotating `State` with `#[derive(Eq)]`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a\..\..\src\p12a_policy.rs:19:1
+   |
+19 + #[derive(Eq)]
+20 | pub enum State {
+   |
+
+error[E0277]: the trait bound `policy::Context: Eq` is not satisfied
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:9:16
+   |
+ 9 |     eq_bound::<Context>();
+   |                ^^^^^^^ the trait `Eq` is not implemented for `policy::Context`
+   |
+note: required by a bound in `eq_bound`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:6:16
+   |
+ 6 | fn eq_bound<T: Eq>() {}
+   |                ^^ required by this bound in `eq_bound`
+help: consider annotating `policy::Context` with `#[derive(Eq)]`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a\..\..\src\p12a_policy.rs:27:1
+   |
+27 + #[derive(Eq)]
+28 | pub enum Context {
+   |
+
+error[E0277]: the trait bound `TaskKind: Eq` is not satisfied
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:10:16
+   |
+10 |     eq_bound::<TaskKind>();
+   |                ^^^^^^^^ the trait `Eq` is not implemented for `TaskKind`
+   |
+note: required by a bound in `eq_bound`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:6:16
+   |
+ 6 | fn eq_bound<T: Eq>() {}
+   |                ^^ required by this bound in `eq_bound`
+help: consider annotating `TaskKind` with `#[derive(Eq)]`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a\..\..\src\p12a_policy.rs:33:1
+   |
+33 + #[derive(Eq)]
+34 | pub enum TaskKind {
+   |
+
+error[E0277]: the trait bound `policy::Error: Eq` is not satisfied
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:11:16
+   |
+11 |     eq_bound::<Error>();
+   |                ^^^^^ the trait `Eq` is not implemented for `policy::Error`
+   |
+note: required by a bound in `eq_bound`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:6:16
+   |
+ 6 | fn eq_bound<T: Eq>() {}
+   |                ^^ required by this bound in `eq_bound`
+help: consider annotating `policy::Error` with `#[derive(Eq)]`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a\..\..\src\p12a_policy.rs:40:1
+   |
+40 + #[derive(Eq)]
+41 | pub enum Error {
+   |
+
+error[E0277]: the trait bound `Slot: Eq` is not satisfied
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:12:16
+   |
+12 |     eq_bound::<Slot>();
+   |                ^^^^ unsatisfied trait bound
+   |
+help: the trait `Eq` is not implemented for `Slot`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a\..\..\src\p12a_policy.rs:54:1
+   |
+54 | pub struct Slot {
+   | ^^^^^^^^^^^^^^^
+note: required by a bound in `eq_bound`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:6:16
+   |
+ 6 | fn eq_bound<T: Eq>() {}
+   |                ^^ required by this bound in `eq_bound`
+
+error[E0277]: the trait bound `Snapshot: Eq` is not satisfied
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:13:16
+   |
+13 |     eq_bound::<Snapshot>();
+   |                ^^^^^^^^ unsatisfied trait bound
+   |
+help: the trait `Eq` is not implemented for `Snapshot`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a\..\..\src\p12a_policy.rs:60:1
+   |
+60 | pub struct Snapshot {
+   | ^^^^^^^^^^^^^^^^^^^
+note: required by a bound in `eq_bound`
+  --> C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs:6:16
+   |
+ 6 | fn eq_bound<T: Eq>() {}
+   |                ^^ required by this bound in `eq_bound`
+
+error: aborting due to 7 previous errors
+
+Some errors have detailed explanations: E0015, E0277.
+For more information about an error, try `rustc --explain E0015`.

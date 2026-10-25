@@ -1,0 +1,22 @@
+{
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+    "--lib",
+    "p12a_policy_tests::",
+    "--",
+    "--list"
+  ],
+  "cwd": "C:\\Users\\iamsv",
+  "timeout_seconds": 300,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 740499456,
+  "log": "test_results/phase12_p12a/verification_03/focused_list_04.log",
+  "exit_code": 0,
+  "elapsed_seconds": 0.5929999999934807,
+  "sha256": "f436d1e9eb7b5b9f216b8da4f2c3d8f2dfbd0c4f80733a2658cd8af3d3dedd6b"
+}

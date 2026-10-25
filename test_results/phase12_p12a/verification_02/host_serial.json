@@ -1,0 +1,21 @@
+{
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+    "--lib",
+    "--",
+    "--test-threads=1"
+  ],
+  "cwd": "C:\\Users\\iamsv",
+  "timeout_seconds": 300,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 1240342528,
+  "log": "test_results/phase12_p12a/verification_02/host_serial.log",
+  "exit_code": 0,
+  "elapsed_seconds": 5.922000000020489,
+  "sha256": "9f358d04dacc51f83a0b3b7ac39bdbbbfff83901ab1e6ac0d63b12d534dc3b18"
+}

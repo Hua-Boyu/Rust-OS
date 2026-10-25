@@ -1,0 +1,18 @@
+{
+  "command": [
+    "cargo",
+    "+nightly",
+    "clean",
+    "-p",
+    "kernel"
+  ],
+  "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "timeout_seconds": 300,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 772440064,
+  "log": "test_results/phase12_p12a/verification_03/clean_kernel_04.log",
+  "exit_code": 0,
+  "elapsed_seconds": 0.25,
+  "sha256": "a2414f137a389a2553561ac78df4f9c3d4719174c086a07b05d9798754868a51"
+}

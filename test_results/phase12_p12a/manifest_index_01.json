@@ -1,0 +1,6 @@
+{
+  "manifest_path": "test_results/phase12_p12a/evidence_manifest.json",
+  "manifest_sha256": "1f3a9616b153d3d1458cbc8cd6c2f74cadeeb04dd02d02470ffa0213583e76fc",
+  "method": "external_raw_sha256_no_circular_self_hash",
+  "role": "candidate parent readback index; immutable candidate revision will be preserved before later final documentation updates"
+}

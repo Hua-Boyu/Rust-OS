@@ -1,0 +1,19 @@
+{
+  "schema": "rosti.p12a-lightweight-prerequisite-readback.v1",
+  "scope": "Read-only diagnostics, NOT complete freeze or acceptance",
+  "canonical_current_count": 236,
+  "old_freeze_count": 16,
+  "old_freeze_canonical_overlap": 9,
+  "old_freeze_pin_mismatches": [],
+  "current_canonical_missing_from_old_freeze": 227,
+  "F5_authorized_wiring_block_count": 1,
+  "historical_lib_sha256_after_exact_in_memory_removal": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189",
+  "matches_historical_lib_pin": true,
+  "F5_top_level_pins_match": true,
+  "F5_acceptance_hash_matches": true,
+  "F5_historical_gate_multiset_matches": true,
+  "F5_historical_gate_count": 76,
+  "F5_historical_status": "PASS",
+  "fresh_test_or_build_execution": false,
+  "P12B_started": false
+}

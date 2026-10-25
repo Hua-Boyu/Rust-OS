@@ -1,0 +1,14 @@
+{
+  "MOCK_GATE_DECISION": "REQUIRED",
+  "CONTRACT_SECTION": "Freeze, verification, preservation and acceptance decision, lines198-202 and218",
+  "CHANGED_INPUTS": [
+    "src/p12a_policy.rs (added since F5; authorized Eq/const/format remediation pending)",
+    "tests_kernel/src/p12a_policy_tests.rs (added since F5; invariant/replay/format remediation pending)",
+    "tests_kernel/src/lib.rs (six authorized wiring lines since F5)"
+  ],
+  "ACCEPTANCE_INPUT_MEMBERSHIP_CHANGED": true,
+  "CLASSIFICATION": "Class T hypothesis, must prove fresh ELF and isolation",
+  "EXISTING_VALID_EVIDENCE": "test_results/p12a/v01/mock_gate.log: historical exact95/exit0, elapsed/enforced wall bound not established; retained, insufficient for current fresh gate.",
+  "REASON": "Actual approved contract unconditionally requires this gate for added source-snapshot membership; no skip justified. Run once after final source freeze under subprocess timeout1049.",
+  "contract_sha256": "614cdce234e403d10ce9bbf473c01fbe311b0013d53ae829d182c4a7f521b55b"
+}

@@ -1,0 +1,46 @@
+{
+  "status": "AUTHORIZED_NOT_YET_SUBSTANTIVELY_STARTED",
+  "historical_correction_cycles_used": "UNKNOWN",
+  "historical_attempts_by_defect": "UNKNOWN",
+  "new_remediation_packages_max": 1,
+  "new_remediation_packages_used": 0,
+  "authorization": "Current user continuation02 explicitly authorizes one bounded package, supersedes historical stop only for this package; no historical reset. Normal scoped push and conditional P12-B design also authorized.",
+  "strategy": "One minimal coherent change: Eq only six integer/enum/array/bool exported values; const new; strengthen existing invariant and replay tests without changing 24 identities; scoped formatting; new task-local fail-closed integrity wrapper and controls; dynamically freeze; full frozen checks; required measured mock; independent full review. At most one justified correction to strategy; no second package.",
+  "allowed_source_paths": [
+    "src/p12a_policy.rs",
+    "tests_kernel/src/p12a_policy_tests.rs"
+  ],
+  "allowed_documentation_paths": [
+    "test_results/phase12_p12a/",
+    "test_results/phase12_p12b/ (conditional design only)"
+  ],
+  "prohibited": "Runtime integration; scheduler semantic/state/capacity/refusal changes; unrelated Eq types; production validator changes; protected files",
+  "control_A": "source_snapshot inspected lines450-491: pure file enumeration and raw SHA256 dict, no expensive processing/writes; task-local wrapper will invoke inspected authoritative enumeration and supplement dependencies. Count computed, no historical target.",
+  "control_B": "REQUIRED by approved contract lines198-202,218: P12-A adds acceptance snapshot members. Record before scheduling; full exact suite1049s isolation only.",
+  "control_C": "Existing P12-A v1 status/artifacts schema and F5 manifest have no self hash. Preserve no-self-hash method; raw external index records manifest bytes; no circular dependency. Review canonical self_sha256 applies only if actually present and documented; existing contract review raw externally pinned.",
+  "control_D": {
+    "State": "Eq required contract43; structurally reflexive enums/u8/bool/arrays only; no generic bounds or floats; currently missing; minimal derive planned",
+    "Context": "Eq required contract43; structurally reflexive enums/u8/bool/arrays only; no generic bounds or floats; currently missing; minimal derive planned",
+    "TaskKind": "Eq required contract43; structurally reflexive enums/u8/bool/arrays only; no generic bounds or floats; currently missing; minimal derive planned",
+    "Error": "Eq required contract43; structurally reflexive enums/u8/bool/arrays only; no generic bounds or floats; currently missing; minimal derive planned",
+    "Slot": "Eq required contract43; structurally reflexive enums/u8/bool/arrays only; no generic bounds or floats; currently missing; minimal derive planned",
+    "Snapshot": "Eq required contract43; structurally reflexive enums/u8/bool/arrays only; no generic bounds or floats; currently missing; minimal derive planned"
+  },
+  "control_E": "Historical budget UNKNOWN and original logical RED raw-source provenance UNVERIFIABLE_HISTORICAL must be in reviewer scope before dispatch.",
+  "before_pins": {
+    "test_results/phase12_p12a/p12a_contract.md": "614cdce234e403d10ce9bbf473c01fbe311b0013d53ae829d182c4a7f521b55b",
+    "test_results/phase12_p12a/reviews/design_review_01.json": "5cbdc5401e80d0c883f12a69398f0a69ac9d9a7bb2f0dfbae6975d45686156f8",
+    "test_results/phase12_p12a/reviews/readiness_audit_01.json": "2c0f242facc97c99967d0fb44da9e419ef8ecc3e7969ce6410347a050fa94e71",
+    "test_results/phase12_p12a/reviews/budget_reconstruction_01.json": "15dc826eb5438e2396e554db421a0904dcf05937780f69141dcd13199b48b783",
+    "src/p12a_policy.rs": "c2360876c33ef6a49487b99a3a7c65708e41055bfe6b5186d2737b670027003f",
+    "tests_kernel/src/p12a_policy_tests.rs": "fb025cdd10f22a0214bac196656aac398ac7f07e2f2a23064bcd875d61fae95f",
+    "tests_kernel/src/lib.rs": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed"
+  },
+  "git": {
+    "branch": "wip/phase12-p12a-checkpoint",
+    "head": "c03e13fb67f38b3ea6d968afba020e1c4772a9f9",
+    "remote_head": "c03e13fb67f38b3ea6d968afba020e1c4772a9f9",
+    "backup_repeated": false
+  },
+  "initial_source_diff_from_backup": ""
+}

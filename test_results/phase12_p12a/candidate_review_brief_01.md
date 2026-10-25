@@ -1,0 +1,21 @@
+# P12-A candidate-review brief — not admission or approval
+
+Dispatch only after the parent has verified all preflight documents and fresh frozen checks.
+
+Verify historical budget UNKNOWN disclosure and original logical RED provenance disclosure. Do not issue APPROVE if either is missing, misrepresented, or omitted from the reviewed scope.
+
+Inspect actual policy source and all tests, exact delta from backup and F5, bounds/arithmetic/refusal precedence, immutable approved contract and design, all six Eq candidates' field suitability and approved trait requirements, const construction/initial state/no_std, bidirectional queue invariants, exhaustive refusals, long per-step deterministic replay and literal fairness. No runtime semantics redesign is authorized.
+
+Inspect actual host/B26 list/serial/parallel memberships (not totals only), exact two inherited ignored identities, focused24, formatting/no_std logs and actual exits. Dynamically re-enumerate freeze members and raw byte hashes, verify additions/removals/normalization and the executed negative controls. Read actual production symbols/module references, fresh linked ELF and reproducible A/B baseline binaries plus toolchain/build input identity. Explicitly evaluate Class T skip of F1-F5 matrices10/8/18/12/12 at128/512MiB and emitted closure; no fresh hardware or F5 canonical claim.
+
+Verify approved mock trigger from contract198-202/218, exact actual full95 verbose membership/no unexpected skips/failures, real exit0 and elapsed under enforced1049s. Verify manifest external raw-byte hashing (no circular own digest), fail-closed parent reader and negative controls including changed review inputs. Historical design review intentionally has no self digest; retain externally pinned raw convention, do not rewrite it.
+
+Read historical budget audit and RED provenance record/log. Historical cycles and per-defect attempts stay UNKNOWN, not zero; original exact executed scaffold/test raw identities remain UNVERIFIABLE_HISTORICAL despite genuine runtime failure log. Post-RED oracle correction and four removed inhibition assertions are disclosed; current corrected tests do not prove unchanged-test historical TDD. New user authorization permits exactly one bounded package, not a reset or second package. Check actual package ledger.
+
+Authenticate F5 predecessor report/manifest/canonical76 and exact gate multiset; preserve historical_self_bound report disposition and exact six-line host wiring delta without ignoring arbitrary mismatches. Verify eight protected user/historical files, especially raw CRLF-sensitive F2 assembly; no unrelated equality edits, runtime references, production validator/gate edits, kernel boot/exception/terminal/IRQ/timer integration, P12-B implementation, or new F1-F5 behavior. Historical REJECTs/failures remain immutable.
+
+Acceptance is Option A: CANONICAL_ACCEPTANCE=NOT_APPLICABLE_NO_NEW_GATES. Completion additionally requires scoped implementation/documentation commits and matching remote SHA after approval. Current user explicitly authorizes normal push, superseding old no-push contract wording only for closeout. P12-B design preparation is conditional on accepted committed/synchronized P12-A; implementation remains unauthorized.
+
+Use the actual delegate_task schema available now (separate context, no invented role parameter). Reviewer must remain read-only except its own next-unused reviews/candidate_review_01.json. Require complete_scope=true, verdict APPROVE, blockers=[], and explicit APPROVE — ZERO BLOCKERS — COMPLETE SCOPE only if every area passed. Write incremental numbered-area findings to disk; final chat response under five lines. Do not modify reviewed sources, evidence or historical verdicts, and do not launch heavy jobs. Any missing scope or evidence must produce truthful REJECT/PARTIAL, not provisional APPROVE.
+
+Use existing external raw-review pin convention, no self_sha256 field. reviewed_input_manifest must bind the supplied immutable candidate_review_inputs_01.json by raw_sha256 with pin_count and pin_verification entries {name,path,expected}; names resolve to its path/_sha256 paired keys. All actual raw pins must be independently rehashed. Parent independently authenticates this verdict and pins afterward.

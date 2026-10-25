@@ -1,0 +1,25 @@
+{
+  "commit": "3f10dc3888b47e3eaa010fe5fbfe3739d2ee6989",
+  "actual_exit": 0,
+  "branch": "wip/phase12-p12a-checkpoint",
+  "paths": [
+    "src/p12a_policy.rs",
+    "tests_kernel/src/p12a_policy_tests.rs",
+    "test_results/phase12_p12a/api_probe_01.rs",
+    "test_results/phase12_p12a/integrity_02.py",
+    "test_results/phase12_p12a/test_integrity_02.py",
+    "test_results/phase12_p12a/parent_readback_02.py",
+    "test_results/phase12_p12a/run_step_01.py",
+    "test_results/phase12_p12a/verify_02.py",
+    "test_results/phase12_p12a/verify_04.py"
+  ],
+  "nonempty_path_count": 9,
+  "all_reviewed_raw_git_blobs_match": true,
+  "source_freeze": {
+    "input_count": 298,
+    "canonical_count": 236
+  },
+  "protected_count": 8,
+  "candidate_review_sha256": "d1f561f03079af1cbc2b7f14371d78cc372eae4a5368ee6f50abf2396296fa06",
+  "push_performed": false
+}

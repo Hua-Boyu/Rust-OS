@@ -1,0 +1,51 @@
+test_actual_optimized_subprocess_refuses (__main__.IntegrityControls.test_actual_optimized_subprocess_refuses) ... ok
+test_bad_hash (__main__.IntegrityControls.test_bad_hash) ... ok
+test_canonical_map_changed (__main__.IntegrityControls.test_canonical_map_changed) ... ok
+test_duplicate_input (__main__.IntegrityControls.test_duplicate_input) ... ok
+test_external_wrong_hash (__main__.IntegrityControls.test_external_wrong_hash) ... ok
+test_malformed_manifest (__main__.IntegrityControls.test_malformed_manifest) ... ok
+test_malformed_pin (__main__.IntegrityControls.test_malformed_pin) ... ok
+test_manifest_changed_artifact (__main__.IntegrityControls.test_manifest_changed_artifact) ... ok
+test_manifest_circular_self_claim (__main__.IntegrityControls.test_manifest_circular_self_claim) ... ok
+test_manifest_duplicate_artifacts (__main__.IntegrityControls.test_manifest_duplicate_artifacts) ... ok
+test_manifest_invalid_canonicalization (__main__.IntegrityControls.test_manifest_invalid_canonicalization) ... ok
+test_manifest_lists_itself (__main__.IntegrityControls.test_manifest_lists_itself) ... ok
+test_manifest_missing_evidence (__main__.IntegrityControls.test_manifest_missing_evidence) ... ok
+test_manifest_missing_required_pin (__main__.IntegrityControls.test_manifest_missing_required_pin) ... ok
+test_manifest_required_removed (__main__.IntegrityControls.test_manifest_required_removed) ... ok
+test_manifest_wrong_path_same_basename (__main__.IntegrityControls.test_manifest_wrong_path_same_basename) ... ok
+test_missing_file (__main__.IntegrityControls.test_missing_file) ... ok
+test_native_empty_observation (__main__.IntegrityControls.test_native_empty_observation) ... ok
+test_native_heavy_process_refused (__main__.IntegrityControls.test_native_heavy_process_refused) ... ok
+test_nested_review_changed_input_via_manifest (__main__.IntegrityControls.test_nested_review_changed_input_via_manifest) ... ok
+test_new_input_membership (__main__.IntegrityControls.test_new_input_membership) ... ok
+test_nonnormal_paths (__main__.IntegrityControls.test_nonnormal_paths) ... ok
+test_original_protected_changed_pin_or_path_refused (__main__.IntegrityControls.test_original_protected_changed_pin_or_path_refused) ... ok
+test_predecessor_changed_nonlib_artifact_refused (__main__.IntegrityControls.test_predecessor_changed_nonlib_artifact_refused) ... ok
+test_predecessor_changed_top_level_raw_binding (__main__.IntegrityControls.test_predecessor_changed_top_level_raw_binding) ... ok
+test_predecessor_exact_dispositions (__main__.IntegrityControls.test_predecessor_exact_dispositions) ... ok
+test_predecessor_unrelated_lib_delta_refused (__main__.IntegrityControls.test_predecessor_unrelated_lib_delta_refused) ... ok
+test_predecessor_wrong_gate_multiset_despite_pass76 (__main__.IntegrityControls.test_predecessor_wrong_gate_multiset_despite_pass76) ... ok
+test_public_path_objects (__main__.IntegrityControls.test_public_path_objects) ... ok
+test_removed_extra_even_with_adjusted_count (__main__.IntegrityControls.test_removed_extra_even_with_adjusted_count) ... ok
+test_removed_required_canonical_input (__main__.IntegrityControls.test_removed_required_canonical_input) ... ok
+test_review_external_pin_and_changed_input (__main__.IntegrityControls.test_review_external_pin_and_changed_input) ... ok
+test_review_manifest_changed (__main__.IntegrityControls.test_review_manifest_changed) ... ok
+test_review_no_invented_self_hash (__main__.IntegrityControls.test_review_no_invented_self_hash) ... ok
+test_review_wrong_path_even_with_correct_bytes (__main__.IntegrityControls.test_review_wrong_path_even_with_correct_bytes) ... ok
+test_same_basename_wrong_path (__main__.IntegrityControls.test_same_basename_wrong_path) ... ok
+test_unauthenticated_phase6_never_executes (__main__.IntegrityControls.test_unauthenticated_phase6_never_executes) ... ok
+test_unreflected_changed_input (__main__.IntegrityControls.test_unreflected_changed_input) ... ok
+test_valid_freeze_and_exclusive_create (__main__.IntegrityControls.test_valid_freeze_and_exclusive_create) ... ok
+test_valid_manifest (__main__.IntegrityControls.test_valid_manifest) ... ok
+test_wrong_input_count (__main__.IntegrityControls.test_wrong_input_count) ... ok
+test_actual_canonical_snapshot (__main__.RealReadOnlyChecks.test_actual_canonical_snapshot) ... ok
+test_actual_enumeration_and_in_memory_freeze (__main__.RealReadOnlyChecks.test_actual_enumeration_and_in_memory_freeze) ... ok
+test_actual_original_eight_protected (__main__.RealReadOnlyChecks.test_actual_original_eight_protected) ... ok
+test_actual_predecessor (__main__.RealReadOnlyChecks.test_actual_predecessor) ... ok
+test_actual_review_without_self_hash (__main__.RealReadOnlyChecks.test_actual_review_without_self_hash) ... ok
+
+----------------------------------------------------------------------
+Ran 46 tests in 16.003s
+
+OK

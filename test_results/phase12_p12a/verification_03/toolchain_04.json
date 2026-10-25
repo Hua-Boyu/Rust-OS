@@ -1,0 +1,16 @@
+{
+  "command": [
+    "rustc",
+    "+nightly",
+    "-vV"
+  ],
+  "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "timeout_seconds": 300,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 773918720,
+  "log": "test_results/phase12_p12a/verification_03/toolchain_04.log",
+  "exit_code": 0,
+  "elapsed_seconds": 0.062000000034458935,
+  "sha256": "39a22e48184d520ea2ac97f4e081d19c603119d6ec27402e87d747315bd82bc7"
+}

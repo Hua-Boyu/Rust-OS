@@ -1,0 +1,6 @@
+{
+  "manifest_path": "test_results/phase12_p12a/evidence_manifest_candidate_01.json",
+  "manifest_sha256": "980be2347799d26d412e96f37c71ff7d0da6bf4a1b889d65a933be988b769834",
+  "method": "external_raw_sha256_no_circular_self_hash",
+  "role": "immutable candidate manifest/report snapshot; final live documents intentionally outside candidate pins"
+}

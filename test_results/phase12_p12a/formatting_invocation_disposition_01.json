@@ -1,0 +1,6 @@
+{
+  "cause": "Direct rustfmt --edition2021 was used for tests; actual tests_kernel Cargo.toml edition2024. Cargo host formatting found one assert layout mismatch. No semantic/test behavior defect.",
+  "correction": "Run direct rustfmt edition2024 on only approved policy tests; preserve freeze02 and all failed evidence. New freeze03 and fresh sequential full verification into verification_03.",
+  "package_accounting": "Formatting-only correction/command invocation repair, explicitly exempt from independent package consumption; packages1, no new substantive strategy.",
+  "nested_interpreter_failure": "First integrity-controls wrapper used bare python, resolved child to uv Python3.11 lacking psutil. Absolute existing Hermes venv child passed all46. No install/test weakening. Failed log retained."
+}

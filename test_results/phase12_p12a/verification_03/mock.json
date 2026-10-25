@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+    "-B",
+    "scripts/test_acceptance_harness.py",
+    "-v"
+  ],
+  "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "timeout_seconds": 1049,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 767053824,
+  "log": "test_results/phase12_p12a/verification_03/mock.log",
+  "exit_code": 0,
+  "elapsed_seconds": 887.375,
+  "sha256": "cbed97cc0d95852d15b285c5d365c5c0524ff69508bd49156e4ac47edbee34b5"
+}

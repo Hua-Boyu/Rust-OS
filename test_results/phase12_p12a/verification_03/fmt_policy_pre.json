@@ -1,0 +1,19 @@
+{
+  "command": [
+    "rustfmt",
+    "+nightly",
+    "--edition",
+    "2021",
+    "--check",
+    "C:/Users/iamsv/Documents/Rust-OS/src/p12a_policy.rs"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "timeout_seconds": 120,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 1101885440,
+  "log": "test_results/phase12_p12a/verification_03/fmt_policy_pre.log",
+  "exit_code": 0,
+  "elapsed_seconds": 0.062000000034458935,
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

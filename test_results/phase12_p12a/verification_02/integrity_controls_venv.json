@@ -1,0 +1,16 @@
+{
+  "command": [
+    "C:\\Users\\iamsv\\AppData\\Local/hermes/hermes-agent/venv/Scripts/python.exe",
+    "-B",
+    "test_results/phase12_p12a/test_integrity_02.py"
+  ],
+  "cwd": "C:/Users/iamsv/Documents/Rust-OS",
+  "timeout_seconds": 120,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 1232490496,
+  "log": "test_results/phase12_p12a/verification_02/integrity_controls_venv.log",
+  "exit_code": 0,
+  "elapsed_seconds": 6.125,
+  "sha256": "45193cc5bd9bec52bd515a6fb5939e996d3370996050e5833dd6d42cc4c9264b"
+}

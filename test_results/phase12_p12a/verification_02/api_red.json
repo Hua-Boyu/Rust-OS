@@ -1,0 +1,21 @@
+{
+  "command": [
+    "rustc",
+    "+nightly",
+    "--edition=2021",
+    "--crate-type",
+    "lib",
+    "C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/api_probe_01.rs",
+    "-o",
+    "C:/Users/iamsv/Documents/Rust-OS/test_results/phase12_p12a/verification_02/api_red.rlib"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "timeout_seconds": 120,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 2301472768,
+  "log": "test_results/phase12_p12a/verification_02/api_red.log",
+  "exit_code": 1,
+  "elapsed_seconds": 0.25,
+  "sha256": "3f674de2ac09fb51d994dacef404eb057732191924c195a3501c2cbbc15eb5a4"
+}

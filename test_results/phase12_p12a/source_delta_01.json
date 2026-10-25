@@ -1,0 +1,52 @@
+{
+  "comparison": "backup c03e13f -> current raw bytes (diff ignores newline-only changes for readability; raw before/after hashes bind exact bytes)",
+  "paths": [
+    {
+      "path": "src/p12a_policy.rs",
+      "before_sha256": "c2360876c33ef6a49487b99a3a7c65708e41055bfe6b5186d2737b670027003f",
+      "after_sha256": "88354e669f1a23be9c724806449c6ca1ea8569491830765c8939c2ce44ed29cf"
+    },
+    {
+      "path": "tests_kernel/src/p12a_policy_tests.rs",
+      "before_sha256": "fb025cdd10f22a0214bac196656aac398ac7f07e2f2a23064bcd875d61fae95f",
+      "after_sha256": "dd50ac09b7052b046ecc7c71d5f3c771eb639fcbe9101300ba9da9bc1cb5bdb6"
+    },
+    {
+      "path": "tests_kernel/src/lib.rs",
+      "before_sha256": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed",
+      "after_sha256": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed"
+    }
+  ],
+  "policy_semantic_body_comparison": "PASS after excluding only six derive lines, constructor const keyword, formatting whitespace/trailing comma; all scheduler bodies unchanged",
+  "diff_path": "test_results/phase12_p12a/source_delta_01.diff",
+  "diff_sha256": "0d074d783c083971e57212ddc27a63c498a922c69104884e76cef90efece79a0",
+  "packages_used": 1,
+  "historical_cycles": "UNKNOWN",
+  "runtime_changes": false,
+  "test_identities_retained": [
+    "empty_policy_selects_idle",
+    "admission_does_not_switch_idle",
+    "single_worker_repeated_yield",
+    "two_workers_fifo_round_robin",
+    "admission_order_breaks_ties",
+    "last_worker_completion_returns_idle",
+    "completion_selects_next_ready",
+    "retired_identity_never_reused",
+    "capacity_exhaustion_is_nonmutating",
+    "invalid_identifiers_are_nonmutating",
+    "unknown_identifiers_are_nonmutating",
+    "duplicate_admission_is_nonmutating",
+    "invalid_completion_is_nonmutating",
+    "unsupported_kinds_are_nonmutating",
+    "inhibit_latches_without_switching",
+    "nested_inhibit_drains_only_at_zero",
+    "inhibit_overflow_is_nonmutating",
+    "inhibit_underflow_is_nonmutating",
+    "inhibited_completion_and_admission_refuse",
+    "pending_requests_coalesce_once",
+    "fresh_instances_are_isolated",
+    "metadata_budget_and_bounded_trace",
+    "exhaustive_short_traces_preserve_invariants",
+    "deterministic_replay_and_no_starvation"
+  ]
+}

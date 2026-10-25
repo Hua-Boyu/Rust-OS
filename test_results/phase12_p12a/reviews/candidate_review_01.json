@@ -1,0 +1,2539 @@
+{
+  "schema": "rosti.p12a-independent-candidate-review.v1",
+  "verdict": "APPROVE",
+  "complete_scope": true,
+  "summary": "APPROVE — ZERO BLOCKERS — COMPLETE SCOPE",
+  "blockers": [],
+  "areas": [
+    {
+      "id": "01",
+      "area": "Independent external raw input verification",
+      "status": "PASS",
+      "finding": "Independently rehashed all450 final immutable input02 raw members and every actual input_####/_sha256 paired key; zero mismatches or duplicate identities. Final raw manifest independently matches16a261707eea465898cb1e8c9b41cbebf29eee8a3a931944b59677ec10110e1a. Earlier446 draft01 pins were also fully checked, but are superseded as final review scope, not approval. Input02 excludes live final report/manifest/STATE/decisions and instead binds immutable candidate report/manifest/index and parent05. No source/freeze/test/log raw pins changed."
+    },
+    {
+      "id": "02",
+      "area": "Approved design, executable contract and scope",
+      "status": "PASS",
+      "finding": "Read complete approved design and contract, immutable candidate context and correction delta. Two permanently consumed worker slots, separate idle, no runtime integration/no new canonical gates are consistent. Current user explicitly allows only one new bounded package despite UNKNOWN history. Six Eq derives, const constructor and strengthened existing tests/formatting do not redesign scheduling. Closeout commits/push remain after candidate review, and conditional B design is not B implementation.",
+      "evidence": [
+        "test_results/phase12_design/design.md",
+        "test_results/phase12_p12a/p12a_contract.md",
+        "test_results/phase12_p12a/source_delta_02.diff",
+        "test_results/phase12_p12a/candidate_context_01.md"
+      ]
+    },
+    {
+      "id": "03",
+      "area": "Actual policy, six Eq fields, const initial state and arithmetic",
+      "status": "PASS",
+      "finding": "Read all 268 source lines and all 512 test lines. State/TaskKind/Error are fieldless enums; Context has u8; Slot contains u8/State; Snapshot contains fixed arrays, u8, Context and bool. Structural Eq is reflexive with no floats/generics/custom equality. Literal const construction zeroes queue/tails/depth/pending with Unused/id0 and Idle. Private Snapshot cannot be forged through public API. Admission free-slot implies at most one other occupied slot and queue_len<=1 before append; rescheduling a Running slot leaves at most one Ready entry before append; dequeue subtracts only after nonzero guard, uses fixed 0/1 cells and checked slot sentinel; depth increments/decrements guard 255/0. All refusals precede mutation with contract precedence. Helpers rely on inductively maintained invariants; unreachable forged corruption is not an authorized API. No allocation, unsafe, globals, hardware, callbacks, recursion or unbounded work.",
+      "evidence": [
+        "src/p12a_policy.rs",
+        "tests_kernel/src/p12a_policy_tests.rs"
+      ]
+    },
+    {
+      "id": "04",
+      "area": "Actual test oracles and replay",
+      "status": "PASS",
+      "finding": "All 24 declared tests inspected, not merely counts. Literal FIFO/idle/retirement/refusals, depth255/0, nested drain, coalescing and full-snapshot errors are present. Four nested eight-op loops cover all length4 traces and check invariants/error atomicity after each step. Strengthened oracle checks both queue=>Ready and Ready=>queued exactly once, matching current/Running, unique occupied identities, tail0 and pending=>depth>0. Sustained replay compares every operation across two instances: two admissions,128 literal alternating decisions, nested inhibition,32 coalesced requests, two leaves and two completions; final retired state literal. Fairness is restricted to explicit uninhibited requests, not runtime behavior. Test comment claiming IDs0..2 is stale descriptive wording (actual supported trace uses1,2,3); actual predicates correctly include3, nonblocking.",
+      "evidence": [
+        "tests_kernel/src/p12a_policy_tests.rs",
+        "test_results/phase12_p12a/source_delta_02.diff"
+      ]
+    },
+    {
+      "id": "05",
+      "area": "Exact host/B26/focused list and execution membership",
+      "status": "PASS",
+      "finding": "Independently parsed actual libtest list and serial/default-parallel logs with Counters, no totals-only inference. Complete host418 equals baseline394 plus source-declared/contract exact24. Both runs416pass/0fail with only maintenance_measurements::measured_frame_scan_states and maintenance_measurements::measured_heap_capacity_loss ignored, exactly inherited. B26 list/serial/parallel exact149 unchanged,149pass/no ignores. Focused exact24 both modes, no ignores. All17 final step record/log bindings verified actual exit0; compiler warnings do not masquerade as failures.",
+      "evidence": [
+        "test_results/p12a/b01/report.json",
+        "test_results/phase12_p12a/verification_03/verification_report04.json",
+        "test_results/phase12_p12a/verification_03/host_list_04.log",
+        "test_results/phase12_p12a/verification_03/host_serial_04.log",
+        "test_results/phase12_p12a/verification_03/host_parallel_04.log",
+        "test_results/phase12_p12a/verification_03/b26_list_04.log",
+        "test_results/phase12_p12a/verification_03/b26_serial_04.log",
+        "test_results/phase12_p12a/verification_03/b26_parallel_04.log",
+        "test_results/phase12_p12a/verification_03/focused_list_04.log",
+        "test_results/phase12_p12a/verification_03/focused_serial_04.log",
+        "test_results/phase12_p12a/verification_03/focused_parallel_04.log"
+      ]
+    },
+    {
+      "id": "06",
+      "area": "Formatting, no_std and preserved failed invocations",
+      "status": "PASS",
+      "finding": "Read actual no_std wrapper/compiler log and invocation records: all six Eq bounds and const construction compile with #![no_std] over exact policy path; no alternate implementation. Root cargo fmt, host-manifest cargo fmt and direct production-unreferenced policy rustfmt all exit0 with empty logs. Original edition2021/host2024 formatting failure and bare nested interpreter/psutil failure are retained, not discarded. Corrected formatting changes no test semantics; subsequent full freeze04 checks bind final bytes. No reviewer build/test reruns launched.",
+      "evidence": [
+        "test_results/phase12_p12a/api_probe_01.rs",
+        "test_results/phase12_p12a/verification_03/api_no_std_04.json",
+        "test_results/phase12_p12a/verification_03/api_no_std_04.log",
+        "test_results/phase12_p12a/verification_03/fmt_host_04.json",
+        "test_results/phase12_p12a/verification_03/fmt_kernel_04.json",
+        "test_results/phase12_p12a/verification_03/fmt_policy_04.json",
+        "test_results/phase12_p12a/formatting_invocation_disposition_01.json"
+      ]
+    },
+    {
+      "id": "07",
+      "area": "Dynamic complete freeze and fail-closed integrity implementation",
+      "status": "PASS",
+      "finding": "Inspected full integrity_02.py, parent_readback_02.py, all426 control-source lines, run_step_01.py and verify_04.py. Independently executed read-only verify_freeze:298 raw/236 canonical, actual live source_snapshot and extras re-enumerated with exact membership/raw comparison, not only listed-path hashes. Strict normalized repository-relative path/case/symlink checks, duplicate JSON/path rejection and exact counts. APIs reject optimized execution using explicit exceptions. Parsed actual integrity_final04 log against every source-declared control:exact46 all ok, including changed source/review/input manifest, additions/removals, canonicalization, wrong-path same-basename, missing required pins, circular/self digest, malformed JSON, predecessor substitution and real -O subprocess refusal. Controls are synthetic only in isolated temp roots where stated; actual real-root checks also executed and direct read-only APIs separately reproduced by reviewer.",
+      "evidence": [
+        "test_results/phase12_p12a/integrity_02.py",
+        "test_results/phase12_p12a/test_integrity_02.py",
+        "test_results/phase12_p12a/parent_readback_02.py",
+        "test_results/phase12_p12a/source_freeze_04.json",
+        "test_results/phase12_p12a/verification_03/integrity_final04.log",
+        "test_results/phase12_p12a/run_step_01.py",
+        "test_results/phase12_p12a/verify_04.py"
+      ]
+    },
+    {
+      "id": "08",
+      "area": "Mandatory real mock and authority-closure evidence reuse",
+      "status": "PASS",
+      "finding": "Contract198-202/218 requires full actual mock despite Class T: satisfied, not skipped. AST independently finds95 test declarations; actual verbose mock.log records exactly95 distinct matching ok identities, no skips/failures; suite886.819s, measured wall887.375s, actual exit0 under subprocess-enforced1049s. Recorder invokes absolute Hermes venv, no cached/mock-success replacement. Freeze03 canonical map equals final freeze04 and authority-before map for every236 raw acceptance input. All11 added authority pins captured before mock completion equal final/current bytes. Only task-local integrity and parent wrapper changed; originals authenticate against freeze03 pins. Added verify_04 orchestrates affected reruns; canonical source/harness/validators unchanged. Inspected closure repair: it expands authority enumeration and points parent reader to freeze04; neither is imported by real acceptance mock. User repeat-affected-checks requirement is satisfied by new freeze,46 controls, fresh focused/full host/B26/format/no_std/production/symbol/isolation and parent readback. A second mock would not test changed code or changed acceptance inputs. Identity-based current-run reuse is sufficient under actual contract and scoped authorization; no waiver of REQUIRED mock, no second package.",
+      "evidence": [
+        "test_results/phase12_p12a/p12a_contract.md",
+        "test_results/phase12_p12a/mock_gate_decision_01.json",
+        "scripts/test_acceptance_harness.py",
+        "test_results/phase12_p12a/verification_03/mock.log",
+        "test_results/phase12_p12a/verification_03/mock.json",
+        "test_results/phase12_p12a/source_freeze_03.json",
+        "test_results/phase12_p12a/source_freeze_04.json",
+        "test_results/phase12_p12a/authority_closure_before_01.json",
+        "test_results/phase12_p12a/freeze_extension_disposition_01.json",
+        "test_results/phase12_p12a/superseded_freeze03_inputs/integrity_02.py",
+        "test_results/phase12_p12a/superseded_freeze03_inputs/parent_readback_02.py"
+      ]
+    },
+    {
+      "id": "09",
+      "area": "Class T production inputs, linked ELF, graph/symbol isolation and hardware skip",
+      "status": "PASS",
+      "finding": "Independently read actual main.rs module declarations, bin-only/default-empty-feature Cargo manifest, host cfg(test) lib wiring and all P12A reference hits across src/assembly/host/scripts. Only policy comment, two host #[path]/module pairs and test import refer to P12A. Clean production build records use same repository cwd/cargo +nightly build/default target/profile as both preimplementation A/B; compiler -vV raw bytes equal baseline. Independently hashed A=B=retained production.elf=live linked kernel to981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4. Independently executed actual LLVM --syms on linked elf32-i386:exit0/no p12a hits. All canonical inputs outside policy/tests match audited backup; no target/toolchain/manifest/production validator or runtime root changes. Thus approved Class T permits explicit SKIPPED fresh F1-F5 matrices10/8/18/12/12 at128/512MiB and emitted-closure rerun: identical entire ELF preserves emitted instructions, not just selected symbols. Not fresh hardware/canonical PASS; no runtime scheduling proof.",
+      "evidence": [
+        "src/main.rs",
+        "Cargo.toml",
+        "tests_kernel/src/lib.rs",
+        "test_results/p12a/b01/report.json",
+        "test_results/p12a/b01/production_A.elf",
+        "test_results/p12a/b01/production_B.elf",
+        "test_results/phase12_p12a/verification_03/production_04.json",
+        "test_results/phase12_p12a/verification_03/production_symbols_04.log",
+        "test_results/phase12_p12a/verification_03/toolchain_04.log",
+        "test_results/phase12_p12a/production_isolation_readback_01.json"
+      ]
+    },
+    {
+      "id": "10",
+      "area": "Authenticated F5 predecessor, gate multiset and exact host-wiring disposition",
+      "status": "PASS",
+      "finding": "Executed inspected verify_predecessor read-only: all562 historical artifact bindings authenticated with exact76 PASS/exit0 gate multiset, not a replacement76 count. Top-level report/manifest/canonical raw pins match preflight and reviewed lineage. Historical_self_bound FINAL_REPORT disposition is explicit and not transferred into current candidate proof. Sole inherited lib.rs mismatch resolves only by removing exactly one literal six-line host wiring block; independently removed in memory to reproduce d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189. No arbitrary mismatch skipping. Independently authenticated all39 design manifest pins and30 inventory identities with that same sole authorized wiring disposition. Historical F1 missing final readback, F3 conditional static stack bound and F5 terminal IF0/PIC-masked/nonresumable/no NX-W^X limitations remain disclosed.",
+      "evidence": [
+        "test_results/phase12_p12a/preflight_01.json",
+        "test_results/phase12_design/review_inputs_01.json",
+        "test_results/phase12_design/source_inventory.json",
+        "test_results/phase11f5_cpl3_proof/FINAL_REPORT.md",
+        "test_results/phase11f5_cpl3_proof/evidence_manifest.json",
+        "test_results/f5acc/r01/acceptance_20261025T060216Z_7g_gea5o/acceptance.json",
+        "tests_kernel/src/lib.rs"
+      ]
+    },
+    {
+      "id": "11",
+      "area": "Original protected eight and exact byte delta",
+      "status": "PASS",
+      "finding": "Executed verify_protected against original backup and authenticated preflight:eight/eight raw hashes match, including F2 assembly a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60. No newline normalization or repinning used; current F2 protected raw bytes happen to contain110 LF and zero CRLF, and the required identity is the authenticated raw digest, not an invented newline requirement. Policy delta reversed in memory reconstructs CRLF original policy c2360876...003f and LF original tests fb025cdd...e95f exactly. Token comparison after six Eq/const and three formatter trailing-comma changes proves scheduling bodies unchanged. Reviewer initial uniform-newline/trailing-comma assumptions failed closed, then were resolved without file edits. Shared host wiring unchanged since backup. No unrelated equality/runtime/IRQ/timer/allocator/boot/exception/terminal/production-gate modifications.",
+      "evidence": [
+        "test_results/phase12_p12a/git_backup_manifest_01.json",
+        "test_results/phase12_p12a/source_delta_02.diff",
+        "test_results/phase12_p12a/source_delta_02.json",
+        "src/exception_entry.s",
+        "src/p12a_policy.rs",
+        "tests_kernel/src/p12a_policy_tests.rs"
+      ]
+    },
+    {
+      "id": "12",
+      "area": "Historical budget UNKNOWN and current package authorization",
+      "status": "PASS",
+      "finding": "Read full budget reconstruction audit, immutable context, original readiness findings, initial remediation plan and current remediation/final candidate report. Original correction cycles and per-defect attempts remain UNKNOWN; neither zero, unexhausted nor exhausted can be certified. Compiler01..05 filenames/diagnostics do not establish distinct attempts; duplicate recovered call results are not extra executions. Old PARTIAL/STOP remains historically valid. Current explicit user continuation separately authorizes exactly one bounded package despite UNKNOWN, not a reset/waiver of reconstructed history. Initial plan used0 is an immutable preimplementation state, not a present counter; actual current disclosures/report record used1/max1. Eq/const/test-oracle/readback package stays within named source paths and task docs; formatting invocation repair and one documented transitive-closure strategy correction are not hidden second source strategies. Both mandatory UNKNOWN scope and disclosure requirements are satisfied, not omitted.",
+      "evidence": [
+        "test_results/phase12_p12a/reviews/budget_reconstruction_01.json",
+        "test_results/phase12_p12a/reviews/readiness_audit_01.json",
+        "test_results/phase12_p12a/remediation_plan_01.json",
+        "test_results/phase12_p12a/reviewer_disclosure_preflight_01.json",
+        "test_results/phase12_p12a/remediation_report_01.md",
+        "test_results/phase12_p12a/FINAL_REPORT_candidate_01.md",
+        "test_results/phase12_p12a/candidate_context_02.md"
+      ]
+    },
+    {
+      "id": "13",
+      "area": "Genuine original logical RED and unverified executed-source provenance",
+      "status": "PASS",
+      "finding": "Read actual authenticated original_red_02.log runtime assertions and independently parsed all24 identities:3pass/21fail/no ignores, including literal Unused versus Ready and Idle versus Worker failures. Historical cargo101 derives from secondary authenticated audit command, not current rerun or shell-wrapper0; compiler/import failures are not logical RED. Exact executed original scaffold AND test raw identities remain UNVERIFIABLE_HISTORICAL. Post-RED UnknownId oracle correction from InvalidTransition and four removed inhibition assertions explicitly disclosed in provenance/audit/candidate report. Current long corrected replay and Ready=>queue coverage establish current correctness, not unchanged-tests historical TDD. Required original logical RED provenance disclosure is present, truthful and explicitly reviewed; this approval cannot be cited as recovery of absent original source bytes.",
+      "evidence": [
+        "test_results/phase12_p12a/original_red_02.log",
+        "test_results/phase12_p12a/red_provenance_01.json",
+        "test_results/phase12_p12a/reviews/budget_reconstruction_01.json",
+        "test_results/phase12_p12a/reviews/readiness_audit_01.json",
+        "test_results/phase12_p12a/FINAL_REPORT_candidate_01.md"
+      ]
+    },
+    {
+      "id": "14",
+      "area": "Noncircular final candidate evidence manifest and fail-closed parent readback",
+      "status": "PASS",
+      "finding": "Final immutable manifest_index_02.json externally binds evidence_manifest_candidate_01.json raw980be2347799d26d412e96f37c71ff7d0da6bf4a1b889d65a933be988b769834. Independently executed verify_manifest on that exact pair:178 artifacts/178 required, nonempty exact raw bindings, no own embedded digest or self listing; authenticates nested existing review inputs. Original design review remains externally raw-pinned with no invented self_sha256. Full source of parent reader requires manifest/freeze/F5/protected/native process checks; final parent_candidate05 actual exit0/log/raw bindings corroborate reviewer reproductions. Candidate report snapshot raw021631c7ce6ad62c021afb170fd8e390719c5ee05b74a158156373a392cc9c84 inspected (byte-identical to full report already read). Final input02 excludes mutable live FINAL_REPORT/evidence_manifest/STATE/decisions, permitting truthful later closeout docs without rewriting this review. Draft01/preflight01/parent04 are historical, not final admission. Identity/required-artifact failures raise, no metadata-only or optimized bypass; actual46 control log covers changed review inputs too.",
+      "evidence": [
+        "test_results/phase12_p12a/manifest_index_02.json",
+        "test_results/phase12_p12a/evidence_manifest_candidate_01.json",
+        "test_results/phase12_p12a/FINAL_REPORT_candidate_01.md",
+        "test_results/phase12_p12a/candidate_review_inputs_02.json",
+        "test_results/phase12_p12a/verification_03/parent_candidate05.json",
+        "test_results/phase12_p12a/verification_03/parent_candidate05.log",
+        "test_results/phase12_p12a/parent_readback_02.py",
+        "test_results/phase12_p12a/integrity_02.py"
+      ]
+    },
+    {
+      "id": "15",
+      "area": "Historical refusals retained, authorization limits, no new gates and no P12-B",
+      "status": "PASS",
+      "finding": "Reviewed original readiness14 findings and technical resolutions, not replaced original REJECT/PARTIAL records. Old incomplete/preimplementation evidence and failed format/interpreter/compiler logs retain authenticated raw pins; budget and original RED source gaps are disclosed rather than manufactured away. Historical p12a_allowlist lists identities, not file paths; current explicit remediation_plan supplies source/documentation path authorization, preserving that old artifact. Source delta stays within allowed two source/test files and existing six-line host inclusion. Production phase6_verify/tests/validators remain byte-identical and gate multiset unchanged. CANONICAL_ACCEPTANCE=NOT_APPLICABLE_NO_NEW_GATES (Option A), not fresh canonical acceptance. Scoped implementation/documentation commits and normal remote SHA synchronization are still required after approval, not claimed done by backup synchronization. Current user supersedes old no-push only for scoped final normal push and conditional B design. No P12-B directory exists; B implementation remains unauthorized. No heavy jobs/mock/QEMU/Git actions launched by reviewer; only read-only integrity/symbol inspection and own review JSON writes.",
+      "evidence": [
+        "test_results/phase12_p12a/reviews/readiness_audit_01.json",
+        "test_results/phase12_p12a/remediation_plan_01.json",
+        "test_results/phase12_p12a/p12a_allowlist.json",
+        "test_results/phase12_p12a/formatting_invocation_disposition_01.json",
+        "test_results/phase12_p12a/candidate_context_02.md",
+        "test_results/phase12_p12a/FINAL_REPORT_candidate_01.md",
+        "test_results/phase12_p12a/verification_03/verification_report04.json"
+      ]
+    }
+  ],
+  "reviewed_input_manifest": {
+    "path": "test_results/phase12_p12a/candidate_review_inputs_02.json",
+    "raw_sha256": "16a261707eea465898cb1e8c9b41cbebf29eee8a3a931944b59677ec10110e1a",
+    "pin_count": 450,
+    "pin_verification": [
+      {
+        "name": "input_0000",
+        "path": ".cargo/config.toml",
+        "expected": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120"
+      },
+      {
+        "name": "input_0001",
+        "path": ".gitattributes",
+        "expected": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218"
+      },
+      {
+        "name": "input_0002",
+        "path": "ARCHITECTURE.md",
+        "expected": "b9b28d1c1c869a61dcb3d0eb649a54445aa1a6384c9a4f11aead3040428359dd"
+      },
+      {
+        "name": "input_0003",
+        "path": "Cargo.lock",
+        "expected": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188"
+      },
+      {
+        "name": "input_0004",
+        "path": "Cargo.toml",
+        "expected": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1"
+      },
+      {
+        "name": "input_0005",
+        "path": "README.md",
+        "expected": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80"
+      },
+      {
+        "name": "input_0006",
+        "path": "crates/rostifs/Cargo.lock",
+        "expected": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb"
+      },
+      {
+        "name": "input_0007",
+        "path": "crates/rostifs/Cargo.toml",
+        "expected": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920"
+      },
+      {
+        "name": "input_0008",
+        "path": "crates/rostifs/src/additional_tests.rs",
+        "expected": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df"
+      },
+      {
+        "name": "input_0009",
+        "path": "crates/rostifs/src/bin/mkrostifs.rs",
+        "expected": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252"
+      },
+      {
+        "name": "input_0010",
+        "path": "crates/rostifs/src/bin/rostifs-inspect.rs",
+        "expected": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c"
+      },
+      {
+        "name": "input_0011",
+        "path": "crates/rostifs/src/bin/rostifsck.rs",
+        "expected": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36"
+      },
+      {
+        "name": "input_0012",
+        "path": "crates/rostifs/src/bin/support/mod.rs",
+        "expected": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041"
+      },
+      {
+        "name": "input_0013",
+        "path": "crates/rostifs/src/block.rs",
+        "expected": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06"
+      },
+      {
+        "name": "input_0014",
+        "path": "crates/rostifs/src/checksum.rs",
+        "expected": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e"
+      },
+      {
+        "name": "input_0015",
+        "path": "crates/rostifs/src/crash_tests.rs",
+        "expected": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9"
+      },
+      {
+        "name": "input_0016",
+        "path": "crates/rostifs/src/engine.rs",
+        "expected": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a"
+      },
+      {
+        "name": "input_0017",
+        "path": "crates/rostifs/src/format.rs",
+        "expected": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700"
+      },
+      {
+        "name": "input_0018",
+        "path": "crates/rostifs/src/lib.rs",
+        "expected": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31"
+      },
+      {
+        "name": "input_0019",
+        "path": "crates/rostifs/src/occupancy_tests.rs",
+        "expected": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42"
+      },
+      {
+        "name": "input_0020",
+        "path": "crates/rostifs/src/vfs.rs",
+        "expected": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713"
+      },
+      {
+        "name": "input_0021",
+        "path": "crates/rostifs/tests/host_tools.rs",
+        "expected": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b"
+      },
+      {
+        "name": "input_0022",
+        "path": "crates/rostifs/tests/read_performance.rs",
+        "expected": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29"
+      },
+      {
+        "name": "input_0023",
+        "path": "crates/rostifs/tests/write_preservation.rs",
+        "expected": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9"
+      },
+      {
+        "name": "input_0024",
+        "path": "docs/PHASE11_DESIGN.md",
+        "expected": "49c32c17f934f0f77ee24525a7a9390c6ac43f667ce0e25c945b1e6688b41810"
+      },
+      {
+        "name": "input_0025",
+        "path": "docs/PHASE11_HANDOVER.md",
+        "expected": "763844f918d8ae128a987536d6648f3b2abd6ca8d8722dc9e149af067e09af1e"
+      },
+      {
+        "name": "input_0026",
+        "path": "docs/PHASE11_MEMORY_AUTHORITY.md",
+        "expected": "50fcb78fc0317613a7927ff64727560157dad58b32e78b7a4ed39863c6bcac77"
+      },
+      {
+        "name": "input_0027",
+        "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+        "expected": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f"
+      },
+      {
+        "name": "input_0028",
+        "path": "linker.ld",
+        "expected": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61"
+      },
+      {
+        "name": "input_0029",
+        "path": "rust-toolchain.toml",
+        "expected": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95"
+      },
+      {
+        "name": "input_0030",
+        "path": "scripts/b13_boot_fixture.py",
+        "expected": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef"
+      },
+      {
+        "name": "input_0031",
+        "path": "scripts/b13_entry_inject.py",
+        "expected": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b"
+      },
+      {
+        "name": "input_0032",
+        "path": "scripts/b13_fixture/Cargo.lock",
+        "expected": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24"
+      },
+      {
+        "name": "input_0033",
+        "path": "scripts/b13_fixture/Cargo.toml",
+        "expected": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa"
+      },
+      {
+        "name": "input_0034",
+        "path": "scripts/b13_fixture/linker.ld",
+        "expected": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8"
+      },
+      {
+        "name": "input_0035",
+        "path": "scripts/b13_fixture/main.rs",
+        "expected": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a"
+      },
+      {
+        "name": "input_0036",
+        "path": "scripts/b13_grub_smoke.py",
+        "expected": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85"
+      },
+      {
+        "name": "input_0037",
+        "path": "scripts/b13_stress_replay.py",
+        "expected": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e"
+      },
+      {
+        "name": "input_0038",
+        "path": "scripts/backspace_test.py",
+        "expected": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae"
+      },
+      {
+        "name": "input_0039",
+        "path": "scripts/block_test.py",
+        "expected": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb"
+      },
+      {
+        "name": "input_0040",
+        "path": "scripts/boot_metadata_test.py",
+        "expected": "02ac3da0b606504d1f141ad5762adcf12ec581e11b1d102f79b7c95e19924e3f"
+      },
+      {
+        "name": "input_0041",
+        "path": "scripts/boot_test.py",
+        "expected": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1"
+      },
+      {
+        "name": "input_0042",
+        "path": "scripts/build-proxmox-iso.py",
+        "expected": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e"
+      },
+      {
+        "name": "input_0043",
+        "path": "scripts/build_initramfs.py",
+        "expected": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228"
+      },
+      {
+        "name": "input_0044",
+        "path": "scripts/deploy-proxmox.py",
+        "expected": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c"
+      },
+      {
+        "name": "input_0045",
+        "path": "scripts/f1_capture.py",
+        "expected": "69fbf12be0c4a6472bd7cabb475ed2f46f55182a71b3d14edb12e7207ba08bed"
+      },
+      {
+        "name": "input_0046",
+        "path": "scripts/f1_evidence.py",
+        "expected": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c"
+      },
+      {
+        "name": "input_0047",
+        "path": "scripts/f1_guest_fixture.rs",
+        "expected": "5d1bcea94ebf55fc1cf7f4937274a1598835689cbd625c0b45980ec7bb92b390"
+      },
+      {
+        "name": "input_0048",
+        "path": "scripts/f1_retained_guest.py",
+        "expected": "83f72d9d0d3fad6365fed1411e3376e86f0b81bb59e65bba8b8af57536f7796d"
+      },
+      {
+        "name": "input_0049",
+        "path": "scripts/f2_evidence.py",
+        "expected": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c"
+      },
+      {
+        "name": "input_0050",
+        "path": "scripts/f2_exception_guest.py",
+        "expected": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873"
+      },
+      {
+        "name": "input_0051",
+        "path": "scripts/f3_evidence.py",
+        "expected": "1f61c70d714f121e03a0526c7997d6d1f07f6ccab24ca1e8a29d87335b841ff4"
+      },
+      {
+        "name": "input_0052",
+        "path": "scripts/f3_full_evidence.py",
+        "expected": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1"
+      },
+      {
+        "name": "input_0053",
+        "path": "scripts/f3_full_guest.py",
+        "expected": "e06eb05e69d782b14bcdf884d66f824e9fda32fc03b844ab989a55c2793e6374"
+      },
+      {
+        "name": "input_0054",
+        "path": "scripts/f3_gdt_guest.py",
+        "expected": "0dd26fd92007686274d791de9878efbdaf121057cfa15b4209a529fe42fe283e"
+      },
+      {
+        "name": "input_0055",
+        "path": "scripts/f3_supplemental.py",
+        "expected": "217c2f075b54d9826c6fb84b240c9999b2261d305392384eb347c93ce0e0bac0"
+      },
+      {
+        "name": "input_0056",
+        "path": "scripts/f3_supplemental_evidence.py",
+        "expected": "bfd220b6af3cbacdb26dbf68e450c4f8f8569d17a9b463c2f966203d7bb517a5"
+      },
+      {
+        "name": "input_0057",
+        "path": "scripts/f4_arena_guest.py",
+        "expected": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac"
+      },
+      {
+        "name": "input_0058",
+        "path": "scripts/f4_dwarf.py",
+        "expected": "69f975db576cc6e7d807586671801809d797f258a5542abc5ff6f7fd34909e2f"
+      },
+      {
+        "name": "input_0059",
+        "path": "scripts/f4_evidence.py",
+        "expected": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef"
+      },
+      {
+        "name": "input_0060",
+        "path": "scripts/f4_ready_guest.py",
+        "expected": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8"
+      },
+      {
+        "name": "input_0061",
+        "path": "scripts/f4_user_guest.py",
+        "expected": "e5cdc25555a0da366f3dd45508fff4770d9311f2abaf85eb2e5c1c5ade57b473"
+      },
+      {
+        "name": "input_0062",
+        "path": "scripts/f5_cpl3_evidence.py",
+        "expected": "eaaf44806cecc9aa52c1cb45585764c5157e9384ca546cb7c402da5eb497c33e"
+      },
+      {
+        "name": "input_0063",
+        "path": "scripts/f5_cpl3_guest.py",
+        "expected": "f39f9dae9165d65d7850fe01f22959b3a02f92cf6c81c4aa5e316c02ad115a7c"
+      },
+      {
+        "name": "input_0064",
+        "path": "scripts/f5_entry_derivation.py",
+        "expected": "58b6398028101df8093dd58bc7c5c4dd676775d01ee0e7a91858835eaf7de588"
+      },
+      {
+        "name": "input_0065",
+        "path": "scripts/f5_terminal_audit.py",
+        "expected": "5c9b0c787fe9fddcdb33ab030252563dcdc66bba77b79cd5732648592463a1e4"
+      },
+      {
+        "name": "input_0066",
+        "path": "scripts/fs_test.py",
+        "expected": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b"
+      },
+      {
+        "name": "input_0067",
+        "path": "scripts/keyboard_test.py",
+        "expected": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce"
+      },
+      {
+        "name": "input_0068",
+        "path": "scripts/live_phase5_check.py",
+        "expected": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4"
+      },
+      {
+        "name": "input_0069",
+        "path": "scripts/mem_probe.py",
+        "expected": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4"
+      },
+      {
+        "name": "input_0070",
+        "path": "scripts/numeric_map_api_probe.rs",
+        "expected": "4dffd562babfdd6c2b1e68626b68081dc934b0a984cb6eeb37900aa043bba929"
+      },
+      {
+        "name": "input_0071",
+        "path": "scripts/paging_test.py",
+        "expected": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb"
+      },
+      {
+        "name": "input_0072",
+        "path": "scripts/phase10_grub_module_probe.py",
+        "expected": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b"
+      },
+      {
+        "name": "input_0073",
+        "path": "scripts/phase10_initramfs_test.py",
+        "expected": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe"
+      },
+      {
+        "name": "input_0074",
+        "path": "scripts/phase10_module_probe.py",
+        "expected": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800"
+      },
+      {
+        "name": "input_0075",
+        "path": "scripts/phase10_repro_one.py",
+        "expected": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d"
+      },
+      {
+        "name": "input_0076",
+        "path": "scripts/phase6_verify.py",
+        "expected": "394dfcfa9e5d40ebb56c614ac2356a4c930fbbd80b418c408f46b30daf388b20"
+      },
+      {
+        "name": "input_0077",
+        "path": "scripts/phase9_5_bench.py",
+        "expected": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4"
+      },
+      {
+        "name": "input_0078",
+        "path": "scripts/qemu_boot_test.sh",
+        "expected": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699"
+      },
+      {
+        "name": "input_0079",
+        "path": "scripts/rostifs_test.py",
+        "expected": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091"
+      },
+      {
+        "name": "input_0080",
+        "path": "scripts/run_tests.sh",
+        "expected": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8"
+      },
+      {
+        "name": "input_0081",
+        "path": "scripts/sendkey_probe.py",
+        "expected": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9"
+      },
+      {
+        "name": "input_0082",
+        "path": "scripts/stability_probe.sh",
+        "expected": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8"
+      },
+      {
+        "name": "input_0083",
+        "path": "scripts/system_image_policy.py",
+        "expected": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b"
+      },
+      {
+        "name": "input_0084",
+        "path": "scripts/test_acceptance_harness.py",
+        "expected": "f6274eac8eb8ef3075597ed3d946df5a41f19fed14b0e616efe6038404288d2f"
+      },
+      {
+        "name": "input_0085",
+        "path": "scripts/test_b13_boot.py",
+        "expected": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f"
+      },
+      {
+        "name": "input_0086",
+        "path": "scripts/test_b13_entry_inject.py",
+        "expected": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2"
+      },
+      {
+        "name": "input_0087",
+        "path": "scripts/test_boot_metadata_harness.py",
+        "expected": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267"
+      },
+      {
+        "name": "input_0088",
+        "path": "scripts/test_build_initramfs.py",
+        "expected": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b"
+      },
+      {
+        "name": "input_0089",
+        "path": "scripts/test_f1_capture.py",
+        "expected": "691a91c475d30c8e5273d978363fda9f0cd8d719c23a224663b6af5c535251aa"
+      },
+      {
+        "name": "input_0090",
+        "path": "scripts/test_f2_evidence.py",
+        "expected": "ba2b68a8d0493b1bb9cc8a644cdf097086aa036a860d7f02b6464f2165f8137b"
+      },
+      {
+        "name": "input_0091",
+        "path": "scripts/test_f3_evidence.py",
+        "expected": "fc068fb808621a81f289e9bcbba4908b614406ba65fe29fd74e36ea337d9e4b9"
+      },
+      {
+        "name": "input_0092",
+        "path": "scripts/test_f3_full_evidence.py",
+        "expected": "8021752e7c37f70a324fe94c8964b48820658600eb303704c7ee640169ac6718"
+      },
+      {
+        "name": "input_0093",
+        "path": "scripts/test_f3_supplemental.py",
+        "expected": "78e5643fac502109091f28ce404d91deffbc53670986265d99017086bf442508"
+      },
+      {
+        "name": "input_0094",
+        "path": "scripts/test_f5_cpl3_evidence.py",
+        "expected": "90e6a1974e7bc36eb319f878f966b6e44d96f54310a36b41d611838020ce734e"
+      },
+      {
+        "name": "input_0095",
+        "path": "scripts/test_f5_cpl3_harness.py",
+        "expected": "910c79e093f3284e736b5bd1e77068a9abbf4ea57a9bb033d95a4cc6cebfedab"
+      },
+      {
+        "name": "input_0096",
+        "path": "scripts/test_f5_entry_derivation.py",
+        "expected": "1b9ea2ebcbaa257a627447820df8d6cc5f03a69b8ddbce55a0e25d31800e0e20"
+      },
+      {
+        "name": "input_0097",
+        "path": "scripts/test_f5_terminal_audit.py",
+        "expected": "7587050544c3ad724944d763e9d5dd4a4c1a5b69ff39df3917a2609c34c8eac3"
+      },
+      {
+        "name": "input_0098",
+        "path": "scripts/test_fs_harness.py",
+        "expected": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664"
+      },
+      {
+        "name": "input_0099",
+        "path": "scripts/test_phase10_initramfs_harness.py",
+        "expected": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627"
+      },
+      {
+        "name": "input_0100",
+        "path": "scripts/test_phase9_5_bench.py",
+        "expected": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476"
+      },
+      {
+        "name": "input_0101",
+        "path": "scripts/test_production_fixture_policy.py",
+        "expected": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2"
+      },
+      {
+        "name": "input_0102",
+        "path": "scripts/test_rostifs_harness.py",
+        "expected": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac"
+      },
+      {
+        "name": "input_0103",
+        "path": "scripts/test_system_image_policy.py",
+        "expected": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d"
+      },
+      {
+        "name": "input_0104",
+        "path": "scripts/unmap_api_probe.rs",
+        "expected": "66a64d2f4435fc2db8618ba30618823098547613fc79c33c85652e080f032669"
+      },
+      {
+        "name": "input_0105",
+        "path": "scripts/validate_elf.py",
+        "expected": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56"
+      },
+      {
+        "name": "input_0106",
+        "path": "scripts/verify_production.py",
+        "expected": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb"
+      },
+      {
+        "name": "input_0107",
+        "path": "scripts/verify_proxmox_backspace.py",
+        "expected": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f"
+      },
+      {
+        "name": "input_0108",
+        "path": "src/allocator.rs",
+        "expected": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d"
+      },
+      {
+        "name": "input_0109",
+        "path": "src/block.rs",
+        "expected": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928"
+      },
+      {
+        "name": "input_0110",
+        "path": "src/boot.s",
+        "expected": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6"
+      },
+      {
+        "name": "input_0111",
+        "path": "src/boot_inventory.rs",
+        "expected": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6"
+      },
+      {
+        "name": "input_0112",
+        "path": "src/cpu.rs",
+        "expected": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f"
+      },
+      {
+        "name": "input_0113",
+        "path": "src/exception_abi.rs",
+        "expected": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10"
+      },
+      {
+        "name": "input_0114",
+        "path": "src/exception_abi_tests.rs",
+        "expected": "b8fb3beee2535bf37354c0d5232310b58bc4e929284678df17a2de0a415352f7"
+      },
+      {
+        "name": "input_0115",
+        "path": "src/exception_entry.s",
+        "expected": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60"
+      },
+      {
+        "name": "input_0116",
+        "path": "src/exception_fatal.rs",
+        "expected": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d"
+      },
+      {
+        "name": "input_0117",
+        "path": "src/f3_entry.s",
+        "expected": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15"
+      },
+      {
+        "name": "input_0118",
+        "path": "src/f5_bridge.s",
+        "expected": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5"
+      },
+      {
+        "name": "input_0119",
+        "path": "src/f5_contract.rs",
+        "expected": "f6e72c12b195f54eed876e582d982cd59711f8058a764ae685fd7cc174efeac3"
+      },
+      {
+        "name": "input_0120",
+        "path": "src/f5_cpl3.rs",
+        "expected": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21"
+      },
+      {
+        "name": "input_0121",
+        "path": "src/f5_exception_entry.s",
+        "expected": "2c76369aead02bb1b7fad54b89b996154f683705032ff4f18373c1deb1e3f2db"
+      },
+      {
+        "name": "input_0122",
+        "path": "src/f5_gdt.rs",
+        "expected": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65"
+      },
+      {
+        "name": "input_0123",
+        "path": "src/f5_runtime.rs",
+        "expected": "fd94be9b68bbaacb9277342213cd82bfb051cfe3a275b8f25cc77938851a4122"
+      },
+      {
+        "name": "input_0124",
+        "path": "src/fd.rs",
+        "expected": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483"
+      },
+      {
+        "name": "input_0125",
+        "path": "src/fs/archive.rs",
+        "expected": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56"
+      },
+      {
+        "name": "input_0126",
+        "path": "src/fs/mod.rs",
+        "expected": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f"
+      },
+      {
+        "name": "input_0127",
+        "path": "src/fs/mounted.rs",
+        "expected": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c"
+      },
+      {
+        "name": "input_0128",
+        "path": "src/fs/rosti.rs",
+        "expected": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8"
+      },
+      {
+        "name": "input_0129",
+        "path": "src/fs/vfs.rs",
+        "expected": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf"
+      },
+      {
+        "name": "input_0130",
+        "path": "src/fs_commands.rs",
+        "expected": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39"
+      },
+      {
+        "name": "input_0131",
+        "path": "src/fs_stress.rs",
+        "expected": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202"
+      },
+      {
+        "name": "input_0132",
+        "path": "src/gdt.rs",
+        "expected": "02c845d9cd9c579e7f5461f365318a2ad6a88faf9567d9c9ca25b47485267599"
+      },
+      {
+        "name": "input_0133",
+        "path": "src/gdt_tss.rs",
+        "expected": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74"
+      },
+      {
+        "name": "input_0134",
+        "path": "src/initramfs.rs",
+        "expected": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb"
+      },
+      {
+        "name": "input_0135",
+        "path": "src/initramfs_trust.rs",
+        "expected": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6"
+      },
+      {
+        "name": "input_0136",
+        "path": "src/interrupt.rs",
+        "expected": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d"
+      },
+      {
+        "name": "input_0137",
+        "path": "src/io/mod.rs",
+        "expected": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51"
+      },
+      {
+        "name": "input_0138",
+        "path": "src/io/ports.rs",
+        "expected": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855"
+      },
+      {
+        "name": "input_0139",
+        "path": "src/io/serial.rs",
+        "expected": "cfe78862ad6c368e5c0d124d9fa2655fd5f953ab223bf81adad8de89f0d3161d"
+      },
+      {
+        "name": "input_0140",
+        "path": "src/io/vga.rs",
+        "expected": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9"
+      },
+      {
+        "name": "input_0141",
+        "path": "src/kbd.rs",
+        "expected": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b"
+      },
+      {
+        "name": "input_0142",
+        "path": "src/main.rs",
+        "expected": "732f92cc854b63e48e3b586cda099164abd42ceb68c5d14000cee360bac1d7ff"
+      },
+      {
+        "name": "input_0143",
+        "path": "src/memory/boot_copy.rs",
+        "expected": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2"
+      },
+      {
+        "name": "input_0144",
+        "path": "src/memory/f4_b26_tests.rs",
+        "expected": "2b527dd7764dc709914959b2cd06c7127402cde554078f987eca1aeb8cac72fc"
+      },
+      {
+        "name": "input_0145",
+        "path": "src/memory/f4_user_arena_tests.rs",
+        "expected": "4fe8da1bb4ac93e4884b8d270fce08e34de15bee1d1d4e595778e260a5c80509"
+      },
+      {
+        "name": "input_0146",
+        "path": "src/memory/f5_cpl3_owner_tests.rs",
+        "expected": "eea225f4657c1d42ee8f3c7c9f2300d9ec42f8a7a222f6698dc8e2a0b40547e3"
+      },
+      {
+        "name": "input_0147",
+        "path": "src/memory/f5_page_observation.rs",
+        "expected": "ce40808303be5e6847b9b66d1ad2befe9992862937de3d7a802685cc358dae9d"
+      },
+      {
+        "name": "input_0148",
+        "path": "src/memory/frame.rs",
+        "expected": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0"
+      },
+      {
+        "name": "input_0149",
+        "path": "src/memory/generation_boundary_tests.rs",
+        "expected": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801"
+      },
+      {
+        "name": "input_0150",
+        "path": "src/memory/generation_ownership_tests.rs",
+        "expected": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7"
+      },
+      {
+        "name": "input_0151",
+        "path": "src/memory/mapping_pin_tests.rs",
+        "expected": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816"
+      },
+      {
+        "name": "input_0152",
+        "path": "src/memory/mod.rs",
+        "expected": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab"
+      },
+      {
+        "name": "input_0153",
+        "path": "src/memory/module_access_tests.rs",
+        "expected": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e"
+      },
+      {
+        "name": "input_0154",
+        "path": "src/memory/numeric_map_authority_tests.rs",
+        "expected": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475"
+      },
+      {
+        "name": "input_0155",
+        "path": "src/memory/ownership_observation_tests.rs",
+        "expected": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a"
+      },
+      {
+        "name": "input_0156",
+        "path": "src/memory/paging.rs",
+        "expected": "0f14b2663faa883cdf0629b772350d42bca6e6bcfaba10280e7277482cc1d4b6"
+      },
+      {
+        "name": "input_0157",
+        "path": "src/memory/phase11_permission_tests.rs",
+        "expected": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75"
+      },
+      {
+        "name": "input_0158",
+        "path": "src/memory/phase11a2_abi_tests.rs",
+        "expected": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143"
+      },
+      {
+        "name": "input_0159",
+        "path": "src/memory/phase11a2_ownership_tests.rs",
+        "expected": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037"
+      },
+      {
+        "name": "input_0160",
+        "path": "src/memory/privileged.rs",
+        "expected": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed"
+      },
+      {
+        "name": "input_0161",
+        "path": "src/memory/privileged_owner_tests.rs",
+        "expected": "c13ff318dfcc0ec7c80e5b2e4395784a39c9b1e27f2977855b9d35752541c047"
+      },
+      {
+        "name": "input_0162",
+        "path": "src/memory/privileged_tests.rs",
+        "expected": "eb18b51752e82da382e9dc65941786e96943e642849f61055b859c9035ad7b17"
+      },
+      {
+        "name": "input_0163",
+        "path": "src/memory/retained_owner.rs",
+        "expected": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9"
+      },
+      {
+        "name": "input_0164",
+        "path": "src/memory/retained_owner_policy_tests.rs",
+        "expected": "e8b9d2a03d0a90f73d54322c6cbfd80e2ff93aabb8d6bf914598b2656976387d"
+      },
+      {
+        "name": "input_0165",
+        "path": "src/memory/retained_owner_tests.rs",
+        "expected": "5729867aa1d2e86776a70edb028a10a93de70e43036355f219ef218f8cdbc76b"
+      },
+      {
+        "name": "input_0166",
+        "path": "src/memory/review_r1_tests.rs",
+        "expected": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e"
+      },
+      {
+        "name": "input_0167",
+        "path": "src/memory/runtime_table_access_tests.rs",
+        "expected": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2"
+      },
+      {
+        "name": "input_0168",
+        "path": "src/memory/structure_lifetime_tests.rs",
+        "expected": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b"
+      },
+      {
+        "name": "input_0169",
+        "path": "src/memory/unmap_authority_tests.rs",
+        "expected": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76"
+      },
+      {
+        "name": "input_0170",
+        "path": "src/memory/user_arena.rs",
+        "expected": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0"
+      },
+      {
+        "name": "input_0171",
+        "path": "src/memory/virtual_page_zero_tests.rs",
+        "expected": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d"
+      },
+      {
+        "name": "input_0172",
+        "path": "src/multiboot.rs",
+        "expected": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674"
+      },
+      {
+        "name": "input_0173",
+        "path": "src/p12a_policy.rs",
+        "expected": "88354e669f1a23be9c724806449c6ca1ea8569491830765c8939c2ce44ed29cf"
+      },
+      {
+        "name": "input_0174",
+        "path": "src/phase11_gdt_tests.rs",
+        "expected": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b"
+      },
+      {
+        "name": "input_0175",
+        "path": "src/reboot.rs",
+        "expected": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6"
+      },
+      {
+        "name": "input_0176",
+        "path": "src/shell.rs",
+        "expected": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b"
+      },
+      {
+        "name": "input_0177",
+        "path": "src/storage.rs",
+        "expected": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1"
+      },
+      {
+        "name": "input_0178",
+        "path": "src/system_image.rs",
+        "expected": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce"
+      },
+      {
+        "name": "input_0179",
+        "path": "src/timer.rs",
+        "expected": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46"
+      },
+      {
+        "name": "input_0180",
+        "path": "src/utils/bits.rs",
+        "expected": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363"
+      },
+      {
+        "name": "input_0181",
+        "path": "src/utils/mod.rs",
+        "expected": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c"
+      },
+      {
+        "name": "input_0182",
+        "path": "src/utils/mutex.rs",
+        "expected": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586"
+      },
+      {
+        "name": "input_0183",
+        "path": "system/README.txt",
+        "expected": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967"
+      },
+      {
+        "name": "input_0184",
+        "path": "system/docs/recovery.txt",
+        "expected": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5"
+      },
+      {
+        "name": "input_0185",
+        "path": "target.json",
+        "expected": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80"
+      },
+      {
+        "name": "input_0186",
+        "path": "test_results/f5acc/r01/acceptance_20261025T060216Z_7g_gea5o/acceptance.json",
+        "expected": "21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074"
+      },
+      {
+        "name": "input_0187",
+        "path": "test_results/f5p01/full_source_freeze_10.json",
+        "expected": "56d4e87dc235c52218e80d6a4f0c9d0380cf10d8f98e271d3b3f83c90917bb25"
+      },
+      {
+        "name": "input_0188",
+        "path": "test_results/p12a/b01/b26_list.log",
+        "expected": "3a2faef665285ffae0974b84f060167c678f58e87ab4df9fad79ce1a82af8b81"
+      },
+      {
+        "name": "input_0189",
+        "path": "test_results/p12a/b01/b26_serial.log",
+        "expected": "78023406473af7d1fd970069fea6421f9b9c9fe6ca915540ecbcbee8cc10e9fd"
+      },
+      {
+        "name": "input_0190",
+        "path": "test_results/p12a/b01/clean_kernel_A.log",
+        "expected": "68714d23633bd376edc723e7b1d20ea65e88b0b8b20a4a195f8ddbf3b6ff72dd"
+      },
+      {
+        "name": "input_0191",
+        "path": "test_results/p12a/b01/clean_kernel_B.log",
+        "expected": "a2414f137a389a2553561ac78df4f9c3d4719174c086a07b05d9798754868a51"
+      },
+      {
+        "name": "input_0192",
+        "path": "test_results/p12a/b01/host_list.log",
+        "expected": "17bad47c466b46990e95225f5fc4a196225d68cb3e697db2ddbf2bdc9ed7073d"
+      },
+      {
+        "name": "input_0193",
+        "path": "test_results/p12a/b01/host_serial.log",
+        "expected": "cb912c6b3dbee5041751cb489b70a03ca48480ffda35bb611584b5414be1722f"
+      },
+      {
+        "name": "input_0194",
+        "path": "test_results/p12a/b01/production_A.elf",
+        "expected": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4"
+      },
+      {
+        "name": "input_0195",
+        "path": "test_results/p12a/b01/production_A.log",
+        "expected": "79fe82a396c1d6efaa7626c64c51a2ad85a1a0f8264f6af737a9a8c7d270e298"
+      },
+      {
+        "name": "input_0196",
+        "path": "test_results/p12a/b01/production_B.elf",
+        "expected": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4"
+      },
+      {
+        "name": "input_0197",
+        "path": "test_results/p12a/b01/production_B.log",
+        "expected": "ed561d73c65d31592ed0ac8e1eebe52e171446ace4dba592295dd1b0bd07515e"
+      },
+      {
+        "name": "input_0198",
+        "path": "test_results/p12a/b01/report.json",
+        "expected": "030b6bd2a9f2c2414f65265c5808b0f69327a828d86a5d2fb59ab22ed93ccec7"
+      },
+      {
+        "name": "input_0199",
+        "path": "test_results/p12a/b01/toolchain.log",
+        "expected": "39a22e48184d520ea2ac97f4e081d19c603119d6ec27402e87d747315bd82bc7"
+      },
+      {
+        "name": "input_0200",
+        "path": "test_results/p12a/parent_readback_01.py",
+        "expected": "14aa53b8c412a8710c69d06aa9459a7835168b94d82bbf68f02a49a510e1e9ad"
+      },
+      {
+        "name": "input_0201",
+        "path": "test_results/phase11f5_cpl3_proof/FINAL_REPORT.md",
+        "expected": "7c0d6ffff9e42d1b11199f6be1cd4a30cf01dfd02f7cdd9844fadd4d468a48d8"
+      },
+      {
+        "name": "input_0202",
+        "path": "test_results/phase11f5_cpl3_proof/audit_emitted_01.py",
+        "expected": "a47f26ac823827d0c91fa80eda2eafd0c49ed2747802098a1f0c5060a9934b21"
+      },
+      {
+        "name": "input_0203",
+        "path": "test_results/phase11f5_cpl3_proof/capture_baseline_02.py",
+        "expected": "773e526c1f3ef6e6b61c5c81b23bae639f5ce6aec520093d9e90c56d1bd1324d"
+      },
+      {
+        "name": "input_0204",
+        "path": "test_results/phase11f5_cpl3_proof/closeout_commit_receipt_10.json",
+        "expected": "588d36513a9b503360cbb991adc635911fb4338379677ab3aafc001f5d53bfc2"
+      },
+      {
+        "name": "input_0205",
+        "path": "test_results/phase11f5_cpl3_proof/design.md",
+        "expected": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c"
+      },
+      {
+        "name": "input_0206",
+        "path": "test_results/phase11f5_cpl3_proof/design_inputs_03.json",
+        "expected": "adea88bcf78b78ebe182c79c82563d88707de3075435c24a675e1ab22f69d42f"
+      },
+      {
+        "name": "input_0207",
+        "path": "test_results/phase11f5_cpl3_proof/entry_design_amendment_01.md",
+        "expected": "9071c193419cd08f225f663bfeadebf10cefcd5b344ce2f2fae1b30a563c69c2"
+      },
+      {
+        "name": "input_0208",
+        "path": "test_results/phase11f5_cpl3_proof/entry_design_amendment_inputs_01.json",
+        "expected": "829e7d41a60ce27a9c3a482831eae19c33226fd3a0bdee55a1a6c19b7f0ff65c"
+      },
+      {
+        "name": "input_0209",
+        "path": "test_results/phase11f5_cpl3_proof/evidence_manifest.json",
+        "expected": "eef97dd06b6b429e32315e73fdbf598f4c51bbb4723f17426f70f5efad91a387"
+      },
+      {
+        "name": "input_0210",
+        "path": "test_results/phase11f5_cpl3_proof/f1_composition_10.py",
+        "expected": "9f0bc3df091d862a3c7741f54068d2d5d560535c4ca201afc707bdd86b9e93b1"
+      },
+      {
+        "name": "input_0211",
+        "path": "test_results/phase11f5_cpl3_proof/f2_before_macro_01.elf",
+        "expected": "770f18590e186465fcb301f8d09c044d1055707027f0fa9ba596d0e2a1f33fcc"
+      },
+      {
+        "name": "input_0212",
+        "path": "test_results/phase11f5_cpl3_proof/final_review_parent_readback_10.json",
+        "expected": "6cf9baf4596d3b5557064c85e988e05350f98236db885d149fb099acc7a9d8dc"
+      },
+      {
+        "name": "input_0213",
+        "path": "test_results/phase11f5_cpl3_proof/freeze_and_verify_06_01.py",
+        "expected": "4fed7fc3b20d9611adac6de5241757fafb1a1c64f68d50c0821d91c2e5bef9b0"
+      },
+      {
+        "name": "input_0214",
+        "path": "test_results/phase11f5_cpl3_proof/freeze_design_inputs_03.py",
+        "expected": "4c3be67caf532abb60b5b37a4ceca36b06d6c573b3b4936b069b94a81e450d4b"
+      },
+      {
+        "name": "input_0215",
+        "path": "test_results/phase11f5_cpl3_proof/harness_contract_01.json",
+        "expected": "91984e72662a74558e34e7a158a045984762ed7534fd68ad8be3f3fa005d3df7"
+      },
+      {
+        "name": "input_0216",
+        "path": "test_results/phase11f5_cpl3_proof/host_matrix_06_01.py",
+        "expected": "9fde63921f0efc15ca45b324ccdf14b2550aa4d8cce3691c1e67d273c1bb97a4"
+      },
+      {
+        "name": "input_0217",
+        "path": "test_results/phase11f5_cpl3_proof/recover_cleanup_10.py",
+        "expected": "5e9d36a400e2c29f4608cc19e7a80658772ea84c3d19df1924bd0584a7999101"
+      },
+      {
+        "name": "input_0218",
+        "path": "test_results/phase11f5_cpl3_proof/recover_continuation06_01.py",
+        "expected": "bd32a87335746b3abe504643e2fd4b7d7ba1ff1b049463133d060d25805c540f"
+      },
+      {
+        "name": "input_0219",
+        "path": "test_results/phase11f5_cpl3_proof/refresh_manifest_04.py",
+        "expected": "511bc5769d275f0f05b996c934b8ca3d3cb5e0bddaeb93eef00584d9cb0252f7"
+      },
+      {
+        "name": "input_0220",
+        "path": "test_results/phase11f5_cpl3_proof/reproduce_lnk1104_06_01.py",
+        "expected": "82dc5e2f48bfa9f56dc3c49da854b06cf879ff3b91e13a7732eff87801008e28"
+      },
+      {
+        "name": "input_0221",
+        "path": "test_results/phase11f5_cpl3_proof/reviews/design_review_03.json",
+        "expected": "3c73bf80b6c504e6f6c982a90d928f3e66ba8fac18f1174ce000c528289cfd83"
+      },
+      {
+        "name": "input_0222",
+        "path": "test_results/phase11f5_cpl3_proof/reviews/final_canonical_readback_01.json",
+        "expected": "543db6fabab5eff983bf3711db56c0cb20d894cc50bb92bb2616f2a401e5ebe0"
+      },
+      {
+        "name": "input_0223",
+        "path": "test_results/phase11f5_cpl3_proof/run_cpl3_probe_01.py",
+        "expected": "5ab9e820e77ab7c29b7b55fac88e07fc9f07edc792d1b00b700b4954e9bd7cd4"
+      },
+      {
+        "name": "input_0224",
+        "path": "test_results/phase11f5_cpl3_proof/run_f4_regression_06_01.py",
+        "expected": "e4571654a5c8fc3d266e1a92727c06b372c8bff81d456b6863de7990007125a6"
+      },
+      {
+        "name": "input_0225",
+        "path": "test_results/phase11f5_cpl3_proof/run_hardware_red_01.py",
+        "expected": "5e1d34d7aeea117c1c64258053bf3eb127b29f7d8b50780ea2bc0aee2e4fb5bd"
+      },
+      {
+        "name": "input_0226",
+        "path": "test_results/phase11f5_cpl3_proof/run_owner_mutation_controls_01.py",
+        "expected": "8fb7a42dd7d69f97c37c248d58fb57ac0312a6b184e779a9fad505cc71dca60e"
+      },
+      {
+        "name": "input_0227",
+        "path": "test_results/phase11f5_cpl3_proof/run_step_f5.py",
+        "expected": "3536862b4853dd4b4f179363383b9b827bd7c558586e5704def09977f512f3d0"
+      },
+      {
+        "name": "input_0228",
+        "path": "test_results/phase11f5_cpl3_proof/short_build_remedy_06_01.py",
+        "expected": "cd2accc8a0ea26ad8ec4bdf5fa73d6fea74519bfb02b64c501c51f5b6f10b3b9"
+      },
+      {
+        "name": "input_0229",
+        "path": "test_results/phase11f5_cpl3_proof/test_f1_cleanup_10.py",
+        "expected": "e7b7acc8f438a8d0b6c3ab8f028a6cc7456f04cd56d7c43008513675d79801fe"
+      },
+      {
+        "name": "input_0230",
+        "path": "test_results/phase11f5_cpl3_proof/test_f4_regression_adapter_09.py",
+        "expected": "5af1814b536ef38775d1367377a10412e6d746ef746dd348615b1c24d4904ffe"
+      },
+      {
+        "name": "input_0231",
+        "path": "test_results/phase11f5_cpl3_proof/test_parent_readback_10.py",
+        "expected": "c7adb95e3d281d7b541f570ff271d74cb56d388829df5220eb22114acc34ac67"
+      },
+      {
+        "name": "input_0232",
+        "path": "test_results/phase11f5_cpl3_proof/validate_design_review_03.py",
+        "expected": "18a221478ee8bde789cbe8266970bff2bc7176e9dac52fad75e193122f654e9c"
+      },
+      {
+        "name": "input_0233",
+        "path": "test_results/phase11f5_cpl3_proof/verify_continuation_04.py",
+        "expected": "cf3b4e52a2a3a5538977b0964bdbeda86795453b7026540cf2de009aacdf61ac"
+      },
+      {
+        "name": "input_0234",
+        "path": "test_results/phase11f5_cpl3_proof/verify_design_bytes_02.py",
+        "expected": "dd3f4a8ce06ccacacc57545a680b8ca515041ac510da9d789bb4524b4af12506"
+      },
+      {
+        "name": "input_0235",
+        "path": "test_results/phase11f5_cpl3_proof/verify_design_entries_03.py",
+        "expected": "262131e46f3f7c762354f6c9a6704849e28b180c9a2e4ff308303c396d42431c"
+      },
+      {
+        "name": "input_0236",
+        "path": "test_results/phase12_design/STATE_review_snapshot_01.md",
+        "expected": "c91eef736fb813eb1078fbd8c2dc0a815896f353544bbcc99a218526bb105cd8"
+      },
+      {
+        "name": "input_0237",
+        "path": "test_results/phase12_design/artifact_manifest_01.json",
+        "expected": "906b66cb72c8b99fdc6fcb223ec560b25d692982091bc2bfc00c3fa54b641054"
+      },
+      {
+        "name": "input_0238",
+        "path": "test_results/phase12_design/authoring_diagnostics_01.json",
+        "expected": "011266f9c6058d52b52935d9fc1680c6a7e27112216235a1f1778e3d8ba9d44d"
+      },
+      {
+        "name": "input_0239",
+        "path": "test_results/phase12_design/decisions.md",
+        "expected": "ad6bf4dc58d1b1b5c996e040ca405c336935e6526fe6d986c89250dea54aad83"
+      },
+      {
+        "name": "input_0240",
+        "path": "test_results/phase12_design/design.md",
+        "expected": "fe57e4a8ae8c3af541d545319946494c499e06c92cfec572610154aa95f0a880"
+      },
+      {
+        "name": "input_0241",
+        "path": "test_results/phase12_design/discovery_delivery_checks_01.json",
+        "expected": "98d67a6a7992dc072695ea3e5b5edbf892cb2086b66d34dad9254d4a8fa9fb48"
+      },
+      {
+        "name": "input_0242",
+        "path": "test_results/phase12_design/review_inputs_01.json",
+        "expected": "33a9e1412efe8248bf522f03b8d8a28590f0e23511fa155f6c2796dafc06230a"
+      },
+      {
+        "name": "input_0243",
+        "path": "test_results/phase12_design/reviews/design_review_01.json",
+        "expected": "b08b9da47a18a7d6626fa34a4f7eb03758c1aa98cf1fddf4be385db1bf6dc125"
+      },
+      {
+        "name": "input_0244",
+        "path": "test_results/phase12_design/risks.md",
+        "expected": "931ef124c1707cc555c9877712f6d7a58d58ab7b166e5f5bea3dc8f417c868db"
+      },
+      {
+        "name": "input_0245",
+        "path": "test_results/phase12_design/source_inventory.json",
+        "expected": "3a8ebc323b6171537135b380a3bac2fe0e109acc034c18c8d391146c9778bdef"
+      },
+      {
+        "name": "input_0246",
+        "path": "test_results/phase12_p12a/BACKUP_FIRST_PARTIAL_REPORT_01.md",
+        "expected": "bb04094f450ceb48749aefecf53a3d89670b70fb728ab6d7e2bacb2ecb5a4f6d"
+      },
+      {
+        "name": "input_0247",
+        "path": "test_results/phase12_p12a/FINAL_REPORT_candidate_01.md",
+        "expected": "021631c7ce6ad62c021afb170fd8e390719c5ee05b74a158156373a392cc9c84"
+      },
+      {
+        "name": "input_0248",
+        "path": "test_results/phase12_p12a/FINAL_REPORT_placeholder_01.md",
+        "expected": "167b996f0618f1bd71f6368d95ecb9ffb4319e490a60cf51fadff49117a7c224"
+      },
+      {
+        "name": "input_0249",
+        "path": "test_results/phase12_p12a/STATE_budget_review_snapshot_01.md",
+        "expected": "23cbe81872b6ac0dbe99e4bdf30f8055f9ba0f21940b56b4a4772f16eada018a"
+      },
+      {
+        "name": "input_0250",
+        "path": "test_results/phase12_p12a/api_probe_01.rs",
+        "expected": "f108124d372fecfc5ed6a7942c12ad307eb362f5901d3cd202841a37bb370bce"
+      },
+      {
+        "name": "input_0251",
+        "path": "test_results/phase12_p12a/authority_closure_before_01.json",
+        "expected": "e4599588ab2a86104122682939b6570cef952ffda74b176e819dcac126ca6a25"
+      },
+      {
+        "name": "input_0252",
+        "path": "test_results/phase12_p12a/baseline_01.py",
+        "expected": "cc3f1c6edcac437b4b1b1a5b10707e1413b90165770647a9273a11e6056cf392"
+      },
+      {
+        "name": "input_0253",
+        "path": "test_results/phase12_p12a/budget_history_lookup_01.json",
+        "expected": "02ea08c659c71d5446d9875fc0bfb711928f8fe66023a642f278e60bdfa83483"
+      },
+      {
+        "name": "input_0254",
+        "path": "test_results/phase12_p12a/candidate_context_01.md",
+        "expected": "0d0df22e5eb3ee33533c1f11f9a07240faa30b2a2113b5a43a76ee2755976e94"
+      },
+      {
+        "name": "input_0255",
+        "path": "test_results/phase12_p12a/candidate_context_02.md",
+        "expected": "92cf6547179afd6765eb8ccd0783192c5b48796f550cfe87f77aa30f91964b91"
+      },
+      {
+        "name": "input_0256",
+        "path": "test_results/phase12_p12a/candidate_review_brief_01.md",
+        "expected": "5e07e05c59648e6f8a0f4d58a973afe323ef29ad155f15a61c52219a93b9b35b"
+      },
+      {
+        "name": "input_0257",
+        "path": "test_results/phase12_p12a/current_safety_audit_01.json",
+        "expected": "e69ff52ce5cd9f1d85b4565ad25250a506548bafc70af0251fb0991a95220ae3"
+      },
+      {
+        "name": "input_0258",
+        "path": "test_results/phase12_p12a/design_lineage_readback_01.json",
+        "expected": "d81582852c4ec1c02abcc3e4082628fb5022a1f8a7dadc7479fa673f9ddec607"
+      },
+      {
+        "name": "input_0259",
+        "path": "test_results/phase12_p12a/evidence_manifest_candidate_01.json",
+        "expected": "980be2347799d26d412e96f37c71ff7d0da6bf4a1b889d65a933be988b769834"
+      },
+      {
+        "name": "input_0260",
+        "path": "test_results/phase12_p12a/evidence_manifest_preimplementation_01.json",
+        "expected": "5c6a5c1ce0c88eaabc73210d06fd0436b30b663b613d459a4464f41be8ddf7d7"
+      },
+      {
+        "name": "input_0261",
+        "path": "test_results/phase12_p12a/filter_audit_01.json",
+        "expected": "f5e00975e176497b81fa0926561d0268fc98c23ac3a50e60e384e7dd9584d9ca"
+      },
+      {
+        "name": "input_0262",
+        "path": "test_results/phase12_p12a/final_stop_audit_01.json",
+        "expected": "80bc5fb06ea826b0d6d6af7a7201e34b7ecfa1749d90782b2d9f94bfe7e30c93"
+      },
+      {
+        "name": "input_0263",
+        "path": "test_results/phase12_p12a/formatting_invocation_disposition_01.json",
+        "expected": "71021b4eb84d29dbe9f226a7101af0de05f182bcfb1cd70d79b4e5d143f06929"
+      },
+      {
+        "name": "input_0264",
+        "path": "test_results/phase12_p12a/freeze_extension_disposition_01.json",
+        "expected": "31dbb328437412babdaa5880dd83867faf8425fa61d5a140cd44fdd0b185f046"
+      },
+      {
+        "name": "input_0265",
+        "path": "test_results/phase12_p12a/git_backup_manifest_01.json",
+        "expected": "58ecac1903fca111036466519cfcf90ac4b622715aa1f1a9bafd27eb99b5f152"
+      },
+      {
+        "name": "input_0266",
+        "path": "test_results/phase12_p12a/git_backup_receipt_01.json",
+        "expected": "d11112d320dc844ee81ba4d3487882cc7d79d9930e32fa67174664bb2b1bc301"
+      },
+      {
+        "name": "input_0267",
+        "path": "test_results/phase12_p12a/git_backup_staging_review_01.json",
+        "expected": "c3a1ed3f59a897ac24279ed6bed2468ce0d38aee49e528be59d8e63f6af8974d"
+      },
+      {
+        "name": "input_0268",
+        "path": "test_results/phase12_p12a/hashing_method_01.json",
+        "expected": "a4711588b58841541f7f05424f2f31eb3bc17ca1c5fb2bfe4ab8acacc2caac9e"
+      },
+      {
+        "name": "input_0269",
+        "path": "test_results/phase12_p12a/integrity_02.py",
+        "expected": "bd44092e05f7f0aa7d74feb42a26163b6563319715897720dcf945b2a70821d0"
+      },
+      {
+        "name": "input_0270",
+        "path": "test_results/phase12_p12a/integrity_implementation_transcript_01.log",
+        "expected": "e03a02085d4c406101d43039adf81f83c27339cc653c9e8079490d169c249ea8"
+      },
+      {
+        "name": "input_0271",
+        "path": "test_results/phase12_p12a/manifest_index_01.json",
+        "expected": "9faa8c0c78f0407534d014b998ffe7ac4324ed5adcf26b7633c24509e12be950"
+      },
+      {
+        "name": "input_0272",
+        "path": "test_results/phase12_p12a/manifest_index_02.json",
+        "expected": "95571e4b4cb5e9930c86013bc7a0fadd1d882639fa8957fd7c33d7b9290a4c4d"
+      },
+      {
+        "name": "input_0273",
+        "path": "test_results/phase12_p12a/mock_gate_decision_01.json",
+        "expected": "87e471a43337d05b11b537bb63598e42dea7d1c063eaf731ecd77406bc8e9cb4"
+      },
+      {
+        "name": "input_0274",
+        "path": "test_results/phase12_p12a/original_red_02.log",
+        "expected": "9f375cf1500b1f6cc442740df98dd110e985525e467843787c142b3ab5b104dd"
+      },
+      {
+        "name": "input_0275",
+        "path": "test_results/phase12_p12a/p12a_allowlist.json",
+        "expected": "5427bdbed2da21d82ef40ad75bd60610b5cdd61dc7a2a7c81786272b26e4913e"
+      },
+      {
+        "name": "input_0276",
+        "path": "test_results/phase12_p12a/p12a_contract.md",
+        "expected": "614cdce234e403d10ce9bbf473c01fbe311b0013d53ae829d182c4a7f521b55b"
+      },
+      {
+        "name": "input_0277",
+        "path": "test_results/phase12_p12a/parent_readback_02.py",
+        "expected": "ee1e92896518db838b33b312329a2b5b0911ff30a7b081297c3749fecba799b6"
+      },
+      {
+        "name": "input_0278",
+        "path": "test_results/phase12_p12a/preflight_01.json",
+        "expected": "bf29c886c3761943bdd1ccedf124cd6c5a83996d0ef6bd78e1c0b5f499e193d1"
+      },
+      {
+        "name": "input_0279",
+        "path": "test_results/phase12_p12a/preflight_01.py",
+        "expected": "917405d0fdf74cdc76e3e5e3b20d7c024b334c5702c6bd025ac51600c8e59c14"
+      },
+      {
+        "name": "input_0280",
+        "path": "test_results/phase12_p12a/prerequisite_readback_02.json",
+        "expected": "2e8333747a4e255a747dbb54c91da477e84618781cd32eb46799681a41e3320a"
+      },
+      {
+        "name": "input_0281",
+        "path": "test_results/phase12_p12a/production_isolation_readback_01.json",
+        "expected": "83baba9d5f33c13db00b6fddb911a40e62ed408d1c543d0f53a9f5971ec97f2d"
+      },
+      {
+        "name": "input_0282",
+        "path": "test_results/phase12_p12a/readiness_status_02.json",
+        "expected": "fd1b5d83ca5f7af34e779d1b70388311405b47782eea4b5779d75b47400f10fc"
+      },
+      {
+        "name": "input_0283",
+        "path": "test_results/phase12_p12a/red_provenance_01.json",
+        "expected": "a3a46b93b679fe3053cb186fe4eaf257f3f4703daa8b7b91ffe9d11d540039ed"
+      },
+      {
+        "name": "input_0284",
+        "path": "test_results/phase12_p12a/remediation_compliance_01.md",
+        "expected": "aefad0815fa2491ff8f7415bb10a53db66bae45cf5eff00a9d2733bb6d515038"
+      },
+      {
+        "name": "input_0285",
+        "path": "test_results/phase12_p12a/remediation_plan_01.json",
+        "expected": "65aad38eb884d7acc97eb16b8fcc842f8f8570806a713b90215b173b9df8b59b"
+      },
+      {
+        "name": "input_0286",
+        "path": "test_results/phase12_p12a/remediation_report_01.md",
+        "expected": "fc48e4de0e98516cb7229e8e763fe7d8b1c37c8a295379edcba72b3ae802a3e5"
+      },
+      {
+        "name": "input_0287",
+        "path": "test_results/phase12_p12a/review_inputs_01.json",
+        "expected": "7f0c86f924b01025a15f0fcbfb16111acf2e922b05746b137af80614d933113e"
+      },
+      {
+        "name": "input_0288",
+        "path": "test_results/phase12_p12a/reviewer_disclosure_preflight_01.json",
+        "expected": "a28420c580ae8b04158e1eba4d2196244fcdab314f81bebeee42ceb6d7e419ef"
+      },
+      {
+        "name": "input_0289",
+        "path": "test_results/phase12_p12a/reviews/budget_reconstruction_01.json",
+        "expected": "15dc826eb5438e2396e554db421a0904dcf05937780f69141dcd13199b48b783"
+      },
+      {
+        "name": "input_0290",
+        "path": "test_results/phase12_p12a/reviews/design_review_01.json",
+        "expected": "5cbdc5401e80d0c883f12a69398f0a69ac9d9a7bb2f0dfbae6975d45686156f8"
+      },
+      {
+        "name": "input_0291",
+        "path": "test_results/phase12_p12a/reviews/readiness_audit_01.json",
+        "expected": "2c0f242facc97c99967d0fb44da9e419ef8ecc3e7969ce6410347a050fa94e71"
+      },
+      {
+        "name": "input_0292",
+        "path": "test_results/phase12_p12a/run_step_01.py",
+        "expected": "03d4bc55db1510a8447805beba5b9dda58f3bf3da415775b49705fc20e5e32d8"
+      },
+      {
+        "name": "input_0293",
+        "path": "test_results/phase12_p12a/source_delta_01.diff",
+        "expected": "0d074d783c083971e57212ddc27a63c498a922c69104884e76cef90efece79a0"
+      },
+      {
+        "name": "input_0294",
+        "path": "test_results/phase12_p12a/source_delta_01.json",
+        "expected": "a8a26c788f35e06738ce637231212065795eef88ffc1492eab855f4d1aa0b04c"
+      },
+      {
+        "name": "input_0295",
+        "path": "test_results/phase12_p12a/source_delta_02.diff",
+        "expected": "0ea11f2b574a68ea9d3a186d75b796f05eabead2fc7cd656509c1b95c37b4945"
+      },
+      {
+        "name": "input_0296",
+        "path": "test_results/phase12_p12a/source_delta_02.json",
+        "expected": "aea7e7c229c99e9fa25dfae243e59442d122b173ad361fb78d55540687ac31e1"
+      },
+      {
+        "name": "input_0297",
+        "path": "test_results/phase12_p12a/source_enumeration_01.json",
+        "expected": "5d75dfa717f24d4c8707f8d87ec947de17fa32d18bb1fbe91d24ffb8576f885b"
+      },
+      {
+        "name": "input_0298",
+        "path": "test_results/phase12_p12a/source_enumeration_02.json",
+        "expected": "c9d36fe9242893b8dc288da0184677ba0e67f973e82261d6dad11911f600ec37"
+      },
+      {
+        "name": "input_0299",
+        "path": "test_results/phase12_p12a/source_enumeration_03.json",
+        "expected": "dd14fee323189d71baa3229f69052779e64986c7e1197c46a53b9fd271fe4ca0"
+      },
+      {
+        "name": "input_0300",
+        "path": "test_results/phase12_p12a/source_freeze_02.json",
+        "expected": "f63b5dedd0f1b2b857adf416d00c3079d4e770c9b10645b337e88365acda716d"
+      },
+      {
+        "name": "input_0301",
+        "path": "test_results/phase12_p12a/source_freeze_03.json",
+        "expected": "41f88cbe23bc31924df5dce21f22ed15b91b80148e8e923c77c1f1db6d677532"
+      },
+      {
+        "name": "input_0302",
+        "path": "test_results/phase12_p12a/source_freeze_04.json",
+        "expected": "f0c6512823701fd4210036a2f7c26cbb874ee7dc9a65682b7b34c203950f52b3"
+      },
+      {
+        "name": "input_0303",
+        "path": "test_results/phase12_p12a/superseded_freeze03_inputs/integrity_02.py",
+        "expected": "9f81e614a67d6c7ce395b9ab190596583030ef7190b2a86ac0ce254290b65282"
+      },
+      {
+        "name": "input_0304",
+        "path": "test_results/phase12_p12a/superseded_freeze03_inputs/parent_readback_02.py",
+        "expected": "404f4c0a36cee704371185396411a5b9a7f217130ea2420b5b1be4ebb5a195a6"
+      },
+      {
+        "name": "input_0305",
+        "path": "test_results/phase12_p12a/test_integrity_02.py",
+        "expected": "fd373a7a243f23211874b7a2caddae84baeb79a9e17bd80b12d3db974bb5a05d"
+      },
+      {
+        "name": "input_0306",
+        "path": "test_results/phase12_p12a/verification_02/api_green_pre.json",
+        "expected": "bc55c9b4ecdfe74c546553a58fec8597cd4a9e4cc012bcffd8dbf7d9a703d146"
+      },
+      {
+        "name": "input_0307",
+        "path": "test_results/phase12_p12a/verification_02/api_green_pre.log",
+        "expected": "375352b0d3221e56093d975ebedef81e03729d36c8482fecaddfd4a720564592"
+      },
+      {
+        "name": "input_0308",
+        "path": "test_results/phase12_p12a/verification_02/api_red.json",
+        "expected": "50864f214e4a3453f4a96dcd13797e9a78a328a2f0fdfadcbe596ae199ea1279"
+      },
+      {
+        "name": "input_0309",
+        "path": "test_results/phase12_p12a/verification_02/api_red.log",
+        "expected": "3f674de2ac09fb51d994dacef404eb057732191924c195a3501c2cbbc15eb5a4"
+      },
+      {
+        "name": "input_0310",
+        "path": "test_results/phase12_p12a/verification_02/b26_list.json",
+        "expected": "ae5b3977b07fb03aeeac9afa1423d8ee37daed263bc70780095f5d934b7f9e08"
+      },
+      {
+        "name": "input_0311",
+        "path": "test_results/phase12_p12a/verification_02/b26_list.log",
+        "expected": "3a2faef665285ffae0974b84f060167c678f58e87ab4df9fad79ce1a82af8b81"
+      },
+      {
+        "name": "input_0312",
+        "path": "test_results/phase12_p12a/verification_02/b26_parallel.json",
+        "expected": "02d50ec19bfd9f9c43259648efa16c915f39b36df6a5d700d640847adca64508"
+      },
+      {
+        "name": "input_0313",
+        "path": "test_results/phase12_p12a/verification_02/b26_parallel.log",
+        "expected": "2eec1441ada1d6f12f0f013c1f6aea36b6c8165f6a2d4594d06bf55f28003e47"
+      },
+      {
+        "name": "input_0314",
+        "path": "test_results/phase12_p12a/verification_02/b26_serial.json",
+        "expected": "0540169b78d271177d84a59151ebe6cd759cf8c2f4e5488714abb1301db8d41d"
+      },
+      {
+        "name": "input_0315",
+        "path": "test_results/phase12_p12a/verification_02/b26_serial.log",
+        "expected": "fa4ed33f255be05dc3416fd295b0323ba0d34f1d86b4236aeb08b83bc8c17428"
+      },
+      {
+        "name": "input_0316",
+        "path": "test_results/phase12_p12a/verification_02/fmt_host.json",
+        "expected": "0aee286003e4e7310536b7bd48b8577c73d5ffffe3d25a452942028ad1c5acdb"
+      },
+      {
+        "name": "input_0317",
+        "path": "test_results/phase12_p12a/verification_02/fmt_host.log",
+        "expected": "4f04f5e941b36b585cc425dd191afa6ac5b762a4175d16d7b07b0a0441558b84"
+      },
+      {
+        "name": "input_0318",
+        "path": "test_results/phase12_p12a/verification_02/fmt_kernel.json",
+        "expected": "73b3ea1be100dd9760648e12dc347cd7185b65462bd6b143188dce368c6a40b6"
+      },
+      {
+        "name": "input_0319",
+        "path": "test_results/phase12_p12a/verification_02/fmt_kernel.log",
+        "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input_0320",
+        "path": "test_results/phase12_p12a/verification_02/focused_list.json",
+        "expected": "0f930fbc7f28c06f694340f8a55d6fc3d23fec91272ef69700b8dd7dde13a17e"
+      },
+      {
+        "name": "input_0321",
+        "path": "test_results/phase12_p12a/verification_02/focused_list.log",
+        "expected": "c3ecea007d1e497bdb0b6f743fc058f5081280fab115f36a89f78294575f0e6c"
+      },
+      {
+        "name": "input_0322",
+        "path": "test_results/phase12_p12a/verification_02/focused_parallel.json",
+        "expected": "918f9ebdd0382e4f492b38e21c462751151896700c3a25ccde615b21339fddee"
+      },
+      {
+        "name": "input_0323",
+        "path": "test_results/phase12_p12a/verification_02/focused_parallel.log",
+        "expected": "4a493b00622ee23b960f7ddeb093986218ff8f04601b7d9fdb4a9e8f8b726f6b"
+      },
+      {
+        "name": "input_0324",
+        "path": "test_results/phase12_p12a/verification_02/focused_pre.json",
+        "expected": "e938169782f210c63c6512aebaa1ac9df177e0b8d453797744ad48fe083d91ee"
+      },
+      {
+        "name": "input_0325",
+        "path": "test_results/phase12_p12a/verification_02/focused_pre.log",
+        "expected": "9f1e4587f95fa5663a1a56d3ff4bd68b9f3039610217fe664b293923c0316f07"
+      },
+      {
+        "name": "input_0326",
+        "path": "test_results/phase12_p12a/verification_02/focused_serial.json",
+        "expected": "964f09f2b033970897b04fbdae08d8649a9ebae2a75ab99ad5141df6254f18f9"
+      },
+      {
+        "name": "input_0327",
+        "path": "test_results/phase12_p12a/verification_02/focused_serial.log",
+        "expected": "bbb6081e135b3a6ccf3f5863db2f268af3855acd67e5b5bdb37e398792d3443e"
+      },
+      {
+        "name": "input_0328",
+        "path": "test_results/phase12_p12a/verification_02/host_list.json",
+        "expected": "23326b01303b28d78108dd700bf60ea134f65a8e2b260cdae311e489a8e0e958"
+      },
+      {
+        "name": "input_0329",
+        "path": "test_results/phase12_p12a/verification_02/host_list.log",
+        "expected": "61332d3404a92d98b6416743eb70676c65ae8a2fd4caebe783d042776537c610"
+      },
+      {
+        "name": "input_0330",
+        "path": "test_results/phase12_p12a/verification_02/host_parallel.json",
+        "expected": "a7d5ceab63eb77fec78505a6065f71d65fffba95ae86176fb1821336e1864043"
+      },
+      {
+        "name": "input_0331",
+        "path": "test_results/phase12_p12a/verification_02/host_parallel.log",
+        "expected": "0a8c183fd36755e6966b8dfb86e9dd1aeb73919a4d866b0dad5f12dcd0626e50"
+      },
+      {
+        "name": "input_0332",
+        "path": "test_results/phase12_p12a/verification_02/host_serial.json",
+        "expected": "7f9f9956384f9788f436a86c1290e55ebcb100132e8dade5554414d4b9a40c2b"
+      },
+      {
+        "name": "input_0333",
+        "path": "test_results/phase12_p12a/verification_02/host_serial.log",
+        "expected": "9f358d04dacc51f83a0b3b7ac39bdbbbfff83901ab1e6ac0d63b12d534dc3b18"
+      },
+      {
+        "name": "input_0334",
+        "path": "test_results/phase12_p12a/verification_02/integrity_controls.json",
+        "expected": "1b9f3dae5cee76e94d5c31bf1ad995eb4e97bf679ea91f88de152e66b2ad040e"
+      },
+      {
+        "name": "input_0335",
+        "path": "test_results/phase12_p12a/verification_02/integrity_controls.log",
+        "expected": "4ab07c4a86753b6c453ead59df8d291043ff724e3cb8ec87ecb0a56f05d95b18"
+      },
+      {
+        "name": "input_0336",
+        "path": "test_results/phase12_p12a/verification_02/integrity_controls_venv.json",
+        "expected": "10d8d5bcd99e1f1f1c441ba4904d02b00c7cbbd9e48b05c882db43d3b849fb2c"
+      },
+      {
+        "name": "input_0337",
+        "path": "test_results/phase12_p12a/verification_02/integrity_controls_venv.log",
+        "expected": "45193cc5bd9bec52bd515a6fb5939e996d3370996050e5833dd6d42cc4c9264b"
+      },
+      {
+        "name": "input_0338",
+        "path": "test_results/phase12_p12a/verification_02/verification_report.json",
+        "expected": "876e307e6224c97860fd6c8e45d55f5292464338dcaeca1fbad4773d52299236"
+      },
+      {
+        "name": "input_0339",
+        "path": "test_results/phase12_p12a/verification_03/api_no_std.json",
+        "expected": "62c639fa86e88f35d22f4304c9c1a042cf134c54dbc5b6507190c73e787c6673"
+      },
+      {
+        "name": "input_0340",
+        "path": "test_results/phase12_p12a/verification_03/api_no_std.log",
+        "expected": "cee9aa1b1ff9155c2db76580b6cac865f71836da56f679f20564fe974eeaa4f7"
+      },
+      {
+        "name": "input_0341",
+        "path": "test_results/phase12_p12a/verification_03/api_no_std_04.json",
+        "expected": "962fcf994cbbd768abb2d76397f770a0bcf11d5d50ca8c6854f28c61295af63f"
+      },
+      {
+        "name": "input_0342",
+        "path": "test_results/phase12_p12a/verification_03/api_no_std_04.log",
+        "expected": "cee9aa1b1ff9155c2db76580b6cac865f71836da56f679f20564fe974eeaa4f7"
+      },
+      {
+        "name": "input_0343",
+        "path": "test_results/phase12_p12a/verification_03/b26_list.json",
+        "expected": "811caea090ae9d533efc189c288e7ccfa149f4b6f8bbf09ba7504cbae0324446"
+      },
+      {
+        "name": "input_0344",
+        "path": "test_results/phase12_p12a/verification_03/b26_list.log",
+        "expected": "5ca53425ce4e9b699ced4b7408f764cb97da41ade1c98b59368d1b991ff9536d"
+      },
+      {
+        "name": "input_0345",
+        "path": "test_results/phase12_p12a/verification_03/b26_list_04.json",
+        "expected": "eca31f0969ec37bfceeddb17c4971e00289bd5154bae6d9ef7a5c272ce9af11d"
+      },
+      {
+        "name": "input_0346",
+        "path": "test_results/phase12_p12a/verification_03/b26_list_04.log",
+        "expected": "5ca53425ce4e9b699ced4b7408f764cb97da41ade1c98b59368d1b991ff9536d"
+      },
+      {
+        "name": "input_0347",
+        "path": "test_results/phase12_p12a/verification_03/b26_parallel.json",
+        "expected": "eff5a9201fa09f94804ba5126aa90492b991b0053762d09d782256a02b3d12ce"
+      },
+      {
+        "name": "input_0348",
+        "path": "test_results/phase12_p12a/verification_03/b26_parallel.log",
+        "expected": "bfdffe1220a697d6b070090e840140348535f6631a1ce607c1787147c860d85d"
+      },
+      {
+        "name": "input_0349",
+        "path": "test_results/phase12_p12a/verification_03/b26_parallel_04.json",
+        "expected": "7fcbc1eb089bcf1ff8231e27627c45c0c6bad3e489fce58484648f2248ebb04a"
+      },
+      {
+        "name": "input_0350",
+        "path": "test_results/phase12_p12a/verification_03/b26_parallel_04.log",
+        "expected": "db6b28d6789cc0f28bc1f9ee0974db000b951c35cbff1f9b27bf59fd5fe7cfea"
+      },
+      {
+        "name": "input_0351",
+        "path": "test_results/phase12_p12a/verification_03/b26_serial.json",
+        "expected": "6ff2af442f5c420cc3745d387d7c195de8a76cbfd321cb82549c8099114d7a57"
+      },
+      {
+        "name": "input_0352",
+        "path": "test_results/phase12_p12a/verification_03/b26_serial.log",
+        "expected": "243078f8903a22fe1dc275fbfda6581959fe0086906534abcdf491561ec19bda"
+      },
+      {
+        "name": "input_0353",
+        "path": "test_results/phase12_p12a/verification_03/b26_serial_04.json",
+        "expected": "5b55f0a22a83c76a10a6d0248d40af3254f936fad992bd51499119d00606ef46"
+      },
+      {
+        "name": "input_0354",
+        "path": "test_results/phase12_p12a/verification_03/b26_serial_04.log",
+        "expected": "7a5e4171ce7f1a223d256be1d35560ec28bb6862adc1ec2237e49f42a44256d2"
+      },
+      {
+        "name": "input_0355",
+        "path": "test_results/phase12_p12a/verification_03/clean_kernel.json",
+        "expected": "9846485a4be9d10f156d90bd74a16c211b33f0393ba494a76b897763c589ffa8"
+      },
+      {
+        "name": "input_0356",
+        "path": "test_results/phase12_p12a/verification_03/clean_kernel.log",
+        "expected": "a2414f137a389a2553561ac78df4f9c3d4719174c086a07b05d9798754868a51"
+      },
+      {
+        "name": "input_0357",
+        "path": "test_results/phase12_p12a/verification_03/clean_kernel_04.json",
+        "expected": "8eb176632a185d87f15bde24fcf7629bff81fe9a5d775cd5b5d36fbd2840ae4f"
+      },
+      {
+        "name": "input_0358",
+        "path": "test_results/phase12_p12a/verification_03/clean_kernel_04.log",
+        "expected": "a2414f137a389a2553561ac78df4f9c3d4719174c086a07b05d9798754868a51"
+      },
+      {
+        "name": "input_0359",
+        "path": "test_results/phase12_p12a/verification_03/fmt_host.json",
+        "expected": "4060cbc4afa4a942f3ae21333c50150c17b2c2713ee433a06319234ea8420ea3"
+      },
+      {
+        "name": "input_0360",
+        "path": "test_results/phase12_p12a/verification_03/fmt_host.log",
+        "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input_0361",
+        "path": "test_results/phase12_p12a/verification_03/fmt_host_04.json",
+        "expected": "f3bd48bf4af0cfdbfcb824a1eaee655634ecf6d0f025869eaf4e0327a9f0e46b"
+      },
+      {
+        "name": "input_0362",
+        "path": "test_results/phase12_p12a/verification_03/fmt_host_04.log",
+        "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input_0363",
+        "path": "test_results/phase12_p12a/verification_03/fmt_host_pre.json",
+        "expected": "1b3ab64bb54cc67cc37249893d455e8cb07b193653649ab33266d0a04773fb6b"
+      },
+      {
+        "name": "input_0364",
+        "path": "test_results/phase12_p12a/verification_03/fmt_host_pre.log",
+        "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input_0365",
+        "path": "test_results/phase12_p12a/verification_03/fmt_kernel.json",
+        "expected": "2b629a9a5ffe53142c595ea9f177f9b51ddaa9c408d0b7e7383bd2c049517cc5"
+      },
+      {
+        "name": "input_0366",
+        "path": "test_results/phase12_p12a/verification_03/fmt_kernel.log",
+        "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input_0367",
+        "path": "test_results/phase12_p12a/verification_03/fmt_kernel_04.json",
+        "expected": "9e3f7e6ad329830752de9f512d74e83fa06588e2e52db155e5f54709237ba024"
+      },
+      {
+        "name": "input_0368",
+        "path": "test_results/phase12_p12a/verification_03/fmt_kernel_04.log",
+        "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input_0369",
+        "path": "test_results/phase12_p12a/verification_03/fmt_policy.json",
+        "expected": "7569a94cef5a3b9b0233537d8fac47f87e46dd2a38a20d536aa02ba9abf9b546"
+      },
+      {
+        "name": "input_0370",
+        "path": "test_results/phase12_p12a/verification_03/fmt_policy.log",
+        "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input_0371",
+        "path": "test_results/phase12_p12a/verification_03/fmt_policy_04.json",
+        "expected": "ed50ddce58455900d0dca30dec1cc19dfa97f9a351a52f630da6325b18983472"
+      },
+      {
+        "name": "input_0372",
+        "path": "test_results/phase12_p12a/verification_03/fmt_policy_04.log",
+        "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input_0373",
+        "path": "test_results/phase12_p12a/verification_03/fmt_policy_pre.json",
+        "expected": "9d9eb71312f97601ff057e4cad4e91c3dbc06192c2f722888d8e95d78f123f5e"
+      },
+      {
+        "name": "input_0374",
+        "path": "test_results/phase12_p12a/verification_03/fmt_policy_pre.log",
+        "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input_0375",
+        "path": "test_results/phase12_p12a/verification_03/focused_list.json",
+        "expected": "0c6113842dd9c4ec2e81ebf0128a2d4d07be74befcd90071b82b73b581b43230"
+      },
+      {
+        "name": "input_0376",
+        "path": "test_results/phase12_p12a/verification_03/focused_list.log",
+        "expected": "7fab1e4e27a4eb38f83a5c3dcf508737d0c0d0e66be9cc0378bae46910ed0b2f"
+      },
+      {
+        "name": "input_0377",
+        "path": "test_results/phase12_p12a/verification_03/focused_list_04.json",
+        "expected": "73644b84e123242105a8267ece080e3d4cb31e0dfbcde34a11434eaafa84939f"
+      },
+      {
+        "name": "input_0378",
+        "path": "test_results/phase12_p12a/verification_03/focused_list_04.log",
+        "expected": "f436d1e9eb7b5b9f216b8da4f2c3d8f2dfbd0c4f80733a2658cd8af3d3dedd6b"
+      },
+      {
+        "name": "input_0379",
+        "path": "test_results/phase12_p12a/verification_03/focused_parallel.json",
+        "expected": "3dccf3705789fa926514eba1fe5af008c469a99c68cbf360fe3f72f4f3908af6"
+      },
+      {
+        "name": "input_0380",
+        "path": "test_results/phase12_p12a/verification_03/focused_parallel.log",
+        "expected": "e12f248088ae3b89675eb77ce6618ff528931df18a9cbaee137f4046de190d28"
+      },
+      {
+        "name": "input_0381",
+        "path": "test_results/phase12_p12a/verification_03/focused_parallel_04.json",
+        "expected": "3189238dfac218df9ce421da8a999137fe0adbf39c81ad1a067b31cd5cc418a2"
+      },
+      {
+        "name": "input_0382",
+        "path": "test_results/phase12_p12a/verification_03/focused_parallel_04.log",
+        "expected": "d7c1216d65327994b2aea79e435a0c86decfca369d9ee0cde97699e9c5d314cb"
+      },
+      {
+        "name": "input_0383",
+        "path": "test_results/phase12_p12a/verification_03/focused_serial.json",
+        "expected": "edb6c11e341b7d71183c54af4b19db3fca6a7d1001406514c626f778cb83b8f7"
+      },
+      {
+        "name": "input_0384",
+        "path": "test_results/phase12_p12a/verification_03/focused_serial.log",
+        "expected": "1c86cd4effa00a12fde491756272ffcd79c36b2283c9180fff4d0c27d4547a21"
+      },
+      {
+        "name": "input_0385",
+        "path": "test_results/phase12_p12a/verification_03/focused_serial_04.json",
+        "expected": "a2cb8a9f8f29ab67dd835e3c8019a83117acbfd5d8c5ff9ceeca7b5bf133a3a6"
+      },
+      {
+        "name": "input_0386",
+        "path": "test_results/phase12_p12a/verification_03/focused_serial_04.log",
+        "expected": "aa9598cd7dba16679b1d0da490e51e77c2fd1ee33f7c1d0a9b3a6742c2d8a52c"
+      },
+      {
+        "name": "input_0387",
+        "path": "test_results/phase12_p12a/verification_03/host_list.json",
+        "expected": "b8caffa450943fff57c6d83864222d83db5d3400d4736c15e2f20213bc61b1c4"
+      },
+      {
+        "name": "input_0388",
+        "path": "test_results/phase12_p12a/verification_03/host_list.log",
+        "expected": "3743d5d694fb35db3d15788c2e6d2fb2554aa3c5efa146bd8f6d9bf8aa30e342"
+      },
+      {
+        "name": "input_0389",
+        "path": "test_results/phase12_p12a/verification_03/host_list_04.json",
+        "expected": "40992c8343d239cc4435d29137136c79025520279177e7fc609ae902f2b2bf10"
+      },
+      {
+        "name": "input_0390",
+        "path": "test_results/phase12_p12a/verification_03/host_list_04.log",
+        "expected": "61332d3404a92d98b6416743eb70676c65ae8a2fd4caebe783d042776537c610"
+      },
+      {
+        "name": "input_0391",
+        "path": "test_results/phase12_p12a/verification_03/host_parallel.json",
+        "expected": "762ded4e5177374b84f26bbecc508cef547aefa1b8ea07b9461f4b0feb5749d9"
+      },
+      {
+        "name": "input_0392",
+        "path": "test_results/phase12_p12a/verification_03/host_parallel.log",
+        "expected": "070776a22b0345fba661c4f8305124bdb2ccd185fc88f34d9f911230ac073bd3"
+      },
+      {
+        "name": "input_0393",
+        "path": "test_results/phase12_p12a/verification_03/host_parallel_04.json",
+        "expected": "35bbe4d530687904b4fafdc216687b97ff86e94789e41502c87363a1648cff59"
+      },
+      {
+        "name": "input_0394",
+        "path": "test_results/phase12_p12a/verification_03/host_parallel_04.log",
+        "expected": "0534f81eaabe8e729892f0916c1ecf7d6f9c03deddc293e37bec500e71d8faca"
+      },
+      {
+        "name": "input_0395",
+        "path": "test_results/phase12_p12a/verification_03/host_serial.json",
+        "expected": "dec62697e26254e9006c9db5e8609d8cd5a6c577b3cb923147244a73090113fd"
+      },
+      {
+        "name": "input_0396",
+        "path": "test_results/phase12_p12a/verification_03/host_serial.log",
+        "expected": "4c6b6538654530bd44be876a59f16fc1394ff3de75b949043ca495083194f06c"
+      },
+      {
+        "name": "input_0397",
+        "path": "test_results/phase12_p12a/verification_03/host_serial_04.json",
+        "expected": "c317f72cf5edf1b446a8ae633eb20e15025eacd4aed4ab9d8faa7c375054c8f0"
+      },
+      {
+        "name": "input_0398",
+        "path": "test_results/phase12_p12a/verification_03/host_serial_04.log",
+        "expected": "25b5e9ad571fe2d09e1d5e57503d34bb88c22eb849a192798c7da38a84fc4bbd"
+      },
+      {
+        "name": "input_0399",
+        "path": "test_results/phase12_p12a/verification_03/integrity_final04.json",
+        "expected": "a355d5da773cf407f35663adf64ed8acb3d471d7aa037f37514ff289a63f436b"
+      },
+      {
+        "name": "input_0400",
+        "path": "test_results/phase12_p12a/verification_03/integrity_final04.log",
+        "expected": "fc7855fe73094973ac6a6f810d25588333fed511a8dee533d5a83d50c229ae9b"
+      },
+      {
+        "name": "input_0401",
+        "path": "test_results/phase12_p12a/verification_03/mock.json",
+        "expected": "ec188a761a8a117ba98538958b64af7b90133bdcf487523dc30a75c672646a5d"
+      },
+      {
+        "name": "input_0402",
+        "path": "test_results/phase12_p12a/verification_03/mock.log",
+        "expected": "cbed97cc0d95852d15b285c5d365c5c0524ff69508bd49156e4ac47edbee34b5"
+      },
+      {
+        "name": "input_0403",
+        "path": "test_results/phase12_p12a/verification_03/mock_result.json",
+        "expected": "4235364d21c024a761b981c88d59598a1b81553c61ece094c7f569604de9d680"
+      },
+      {
+        "name": "input_0404",
+        "path": "test_results/phase12_p12a/verification_03/parent_candidate04.json",
+        "expected": "7d7de6ebd39956dcac20f295a8d2df19999a441ad14b9e911506ac85122f8910"
+      },
+      {
+        "name": "input_0405",
+        "path": "test_results/phase12_p12a/verification_03/parent_candidate04.log",
+        "expected": "17e95c96b6b6646e24a0f15af64dddab4349401cc5e16cfe33b23b9d03154b98"
+      },
+      {
+        "name": "input_0406",
+        "path": "test_results/phase12_p12a/verification_03/parent_candidate05.json",
+        "expected": "732b90c5cfb2f7156f410c85c6ae69bb5f6d4f85aee8484fd91d571340ac4d25"
+      },
+      {
+        "name": "input_0407",
+        "path": "test_results/phase12_p12a/verification_03/parent_candidate05.log",
+        "expected": "d8e530caa0e37cfdeb79ab58da7857d6596fe271bd23a2d7c2c532992a29411f"
+      },
+      {
+        "name": "input_0408",
+        "path": "test_results/phase12_p12a/verification_03/production.json",
+        "expected": "de7be7ac5abc0a8a51b742290bca6e46ba1c26bce24f7c9cbd3f623e9bb07465"
+      },
+      {
+        "name": "input_0409",
+        "path": "test_results/phase12_p12a/verification_03/production.log",
+        "expected": "0665d09933544d42d8549365f6f35f7c76ccebdb3b5241cf5bb4a0e9faa3babd"
+      },
+      {
+        "name": "input_0410",
+        "path": "test_results/phase12_p12a/verification_03/production_04.json",
+        "expected": "123578a564fa74e4e20afbbda1a5a20ce1f4f5617fe7966eb31a605b7f584035"
+      },
+      {
+        "name": "input_0411",
+        "path": "test_results/phase12_p12a/verification_03/production_04.log",
+        "expected": "f9e0d558315c6cf540a014aa3719b5ba34cd34dc5f943126ba657be543805284"
+      },
+      {
+        "name": "input_0412",
+        "path": "test_results/phase12_p12a/verification_03/production_symbols.json",
+        "expected": "2bc86a523066ae87458b1346ea6ef69382312246da8bc7f58901bd4786a0a202"
+      },
+      {
+        "name": "input_0413",
+        "path": "test_results/phase12_p12a/verification_03/production_symbols.log",
+        "expected": "888d8b301d4bf8f1605df1e6ac9508fc96851d00782d5c839288be9c8d96ab13"
+      },
+      {
+        "name": "input_0414",
+        "path": "test_results/phase12_p12a/verification_03/production_symbols_04.json",
+        "expected": "e1d4b07d45fdc34eab9be31d0f4c625fd49363900fc7fdc1c1bd15f68152db26"
+      },
+      {
+        "name": "input_0415",
+        "path": "test_results/phase12_p12a/verification_03/production_symbols_04.log",
+        "expected": "888d8b301d4bf8f1605df1e6ac9508fc96851d00782d5c839288be9c8d96ab13"
+      },
+      {
+        "name": "input_0416",
+        "path": "test_results/phase12_p12a/verification_03/toolchain.json",
+        "expected": "4774c242f4ecc7f8446dc3cc13e2a9df7fddab622405b333492847fd2bcc6ab1"
+      },
+      {
+        "name": "input_0417",
+        "path": "test_results/phase12_p12a/verification_03/toolchain.log",
+        "expected": "39a22e48184d520ea2ac97f4e081d19c603119d6ec27402e87d747315bd82bc7"
+      },
+      {
+        "name": "input_0418",
+        "path": "test_results/phase12_p12a/verification_03/toolchain_04.json",
+        "expected": "7b988d7fffc7855ed1d4c06cfb3467d6f4c30e24aabd3045dc0e9581e8c6ae88"
+      },
+      {
+        "name": "input_0419",
+        "path": "test_results/phase12_p12a/verification_03/toolchain_04.log",
+        "expected": "39a22e48184d520ea2ac97f4e081d19c603119d6ec27402e87d747315bd82bc7"
+      },
+      {
+        "name": "input_0420",
+        "path": "test_results/phase12_p12a/verification_03/verification_report.json",
+        "expected": "67fc0d45f4e6cd80a97f28f4505b2a39ba5ffb79be3ab4ac9b81088a75f5c6c4"
+      },
+      {
+        "name": "input_0421",
+        "path": "test_results/phase12_p12a/verification_03/verification_report04.json",
+        "expected": "a3b83ff17e8f9ca9524ede5fdc354cea75388db15ee139d82b418d14d506d4f2"
+      },
+      {
+        "name": "input_0422",
+        "path": "test_results/phase12_p12a/verify_02.py",
+        "expected": "8e668679b0e6439018d58414176b7e9de91d370728f3b48377482e37287536f8"
+      },
+      {
+        "name": "input_0423",
+        "path": "test_results/phase12_p12a/verify_04.py",
+        "expected": "055f2515b88eef6e3e831663c68f2fca4b5faac2bb26e6c805336cc508a59c9c"
+      },
+      {
+        "name": "input_0424",
+        "path": "tests_b26/Cargo.lock",
+        "expected": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e"
+      },
+      {
+        "name": "input_0425",
+        "path": "tests_b26/Cargo.toml",
+        "expected": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3"
+      },
+      {
+        "name": "input_0426",
+        "path": "tests_b26/src/growth_tests.rs",
+        "expected": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16"
+      },
+      {
+        "name": "input_0427",
+        "path": "tests_b26/src/lib.rs",
+        "expected": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce"
+      },
+      {
+        "name": "input_0428",
+        "path": "tests_b26/src/refusal_tests.rs",
+        "expected": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706"
+      },
+      {
+        "name": "input_0429",
+        "path": "tests_b26/src/registry_tests.rs",
+        "expected": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111"
+      },
+      {
+        "name": "input_0430",
+        "path": "tests_b26/src/retry_tests.rs",
+        "expected": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4"
+      },
+      {
+        "name": "input_0431",
+        "path": "tests_b26/src/validation_allocation_tests.rs",
+        "expected": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70"
+      },
+      {
+        "name": "input_0432",
+        "path": "tests_b26/src/validation_tests.rs",
+        "expected": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d"
+      },
+      {
+        "name": "input_0433",
+        "path": "tests_kernel/.cargo/config.toml",
+        "expected": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53"
+      },
+      {
+        "name": "input_0434",
+        "path": "tests_kernel/Cargo.lock",
+        "expected": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737"
+      },
+      {
+        "name": "input_0435",
+        "path": "tests_kernel/Cargo.toml",
+        "expected": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d"
+      },
+      {
+        "name": "input_0436",
+        "path": "tests_kernel/src/archive_vfs_tests.rs",
+        "expected": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3"
+      },
+      {
+        "name": "input_0437",
+        "path": "tests_kernel/src/b11_frame_tests.rs",
+        "expected": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d"
+      },
+      {
+        "name": "input_0438",
+        "path": "tests_kernel/src/b11_standalone.rs",
+        "expected": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11"
+      },
+      {
+        "name": "input_0439",
+        "path": "tests_kernel/src/b18_inventory_tests.rs",
+        "expected": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b"
+      },
+      {
+        "name": "input_0440",
+        "path": "tests_kernel/src/b18_outcome_tests.rs",
+        "expected": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0"
+      },
+      {
+        "name": "input_0441",
+        "path": "tests_kernel/src/block_tests.rs",
+        "expected": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430"
+      },
+      {
+        "name": "input_0442",
+        "path": "tests_kernel/src/f5_cpl3_tests.rs",
+        "expected": "64688a6cfe19828630ef2b036993f2634c9db83417b9a8961655e9bfab924fd5"
+      },
+      {
+        "name": "input_0443",
+        "path": "tests_kernel/src/fs_tests.rs",
+        "expected": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96"
+      },
+      {
+        "name": "input_0444",
+        "path": "tests_kernel/src/initramfs_tests.rs",
+        "expected": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e"
+      },
+      {
+        "name": "input_0445",
+        "path": "tests_kernel/src/initramfs_trust_tests.rs",
+        "expected": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e"
+      },
+      {
+        "name": "input_0446",
+        "path": "tests_kernel/src/lib.rs",
+        "expected": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed"
+      },
+      {
+        "name": "input_0447",
+        "path": "tests_kernel/src/maintenance_measurements.rs",
+        "expected": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f"
+      },
+      {
+        "name": "input_0448",
+        "path": "tests_kernel/src/mount_tests.rs",
+        "expected": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd"
+      },
+      {
+        "name": "input_0449",
+        "path": "tests_kernel/src/p12a_policy_tests.rs",
+        "expected": "167fe3598c6f4cf0ab96091091522e963ef19afe6cf02791b461fb169e7f3dbb"
+      }
+    ]
+  },
+  "reviewer": {
+    "identity": "hermes-independent-p12a-candidate-reviewer-01",
+    "separate_context": true,
+    "parent_self_approval": false,
+    "read_only_except_own_review": true
+  },
+  "historical_budget": {
+    "correction_cycles": "UNKNOWN",
+    "attempts_by_defect": "UNKNOWN",
+    "reset": false,
+    "new_packages_used": 1,
+    "new_packages_max": 1,
+    "independently_reviewed": true
+  },
+  "original_logical_RED": {
+    "runtime_log_authentic": true,
+    "executed": 24,
+    "passed": 3,
+    "failed": 21,
+    "historical_cargo_exit": 101,
+    "exit_source": "secondary authenticated historical command, not fresh run",
+    "executed_scaffold_and_tests_raw_identity": "UNVERIFIABLE_HISTORICAL",
+    "post_RED_changes_disclosed": [
+      "Unknown completion oracle InvalidTransition -> UnknownId",
+      "Four inhibition assertions removed from replay"
+    ],
+    "unchanged_tests_TDD_claim": false,
+    "independently_reviewed": true
+  },
+  "approval_scope": "Exact immutable input02 candidate, full host-only P12-A Option A scope and one authorized bounded remediation package only. Candidate approval is not completed commits/push, fresh hardware/canonical acceptance, restored historical RED source provenance, a historical budget reset, P12-B implementation or runtime scheduler authorization.",
+  "independent_execution": {
+    "raw_input_pins_recomputed": 450,
+    "dynamic_freeze": {
+      "input_count": 298,
+      "canonical_count": 236
+    },
+    "predecessor": {
+      "artifact_bindings": 562,
+      "exact_gates": 76
+    },
+    "protected_raw_files": 8,
+    "final_candidate_manifest": {
+      "artifact_count": 178,
+      "required_count": 178
+    },
+    "production_symbol_tool_exit": 0,
+    "production_p12a_symbol_hits": [],
+    "production_elf_sha256": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4",
+    "heavy_jobs_launched": [],
+    "git_actions": []
+  },
+  "nonblocking_notes": [
+    "A stale trace-helper comment says IDs0..2, while its actual correct predicates and operations use1,2,3. No semantic or scope defect.",
+    "Historical budget and original executed RED source provenance remain unknown/unverifiable as disclosed, not resolved by approval.",
+    "Postapproval closeout still requires scoped commits and remote SHA verification; no P12-B implementation authority."
+  ],
+  "preflight_readback": {
+    "path": "test_results/phase12_p12a/reviewer_preflight_complete_02.json",
+    "raw_sha256": "06e20658ab8abe3b93a3d1646f74383868a93f1a41fa2e46cc0b559a399384e0",
+    "scope_supersession": "Direct final-scope instruction replaces draft01 with immutable input02; exact450 independently hashed twice."
+  }
+}

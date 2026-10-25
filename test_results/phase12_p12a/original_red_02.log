@@ -1,0 +1,353 @@
+   Compiling tests_kernel v0.1.0 (C:\Users\iamsv\Documents\Rust-OS\tests_kernel)
+warning: unused import: `crate::println`
+  --> src\..\..\src\multiboot.rs:10:5
+   |
+10 | use crate::println;
+   |     ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::utils::bits::CanManipulateBits`
+  --> src\..\..\src\memory\paging.rs:25:5
+   |
+25 | use crate::utils::bits::CanManipulateBits;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1036:41
+     |
+1036 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+     = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1049:41
+     |
+1049 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:72:28
+   |
+72 | pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:85:28
+   |
+85 | pub unsafe fn lockfree_inw(port_in: u16) -> u16 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:110:29
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:110:44
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:119:29
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:119:44
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: variable does not need to be mutable
+   --> src\..\..\src\memory\retained_owner_policy_tests.rs:157:18
+    |
+157 |     let (mut fa, mut pm) = fixture();
+    |                  ----^^
+    |                  |
+    |                  help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `frame`
+   --> src\..\..\src\allocator.rs:272:33
+    |
+272 |                     if let Some(frame) = crate::memory::heap_grow_frame(slot) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_frame`
+
+warning: unused variable: `t0`
+   --> src\lib.rs:276:18
+    |
+276 |     let (b0, l0, t0) = (e0.base_addr, e0.length, e0.type_);
+    |                  ^^ help: if this is intentional, prefix it with an underscore: `_t0`
+
+warning: function `ownership_locks_held` is never used
+  --> src\..\..\src\memory\mod.rs:19:15
+   |
+19 | pub(crate) fn ownership_locks_held() -> bool {
+   |               ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `pinned_identity_span` is never used
+   --> src\..\..\src\memory\mod.rs:308:15
+    |
+308 | pub(crate) fn pinned_identity_span(start: u64, end: u64) -> bool {
+    |               ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `replace_growth_with_test_conflict` is never used
+   --> src\..\..\src\memory\mod.rs:351:15
+    |
+351 | pub(crate) fn replace_growth_with_test_conflict(slot: usize) -> Option<u64> {
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: static `KERNEL_START` is never used
+  --> src\..\..\src\memory\frame.rs:72:8
+   |
+72 | static KERNEL_START: u32 = 0;
+   |        ^^^^^^^^^^^^
+
+warning: static `KERNEL_END` is never used
+  --> src\..\..\src\memory\frame.rs:74:8
+   |
+74 | static KERNEL_END: u32 = 0;
+   |        ^^^^^^^^^^
+
+warning: function `owner_locked` is never used
+  --> src\..\..\src\memory\retained_owner.rs:73:26
+   |
+73 | pub(in crate::memory) fn owner_locked() -> bool {
+   |                          ^^^^^^^^^^^^
+
+warning: constant `EARLY_GDT_BYTES` is never used
+   --> src\..\..\src\gdt.rs:159:18
+    |
+159 | pub(crate) const EARLY_GDT_BYTES: usize = core::mem::size_of::<EarlyGdt>();
+    |                  ^^^^^^^^^^^^^^^
+
+warning: feature `abi_x86_interrupt` is declared but not used
+ --> src\lib.rs:7:12
+  |
+7 | #![feature(abi_x86_interrupt)]
+  |            ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_features)]` (part of `#[warn(unused)]`) on by default
+
+warning: `tests_kernel` (lib test) generated 21 warnings (run `cargo fix --lib -p tests_kernel --tests` to apply 11 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.45s
+     Running unittests src\lib.rs (Documents\Rust-OS\tests_kernel\target\debug\build\tests_kernel/656dee6e00f2926c\out\tests_kernel-656dee6e00f2926c.exe)
+
+running 24 tests
+test p12a_policy_tests::admission_does_not_switch_idle ... FAILED
+test p12a_policy_tests::admission_order_breaks_ties ... FAILED
+test p12a_policy_tests::capacity_exhaustion_is_nonmutating ... FAILED
+test p12a_policy_tests::completion_selects_next_ready ... FAILED
+test p12a_policy_tests::deterministic_replay_and_no_starvation ... FAILED
+test p12a_policy_tests::duplicate_admission_is_nonmutating ... FAILED
+test p12a_policy_tests::empty_policy_selects_idle ... ok
+test p12a_policy_tests::exhaustive_short_traces_preserve_invariants ... ok
+test p12a_policy_tests::fresh_instances_are_isolated ... FAILED
+test p12a_policy_tests::inhibit_latches_without_switching ... FAILED
+test p12a_policy_tests::inhibit_overflow_is_nonmutating ... FAILED
+test p12a_policy_tests::inhibit_underflow_is_nonmutating ... FAILED
+test p12a_policy_tests::inhibited_completion_and_admission_refuse ... FAILED
+test p12a_policy_tests::invalid_completion_is_nonmutating ... FAILED
+test p12a_policy_tests::invalid_identifiers_are_nonmutating ... FAILED
+test p12a_policy_tests::last_worker_completion_returns_idle ... FAILED
+test p12a_policy_tests::metadata_budget_and_bounded_trace ... ok
+test p12a_policy_tests::nested_inhibit_drains_only_at_zero ... FAILED
+test p12a_policy_tests::pending_requests_coalesce_once ... FAILED
+test p12a_policy_tests::retired_identity_never_reused ... FAILED
+test p12a_policy_tests::single_worker_repeated_yield ... FAILED
+test p12a_policy_tests::two_workers_fifo_round_robin ... FAILED
+test p12a_policy_tests::unknown_identifiers_are_nonmutating ... FAILED
+test p12a_policy_tests::unsupported_kinds_are_nonmutating ... FAILED
+
+failures:
+
+---- p12a_policy_tests::admission_does_not_switch_idle stdout ----
+
+thread 'p12a_policy_tests::admission_does_not_switch_idle' (34184) panicked at src\p12a_policy_tests.rs:52:5:
+assertion `left == right` failed
+  left: Slot { id: 0, state: Unused }
+ right: Slot { id: 7, state: Ready }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- p12a_policy_tests::admission_order_breaks_ties stdout ----
+
+thread 'p12a_policy_tests::admission_order_breaks_ties' (24168) panicked at src\p12a_policy_tests.rs:90:5:
+assertion `left == right` failed
+  left: [0, 0]
+ right: [5, 7]
+
+---- p12a_policy_tests::capacity_exhaustion_is_nonmutating stdout ----
+
+thread 'p12a_policy_tests::capacity_exhaustion_is_nonmutating' (59780) panicked at src\p12a_policy_tests.rs:136:5:
+assertion `left == right` failed
+  left: Ok(())
+ right: Err(Capacity)
+
+---- p12a_policy_tests::completion_selects_next_ready stdout ----
+
+thread 'p12a_policy_tests::completion_selects_next_ready' (41648) panicked at src\p12a_policy_tests.rs:111:5:
+assertion `left == right` failed
+  left: Idle
+ right: Worker(7)
+
+---- p12a_policy_tests::deterministic_replay_and_no_starvation stdout ----
+
+thread 'p12a_policy_tests::deterministic_replay_and_no_starvation' (59844) panicked at src\p12a_policy_tests.rs:437:9:
+assertion `left == right` failed
+  left: Idle
+ right: Worker(3)
+
+---- p12a_policy_tests::duplicate_admission_is_nonmutating stdout ----
+
+thread 'p12a_policy_tests::duplicate_admission_is_nonmutating' (66556) panicked at src\p12a_policy_tests.rs:165:5:
+assertion `left == right` failed
+  left: Ok(())
+ right: Err(DuplicateId)
+
+---- p12a_policy_tests::fresh_instances_are_isolated stdout ----
+
+thread 'p12a_policy_tests::fresh_instances_are_isolated' (40176) panicked at src\p12a_policy_tests.rs:290:5:
+assertion `left == right` failed
+  left: Slot { id: 0, state: Unused }
+ right: Slot { id: 7, state: Ready }
+
+---- p12a_policy_tests::inhibit_latches_without_switching stdout ----
+
+thread 'p12a_policy_tests::inhibit_latches_without_switching' (64248) panicked at src\p12a_policy_tests.rs:194:5:
+assertion `left == right` failed
+  left: Idle
+ right: Worker(7)
+
+---- p12a_policy_tests::inhibit_overflow_is_nonmutating stdout ----
+
+thread 'p12a_policy_tests::inhibit_overflow_is_nonmutating' (26072) panicked at src\p12a_policy_tests.rs:238:5:
+assertion `left == right` failed
+  left: Ok(())
+ right: Err(InhibitOverflow)
+
+---- p12a_policy_tests::inhibit_underflow_is_nonmutating stdout ----
+
+thread 'p12a_policy_tests::inhibit_underflow_is_nonmutating' (25356) panicked at src\p12a_policy_tests.rs:246:5:
+assertion `left == right` failed
+  left: Ok(Idle)
+ right: Err(InhibitUnderflow)
+
+---- p12a_policy_tests::inhibited_completion_and_admission_refuse stdout ----
+
+thread 'p12a_policy_tests::inhibited_completion_and_admission_refuse' (56400) panicked at src\p12a_policy_tests.rs:254:5:
+assertion `left == right` failed
+  left: Idle
+ right: Worker(7)
+
+---- p12a_policy_tests::invalid_completion_is_nonmutating stdout ----
+
+thread 'p12a_policy_tests::invalid_completion_is_nonmutating' (42328) panicked at src\p12a_policy_tests.rs:173:5:
+assertion `left == right` failed
+  left: Ok(Idle)
+ right: Err(InvalidTransition)
+
+---- p12a_policy_tests::invalid_identifiers_are_nonmutating stdout ----
+
+thread 'p12a_policy_tests::invalid_identifiers_are_nonmutating' (41088) panicked at src\p12a_policy_tests.rs:144:5:
+assertion `left == right` failed
+  left: Ok(())
+ right: Err(InvalidId)
+
+---- p12a_policy_tests::last_worker_completion_returns_idle stdout ----
+
+thread 'p12a_policy_tests::last_worker_completion_returns_idle' (59824) panicked at src\p12a_policy_tests.rs:98:5:
+assertion `left == right` failed
+  left: Idle
+ right: Worker(7)
+
+---- p12a_policy_tests::nested_inhibit_drains_only_at_zero stdout ----
+
+thread 'p12a_policy_tests::nested_inhibit_drains_only_at_zero' (65668) panicked at src\p12a_policy_tests.rs:212:5:
+assertion `left == right` failed
+  left: Idle
+ right: Worker(7)
+
+---- p12a_policy_tests::pending_requests_coalesce_once stdout ----
+
+thread 'p12a_policy_tests::pending_requests_coalesce_once' (48268) panicked at src\p12a_policy_tests.rs:268:5:
+assertion `left == right` failed
+  left: Idle
+ right: Worker(7)
+
+---- p12a_policy_tests::retired_identity_never_reused stdout ----
+
+thread 'p12a_policy_tests::retired_identity_never_reused' (40324) panicked at src\p12a_policy_tests.rs:123:5:
+assertion `left == right` failed
+  left: Idle
+ right: Worker(7)
+
+---- p12a_policy_tests::single_worker_repeated_yield stdout ----
+
+thread 'p12a_policy_tests::single_worker_repeated_yield' (4212) panicked at src\p12a_policy_tests.rs:63:5:
+assertion `left == right` failed
+  left: Idle
+ right: Worker(7)
+
+---- p12a_policy_tests::two_workers_fifo_round_robin stdout ----
+
+thread 'p12a_policy_tests::two_workers_fifo_round_robin' (63624) panicked at src\p12a_policy_tests.rs:78:5:
+assertion `left == right` failed
+  left: Idle
+ right: Worker(7)
+
+---- p12a_policy_tests::unknown_identifiers_are_nonmutating stdout ----
+
+thread 'p12a_policy_tests::unknown_identifiers_are_nonmutating' (23724) panicked at src\p12a_policy_tests.rs:156:5:
+assertion `left == right` failed
+  left: Ok(Idle)
+ right: Err(UnknownId)
+
+---- p12a_policy_tests::unsupported_kinds_are_nonmutating stdout ----
+
+thread 'p12a_policy_tests::unsupported_kinds_are_nonmutating' (33240) panicked at src\p12a_policy_tests.rs:185:5:
+assertion `left == right` failed
+  left: Ok(())
+ right: Err(UnsupportedKind)
+
+
+failures:
+    p12a_policy_tests::admission_does_not_switch_idle
+    p12a_policy_tests::admission_order_breaks_ties
+    p12a_policy_tests::capacity_exhaustion_is_nonmutating
+    p12a_policy_tests::completion_selects_next_ready
+    p12a_policy_tests::deterministic_replay_and_no_starvation
+    p12a_policy_tests::duplicate_admission_is_nonmutating
+    p12a_policy_tests::fresh_instances_are_isolated
+    p12a_policy_tests::inhibit_latches_without_switching
+    p12a_policy_tests::inhibit_overflow_is_nonmutating
+    p12a_policy_tests::inhibit_underflow_is_nonmutating
+    p12a_policy_tests::inhibited_completion_and_admission_refuse
+    p12a_policy_tests::invalid_completion_is_nonmutating
+    p12a_policy_tests::invalid_identifiers_are_nonmutating
+    p12a_policy_tests::last_worker_completion_returns_idle
+    p12a_policy_tests::nested_inhibit_drains_only_at_zero
+    p12a_policy_tests::pending_requests_coalesce_once
+    p12a_policy_tests::retired_identity_never_reused
+    p12a_policy_tests::single_worker_repeated_yield
+    p12a_policy_tests::two_workers_fifo_round_robin
+    p12a_policy_tests::unknown_identifiers_are_nonmutating
+    p12a_policy_tests::unsupported_kinds_are_nonmutating
+
+test result: FAILED. 3 passed; 21 failed; 0 ignored; 0 measured; 394 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `--lib`

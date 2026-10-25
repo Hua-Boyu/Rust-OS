@@ -1,0 +1,17 @@
+{
+  "schema": "rosti.p12a-budget-history-parent-lookup.v1",
+  "status": "BLOCKED",
+  "scope": "Historical lookup only; not independent candidate review",
+  "requested_session_id": "20261025_175559_d0f32b",
+  "requested_around_message_id": 95946,
+  "command": "session_search(session_id='20261025_175559_d0f32b', around_message_id=95946, window=2, role_filter='user,assistant,tool')",
+  "actual_result": {"success": false, "error": "session_id not found: 20261025_175559_d0f32b"},
+  "available_evidence": ["immutable readiness_audit_01.json with selected historical patches and commands", "original STATE.md/decisions.md with no authoritative cycle count", "matching original green_01..06 and red_02 log bytes in local Temp", "current WIP source/test bytes and exact backup commit"],
+  "unresolved": "Complete ordered actual source-change and approach history needed to classify cumulative cycles and distinct failed approaches reliably",
+  "CORRECTION_CYCLES_USED": "UNKNOWN",
+  "ATTEMPTS_BY_DEFECT": "Historical diagnoses recoverable in part; exact cumulative approach accounting not established",
+  "stop_rule": "User section9.1: if count cannot be established reliably, record ambiguity and stop before another substantive correction",
+  "budget_reset_or_waiver": false,
+  "new_source_or_test_correction": false,
+  "independent_budget_report": "reviews/budget_reconstruction_01.json; read exact completed artifact before relying on reviewer conclusions"
+}

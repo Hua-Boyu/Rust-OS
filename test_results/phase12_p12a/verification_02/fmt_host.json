@@ -1,0 +1,19 @@
+{
+  "command": [
+    "cargo",
+    "+nightly",
+    "fmt",
+    "--manifest-path",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+    "--check"
+  ],
+  "cwd": "C:\\Users\\iamsv",
+  "timeout_seconds": 300,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 1194844160,
+  "log": "test_results/phase12_p12a/verification_02/fmt_host.log",
+  "exit_code": 1,
+  "elapsed_seconds": 0.3589999999385327,
+  "sha256": "4f04f5e941b36b585cc425dd191afa6ac5b762a4175d16d7b07b0a0441558b84"
+}

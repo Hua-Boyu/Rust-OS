@@ -1,0 +1,21 @@
+{
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_b26\\Cargo.toml",
+    "--lib",
+    "--",
+    "--list"
+  ],
+  "cwd": "C:\\Users\\iamsv",
+  "timeout_seconds": 300,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 1284608000,
+  "log": "test_results/phase12_p12a/verification_02/b26_list.log",
+  "exit_code": 0,
+  "elapsed_seconds": 0.14099999994505197,
+  "sha256": "3a2faef665285ffae0974b84f060167c678f58e87ab4df9fad79ce1a82af8b81"
+}

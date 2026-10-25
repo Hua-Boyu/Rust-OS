@@ -1,0 +1,17 @@
+{
+  "command": [
+    "cargo",
+    "+nightly",
+    "fmt",
+    "--check"
+  ],
+  "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "timeout_seconds": 300,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 774901760,
+  "log": "test_results/phase12_p12a/verification_03/fmt_kernel_04.log",
+  "exit_code": 0,
+  "elapsed_seconds": 0.4059999999590218,
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

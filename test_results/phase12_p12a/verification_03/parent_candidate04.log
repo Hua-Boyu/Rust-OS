@@ -1,0 +1,36 @@
+{
+  "overall": "PASS",
+  "manifest_path": "test_results/phase12_p12a/evidence_manifest.json",
+  "manifest_sha256": "1f3a9616b153d3d1458cbc8cd6c2f74cadeeb04dd02d02470ffa0213583e76fc",
+  "source_before_equals_after": true,
+  "predecessor": {
+    "gates": 76,
+    "artifact_count": 562,
+    "dispositions": [
+      {
+        "path": "test_results/phase11f5_cpl3_proof/FINAL_REPORT.md",
+        "disposition": "historical_self_bound_not_current_candidate"
+      },
+      {
+        "path": "tests_kernel/src/lib.rs",
+        "disposition": "exact_six_line_authorized_host_wiring",
+        "historical_sha256": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189",
+        "current_sha256": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed"
+      }
+    ]
+  },
+  "protected": {
+    "README.md": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+    ".gitignore": "738ec129c381316b2c3ea4ff26bf502a072c4cc7eb7a3d7b074debdf58bc6bda",
+    "src/exception_entry.s": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+    "test_results/phase11f4_user_arena/FINAL_REPORT.md": "65071f5a56f7900246ec649a03e9f1acad01347557089efdef54a42b5c5582f0",
+    "d1/f": "98ea6e4f216f2fb4b69fff9b3a44842c38686ca685f3f55dc48c5d3fb1107be4",
+    "docs/ROSTI_INIT_ARCHITECTURE.md": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+    "reviews/candidate_review_02.json": "1bc18068b077d641ef598899f513b9c5b6cbe5ea516d67c720ed83e536dbe49a",
+    "scripts/b13_boot_fixture.py.backup": "3e86d2dd9061e42c1b79d5ad0d94efa513a407c19faa37fc2680a7ab5526a181"
+  },
+  "processes": {
+    "observer": "psutil",
+    "active_heavy_processes": []
+  }
+}

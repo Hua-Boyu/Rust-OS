@@ -1,0 +1,27 @@
+{
+  "comparison": "Final freeze03 raw bytes against WIP backup; no scheduler semantic-body changes",
+  "previous_delta": "source_delta_01.json preserved before edition-only rustfmt correction",
+  "paths": [
+    {
+      "path": "src/p12a_policy.rs",
+      "before_sha256": "c2360876c33ef6a49487b99a3a7c65708e41055bfe6b5186d2737b670027003f",
+      "after_sha256": "88354e669f1a23be9c724806449c6ca1ea8569491830765c8939c2ce44ed29cf"
+    },
+    {
+      "path": "tests_kernel/src/p12a_policy_tests.rs",
+      "before_sha256": "fb025cdd10f22a0214bac196656aac398ac7f07e2f2a23064bcd875d61fae95f",
+      "after_sha256": "167fe3598c6f4cf0ab96091091522e963ef19afe6cf02791b461fb169e7f3dbb"
+    },
+    {
+      "path": "tests_kernel/src/lib.rs",
+      "before_sha256": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed",
+      "after_sha256": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed"
+    }
+  ],
+  "diff_path": "test_results/phase12_p12a/source_delta_02.diff",
+  "diff_sha256": "0ea11f2b574a68ea9d3a186d75b796f05eabead2fc7cd656509c1b95c37b4945",
+  "packages_used": 1,
+  "historical_cycles": "UNKNOWN",
+  "runtime_changes": false,
+  "source_freeze": "test_results/phase12_p12a/source_freeze_03.json"
+}

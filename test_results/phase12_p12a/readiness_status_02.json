@@ -1,0 +1,154 @@
+{
+  "schema": "rosti.p12a-readiness-status-after-backup.v1",
+  "status": "PARTIAL_NOT_CANDIDATE_READY",
+  "backup_commit": "c03e13fb67f38b3ea6d968afba020e1c4772a9f9",
+  "authority": "reviews/readiness_audit_01.json",
+  "authority_raw_sha256": "2c0f242facc97c99967d0fb44da9e419ef8ecc3e7969ce6410347a050fa94e71",
+  "source_or_test_repairs_this_session": false,
+  "fresh_suites_executed": false,
+  "findings": [
+    {
+      "id": "SOURCE-01",
+      "status": "CONFIRMED",
+      "path": "src/p12a_policy.rs:18-60",
+      "expected": "Eq on six exported value types",
+      "actual": "PartialEq derives remain without Eq; backed-up source unchanged",
+      "correction_required": true,
+      "cycle_effect": "Substantive API correction; historical budget must be established first",
+      "verification": "isolated Eq compiler probe and frozen focused/full host suites"
+    },
+    {
+      "id": "SOURCE-02",
+      "status": "CONFIRMED",
+      "path": "src/p12a_policy.rs:74",
+      "expected": "const Policy::new",
+      "actual": "pub fn new remains non-const",
+      "correction_required": true,
+      "cycle_effect": "Substantive API correction; historical budget must be established first",
+      "verification": "const construction compiler probe and frozen host suites"
+    },
+    {
+      "id": "TEST-01",
+      "status": "CONFIRMED",
+      "path": "tests_kernel/src/p12a_policy_tests.rs:432-451",
+      "expected": "Long legal replay with per-step snapshot comparison and sustained literal alternation",
+      "actual": "Only short six-operation replay, comparing final snapshots",
+      "correction_required": true,
+      "cycle_effect": "Substantive test correction; historical budget required",
+      "verification": "contract test24, focused and full host serial/parallel/list"
+    },
+    {
+      "id": "TEST-02",
+      "status": "CONFIRMED",
+      "path": "tests_kernel/src/p12a_policy_tests.rs:336-393",
+      "expected": "Every Ready slot occurs exactly once in active queue",
+      "actual": "Queued=>Ready checked but Ready=>queued absent",
+      "correction_required": true,
+      "cycle_effect": "Substantive test correction; historical budget required",
+      "verification": "complete invariant oracle, adversarial control and exhaustive test23"
+    },
+    {
+      "id": "FMT-01",
+      "status": "CONFIRMED",
+      "path": "src/p12a_policy.rs; tests_kernel/src/p12a_policy_tests.rs",
+      "expected": "Kernel, host and direct policy formatting GREEN",
+      "actual": "Audit records host/direct policy exit1; source unchanged. Not freshly rerun",
+      "correction_required": true,
+      "cycle_effect": "Formatting only, separately classified from semantic repair",
+      "verification": "documented cargo nightly fmt checks and direct rustfmt check"
+    },
+    {
+      "id": "FREEZE-01",
+      "status": "CONFIRMED",
+      "path": "test_results/p12a/f01/source_freeze_01.json",
+      "expected": "Complete input closure and valid timestamp, before/after membership and raw equality",
+      "actual": "16-pin incomplete freeze with timestamp 19:5xZ preserved",
+      "correction_required": true,
+      "cycle_effect": "New numbered evidence; do not overwrite historical freeze",
+      "verification": "independent canonical enumeration plus full frozen input closure"
+    },
+    {
+      "id": "READER-01",
+      "status": "CONFIRMED",
+      "path": "test_results/p12a/parent_readback_01.py:59-63",
+      "expected": "Missing/mismatched artifacts and required pins cause FAIL",
+      "actual": "F5 loop does not propagate mismatches; empty artifacts accepted; cleanup caller-reported",
+      "correction_required": true,
+      "cycle_effect": "New numbered task-local reader required; do not weaken inherited validators",
+      "verification": "positive real artifact readback and malformed/missing/pin/cleanup negative controls"
+    },
+    {
+      "id": "EVIDENCE-01",
+      "status": "CONFIRMED",
+      "path": "test_results/phase12_p12a/evidence_manifest.json; FINAL_REPORT.md",
+      "expected": "Complete pinned verification evidence and report",
+      "actual": "Preimplementation evidence manifest and placeholder report preserved in WIP backup",
+      "correction_required": true,
+      "cycle_effect": "Documentation is not acceptance or source correction",
+      "verification": "all command/CWD/exit/log/source bindings and artifact readback"
+    },
+    {
+      "id": "RED-01",
+      "status": "BLOCKED",
+      "path": "historical p12a_red_02.log and session history",
+      "expected": "Exact runtime RED command, assertion and executed source/test provenance",
+      "actual": "Runtime RED reported by audit; exact scaffold identity and post-RED test corrections remain unresolved",
+      "correction_required": true,
+      "cycle_effect": "No invented historical source hash or unchanged-tests claim",
+      "verification": "authenticate actual historical records; disclose missing provenance to independent reviewer"
+    },
+    {
+      "id": "BUDGET-01",
+      "status": "BLOCKED",
+      "path": "STATE.md; decisions.md; historical green_01..06 logs and session source deltas",
+      "expected": "Reliable cumulative correction-cycle count and per-defect distinct approaches",
+      "actual": "Not recorded in original state/decisions; independent read-only reconstruction dispatched",
+      "correction_required": true,
+      "cycle_effect": "STOP substantive repair until reliably established; never reset to zero",
+      "verification": "actual source deltas and commands, not counts of failed log filenames"
+    },
+    {
+      "id": "MOCK-01",
+      "status": "CONFIRMED",
+      "path": "test_results/p12a/v01/mock_gate_readback.json",
+      "expected": "95 real tests, no skips, actual exit0 within enforced 1049-second wall limit",
+      "actual": "Historical readback explicitly records wall_seconds null; 951.156 suite seconds is not wall compliance",
+      "correction_required": true,
+      "cycle_effect": "Evidence/timing obligation; do not silently increase limit",
+      "verification": "authenticated elapsed/enforcement records or new frozen bounded run after prerequisites"
+    },
+    {
+      "id": "STATE-01",
+      "status": "RESOLVED",
+      "path": "STATE.md; git_backup_manifest_01.json; git_backup_receipt_01.json",
+      "expected": "Truthful current state and explicit path/hunk allowlist",
+      "actual": "New current state separates COMPLETE WIP backup from unaccepted milestone; original contradictory state retained as superseded history; exact backup paths and shared hunk recorded",
+      "correction_required": false,
+      "cycle_effect": "Documentation only; does not reset historical budget",
+      "verification": "Remote SHA and committed raw blob equality verified in backup receipt; no source/test edit"
+    },
+    {
+      "id": "REVIEW-01",
+      "status": "BLOCKED",
+      "path": "test_results/phase12_p12a/reviews/design_review_01.json",
+      "expected": "Complete fresh candidate APPROVE after frozen GREEN; honest digest convention",
+      "actual": "Contract approval only; no candidate review; original review lacks self_sha256 and is preserved unchanged",
+      "correction_required": true,
+      "cycle_effect": "Independent disposition required; do not manufacture approval",
+      "verification": "new complete independent candidate review with exact current frozen input bindings"
+    },
+    {
+      "id": "F5-01",
+      "status": "CONFIRMED",
+      "path": "tests_kernel/src/lib.rs:58-63",
+      "expected": "Preserve historical F5 pin and explicitly disposition only authorized wiring delta",
+      "actual": "Staged shared-file diff has exactly six added P12-A registration lines; no other hunk. Historical F5 pin remains immutable",
+      "correction_required": true,
+      "cycle_effect": "Explicit new frozen readback disposition; no F5 evidence edits",
+      "verification": "Remove only authorized six-line block in memory and match historical raw digest; pin current bytes separately"
+    }
+  ],
+  "candidate_approval": false,
+  "milestone_acceptance": false,
+  "P12B_started": false
+}

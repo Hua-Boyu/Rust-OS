@@ -1,0 +1,400 @@
+{
+  "schema": "rosti.p12a-budget-reconstruction.v1",
+  "status": "PARTIAL_STOP_BUDGET_UNRESOLVED",
+  "completed_utc": "2026-10-25T13:04:29.037421+00:00",
+  "scope": "Budget accounting only; not candidate review, candidate approval, contract amendment, counter reset or permission to repair.",
+  "candidate_approval_granted": false,
+  "decision": {
+    "reliable_count_possible_from_recovered_evidence": false,
+    "substantive_post_contract_correction_cycles_used": null,
+    "source_correction_cycles_max": 2,
+    "distinct_failed_approaches_max_per_same_defect": 3,
+    "any_limit_exhausted": null,
+    "exhaustion_status": "UNDETERMINED; neither exhausted nor remaining budget can be certified",
+    "stop_before_substantive_correction": true,
+    "reason": "Original session/source-edit payloads and complete per-defect commands/outcomes cannot be recovered by bounded lookup. Logs establish compiler revisions and failed outcomes, not a reliable mapping into substantive cycles or distinct approaches. UNKNOWN is not zero. User permits PARTIAL/STOP on this ambiguity."
+  },
+  "authority": {
+    "current_contract_lines": "234-235",
+    "current_contract_limits": "At most2 substantive contract revisions,2 source correction cycles,3 attempts per defect.",
+    "original_attempt_definition_secondary": "16.1 Attempt. An attempt is one distinct approach to fixing a specific defect, recorded in STATE.md or decisions.md with the command(s) used and the outcome. Rerunning the same command unchanged, or fixing an unrelated typo, is not a new attempt. Three failed attempts at the same defect = PARTIAL.",
+    "original_authority_identity_secondary": {
+      "recovered": true,
+      "source": "read-only Hermes state.db message95774 session20261025_175559_d0f32b",
+      "characters": 45169,
+      "utf8_sha256": "3009c6cbb5c530578c7580a025b640988149158c79b3ba2025bb164756fdd912"
+    },
+    "current_state_lines": "19-21 and38-39 explicitly UNKNOWN/pending reconstruction",
+    "decisions_result": "D-00..D-03 contain no cycle ledger or per-defect attempt classifications.",
+    "interpretation": "A compiler failure is not logical RED. A different filename, repeated diagnostic, repeated replayed DB result, or unrelated typo is not automatically a distinct failed approach. No inference that source budget starts only after candidate review; no complete candidate review cycles does not mean zero source correction cycles."
+  },
+  "recovery": {
+    "session_search_discovery": {
+      "query": "p12a_green_01",
+      "role_filter": "user,assistant,tool",
+      "results": 0,
+      "sessions_searched": 0
+    },
+    "session_search_anchor": {
+      "session_id": "20261025_175559_d0f32b",
+      "around_message_id": 96020,
+      "result": "session_id not found"
+    },
+    "database": {
+      "path": "C:/Users/iamsv/AppData/Local/hermes/state.db",
+      "access": "SQLite URI mode=ro; only schema/session/message reads, no configuration or credentials",
+      "original_session_rows": 0,
+      "original_message_rows": 0,
+      "anchor_range_rows": 0
+    },
+    "bounded_fallbacks": [
+      "Known Hermes sessions directory has no filename matching original session ID; bounded filename discovery found no matching original-session export.",
+      "Known logs/agent.log retains original session tool-completion timestamps but not full command/source delta payloads.",
+      "Known state.db emergency backups are named September6, preceding this October25 task; not treated as a recovery of October25 history.",
+      "Task-local readiness_audit_01.json preserves selected history excerpts and raw log hashes, used explicitly as secondary evidence, not invented original transcript."
+    ],
+    "not_established": "Why original session is absent is unknown; compression/deletion is not asserted as the cause. No unrelated private directories searched.",
+    "remaining_gap": "Exact commands and edit payloads/source snapshots for green_01..05, exact complete original prompt and complete ordered per-defect attempted approaches are unavailable."
+  },
+  "raw_input_pins": {
+    "src/p12a_policy.rs": "c2360876c33ef6a49487b99a3a7c65708e41055bfe6b5186d2737b670027003f",
+    "tests_kernel/src/p12a_policy_tests.rs": "fb025cdd10f22a0214bac196656aac398ac7f07e2f2a23064bcd875d61fae95f",
+    "tests_kernel/src/lib.rs": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed",
+    "test_results/phase12_p12a/STATE.md": "23cbe81872b6ac0dbe99e4bdf30f8055f9ba0f21940b56b4a4772f16eada018a",
+    "test_results/phase12_p12a/decisions.md": "c627260b4b90f3bc68a542e4745bab7e5379a71de2a10d896bfb5f17b8b2232c",
+    "test_results/phase12_p12a/p12a_contract.md": "614cdce234e403d10ce9bbf473c01fbe311b0013d53ae829d182c4a7f521b55b",
+    "test_results/phase12_p12a/reviews/design_review_01.json": "5cbdc5401e80d0c883f12a69398f0a69ac9d9a7bb2f0dfbae6975d45686156f8",
+    "test_results/phase12_p12a/reviews/readiness_audit_01.json": "2c0f242facc97c99967d0fb44da9e419ef8ecc3e7969ce6410347a050fa94e71"
+  },
+  "preserved_logs_direct_read": [
+    {
+      "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_red_02.log",
+      "sha256": "9f375cf1500b1f6cc442740df98dd110e985525e467843787c142b3ab5b104dd",
+      "bytes": 14558,
+      "compiler_summary": [],
+      "runtime_summary": [
+        "test result: FAILED. 3 passed; 21 failed; 0 ignored; 0 measured; 394 filtered out; finished in 0.01s"
+      ],
+      "diagnostic_categories": [
+        ""
+      ]
+    },
+    {
+      "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_01.log",
+      "sha256": "1d41f7a831ffd3fa3971bef2f674d733420fc0c8dfd2b652eab8324079bc68d6",
+      "bytes": 118598,
+      "compiler_summary": [
+        "error: could not compile `tests_kernel` (lib test) due to 159 previous errors; 13 warnings emitted"
+      ],
+      "runtime_summary": [],
+      "diagnostic_categories": [
+        "",
+        "E0277",
+        "E0308",
+        "E0369",
+        "E0423",
+        "E0507"
+      ]
+    },
+    {
+      "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_02.log",
+      "sha256": "54dc9474c68713730da4fe926b7b8e52b6dd2e556c2630d73c46bce776d63d67",
+      "bytes": 113887,
+      "compiler_summary": [
+        "error: could not compile `tests_kernel` (lib test) due to 154 previous errors; 13 warnings emitted"
+      ],
+      "runtime_summary": [],
+      "diagnostic_categories": [
+        "",
+        "E0277",
+        "E0369",
+        "E0423",
+        "E0594"
+      ]
+    },
+    {
+      "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_03.log",
+      "sha256": "5c945c492b743452e321f0b84acc3fd186e6d5884b5c8f4ba9b0c408dea37b63",
+      "bytes": 101582,
+      "compiler_summary": [
+        "error: could not compile `tests_kernel` (lib test) due to 140 previous errors; 13 warnings emitted"
+      ],
+      "runtime_summary": [],
+      "diagnostic_categories": [
+        "",
+        "E0277",
+        "E0369",
+        "E0424",
+        "E0594"
+      ]
+    },
+    {
+      "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_04.log",
+      "sha256": "fa6c0d0cae173f36207f4e7ecf8f9dbf71bab2a55d8d169b9ea94219a41fc2e1",
+      "bytes": 99603,
+      "compiler_summary": [
+        "error: could not compile `tests_kernel` (lib test) due to 137 previous errors; 13 warnings emitted"
+      ],
+      "runtime_summary": [],
+      "diagnostic_categories": [
+        "",
+        "E0277",
+        "E0369",
+        "E0594"
+      ]
+    },
+    {
+      "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_05.log",
+      "sha256": "8d5c1efcbfc3b0bbef44f1fd365f89987eafd9e8062e3fd6442376d283418310",
+      "bytes": 16242,
+      "compiler_summary": [
+        "error: could not compile `tests_kernel` (lib test) due to 15 previous errors; 35 warnings emitted"
+      ],
+      "runtime_summary": [],
+      "diagnostic_categories": [
+        "",
+        "E0277",
+        "E0594"
+      ]
+    },
+    {
+      "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_06.log",
+      "sha256": "b9f6669312a2b51f71800bdcf683d54baa2af146bba66a828b2b54cdff8f0c45",
+      "bytes": 7757,
+      "compiler_summary": [],
+      "runtime_summary": [
+        "test result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 394 filtered out; finished in 0.01s"
+      ],
+      "diagnostic_categories": []
+    }
+  ],
+  "secondary_exact_historical_commands": [
+    {
+      "message": 95946,
+      "call_id": "call_ac1e1cba5d094f2aa0b34ef0",
+      "command_arguments": "{\"command\":\"cd C:/Users/iamsv && cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml --lib p12a_policy_tests:: -- --test-threads=1 > C:/Users/iamsv/AppData/Local/Temp/p12a_red_02.log 2>&1; echo \\\"EXIT=$?\\\"; grep -n \\\"^error\\\" -A 25 C:/Users/iamsv/AppData/Local/Temp/p12a_red_02.log | head -80\",\"timeout\":300}",
+      "results": [
+        {
+          "message": 95947,
+          "content": "{\"output\": \"EXIT=101\\n353:error: test failed, to rerun pass `--lib`\", \"exit_code\": 0, \"error\": null}"
+        },
+        {
+          "message": 95994,
+          "content": "{\"output\": \"EXIT=101\\n353:error: test failed, to rerun pass `--lib`\", \"exit_code\": 0, \"error\": null}"
+        }
+      ]
+    },
+    {
+      "message": 96053,
+      "call_id": "call_1607426697a14ba3a95b5472",
+      "command_arguments": "{\"command\":\"cd C:/Users/iamsv && cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml --lib p12a_policy_tests:: -- --test-threads=1 > C:/Users/iamsv/AppData/Local/Temp/p12a_green_06.log 2>&1; echo \\\"EXIT=$?\\\"; grep -E \\\"test result|FAILED|^failures\\\" C:/Users/iamsv/AppData/Local/Temp/p12a_green_06.log; grep -nE \\\"^error|error\\\\[\\\" C:/Users/iamsv/AppData/Local/Temp/p12a_green_06.log | head -10\",\"timeout\":300}",
+      "results": [
+        {
+          "message": 96054,
+          "content": "{\"output\": \"EXIT=0\\ntest result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 394 filtered out; finished in 0.01s\", \"exit_code\": 0, \"error\": null}"
+        },
+        {
+          "message": 96160,
+          "content": "{\"output\": \"EXIT=0\\ntest result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 394 filtered out; finished in 0.01s\", \"exit_code\": 0, \"error\": null}"
+        }
+      ]
+    }
+  ],
+  "command_limitations": {
+    "red_02": "Historical cargo exit101, shell wrapper exit0; command/exits recovered from prior audit, independently corroborated runtime failure log. Not rerun.",
+    "green_06": "Historical cargo exit0 and24-pass summary; duplicate result messages96054/96160 are one call_id, not two attempts. Not rerun.",
+    "green_01_through_05": "Actual historical full argv/CWD/exit bindings not recovered. Direct logs say could-not-compile, no executed test summary. Do NOT manufacture commands by changing the red/green06 output filename.",
+    "duplicate_red_results": "95947/95994 share call_ac1e1cba5d094f2aa0b34ef0 and are not two RED executions."
+  },
+  "ordered_technical_observations": [
+    {
+      "phase": "pre-logical-RED setup",
+      "evidence": "Secondary messages95936/95938/95944; agent.log30809/30813/30828",
+      "change": "Import use p12a_policy -> use crate::p12a_policy; first relative-path patch failed to read C:/Users/iamsv/tests_kernel/src/p12a_policy_tests.rs, then absolute-path patch; Complete1/2 adapters changed Result<Context,Error> to Result<(),Error>.",
+      "classification": "Path/import/return-type setup repairs, not executable logical RED. Repeating same intended import edit with corrected path is not automatically another approach."
+    },
+    {
+      "phase": "logical RED",
+      "evidence": "Direct red_02 log; secondary command95946",
+      "outcome": "3 passed/21 failed,24 executed; cargo101.",
+      "classification": "Intentionally inert scaffold baseline, not21 distinct attempts and not a failed candidate repair for each test. Exact executed raw scaffold snapshot not available."
+    },
+    {
+      "phase": "post-RED oracle edits",
+      "evidence": "Secondary patches96006/96008; green01 test excerpts and current tests",
+      "change": "Unknown completion expected InvalidTransition -> UnknownId; four enter/request/request/leave assertions removed from replay.",
+      "classification": "Real test behavior/provenance changes. Cannot describe GREEN as unchanged-tests. UnknownId correction and deletion are different defects; cannot automatically call two tool calls two global correction cycles."
+    },
+    {
+      "phase": "green01",
+      "evidence": "Direct numbered compiler source excerpts",
+      "source": "Free helpers fn do_reschedule(self), fn dequeue_and_run(self), fn select_after_retire(self); Error.InvalidId/other dot-qualified enum errors; derives Clone,Copy,Debug,Eq without PartialEq; queue indexed by u8; new non-const.",
+      "outcome": "159 compiler errors; no executed tests."
+    },
+    {
+      "phase": "green02",
+      "evidence": "Direct numbered compiler source excerpts",
+      "source": "Free helpers now use self: &Policy, still invalid outside impl; Error.InvalidId and Eq-without-PartialEq remain; both admission and reschedule queue indexes show u8.",
+      "outcome": "154 compiler errors; no executed tests.",
+      "classification": "Receiver spelling actually changed, so not an identical-source replay of green01. Whether this is a new substantive approach or a mechanical Rust receiver repair is not recorded."
+    },
+    {
+      "phase": "green03",
+      "evidence": "Direct numbered compiler source excerpts",
+      "source": "fn do_reschedule(p: &Policy), fn select_after_retire(p: &Policy), with residual return dequeue_and_run(self); six Eq-without-PartialEq derives remain; u8 queue indexes remain.",
+      "outcome": "140 compiler errors; no executed tests.",
+      "classification": "Explicit borrowed helper argument differs from invalid self parameter; residual self can be incomplete rename/typo rather than a new independent strategy."
+    },
+    {
+      "phase": "green04",
+      "evidence": "Direct compiler diagnostics",
+      "source": "Eq-without-PartialEq still reported; reschedule p.snap.queue[p.snap.queue_len] still u8; mutation behind shared reference remains. Residual-self E0424 no longer reported.",
+      "outcome": "137 compiler errors; no executed tests.",
+      "classification": "Disappearance of one diagnostic is not proof of a complete independently different approach to all remaining defects."
+    },
+    {
+      "phase": "green05",
+      "evidence": "Direct compiler diagnostics and numbered actual source",
+      "source": "Admission index appears as self.snap.queue[self.snap.queue_len as usize]; reschedule p.snap.queue[p.snap.queue_len] remains uncast. Mutation through shared references still refused.",
+      "outcome": "15 compiler errors; no executed tests.",
+      "classification": "Partial application of index repair is not automatically a second distinct indexing approach. Compiler help suggestions containing &mut are not actual source revisions."
+    },
+    {
+      "phase": "green06",
+      "evidence": "Direct log; secondary command96053; current source raw pin",
+      "outcome": "24 passed/0 failed/0 ignored; cargo0 historically.",
+      "classification": "Focused behavior GREEN only. Does not establish Eq/const contract conformance or missing test intent. Complete green06 raw source pin at execution is not reconstructed from the current file."
+    }
+  ],
+  "secondary_test_patch_payloads": [
+    {
+      "message": 95936,
+      "tool": "patch",
+      "arguments": "{\"new_string\":\"use crate::p12a_policy::{Context, Error, Policy, Slot, Snapshot, State, TaskKind};\",\"old_string\":\"use p12a_policy::{Context, Error, Policy, Slot, Snapshot, State, TaskKind};\",\"path\":\"tests_kernel/src/p12a_policy_tests.rs\"}"
+    },
+    {
+      "message": 95938,
+      "tool": "patch",
+      "arguments": "{\"new_string\":\"use crate::p12a_policy::{Context, Error, Policy, Slot, Snapshot, State, TaskKind};\",\"old_string\":\"use p12a_policy::{Context, Error, Policy, Slot, Snapshot, State, TaskKind};\",\"path\":\"C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src/p12a_policy_tests.rs\"}"
+    },
+    {
+      "message": 95944,
+      "tool": "patch",
+      "arguments": "{\"new_string\":\"        Op::Complete1 => {\\n            p.complete(1)?;\\n            Ok(())\\n        }\\n        Op::Complete2 => {\\n            p.complete(2)?;\\n            Ok(())\\n        }\",\"old_string\":\"        Op::Complete1 => p.complete(1),\\n        Op::Complete2 => p.complete(2),\",\"path\":\"C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src/p12a_policy_tests.rs\"}"
+    },
+    {
+      "message": 96006,
+      "tool": "patch",
+      "arguments": "{\"path\":\"C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src/p12a_policy_tests.rs\",\"old_string\":\"    let mut p = fresh();\\n    let before = p.snapshot();\\n    assert_eq!(p.complete(7), Err(Error::InvalidTransition));\\n    assert_eq!(p.snapshot(), before);\\n    assert_eq!(p.admit(7, TaskKind::KernelProbe), Ok(()));\",\"new_string\":\"    let mut p = fresh();\\n    let before = p.snapshot();\\n    assert_eq!(p.complete(7), Err(Error::UnknownId));\\n    assert_eq!(p.snapshot(), before);\\n    assert_eq!(p.admit(7, TaskKind::KernelProbe), Ok(()));\"}"
+    },
+    {
+      "message": 96008,
+      "tool": "patch",
+      "arguments": "{\"path\":\"C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src/p12a_policy_tests.rs\",\"old_string\":\"        assert_eq!(p.admit(9, TaskKind::KernelProbe), Err(Error::Capacity));\\n        assert_eq!(p.enter_inhibit(), Ok(()));\\n        assert_eq!(p.request_reschedule(), Context::Worker(4));\\n        assert_eq!(p.request_reschedule(), Context::Worker(4));\\n        assert_eq!(p.leave_inhibit(), Ok(Context::Worker(3)));\\n        assert_eq!(p.complete(3), Ok(Context::Worker(4)));\",\"new_string\":\"        assert_eq!(p.admit(9, TaskKind::KernelProbe), Err(Error::Capacity));\\n        assert_eq!(p.complete(3), Ok(Context::Worker(4)));\"}"
+    }
+  ],
+  "per_defect_accounting": [
+    {
+      "defect": "Receiver/helper binding and mutation authority",
+      "observed_variants": [
+        "free-function self",
+        "free-function self: &Policy",
+        "p: &Policy with residual self references",
+        "shared-reference writes refused",
+        "current mutating entry points/helpers use mutable borrows"
+      ],
+      "distinct_failed_approaches": null,
+      "exhausted": null,
+      "reason": "Multiple code shapes are evidenced, but initial implementation vs repair and partial rename/shared-mutability subdefect boundaries are not recoverable. Counting01..05 as five attempts or self/self:&Policy/p:&Policy as exactly three FAILED repair approaches would be unsupported."
+    },
+    {
+      "defect": "Enum variant qualification Error.X",
+      "observed": "Dot spelling present01/02; errors absent03 onward; current source uses Error::X.",
+      "distinct_failed_approaches": null,
+      "exhausted": null,
+      "reason": "Syntax repair visible; no complete command/delta ledger. Persistence over unchanged portions is not repeated distinct attempts."
+    },
+    {
+      "defect": "Comparison traits and approved Eq",
+      "observed": "Six Eq-without-PartialEq derives visible01..04; current six exported types have PartialEq but no Eq.",
+      "distinct_failed_approaches": null,
+      "exhausted": null,
+      "reason": "Trait change removed an approved trait rather than proving required Eq. Repeated same derive diagnostic is one persistent code defect, not four different approaches. Exact intermediate edit unavailable. Still unresolved; no new repair attempted by this audit."
+    },
+    {
+      "defect": "Non-const Policy::new",
+      "observed": "Non-const new in green01 compiler excerpt and current source:74; readiness SOURCE-02.",
+      "distinct_failed_approaches": null,
+      "exhausted": null,
+      "reason": "No const-repair approach is evidenced, but absent complete history cannot certify zero attempts or untouched allowance."
+    },
+    {
+      "defect": "Queue u8 indexes",
+      "observed": "Admission index uncast01..03, cast by05; reschedule uncast through05; current code casts.",
+      "distinct_failed_approaches": null,
+      "exhausted": null,
+      "reason": "Two sites undergoing partial same-style cast correction, not enough to establish separate strategies or exact source correction cycles."
+    },
+    {
+      "defect": "Unknown completion test oracle",
+      "observed": "Secondary96006 changes InvalidTransition to UnknownId after logical RED; current matches.",
+      "known_edit_payloads": 1,
+      "distinct_failed_approaches": null,
+      "exhausted": null,
+      "reason": "One recovered correction payload is not proof of total attempts; no intervening exact-one runtime failed repair evidenced."
+    },
+    {
+      "defect": "Short replay / removed inhibition assertions",
+      "observed": "Secondary96008 deletes four inhibition assertions; current replay admits two, selects three times, refuses capacity, completes one and compares terminal snapshots only.",
+      "known_edit_payloads": 1,
+      "distinct_failed_approaches": null,
+      "exhausted": null,
+      "reason": "Deletion is substantive test weakening/provenance delta, not proof of fulfilling long legal replay. Current seven API operations include one intentional refused admission; short replay remains unresolved. Cannot infer complete repair budget."
+    },
+    {
+      "defect": "Invariant oracle missing Ready=>queued",
+      "observed": "Current tests:336-393 prove queue=>Ready and uniqueness but do not require each Ready slot in queue; readiness TEST-02.",
+      "distinct_failed_approaches": null,
+      "exhausted": null,
+      "reason": "No complete historical oracle-repair sequence recovered; not automatically zero attempts. Unresolved; no repair here."
+    },
+    {
+      "defect": "Readback helper refusal/schema handling",
+      "observed": "agent.log31126..31146 records several patch completions, READBACK_EXIT1/traceback then READBACK_EXIT0; readiness READER-01 remains blocker.",
+      "distinct_failed_approaches": null,
+      "exhausted": null,
+      "reason": "Tool completion counts alone cannot distinguish related typo repairs from distinct approaches. Readback exit0 is not candidate approval. Not silently charged as policy source cycles, nor silently exempted from all per-defect budgets."
+    }
+  ],
+  "budget_assessment": {
+    "source_cycles": "UNKNOWN. There were real post-contract changes and post-RED oracle changes, so neither zero nor a clean two-cycle allowance is established. Compiler iteration count is not substantive-cycle count.",
+    "same_defect_attempts": "UNKNOWN. No defensible proof that any same defect reached three distinct failed approaches; equally no defensible proof all remained below three.",
+    "limits_exhausted": "UNKNOWN, not NO. No counter reset or waiver inferred from backup commit, original accepted F5, successful24 tests, absence of candidate review or missing session.",
+    "conditional_interpretations": "If every nontrivial compile-correction batch is a source correction cycle, observations may exceed two. If syntax/receiver/index patches form one implementation correction cycle, fewer may apply. Choosing the permissive interpretation without original edit ledger or explicit user disposition would violate the stop-on-ambiguity rule.",
+    "required_next_authority": "Remain PARTIAL/STOP before substantive repairs. Recover authenticated original ordered edit/command/outcome records or seek explicit user disposition; this report itself grants no replenished budget."
+  },
+  "auxiliary_runtime_log_observation": {
+    "path": "C:/Users/iamsv/AppData/Local/hermes/logs/agent.log",
+    "identity": "Live append-only operational log; only relevant bounded session lines read, not frozen as a full historical transcript.",
+    "anchors": [
+      "30340 original user prompt accepted chars45169",
+      "30750 import compilation failure",
+      "30809 failed relative path patch;30813 subsequent patch complete",
+      "30836..30842 compaction telemetry, not an edit ledger",
+      "30983/30990 EXIT101; cannot safely bind individual log filenames from completion metadata alone",
+      "31126..31146 multiple readback changes/failures; no command/delta bodies",
+      "31643 later session_search reports original session absent"
+    ],
+    "limitation": "Timestamps and tool-completion counts corroborate activity, but do not recover actual source bodies/argv or budgets."
+  },
+  "scope_verification": {
+    "tests_launched": [],
+    "builds_launched": [],
+    "source_test_contract_git_writes": [],
+    "files_created_or_modified": [
+      "test_results/phase12_p12a/reviews/budget_reconstruction_01.json"
+    ],
+    "old_evidence_rewritten": false,
+    "parent_context": "Parent reports no source/test repair or expensive run. Parent independent readiness_status_02.json and prerequisite_readback_02.json are not candidate approval and were not used to replace missing attempt history."
+  }
+}

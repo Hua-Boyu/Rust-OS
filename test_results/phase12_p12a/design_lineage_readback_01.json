@@ -1,0 +1,425 @@
+{
+  "overall": "PASS_WITH_EXPLICIT_AUTHORIZED_HOST_WIRING_DISPOSITION",
+  "design_manifest_sha256": "33a9e1412efe8248bf522f03b8d8a28590f0e23511fa155f6c2796dafc06230a",
+  "review_pin_count": 39,
+  "review_pins": [
+    {
+      "path": ".cargo/config.toml",
+      "expected": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+      "actual": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "expected": "b9b28d1c1c869a61dcb3d0eb649a54445aa1a6384c9a4f11aead3040428359dd",
+      "actual": "b9b28d1c1c869a61dcb3d0eb649a54445aa1a6384c9a4f11aead3040428359dd",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "Cargo.toml",
+      "expected": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+      "actual": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "README.md",
+      "expected": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+      "actual": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "docs/PHASE11_DESIGN.md",
+      "expected": "49c32c17f934f0f77ee24525a7a9390c6ac43f667ce0e25c945b1e6688b41810",
+      "actual": "49c32c17f934f0f77ee24525a7a9390c6ac43f667ce0e25c945b1e6688b41810",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "docs/PHASE11_HANDOVER.md",
+      "expected": "763844f918d8ae128a987536d6648f3b2abd6ca8d8722dc9e149af067e09af1e",
+      "actual": "763844f918d8ae128a987536d6648f3b2abd6ca8d8722dc9e149af067e09af1e",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "docs/PHASE11_MEMORY_AUTHORITY.md",
+      "expected": "50fcb78fc0317613a7927ff64727560157dad58b32e78b7a4ed39863c6bcac77",
+      "actual": "50fcb78fc0317613a7927ff64727560157dad58b32e78b7a4ed39863c6bcac77",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+      "expected": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+      "actual": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "scripts/phase6_verify.py",
+      "expected": "394dfcfa9e5d40ebb56c614ac2356a4c930fbbd80b418c408f46b30daf388b20",
+      "actual": "394dfcfa9e5d40ebb56c614ac2356a4c930fbbd80b418c408f46b30daf388b20",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/boot.s",
+      "expected": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+      "actual": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/cpu.rs",
+      "expected": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+      "actual": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/exception_abi.rs",
+      "expected": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "actual": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/exception_entry.s",
+      "expected": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "actual": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/f5_bridge.s",
+      "expected": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5",
+      "actual": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/f5_cpl3.rs",
+      "expected": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21",
+      "actual": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/f5_gdt.rs",
+      "expected": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+      "actual": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/f5_runtime.rs",
+      "expected": "fd94be9b68bbaacb9277342213cd82bfb051cfe3a275b8f25cc77938851a4122",
+      "actual": "fd94be9b68bbaacb9277342213cd82bfb051cfe3a275b8f25cc77938851a4122",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/gdt_tss.rs",
+      "expected": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+      "actual": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/interrupt.rs",
+      "expected": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "actual": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/main.rs",
+      "expected": "732f92cc854b63e48e3b586cda099164abd42ceb68c5d14000cee360bac1d7ff",
+      "actual": "732f92cc854b63e48e3b586cda099164abd42ceb68c5d14000cee360bac1d7ff",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/memory/frame.rs",
+      "expected": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+      "actual": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/memory/mod.rs",
+      "expected": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+      "actual": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/memory/privileged.rs",
+      "expected": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "actual": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/memory/retained_owner.rs",
+      "expected": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+      "actual": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/memory/user_arena.rs",
+      "expected": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+      "actual": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/timer.rs",
+      "expected": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+      "actual": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/utils/mutex.rs",
+      "expected": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+      "actual": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "target.json",
+      "expected": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+      "actual": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "test_results/f5p01/full_source_freeze_10.json",
+      "expected": "56d4e87dc235c52218e80d6a4f0c9d0380cf10d8f98e271d3b3f83c90917bb25",
+      "actual": "56d4e87dc235c52218e80d6a4f0c9d0380cf10d8f98e271d3b3f83c90917bb25",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/closeout_commit_receipt_10.json",
+      "expected": "588d36513a9b503360cbb991adc635911fb4338379677ab3aafc001f5d53bfc2",
+      "actual": "588d36513a9b503360cbb991adc635911fb4338379677ab3aafc001f5d53bfc2",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/final_review_parent_readback_10.json",
+      "expected": "6cf9baf4596d3b5557064c85e988e05350f98236db885d149fb099acc7a9d8dc",
+      "actual": "6cf9baf4596d3b5557064c85e988e05350f98236db885d149fb099acc7a9d8dc",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/reviews/final_canonical_readback_01.json",
+      "expected": "543db6fabab5eff983bf3711db56c0cb20d894cc50bb92bb2616f2a401e5ebe0",
+      "actual": "543db6fabab5eff983bf3711db56c0cb20d894cc50bb92bb2616f2a401e5ebe0",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "test_results/phase12_design/STATE_review_snapshot_01.md",
+      "expected": "c91eef736fb813eb1078fbd8c2dc0a815896f353544bbcc99a218526bb105cd8",
+      "actual": "c91eef736fb813eb1078fbd8c2dc0a815896f353544bbcc99a218526bb105cd8",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "test_results/phase12_design/decisions.md",
+      "expected": "ad6bf4dc58d1b1b5c996e040ca405c336935e6526fe6d986c89250dea54aad83",
+      "actual": "ad6bf4dc58d1b1b5c996e040ca405c336935e6526fe6d986c89250dea54aad83",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "test_results/phase12_design/design.md",
+      "expected": "fe57e4a8ae8c3af541d545319946494c499e06c92cfec572610154aa95f0a880",
+      "actual": "fe57e4a8ae8c3af541d545319946494c499e06c92cfec572610154aa95f0a880",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "test_results/phase12_design/risks.md",
+      "expected": "931ef124c1707cc555c9877712f6d7a58d58ab7b166e5f5bea3dc8f417c868db",
+      "actual": "931ef124c1707cc555c9877712f6d7a58d58ab7b166e5f5bea3dc8f417c868db",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "test_results/phase12_design/source_inventory.json",
+      "expected": "3a8ebc323b6171537135b380a3bac2fe0e109acc034c18c8d391146c9778bdef",
+      "actual": "3a8ebc323b6171537135b380a3bac2fe0e109acc034c18c8d391146c9778bdef",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "tests_kernel/Cargo.toml",
+      "expected": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+      "actual": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "tests_kernel/src/lib.rs",
+      "expected": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189",
+      "actual": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed",
+      "disposition": "EXACT_AUTHORIZED_SIX_LINE_HOST_WIRING; historical pin preserved, current freeze binds current bytes"
+    }
+  ],
+  "inventory_count": 30,
+  "inventory_pins": [
+    {
+      "path": "README.md",
+      "expected": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+      "actual": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "expected": "b9b28d1c1c869a61dcb3d0eb649a54445aa1a6384c9a4f11aead3040428359dd",
+      "actual": "b9b28d1c1c869a61dcb3d0eb649a54445aa1a6384c9a4f11aead3040428359dd",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "docs/PHASE11_HANDOVER.md",
+      "expected": "763844f918d8ae128a987536d6648f3b2abd6ca8d8722dc9e149af067e09af1e",
+      "actual": "763844f918d8ae128a987536d6648f3b2abd6ca8d8722dc9e149af067e09af1e",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "docs/PHASE11_MEMORY_AUTHORITY.md",
+      "expected": "50fcb78fc0317613a7927ff64727560157dad58b32e78b7a4ed39863c6bcac77",
+      "actual": "50fcb78fc0317613a7927ff64727560157dad58b32e78b7a4ed39863c6bcac77",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "docs/PHASE11_DESIGN.md",
+      "expected": "49c32c17f934f0f77ee24525a7a9390c6ac43f667ce0e25c945b1e6688b41810",
+      "actual": "49c32c17f934f0f77ee24525a7a9390c6ac43f667ce0e25c945b1e6688b41810",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+      "expected": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+      "actual": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/main.rs",
+      "expected": "732f92cc854b63e48e3b586cda099164abd42ceb68c5d14000cee360bac1d7ff",
+      "actual": "732f92cc854b63e48e3b586cda099164abd42ceb68c5d14000cee360bac1d7ff",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/boot.s",
+      "expected": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+      "actual": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/timer.rs",
+      "expected": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+      "actual": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/interrupt.rs",
+      "expected": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "actual": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/utils/mutex.rs",
+      "expected": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+      "actual": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/memory/mod.rs",
+      "expected": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+      "actual": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/memory/frame.rs",
+      "expected": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+      "actual": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/memory/retained_owner.rs",
+      "expected": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+      "actual": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/memory/privileged.rs",
+      "expected": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "actual": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/memory/user_arena.rs",
+      "expected": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+      "actual": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/gdt_tss.rs",
+      "expected": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+      "actual": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/exception_abi.rs",
+      "expected": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "actual": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/exception_entry.s",
+      "expected": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "actual": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/f5_cpl3.rs",
+      "expected": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21",
+      "actual": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/f5_runtime.rs",
+      "expected": "fd94be9b68bbaacb9277342213cd82bfb051cfe3a275b8f25cc77938851a4122",
+      "actual": "fd94be9b68bbaacb9277342213cd82bfb051cfe3a275b8f25cc77938851a4122",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/f5_bridge.s",
+      "expected": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5",
+      "actual": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/f5_gdt.rs",
+      "expected": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+      "actual": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "src/cpu.rs",
+      "expected": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+      "actual": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "target.json",
+      "expected": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+      "actual": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "Cargo.toml",
+      "expected": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+      "actual": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+      "disposition": "MATCH"
+    },
+    {
+      "path": ".cargo/config.toml",
+      "expected": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+      "actual": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "tests_kernel/Cargo.toml",
+      "expected": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+      "actual": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+      "disposition": "MATCH"
+    },
+    {
+      "path": "tests_kernel/src/lib.rs",
+      "expected": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189",
+      "actual": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed",
+      "disposition": "EXACT_AUTHORIZED_HOST_WIRING"
+    },
+    {
+      "path": "scripts/phase6_verify.py",
+      "expected": "394dfcfa9e5d40ebb56c614ac2356a4c930fbbd80b418c408f46b30daf388b20",
+      "actual": "394dfcfa9e5d40ebb56c614ac2356a4c930fbbd80b418c408f46b30daf388b20",
+      "disposition": "MATCH"
+    }
+  ],
+  "historical_claim": "Design approval remains design-only; historical exact source pins not overwritten. Only authorized host lib registration differs; no runtime production input changes."
+}

@@ -1,0 +1,22 @@
+{
+  "overall": "PASS",
+  "comparison_authority": "reviews/readiness_audit_01.json checks.canonical_membership.current_snapshot (audited backed-up candidate), plus baseline A/B report",
+  "authority_sha256": "2c0f242facc97c99967d0fb44da9e419ef8ecc3e7969ce6410347a050fa94e71",
+  "canonical_added": [],
+  "canonical_removed": [],
+  "canonical_changed": [
+    "src/p12a_policy.rs",
+    "tests_kernel/src/p12a_policy_tests.rs"
+  ],
+  "runtime_build_inputs_equivalent": "All canonical inputs except two host-only unreferenced policy/test files have exact backed-up audited raw identity. Existing lib wiring unchanged and excluded from production graph. No manifest/target/toolchain/linker/config/features changed.",
+  "compiler_identity_matches_baseline": true,
+  "production_elf_sha256": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4",
+  "symbols_log": "test_results/phase12_p12a/verification_03/production_symbols.log",
+  "symbols_log_sha256": "888d8b301d4bf8f1605df1e6ac9508fc96851d00782d5c839288be9c8d96ab13",
+  "source_before_equals_after": {
+    "input_count": 286,
+    "canonical_count": 236
+  },
+  "classification": "Class T",
+  "hardware_preservation": "SKIPPED_REVIEWED_IDENTICAL_ELF_RULE_NOT_FRESH_PASS"
+}

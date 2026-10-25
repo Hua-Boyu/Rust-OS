@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:\\Users\\iamsv\\AppData\\Local/hermes/hermes-agent/venv/Scripts/python.exe",
+    "-B",
+    "test_results/phase12_p12a/parent_readback_02.py",
+    "test_results/phase12_p12a/manifest_index_02.json"
+  ],
+  "cwd": "C:/Users/iamsv/Documents/Rust-OS",
+  "timeout_seconds": 120,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 2065698816,
+  "log": "test_results/phase12_p12a/verification_03/parent_candidate05.log",
+  "exit_code": 0,
+  "elapsed_seconds": 4.062999999965541,
+  "sha256": "d8e530caa0e37cfdeb79ab58da7857d6596fe271bd23a2d7c2c532992a29411f"
+}

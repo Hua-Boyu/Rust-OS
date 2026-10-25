@@ -1,0 +1,72 @@
+{
+  "status": "READ_ONLY_PLAN_NOT_STAGED_NOT_COMMITTED",
+  "branch": "wip/phase12-p12a-checkpoint",
+  "paths": [
+    {
+      "path": "src/p12a_policy.rs",
+      "raw_sha256": "88354e669f1a23be9c724806449c6ca1ea8569491830765c8939c2ce44ed29cf",
+      "raw_git_blob": "5eda6e6a612924119b80898fecc522250c4ec1f5",
+      "filtered_git_blob": "5eda6e6a612924119b80898fecc522250c4ec1f5",
+      "raw_staging_required": false
+    },
+    {
+      "path": "tests_kernel/src/p12a_policy_tests.rs",
+      "raw_sha256": "167fe3598c6f4cf0ab96091091522e963ef19afe6cf02791b461fb169e7f3dbb",
+      "raw_git_blob": "48b1c19b9074591110c7a034cd762b46fe187227",
+      "filtered_git_blob": "48b1c19b9074591110c7a034cd762b46fe187227",
+      "raw_staging_required": false
+    },
+    {
+      "path": "test_results/phase12_p12a/api_probe_01.rs",
+      "raw_sha256": "f108124d372fecfc5ed6a7942c12ad307eb362f5901d3cd202841a37bb370bce",
+      "raw_git_blob": "7796850143c87e80ea5ed0d25a1e28efeab7b643",
+      "filtered_git_blob": "7796850143c87e80ea5ed0d25a1e28efeab7b643",
+      "raw_staging_required": false
+    },
+    {
+      "path": "test_results/phase12_p12a/integrity_02.py",
+      "raw_sha256": "bd44092e05f7f0aa7d74feb42a26163b6563319715897720dcf945b2a70821d0",
+      "raw_git_blob": "9ec4be656f7f2ac2549e49497f9c22e9c484756b",
+      "filtered_git_blob": "9ec4be656f7f2ac2549e49497f9c22e9c484756b",
+      "raw_staging_required": false
+    },
+    {
+      "path": "test_results/phase12_p12a/test_integrity_02.py",
+      "raw_sha256": "fd373a7a243f23211874b7a2caddae84baeb79a9e17bd80b12d3db974bb5a05d",
+      "raw_git_blob": "36e21dbc4a7634cb927ad00e10e1027219b25084",
+      "filtered_git_blob": "36e21dbc4a7634cb927ad00e10e1027219b25084",
+      "raw_staging_required": false
+    },
+    {
+      "path": "test_results/phase12_p12a/parent_readback_02.py",
+      "raw_sha256": "ee1e92896518db838b33b312329a2b5b0911ff30a7b081297c3749fecba799b6",
+      "raw_git_blob": "7fbb228ba592b908401309186b531fca323f4dc3",
+      "filtered_git_blob": "7fbb228ba592b908401309186b531fca323f4dc3",
+      "raw_staging_required": false
+    },
+    {
+      "path": "test_results/phase12_p12a/run_step_01.py",
+      "raw_sha256": "03d4bc55db1510a8447805beba5b9dda58f3bf3da415775b49705fc20e5e32d8",
+      "raw_git_blob": "f6d678c10ed5cc67a527be892699cfd12269b1d3",
+      "filtered_git_blob": "f6d678c10ed5cc67a527be892699cfd12269b1d3",
+      "raw_staging_required": false
+    },
+    {
+      "path": "test_results/phase12_p12a/verify_02.py",
+      "raw_sha256": "8e668679b0e6439018d58414176b7e9de91d370728f3b48377482e37287536f8",
+      "raw_git_blob": "8d8f2de4681b9d9c723c38b1d3fce5a07a444a9d",
+      "filtered_git_blob": "8d8f2de4681b9d9c723c38b1d3fce5a07a444a9d",
+      "raw_staging_required": false
+    },
+    {
+      "path": "test_results/phase12_p12a/verify_04.py",
+      "raw_sha256": "055f2515b88eef6e3e831663c68f2fca4b5faac2bb26e6c805336cc508a59c9c",
+      "raw_git_blob": "79e058e5fb0362d720e3468de0bfc291991828ae",
+      "filtered_git_blob": "79e058e5fb0362d720e3468de0bfc291991828ae",
+      "raw_staging_required": false
+    }
+  ],
+  "path_count": 9,
+  "policy": "After actual complete independent APPROVE only, stage exact explicit raw bytes via hash-object -w --no-filters + update-index; compare staged raw hashes with reviewed450input manifest and freeze04. No broad add; preserve original8protected. No branch/remote/filter config changes.",
+  "planned_message": "fix(phase12): satisfy P12-A host policy readiness contract"
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "rosti.p12a-current-safety-audit.v1",
+  "created_utc": "2026-10-25T13:02:49.871943+00:00",
+  "status": "PARTIAL_NOT_ACCEPTED",
+  "branch": "wip/phase12-p12a-checkpoint",
+  "head": "c03e13fb67f38b3ea6d968afba020e1c4772a9f9",
+  "remote_head": "c03e13fb67f38b3ea6d968afba020e1c4772a9f9",
+  "remote_lookup_exit": 0,
+  "head_equals_remote": true,
+  "original_branch_head": "d9cebe28eb5139b6b614b7000688857361e2afc4",
+  "original_branch_unchanged": true,
+  "F5_ancestry_exit": 0,
+  "protected_files": [
+    {
+      "path": "README.md",
+      "match": true
+    },
+    {
+      "path": ".gitignore",
+      "match": true
+    },
+    {
+      "path": "src/exception_entry.s",
+      "match": true
+    },
+    {
+      "path": "test_results/phase11f4_user_arena/FINAL_REPORT.md",
+      "match": true
+    },
+    {
+      "path": "d1/f",
+      "match": true
+    },
+    {
+      "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+      "match": true
+    },
+    {
+      "path": "reviews/candidate_review_02.json",
+      "match": true
+    },
+    {
+      "path": "scripts/b13_boot_fixture.py.backup",
+      "match": true
+    }
+  ],
+  "policy_tests_and_shared_wiring_unchanged_since_backup": [
+    {
+      "path": "src/p12a_policy.rs",
+      "match": true
+    },
+    {
+      "path": "tests_kernel/src/p12a_policy_tests.rs",
+      "match": true
+    },
+    {
+      "path": "tests_kernel/src/lib.rs",
+      "match": true
+    }
+  ],
+  "staged_paths": [],
+  "visible_worktree_status": " M .gitignore\n M README.md\n M src/exception_entry.s\n M test_results/phase11f4_user_arena/FINAL_REPORT.md\n M test_results/phase12_p12a/STATE.md\n?? d1/f\n?? docs/ROSTI_INIT_ARCHITECTURE.md\n?? reviews/candidate_review_02.json\n?? scripts/b13_boot_fixture.py.backup\n",
+  "local_task_documentation_not_yet_committed": [
+    "test_results/phase12_p12a/git_backup_receipt_01.json",
+    "test_results/phase12_p12a/git_backup_staging_review_01.json",
+    "test_results/phase12_p12a/prerequisite_readback_02.json",
+    "test_results/phase12_p12a/readiness_status_02.json"
+  ],
+  "new_canonical_run": false,
+  "candidate_approval": false,
+  "P12A_acceptance": false,
+  "P12B_directory_exists": false,
+  "production_P12B_implementation": false
+}

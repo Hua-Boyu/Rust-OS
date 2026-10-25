@@ -1,0 +1,38 @@
+{
+  "schema": "rosti.p12a-backup-staging-review.v1",
+  "scope": "WIP backup only; no milestone acceptance",
+  "backup_commit": "c03e13fb67f38b3ea6d968afba020e1c4772a9f9",
+  "included_paths": 34,
+  "manifested_existing_paths": 33,
+  "additional_path": "test_results/phase12_p12a/git_backup_manifest_01.json",
+  "actual_staged_path_set_equals_manifest_plus_manifest": true,
+  "actual_staged_diff_bytes": 575416,
+  "actual_staged_diff_raw_sha256": "8a34042a4273940480ecc487b23e22c1c1c0fd037d9851836fb9295610150d45",
+  "shared_file": {
+    "path": "tests_kernel/src/lib.rs",
+    "delta": "Exactly six added P12-A module-registration lines; no unrelated hunks",
+    "committed_raw_sha256": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed"
+  },
+  "checks": [
+    {"command": "git diff --cached --name-only", "exit_code": 0},
+    {"command": "git diff --cached --stat", "exit_code": 0, "files": 34, "insertions": 7754},
+    {"command": "git diff --cached", "exit_code": 0, "inspection": "Entire diff captured programmatically; all actual staged text credential-scanned. Source/tests/shared hunk manually read; task evidence schema/provenance and authority inspected."},
+    {"command": "git diff --cached --check", "exit_code": 2, "cause": "Raw CRLF preserved in three files; not source normalization permission"},
+    {"command": "git diff --cached --check -- <exact ordinary staged paths>", "exit_code": 0},
+    {"command": "git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --cached --check -- src/p12a_policy.rs test_results/phase12_p12a/reviews/readiness_audit_01.json test_results/phase12_p12a/STATE.md", "exit_code": 0}
+  ],
+  "persistent_git_configuration_changed": false,
+  "working_file_bytes_normalized": false,
+  "security": {
+    "actual_staged_credential_pattern_matches": 0,
+    "pending_history_credential_pattern_matches": 0,
+    "pending_history_range": "origin/maintenance/phase10..d9cebe28eb5139b6b614b7000688857361e2afc4",
+    "pending_history_patch_bytes": 208862733,
+    "patterns": ["private-key blocks", "GitHub credential formats", "AWS access-key identifiers", "sk-prefixed keys", "credential-bearing HTTP URLs", "quoted literal password/API-key/client-secret/access-token assignments"],
+    "limitation": "Bounded textual scan and scoped review, not a mathematical proof of absence of all possible secrets",
+    "credentials_printed": false
+  },
+  "pre_backup_development_or_expensive_verification": false,
+  "backup_push_exit_code": 0,
+  "backup_remote_sha_readback": "c03e13fb67f38b3ea6d968afba020e1c4772a9f9"
+}

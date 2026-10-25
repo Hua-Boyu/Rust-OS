@@ -1,0 +1,16 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "test_results/phase12_p12a/test_integrity_02.py"
+  ],
+  "cwd": "C:/Users/iamsv/Documents/Rust-OS",
+  "timeout_seconds": 120,
+  "environment": {},
+  "busy_before": [],
+  "available_bytes": 1194504192,
+  "log": "test_results/phase12_p12a/verification_02/integrity_controls.log",
+  "exit_code": 1,
+  "elapsed_seconds": 6.48499999998603,
+  "sha256": "4ab07c4a86753b6c453ead59df8d291043ff724e3cb8ec87ecb0a56f05d95b18"
+}

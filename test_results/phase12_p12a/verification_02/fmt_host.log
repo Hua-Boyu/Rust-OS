@@ -1,0 +1,16 @@
+Diff in \\?\C:\Users\iamsv\Documents\Rust-OS\tests_kernel\src\p12a_policy_tests.rs:385:
+         Context::Idle => assert_eq!(running_count, 0),
+         Context::Worker(id) => {
+             assert_eq!(running_count, 1);
+[31m-            assert!(s
+[0m[31m-                .slots
+[0m[31m-                .iter()
+[0m[31m-                .any(|slot| slot.id == id && slot.state == State::Running));
+[0m[32m+            assert!(
+[0m[32m+                s.slots
+[0m[32m+                    .iter()
+[0m[32m+                    .any(|slot| slot.id == id && slot.state == State::Running)
+[0m[32m+            );
+[0m         }
+     }
+     // occupied slots have distinct non-zero ids; Unused slots have id 0

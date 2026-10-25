@@ -1,0 +1,18 @@
+{
+  "ORIGINAL_LOGICAL_RED_STATUS": "UNVERIFIABLE_HISTORICAL exact executed scaffold/test raw source; genuine runtime assertion failure log authenticated",
+  "ORIGINAL_RED_EVIDENCE_PATH": "test_results/phase12_p12a/original_red_02.log",
+  "ORIGINAL_RED_EVIDENCE_SHA256": "9f375cf1500b1f6cc442740df98dd110e985525e467843787c142b3ab5b104dd",
+  "executed": 24,
+  "passed": 3,
+  "failed": 21,
+  "historical_cargo_exit": 101,
+  "exit_provenance": "Secondary authenticated readiness/budget audit command; current log corroborates runtime failures. Not a fresh run.",
+  "source_identity": "UNVERIFIABLE_HISTORICAL",
+  "post_RED_changes": [
+    "Unknown completion oracle InvalidTransition -> UnknownId",
+    "Four inhibition assertions removed from replay"
+  ],
+  "not_claimed": "No unchanged-tests test-first history. Compiler failures are not logical RED; fresh regression does not retroactively establish original RED source.",
+  "budget_audit_path": "test_results/phase12_p12a/reviews/budget_reconstruction_01.json",
+  "budget_audit_sha256": "15dc826eb5438e2396e554db421a0904dcf05937780f69141dcd13199b48b783"
+}

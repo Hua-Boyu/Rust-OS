@@ -1,0 +1,58 @@
+{
+  "status": "READY_FOR_INDEPENDENT_CANDIDATE_REVIEW_NOT_APPROVAL",
+  "supersedes": "preflight01 live final docs replaced with immutable candidate versions before any final verdict; no frozen source change",
+  "input_manifest_path": "test_results/phase12_p12a/candidate_review_inputs_02.json",
+  "input_manifest_sha256": "16a261707eea465898cb1e8c9b41cbebf29eee8a3a931944b59677ec10110e1a",
+  "pin_count": 450,
+  "required_documents": [
+    {
+      "path": "test_results/phase12_p12a/p12a_contract.md",
+      "sha256": "614cdce234e403d10ce9bbf473c01fbe311b0013d53ae829d182c4a7f521b55b"
+    },
+    {
+      "path": "test_results/phase12_p12a/reviews/design_review_01.json",
+      "sha256": "5cbdc5401e80d0c883f12a69398f0a69ac9d9a7bb2f0dfbae6975d45686156f8"
+    },
+    {
+      "path": "test_results/phase12_p12a/remediation_plan_01.json",
+      "sha256": "65aad38eb884d7acc97eb16b8fcc842f8f8570806a713b90215b173b9df8b59b"
+    },
+    {
+      "path": "test_results/phase12_p12a/reviews/budget_reconstruction_01.json",
+      "sha256": "15dc826eb5438e2396e554db421a0904dcf05937780f69141dcd13199b48b783"
+    },
+    {
+      "path": "test_results/phase12_p12a/red_provenance_01.json",
+      "sha256": "a3a46b93b679fe3053cb186fe4eaf257f3f4703daa8b7b91ffe9d11d540039ed"
+    },
+    {
+      "path": "test_results/phase12_p12a/source_freeze_04.json",
+      "sha256": "f0c6512823701fd4210036a2f7c26cbb874ee7dc9a65682b7b34c203950f52b3"
+    },
+    {
+      "path": "test_results/phase12_p12a/verification_03/verification_report04.json",
+      "sha256": "a3b83ff17e8f9ca9524ede5fdc354cea75388db15ee139d82b418d14d506d4f2"
+    },
+    {
+      "path": "test_results/phase12_p12a/verification_03/parent_candidate05.json",
+      "sha256": "732b90c5cfb2f7156f410c85c6ae69bb5f6d4f85aee8484fd91d571340ac4d25"
+    },
+    {
+      "path": "test_results/phase12_p12a/mock_gate_decision_01.json",
+      "sha256": "87e471a43337d05b11b537bb63598e42dea7d1c063eaf731ecd77406bc8e9cb4"
+    },
+    {
+      "path": "test_results/phase12_p12a/evidence_manifest_candidate_01.json",
+      "sha256": "980be2347799d26d412e96f37c71ff7d0da6bf4a1b889d65a933be988b769834"
+    }
+  ],
+  "parent_actual_exit": 0,
+  "source_readback": {
+    "input_count": 298,
+    "canonical_count": 236
+  },
+  "budget": "UNKNOWN",
+  "RED_provenance": "UNVERIFIABLE_HISTORICAL_executed_source",
+  "new_packages_used": 1,
+  "mock": "actual95/exit0/887.375s; canonical raw input equality verified by verify04"
+}

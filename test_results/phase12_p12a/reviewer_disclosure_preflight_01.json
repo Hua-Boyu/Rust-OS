@@ -1,0 +1,19 @@
+{
+  "HISTORICAL_CORRECTION_CYCLES_USED": "UNKNOWN",
+  "HISTORICAL_ATTEMPTS_BY_DEFECT": "UNKNOWN",
+  "HISTORICAL_BUDGET_STATUS": "UNRESOLVED_ORIGINAL_HISTORY; current user separately authorizes one additional bounded package, not a reset",
+  "BUDGET_AUDIT_PATH": "test_results/phase12_p12a/reviews/budget_reconstruction_01.json",
+  "BUDGET_AUDIT_SHA256": "15dc826eb5438e2396e554db421a0904dcf05937780f69141dcd13199b48b783",
+  "NEW_REMEDIATION_AUTHORIZATION": "User continuation02 sections1,3,9; one package minimal source/tests/readback fixes; no semantics/runtime expansion",
+  "NEW_REMEDIATION_PACKAGES_USED": 1,
+  "NEW_REMEDIATION_PACKAGES_MAX": 1,
+  "ORIGINAL_LOGICAL_RED_STATUS": "UNVERIFIABLE_HISTORICAL raw executed scaffold/test identities; authenticated runtime failure log exists; post-RED edits disclosed",
+  "ORIGINAL_RED_EVIDENCE_PATH": "test_results/phase12_p12a/original_red_02.log",
+  "ORIGINAL_RED_EVIDENCE_SHA256": "9f375cf1500b1f6cc442740df98dd110e985525e467843787c142b3ab5b104dd",
+  "CURRENT_CORRECTNESS_TEST_EVIDENCE": [
+    "verification_02/focused_pre.json",
+    "verification_02/api_green_pre.json"
+  ],
+  "reviewer_required_text": "Verify historical budget UNKNOWN disclosure and original logical RED provenance disclosure. Do not issue APPROVE if either is missing, misrepresented, or omitted from the reviewed scope.",
+  "preflight_status": "NOT_READY_FOR_DISPATCH until complete freeze, fresh report, parent readback, mock result and manifest exist and agree"
+}

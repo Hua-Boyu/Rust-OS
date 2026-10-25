@@ -1,0 +1,7 @@
+{
+  "manifest_path": "test_results/phase12_p12a/evidence_manifest.json",
+  "manifest_sha256": "495169c9fa8e23b6433b78870e196acf8a72a06e29906adbeb31efc76e84ed15",
+  "method": "external_raw_sha256_no_circular_manifest_self_hash",
+  "candidate_review_raw_sha256": "d1f561f03079af1cbc2b7f14371d78cc372eae4a5368ee6f50abf2396296fa06",
+  "postcommit_receipt": "test_results/phase12_p12a/closeout_commit_receipt_01.json"
+}
