@@ -1,3 +1,39 @@
+# Current — Phase11 F5 ACCEPTED; canonical76 + independent approvals + scoped commits verified
+
+PHASE: 11/F5
+STATUS: ACCEPTED — actual canonical exit0/PASS76; complete independent candidate/final APPROVE0; source and reports/evidence local commits verified. Phase12 design-only authorized, not production.
+BRANCH: maintenance/phase10
+HEAD: 234114459d77b9cb70ea919e8ef9456a84c0a559 (at accepted-marker authoring); source_commit 14f40f194c574610cdceef41e972ff814f9e815a; final closeout HEAD recorded postcommit in closeout_commit_receipt_10.json to avoid self-reference.
+WORKTREE:55 source blobs and328 changed evidence/report/handover paths committed; all329evidence candidates raw-verified. Only final accepted-marker metadata now changing; protected7 paths unchanged; F2 presentation M is byte-identical to HEAD/accepted.
+SOURCE_FREEZE: test_results/f5p01/full_source_freeze_10.json raw56d4e87dc235c52218e80d6a4f0c9d0380cf10d8f98e271d3b3f83c90917bb25,262 raw pins; canonical/current source234. All rechecked after source commit.
+F1_CLEANUP_RED: preserved f1_cleanup_10_red.log and historical actual-reader v09 refusal. Original REJECT01 raw61249755be254e804be5192bcb1bb535026602fd691ccf5aa60a5288392cd0e6 untouched.
+F1_CLEANUP_GREEN:15/15 dedicated negative/workflow controls; composition10real cases PASS. No caller path adoption, exact current-process PID/device/inode creator tracking, canonical containment, no reparse traversal, actual post-delete absence.
+F1_READER: unchanged raw71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c accepts fresh v10 and canonical aggregates. Canonical stage5817wu15 actually absent, stage_removed true.
+HISTORICAL_STAGE_INVENTORY:19 original stages unchanged by lstat device/inode/no-reparse; logical size NOT_MEASURED; no historical deletion.
+HOST:394 exact listed; serial+parallel392PASS,0FAIL,2 exact inherited ignored; F5exact14PASS,0ignored. v10/host/report.json.
+B26:149 exact serial+parallel/list PASS,0FAIL,0ignored.
+F1_F2_F3_F4:10/8/18/12 PASS in fresh component and canonical streams; real parent readers PASS.
+F5_MATRIX:12/12 A-Fx128/512MiB PASS;12 unique actual exited QEMU PIDs and raw frames/CPU/kernel oracles, no duplicate cases.
+MOCK_GATE:95real tests,0skips; actual v10 unittest=810.776s (driver wall=811.0779999999795s), canonical unittest=818.243s; only mock-gate timeout1049s, no pin_tree bypass/caching.
+PREDECESSOR_72: adapted r03 exact72/72 and first48 inherited; driver exit0, actual parent step elapsed3720.4220000000205seconds, original F4 canonical raw3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4 authenticated.
+EMITTED_CLOSURE: exact981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4 ELF, both aliases/full call-tail closure; F2rawa43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60; conditional104+115=219<512, NOT runtime high-water; F3 separate conditional2578 proof unchanged.
+ARTIFACT_READBACK: parent real F1-F5 readers and all68013 returned pins rehashed; independent68882 component +73361 canonical tree files; exact Rock Ridge ISO kernel payload extracted/equal. Canonical ISO5a671de6494ee541dcbfda9bf57adcd4754c45b395d01c7b7d8767bcf82de6fb. F4 accepted and previous ISO preserved, no ISO staged.
+CANDIDATE_REVIEW:02 APPROVE/zero blockers/complete raw1c3005b47e2cf455159bd44aedd2172822aef89fa7f41e894ac552dc313da420; independent document-only disposition APPROVE0. Original REJECT01 unchanged.
+CANONICAL_ACCEPTANCE: actual managed proc_3baf9028ef08 exit0 reasonexited; explicit PASS76/76; exact72+4 multiset; acceptance raw21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074 at test_results/f5acc/r01/acceptance_20261025T060216Z_7g_gea5o/acceptance.json. No retry/relaunch or lock unlink.
+FINAL_READBACK: deleg_caed22f8/sa-0-9085c492 APPROVE/zero blockers/complete all20, raw543db6fabab5eff983bf3711db56c0cb20d894cc50bb92bb2616f2a401e5ebe0; parent exact-target and source/input pin rechecks PASS. Diagnostic transport/authoring failures retained, no source fix required.
+RESOURCE_STATUS: canonical actual admission2101440512available bytes and actual success preserved. Later severe665792512available; safe owned GC then705536000 available/parentRSS127856640. Only sequential bounded metadata/Git work, no new heavy runner; unknown/foreign/infra tasks untouched.
+ACTIVE_OWNED_PROCESS: no active Cargo/rustc/link/QEMU; canonical and independent reviewer completed. Native ownership observations bounded, not proof of no unknown writers.
+CURRENT_BLOCKER: NONE for F5. Phase12 production implementation/scheduling/syscalls/recovery remain unauthorized.
+NEXT_COMMAND: Commit/read back this metadata-only accepted marker, create exact final HEAD receipt, then begin Phase12 design-only roadmap/source discovery and independent proposal review. No kernel/source/harness edit or rerun is required.
+NEXT_COMMAND_CWD: C:/Users/iamsv/Documents/Rust-OS
+
+Budget: substantive post-design correction cycle1/2. No Phase12 implementation, push/merge/rebase/reset/history rewrite/deployment/real-hardware/Proxmox mutation. Historical checkpoints below remain time-scoped; full reports FINAL_REPORT.md and original prerequisite snapshot preserved.
+
+Authoring erratum: three uncommitted current-checkpoint hash transcriptions were corrected from actual artifacts before evidence staging. Exact prior text is preserved as STATE_authoring_transcription_snapshot_10.md and closeout_parent_authoring_diagnostics_10.json; it is NOT proof authority. No source, validator, canonical evidence or immutable reviewed input changed.
+
+
+## Preserved pre-acceptance reports/evidence commit checkpoint
+
 # Current — finalization10 canonical PASS76 and final APPROVE20; reports/evidence commit pending
 
 PHASE: 11/F5

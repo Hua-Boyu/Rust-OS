@@ -1,7 +1,9 @@
-## Current — Phase11 F5 canonical PASS76 + final APPROVE; local closeout pending
+## Current — Phase11 F5 ACCEPTED — canonical76, independent approvals, scoped local commits
 
-F5 remains PARTIAL until reports/evidence commit verification; source commit
-`14f40f194c574610cdceef41e972ff814f9e815a` is verified (55 exact raw blobs).
+F5 ACCEPTED: source commit `14f40f194c574610cdceef41e972ff814f9e815a` (55exact raw blobs)
+and reports/evidence commit `234114459d77b9cb70ea919e8ef9456a84c0a559` (328changed paths,
+329raw candidates) exited0 and are independently read back. Exact final closeout
+HEAD is in task-local closeout_commit_receipt_10.json (postcommit, no self-reference).
 Candidate02 APPROVE/0/complete; independent final01 APPROVE/0/all20areas
 raw `543db6fabab5eff983bf3711db56c0cb20d894cc50bb92bb2616f2a401e5ebe0`.
 Canonical actual exit0, exact72 inherited +4 F5 identities; acceptance
@@ -17,8 +19,9 @@ No NX/W^X/general hostile-user isolation, resumable tasks, scheduler/syscalls,
 teardown/recovery, deployment or real-hardware claim. F3 emergency-stack bound
 remains conditional; F5 conservative219<=512 is static, not runtime high-water.
 Historical F1 final-readback gap and original REJECTs remain disclosed.
-Phase12 design-only authority activates only after final independent approval,
-complete reports and scoped local commits; no production implementation.
+Phase12 DESIGN ONLY authority is active after final accepted-marker readback;
+see test_results/phase12_design for subsequent design status. No production
+implementation, scheduler/syscalls/recovery/deployment/hardware/Proxmox changes.
 
 ## Preserved prior checkpoint
 

@@ -1,5 +1,12 @@
 # F5 decisions
 
+## D12 — F5 ACCEPTED after real source + evidence commit verification; Phase12 design-only boundary
+
+Source `14f40f194c574610cdceef41e972ff814f9e815a` actual0/55raw blobs and reports/evidence `234114459d77b9cb70ea919e8ef9456a84c0a559` actual0/328changed+329explicit raw candidates are read back; frozen262/current234, canonical76exit0/PASS, complete independent candidate02 and final01 APPROVE0/all20, strict F1 cleanup composition and protected bytes remain exact. Therefore F5 ACCEPTED is now truthful. Final marker is metadata only; exact final HEAD is a postcommit receipt, never a self-referential report hash. No new source or design assumption, no rerun/caching/timeout change. D11 pending text below is historical.
+
+Only after marker commit readback begin actual Phase12 design discovery/proposal under test_results/phase12_design. Confirm its scope from the roadmap; do not infer resumable user tasks from terminal F5. No production implementation is authorized. Original source/review/proof artifacts remain immutable.
+
+
 ## D11 — canonical actual PASS76 + comprehensive final APPROVE; source committed, reports commit pending
 
 The one authorized correction cycle is complete: strict F1 reader unchanged,15/15 cleanup controls and actual10-case producer→reader GREEN; owned PID/device/inode stage removal verified and all19 historical stages untouched (size NOT_MEASURED). Full new freeze10 has262raw inputs;20real component steps, exact host394/392+2ignored and B26149, F1-F5 matrices10/8/18/12/12,95real mocks and adapted predecessor72/72 including48 all PASS. No source drift. No restarted performance optimization or repeated unchanged prerequisite design review.

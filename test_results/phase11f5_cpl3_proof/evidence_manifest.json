@@ -1,6 +1,6 @@
 {
   "schema": "rosti.f5-final-evidence-manifest.v1",
-  "status": "CANONICAL_PASS76_FINAL_INDEPENDENT_APPROVE_COMPLETE20__REPORTS_COMMIT_PENDING",
+  "status": "ACCEPTED",
   "source_freeze": {
     "path": "test_results/f5p01/full_source_freeze_10.json",
     "sha256": "56d4e87dc235c52218e80d6a4f0c9d0380cf10d8f98e271d3b3f83c90917bb25",
@@ -44,14 +44,14 @@
     },
     {
       "path": "HANDOVER.md",
-      "sha256": "e91ba9a6adae775a1fa9c3a46b11580919845b6de21d015b8bd3ea9f0587727d",
+      "sha256": "6edaa51e4c088eb719ad707acc65e7079eda2937a2d45d154b1af225b823f1f0",
       "role": "current project handover",
       "status": "current",
       "source_binding": "full_source_freeze_10.json / canonical234 input map"
     },
     {
       "path": "NEXT_SESSION_PROMPT.md",
-      "sha256": "e09d4885344f01b08baf3533bbc2936cf3c8dda0c1a0540f652b969254db0e52",
+      "sha256": "10874aaf973210f131d3e59cbf600083adb5949af35e2b46f2e4766f37758bf7",
       "role": "current project handover",
       "status": "current",
       "source_binding": "full_source_freeze_10.json / canonical234 input map"
@@ -191,14 +191,14 @@
     },
     {
       "path": "docs/PHASE11_HANDOVER.md",
-      "sha256": "d45b87695424725477a2caf46c3fb403557ba5e9bd0be204bc427405947f564f",
+      "sha256": "763844f918d8ae128a987536d6648f3b2abd6ca8d8722dc9e149af067e09af1e",
       "role": "current project handover",
       "status": "current",
       "source_binding": "full_source_freeze_10.json / canonical234 input map"
     },
     {
       "path": "docs/PHASE11_MEMORY_AUTHORITY.md",
-      "sha256": "499fea58bc2a92e98859531ed371bbaff572fc056caa94564091101ee6ccb647",
+      "sha256": "50fcb78fc0317613a7927ff64727560157dad58b32e78b7a4ed39863c6bcac77",
       "role": "current project handover",
       "status": "current",
       "source_binding": "full_source_freeze_10.json / canonical234 input map"
@@ -2305,7 +2305,7 @@
     },
     {
       "path": "test_results/phase11f5_cpl3_proof/FINAL_REPORT.md",
-      "sha256": "5be0c05dbe4889ea1bc4df1ce772015c0877b44d280621245d51ba0493d5ca16",
+      "sha256": "7c0d6ffff9e42d1b11199f6be1cd4a30cf01dfd02f7cdd9844fadd4d468a48d8",
       "role": "explicitly scoped F5 retained report/log/provenance; large binary evidence indexed locally",
       "status": "historical_immutable_evidence",
       "source_binding": "historical_self_bound; not transferred to current candidate"
@@ -2319,7 +2319,7 @@
     },
     {
       "path": "test_results/phase11f5_cpl3_proof/STATE.md",
-      "sha256": "d7819889a8fcb6b7c9183d104b9e4088df621762ed65f3d06ae09336058a3838",
+      "sha256": "f7ff2c6123ce8a1cf534faff3fdadf3c67d697603ca88157fb853b0ff824824c",
       "role": "explicitly scoped F5 retained report/log/provenance; large binary evidence indexed locally",
       "status": "historical_immutable_evidence",
       "source_binding": "historical_self_bound; not transferred to current candidate"
@@ -2648,7 +2648,7 @@
     },
     {
       "path": "test_results/phase11f5_cpl3_proof/decisions.md",
-      "sha256": "0cc0b2ef61cfcc6fdb469b8f833c253367f57bfd2a687f5d45d7ce8b1c5e5f63",
+      "sha256": "f3ac0f9a17ca06deed939622255b14b61e333e07e0b52e030caafc80fefe1e33",
       "role": "explicitly scoped F5 retained report/log/provenance; large binary evidence indexed locally",
       "status": "historical_immutable_evidence",
       "source_binding": "historical_self_bound; not transferred to current candidate"
@@ -2778,6 +2778,13 @@
       "role": "explicitly scoped F5 retained report/log/provenance; large binary evidence indexed locally",
       "status": "immutable_prior_context_or_planning_snapshot_not_current_acceptance",
       "source_binding": "56d4e87dc235c52218e80d6a4f0c9d0380cf10d8f98e271d3b3f83c90917bb25"
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/evidence_commit_receipt_10.json",
+      "sha256": "dc96bdcbc42bff00c49f120ae6562c4bc4243df216e8e2d2d2b67facac593abe",
+      "role": "actual second mandatory local commit raw blob/membership readback; prior pending-tenses manifest preserved at reports_evidence_commit Git object",
+      "status": "current_verified_local_commit_receipt",
+      "source_binding": "14f40f194c574610cdceef41e972ff814f9e815a / 234114459d77b9cb70ea919e8ef9456a84c0a559 / full_source_freeze_10.json"
     },
     {
       "path": "test_results/phase11f5_cpl3_proof/evidence_manifest_prior_04.json",
@@ -3942,7 +3949,7 @@
       "source_binding": "full_source_freeze_10.json / canonical234 input map"
     }
   ],
-  "artifact_count": 561,
+  "artifact_count": 562,
   "nested_artifact_indexes": [
     {
       "path": "test_results/f5acc/r01/acceptance_20261025T060216Z_7g_gea5o/acceptance.json",
@@ -3979,7 +3986,7 @@
     "status": "historical_raw_preserved"
   },
   "self_hash": "deliberately excluded; postcommit receipt binds final manifest and exact final HEAD without a self-referential hash",
-  "phase12": "NOT_STARTED_UNTIL_F5_CLOSEOUT_COMMITS_VERIFIED",
+  "phase12": "DESIGN_ONLY_AUTHORIZED_AFTER_ACCEPTED_MARKER_COMMIT_READBACK; no production implementation",
   "source_commit": "14f40f194c574610cdceef41e972ff814f9e815a",
   "actual_source_commit_exit": 0,
   "source_committed_raw_identity_verified": true,
@@ -4010,5 +4017,17 @@
       "rows": 10
     }
   },
-  "postcommit_receipt_excluded_to_avoid_self_reference": "test_results/phase11f5_cpl3_proof/closeout_commit_receipt_10.json"
+  "postcommit_receipt_excluded_to_avoid_self_reference": "test_results/phase11f5_cpl3_proof/closeout_commit_receipt_10.json",
+  "reports_evidence_commit": "234114459d77b9cb70ea919e8ef9456a84c0a559",
+  "mandatory_local_commit_readbacks": {
+    "source_commit": "14f40f194c574610cdceef41e972ff814f9e815a",
+    "source_exit": 0,
+    "source_raw_blobs": 55,
+    "reports_evidence_commit": "234114459d77b9cb70ea919e8ef9456a84c0a559",
+    "reports_exit": 0,
+    "reports_changed_paths": 328,
+    "reports_explicit_raw_candidates": 329,
+    "all_raw_blobs_verified": true,
+    "prior_manifest_sha_at_reports_commit": "d5cfc11119e0b6b68fdde6577878c8b09e591649fcc80282751c05895d98464e"
+  }
 }
