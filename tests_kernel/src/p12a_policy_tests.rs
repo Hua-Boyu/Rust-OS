@@ -34,7 +34,26 @@ fn retired(id: u8) -> Slot {
 
 #[test]
 fn empty_policy_selects_idle() {
-    let mut p = fresh();
+    fn eq_bound<T: Eq>() {}
+    eq_bound::<State>();
+    eq_bound::<Context>();
+    eq_bound::<TaskKind>();
+    eq_bound::<Error>();
+    eq_bound::<Slot>();
+    eq_bound::<Snapshot>();
+    const INITIAL: Policy = Policy::new();
+    let mut p = INITIAL;
+    assert_eq!(
+        p.snapshot(),
+        Snapshot {
+            slots: [unused(), unused()],
+            queue: [0, 0],
+            queue_len: 0,
+            current: Context::Idle,
+            inhibit_depth: 0,
+            pending: false,
+        }
+    );
     assert_eq!(p.request_reschedule(), Context::Idle);
     let s = p.snapshot();
     assert_eq!(s.current, Context::Idle);
@@ -366,7 +385,11 @@ fn assert_invariants(s: Snapshot) {
         Context::Idle => assert_eq!(running_count, 0),
         Context::Worker(id) => {
             assert_eq!(running_count, 1);
-            assert!(s.slots.iter().any(|slot| slot.id == id && slot.state == State::Running));
+            assert!(
+                s.slots
+                    .iter()
+                    .any(|slot| slot.id == id && slot.state == State::Running)
+            );
         }
     }
     // occupied slots have distinct non-zero ids; Unused slots have id 0
@@ -378,6 +401,20 @@ fn assert_invariants(s: Snapshot) {
             assert!(slot.id >= 1 && slot.id <= 254);
             assert!(!ids[slot.id as usize], "duplicate slot id");
             ids[slot.id as usize] = true;
+        }
+    }
+    // Every Ready slot is queued exactly once; no other occupied slot is queued.
+    for slot in &s.slots {
+        if slot.state == State::Ready {
+            assert_eq!(
+                s.queue[..s.queue_len as usize]
+                    .iter()
+                    .filter(|&&id| id == slot.id)
+                    .count(),
+                1
+            );
+        } else if slot.state != State::Unused {
+            assert!(!seen[slot.id as usize]);
         }
     }
     // Retired slots are not Ready/Running and not queued
@@ -415,11 +452,7 @@ fn exhaustive_short_traces_preserve_invariants() {
                         let after = p.snapshot();
                         assert_invariants(after);
                         if r.is_err() {
-                            assert_eq!(
-                                before, after,
-                                "error op {:?} mutated the snapshot",
-                                op
-                            );
+                            assert_eq!(before, after, "error op {:?} mutated the snapshot", op);
                         }
                     }
                 }
@@ -430,23 +463,50 @@ fn exhaustive_short_traces_preserve_invariants() {
 
 #[test]
 fn deterministic_replay_and_no_starvation() {
-    fn replay() -> Snapshot {
-        let mut p = fresh();
-        assert_eq!(p.admit(3, TaskKind::KernelProbe), Ok(()));
-        assert_eq!(p.admit(4, TaskKind::KernelProbe), Ok(()));
-        assert_eq!(p.request_reschedule(), Context::Worker(3));
-        assert_eq!(p.request_reschedule(), Context::Worker(4));
-        assert_eq!(p.request_reschedule(), Context::Worker(3));
-        assert_eq!(p.admit(9, TaskKind::KernelProbe), Err(Error::Capacity));
-        assert_eq!(p.complete(3), Ok(Context::Worker(4)));
-        p.snapshot()
+    // Compare every operation, not only a final snapshot. Literal selections
+    // independently specify FIFO fairness through a sustained legal trace.
+    let mut a = fresh();
+    let mut b = fresh();
+    for id in [1, 2] {
+        assert_eq!(a.admit(id, TaskKind::KernelProbe), Ok(()));
+        assert_eq!(b.admit(id, TaskKind::KernelProbe), Ok(()));
+        assert_eq!(a.snapshot(), b.snapshot());
+        assert_invariants(a.snapshot());
     }
-    let a = replay();
-    let b = replay();
-    assert_eq!(a, b);
-    assert_eq!(a.current, Context::Worker(4));
-    assert_eq!(a.slots[0], retired(3));
-    assert!(a.slots.iter().any(|slot| slot.id == 4 && slot.state == State::Running));
-    assert!(!a.pending);
-    assert_eq!(a.inhibit_depth, 0);
+    for turn in 0..128 {
+        let expected = Context::Worker(if turn % 2 == 0 { 1 } else { 2 });
+        assert_eq!(a.request_reschedule(), expected);
+        assert_eq!(b.request_reschedule(), expected);
+        assert_eq!(a.snapshot(), b.snapshot());
+        assert_invariants(a.snapshot());
+    }
+    // Current is Worker(2); inhibited requests coalesce and final leave
+    // performs exactly one ordinary decision, selecting Worker(1).
+    for _ in 0..2 {
+        assert_eq!(a.enter_inhibit(), Ok(()));
+        assert_eq!(b.enter_inhibit(), Ok(()));
+        assert_eq!(a.snapshot(), b.snapshot());
+        assert_invariants(a.snapshot());
+    }
+    for _ in 0..32 {
+        assert_eq!(a.request_reschedule(), Context::Worker(2));
+        assert_eq!(b.request_reschedule(), Context::Worker(2));
+        assert_eq!(a.snapshot(), b.snapshot());
+        assert_invariants(a.snapshot());
+    }
+    for expected in [Context::Worker(2), Context::Worker(1)] {
+        assert_eq!(a.leave_inhibit(), Ok(expected));
+        assert_eq!(b.leave_inhibit(), Ok(expected));
+        assert_eq!(a.snapshot(), b.snapshot());
+        assert_invariants(a.snapshot());
+    }
+    for (id, expected) in [(1, Context::Worker(2)), (2, Context::Idle)] {
+        assert_eq!(a.complete(id), Ok(expected));
+        assert_eq!(b.complete(id), Ok(expected));
+        assert_eq!(a.snapshot(), b.snapshot());
+        assert_invariants(a.snapshot());
+    }
+    assert_eq!(a.snapshot().slots, [retired(1), retired(2)]);
+    assert!(!a.snapshot().pending);
+    assert_eq!(a.snapshot().inhibit_depth, 0);
 }

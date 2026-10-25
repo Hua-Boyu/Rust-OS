@@ -15,7 +15,7 @@
 // This source deliberately has no #![no_std] attribute: the standalone
 // no_std verification wrapper supplies it via #[path] (see contract).
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum State {
     Unused,
     Ready,
@@ -23,20 +23,20 @@ pub enum State {
     Retired,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Context {
     Idle,
     Worker(u8),
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TaskKind {
     KernelProbe,
     Cpl3,
     F5,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Error {
     InvalidId,
     UnknownId,
@@ -50,13 +50,13 @@ pub enum Error {
     InhibitUnderflow,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Slot {
     pub id: u8,
     pub state: State,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Snapshot {
     pub slots: [Slot; 2],
     pub queue: [u8; 2],
@@ -71,12 +71,18 @@ pub struct Policy {
 }
 
 impl Policy {
-    pub fn new() -> Policy {
+    pub const fn new() -> Policy {
         return Policy {
             snap: Snapshot {
                 slots: [
-                    Slot { id: 0, state: State::Unused },
-                    Slot { id: 0, state: State::Unused },
+                    Slot {
+                        id: 0,
+                        state: State::Unused,
+                    },
+                    Slot {
+                        id: 0,
+                        state: State::Unused,
+                    },
                 ],
                 queue: [0, 0],
                 queue_len: 0,
@@ -123,7 +129,10 @@ impl Policy {
         if free == 2 {
             return Err(Error::Capacity);
         }
-        self.snap.slots[free] = Slot { id: id, state: State::Ready };
+        self.snap.slots[free] = Slot {
+            id: id,
+            state: State::Ready,
+        };
         self.snap.queue[self.snap.queue_len as usize] = id;
         self.snap.queue_len = self.snap.queue_len + 1;
         return Ok(());
