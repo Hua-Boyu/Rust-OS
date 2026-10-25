@@ -1,0 +1,853 @@
+F5_CONTRACT_SECTION=serial
+warning: unused import: `crate::println`
+  --> src\..\..\src\multiboot.rs:10:5
+   |
+10 | use crate::println;
+   |     ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::utils::bits::CanManipulateBits`
+  --> src\..\..\src\memory\paging.rs:25:5
+   |
+25 | use crate::utils::bits::CanManipulateBits;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1036:41
+     |
+1036 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+     = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1049:41
+     |
+1049 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:72:28
+   |
+72 | pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:85:28
+   |
+85 | pub unsafe fn lockfree_inw(port_in: u16) -> u16 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:110:29
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:110:44
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:119:29
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:119:44
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: variable does not need to be mutable
+   --> src\..\..\src\memory\retained_owner_policy_tests.rs:157:18
+    |
+157 |     let (mut fa, mut pm) = fixture();
+    |                  ----^^
+    |                  |
+    |                  help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `frame`
+   --> src\..\..\src\allocator.rs:272:33
+    |
+272 |                     if let Some(frame) = crate::memory::heap_grow_frame(slot) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_frame`
+
+warning: unused variable: `t0`
+   --> src\lib.rs:270:18
+    |
+270 |     let (b0, l0, t0) = (e0.base_addr, e0.length, e0.type_);
+    |                  ^^ help: if this is intentional, prefix it with an underscore: `_t0`
+
+warning: function `ownership_locks_held` is never used
+  --> src\..\..\src\memory\mod.rs:19:15
+   |
+19 | pub(crate) fn ownership_locks_held() -> bool {
+   |               ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `pinned_identity_span` is never used
+   --> src\..\..\src\memory\mod.rs:308:15
+    |
+308 | pub(crate) fn pinned_identity_span(start: u64, end: u64) -> bool {
+    |               ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `replace_growth_with_test_conflict` is never used
+   --> src\..\..\src\memory\mod.rs:351:15
+    |
+351 | pub(crate) fn replace_growth_with_test_conflict(slot: usize) -> Option<u64> {
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: static `KERNEL_START` is never used
+  --> src\..\..\src\memory\frame.rs:72:8
+   |
+72 | static KERNEL_START: u32 = 0;
+   |        ^^^^^^^^^^^^
+
+warning: static `KERNEL_END` is never used
+  --> src\..\..\src\memory\frame.rs:74:8
+   |
+74 | static KERNEL_END: u32 = 0;
+   |        ^^^^^^^^^^
+
+warning: function `owner_locked` is never used
+  --> src\..\..\src\memory\retained_owner.rs:73:26
+   |
+73 | pub(in crate::memory) fn owner_locked() -> bool {
+   |                          ^^^^^^^^^^^^
+
+warning: constant `EARLY_GDT_BYTES` is never used
+   --> src\..\..\src\gdt.rs:159:18
+    |
+159 | pub(crate) const EARLY_GDT_BYTES: usize = core::mem::size_of::<EarlyGdt>();
+    |                  ^^^^^^^^^^^^^^^
+
+warning: feature `abi_x86_interrupt` is declared but not used
+ --> src\lib.rs:7:12
+  |
+7 | #![feature(abi_x86_interrupt)]
+  |            ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_features)]` (part of `#[warn(unused)]`) on by default
+
+warning: `tests_kernel` (lib test) generated 21 warnings (run `cargo fix --lib -p tests_kernel --tests` to apply 11 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src\lib.rs (Documents\Rust-OS\tests_kernel\target\x86_64-pc-windows-msvc\debug\build\tests_kernel/9e3f0cf5b2de34e1\out\tests_kernel-9e3f0cf5b2de34e1.exe)
+
+running 14 tests
+test f5_cpl3_tests::descriptor_extension_preserves_tss_slots ... ok
+test f5_cpl3_tests::exact_exception_oracles ... ok
+test f5_cpl3_tests::fixed_payload_fits_owned_page ... ok
+test f5_cpl3_tests::iret_flags_and_stack_contract ... ok
+test f5_cpl3_tests::mandatory_prefix_and_conditional_tail ... ok
+test f5_cpl3_tests::payload_bytes_and_fault_offsets ... ok
+test f5_cpl3_tests::supervisor_presence_is_not_assumed ... ok
+test f5_cpl3_tests::terminal_latch_refuses_resume ... ok
+test f5_cpl3_tests::user_selectors_have_dpl3_rpl3 ... ok
+test f5_cpl3_tests::wrong_origin_or_reserved_error_bits_fail ... ok
+test memory::paging::f5_cpl3_owner_tests::before_publication_payload_copy_exact ... ok
+test memory::paging::f5_cpl3_owner_tests::default_f4_image_bytes_unchanged ... ok
+test memory::paging::f5_cpl3_owner_tests::invalid_scenario_preflight_refusal ... ok
+test memory::paging::f5_cpl3_owner_tests::twelve_frame_state_preservation ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 380 filtered out; finished in 0.26s
+
+F5_CONTRACT_SECTION=parallel
+warning: unused import: `crate::println`
+  --> src\..\..\src\multiboot.rs:10:5
+   |
+10 | use crate::println;
+   |     ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::utils::bits::CanManipulateBits`
+  --> src\..\..\src\memory\paging.rs:25:5
+   |
+25 | use crate::utils::bits::CanManipulateBits;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1036:41
+     |
+1036 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+     = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1049:41
+     |
+1049 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:72:28
+   |
+72 | pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:85:28
+   |
+85 | pub unsafe fn lockfree_inw(port_in: u16) -> u16 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:110:29
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:110:44
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:119:29
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:119:44
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: variable does not need to be mutable
+   --> src\..\..\src\memory\retained_owner_policy_tests.rs:157:18
+    |
+157 |     let (mut fa, mut pm) = fixture();
+    |                  ----^^
+    |                  |
+    |                  help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `frame`
+   --> src\..\..\src\allocator.rs:272:33
+    |
+272 |                     if let Some(frame) = crate::memory::heap_grow_frame(slot) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_frame`
+
+warning: unused variable: `t0`
+   --> src\lib.rs:270:18
+    |
+270 |     let (b0, l0, t0) = (e0.base_addr, e0.length, e0.type_);
+    |                  ^^ help: if this is intentional, prefix it with an underscore: `_t0`
+
+warning: function `ownership_locks_held` is never used
+  --> src\..\..\src\memory\mod.rs:19:15
+   |
+19 | pub(crate) fn ownership_locks_held() -> bool {
+   |               ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `pinned_identity_span` is never used
+   --> src\..\..\src\memory\mod.rs:308:15
+    |
+308 | pub(crate) fn pinned_identity_span(start: u64, end: u64) -> bool {
+    |               ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `replace_growth_with_test_conflict` is never used
+   --> src\..\..\src\memory\mod.rs:351:15
+    |
+351 | pub(crate) fn replace_growth_with_test_conflict(slot: usize) -> Option<u64> {
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: static `KERNEL_START` is never used
+  --> src\..\..\src\memory\frame.rs:72:8
+   |
+72 | static KERNEL_START: u32 = 0;
+   |        ^^^^^^^^^^^^
+
+warning: static `KERNEL_END` is never used
+  --> src\..\..\src\memory\frame.rs:74:8
+   |
+74 | static KERNEL_END: u32 = 0;
+   |        ^^^^^^^^^^
+
+warning: function `owner_locked` is never used
+  --> src\..\..\src\memory\retained_owner.rs:73:26
+   |
+73 | pub(in crate::memory) fn owner_locked() -> bool {
+   |                          ^^^^^^^^^^^^
+
+warning: constant `EARLY_GDT_BYTES` is never used
+   --> src\..\..\src\gdt.rs:159:18
+    |
+159 | pub(crate) const EARLY_GDT_BYTES: usize = core::mem::size_of::<EarlyGdt>();
+    |                  ^^^^^^^^^^^^^^^
+
+warning: feature `abi_x86_interrupt` is declared but not used
+ --> src\lib.rs:7:12
+  |
+7 | #![feature(abi_x86_interrupt)]
+  |            ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_features)]` (part of `#[warn(unused)]`) on by default
+
+warning: `tests_kernel` (lib test) generated 21 warnings (run `cargo fix --lib -p tests_kernel --tests` to apply 11 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src\lib.rs (Documents\Rust-OS\tests_kernel\target\x86_64-pc-windows-msvc\debug\build\tests_kernel/9e3f0cf5b2de34e1\out\tests_kernel-9e3f0cf5b2de34e1.exe)
+
+running 14 tests
+test f5_cpl3_tests::descriptor_extension_preserves_tss_slots ... ok
+test f5_cpl3_tests::exact_exception_oracles ... ok
+test f5_cpl3_tests::iret_flags_and_stack_contract ... ok
+test f5_cpl3_tests::supervisor_presence_is_not_assumed ... ok
+test f5_cpl3_tests::terminal_latch_refuses_resume ... ok
+test f5_cpl3_tests::user_selectors_have_dpl3_rpl3 ... ok
+test f5_cpl3_tests::wrong_origin_or_reserved_error_bits_fail ... ok
+test f5_cpl3_tests::mandatory_prefix_and_conditional_tail ... ok
+test f5_cpl3_tests::fixed_payload_fits_owned_page ... ok
+test f5_cpl3_tests::payload_bytes_and_fault_offsets ... ok
+test memory::paging::f5_cpl3_owner_tests::before_publication_payload_copy_exact ... ok
+test memory::paging::f5_cpl3_owner_tests::twelve_frame_state_preservation ... ok
+test memory::paging::f5_cpl3_owner_tests::default_f4_image_bytes_unchanged ... ok
+test memory::paging::f5_cpl3_owner_tests::invalid_scenario_preflight_refusal ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 380 filtered out; finished in 0.14s
+
+F5_CONTRACT_SECTION=list
+warning: unused import: `crate::println`
+  --> src\..\..\src\multiboot.rs:10:5
+   |
+10 | use crate::println;
+   |     ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::utils::bits::CanManipulateBits`
+  --> src\..\..\src\memory\paging.rs:25:5
+   |
+25 | use crate::utils::bits::CanManipulateBits;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1036:41
+     |
+1036 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+     = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1049:41
+     |
+1049 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:72:28
+   |
+72 | pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:85:28
+   |
+85 | pub unsafe fn lockfree_inw(port_in: u16) -> u16 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:110:29
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:110:44
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:119:29
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:119:44
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: variable does not need to be mutable
+   --> src\..\..\src\memory\retained_owner_policy_tests.rs:157:18
+    |
+157 |     let (mut fa, mut pm) = fixture();
+    |                  ----^^
+    |                  |
+    |                  help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `frame`
+   --> src\..\..\src\allocator.rs:272:33
+    |
+272 |                     if let Some(frame) = crate::memory::heap_grow_frame(slot) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_frame`
+
+warning: unused variable: `t0`
+   --> src\lib.rs:270:18
+    |
+270 |     let (b0, l0, t0) = (e0.base_addr, e0.length, e0.type_);
+    |                  ^^ help: if this is intentional, prefix it with an underscore: `_t0`
+
+warning: function `ownership_locks_held` is never used
+  --> src\..\..\src\memory\mod.rs:19:15
+   |
+19 | pub(crate) fn ownership_locks_held() -> bool {
+   |               ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `pinned_identity_span` is never used
+   --> src\..\..\src\memory\mod.rs:308:15
+    |
+308 | pub(crate) fn pinned_identity_span(start: u64, end: u64) -> bool {
+    |               ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `replace_growth_with_test_conflict` is never used
+   --> src\..\..\src\memory\mod.rs:351:15
+    |
+351 | pub(crate) fn replace_growth_with_test_conflict(slot: usize) -> Option<u64> {
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: static `KERNEL_START` is never used
+  --> src\..\..\src\memory\frame.rs:72:8
+   |
+72 | static KERNEL_START: u32 = 0;
+   |        ^^^^^^^^^^^^
+
+warning: static `KERNEL_END` is never used
+  --> src\..\..\src\memory\frame.rs:74:8
+   |
+74 | static KERNEL_END: u32 = 0;
+   |        ^^^^^^^^^^
+
+warning: function `owner_locked` is never used
+  --> src\..\..\src\memory\retained_owner.rs:73:26
+   |
+73 | pub(in crate::memory) fn owner_locked() -> bool {
+   |                          ^^^^^^^^^^^^
+
+warning: constant `EARLY_GDT_BYTES` is never used
+   --> src\..\..\src\gdt.rs:159:18
+    |
+159 | pub(crate) const EARLY_GDT_BYTES: usize = core::mem::size_of::<EarlyGdt>();
+    |                  ^^^^^^^^^^^^^^^
+
+warning: feature `abi_x86_interrupt` is declared but not used
+ --> src\lib.rs:7:12
+  |
+7 | #![feature(abi_x86_interrupt)]
+  |            ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_features)]` (part of `#[warn(unused)]`) on by default
+
+warning: `tests_kernel` (lib test) generated 21 warnings (run `cargo fix --lib -p tests_kernel --tests` to apply 11 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s
+     Running unittests src\lib.rs (Documents\Rust-OS\tests_kernel\target\x86_64-pc-windows-msvc\debug\build\tests_kernel/9e3f0cf5b2de34e1\out\tests_kernel-9e3f0cf5b2de34e1.exe)
+f5_cpl3_tests::descriptor_extension_preserves_tss_slots: test
+f5_cpl3_tests::exact_exception_oracles: test
+f5_cpl3_tests::fixed_payload_fits_owned_page: test
+f5_cpl3_tests::iret_flags_and_stack_contract: test
+f5_cpl3_tests::mandatory_prefix_and_conditional_tail: test
+f5_cpl3_tests::payload_bytes_and_fault_offsets: test
+f5_cpl3_tests::supervisor_presence_is_not_assumed: test
+f5_cpl3_tests::terminal_latch_refuses_resume: test
+f5_cpl3_tests::user_selectors_have_dpl3_rpl3: test
+f5_cpl3_tests::wrong_origin_or_reserved_error_bits_fail: test
+memory::paging::f5_cpl3_owner_tests::before_publication_payload_copy_exact: test
+memory::paging::f5_cpl3_owner_tests::default_f4_image_bytes_unchanged: test
+memory::paging::f5_cpl3_owner_tests::invalid_scenario_preflight_refusal: test
+memory::paging::f5_cpl3_owner_tests::twelve_frame_state_preservation: test
+
+14 tests, 0 benchmarks
+F5_CONTRACT_SECTION=ignored
+warning: unused import: `crate::println`
+  --> src\..\..\src\multiboot.rs:10:5
+   |
+10 | use crate::println;
+   |     ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::utils::bits::CanManipulateBits`
+  --> src\..\..\src\memory\paging.rs:25:5
+   |
+25 | use crate::utils::bits::CanManipulateBits;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1036:41
+     |
+1036 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+     = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1049:41
+     |
+1049 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:72:28
+   |
+72 | pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:85:28
+   |
+85 | pub unsafe fn lockfree_inw(port_in: u16) -> u16 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:110:29
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:110:44
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:119:29
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:119:44
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: variable does not need to be mutable
+   --> src\..\..\src\memory\retained_owner_policy_tests.rs:157:18
+    |
+157 |     let (mut fa, mut pm) = fixture();
+    |                  ----^^
+    |                  |
+    |                  help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `frame`
+   --> src\..\..\src\allocator.rs:272:33
+    |
+272 |                     if let Some(frame) = crate::memory::heap_grow_frame(slot) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_frame`
+
+warning: unused variable: `t0`
+   --> src\lib.rs:270:18
+    |
+270 |     let (b0, l0, t0) = (e0.base_addr, e0.length, e0.type_);
+    |                  ^^ help: if this is intentional, prefix it with an underscore: `_t0`
+
+warning: function `ownership_locks_held` is never used
+  --> src\..\..\src\memory\mod.rs:19:15
+   |
+19 | pub(crate) fn ownership_locks_held() -> bool {
+   |               ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `pinned_identity_span` is never used
+   --> src\..\..\src\memory\mod.rs:308:15
+    |
+308 | pub(crate) fn pinned_identity_span(start: u64, end: u64) -> bool {
+    |               ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `replace_growth_with_test_conflict` is never used
+   --> src\..\..\src\memory\mod.rs:351:15
+    |
+351 | pub(crate) fn replace_growth_with_test_conflict(slot: usize) -> Option<u64> {
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: static `KERNEL_START` is never used
+  --> src\..\..\src\memory\frame.rs:72:8
+   |
+72 | static KERNEL_START: u32 = 0;
+   |        ^^^^^^^^^^^^
+
+warning: static `KERNEL_END` is never used
+  --> src\..\..\src\memory\frame.rs:74:8
+   |
+74 | static KERNEL_END: u32 = 0;
+   |        ^^^^^^^^^^
+
+warning: function `owner_locked` is never used
+  --> src\..\..\src\memory\retained_owner.rs:73:26
+   |
+73 | pub(in crate::memory) fn owner_locked() -> bool {
+   |                          ^^^^^^^^^^^^
+
+warning: constant `EARLY_GDT_BYTES` is never used
+   --> src\..\..\src\gdt.rs:159:18
+    |
+159 | pub(crate) const EARLY_GDT_BYTES: usize = core::mem::size_of::<EarlyGdt>();
+    |                  ^^^^^^^^^^^^^^^
+
+warning: feature `abi_x86_interrupt` is declared but not used
+ --> src\lib.rs:7:12
+  |
+7 | #![feature(abi_x86_interrupt)]
+  |            ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_features)]` (part of `#[warn(unused)]`) on by default
+
+warning: `tests_kernel` (lib test) generated 21 warnings (run `cargo fix --lib -p tests_kernel --tests` to apply 11 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src\lib.rs (Documents\Rust-OS\tests_kernel\target\x86_64-pc-windows-msvc\debug\build\tests_kernel/9e3f0cf5b2de34e1\out\tests_kernel-9e3f0cf5b2de34e1.exe)
+0 tests, 0 benchmarks
+F5_CONTRACT_SECTION=python
+test_actual_cli_malformed_and_duplicate_refusal (test_f5_cpl3_harness.AdmissionTests.test_actual_cli_malformed_and_duplicate_refusal) ... ok
+test_actual_optimized_and_inherited_optimization_refusal (test_f5_cpl3_harness.AdmissionTests.test_actual_optimized_and_inherited_optimization_refusal) ... ok
+test_exact_parser_grammar_and_types (test_f5_cpl3_harness.AdmissionTests.test_exact_parser_grammar_and_types) ... ok
+test_real_main_refuses_before_all_side_effects (test_f5_cpl3_harness.AdmissionTests.test_real_main_refuses_before_all_side_effects) ... ok
+test_valid_raw_parser_dispatch_is_exact_integer (test_f5_cpl3_harness.AdmissionTests.test_valid_raw_parser_dispatch_is_exact_integer) ... ok
+test_exact_76_gate_contract (test_f5_cpl3_harness.IntegrationTests.test_exact_76_gate_contract) ... ok
+test_existing_emitted_mapper_rejects_unapproved_alias (test_f5_cpl3_harness.IntegrationTests.test_existing_emitted_mapper_rejects_unapproved_alias) ... ok
+test_four_validator_suites_and_new_gate_timeouts_are_explicit (test_f5_cpl3_harness.IntegrationTests.test_four_validator_suites_and_new_gate_timeouts_are_explicit) ... ok
+test_full_rust_ancestry_is_source_declared (test_f5_cpl3_harness.IntegrationTests.test_full_rust_ancestry_is_source_declared) ... ok
+test_missing_duplicate_extra_substituted_and_failed_gates_refuse (test_f5_cpl3_harness.IntegrationTests.test_missing_duplicate_extra_substituted_and_failed_gates_refuse) ... ok
+test_narrow_authority_and_imported_task_modules_are_frozen (test_f5_cpl3_harness.IntegrationTests.test_narrow_authority_and_imported_task_modules_are_frozen) ... ok
+test_nonzero_exact_fourteen_and_no_ignored_membership (test_f5_cpl3_harness.IntegrationTests.test_nonzero_exact_fourteen_and_no_ignored_membership) ... ok
+test_pin_ownership_staleness_and_generic_schema_stay_fail_closed (test_f5_cpl3_harness.IntegrationTests.test_pin_ownership_staleness_and_generic_schema_stay_fail_closed) ... ok
+test_predecessor_raw_hash_and_identities_refuse (test_f5_cpl3_harness.IntegrationTests.test_predecessor_raw_hash_and_identities_refuse) ... ok
+test_raw_f2_hash_precedes_lexical_equivalence (test_f5_cpl3_harness.IntegrationTests.test_raw_f2_hash_precedes_lexical_equivalence) ... ok
+test_review_requires_actual_scope_findings_not_metadata_only (test_f5_cpl3_harness.IntegrationTests.test_review_requires_actual_scope_findings_not_metadata_only) ... ok
+test_missing_scenario_ram_duplicate_and_model_report_refuse (test_f5_cpl3_harness.RawEvidenceTests.test_missing_scenario_ram_duplicate_and_model_report_refuse) ... ok
+test_process_cleanup_marker_only_uart_failure_and_model_only_refuse_before_io (test_f5_cpl3_harness.RawEvidenceTests.test_process_cleanup_marker_only_uart_failure_and_model_only_refuse_before_io) ... ok
+test_raw_record_all_six_faults_af_and_padded_cpu_selectors (test_f5_cpl3_harness.RawEvidenceTests.test_raw_record_all_six_faults_af_and_padded_cpu_selectors) ... ok
+test_unlisted_stale_and_missing_artifact_bytes_refuse (test_f5_cpl3_harness.RawEvidenceTests.test_unlisted_stale_and_missing_artifact_bytes_refuse) ... ok
+test_wrong_cs_ss_pc_error_cr2_rf_tail_bounds_tss_marker_refuse (test_f5_cpl3_harness.RawEvidenceTests.test_wrong_cs_ss_pc_error_cr2_rf_tail_bounds_tss_marker_refuse) ... ok
+test_actual_optimized_subprocess_refuses (test_f5_entry_derivation.DerivationTests.test_actual_optimized_subprocess_refuses) ... ok
+test_comments_only_allowed (test_f5_entry_derivation.DerivationTests.test_comments_only_allowed) ... ok
+test_complete_approved_expansion (test_f5_entry_derivation.DerivationTests.test_complete_approved_expansion) ... ok
+test_dictionary_closed (test_f5_entry_derivation.DerivationTests.test_dictionary_closed) ... ok
+test_invalid_dictionary_and_duplicate_input_paths (test_f5_entry_derivation.DerivationTests.test_invalid_dictionary_and_duplicate_input_paths) ... ok
+test_required_mutations_rejected (test_f5_entry_derivation.DerivationTests.test_required_mutations_rejected) ... ok
+test_source_path_and_hash_controls (test_f5_entry_derivation.DerivationTests.test_source_path_and_hash_controls) ... ok
+test_wrong_raw_f2_before_parsing (test_f5_entry_derivation.DerivationTests.test_wrong_raw_f2_before_parsing) ... ok
+test_raw_bytes_and_target_mandatory (test_f5_terminal_audit.AliasByteControls.test_raw_bytes_and_target_mandatory) ... ok
+test_read_only_validator_api_exists (test_f5_terminal_audit.ArtifactAPIControls.test_read_only_validator_api_exists) ... ok
+test_all_artifact_bytes_and_missing_files (test_f5_terminal_audit.ArtifactReadbackControls.test_all_artifact_bytes_and_missing_files) ... ok
+test_artifact_sink_recomputes_bytes_even_if_pin_is_updated (test_f5_terminal_audit.ArtifactReadbackControls.test_artifact_sink_recomputes_bytes_even_if_pin_is_updated) ... ok
+test_baseline_and_tool_bytes (test_f5_terminal_audit.ArtifactReadbackControls.test_baseline_and_tool_bytes) ... ok
+test_duplicate_json_keys_refused (test_f5_terminal_audit.ArtifactReadbackControls.test_duplicate_json_keys_refused) ... ok
+test_exact_artifact_sets (test_f5_terminal_audit.ArtifactReadbackControls.test_exact_artifact_sets) ... ok
+test_exact_elf_path_and_bytes (test_f5_terminal_audit.ArtifactReadbackControls.test_exact_elf_path_and_bytes) ... ok
+test_exact_nonempty_check_sets_and_boolean_values (test_f5_terminal_audit.ArtifactReadbackControls.test_exact_nonempty_check_sets_and_boolean_values) ... ok
+test_live_dependencies_drift (test_f5_terminal_audit.ArtifactReadbackControls.test_live_dependencies_drift) ... ok
+test_metadata_pass_cannot_override_recomputed_proof_failure (test_f5_terminal_audit.ArtifactReadbackControls.test_metadata_pass_cannot_override_recomputed_proof_failure) ... ok
+test_read_only_success_recomputes_without_any_python_write (test_f5_terminal_audit.ArtifactReadbackControls.test_read_only_success_recomputes_without_any_python_write) ... ok
+test_report_and_artifact_late_mutation (test_f5_terminal_audit.ArtifactReadbackControls.test_report_and_artifact_late_mutation) ... ok
+test_run_refuses_existing_directory_without_analysis (test_f5_terminal_audit.ArtifactReadbackControls.test_run_refuses_existing_directory_without_analysis) ... ok
+test_stale_reader_dependency_and_contract_pins (test_f5_terminal_audit.ArtifactReadbackControls.test_stale_reader_dependency_and_contract_pins) ... ok
+test_tampered_report_proofs_and_unknown_fields (test_f5_terminal_audit.ArtifactReadbackControls.test_tampered_report_proofs_and_unknown_fields) ... ok
+test_call_continuation_inspected_even_divergent_target (test_f5_terminal_audit.ClosureControls.test_call_continuation_inspected_even_divergent_target) ... ok
+test_conditional_forbidden_arm_not_pruned (test_f5_terminal_audit.ClosureControls.test_conditional_forbidden_arm_not_pruned) ... ok
+test_every_foreign_call_tail_indirect_and_trap_rejected (test_f5_terminal_audit.ClosureControls.test_every_foreign_call_tail_indirect_and_trap_rejected) ... ok
+test_exact_halt_cycle (test_f5_terminal_audit.ClosureControls.test_exact_halt_cycle) ... ok
+test_foreign_tail_and_noncontiguous_fallthrough_rejected (test_f5_terminal_audit.ClosureControls.test_foreign_tail_and_noncontiguous_fallthrough_rejected) ... ok
+test_iret_only_at_exact_reviewed_pc (test_f5_terminal_audit.ClosureControls.test_iret_only_at_exact_reviewed_pc) ... ok
+test_all_exact_vector_aliases (test_f5_terminal_audit.NormalizeControls.test_all_exact_vector_aliases) ... ok
+test_both_terminal_aliases (test_f5_terminal_audit.NormalizeControls.test_both_terminal_aliases) ... ok
+test_indirect_comparison_refused (test_f5_terminal_audit.NormalizeControls.test_indirect_comparison_refused) ... ok
+test_old_signature_and_offset_binding (test_f5_terminal_audit.NormalizeControls.test_old_signature_and_offset_binding) ... ok
+test_unknown_aliases_never_disappear (test_f5_terminal_audit.NormalizeControls.test_unknown_aliases_never_disappear) ... ok
+test_actual_optimized_execution_refused (test_f5_terminal_audit.ProcessControls.test_actual_optimized_execution_refused) ... ok
+test_every_mandatory_binary_procedure_runs_and_refusal_blocks (test_f5_terminal_audit.SharedAnalysisControls.test_every_mandatory_binary_procedure_runs_and_refusal_blocks) ... ok
+test_bridge_scratch_ceiling_refused (test_f5_terminal_audit.StackControls.test_bridge_scratch_ceiling_refused) ... ok
+test_concrete_alignment_paths_not_sum_of_unrelated_maxima (test_f5_terminal_audit.StackControls.test_concrete_alignment_paths_not_sum_of_unrelated_maxima) ... ok
+test_unknown_esp_mutation_refused (test_f5_terminal_audit.StackControls.test_unknown_esp_mutation_refused) ... ok
+test_wrong_alignment_refused (test_f5_terminal_audit.StackControls.test_wrong_alignment_refused) ... ok
+test_model_only_or_wrong_schema_aggregate_refuses (test_f5_cpl3_evidence.AggregateControls.test_model_only_or_wrong_schema_aggregate_refuses) ... ok
+test_nonzero_driver_or_partial_matrix_refuses (test_f5_cpl3_evidence.AggregateControls.test_nonzero_driver_or_partial_matrix_refuses) ... ok
+test_unstable_source_freeze_refuses (test_f5_cpl3_evidence.AggregateControls.test_unstable_source_freeze_refuses) ... ok
+test_blocked_or_self_declared_audit_refuses_before_io (test_f5_cpl3_evidence.AuditReadbackControls.test_blocked_or_self_declared_audit_refuses_before_io) ... ok
+test_wrong_baseline_bytes_refuse (test_f5_cpl3_evidence.AuditReadbackControls.test_wrong_baseline_bytes_refuse) ... ok
+test_closed_contract_fields_refuse (test_f5_cpl3_evidence.AuthorityControls.test_closed_contract_fields_refuse) ... ok
+test_missing_or_mutated_authority_refuses (test_f5_cpl3_evidence.AuthorityControls.test_missing_or_mutated_authority_refuses) ... ok
+test_exact_extension_lifecycle_and_seven_descriptors (test_f5_cpl3_evidence.GdtStorageControls.test_exact_extension_lifecycle_and_seven_descriptors) ... ok
+test_extent_attempted_padding_and_each_descriptor_tamper_refuse (test_f5_cpl3_evidence.GdtStorageControls.test_extent_attempted_padding_and_each_descriptor_tamper_refuse) ... ok
+test_initial_snapshot_accepts_real_extension_extent (test_f5_cpl3_evidence.GdtStorageControls.test_initial_snapshot_accepts_real_extension_extent) ... ok
+test_live_table_old_table_and_gdtr_tamper_refuse (test_f5_cpl3_evidence.GdtStorageControls.test_live_table_old_table_and_gdtr_tamper_refuse) ... ok
+test_descriptor_register_shape_refuses (test_f5_cpl3_evidence.HardwareControls.test_descriptor_register_shape_refuses) ... ok
+test_missing_or_duplicate_cpu_register_refuses (test_f5_cpl3_evidence.HardwareControls.test_missing_or_duplicate_cpu_register_refuses) ... ok
+test_unsupported_protection_or_extended_controls_refuses (test_f5_cpl3_evidence.HardwareControls.test_unsupported_protection_or_extended_controls_refuses) ... ok
+test_component_selection_requires_component_rows (test_f5_cpl3_evidence.MatrixControls.test_component_selection_requires_component_rows) ... ok
+test_noninteger_or_wrong_identity_rows_refuse (test_f5_cpl3_evidence.MatrixControls.test_noninteger_or_wrong_identity_rows_refuse) ... ok
+test_malformed_digest_refuses (test_f5_cpl3_evidence.PinControls.test_malformed_digest_refuses) ... ok
+test_noncanonical_or_escaping_artifact_name_refuses (test_f5_cpl3_evidence.PinControls.test_noncanonical_or_escaping_artifact_name_refuses) ... ok
+test_symlink_artifact_refuses (test_f5_cpl3_evidence.PinControls.test_symlink_artifact_refuses) ... ok
+test_latch_sentinel_and_frame_geometry_refuse (test_f5_cpl3_evidence.RecordControls.test_latch_sentinel_and_frame_geometry_refuse) ... ok
+test_rf_and_af_only_flags_enforced (test_f5_cpl3_evidence.RecordControls.test_rf_and_af_only_flags_enforced) ... ok
+test_wrong_vector_error_oracle_refuses (test_f5_cpl3_evidence.RecordControls.test_wrong_vector_error_oracle_refuses) ... ok
+test_early_wake_waits_remaining_monotonic_interval (test_f5_cpl3_evidence.StableWaitControls.test_early_wake_waits_remaining_monotonic_interval) ... ok
+test_elapsed_interval_does_not_sleep (test_f5_cpl3_evidence.StableWaitControls.test_elapsed_interval_does_not_sleep) ... ok
+test_duplicate_pmemsave_refuses (test_f5_cpl3_evidence.TransportControls.test_duplicate_pmemsave_refuses) ... ok
+test_failed_rsp_refuses (test_f5_cpl3_evidence.TransportControls.test_failed_rsp_refuses) ... ok
+test_forbidden_transport_commands_refuse (test_f5_cpl3_evidence.TransportControls.test_forbidden_transport_commands_refuse) ... ok
+test_sequence_and_causality_refuse (test_f5_cpl3_evidence.TransportControls.test_sequence_and_causality_refuse) ... ok
+test_stable_interval_exact_boundary_and_short_capture_refusal (test_f5_cpl3_evidence.TransportControls.test_stable_interval_exact_boundary_and_short_capture_refusal) ... ok
+
+----------------------------------------------------------------------
+Ran 91 tests in 20.215s
+
+OK
+F5_CONTRACT_SECTION=derivation
+{
+  "overall": "PASS",
+  "f2_raw_sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+  "f5_raw_sha256": "2c76369aead02bb1b7fad54b89b996154f683705032ff4f18373c1deb1e3f2db",
+  "literal_source_shared": false,
+  "mechanically_constrained_expansion": true,
+  "identifier_dictionary": {
+    "f5_bridge": "f2_fatal",
+    "f5_entry_terminal": "f2_terminal",
+    "f5_terminal": "f2_terminal",
+    "f5_unsupported": "f2_unsupported",
+    "f5_exception_common": "f2_exception_common",
+    "f5_normalized": "f2_normalized",
+    "f5_exception_entries": "f2_exception_entries",
+    "f5_exc_": "f2_exc_",
+    "F5_STUB": "F2_STUB",
+    "f5_exc_0": "f2_exc_0",
+    "f5_exc_1": "f2_exc_1",
+    "f5_exc_2": "f2_exc_2",
+    "f5_exc_3": "f2_exc_3",
+    "f5_exc_4": "f2_exc_4",
+    "f5_exc_5": "f2_exc_5",
+    "f5_exc_6": "f2_exc_6",
+    "f5_exc_7": "f2_exc_7",
+    "f5_exc_8": "f2_exc_8",
+    "f5_exc_9": "f2_exc_9",
+    "f5_exc_10": "f2_exc_10",
+    "f5_exc_11": "f2_exc_11",
+    "f5_exc_12": "f2_exc_12",
+    "f5_exc_13": "f2_exc_13",
+    "f5_exc_14": "f2_exc_14",
+    "f5_exc_15": "f2_exc_15",
+    "f5_exc_16": "f2_exc_16",
+    "f5_exc_17": "f2_exc_17",
+    "f5_exc_18": "f2_exc_18",
+    "f5_exc_19": "f2_exc_19",
+    "f5_exc_20": "f2_exc_20",
+    "f5_exc_21": "f2_exc_21",
+    "f5_exc_22": "f2_exc_22",
+    "f5_exc_23": "f2_exc_23",
+    "f5_exc_24": "f2_exc_24",
+    "f5_exc_25": "f2_exc_25",
+    "f5_exc_26": "f2_exc_26",
+    "f5_exc_27": "f2_exc_27",
+    "f5_exc_28": "f2_exc_28",
+    "f5_exc_29": "f2_exc_29",
+    "f5_exc_30": "f2_exc_30",
+    "f5_exc_31": "f2_exc_31"
+  },
+  "diagnostic_strings": {
+    "\"F5 frame size mismatch\"": "\"F2 frame size mismatch\"",
+    "\"F5 normalized vector offset mismatch\"": "\"F2 normalized vector offset mismatch\""
+  },
+  "compared_line_count": 106,
+  "ordered_vector_definitions": [
+    "F2_STUB 0",
+    "F2_STUB 1",
+    "F2_STUB 2",
+    "F2_STUB 3",
+    "F2_STUB 4",
+    "F2_STUB 5",
+    "F2_STUB 6",
+    "F2_STUB 7",
+    "F2_STUB 8,1",
+    "F2_STUB 9",
+    "F2_STUB 10,1",
+    "F2_STUB 11,1",
+    "F2_STUB 12,1",
+    "F2_STUB 13,1",
+    "F2_STUB 14,1",
+    "F2_STUB 15",
+    "F2_STUB 16",
+    "F2_STUB 17,1",
+    "F2_STUB 18",
+    "F2_STUB 19",
+    "F2_STUB 20",
+    "F2_STUB 21,0,1",
+    "F2_STUB 22",
+    "F2_STUB 23",
+    "F2_STUB 24",
+    "F2_STUB 25",
+    "F2_STUB 26",
+    "F2_STUB 27",
+    "F2_STUB 28",
+    "F2_STUB 29,0,1",
+    "F2_STUB 30,0,1",
+    "F2_STUB 31"
+  ],
+  "ordered_table_lines": [
+    ".long f2_exc_0,f2_exc_1,f2_exc_2,f2_exc_3,f2_exc_4,f2_exc_5,f2_exc_6,f2_exc_7",
+    ".long f2_exc_8,f2_exc_9,f2_exc_10,f2_exc_11,f2_exc_12,f2_exc_13,f2_exc_14,f2_exc_15",
+    ".long f2_exc_16,f2_exc_17,f2_exc_18,f2_exc_19,f2_exc_20,f2_exc_21,f2_exc_22,f2_exc_23",
+    ".long f2_exc_24,f2_exc_25,f2_exc_26,f2_exc_27,f2_exc_28,f2_exc_29,f2_exc_30,f2_exc_31"
+  ],
+  "f2_sequence_sha256": "948f51a1f498ee5e409eec6fe07905077aa25cfea763c8bb20433cc447166a8f",
+  "mapped_f5_sequence_sha256": "948f51a1f498ee5e409eec6fe07905077aa25cfea763c8bb20433cc447166a8f",
+  "both_terminal_alias_elf_proofs_required_separately": true,
+  "validator_sha256": "58b6398028101df8093dd58bc7c5c4dd676775d01ee0e7a91858835eaf7de588",
+  "source_paths": [
+    "src/exception_entry.s",
+    "src/f5_exception_entry.s",
+    "scripts/f5_entry_derivation.py"
+  ]
+}

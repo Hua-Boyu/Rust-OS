@@ -1,0 +1,11 @@
+{
+  "scope": "proposal arithmetic only, not emitted or runtime bound",
+  "outer_conservative_bytes": 175,
+  "nested_conservative_bytes": 167,
+  "combined_conservative_bytes": 342,
+  "planned_budget": 512,
+  "planned_headroom": 15872,
+  "saved_fault_flags_proposed_correction": "0x10446",
+  "undefined_AF_mask": "0x10",
+  "RF_0_in_proposal01_is_parent_identified_defect_pending_reviewer": true
+}

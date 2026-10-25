@@ -1,0 +1,27 @@
+{
+  "name": "f5_owner_focused_07",
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml",
+    "--lib",
+    "f5_cpl3_owner_tests::",
+    "--",
+    "--test-threads=1"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "started_utc": "2026-10-23T15:43:36.520318+00:00",
+  "status": "EXPECTED",
+  "exit_code": 0,
+  "ended_utc": "2026-10-23T15:43:41.216651+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\f5_owner_focused_07.log",
+  "totals": [
+    [
+      "4",
+      "0",
+      "0"
+    ]
+  ]
+}

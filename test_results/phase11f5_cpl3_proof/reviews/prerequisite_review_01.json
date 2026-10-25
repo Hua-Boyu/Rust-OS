@@ -1,0 +1,104 @@
+{
+  "verdict": "DESIGN-STOP",
+  "scope": {
+    "review_type": "Independent read-only F5 prerequisite blocker review; not full F5 design approval",
+    "repository": "C:/Users/iamsv/Documents/Rust-OS",
+    "head": "c8b73654dd5f7f64c3c7872254b2b730ad2151f4",
+    "accepted_f3_reference": "fd4b49d",
+    "constraint": "F5 terminal CPL3 proof only; preserve F3 GDT/TSS/stack layouts and F1-F4 contracts.",
+    "conclusion": "The inspected accepted source installs no DPL3 code/data descriptors. No supported CPL3 entry using the existing installed descriptor tables was found. Providing the required descriptors would require authorization beyond the stated frozen-layout/contract scope."
+  },
+  "blockers": [
+    {
+      "id": "F5-GDT-001",
+      "finding": "F3Context contains exactly five GDT entries: null, kernel code, kernel data, normal TSS and emergency TSS. Installation and verification require GDTR limit 39 and these exact entries. The code/data descriptors have access bytes 0x99 and 0x93, both DPL0. There are no installed DPL3 code/data entries or spare accepted slots. The assertion that accepted F3 already installed user descriptors is contradicted by both the current source and fd4b49d.",
+      "source_references": [
+        "src/gdt_tss.rs:14-38",
+        "src/gdt_tss.rs:204-228",
+        "src/gdt_tss.rs:247-285",
+        "src/memory/privileged.rs:5-6",
+        "fd4b49d:src/gdt_tss.rs"
+      ]
+    },
+    {
+      "id": "F5-GDT-002",
+      "finding": "Changing selector RPL bits cannot manufacture user descriptors. With the installed table, 0x1b identifies the normal TSS slot and 0x23 identifies the emergency TSS slot, not code and data segments. An outer-privilege protected-mode return requires suitable target code and stack descriptors; the existing DPL0 code/data entries cannot supply a CPL3 CS/SS pair. Replacing either TSS slot would violate the exact F3 descriptor contract; the emergency slot is also the target of the double-fault task gate.",
+      "source_references": [
+        "src/gdt_tss.rs:217-222",
+        "src/gdt_tss.rs:255-280",
+        "src/interrupt.rs:157-159",
+        "src/interrupt.rs:180-185"
+      ]
+    },
+    {
+      "id": "F5-GDT-003",
+      "finding": "No accepted alternative descriptor installation was found. The early GDT contains only null and DPL0 code/data entries. Privilege3 and set_privilege are encoder capabilities, not installed user segments; the inspected privilege-setting calls are tests. The source scan found no LLDT, SYSENTER or SYSEXIT path. TSS construction initializes LDT to zero. An added LDT, replacement GDT, expanded GDTR, or post-verification descriptor rewrite would introduce a new descriptor configuration rather than reuse an accepted CPL3 facility, and requires explicit scope/contract authorization.",
+      "source_references": [
+        "src/gdt.rs:15-25",
+        "src/gdt.rs:75-83",
+        "src/gdt.rs:130-170",
+        "src/gdt.rs:173-192",
+        "src/phase11_gdt_tests.rs:52-68",
+        "src/memory/privileged.rs:43",
+        "src/memory/privileged.rs:48-78",
+        "src/gdt_tss.rs:163-184",
+        "src/gdt_tss.rs:226-227"
+      ]
+    }
+  ],
+  "inspected_files": [
+    {
+      "path": "src/gdt_tss.rs",
+      "raw_sha256": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+      "inspection": "Full source; accepted fd4b49d blob inspected and its SHA256 equals the current raw SHA256."
+    },
+    {
+      "path": "src/gdt.rs",
+      "raw_sha256": "02c845d9cd9c579e7f5461f365318a2ad6a88faf9567d9c9ca25b47485267599",
+      "inspection": "Full source; matches fd4b49d after CRLF-to-LF normalization.",
+      "fd4b49d_git_blob_sha256": "e7ccf7b2de807df9105cfd3b2f4fa4930f4f9833ad5837ecf7b5cec2e2a5e126"
+    },
+    {
+      "path": "src/memory/privileged.rs",
+      "raw_sha256": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "inspection": "Full source; accepted fd4b49d blob SHA256 equals the current raw SHA256."
+    },
+    {
+      "path": "src/f3_entry.s",
+      "raw_sha256": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+      "inspection": "Full source; F3 ready and emergency paths terminate in CLI/HLT loops."
+    },
+    {
+      "path": "src/interrupt.rs",
+      "raw_sha256": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "inspection": "Targeted double-fault task-gate installation and verification, lines 145-224."
+    },
+    {
+      "path": "src/memory/retained_owner.rs",
+      "raw_sha256": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+      "inspection": "Targeted F4 path, lines 395-449, plus GDT/TSS usage search; F4 invokes the same F3 install and verify functions."
+    },
+    {
+      "path": "src/phase11_gdt_tests.rs",
+      "raw_sha256": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+      "inspection": "Full source; confirms privilege encoding tests do not install user descriptors."
+    }
+  ],
+  "required_authorization": [
+    "Explicitly reconcile the baseline claim with the accepted source: F3 does not currently provide user code/data descriptors.",
+    "Before implementing CPL3 entry, authorize a concrete descriptor-table extension or alternative installation and its necessary verification/contract changes. Do not treat a replacement GDT or LDT as implicitly permitted by F5-only scope.",
+    "Keep TSS selectors, TSS layouts, double-fault behavior and supervisor stack layouts unchanged unless separately authorized. This review does not establish that changing any of them is necessary.",
+    "Obtain a separate complete F5 design review after resolving the descriptor prerequisite; this verdict approves neither an implementation nor CPU entry."
+  ],
+  "limitations": {
+    "execution": "No builds, tests, QEMU, implementation, commits or file writes were performed.",
+    "files_created_or_modified": [],
+    "search_scope": "Production and test Rust/assembly sources beneath src were scanned for descriptor-loading, privilege-setting, LDT and privilege-transfer alternatives. This is a source-level prerequisite review, not an exhaustive emitted-instruction or external-artifact audit.",
+    "runtime_evidence": "No live GDTR/LDTR/TR capture or CPL3 execution was attempted.",
+    "architectural_reference": "No fresh authoritative processor-manual citation was collected; descriptor privilege reasoning is distinguished from directly observed source facts.",
+    "tool_issues": [
+      "One expanded search_files regex failed with a regex parsing error. A read-only Python source scan successfully replaced it."
+    ],
+    "working_tree": "Pre-existing modified and untracked files were observed and left untouched. The review is tied to the recorded source hashes, not a claim that the entire working tree is clean."
+  }
+}

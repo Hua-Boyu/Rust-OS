@@ -1,0 +1,36 @@
+{
+  "python": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+  "python_version": "3.11.15 (main, Jul 23 2026, 14:42:43) [MSC v.1944 64 bit (AMD64)]",
+  "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "tools": [
+    {
+      "command": [
+        "cargo",
+        "+nightly",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "cargo 1.101.0-nightly (f3865b2a4 2026-09-29)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "rustc",
+        "+nightly",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "rustc 1.101.0-nightly (1d81eb4ad 2026-10-07)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:/Program Files/qemu/qemu-system-i386.exe",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "QEMU emulator version 10.2.0 (v10.2.0-12105-g0f12d445bd)\nCopyright (c) 2003-2025 Fabrice Bellard and the QEMU Project developers\n",
+      "stderr": ""
+    }
+  ]
+}

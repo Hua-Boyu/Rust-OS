@@ -1,0 +1,27 @@
+{
+  "name": "f5_focused_correction_05",
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml",
+    "--lib",
+    "f5_cpl3_tests::",
+    "--",
+    "--test-threads=1"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "started_utc": "2026-10-23T15:28:34.896230+00:00",
+  "status": "EXPECTED",
+  "exit_code": 0,
+  "ended_utc": "2026-10-23T15:28:42.819651+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\f5_focused_correction_05.log",
+  "totals": [
+    [
+      "10",
+      "0",
+      "0"
+    ]
+  ]
+}

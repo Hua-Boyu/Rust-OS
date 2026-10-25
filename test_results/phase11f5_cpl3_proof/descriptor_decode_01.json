@@ -1,0 +1,26 @@
+{
+  "descriptors": [
+    {
+      "raw": "0xcf99000000ffff",
+      "access": "0x99",
+      "dpl": 0
+    },
+    {
+      "raw": "0xcf93000000ffff",
+      "access": "0x93",
+      "dpl": 0
+    }
+  ],
+  "gdtr_limit": 39,
+  "possible_descriptor_indices": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "proposed_out_of_limit_selectors": {
+    "0x2b": true,
+    "0x33": true
+  }
+}

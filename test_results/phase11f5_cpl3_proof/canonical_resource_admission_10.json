@@ -1,0 +1,38 @@
+{
+  "schema": "rosti.f5-canonical-resource-admission.v1",
+  "status": "RESOURCE_BLOCKED_NO_CANONICAL_LAUNCH",
+  "utc": "2026-10-25T05:57:09.398823+00:00",
+  "available_bytes": 568754176,
+  "safe_recovery_available_bytes": 810913792,
+  "guest_configured_ram_upper_bound_bytes": 536870912,
+  "sampled_comparable_runner_native_peak_working_set_bytes": 296730624,
+  "conservative_guest_plus_observed_runner_reserve_bytes": 833601536,
+  "available_minus_that_reserve_bytes": -264847360,
+  "scope_of_estimate": "guest configured memory reserve plus one observed interpreter peak only; not whole-run joint peak, excludes OS margin, other wrappers/build peaks; no fixed4GiB threshold",
+  "commit_headroom_bytes": 126708277248,
+  "decision": "No defensible physical safety margin under severe host pressure after owned jobs ended and supported task-kernel reset. Do not launch a one-shot canonical acceptance OOM gamble. No source defect inferred.",
+  "candidate_review": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\reviews\\candidate_review_02.json",
+    "sha256": "1c3005b47e2cf455159bd44aedd2172822aef89fa7f41e894ac552dc313da420",
+    "verdict": "APPROVE",
+    "complete_scope": true,
+    "blockers": []
+  },
+  "document_disposition": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\reviews\\candidate_review_02_document_disposition_01.json",
+    "sha256": "632eef747ffeeeb44a528cd244fc00cee5ac139d6b7537cf2c470e1f767978f2",
+    "verdict": "APPROVE",
+    "complete_scope": true,
+    "blockers": []
+  },
+  "owned_cleanup": "all build/test/QEMU completed; large execution objects GC collected and supported execution kernel reset; no remaining competing runner observed",
+  "foreign_resources_untouched": true,
+  "large_nonowned_observations": {
+    "vmmemWSL_resident_bytes": 9220915200,
+    "memory_compression_resident_bytes": 4708048896,
+    "chrome_renderers": "several350-600MB resident; no browser closed"
+  },
+  "canonical_planned_root": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01",
+  "canonical_root_not_created": true,
+  "next_boundary": "User may free unused apps/tabs or explicitly authorize a specific graceful shutdown; then fresh native/source/review preflight, not repeated expensive verification."
+}

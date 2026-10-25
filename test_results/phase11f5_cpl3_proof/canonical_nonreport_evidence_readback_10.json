@@ -1,0 +1,24 @@
+{
+  "schema": "rosti.f5-parent-official-nonreport-evidence.v1",
+  "overall": "PASS",
+  "acceptance_sha256": "21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074",
+  "records": {
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\b13_host.json": {
+      "sha256": "101d749088f4e100f9e7b82172ef8fb72272ec651093d9e0ed874322a388eae6",
+      "role": "official B13 host status/tests_run/failures",
+      "tests": 3
+    },
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\boot_128\\boot_results.csv": {
+      "sha256": "4f52dcba2c0482dccbf1efb7655fdae3168df0a1d6ceb7d8dacff6e2c46fd012",
+      "role": "canonical exact ten independent ELF boots",
+      "ram_mib": 128,
+      "rows": 10
+    },
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\boot_512\\boot_results.csv": {
+      "sha256": "c8438ae0751920ce3e52997cb09937cbb027b82ebbcb300f48a7fd4ee41c46b7",
+      "role": "canonical exact ten independent ELF boots",
+      "ram_mib": 512,
+      "rows": 10
+    }
+  }
+}

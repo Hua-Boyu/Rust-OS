@@ -1,0 +1,21 @@
+{
+  "name": "f5_focused_green_03",
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml",
+    "--lib",
+    "f5_cpl3_tests::",
+    "--",
+    "--test-threads=1"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "started_utc": "2026-10-23T12:13:39.316348+00:00",
+  "status": "UNEXPECTED",
+  "exit_code": 101,
+  "ended_utc": "2026-10-23T12:13:41.140332+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\f5_focused_green_03.log",
+  "totals": []
+}

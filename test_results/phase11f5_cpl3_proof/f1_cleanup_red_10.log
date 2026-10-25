@@ -1,0 +1,15 @@
+test_successful_producer_actually_removes_owned_stage (__main__.WorkflowCleanup.test_successful_producer_actually_removes_owned_stage) ... FAIL
+
+======================================================================
+FAIL: test_successful_producer_actually_removes_owned_stage (__main__.WorkflowCleanup.test_successful_producer_actually_removes_owned_stage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\test_results\phase11f5_cpl3_proof\test_f1_cleanup_10.py", line 49, in test_successful_producer_actually_removes_owned_stage
+    self.assertIs(report.get('stage_removed'), True,
+AssertionError: None is not True : matrix PASS must establish completed staging cleanup
+
+----------------------------------------------------------------------
+Ran 1 test in 0.133s
+
+FAILED (failures=1)
+PASS: F1 retained guest C:\Users\iamsv\AppData\Local\Temp\tmp9vsg9l9b\evidence\f1_retained_6dkwhtjz

@@ -1,0 +1,1088 @@
+{
+  "schema": "rosti.f5-canonical-log-manifest.v1",
+  "overall": "PASS",
+  "acceptance_sha256": "21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074",
+  "count": 76,
+  "gates": [
+    {
+      "gate": "kernel formatting",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\01_kernel_formatting.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "fmt",
+        "--check"
+      ]
+    },
+    {
+      "gate": "host formatting",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\02_host_formatting.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "fmt",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--check"
+      ]
+    },
+    {
+      "gate": "host tests",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\03_host_tests.log",
+      "log_sha256": "c80a811bb6739638d038da15f6e2d34addb828d1f79f56caee071616c6629e4f",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml"
+      ]
+    },
+    {
+      "gate": "Phase 9.6 B11 host safety regressions",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\04_phase_9_6_b11_host_safety_regressions.log",
+      "log_sha256": "724990ec5b9a11d536da7701978c33a1a098f49be26d21ca8e15531f378cd591",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "b11_",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 9.6 B18 host safety regressions",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\05_phase_9_6_b18_host_safety_regressions.log",
+      "log_sha256": "911a1595683951904b2874b03a068d7702d009944467cfa252a9574be383bf3d",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "b18_inventory_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 9.6 B26 host safety regressions",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\06_phase_9_6_b26_host_safety_regressions.log",
+      "log_sha256": "c20ce6a43ac9196fec4a0c45deeefb753d3c53321cbce8d31707f5ee956e87f5",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_b26\\Cargo.toml",
+        "--lib",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11A effective permission prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\07_phase_11a_effective_permission_prerequisite.log",
+      "log_sha256": "31d47f003961952be54741703291c7687d0d959bfb132498018cd31ca42c07d2",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "phase11_permission_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11A phase11_registry_reservation prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\08_phase_11a_phase11_registry_reservation_prerequisite.log",
+      "log_sha256": "447de4bb1345d2fb2c5a0bf29d5fab8a17d433f4ba18ee0645a7eff8c2d233b7",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "phase11a2_ownership_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11A phase11_exception_abi prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\09_phase_11a_phase11_exception_abi_prerequisite.log",
+      "log_sha256": "1050fa2c8255ddfe3b6dfc7fa95cadd28c7c5933d3da4286db9f4f6bf585425f",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "phase11a2_abi_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11A phase11_runtime_pins prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\10_phase_11a_phase11_runtime_pins_prerequisite.log",
+      "log_sha256": "f62135dac0abe151889b461c1a707a382d60f152e837bd464da3caf9fc08bcd3",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "mapping_pin_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11A phase11_structure_lifetime prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\11_phase_11a_phase11_structure_lifetime_prerequisite.log",
+      "log_sha256": "dd4195f19357093c6a5e1e7547325894dd03f456dcdcd50bb40e181f149b0ad1",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "structure_lifetime_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11A phase11_numeric_map prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\12_phase_11a_phase11_numeric_map_prerequisite.log",
+      "log_sha256": "2cf6675522c34e8e67765c51a334b7e5697f454f4dbe1fd9d949573a2853ea86",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "numeric_map_authority_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11A phase11_unmap_authority prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\13_phase_11a_phase11_unmap_authority_prerequisite.log",
+      "log_sha256": "8314018717e2033276509ebd68d08fe7728a6a4b9531c91206259fc4f2459822",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "unmap_authority_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11A phase11_generation_ownership prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\14_phase_11a_phase11_generation_ownership_prerequisite.log",
+      "log_sha256": "9a1e5bf1bc226589cff7d00fb3a30dd8cf7ffa6f68cdc69cd084d643a57fa995",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "generation_ownership_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11A phase11_generation_ledger prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\15_phase_11a_phase11_generation_ledger_prerequisite.log",
+      "log_sha256": "c2796327d2050d195be5df7d8ac62c37bd39f682f4ab94a77f137e51f1a4530b",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "generation_ledger_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11A phase11_generation_boundaries prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\16_phase_11a_phase11_generation_boundaries_prerequisite.log",
+      "log_sha256": "8d6dd05aaaf2a852f53fb6f8eaf2358800f86aa84f0eb647232a04b1cc3a7749",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "generation_boundary_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11A phase11_snapshot prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\17_phase_11a_phase11_snapshot_prerequisite.log",
+      "log_sha256": "a91d0f297d24934f8c83e3f4c36f3c93319757b2643849a77ea51a4205ecbc65",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "heap_growth_maps_one_page_on_demand",
+        "--",
+        "--test-threads=1",
+        "--exact"
+      ]
+    },
+    {
+      "gate": "Phase 11A phase11_gdt prerequisite",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\18_phase_11a_phase11_gdt_prerequisite.log",
+      "log_sha256": "cf8595c95c6b19cb22e4503511da12b560db843a355808ed526aae9f55c80b83",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "phase11_gdt_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11F1 retained-owner exact identity family",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\19_phase_11f1_retained_owner_exact_identity_family.log",
+      "log_sha256": "b567d06afca768c29311ee66f908841b0531b4ede0b517cddac39bcb7a0c8f10",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "retained_owner",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11F2 exception ABI exact identity family",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\20_phase_11f2_exception_abi_exact_identity_family.log",
+      "log_sha256": "c29138e8ef5904c5b3ce161cf09856ad6923dd883f9b05c67136c0c3a8944069",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "exception_abi::tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11F3 minimal Ring0 exact identity family",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\21_phase_11f3_minimal_ring0_exact_identity_family.log",
+      "log_sha256": "b89204238c0634f4a8995ff2fa27acbc98c31d595ba85a3895dea54d5b39df8e",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--lib",
+        "::f3_",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11 F4 owned USER arena host contract",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\22_phase_11_f4_owned_user_arena_host_contract.log",
+      "log_sha256": "5a466408ca6671309433ecc224557ca44bddb4eecc7eddf25eb5eed087516700",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--target",
+        "x86_64-pc-windows-msvc",
+        "--lib",
+        "f4_user_arena_tests::",
+        "--",
+        "--test-threads=1"
+      ]
+    },
+    {
+      "gate": "Phase 11 F5 CPL3 host and fixture contracts",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\23_phase_11_f5_cpl3_host_and_fixture_contracts.log",
+      "log_sha256": "3c6198edf2783196ee60dd241a5013d0613aa3593098703a8c23aff4498a55ce",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "-c",
+        "import json,subprocess,sys\nfor name,command,cwd in json.loads(sys.argv[1]):\n print('F5_CONTRACT_SECTION='+name,flush=True)\n result=subprocess.run(command,cwd=cwd)\n if result.returncode: sys.exit(result.returncode)\n",
+        "[[\"serial\", [\"cargo\", \"+nightly\", \"test\", \"--target\", \"x86_64-pc-windows-msvc\", \"--manifest-path\", \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\\\\tests_kernel\\\\Cargo.toml\", \"--lib\", \"f5_cpl3\", \"--\", \"--test-threads=1\"], \"C:\\\\Users\\\\iamsv\"], [\"parallel\", [\"cargo\", \"+nightly\", \"test\", \"--target\", \"x86_64-pc-windows-msvc\", \"--manifest-path\", \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\\\\tests_kernel\\\\Cargo.toml\", \"--lib\", \"f5_cpl3\"], \"C:\\\\Users\\\\iamsv\"], [\"list\", [\"cargo\", \"+nightly\", \"test\", \"--target\", \"x86_64-pc-windows-msvc\", \"--manifest-path\", \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\\\\tests_kernel\\\\Cargo.toml\", \"--lib\", \"f5_cpl3\", \"--\", \"--list\"], \"C:\\\\Users\\\\iamsv\"], [\"ignored\", [\"cargo\", \"+nightly\", \"test\", \"--target\", \"x86_64-pc-windows-msvc\", \"--manifest-path\", \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\\\\tests_kernel\\\\Cargo.toml\", \"--lib\", \"f5_cpl3\", \"--\", \"--ignored\", \"--list\"], \"C:\\\\Users\\\\iamsv\"], [\"python\", [\"C:\\\\Users\\\\iamsv\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Scripts\\\\python.exe\", \"-B\", \"-m\", \"unittest\", \"-v\", \"test_f5_cpl3_harness\", \"test_f5_entry_derivation\", \"test_f5_terminal_audit\", \"test_f5_cpl3_evidence\"], \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\\\\scripts\"], [\"derivation\", [\"C:\\\\Users\\\\iamsv\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Scripts\\\\python.exe\", \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\\\\scripts\\\\f5_entry_derivation.py\", \"--root\", \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\", \"--manifest\", \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\\\\test_results\\\\f5acc\\\\r01\\\\acceptance_20261025T060216Z_7g_gea5o\\\\f5_source_manifest.json\", \"--output\", \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\\\\test_results\\\\f5acc\\\\r01\\\\acceptance_20261025T060216Z_7g_gea5o\\\\f5_derivation.json\"], \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\"]]"
+      ]
+    },
+    {
+      "gate": "RostiFS formatting",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\24_rostifs_formatting.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "fmt",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\crates\\rostifs\\Cargo.toml",
+        "--check"
+      ]
+    },
+    {
+      "gate": "RostiFS host and crash recovery tests",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\25_rostifs_host_and_crash_recovery_tests.log",
+      "log_sha256": "eea281d494f592fe228f7183c8bf52a15f5cfa3eb42360b0a4e1e9dc09578475",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\crates\\rostifs\\Cargo.toml",
+        "--",
+        "--nocapture"
+      ]
+    },
+    {
+      "gate": "RostiFS host tool safety and integration",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\26_rostifs_host_tool_safety_and_integration.log",
+      "log_sha256": "425dd1551c4efc0cb88c2d501bab85a2cb3d4a502eefd7e6864f7123dc403af7",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\crates\\rostifs\\Cargo.toml",
+        "--features",
+        "host-tools",
+        "--test",
+        "host_tools"
+      ]
+    },
+    {
+      "gate": "RostiFS read boundary and transfer regressions",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\27_rostifs_read_boundary_and_transfer_regressions.log",
+      "log_sha256": "7a522b02c0e3fd4d8fb4a374ba03c5d0edf3bd2dca798bf149de0ed78c90ab57",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\crates\\rostifs\\Cargo.toml",
+        "--features",
+        "host-tools",
+        "--test",
+        "read_performance"
+      ]
+    },
+    {
+      "gate": "RostiFS write preservation regressions",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\28_rostifs_write_preservation_regressions.log",
+      "log_sha256": "65a07fdbcab1102b76e64fed822468fb3f3a6fe7ce22a73a74ca3a7cd137197b",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "+nightly",
+        "test",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\crates\\rostifs\\Cargo.toml",
+        "--features",
+        "host-tools",
+        "--test",
+        "write_preservation"
+      ]
+    },
+    {
+      "gate": "Python media reader regressions",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\29_python_media_reader_regressions.log",
+      "log_sha256": "36331cf1492070acd10239d552ef9d3796f75ee5c187dd2389e6be718f0a1058",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_fs_harness.py"
+      ]
+    },
+    {
+      "gate": "acceptance runner regressions",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\30_acceptance_runner_regressions.log",
+      "log_sha256": "4208f92fd4a49b640e4d6d9e4109d357c4a084701fec0af183370a89244a79c6",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_acceptance_harness.py"
+      ]
+    },
+    {
+      "gate": "RostiFS harness regressions",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\31_rostifs_harness_regressions.log",
+      "log_sha256": "72ea9682e3396911e176d53900a584992db181565af23a20e0154072b799959a",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_rostifs_harness.py"
+      ]
+    },
+    {
+      "gate": "Phase 9.5 benchmark contracts",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\32_phase_9_5_benchmark_contracts.log",
+      "log_sha256": "a80e319c0438832bdf2eae2dd9ec7c5566b105156bd50e7912db474a251d6983",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_phase9_5_bench.py"
+      ]
+    },
+    {
+      "gate": "Phase 9.6 boot metadata harness contracts",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\33_phase_9_6_boot_metadata_harness_contracts.log",
+      "log_sha256": "981e2620fce203de699bb57af720b87be07dc8c06b16f087e0bffcab8e3b880e",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_boot_metadata_harness.py"
+      ]
+    },
+    {
+      "gate": "system image policy contracts",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\34_system_image_policy_contracts.log",
+      "log_sha256": "fc394b56447f0ed02002632ea648c8a7a9029087e745c1fca22a91d5d6234d29",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_system_image_policy.py"
+      ]
+    },
+    {
+      "gate": "Phase 10B initramfs builder contracts",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\35_phase_10b_initramfs_builder_contracts.log",
+      "log_sha256": "bcf522f8fc171b4ce70df8c07539d42ead6060e81ef180eb8fed63c5f2d61510",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_build_initramfs.py"
+      ]
+    },
+    {
+      "gate": "Phase 10B initramfs harness contracts",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\36_phase_10b_initramfs_harness_contracts.log",
+      "log_sha256": "4c76c02a127895138124b83222b6b11a8a4f85f4206e18d649009609e285beba",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_phase10_initramfs_harness.py"
+      ]
+    },
+    {
+      "gate": "Phase 9.6 B13 boot entry host contracts",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\37_phase_9_6_b13_boot_entry_host_contracts.log",
+      "log_sha256": "9486931ffaf5ac84b7b19a3da86e47761d4abc55aaf9010fbbddd7e742c67706",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_boot.py",
+        "--report",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\b13_host.json"
+      ]
+    },
+    {
+      "gate": "build read fault fixture",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\38_build_read_fault_fixture.log",
+      "log_sha256": "be9a1c93bc8ca81c22525930cfa270f7074704eaf0d02f0e3bb0d4b2a6d9df8d",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "build",
+        "--features",
+        "paging-fault-test"
+      ]
+    },
+    {
+      "gate": "CPU read faults 128 and 512",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\39_cpu_read_faults_128_and_512.log",
+      "log_sha256": "0ca1840b43195523dd98ff3deb80bccc601d1a97adbf2594a6794688ccd1bbb2",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\paging_test.py",
+        "--fault",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\read_fault"
+      ]
+    },
+    {
+      "gate": "build write fault fixture",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\40_build_write_fault_fixture.log",
+      "log_sha256": "2616a2bda75822e163da23e52f84c8ec7f01b3fc824757d44cbaa6867026907a",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "build",
+        "--features",
+        "paging-write-fault-test"
+      ]
+    },
+    {
+      "gate": "CPU write faults 128 and 512",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\41_cpu_write_faults_128_and_512.log",
+      "log_sha256": "3045d69564aa5b4a46da983dec6265364260c48e37f341613326a6f6da290a12",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\paging_test.py",
+        "--write-fault",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\write_fault"
+      ]
+    },
+    {
+      "gate": "build initramfs failure fixture",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\42_build_initramfs_failure_fixture.log",
+      "log_sha256": "a9716b1a99d3d163847ee4ceb2aa1bcd646846823491198798ff440b147d141c",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "build",
+        "--features",
+        "initramfs-failure-test"
+      ]
+    },
+    {
+      "gate": "production build",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\43_production_build.log",
+      "log_sha256": "3e5278eb5091aadaa5d70210525929f18180bb4036b807e40101ada5d86f400a",
+      "actual_gate_exit": 0,
+      "command": [
+        "cargo",
+        "build"
+      ]
+    },
+    {
+      "gate": "production fixture policy contracts",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\44_production_fixture_policy_contracts.log",
+      "log_sha256": "ca56d30b6993e11164119ffb126e7056c9eeca313302a36c4f9de1e02c2147a6",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_production_fixture_policy.py"
+      ]
+    },
+    {
+      "gate": "production feature and fault exclusion",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\45_production_feature_and_fault_exclusion.log",
+      "log_sha256": "6a449ef9a82f1098b33db65a701723ecb1441fc3f3545b2a6fe26bc6f46d7fc8",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\verify_production.py"
+      ]
+    },
+    {
+      "gate": "Phase 9.6 B13 privileged boot entry and production handoff",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\46_phase_9_6_b13_privileged_boot_entry_and_production_handoff.log",
+      "log_sha256": "77f963e657e47cdac401b1ceffa206cd4d906bee226e42dc4eed64c81245c7df",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\b13_boot_fixture.py",
+        "--build",
+        "--run-qemu",
+        "--production-kernel",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\b13_qemu"
+      ]
+    },
+    {
+      "gate": "Phase 9.6 B13 injection transport contracts",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\47_phase_9_6_b13_injection_transport_contracts.log",
+      "log_sha256": "1bb12a278da25f4b49e3c1473f7fe6d50c52e74405cefd98f1fca42939ba6f5b",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_b13_entry_inject.py"
+      ]
+    },
+    {
+      "gate": "Phase 11F2 exception ABI hardware matrix",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\48_phase_11f2_exception_abi_hardware_matrix.log",
+      "log_sha256": "645fdcd5697b9197fe97393a5eab102ff667613deae0b879369586c642eeec0b",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\f2_exception_guest.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\f2_exception"
+      ]
+    },
+    {
+      "gate": "Phase 11F3 minimal Ring0 hardware matrix",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\49_phase_11f3_minimal_ring0_hardware_matrix.log",
+      "log_sha256": "e01275958e1be588fd996a2e5d57d140eb5e0a3a621bdf44a1676bc053cb50c4",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\f3_full_guest.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\f3_gdt_tss"
+      ]
+    },
+    {
+      "gate": "Phase 11 F4 owned USER arena Ring0 hardware matrix",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\50_phase_11_f4_owned_user_arena_ring0_hardware_matrix.log",
+      "log_sha256": "e63bb3dec2f400e4785ff794395525b258bfea2eaf06c26e075ee148496764be",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\f4_arena_guest.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\f4_user_arena\\matrix"
+      ]
+    },
+    {
+      "gate": "Phase 11 F5 CPL3 exact ELF terminal closure",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\51_phase_11_f5_cpl3_exact_elf_terminal_closure.log",
+      "log_sha256": "de055bf0a0cda3ed59035498c164886f709d3a9dc47fdbf12eadc5336ec321e4",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\f5_terminal_audit.py",
+        "--elf",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+        "--before",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\f2_before_macro_01.elf",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\f5_production_audit"
+      ]
+    },
+    {
+      "gate": "Phase 11 F5 CPL3 one-shot hardware matrix",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\52_phase_11_f5_cpl3_one_shot_hardware_matrix.log",
+      "log_sha256": "fc0b4db8c4a128a84135b06eca980377a25eae7e7ba6166a19722c2d9f7e671a",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\f5_cpl3_guest.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\f5_cpl3\\matrix"
+      ]
+    },
+    {
+      "gate": "Phase 11 F5 retained prerequisite hardware preservation",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\53_phase_11_f5_retained_prerequisite_hardware_preservation.log",
+      "log_sha256": "8435f53b178c5e821b276978af98b0ccabf8089ed84d532f5421b3c018d29026",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_metadata_test.py",
+        "--f1",
+        "--boot",
+        "elf",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\f5_retained_prerequisite",
+        "--ram",
+        "128",
+        "512",
+        "--timeout",
+        "890"
+      ]
+    },
+    {
+      "gate": "Phase 9.6 integrated boot metadata ELF and GRUB safety",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\54_phase_9_6_integrated_boot_metadata_elf_and_grub_safety.log",
+      "log_sha256": "01f066e6e60d8913d9d81434c2eae89f0da46f518f433fb90524381a85303eea",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_metadata_test.py",
+        "--boot",
+        "both",
+        "--ram",
+        "128",
+        "512",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\boot_metadata"
+      ]
+    },
+    {
+      "gate": "ELF validation",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\55_elf_validation.log",
+      "log_sha256": "af61faf0b1918bdcd6c41f32e1668895f9e577f6e8d2fe56cdf6c90a129b8ce1",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\validate_elf.py",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel"
+      ]
+    },
+    {
+      "gate": "ten ELF boots 128 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\56_ten_elf_boots_128_mib.log",
+      "log_sha256": "6b25e61ddc959ec7f54ae9091edf529aed8b5a79614cf98b81a56d97f731357f",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_test.py",
+        "--runs",
+        "10",
+        "--timeout",
+        "3",
+        "--memory",
+        "128",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\boot_128"
+      ]
+    },
+    {
+      "gate": "ten ELF boots 512 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\57_ten_elf_boots_512_mib.log",
+      "log_sha256": "e3f8b04b51e8110c83a9f827faf19fd70b2092b896e1857d69ed327f87665c37",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_test.py",
+        "--runs",
+        "10",
+        "--timeout",
+        "3",
+        "--memory",
+        "512",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\boot_512"
+      ]
+    },
+    {
+      "gate": "paging stability twenty ELF boots",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\58_paging_stability_twenty_elf_boots.log",
+      "log_sha256": "6f1a075091af0fbb6b8ec9a5225c90025ec39843544a6ceff9be7506d6bebd71",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\paging_test.py",
+        "--runs",
+        "10",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\paging"
+      ]
+    },
+    {
+      "gate": "keyboard integration",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\59_keyboard_integration.log",
+      "log_sha256": "98cca8a87bbfda583e89bdeff93154d6f0c1e0c2757d8f41b08b4b405ee8cf82",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\keyboard_test.py"
+      ]
+    },
+    {
+      "gate": "VGA backspace ELF",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\60_vga_backspace_elf.log",
+      "log_sha256": "4185b4b7df7218f514ff077c9cc173f06b73ed1af4997baf63d6c45c29622592",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\backspace_test.py"
+      ]
+    },
+    {
+      "gate": "filesystem growth OOM ELF 128 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\61_filesystem_growth_oom_elf_128_mib.log",
+      "log_sha256": "75ef58c780b2436d51f11653a274e555cda3da451e3a55a3e4e391a47b2e7d74",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\fs_test.py",
+        "--ram",
+        "128",
+        "--stress",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\fs_elf_128"
+      ]
+    },
+    {
+      "gate": "block persistence ELF 128 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\62_block_persistence_elf_128_mib.log",
+      "log_sha256": "48339fc4456ca12431a35f49f675664501226e75d7e1839d627975b819513fef",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\block_test.py",
+        "--ram",
+        "128",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\block_elf_128"
+      ]
+    },
+    {
+      "gate": "RostiFS persistence ELF 128 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\63_rostifs_persistence_elf_128_mib.log",
+      "log_sha256": "12f423425abaf94695cb867a2bac7bbdf643d6ec1412d54032c808424a2c4043",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\rostifs_test.py",
+        "--ram",
+        "128",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\rostifs_elf_128"
+      ]
+    },
+    {
+      "gate": "filesystem growth OOM ELF 512 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\64_filesystem_growth_oom_elf_512_mib.log",
+      "log_sha256": "a28db0c9ff8f1a9dcb37f823e9ea1f59dee21f488fd752a8775c2b5d5f1538de",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\fs_test.py",
+        "--ram",
+        "512",
+        "--stress",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\fs_elf_512"
+      ]
+    },
+    {
+      "gate": "block persistence ELF 512 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\65_block_persistence_elf_512_mib.log",
+      "log_sha256": "3273a98e1e33559e3f3e4c05a568ae4ec2e768e438fe7a750bbe3d4d27ef8915",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\block_test.py",
+        "--ram",
+        "512",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\block_elf_512"
+      ]
+    },
+    {
+      "gate": "RostiFS persistence ELF 512 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\66_rostifs_persistence_elf_512_mib.log",
+      "log_sha256": "31d590873fed1a851cbddfdb33e4ffc0b7e5bfc81de7d1a44a7515b6c2455953",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\rostifs_test.py",
+        "--ram",
+        "512",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\rostifs_elf_512"
+      ]
+    },
+    {
+      "gate": "GRUB ISO build and boot",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\67_grub_iso_build_and_boot.log",
+      "log_sha256": "1325d6cbeca7b2e666a178b29b842108c4ce1fd1531bd47ace75eb28bde992c3",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\build-proxmox-iso.py"
+      ]
+    },
+    {
+      "gate": "ISO paging 128 and 512",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\68_iso_paging_128_and_512.log",
+      "log_sha256": "7a3db6dfd78f3b47ceae0000a8237389e863e288d5e78ed39ef93c120645a4ed",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\paging_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\iso_paging"
+      ]
+    },
+    {
+      "gate": "VGA backspace ISO",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\69_vga_backspace_iso.log",
+      "log_sha256": "781a50509010742ed9317164dcbb3f4e59b52ac3aa55f2fb2ebc805245188467",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\backspace_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso"
+      ]
+    },
+    {
+      "gate": "filesystem growth OOM ISO 128 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\70_filesystem_growth_oom_iso_128_mib.log",
+      "log_sha256": "54b676169d86582c4951237c1cd5c4ae57d8c2b24199624c5fd4643d00b65953",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\fs_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+        "--ram",
+        "128",
+        "--stress",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\fs_iso_128"
+      ]
+    },
+    {
+      "gate": "block persistence ISO 128 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\71_block_persistence_iso_128_mib.log",
+      "log_sha256": "256d3692c9cdcd59436ec134331b9f4520bfde52343ef68bfa28850314f317c1",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\block_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+        "--ram",
+        "128",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\block_iso_128"
+      ]
+    },
+    {
+      "gate": "RostiFS persistence ISO 128 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\72_rostifs_persistence_iso_128_mib.log",
+      "log_sha256": "e69e290c189d66f4824f9c183178641d3fa0f8efa258e5728da4210bd3f93969",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\rostifs_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+        "--ram",
+        "128",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\rostifs_iso_128"
+      ]
+    },
+    {
+      "gate": "filesystem growth OOM ISO 512 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\73_filesystem_growth_oom_iso_512_mib.log",
+      "log_sha256": "0d4795891294432f758f0e52c88a1e5e9837d67fe09a121ecf6bf8c53cda5b1a",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\fs_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+        "--ram",
+        "512",
+        "--stress",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\fs_iso_512"
+      ]
+    },
+    {
+      "gate": "block persistence ISO 512 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\74_block_persistence_iso_512_mib.log",
+      "log_sha256": "593713957577e4245a556d6113545972e65e5b83fffa00805eb6b690514030b6",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\block_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+        "--ram",
+        "512",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\block_iso_512"
+      ]
+    },
+    {
+      "gate": "RostiFS persistence ISO 512 MiB",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\75_rostifs_persistence_iso_512_mib.log",
+      "log_sha256": "49f144dc3ca9f156aac3adf9606e41f827f4bdcfb559b814d2b1a7f5482f7db7",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\rostifs_test.py",
+        "--iso",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti.iso",
+        "--ram",
+        "512",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\rostifs_iso_512"
+      ]
+    },
+    {
+      "gate": "Phase 10B trusted initramfs guest matrix",
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\76_phase_10b_trusted_initramfs_guest_matrix.log",
+      "log_sha256": "ad904e6afb576f458d716778bf0b1eed45328de5d001b85eb188f15ab9798289",
+      "actual_gate_exit": 0,
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\phase10_initramfs_test.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\phase10"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "rosti.f5-canonical-launch.v1",
+  "status": "LAUNCHED_NOT_YET_ACCEPTED",
+  "utc_recorded": "2026-10-25T06:02:42.087059+00:00",
+  "process_session_id": "proc_3baf9028ef08",
+  "launcher_pid": 13144,
+  "launch_tool_exit_code": 0,
+  "launch_tool_exit_is_not_runner_exit": true,
+  "actual_runner_exit_code": null,
+  "completion_notification_enabled": true,
+  "command": [
+    "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+    "-B",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\phase6_verify.py",
+    "--output-dir",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01",
+    "--f5-review",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\reviews\\candidate_review_02.json",
+    "--f5-review-sha256",
+    "1c3005b47e2cf455159bd44aedd2172822aef89fa7f41e894ac552dc313da420"
+  ],
+  "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "output_parent": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01",
+  "acceptance_path": "NOT_DISCOVERED_UNTIL_COMPLETION; do not poll active report",
+  "preflight": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\canonical_preflight_10.json",
+    "sha256": "1b65c32548cdbd522b9b9ba657e58662cbe09a4cce41eeb9509b3b8bac65ee23"
+  },
+  "candidate_review_sha256": "1c3005b47e2cf455159bd44aedd2172822aef89fa7f41e894ac552dc313da420",
+  "document_disposition_sha256": "632eef747ffeeeb44a528cd244fc00cee5ac139d6b7537cf2c470e1f767978f2",
+  "source_freeze_sha256": "56d4e87dc235c52218e80d6a4f0c9d0380cf10d8f98e271d3b3f83c90917bb25",
+  "user_resource_response": "I will free some memory; recheck and continue (clarify selection)",
+  "resource_preflight_available_bytes": 2151047168,
+  "canonical_acceptance": false,
+  "active_run_policy": "No polling, competing Cargo/QEMU/mock jobs, frozen-input edits, lock unlink, or premature PASS. Native completion notification or documented OS blocking wait only; noninterfering progress documentation allowed."
+}

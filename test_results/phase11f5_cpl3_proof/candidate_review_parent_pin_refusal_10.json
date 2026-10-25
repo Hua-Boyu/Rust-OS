@@ -1,0 +1,28 @@
+{
+  "schema": "rosti.f5-parent-review-pin-refusal.v1",
+  "status": "CANONICAL_ADMISSION_BLOCKED_PENDING_INDEPENDENT_DOCUMENT_DISPOSITION",
+  "scope": "mutable task progress documentation only; no frozen source/config/harness change",
+  "tool": "execute_code",
+  "execution_count": 7,
+  "actual_exit": 1,
+  "elapsed_seconds": 0.02,
+  "failure": "reviewed_inputs STATE.md raw pin mismatch",
+  "mismatches": [
+    {
+      "set": "reviewed_inputs",
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\STATE.md",
+      "expected": "dd26050837fdf7739694802a977133dfce8630cb92a50001a3ce8a62a1f551e5",
+      "actual": "d9b54015af397e7266e03642aac79948a5eb855d178ad32e48563a5ad90ab2b3"
+    }
+  ],
+  "review_path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\reviews\\candidate_review_02.json",
+  "review_sha256": "1c3005b47e2cf455159bd44aedd2172822aef89fa7f41e894ac552dc313da420",
+  "full_frozen_source_count": 262,
+  "full_frozen_source_stable": true,
+  "canonical_source_stable": true,
+  "preserved_original_document": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\STATE_review02_snapshot_10.md",
+    "sha256": "dd26050837fdf7739694802a977133dfce8630cb92a50001a3ce8a62a1f551e5"
+  },
+  "resolution_required": "Independent explicit mapping of original historical context pin to exact preserved bytes and assessment of new progress-only prefix; never rewrite review02, replace its old pin or silently skip mismatch."
+}

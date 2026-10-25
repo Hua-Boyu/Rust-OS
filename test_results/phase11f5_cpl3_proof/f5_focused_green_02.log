@@ -1,0 +1,1880 @@
+   Compiling tests_kernel v0.1.0 (C:\Users\iamsv\Documents\Rust-OS\tests_kernel)
+error: `~` cannot be used as a unary operator
+   --> src\f5_cpl3_tests.rs:220:26
+    |
+220 |     assert_eq!(c.error & ~7, 0); // no reserved/I/D indication
+    |                          ^
+    |
+help: use `!` to perform bitwise not
+    |
+220 -     assert_eq!(c.error & ~7, 0); // no reserved/I/D indication
+220 +     assert_eq!(c.error & !7, 0); // no reserved/I/D indication
+    |
+
+error: `~` cannot be used as a unary operator
+   --> src\f5_cpl3_tests.rs:228:26
+    |
+228 |     assert_eq!(f.error & ~7, 0);
+    |                          ^
+    |
+help: use `!` to perform bitwise not
+    |
+228 -     assert_eq!(f.error & ~7, 0);
+228 +     assert_eq!(f.error & !7, 0);
+    |
+
+error[E0106]: missing lifetime specifier
+   --> src\..\..\src\f5_cpl3.rs:150:40
+    |
+150 | pub fn f5_row(scenario: u32) -> Option<&F5ScenarioRow> {
+    |                                        ^ expected named lifetime parameter
+    |
+    = help: this function's return type contains a borrowed value, but there is no value for it to be borrowed from
+help: consider using the `'static` lifetime, but this is uncommon unless you're returning a borrowed value from a `const` or a `static`
+    |
+150 | pub fn f5_row(scenario: u32) -> Option<&'static F5ScenarioRow> {
+    |                                         +++++++
+help: instead, you are more likely to want to change the argument to be borrowed...
+    |
+150 | pub fn f5_row(scenario: &u32) -> Option<&F5ScenarioRow> {
+    |                         +
+help: ...or alternatively, you might want to return an owned value
+    |
+150 - pub fn f5_row(scenario: u32) -> Option<&F5ScenarioRow> {
+150 + pub fn f5_row(scenario: u32) -> Option<F5ScenarioRow> {
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:13:16
+   |
+13 |     assert_eq!(f5.F5_GDT_ENTRIES * 8 - 1, usize(f5.F5_GDTR_LIMIT));
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+13 -     assert_eq!(f5.F5_GDT_ENTRIES * 8 - 1, usize(f5.F5_GDTR_LIMIT));
+13 +     assert_eq!(f5::F5_GDT_ENTRIES * 8 - 1, usize(f5.F5_GDTR_LIMIT));
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:13:49
+   |
+13 |     assert_eq!(f5.F5_GDT_ENTRIES * 8 - 1, usize(f5.F5_GDTR_LIMIT));
+   |                                                 ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+13 -     assert_eq!(f5.F5_GDT_ENTRIES * 8 - 1, usize(f5.F5_GDTR_LIMIT));
+13 +     assert_eq!(f5.F5_GDT_ENTRIES * 8 - 1, usize(f5::F5_GDTR_LIMIT));
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:14:16
+   |
+14 |     assert_eq!(f5.F5_GDTR_LIMIT, 55);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+14 -     assert_eq!(f5.F5_GDTR_LIMIT, 55);
+14 +     assert_eq!(f5::F5_GDTR_LIMIT, 55);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:16:21
+   |
+16 |     assert_eq!((u8((f5.F5_USER_CODE >> 40) & 0xff)) >> 5 & 3, 3);
+   |                     ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+16 -     assert_eq!((u8((f5.F5_USER_CODE >> 40) & 0xff)) >> 5 & 3, 3);
+16 +     assert_eq!((u8((f5::F5_USER_CODE >> 40) & 0xff)) >> 5 & 3, 3);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:17:21
+   |
+17 |     assert_eq!((u8((f5.F5_USER_DATA >> 40) & 0xff)) >> 5 & 3, 3);
+   |                     ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+17 -     assert_eq!((u8((f5.F5_USER_DATA >> 40) & 0xff)) >> 5 & 3, 3);
+17 +     assert_eq!((u8((f5::F5_USER_DATA >> 40) & 0xff)) >> 5 & 3, 3);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:20:20
+   |
+20 |     assert_eq!(u8((f5.F5_USER_CODE >> 40) & 0xff) & 0x80, 0x80); // present
+   |                    ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+20 -     assert_eq!(u8((f5.F5_USER_CODE >> 40) & 0xff) & 0x80, 0x80); // present
+20 +     assert_eq!(u8((f5::F5_USER_CODE >> 40) & 0xff) & 0x80, 0x80); // present
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:21:20
+   |
+21 |     assert_eq!(u8((f5.F5_USER_CODE >> 40) & 0xff) & 0x08, 0x08); // code bit
+   |                    ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+21 -     assert_eq!(u8((f5.F5_USER_CODE >> 40) & 0xff) & 0x08, 0x08); // code bit
+21 +     assert_eq!(u8((f5::F5_USER_CODE >> 40) & 0xff) & 0x08, 0x08); // code bit
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:22:20
+   |
+22 |     assert_eq!(u8((f5.F5_USER_DATA >> 40) & 0xff) & 0x08, 0x00); // data bit
+   |                    ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+22 -     assert_eq!(u8((f5.F5_USER_DATA >> 40) & 0xff) & 0x08, 0x00); // data bit
+22 +     assert_eq!(u8((f5::F5_USER_DATA >> 40) & 0xff) & 0x08, 0x00); // data bit
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:23:20
+   |
+23 |     assert_eq!(u8((f5.F5_USER_DATA >> 40) & 0xff) & 0x02, 0x02); // R/W
+   |                    ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+23 -     assert_eq!(u8((f5.F5_USER_DATA >> 40) & 0xff) & 0x02, 0x02); // R/W
+23 +     assert_eq!(u8((f5::F5_USER_DATA >> 40) & 0xff) & 0x02, 0x02); // R/W
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:25:16
+   |
+25 |     assert_eq!(f5.F5_TR, 0x18);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+25 -     assert_eq!(f5.F5_TR, 0x18);
+25 +     assert_eq!(f5::F5_TR, 0x18);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:26:16
+   |
+26 |     assert_eq!(f5.F5_TSS_SS0, 0x10);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+26 -     assert_eq!(f5.F5_TSS_SS0, 0x10);
+26 +     assert_eq!(f5::F5_TSS_SS0, 0x10);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:27:16
+   |
+27 |     assert_eq!(f5.F5_KERNEL_CS, 0x08);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+27 -     assert_eq!(f5.F5_KERNEL_CS, 0x08);
+27 +     assert_eq!(f5::F5_KERNEL_CS, 0x08);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:33:16
+   |
+33 |     assert_eq!(f5.F5_USER_CS, (5 << 3) | 3);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+33 -     assert_eq!(f5.F5_USER_CS, (5 << 3) | 3);
+33 +     assert_eq!(f5::F5_USER_CS, (5 << 3) | 3);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:34:16
+   |
+34 |     assert_eq!(f5.F5_USER_DS, (6 << 3) | 3);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+34 -     assert_eq!(f5.F5_USER_DS, (6 << 3) | 3);
+34 +     assert_eq!(f5::F5_USER_DS, (6 << 3) | 3);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:35:16
+   |
+35 |     assert_eq!(f5.F5_USER_CS & 3, 3);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+35 -     assert_eq!(f5.F5_USER_CS & 3, 3);
+35 +     assert_eq!(f5::F5_USER_CS & 3, 3);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:36:16
+   |
+36 |     assert_eq!(f5.F5_USER_DS & 3, 3);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+36 -     assert_eq!(f5.F5_USER_DS & 3, 3);
+36 +     assert_eq!(f5::F5_USER_DS & 3, 3);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:38:16
+   |
+38 |     assert_eq!(f5.F5_KERNEL_CS & 3, 0);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+38 -     assert_eq!(f5.F5_KERNEL_CS & 3, 0);
+38 +     assert_eq!(f5::F5_KERNEL_CS & 3, 0);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:39:16
+   |
+39 |     assert_eq!(f5.F5_KERNEL_SS & 3, 0);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+39 -     assert_eq!(f5.F5_KERNEL_SS & 3, 0);
+39 +     assert_eq!(f5::F5_KERNEL_SS & 3, 0);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:41:16
+   |
+41 |     assert_ne!(f5.F5_USER_CS, f5.F5_KERNEL_CS);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+41 -     assert_ne!(f5.F5_USER_CS, f5.F5_KERNEL_CS);
+41 +     assert_ne!(f5::F5_USER_CS, f5.F5_KERNEL_CS);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:41:31
+   |
+41 |     assert_ne!(f5.F5_USER_CS, f5.F5_KERNEL_CS);
+   |                               ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+41 -     assert_ne!(f5.F5_USER_CS, f5.F5_KERNEL_CS);
+41 +     assert_ne!(f5.F5_USER_CS, f5::F5_KERNEL_CS);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:42:16
+   |
+42 |     assert_ne!(f5.F5_USER_DS, f5.F5_KERNEL_SS);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+42 -     assert_ne!(f5.F5_USER_DS, f5.F5_KERNEL_SS);
+42 +     assert_ne!(f5::F5_USER_DS, f5.F5_KERNEL_SS);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:42:31
+   |
+42 |     assert_ne!(f5.F5_USER_DS, f5.F5_KERNEL_SS);
+   |                               ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+42 -     assert_ne!(f5.F5_USER_DS, f5.F5_KERNEL_SS);
+42 +     assert_ne!(f5.F5_USER_DS, f5::F5_KERNEL_SS);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:43:16
+   |
+43 |     assert_ne!(f5.F5_USER_CS, f5.F5_TR);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+43 -     assert_ne!(f5.F5_USER_CS, f5.F5_TR);
+43 +     assert_ne!(f5::F5_USER_CS, f5.F5_TR);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:43:31
+   |
+43 |     assert_ne!(f5.F5_USER_CS, f5.F5_TR);
+   |                               ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+43 -     assert_ne!(f5.F5_USER_CS, f5.F5_TR);
+43 +     assert_ne!(f5.F5_USER_CS, f5::F5_TR);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:50:16
+   |
+50 |     for row in f5.F5_ROWS {
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+50 -     for row in f5.F5_ROWS {
+50 +     for row in f5::F5_ROWS {
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:51:54
+   |
+51 |         assert_eq!(usize(row.fault_eip - row.entry), f5.F5_PROLOGUE.len());
+   |                                                      ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+51 -         assert_eq!(usize(row.fault_eip - row.entry), f5.F5_PROLOGUE.len());
+51 +         assert_eq!(usize(row.fault_eip - row.entry), f5::F5_PROLOGUE.len());
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:52:32
+   |
+52 |         let head = row.bytes[..f5.F5_PROLOGUE.len()];
+   |                                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+52 -         let head = row.bytes[..f5.F5_PROLOGUE.len()];
+52 +         let head = row.bytes[..f5::F5_PROLOGUE.len()];
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:57:30
+   |
+57 |         assert_eq!(head_arr, f5.F5_PROLOGUE);
+   |                              ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+57 -         assert_eq!(head_arr, f5.F5_PROLOGUE);
+57 +         assert_eq!(head_arr, f5::F5_PROLOGUE);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:67:13
+   |
+67 |     let b = f5.F5_ROWS[1];
+   |             ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+67 -     let b = f5.F5_ROWS[1];
+67 +     let b = f5::F5_ROWS[1];
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:69:9
+   |
+69 |         f5.F5_RO_DATA_OFFSET);
+   |         ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+69 -         f5.F5_RO_DATA_OFFSET);
+69 +         f5::F5_RO_DATA_OFFSET);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:70:28
+   |
+70 |     assert_eq!(b.bytes[8], f5.F5_RO_DATA_BYTE); // written value equals current byte
+   |                            ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+70 -     assert_eq!(b.bytes[8], f5.F5_RO_DATA_BYTE); // written value equals current byte
+70 +     assert_eq!(b.bytes[8], f5::F5_RO_DATA_BYTE); // written value equals current byte
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+  --> src\f5_cpl3_tests.rs:72:16
+   |
+72 |     assert_eq!(f5.F5_ROWS[5].cr2, 0x403f_e000);
+   |                ^^
+   |
+   = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+   |
+72 -     assert_eq!(f5.F5_ROWS[5].cr2, 0x403f_e000);
+72 +     assert_eq!(f5::F5_ROWS[5].cr2, 0x403f_e000);
+   |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:103:16
+    |
+103 |     assert_eq!(f5.F5_PAYLOAD_BYTES, 6 * f5.F5_SLOT_BYTES);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+103 -     assert_eq!(f5.F5_PAYLOAD_BYTES, 6 * f5.F5_SLOT_BYTES);
+103 +     assert_eq!(f5::F5_PAYLOAD_BYTES, 6 * f5.F5_SLOT_BYTES);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:103:41
+    |
+103 |     assert_eq!(f5.F5_PAYLOAD_BYTES, 6 * f5.F5_SLOT_BYTES);
+    |                                         ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+103 -     assert_eq!(f5.F5_PAYLOAD_BYTES, 6 * f5.F5_SLOT_BYTES);
+103 +     assert_eq!(f5.F5_PAYLOAD_BYTES, 6 * f5::F5_SLOT_BYTES);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:104:24
+    |
+104 |     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES <= 4096);
+    |                        ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+104 -     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES <= 4096);
+104 +     assert_usize(usize(f5::F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES <= 4096);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:104:48
+    |
+104 |     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES <= 4096);
+    |                                                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+104 -     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES <= 4096);
+104 +     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) + f5::F5_PAYLOAD_BYTES <= 4096);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:105:24
+    |
+105 |     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) % f5.F5_SLOT_BYTES == 0);
+    |                        ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+105 -     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) % f5.F5_SLOT_BYTES == 0);
+105 +     assert_usize(usize(f5::F5_PAYLOAD_OFFSET) % f5.F5_SLOT_BYTES == 0);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:105:48
+    |
+105 |     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) % f5.F5_SLOT_BYTES == 0);
+    |                                                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+105 -     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) % f5.F5_SLOT_BYTES == 0);
+105 +     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) % f5::F5_SLOT_BYTES == 0);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:106:16
+    |
+106 |     for row in f5.F5_ROWS {
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+106 -     for row in f5.F5_ROWS {
+106 +     for row in f5::F5_ROWS {
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:107:62
+    |
+107 |         assert_usize(usize(row.entry) >= 0x4000_0000 + usize(f5.F5_PAYLOAD_OFFSET));
+    |                                                              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+107 -         assert_usize(usize(row.entry) >= 0x4000_0000 + usize(f5.F5_PAYLOAD_OFFSET));
+107 +         assert_usize(usize(row.entry) >= 0x4000_0000 + usize(f5::F5_PAYLOAD_OFFSET));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:108:61
+    |
+108 |         assert_usize(usize(row.entry) < 0x4000_0000 + usize(f5.F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES);
+    |                                                             ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+108 -         assert_usize(usize(row.entry) < 0x4000_0000 + usize(f5.F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES);
+108 +         assert_usize(usize(row.entry) < 0x4000_0000 + usize(f5::F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:108:85
+    |
+108 |         assert_usize(usize(row.entry) < 0x4000_0000 + usize(f5.F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES);
+    |                                                                                     ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+108 -         assert_usize(usize(row.entry) < 0x4000_0000 + usize(f5.F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES);
+108 +         assert_usize(usize(row.entry) < 0x4000_0000 + usize(f5.F5_PAYLOAD_OFFSET) + f5::F5_PAYLOAD_BYTES);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:109:64
+    |
+109 |         assert_usize(usize(row.fault_eip) < usize(row.entry) + f5.F5_SLOT_BYTES);
+    |                                                                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+109 -         assert_usize(usize(row.fault_eip) < usize(row.entry) + f5.F5_SLOT_BYTES);
+109 +         assert_usize(usize(row.fault_eip) < usize(row.entry) + f5::F5_SLOT_BYTES);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:113:20
+    |
+113 |         assert_eq!(f5.F5_ROWS[i].entry, 0x4000_0100 + u32(i) * 0x40);
+    |                    ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+113 -         assert_eq!(f5.F5_ROWS[i].entry, 0x4000_0100 + u32(i) * 0x40);
+113 +         assert_eq!(f5::F5_ROWS[i].entry, 0x4000_0100 + u32(i) * 0x40);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:125:16
+    |
+125 |     assert_eq!(f5.F5_ENTRY_EFLAGS, 0x2);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+125 -     assert_eq!(f5.F5_ENTRY_EFLAGS, 0x2);
+125 +     assert_eq!(f5::F5_ENTRY_EFLAGS, 0x2);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:126:16
+    |
+126 |     assert_eq!(f5.F5_ENTRY_EFLAGS >> 1 & 1, 1);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+126 -     assert_eq!(f5.F5_ENTRY_EFLAGS >> 1 & 1, 1);
+126 +     assert_eq!(f5::F5_ENTRY_EFLAGS >> 1 & 1, 1);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:129:24
+    |
+129 |             assert_eq!(f5.F5_ENTRY_EFLAGS >> bit & 1, 0);
+    |                        ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+129 -             assert_eq!(f5.F5_ENTRY_EFLAGS >> bit & 1, 0);
+129 +             assert_eq!(f5::F5_ENTRY_EFLAGS >> bit & 1, 0);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:133:16
+    |
+133 |     assert_eq!(f5.F5_USER_ESP, 0x4040_0000);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+133 -     assert_eq!(f5.F5_USER_ESP, 0x4040_0000);
+133 +     assert_eq!(f5::F5_USER_ESP, 0x4040_0000);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:134:16
+    |
+134 |     assert_eq!(f5.F5_USER_ESP & 3, 0);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+134 -     assert_eq!(f5.F5_USER_ESP & 3, 0);
+134 +     assert_eq!(f5::F5_USER_ESP & 3, 0);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:138:16
+    |
+138 |     assert_eq!(f5.F5_OLD_SS_OFFSET, f5.F5_OLD_ESP_OFFSET + 4);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+138 -     assert_eq!(f5.F5_OLD_SS_OFFSET, f5.F5_OLD_ESP_OFFSET + 4);
+138 +     assert_eq!(f5::F5_OLD_SS_OFFSET, f5.F5_OLD_ESP_OFFSET + 4);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:138:37
+    |
+138 |     assert_eq!(f5.F5_OLD_SS_OFFSET, f5.F5_OLD_ESP_OFFSET + 4);
+    |                                     ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+138 -     assert_eq!(f5.F5_OLD_SS_OFFSET, f5.F5_OLD_ESP_OFFSET + 4);
+138 +     assert_eq!(f5.F5_OLD_SS_OFFSET, f5::F5_OLD_ESP_OFFSET + 4);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:139:16
+    |
+139 |     assert_eq!(f5.F5_EIP_OFFSET + 4, f5.F5_CS_OFFSET);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+139 -     assert_eq!(f5.F5_EIP_OFFSET + 4, f5.F5_CS_OFFSET);
+139 +     assert_eq!(f5::F5_EIP_OFFSET + 4, f5.F5_CS_OFFSET);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:139:38
+    |
+139 |     assert_eq!(f5.F5_EIP_OFFSET + 4, f5.F5_CS_OFFSET);
+    |                                      ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+139 -     assert_eq!(f5.F5_EIP_OFFSET + 4, f5.F5_CS_OFFSET);
+139 +     assert_eq!(f5.F5_EIP_OFFSET + 4, f5::F5_CS_OFFSET);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:140:16
+    |
+140 |     assert_eq!(f5.F5_CS_OFFSET + 4, f5.F5_EFLAGS_OFFSET);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+140 -     assert_eq!(f5.F5_CS_OFFSET + 4, f5.F5_EFLAGS_OFFSET);
+140 +     assert_eq!(f5::F5_CS_OFFSET + 4, f5.F5_EFLAGS_OFFSET);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:140:37
+    |
+140 |     assert_eq!(f5.F5_CS_OFFSET + 4, f5.F5_EFLAGS_OFFSET);
+    |                                     ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+140 -     assert_eq!(f5.F5_CS_OFFSET + 4, f5.F5_EFLAGS_OFFSET);
+140 +     assert_eq!(f5.F5_CS_OFFSET + 4, f5::F5_EFLAGS_OFFSET);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:141:16
+    |
+141 |     assert_eq!(f5.F5_EFLAGS_OFFSET + 4, f5.F5_OLD_ESP_OFFSET);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+141 -     assert_eq!(f5.F5_EFLAGS_OFFSET + 4, f5.F5_OLD_ESP_OFFSET);
+141 +     assert_eq!(f5::F5_EFLAGS_OFFSET + 4, f5.F5_OLD_ESP_OFFSET);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:141:41
+    |
+141 |     assert_eq!(f5.F5_EFLAGS_OFFSET + 4, f5.F5_OLD_ESP_OFFSET);
+    |                                         ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+141 -     assert_eq!(f5.F5_EFLAGS_OFFSET + 4, f5.F5_OLD_ESP_OFFSET);
+141 +     assert_eq!(f5.F5_EFLAGS_OFFSET + 4, f5::F5_OLD_ESP_OFFSET);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:143:16
+    |
+143 |     assert_eq!(f5.F5_USER_ESP, 0x4040_0000);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+143 -     assert_eq!(f5.F5_USER_ESP, 0x4040_0000);
+143 +     assert_eq!(f5::F5_USER_ESP, 0x4040_0000);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:150:16
+    |
+150 |     assert_eq!(f5.F5_PREFIX_BYTES, FRAME_SIZE);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+150 -     assert_eq!(f5.F5_PREFIX_BYTES, FRAME_SIZE);
+150 +     assert_eq!(f5::F5_PREFIX_BYTES, FRAME_SIZE);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:151:16
+    |
+151 |     assert_eq!(f5.F5_VECTOR_OFFSET, VECTOR_OFFSET);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+151 -     assert_eq!(f5.F5_VECTOR_OFFSET, VECTOR_OFFSET);
+151 +     assert_eq!(f5::F5_VECTOR_OFFSET, VECTOR_OFFSET);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:152:16
+    |
+152 |     assert_eq!(f5.F5_FRAME_BYTES, f5.F5_PREFIX_BYTES + 8);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+152 -     assert_eq!(f5.F5_FRAME_BYTES, f5.F5_PREFIX_BYTES + 8);
+152 +     assert_eq!(f5::F5_FRAME_BYTES, f5.F5_PREFIX_BYTES + 8);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:152:35
+    |
+152 |     assert_eq!(f5.F5_FRAME_BYTES, f5.F5_PREFIX_BYTES + 8);
+    |                                   ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+152 -     assert_eq!(f5.F5_FRAME_BYTES, f5.F5_PREFIX_BYTES + 8);
+152 +     assert_eq!(f5.F5_FRAME_BYTES, f5::F5_PREFIX_BYTES + 8);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:153:16
+    |
+153 |     assert_eq!(f5.F5_OLD_ESP_OFFSET, FRAME_SIZE);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+153 -     assert_eq!(f5.F5_OLD_ESP_OFFSET, FRAME_SIZE);
+153 +     assert_eq!(f5::F5_OLD_ESP_OFFSET, FRAME_SIZE);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:154:16
+    |
+154 |     assert_eq!(f5.F5_OLD_SS_OFFSET, FRAME_SIZE + 4);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+154 -     assert_eq!(f5.F5_OLD_SS_OFFSET, FRAME_SIZE + 4);
+154 +     assert_eq!(f5::F5_OLD_SS_OFFSET, FRAME_SIZE + 4);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:155:16
+    |
+155 |     assert_eq!(f5.F5_PUSHAD_ESP_OFFSET, 28);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+155 -     assert_eq!(f5.F5_PUSHAD_ESP_OFFSET, 28);
+155 +     assert_eq!(f5::F5_PUSHAD_ESP_OFFSET, 28);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:157:16
+    |
+157 |     assert_eq!(f5.F5_FRAME_FROM_ESP0 - f5.F5_PUSHAD_ESP_OFFSET, 48);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+157 -     assert_eq!(f5.F5_FRAME_FROM_ESP0 - f5.F5_PUSHAD_ESP_OFFSET, 48);
+157 +     assert_eq!(f5::F5_FRAME_FROM_ESP0 - f5.F5_PUSHAD_ESP_OFFSET, 48);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:157:40
+    |
+157 |     assert_eq!(f5.F5_FRAME_FROM_ESP0 - f5.F5_PUSHAD_ESP_OFFSET, 48);
+    |                                        ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+157 -     assert_eq!(f5.F5_FRAME_FROM_ESP0 - f5.F5_PUSHAD_ESP_OFFSET, 48);
+157 +     assert_eq!(f5.F5_FRAME_FROM_ESP0 - f5::F5_PUSHAD_ESP_OFFSET, 48);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:159:13
+    |
+159 |     assert!(f5.f5_saved_selector_ok(0xdead_0033, f5.F5_USER_DS));
+    |             ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+159 -     assert!(f5.f5_saved_selector_ok(0xdead_0033, f5.F5_USER_DS));
+159 +     assert!(f5::f5_saved_selector_ok(0xdead_0033, f5.F5_USER_DS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:159:50
+    |
+159 |     assert!(f5.f5_saved_selector_ok(0xdead_0033, f5.F5_USER_DS));
+    |                                                  ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+159 -     assert!(f5.f5_saved_selector_ok(0xdead_0033, f5.F5_USER_DS));
+159 +     assert!(f5.f5_saved_selector_ok(0xdead_0033, f5::F5_USER_DS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:160:13
+    |
+160 |     assert!(f5.f5_saved_selector_ok(0x0000_0033, f5.F5_USER_DS));
+    |             ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+160 -     assert!(f5.f5_saved_selector_ok(0x0000_0033, f5.F5_USER_DS));
+160 +     assert!(f5::f5_saved_selector_ok(0x0000_0033, f5.F5_USER_DS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:160:50
+    |
+160 |     assert!(f5.f5_saved_selector_ok(0x0000_0033, f5.F5_USER_DS));
+    |                                                  ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+160 -     assert!(f5.f5_saved_selector_ok(0x0000_0033, f5.F5_USER_DS));
+160 +     assert!(f5.f5_saved_selector_ok(0x0000_0033, f5::F5_USER_DS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:161:14
+    |
+161 |     assert!(!f5.f5_saved_selector_ok(0x0000_002b, f5.F5_USER_DS));
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+161 -     assert!(!f5.f5_saved_selector_ok(0x0000_002b, f5.F5_USER_DS));
+161 +     assert!(!f5::f5_saved_selector_ok(0x0000_002b, f5.F5_USER_DS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:161:51
+    |
+161 |     assert!(!f5.f5_saved_selector_ok(0x0000_002b, f5.F5_USER_DS));
+    |                                                   ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+161 -     assert!(!f5.f5_saved_selector_ok(0x0000_002b, f5.F5_USER_DS));
+161 +     assert!(!f5.f5_saved_selector_ok(0x0000_002b, f5::F5_USER_DS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:162:14
+    |
+162 |     assert!(!f5.f5_saved_selector_ok(0xffff_0032, f5.F5_USER_DS));
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+162 -     assert!(!f5.f5_saved_selector_ok(0xffff_0032, f5.F5_USER_DS));
+162 +     assert!(!f5::f5_saved_selector_ok(0xffff_0032, f5.F5_USER_DS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:162:51
+    |
+162 |     assert!(!f5.f5_saved_selector_ok(0xffff_0032, f5.F5_USER_DS));
+    |                                                   ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+162 -     assert!(!f5.f5_saved_selector_ok(0xffff_0032, f5.F5_USER_DS));
+162 +     assert!(!f5.f5_saved_selector_ok(0xffff_0032, f5::F5_USER_DS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:164:13
+    |
+164 |     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF0));
+    |             ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+164 -     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF0));
+164 +     assert!(f5::f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF0));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:164:35
+    |
+164 |     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF0));
+    |                                   ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+164 -     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF0));
+164 +     assert!(f5.f5_saved_eflags_ok(f5::F5_SAVED_EFLAGS_AF0));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:165:13
+    |
+165 |     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF1));
+    |             ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+165 -     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF1));
+165 +     assert!(f5::f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF1));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:165:35
+    |
+165 |     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF1));
+    |                                   ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+165 -     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF1));
+165 +     assert!(f5.f5_saved_eflags_ok(f5::F5_SAVED_EFLAGS_AF1));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:166:14
+    |
+166 |     assert!(!f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF0 & 0xfffe_ffff)); // RF=0
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+166 -     assert!(!f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF0 & 0xfffe_ffff)); // RF=0
+166 +     assert!(!f5::f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF0 & 0xfffe_ffff)); // RF=0
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:166:36
+    |
+166 |     assert!(!f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF0 & 0xfffe_ffff)); // RF=0
+    |                                    ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+166 -     assert!(!f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF0 & 0xfffe_ffff)); // RF=0
+166 +     assert!(!f5.f5_saved_eflags_ok(f5::F5_SAVED_EFLAGS_AF0 & 0xfffe_ffff)); // RF=0
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:167:14
+    |
+167 |     assert!(!f5.f5_saved_eflags_ok(f5.F5_ENTRY_EFLAGS)); // entry value rejected
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+167 -     assert!(!f5.f5_saved_eflags_ok(f5.F5_ENTRY_EFLAGS)); // entry value rejected
+167 +     assert!(!f5::f5_saved_eflags_ok(f5.F5_ENTRY_EFLAGS)); // entry value rejected
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:167:36
+    |
+167 |     assert!(!f5.f5_saved_eflags_ok(f5.F5_ENTRY_EFLAGS)); // entry value rejected
+    |                                    ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+167 -     assert!(!f5.f5_saved_eflags_ok(f5.F5_ENTRY_EFLAGS)); // entry value rejected
+167 +     assert!(!f5.f5_saved_eflags_ok(f5::F5_ENTRY_EFLAGS)); // entry value rejected
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:169:16
+    |
+169 |     assert_eq!(f5.F5_SAVED_EFLAGS_AF0 ^ f5.F5_SAVED_EFLAGS_AF1, f5.F5_EFLAGS_AF_MASK);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+169 -     assert_eq!(f5.F5_SAVED_EFLAGS_AF0 ^ f5.F5_SAVED_EFLAGS_AF1, f5.F5_EFLAGS_AF_MASK);
+169 +     assert_eq!(f5::F5_SAVED_EFLAGS_AF0 ^ f5.F5_SAVED_EFLAGS_AF1, f5.F5_EFLAGS_AF_MASK);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:169:41
+    |
+169 |     assert_eq!(f5.F5_SAVED_EFLAGS_AF0 ^ f5.F5_SAVED_EFLAGS_AF1, f5.F5_EFLAGS_AF_MASK);
+    |                                         ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+169 -     assert_eq!(f5.F5_SAVED_EFLAGS_AF0 ^ f5.F5_SAVED_EFLAGS_AF1, f5.F5_EFLAGS_AF_MASK);
+169 +     assert_eq!(f5.F5_SAVED_EFLAGS_AF0 ^ f5::F5_SAVED_EFLAGS_AF1, f5.F5_EFLAGS_AF_MASK);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:169:65
+    |
+169 |     assert_eq!(f5.F5_SAVED_EFLAGS_AF0 ^ f5.F5_SAVED_EFLAGS_AF1, f5.F5_EFLAGS_AF_MASK);
+    |                                                                 ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+169 -     assert_eq!(f5.F5_SAVED_EFLAGS_AF0 ^ f5.F5_SAVED_EFLAGS_AF1, f5.F5_EFLAGS_AF_MASK);
+169 +     assert_eq!(f5.F5_SAVED_EFLAGS_AF0 ^ f5.F5_SAVED_EFLAGS_AF1, f5::F5_EFLAGS_AF_MASK);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:171:13
+    |
+171 |     assert!(f5.f5_saved_selector_ok(0x0000_002b, f5.F5_USER_CS));
+    |             ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+171 -     assert!(f5.f5_saved_selector_ok(0x0000_002b, f5.F5_USER_CS));
+171 +     assert!(f5::f5_saved_selector_ok(0x0000_002b, f5.F5_USER_CS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:171:50
+    |
+171 |     assert!(f5.f5_saved_selector_ok(0x0000_002b, f5.F5_USER_CS));
+    |                                                  ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+171 -     assert!(f5.f5_saved_selector_ok(0x0000_002b, f5.F5_USER_CS));
+171 +     assert!(f5.f5_saved_selector_ok(0x0000_002b, f5::F5_USER_CS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:186:19
+    |
+186 |         let row = f5.F5_ROWS[i];
+    |                   ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+186 -         let row = f5.F5_ROWS[i];
+186 +         let row = f5::F5_ROWS[i];
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:192:21
+    |
+192 |             assert!(f5.f5_pf_error_ok(row.error, row.error));
+    |                     ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+192 -             assert!(f5.f5_pf_error_ok(row.error, row.error));
+192 +             assert!(f5::f5_pf_error_ok(row.error, row.error));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:193:22
+    |
+193 |             assert!(!f5.f5_pf_error_ok(row.error | 0x10, row.error));
+    |                      ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+193 -             assert!(!f5.f5_pf_error_ok(row.error | 0x10, row.error));
+193 +             assert!(!f5::f5_pf_error_ok(row.error | 0x10, row.error));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:194:22
+    |
+194 |             assert!(!f5.f5_pf_error_ok(row.error | (1 << 4), row.error));
+    |                      ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+194 -             assert!(!f5.f5_pf_error_ok(row.error | (1 << 4), row.error));
+194 +             assert!(!f5::f5_pf_error_ok(row.error | (1 << 4), row.error));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:195:22
+    |
+195 |             assert!(!f5.f5_pf_error_ok(row.error | (1 << 21), row.error));
+    |                      ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+195 -             assert!(!f5.f5_pf_error_ok(row.error | (1 << 21), row.error));
+195 +             assert!(!f5::f5_pf_error_ok(row.error | (1 << 21), row.error));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:199:22
+    |
+199 |             assert!(!f5.f5_pf_error_ok(1, 0));
+    |                      ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+199 -             assert!(!f5.f5_pf_error_ok(1, 0));
+199 +             assert!(!f5::f5_pf_error_ok(1, 0));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:203:13
+    |
+203 |     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF1));
+    |             ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+203 -     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF1));
+203 +     assert!(f5::f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF1));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:203:35
+    |
+203 |     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF1));
+    |                                   ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+203 -     assert!(f5.f5_saved_eflags_ok(f5.F5_SAVED_EFLAGS_AF1));
+203 +     assert!(f5.f5_saved_eflags_ok(f5::F5_SAVED_EFLAGS_AF1));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:204:14
+    |
+204 |     assert!(!f5.f5_saved_eflags_ok(0x0000_0446));
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+204 -     assert!(!f5.f5_saved_eflags_ok(0x0000_0446));
+204 +     assert!(!f5::f5_saved_eflags_ok(0x0000_0446));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:216:13
+    |
+216 |     let c = f5.F5_ROWS[2];
+    |             ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+216 -     let c = f5.F5_ROWS[2];
+216 +     let c = f5::F5_ROWS[2];
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:222:13
+    |
+222 |     let b = f5.F5_ROWS[1];
+    |             ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+222 -     let b = f5.F5_ROWS[1];
+222 +     let b = f5::F5_ROWS[1];
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:225:13
+    |
+225 |     let f = f5.F5_ROWS[5];
+    |             ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+225 -     let f = f5.F5_ROWS[5];
+225 +     let f = f5::F5_ROWS[5];
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:231:23
+    |
+231 |     assert_ne!(f.cr2, f5.F5_ROWS[1].cr2);
+    |                       ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+231 -     assert_ne!(f.cr2, f5.F5_ROWS[1].cr2);
+231 +     assert_ne!(f.cr2, f5::F5_ROWS[1].cr2);
+    |
+help: a local variable with a similar name exists
+    |
+231 -     assert_ne!(f.cr2, f5.F5_ROWS[1].cr2);
+231 +     assert_ne!(f.cr2, f.F5_ROWS[1].cr2);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:238:13
+    |
+238 |     assert!(f5.f5_admissible(1) && f5.f5_admissible(6));
+    |             ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+238 -     assert!(f5.f5_admissible(1) && f5.f5_admissible(6));
+238 +     assert!(f5::f5_admissible(1) && f5.f5_admissible(6));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:238:36
+    |
+238 |     assert!(f5.f5_admissible(1) && f5.f5_admissible(6));
+    |                                    ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+238 -     assert!(f5.f5_admissible(1) && f5.f5_admissible(6));
+238 +     assert!(f5.f5_admissible(1) && f5::f5_admissible(6));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:240:18
+    |
+240 |         assert!(!f5.f5_admissible(u32(bad)));
+    |                  ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+240 -         assert!(!f5.f5_admissible(u32(bad)));
+240 +         assert!(!f5::f5_admissible(u32(bad)));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:241:20
+    |
+241 |         assert_eq!(f5.f5_row(u32(bad)), None);
+    |                    ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+241 -         assert_eq!(f5.f5_row(u32(bad)), None);
+241 +         assert_eq!(f5::f5_row(u32(bad)), None);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:245:19
+    |
+245 |         let row = f5.f5_row(u32(i)).unwrap();
+    |                   ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+245 -         let row = f5.f5_row(u32(i)).unwrap();
+245 +         let row = f5::f5_row(u32(i)).unwrap();
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:250:16
+    |
+250 |     assert_eq!(f5.F5_ROWS.iter().count(), 6);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+250 -     assert_eq!(f5.F5_ROWS.iter().count(), 6);
+250 +     assert_eq!(f5::F5_ROWS.iter().count(), 6);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:257:14
+    |
+257 |     assert!(!f5.f5_saved_selector_ok(0x0000_0008, f5.F5_USER_CS)); // kernel origin
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+257 -     assert!(!f5.f5_saved_selector_ok(0x0000_0008, f5.F5_USER_CS)); // kernel origin
+257 +     assert!(!f5::f5_saved_selector_ok(0x0000_0008, f5.F5_USER_CS)); // kernel origin
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:257:51
+    |
+257 |     assert!(!f5.f5_saved_selector_ok(0x0000_0008, f5.F5_USER_CS)); // kernel origin
+    |                                                   ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+257 -     assert!(!f5.f5_saved_selector_ok(0x0000_0008, f5.F5_USER_CS)); // kernel origin
+257 +     assert!(!f5.f5_saved_selector_ok(0x0000_0008, f5::F5_USER_CS)); // kernel origin
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:258:14
+    |
+258 |     assert!(!f5.f5_saved_selector_ok(0x0000_0010, f5.F5_USER_CS));
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+258 -     assert!(!f5.f5_saved_selector_ok(0x0000_0010, f5.F5_USER_CS));
+258 +     assert!(!f5::f5_saved_selector_ok(0x0000_0010, f5.F5_USER_CS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:258:51
+    |
+258 |     assert!(!f5.f5_saved_selector_ok(0x0000_0010, f5.F5_USER_CS));
+    |                                                   ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+258 -     assert!(!f5.f5_saved_selector_ok(0x0000_0010, f5.F5_USER_CS));
+258 +     assert!(!f5.f5_saved_selector_ok(0x0000_0010, f5::F5_USER_CS));
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:259:14
+    |
+259 |     assert!(!f5.f5_saved_selector_ok(0x0000_0028, f5.F5_USER_CS)); // DPL0 slot5
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+259 -     assert!(!f5.f5_saved_selector_ok(0x0000_0028, f5.F5_USER_CS)); // DPL0 slot5
+259 +     assert!(!f5::f5_saved_selector_ok(0x0000_0028, f5.F5_USER_CS)); // DPL0 slot5
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:259:51
+    |
+259 |     assert!(!f5.f5_saved_selector_ok(0x0000_0028, f5.F5_USER_CS)); // DPL0 slot5
+    |                                                   ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+259 -     assert!(!f5.f5_saved_selector_ok(0x0000_0028, f5.F5_USER_CS)); // DPL0 slot5
+259 +     assert!(!f5.f5_saved_selector_ok(0x0000_0028, f5::F5_USER_CS)); // DPL0 slot5
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:260:14
+    |
+260 |     assert!(!f5.f5_pf_error_ok(0x0020_0007, 7)); // PK bit set
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+260 -     assert!(!f5.f5_pf_error_ok(0x0020_0007, 7)); // PK bit set
+260 +     assert!(!f5::f5_pf_error_ok(0x0020_0007, 7)); // PK bit set
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:261:14
+    |
+261 |     assert!(!f5.f5_pf_error_ok(0x0010_0007, 7)); // reserved bit 20
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+261 -     assert!(!f5.f5_pf_error_ok(0x0010_0007, 7)); // reserved bit 20
+261 +     assert!(!f5::f5_pf_error_ok(0x0010_0007, 7)); // reserved bit 20
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:262:14
+    |
+262 |     assert!(!f5.f5_pf_error_ok(7 | (1 << 4), 7)); // I/D indication
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+262 -     assert!(!f5.f5_pf_error_ok(7 | (1 << 4), 7)); // I/D indication
+262 +     assert!(!f5::f5_pf_error_ok(7 | (1 << 4), 7)); // I/D indication
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:264:16
+    |
+264 |     assert_eq!(f5.F5_ROWS[0].vector, 6);
+    |                ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+264 -     assert_eq!(f5.F5_ROWS[0].vector, 6);
+264 +     assert_eq!(f5::F5_ROWS[0].vector, 6);
+    |
+
+error[E0423]: cannot find value `f5` in this scope
+   --> src\f5_cpl3_tests.rs:265:14
+    |
+265 |     assert!(!f5.f5_pf_error_ok(14, 6));
+    |              ^^
+    |
+    = note: a module named `f5` exists in another namespace
+help: use the path separator to refer to an item
+    |
+265 -     assert!(!f5.f5_pf_error_ok(14, 6));
+265 +     assert!(!f5::f5_pf_error_ok(14, 6));
+    |
+
+warning: unused import: `crate::println`
+  --> src\..\..\src\multiboot.rs:10:5
+   |
+10 | use crate::println;
+   |     ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::utils::bits::CanManipulateBits`
+  --> src\..\..\src\memory\paging.rs:25:5
+   |
+25 | use crate::utils::bits::CanManipulateBits;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `ExceptionFrame`
+ --> src\f5_cpl3_tests.rs:6:28
+  |
+6 | use crate::exception_abi::{ExceptionFrame, FRAME_SIZE, VECTOR_OFFSET};
+  |                            ^^^^^^^^^^^^^^
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1025:41
+     |
+1025 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+     = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1038:41
+     |
+1038 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+error[E0423]: cannot find function `usize` in this scope
+  --> src\f5_cpl3_tests.rs:13:43
+   |
+13 |     assert_eq!(f5.F5_GDT_ENTRIES * 8 - 1, usize(f5.F5_GDTR_LIMIT));
+   |                                           ^^^^^ not found in this scope
+   |
+   = note: a builtin type named `usize` exists in another namespace
+
+error[E0423]: cannot find function `u8` in this scope
+  --> src\f5_cpl3_tests.rs:16:17
+   |
+16 |     assert_eq!((u8((f5.F5_USER_CODE >> 40) & 0xff)) >> 5 & 3, 3);
+   |                 ^^ not found in this scope
+   |
+   = note: a builtin type named `u8` exists in another namespace
+
+error[E0423]: cannot find function `u8` in this scope
+  --> src\f5_cpl3_tests.rs:17:17
+   |
+17 |     assert_eq!((u8((f5.F5_USER_DATA >> 40) & 0xff)) >> 5 & 3, 3);
+   |                 ^^ not found in this scope
+   |
+   = note: a builtin type named `u8` exists in another namespace
+
+error[E0423]: cannot find function `u8` in this scope
+  --> src\f5_cpl3_tests.rs:20:16
+   |
+20 |     assert_eq!(u8((f5.F5_USER_CODE >> 40) & 0xff) & 0x80, 0x80); // present
+   |                ^^ not found in this scope
+   |
+   = note: a builtin type named `u8` exists in another namespace
+
+error[E0423]: cannot find function `u8` in this scope
+  --> src\f5_cpl3_tests.rs:21:16
+   |
+21 |     assert_eq!(u8((f5.F5_USER_CODE >> 40) & 0xff) & 0x08, 0x08); // code bit
+   |                ^^ not found in this scope
+   |
+   = note: a builtin type named `u8` exists in another namespace
+
+error[E0423]: cannot find function `u8` in this scope
+  --> src\f5_cpl3_tests.rs:22:16
+   |
+22 |     assert_eq!(u8((f5.F5_USER_DATA >> 40) & 0xff) & 0x08, 0x00); // data bit
+   |                ^^ not found in this scope
+   |
+   = note: a builtin type named `u8` exists in another namespace
+
+error[E0423]: cannot find function `u8` in this scope
+  --> src\f5_cpl3_tests.rs:23:16
+   |
+23 |     assert_eq!(u8((f5.F5_USER_DATA >> 40) & 0xff) & 0x02, 0x02); // R/W
+   |                ^^ not found in this scope
+   |
+   = note: a builtin type named `u8` exists in another namespace
+
+error[E0423]: cannot find function `usize` in this scope
+  --> src\f5_cpl3_tests.rs:51:20
+   |
+51 |         assert_eq!(usize(row.fault_eip - row.entry), f5.F5_PROLOGUE.len());
+   |                    ^^^^^ not found in this scope
+   |
+   = note: a builtin type named `usize` exists in another namespace
+
+error[E0423]: cannot find function `u32` in this scope
+  --> src\f5_cpl3_tests.rs:68:16
+   |
+68 |     assert_eq!(u32(b.bytes[4]) | (u32(b.bytes[5]) << 8) | (u32(b.bytes[6]) << 16) | (u32(b.bytes[7]) << 24),
+   |                ^^^ not found in this scope
+   |
+   = note: a builtin type named `u32` exists in another namespace
+
+error[E0423]: cannot find function `u32` in this scope
+  --> src\f5_cpl3_tests.rs:68:35
+   |
+68 |     assert_eq!(u32(b.bytes[4]) | (u32(b.bytes[5]) << 8) | (u32(b.bytes[6]) << 16) | (u32(b.bytes[7]) << 24),
+   |                                   ^^^ not found in this scope
+   |
+   = note: a builtin type named `u32` exists in another namespace
+
+error[E0423]: cannot find function `u32` in this scope
+  --> src\f5_cpl3_tests.rs:68:60
+   |
+68 |     assert_eq!(u32(b.bytes[4]) | (u32(b.bytes[5]) << 8) | (u32(b.bytes[6]) << 16) | (u32(b.bytes[7]) << 24),
+   |                                                            ^^^ not found in this scope
+   |
+   = note: a builtin type named `u32` exists in another namespace
+
+error[E0423]: cannot find function `u32` in this scope
+  --> src\f5_cpl3_tests.rs:68:86
+   |
+68 |     assert_eq!(u32(b.bytes[4]) | (u32(b.bytes[5]) << 8) | (u32(b.bytes[6]) << 16) | (u32(b.bytes[7]) << 24),
+   |                                                                                      ^^^ not found in this scope
+   |
+   = note: a builtin type named `u32` exists in another namespace
+
+error[E0423]: cannot find function `usize` in this scope
+   --> src\f5_cpl3_tests.rs:104:18
+    |
+104 |     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES <= 4096);
+    |                  ^^^^^ not found in this scope
+    |
+    = note: a builtin type named `usize` exists in another namespace
+
+error[E0423]: cannot find function `usize` in this scope
+   --> src\f5_cpl3_tests.rs:105:18
+    |
+105 |     assert_usize(usize(f5.F5_PAYLOAD_OFFSET) % f5.F5_SLOT_BYTES == 0);
+    |                  ^^^^^ not found in this scope
+    |
+    = note: a builtin type named `usize` exists in another namespace
+
+error[E0423]: cannot find function `usize` in this scope
+   --> src\f5_cpl3_tests.rs:107:22
+    |
+107 |         assert_usize(usize(row.entry) >= 0x4000_0000 + usize(f5.F5_PAYLOAD_OFFSET));
+    |                      ^^^^^ not found in this scope
+    |
+    = note: a builtin type named `usize` exists in another namespace
+
+error[E0423]: cannot find function `usize` in this scope
+   --> src\f5_cpl3_tests.rs:107:56
+    |
+107 |         assert_usize(usize(row.entry) >= 0x4000_0000 + usize(f5.F5_PAYLOAD_OFFSET));
+    |                                                        ^^^^^ not found in this scope
+    |
+    = note: a builtin type named `usize` exists in another namespace
+
+error[E0423]: cannot find function `usize` in this scope
+   --> src\f5_cpl3_tests.rs:108:22
+    |
+108 |         assert_usize(usize(row.entry) < 0x4000_0000 + usize(f5.F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES);
+    |                      ^^^^^ not found in this scope
+    |
+    = note: a builtin type named `usize` exists in another namespace
+
+error[E0423]: cannot find function `usize` in this scope
+   --> src\f5_cpl3_tests.rs:108:55
+    |
+108 |         assert_usize(usize(row.entry) < 0x4000_0000 + usize(f5.F5_PAYLOAD_OFFSET) + f5.F5_PAYLOAD_BYTES);
+    |                                                       ^^^^^ not found in this scope
+    |
+    = note: a builtin type named `usize` exists in another namespace
+
+error[E0423]: cannot find function `usize` in this scope
+   --> src\f5_cpl3_tests.rs:109:22
+    |
+109 |         assert_usize(usize(row.fault_eip) < usize(row.entry) + f5.F5_SLOT_BYTES);
+    |                      ^^^^^ not found in this scope
+    |
+    = note: a builtin type named `usize` exists in another namespace
+
+error[E0423]: cannot find function `usize` in this scope
+   --> src\f5_cpl3_tests.rs:109:45
+    |
+109 |         assert_usize(usize(row.fault_eip) < usize(row.entry) + f5.F5_SLOT_BYTES);
+    |                                             ^^^^^ not found in this scope
+    |
+    = note: a builtin type named `usize` exists in another namespace
+
+error[E0423]: cannot find function `u32` in this scope
+   --> src\f5_cpl3_tests.rs:113:55
+    |
+113 |         assert_eq!(f5.F5_ROWS[i].entry, 0x4000_0100 + u32(i) * 0x40);
+    |                                                       ^^^ not found in this scope
+    |
+    = note: a builtin type named `u32` exists in another namespace
+
+error[E0423]: cannot find function `u32` in this scope
+   --> src\f5_cpl3_tests.rs:240:35
+    |
+240 |         assert!(!f5.f5_admissible(u32(bad)));
+    |                                   ^^^ not found in this scope
+    |
+    = note: a builtin type named `u32` exists in another namespace
+
+error[E0423]: cannot find function `u32` in this scope
+   --> src\f5_cpl3_tests.rs:241:30
+    |
+241 |         assert_eq!(f5.f5_row(u32(bad)), None);
+    |                              ^^^ not found in this scope
+    |
+    = note: a builtin type named `u32` exists in another namespace
+
+error[E0423]: cannot find function `u32` in this scope
+   --> src\f5_cpl3_tests.rs:245:29
+    |
+245 |         let row = f5.f5_row(u32(i)).unwrap();
+    |                             ^^^ not found in this scope
+    |
+    = note: a builtin type named `u32` exists in another namespace
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:72:28
+   |
+72 | pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:85:28
+   |
+85 | pub unsafe fn lockfree_inw(port_in: u16) -> u16 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:110:29
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:110:44
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:119:29
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:119:44
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: variable does not need to be mutable
+   --> src\..\..\src\memory\retained_owner_policy_tests.rs:157:18
+    |
+157 |     let (mut fa, mut pm) = fixture();
+    |                  ----^^
+    |                  |
+    |                  help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `frame`
+   --> src\..\..\src\allocator.rs:272:33
+    |
+272 |                     if let Some(frame) = crate::memory::heap_grow_frame(slot) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_frame`
+
+warning: unused variable: `t0`
+   --> src\lib.rs:270:18
+    |
+270 |     let (b0, l0, t0) = (e0.base_addr, e0.length, e0.type_);
+    |                  ^^ help: if this is intentional, prefix it with an underscore: `_t0`
+
+Some errors have detailed explanations: E0106, E0423.
+For more information about an error, try `rustc --explain E0106`.
+warning: `tests_kernel` (lib test) generated 14 warnings
+error: could not compile `tests_kernel` (lib test) due to 145 previous errors; 14 warnings emitted

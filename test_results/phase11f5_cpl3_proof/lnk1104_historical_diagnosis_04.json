@@ -1,0 +1,12 @@
+{
+  "scope": "HISTORICAL_LOG_DIAGNOSTIC_ONLY_NOT_ISOLATED_REPRODUCTION_OR_WAIVER",
+  "log_path": "test_results\\f5reg\\f4_regression_04\\acceptance_20261023T184318Z_ef05uwbn\\f3_gdt_tss\\f3_full_bs90z1_3\\minimal\\f3_minimal_i8msdzcr\\build.log",
+  "log_sha256": "00e2a700e01eb1f7f631e95ea58e5057acc0a14f3ffac1ca6772be5f37320779",
+  "historical_linker_exit": 1104,
+  "failed_input": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5reg\\f4_regression_04\\acceptance_20261023T184318Z_ef05uwbn\\f3_gdt_tss\\f3_full_bs90z1_3\\minimal\\f3_minimal_i8msdzcr\\fixture\\build\\debug\\build\\version_check\\8e61e8c68b839abc\\out\\libversion_check-8e61e8c68b839abc.rlib",
+  "failed_input_path_characters": 261,
+  "input_exists_now": true,
+  "input_size_now": 1550208,
+  "observation": "Path-length hypothesis is supported by the recorded operand length; no causal isolation, current reproduction, lock/AV observation or environmental repair has been performed. Historical fixture path is not the final short output path.",
+  "command_for_future_isolated_reproduction": "Read scripts/f3_full_guest.py CLI, confirm no builders/QEMU, then run once with a new short absolute output-dir; only after conformance prerequisite."
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "rosti.f5.design-review-readback.v1",
+  "overall": "PASS",
+  "utc": "2026-10-23T10:00:07.573677+00:00",
+  "scope": "Parent structural/provenance/hash readback; not a substitute for independent findings",
+  "review_path": "test_results/phase11f5_cpl3_proof/reviews/design_review_03.json",
+  "review_sha256": "3c73bf80b6c504e6f6c982a90d928f3e66ba8fac18f1174ce000c528289cfd83",
+  "verdict": "APPROVE",
+  "blocker_count": 0,
+  "blockers": [],
+  "reviewer": {
+    "role": "fresh independent delegated design reviewer",
+    "model": "gpt-6.1-sol",
+    "provider": "openai-codex",
+    "execution_context": "sa-0-f6844592",
+    "delegation_id": "deleg_cc26d882",
+    "independence": "Independent raw hashing, source inspection and derivation; parent and predecessor conclusions are not approval evidence.",
+    "authority": "Only this review JSON may be written; no build, guest, source or skill modification.",
+    "provenance_source": "Exact live identifiers supplied in authenticated mid-turn dispatch message; not discovered or inferred by reviewer tools."
+  },
+  "checklist_count": 26,
+  "design_raw_sha256": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c",
+  "manifest_sha256": "adea88bcf78b78ebe182c79c82563d88707de3075435c24a675e1ab22f69d42f",
+  "canonical_input_count": 187,
+  "reviewed_hash_count": 204,
+  "required_input_count_after_deduplication": 202,
+  "all_required_hashes_and_membership_stable": true,
+  "implementation_gate_eligible": true,
+  "remaining_design_revisions": 0,
+  "reviewer_findings_require_parent_substantive_inspection": true,
+  "reader_sha256": "18a221478ee8bde789cbe8266970bff2bc7176e9dac52fad75e193122f654e9c"
+}

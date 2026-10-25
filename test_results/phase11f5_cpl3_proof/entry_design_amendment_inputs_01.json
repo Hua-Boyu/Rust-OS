@@ -1,0 +1,119 @@
+{
+  "schema": "rosti.f5-entry-amendment-inputs.v1",
+  "status": "PROPOSED_REVIEW_ONLY",
+  "user_authorization": {
+    "mechanism": "clarify response in continuation04",
+    "question": "Do you authorize a narrowly scoped entry-design amendment review to reconcile byte-identical accepted F2 source with the existing separate F5 normalizer? This would preserve the current code, require explicit independent approval before implementation continues, retain all ABI/emitted/hardware gates, and grant no waiver or F5 acceptance.",
+    "selected": "Authorize the scoped amendment review only",
+    "scope": "Proposal and independent read-only review only; no production/harness/source restoration/build/guest/canonical mutation or acceptance."
+  },
+  "pins": {
+    "test_results/phase11f5_cpl3_proof/entry_design_amendment_01.md": {
+      "sha256": "9071c193419cd08f225f663bfeadebf10cefcd5b344ce2f2fae1b30a563c69c2",
+      "bytes": 11509
+    },
+    "test_results/phase11f5_cpl3_proof/design.md": {
+      "sha256": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c",
+      "bytes": 36134
+    },
+    "test_results/phase11f5_cpl3_proof/design_inputs_03.json": {
+      "sha256": "adea88bcf78b78ebe182c79c82563d88707de3075435c24a675e1ab22f69d42f",
+      "bytes": 25394
+    },
+    "test_results/phase11f5_cpl3_proof/reviews/design_review_03.json": {
+      "sha256": "3c73bf80b6c504e6f6c982a90d928f3e66ba8fac18f1174ce000c528289cfd83",
+      "bytes": 135282
+    },
+    "test_results/phase11f5_cpl3_proof/reviews/failure_policy_conformance_01.json": {
+      "sha256": "efc9c0c77c344bb50c8abc2fcda7826833808692178c2af179ef765a7e14bf97",
+      "bytes": 24049
+    },
+    "test_results/phase11f5_cpl3_proof/failure_policy_conformance_01_readback.json": {
+      "sha256": "223b93b0bd8cdcafc9b2449c201359d8271ac370f3117b485bd1f158add5b71a",
+      "bytes": 6766
+    },
+    "test_results/phase11f5_cpl3_proof/entry_derivation_feasibility_01.json": {
+      "sha256": "7ddd0bb16c5b9e06d4fbb5b1abf6617993c1e06f9b4bbe1f5b8259d4a88d7922",
+      "bytes": 636
+    },
+    "test_results/phase11f5_cpl3_proof/harness_contract_01.json": {
+      "sha256": "91984e72662a74558e34e7a158a045984762ed7534fd68ad8be3f3fa005d3df7",
+      "bytes": 7620
+    },
+    "src/exception_entry.s": {
+      "sha256": "e375278f78c458a6ebed3e4fd2256f45d6c1b5e50a6e09654ba730fb8fe887e6",
+      "bytes": 2227
+    },
+    "src/exception_abi.rs": {
+      "sha256": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "bytes": 3937
+    },
+    "src/f5_exception_entry.s": {
+      "sha256": "c2bc0ff1248fdbf64a17fe0e7a26064a54279a2fad6fb99eda150fee7d95f5d1",
+      "bytes": 2355
+    },
+    "src/f5_runtime.rs": {
+      "sha256": "0dab20c2b2516dd55bbc0ae2fff2e9d24323f0084afe0cd35cb6eeca71a55b9b",
+      "bytes": 7357
+    },
+    "src/f5_bridge.s": {
+      "sha256": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5",
+      "bytes": 4513
+    },
+    "src/f5_gdt.rs": {
+      "sha256": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+      "bytes": 5473
+    },
+    "src/gdt_tss.rs": {
+      "sha256": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+      "bytes": 11217
+    },
+    "src/f5_contract.rs": {
+      "sha256": "ae22ee18638f6726f0bd607f1bfcddc208408fb817bf8e93c58061a4ca6c1ee6",
+      "bytes": 5428
+    },
+    "src/f5_cpl3.rs": {
+      "sha256": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21",
+      "bytes": 3261
+    },
+    "src/memory/retained_owner.rs": {
+      "sha256": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+      "bytes": 23269
+    },
+    "src/memory/user_arena.rs": {
+      "sha256": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+      "bytes": 13581
+    },
+    "src/interrupt.rs": {
+      "sha256": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "bytes": 13552
+    },
+    "scripts/phase6_verify.py": {
+      "sha256": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+      "bytes": 74344
+    },
+    "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json": {
+      "sha256": "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4",
+      "bytes": 3487144
+    }
+  },
+  "accepted_f2_raw_sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+  "mandatory_areas": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "open_raw_mismatch_not_waived": true,
+  "candidate_approved": false
+}

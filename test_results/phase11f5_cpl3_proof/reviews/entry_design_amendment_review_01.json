@@ -1,0 +1,551 @@
+{
+  "schema": "rosti.f5-entry-design-amendment-review.v1",
+  "review_id": "entry_design_amendment_review_01",
+  "verdict": "APPROVE",
+  "complete_scope": true,
+  "design_complete": true,
+  "scope": "Independent complete fourteen-area design amendment01 review only; not implementation or candidate review.",
+  "reviewer": "Independent delegated reviewer; raw pins, closed derivation and mutation probes independently inspected; prior conclusions not adopted as proof.",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "blockers": [],
+  "blocker_count": 0,
+  "approved_substituted_requirement": {
+    "original": "One physical parameterized source-shared stub/common normalizer body, design03 sections1/6 and review03 checklist10.",
+    "substitute": "Separately stored mechanically constrained F5 expansion only under mandatory fail-closed accepted-raw-F2 pin plus closed whole-file lexical derivation, actual linked F2/F5 comparison, independent proof of BOTH terminal aliases and all original candidate gates.",
+    "literal_source_shared": false,
+    "mechanically_constrained_expansion_design_approved": true,
+    "mechanically_constrained_expansion_gate_passed": false,
+    "amendment_only": true
+  },
+  "unchanged_contracts": [
+    "Accepted F2 raw pin and emitted predecessor/default ABI preservation",
+    "Fixed68 frame and actual guarded CPL3 tail; exact selector/RF/AF/error predicates",
+    "DPL0 F5-only gate isolation; original #DF, GDT/TSS and inherited F1-F4 contracts",
+    "One-shot failure STATE/UART/latch terminal policy and only explicit nested/#DF exclusions",
+    "Full unsafe/emitted CFG/finite IRETD and exact resource/image/stack ceilings",
+    "Fourteen exact Rust identities, four exact F5 gates,72 predecessors,12 guest rows, timeouts, full regressions",
+    "Frozen raw input/ELF/ISO/validator inventory, complete candidate review, single canonical run and independent final readback"
+  ],
+  "authority": {
+    "selected": "Authorize the scoped amendment review only",
+    "implementation_authorized_by_this_review": false,
+    "source_restoration_authorized": false,
+    "build_or_guest_authorized": false
+  },
+  "complete_candidate_approval": false,
+  "candidate_readiness": false,
+  "hardware_green": false,
+  "final_acceptance": false,
+  "detailed_checks": [
+    {
+      "area": 1,
+      "topic": "Authority and exact substituted requirement",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_inputs_01.json:user_authorization",
+        "entry_design_amendment_01.md:5-21",
+        "design.md:17-21",
+        "reviews/design_review_03.json:f2_entry_contract_decision,checklist_coverage_mapping.10"
+      ],
+      "evidence": "The explicit selected authorization is scoped amendment review only. This is a new supplement to immutable design03/review03, not a claim that duplicate source already met their shared-macro condition. Approve substituting only one physical parameterized stub/common body with mandatory complete-file closed derivation plus independent emitted audits. Exact F2 common address was not required by review03; preserved contract and default symbols/instructions/target remain required. No global dispatcher, new decoder or returning ABI is permitted."
+    },
+    {
+      "area": 2,
+      "topic": "Accepted raw F2 predecessor pin",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:13,25-26",
+        "src/exception_entry.s",
+        "HEAD:src/exception_entry.s",
+        "accepted F4 acceptance source_sha256 and nested source_freeze_before.json"
+      ],
+      "evidence": "Accepted HEAD blob raw digest a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60 agrees with design03 authority and nested accepted F4 freeze. Live raw e375278f78c458a6ebed3e4fd2256f45d6c1b5e50a6e09654ba730fb8fe887e6 fails accepted pin. In-memory CRLF-to-LF diagnostic equals HEAD, but that is not preservation. Proposal explicitly fails before parsing and forbids repin/hash normalization; no restoration is performed or authorized. This remains a candidate blocker, not an unsound amendment requirement."
+    },
+    {
+      "area": 3,
+      "topic": "Closed complete-file lexical derivation",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:23-33",
+        "src/exception_entry.s:2-110",
+        "src/f5_exception_entry.s:5-114"
+      ],
+      "evidence": "Independently reconstructed closed dictionary, not prior broad-prefix feasibility. Strict ASCII; explicit CR/LF splitting; whole hash-comment/empty lines only; horizontal edge whitespace only; all remaining lines compared in order. The complete accepted and mapped current F5 sequences both contain 106 lines and have identical sequence digest. Dictionary includes only named bridge/common/normalized/table/unsupported/terminal identifiers, exact macro prefix, F5_STUB and 32 enumerated table names. Exact diagnostic literals only. f5_fatal and unknown aliases refuse. Directives, .if/.error assertions, labels, operands and instruction order survive comparison; no prefix/set matching. The independent probe is not an installed acceptance gate and does not bypass live raw F2 failure."
+    },
+    {
+      "area": 4,
+      "topic": "All vector/error and ordered table identities",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:28,31",
+        "src/exception_abi.rs:12-18",
+        "src/f5_exception_entry.s:32-63,107-114"
+      ],
+      "evidence": "All 32 invocations and table members match accepted F2 in exact order. Hardware-error set remains 8/10/11/12/13/14/17; unsupported 21/29/30 never decode a CPU frame; others no-error. Complete table includes vector8 as accepted source does, but F5 gate installer must skip it. Probe rejects classification mutation, duplicated member and swapped order; no extra vector or missing table tail is allowed."
+    },
+    {
+      "area": 5,
+      "topic": "Fixed68 ABI and conditional cross-ring tail",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:19,31,39",
+        "design.md:54-62,103",
+        "src/exception_abi.rs:23-65",
+        "src/f5_bridge.s:24-45,71-78"
+      ],
+      "evidence": "68-byte mandatory prefix and vector offset48 remain assembler- and Rust-bound. No tail fields enter ExceptionFrame. Actual supported first frame must be ESP0-76 with exact bounds/alignment and saved CS low16=0x2b before optional tail; oldESP68/oldSS72 are justified by actual privilege transition. Same-ring, nested and unsupported entries cannot read a tail. CPU CS/SS padding is recorded not constrained; RF1/DF1, AF-only mask and RF0 rejection remain mandatory. Copying cannot weaken these source/emitted/hardware requirements."
+    },
+    {
+      "area": 6,
+      "topic": "DPL/gate/GDT/TSS isolation",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:40",
+        "design.md:25-29,52",
+        "src/f5_runtime.rs:41-81,112-118,165-195",
+        "src/f5_gdt.rs:74-135"
+      ],
+      "evidence": "Only F5 path selects F5 gates0..31 except8, DPL0 selector8; #DF remains F3 task gate selector0x20. Original GDT slots0..4, busy normal TSS, emergency descriptor, TR0x18 and TSS storage/cache remain preserved. F5 appends only reviewed descriptors with GDTR55, CS0x2b/data0x33, no second LTR or busy clearing. TSS ESP0/SS0/bitmap and finite IRETD flags/words remain hardware obligations. F3/F4 do not select the F5 expansion."
+    },
+    {
+      "area": 7,
+      "topic": "One-shot failure policy and explicit exemptions",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:38,41",
+        "reviews/failure_policy_conformance_01.json",
+        "src/gdt_tss.rs:234-307",
+        "src/f5_runtime.rs:85-162,198-209",
+        "src/f5_bridge.s:5-12,172-206"
+      ],
+      "evidence": "Existing installer split remains binding: inherited const-false transport unchanged; F5 detected installer discrepancy returns false only into nonreturning kernel-owned FAIL path. First failure claims latch, publishes terminal STATE, emits bounded fixed literal and halts; latch-already-claimed path has no second report or decode. #DF remains separate inherited emergency terminal and cannot PASS F5. No new silent ordinary-failure exemption, retry, teardown, rollback, acquisition or boot return is granted. UART timeout remains incomplete evidence, not success."
+    },
+    {
+      "area": 8,
+      "topic": "Unsafe assembly, atomicity and memory safety",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:19-21,35-43",
+        "design.md:50-56,66-70",
+        "src/f5_bridge.s",
+        "src/f5_runtime.rs:10-31"
+      ],
+      "evidence": "Full lexical derivation preserves CLI/CLD, PUSHAD/selector saves, kernel segment normalization and alignment/call argument formation exactly modulo closed names. Dedicated raw latch storage is claimed by assembly XCHG, not aliased non-atomic Rust references; terminal STATE storage ordering still requires emitted proof. Exact pointer/origin checks precede frame/tail loads and no USER evidence selects a report pointer or expectation. Supervisor storage, prepublication fixed image, released guards, no allocator/lock/panic/shared serial/VGA terminal edges, single-vCPU/IF0 and explicit nested exclusions remain required. This is preservation of requirements, not a new full unsafe-code candidate audit."
+    },
+    {
+      "area": 9,
+      "topic": "Actual emitted CFG and finite IRETD closure",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:29,35-38",
+        "design.md:66-68",
+        "src/f5_exception_entry.s:21-22,91-96",
+        "src/f5_bridge.s:201-206"
+      ],
+      "evidence": "Nonbijective terminal mapping is explicitly accepted as a narrowly controlled target split, not lexical proof of destination semantics: f5_entry_terminal is local defensive fallthrough after bridge call; f5_terminal is separate bridge-owned unsupported/nested/report root. Both source destinations are CLI then HLT/self-loop only. Candidate must prove BOTH exact linked roots independently have only that closure with no return/call/other side effect. Arbitrary third aliases are forbidden. Actual production F2 must match pinned pre-change ELF; all F5 stubs/common match F2 modulo resolved approved destinations. Full multi-root direct/conditional/fallthrough/tail/indirect audits include installer failure transport, no unresolved/forbidden edge. Six exact IRETD destinations/payload paths are separately finite audited transitions, never unknown indirect execution. No emitted audit was performed in this review."
+    },
+    {
+      "area": 10,
+      "topic": "Stack, image and resource ceilings",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:43",
+        "design.md:33,70",
+        "src/f5_contract.rs:18-21,121-134",
+        "src/f5_runtime.rs:15-17"
+      ],
+      "evidence": "Twelve retained frames and F4 arena/ownership/publication invariants remain fixed. 512-byte incremental transition-stack budget requires fresh exact emitted first-entry plus additional nested accounting including frame, alignment/arguments/calls and bridge scratch. Historical 104+115=219 is neither current proof nor measured high water. Fixed384-byte payload, 4096-byte image, 56-byte GDT descriptors and record<=256 in existing supervisor image backing remain mandatory; complete actual storage/image fit must be checked. No profile/target/linker or stack/frame allocation change is authorized; arbitrary pre-latch storms remain excluded."
+    },
+    {
+      "area": 11,
+      "topic": "Negative controls and optimized-execution refusal",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:33",
+        "reviewer_in_memory_probe"
+      ],
+      "evidence": "Proposal requires real fail-closed mutations for opcode, immediate, vector/error class, frame/tail offset or ABI assertion, bridge target, table member/order, inserted/deleted instruction and accepted F2 raw newline bytes. Also unknown aliases (explicit f5_fatal), missing/duplicate paths and one-short/prefix comparisons must refuse; comments alone may differ. Independent in-memory probe rejected every recorded mutation and accepted added whole comment. The specification explicitly requires ordinary Python validation plus actual -O refusal; Python assert-dependent optimized evidence is disallowed. Missing/duplicate path controls, final validator -O behavior, exact gate integration and full candidate controls remain unexecuted acceptance obligations, not presumed passes. No mandatory design control was found missing."
+    },
+    {
+      "area": 12,
+      "topic": "Unchanged exact host/gate/predecessor/guest/timeout contracts",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:45-47",
+        "design.md:74-140",
+        "harness_contract_01.json",
+        "design_inputs_03.json"
+      ],
+      "evidence": "All fourteen full Rust identities (including memory::paging owner ancestry) equal design03 input identity list; ten pure/shared and four actual production owner/publication tests are not replaced by constant models. Four exact F5 gate names remain additions to accepted72 predecessor identities, yielding expected76 only, not accepted76. Six A-F scenarios x RAM128/512 =12 fresh one-shot rows; RF controls, actual TSS/ESP0, raw paging/image/record, unique kernel marker, stable halt, owned cleanup and sequential bounded RED/GREEN semantics remain unchanged. ASCII canonical --scenario1..6 with early duplicate/type refusal, nonzero host/ignored membership, full host/B26/F1-F4 regressions, production/fixture/payload audits, all inherited timeouts and <=900s new heavy gate calibration remain required. LNK1104 is not waived; one frozen reviewed candidate precedes one notification-driven canonical run and independent final readback."
+    },
+    {
+      "area": 13,
+      "topic": "Complete raw pins and preserved review history",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_inputs_01.json:pins",
+        "entry_design_amendment_01.md:9-13,25,32,55",
+        "reviews/design_review_03.json",
+        "reviews/failure_policy_conformance_01.json"
+      ],
+      "evidence": "Every supplied raw SHA256 and byte-size pin was independently recomputed and matched inspected live bytes. Accepted raw F2 provenance is separately distinguished from observed mismatch. Historical design/review03 and failure supplement remain immutable; earlier proposal/REJECT history is not superseded or reclassified as candidate acceptance. Future gate report must retain raw F2/F5/tool hashes, frozen validator identity, exact dictionary, full compared-sequence digests and ordered vector table, with literal_source_shared=false. Prior broad feasibility JSON is not final closed-dictionary gate evidence. End-of-review rehash of supplied inputs is mandatory before exclusive output."
+    },
+    {
+      "area": 14,
+      "topic": "Limitations and next authority boundary",
+      "result": "PASS_AMENDMENT_DESIGN_SCOPE",
+      "locations": [
+        "entry_design_amendment_01.md:49-55",
+        "entry_design_amendment_inputs_01.json:user_authorization"
+      ],
+      "evidence": "APPROVE covers complete14-area amendment design only, with zero amendment blockers. It approves neither live raw F2, implemented validator/gates, current source candidate, restored bytes, hardware GREEN, final freeze nor final acceptance. No production/harness edits, restoration, build, QEMU, Git write or skill changes were made. Only this exclusive verdict JSON may be created. Implementation/resumption and any raw-source preservation action require authority outside this review-only selection; all subsequent candidate review, canonical and final readback obligations remain binding. A later mismatch is FAIL requiring authorized correction/review, never baseline regeneration or relaxation."
+    }
+  ],
+  "independent_derivation_probe": {
+    "kind": "reviewer_in_memory_probe_NOT_final_validator",
+    "equivalent_accepted_F2_vs_live_F5": true,
+    "sequence_lines": 106,
+    "f2_sequence_sha256": "bd1268849e9c7727e31c0a9f955e5dcde14721b363a1c0ccdcc7697ec5b98c28",
+    "f5_mapped_sequence_sha256": "bd1268849e9c7727e31c0a9f955e5dcde14721b363a1c0ccdcc7697ec5b98c28",
+    "closed_dictionary": {
+      "f5_bridge": "f2_fatal",
+      "f5_entry_terminal": "f2_terminal",
+      "f5_terminal": "f2_terminal",
+      "f5_unsupported": "f2_unsupported",
+      "f5_exception_common": "f2_exception_common",
+      "f5_normalized": "f2_normalized",
+      "f5_exception_entries": "f2_exception_entries",
+      "f5_exc_": "f2_exc_",
+      "F5_STUB": "F2_STUB",
+      "f5_exc_0": "f2_exc_0",
+      "f5_exc_1": "f2_exc_1",
+      "f5_exc_2": "f2_exc_2",
+      "f5_exc_3": "f2_exc_3",
+      "f5_exc_4": "f2_exc_4",
+      "f5_exc_5": "f2_exc_5",
+      "f5_exc_6": "f2_exc_6",
+      "f5_exc_7": "f2_exc_7",
+      "f5_exc_8": "f2_exc_8",
+      "f5_exc_9": "f2_exc_9",
+      "f5_exc_10": "f2_exc_10",
+      "f5_exc_11": "f2_exc_11",
+      "f5_exc_12": "f2_exc_12",
+      "f5_exc_13": "f2_exc_13",
+      "f5_exc_14": "f2_exc_14",
+      "f5_exc_15": "f2_exc_15",
+      "f5_exc_16": "f2_exc_16",
+      "f5_exc_17": "f2_exc_17",
+      "f5_exc_18": "f2_exc_18",
+      "f5_exc_19": "f2_exc_19",
+      "f5_exc_20": "f2_exc_20",
+      "f5_exc_21": "f2_exc_21",
+      "f5_exc_22": "f2_exc_22",
+      "f5_exc_23": "f2_exc_23",
+      "f5_exc_24": "f2_exc_24",
+      "f5_exc_25": "f2_exc_25",
+      "f5_exc_26": "f2_exc_26",
+      "f5_exc_27": "f2_exc_27",
+      "f5_exc_28": "f2_exc_28",
+      "f5_exc_29": "f2_exc_29",
+      "f5_exc_30": "f2_exc_30",
+      "f5_exc_31": "f2_exc_31"
+    },
+    "stub_invocations": [
+      "F2_STUB 0",
+      "F2_STUB 1",
+      "F2_STUB 2",
+      "F2_STUB 3",
+      "F2_STUB 4",
+      "F2_STUB 5",
+      "F2_STUB 6",
+      "F2_STUB 7",
+      "F2_STUB 8,1",
+      "F2_STUB 9",
+      "F2_STUB 10,1",
+      "F2_STUB 11,1",
+      "F2_STUB 12,1",
+      "F2_STUB 13,1",
+      "F2_STUB 14,1",
+      "F2_STUB 15",
+      "F2_STUB 16",
+      "F2_STUB 17,1",
+      "F2_STUB 18",
+      "F2_STUB 19",
+      "F2_STUB 20",
+      "F2_STUB 21,0,1",
+      "F2_STUB 22",
+      "F2_STUB 23",
+      "F2_STUB 24",
+      "F2_STUB 25",
+      "F2_STUB 26",
+      "F2_STUB 27",
+      "F2_STUB 28",
+      "F2_STUB 29,0,1",
+      "F2_STUB 30,0,1",
+      "F2_STUB 31"
+    ],
+    "ordered_table": [
+      "f2_exc_0",
+      "f2_exc_1",
+      "f2_exc_2",
+      "f2_exc_3",
+      "f2_exc_4",
+      "f2_exc_5",
+      "f2_exc_6",
+      "f2_exc_7",
+      "f2_exc_8",
+      "f2_exc_9",
+      "f2_exc_10",
+      "f2_exc_11",
+      "f2_exc_12",
+      "f2_exc_13",
+      "f2_exc_14",
+      "f2_exc_15",
+      "f2_exc_16",
+      "f2_exc_17",
+      "f2_exc_18",
+      "f2_exc_19",
+      "f2_exc_20",
+      "f2_exc_21",
+      "f2_exc_22",
+      "f2_exc_23",
+      "f2_exc_24",
+      "f2_exc_25",
+      "f2_exc_26",
+      "f2_exc_27",
+      "f2_exc_28",
+      "f2_exc_29",
+      "f2_exc_30",
+      "f2_exc_31"
+    ],
+    "mutation_refusals": {
+      "opcode": true,
+      "immediate": true,
+      "vector_error": true,
+      "ABI_frame": true,
+      "ABI_offset": true,
+      "bridge_target": true,
+      "unknown_fatal_alias": true,
+      "unknown_alias": true,
+      "vector_table_member": true,
+      "vector_table_order": true,
+      "insert_instruction": true,
+      "delete_instruction": true,
+      "prefix_one_short": true,
+      "unknown_diagnostic": true
+    },
+    "comments_only_accepted": true,
+    "live_F2_raw_gate_passes": false,
+    "accepted_raw_newline_mutation_refused": true,
+    "raw_F2_live_is_CRLF_only_difference": true
+  },
+  "probe_limitations": [
+    "Ephemeral read-only Python source probe; no acceptance-validator or harness file created.",
+    "Did not execute production validator, path-admission controls or its optimized-mode refusal; those remain mandatory.",
+    "Probe used accepted HEAD raw blob as reference; actual live F2 raw gate FAILS.",
+    "Source inspection of two terminal loops is not independent exact-ELF proof."
+  ],
+  "candidate_prerequisites_not_waived": [
+    {
+      "id": "F5-CANDIDATE-F2-RAW-PRESERVATION",
+      "status": "OPEN_FAIL",
+      "reason": "Live CRLF raw bytes do not equal accepted LF predecessor digest; no repin or implicit restoration."
+    },
+    {
+      "id": "F5-CANDIDATE-CLOSED-DERIVATION-VALIDATOR",
+      "status": "OPEN_NOT_IMPLEMENTED_OR_VERIFIED_HERE",
+      "reason": "Approved design requirement must be implemented, frozen, mutation-tested and fail closed including actual -O refusal."
+    },
+    {
+      "id": "F5-CANDIDATE-EXACT-ELF-RESOURCE-AND-GATES",
+      "status": "OPEN_UNPERFORMED_HERE",
+      "reason": "Both terminal roots, full emitted closure and stack/image accounting, full source-frozen host/hardware/canonical obligations and independent reviews remain mandatory."
+    }
+  ],
+  "limitations": [
+    "No approval of currently failing raw F2 preservation or any implemented gate.",
+    "Only substituted structural requirement is amended; all other immutable design03/review03 obligations remain binding.",
+    "No source/harness/build/QEMU/restoration/commit/skill modification.",
+    "Pre-existing misleading same-source comments are not evidence of literal sharing; future reports must describe constrained duplication honestly."
+  ],
+  "source_changes": false,
+  "harness_changes": false,
+  "builds_run": false,
+  "qemu_run": false,
+  "probe_identity": {
+    "execution": "ephemeral python -c via terminal; standard interpreter",
+    "source_sha256": "1c62c56f593c9496124bc889fdfee0f533855ad15308f16d5687a8441079a8f0",
+    "scope": "Reviewer derivation probe only, not frozen acceptance validator"
+  },
+  "utc": "2026-10-24T04:31:43.379671+00:00",
+  "head": "c8b73654dd5f7f64c3c7872254b2b730ad2151f4",
+  "source_hashes": {
+    "test_results/phase11f5_cpl3_proof/entry_design_amendment_01.md": {
+      "sha256": "9071c193419cd08f225f663bfeadebf10cefcd5b344ce2f2fae1b30a563c69c2",
+      "bytes": 11509,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "test_results/phase11f5_cpl3_proof/design.md": {
+      "sha256": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c",
+      "bytes": 36134,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "test_results/phase11f5_cpl3_proof/design_inputs_03.json": {
+      "sha256": "adea88bcf78b78ebe182c79c82563d88707de3075435c24a675e1ab22f69d42f",
+      "bytes": 25394,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "test_results/phase11f5_cpl3_proof/reviews/design_review_03.json": {
+      "sha256": "3c73bf80b6c504e6f6c982a90d928f3e66ba8fac18f1174ce000c528289cfd83",
+      "bytes": 135282,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "test_results/phase11f5_cpl3_proof/reviews/failure_policy_conformance_01.json": {
+      "sha256": "efc9c0c77c344bb50c8abc2fcda7826833808692178c2af179ef765a7e14bf97",
+      "bytes": 24049,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "test_results/phase11f5_cpl3_proof/failure_policy_conformance_01_readback.json": {
+      "sha256": "223b93b0bd8cdcafc9b2449c201359d8271ac370f3117b485bd1f158add5b71a",
+      "bytes": 6766,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "test_results/phase11f5_cpl3_proof/entry_derivation_feasibility_01.json": {
+      "sha256": "7ddd0bb16c5b9e06d4fbb5b1abf6617993c1e06f9b4bbe1f5b8259d4a88d7922",
+      "bytes": 636,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "test_results/phase11f5_cpl3_proof/harness_contract_01.json": {
+      "sha256": "91984e72662a74558e34e7a158a045984762ed7534fd68ad8be3f3fa005d3df7",
+      "bytes": 7620,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/exception_entry.s": {
+      "sha256": "e375278f78c458a6ebed3e4fd2256f45d6c1b5e50a6e09654ba730fb8fe887e6",
+      "bytes": 2227,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/exception_abi.rs": {
+      "sha256": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "bytes": 3937,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/f5_exception_entry.s": {
+      "sha256": "c2bc0ff1248fdbf64a17fe0e7a26064a54279a2fad6fb99eda150fee7d95f5d1",
+      "bytes": 2355,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/f5_runtime.rs": {
+      "sha256": "0dab20c2b2516dd55bbc0ae2fff2e9d24323f0084afe0cd35cb6eeca71a55b9b",
+      "bytes": 7357,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/f5_bridge.s": {
+      "sha256": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5",
+      "bytes": 4513,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/f5_gdt.rs": {
+      "sha256": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+      "bytes": 5473,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/gdt_tss.rs": {
+      "sha256": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+      "bytes": 11217,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/f5_contract.rs": {
+      "sha256": "ae22ee18638f6726f0bd607f1bfcddc208408fb817bf8e93c58061a4ca6c1ee6",
+      "bytes": 5428,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/f5_cpl3.rs": {
+      "sha256": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21",
+      "bytes": 3261,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/memory/retained_owner.rs": {
+      "sha256": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+      "bytes": 23269,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/memory/user_arena.rs": {
+      "sha256": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+      "bytes": 13581,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "src/interrupt.rs": {
+      "sha256": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "bytes": 13552,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "scripts/phase6_verify.py": {
+      "sha256": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+      "bytes": 74344,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json": {
+      "sha256": "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4",
+      "bytes": 3487144,
+      "input_sha256_match": true,
+      "input_size_match": true
+    },
+    "test_results/phase11f5_cpl3_proof/entry_design_amendment_inputs_01.json": {
+      "sha256": "829e7d41a60ce27a9c3a482831eae19c33226fd3a0bdee55a1a6c19b7f0ff65c",
+      "bytes": 4561
+    },
+    "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/f3_gdt_tss/f3_full_6gwqnxu7/source_freeze_before.json": {
+      "sha256": "9dc34566fc550a2072982c17bf0440ae329113c76f8716a79ba922d335bf01b6",
+      "bytes": 18874
+    }
+  },
+  "accepted_f2_git_blob": {
+    "sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+    "bytes": 2117,
+    "agrees_with_F4_canonical_and_nested_freeze": true,
+    "live_raw_preserved": false
+  },
+  "verification": {
+    "supplied_pin_count": 22,
+    "all_supplied_raw_pins_and_sizes_match": true,
+    "reviewed_inputs_stable_at_end": true,
+    "mandatory_area_count": 14,
+    "closed_probe_complete_sequence_equal": true,
+    "negative_source_mutations_refused": 14,
+    "raw_F2_gate_FAIL_not_waived": true,
+    "host_identity_count": 14,
+    "new_gate_count": 4,
+    "accepted_predecessor_multiset_equal": true,
+    "predecessor_gate_count": 72,
+    "expected_not_accepted_final_gate_count": 76,
+    "guest_row_count": 12,
+    "write_method": "open xb exclusive; next unused number; no auxiliary files"
+  },
+  "conclusion": "APPROVE complete scoped amendment01 design with zero amendment blockers. Mechanically constrained duplicate expansion is a sound narrow alternative only under all stipulated raw/lexical/emitted/hardware/failure/resource/gate controls. Live F2 raw preservation remains FAIL; no implementation or candidate acceptance follows.",
+  "saved_review_path": "test_results/phase11f5_cpl3_proof/reviews/entry_design_amendment_review_01.json",
+  "artifacts_written": [
+    "test_results/phase11f5_cpl3_proof/reviews/entry_design_amendment_review_01.json"
+  ]
+}

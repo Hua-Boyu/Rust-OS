@@ -1,0 +1,30 @@
+test_invalid_prefix_refused (__main__.StageSafety.test_invalid_prefix_refused) ... ok
+test_junction_escape_refused (__main__.StageSafety.test_junction_escape_refused) ... ok
+test_not_owned_stage_refused (__main__.StageSafety.test_not_owned_stage_refused) ... ok
+test_outside_root_refused (__main__.StageSafety.test_outside_root_refused) ... ok
+test_owned_stage_removed (__main__.StageSafety.test_owned_stage_removed) ... ok
+test_removal_failure_refused (__main__.StageSafety.test_removal_failure_refused) ... ok
+test_reparse_attribute_refused (__main__.StageSafety.test_reparse_attribute_refused) ... ok
+test_still_present_after_claimed_removal_refused (__main__.StageSafety.test_still_present_after_claimed_removal_refused) ... ok
+test_default_elf_drift_preserves_stage (__main__.WorkflowCleanup.test_default_elf_drift_preserves_stage) ... ok
+test_incorrect_source_identity_preserves_stage (__main__.WorkflowCleanup.test_incorrect_source_identity_preserves_stage) ... ok
+test_matrix_fail_falsely_labeled_pass_preserves_stage (__main__.WorkflowCleanup.test_matrix_fail_falsely_labeled_pass_preserves_stage) ... ok
+test_missing_child_preserves_stage (__main__.WorkflowCleanup.test_missing_child_preserves_stage) ... ok
+test_missing_scenario_preserves_stage (__main__.WorkflowCleanup.test_missing_scenario_preserves_stage) ... ok
+test_successful_producer_actually_removes_owned_stage (__main__.WorkflowCleanup.test_successful_producer_actually_removes_owned_stage) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.115s
+
+OK
+FAIL: F1 retained guest C:\Users\iamsv\AppData\Local\Temp\tmppwx5j13a\evidence\f1_retained_xum47vqx
+RuntimeError('source/default ELF drift')
+FAIL: F1 retained guest C:\Users\iamsv\AppData\Local\Temp\tmpopmsqzti\evidence\f1_retained_z34rqoff
+preservation failure
+FAIL: F1 retained guest C:\Users\iamsv\AppData\Local\Temp\tmp3uzj0_n1\evidence\f1_retained_jndhm8zt
+preservation failure
+FAIL: F1 retained guest C:\Users\iamsv\AppData\Local\Temp\tmpbmdhu8xs\evidence\f1_retained_6gpib32e
+preservation failure
+FAIL: F1 retained guest C:\Users\iamsv\AppData\Local\Temp\tmpyvohvgql\evidence\f1_retained_xwby8p92
+preservation failure
+PASS: F1 retained guest C:\Users\iamsv\AppData\Local\Temp\tmp2ayiixde\evidence\f1_retained_hn_d2nfs

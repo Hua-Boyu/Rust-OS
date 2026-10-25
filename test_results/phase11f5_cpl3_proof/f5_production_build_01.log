@@ -1,0 +1,53 @@
+   Compiling kernel v0.1.0 (C:\Users\iamsv\Documents\Rust-OS)
+warning: unexpected `cfg` condition value: `b26-observation`
+  --> src\memory\paging.rs:89:17
+   |
+89 | #[cfg(all(test, feature = "b26-observation"))]
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `default`, `initramfs-failure-test`, `paging-fault-test`, and `paging-write-fault-test`
+   = help: consider adding `b26-observation` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: `#[warn(unexpected_cfgs)]` on by default
+
+warning: unused import: `crate::utils::bits::CanManipulateBits`
+  --> src\memory\paging.rs:25:5
+   |
+25 | use crate::utils::bits::CanManipulateBits;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `alloc::vec::Vec`
+  --> src\multiboot.rs:12:5
+   |
+12 | use alloc::vec::Vec;
+   |     ^^^^^^^^^^^^^^^
+
+error[E0133]: use of mutable static is unsafe and requires unsafe block
+   --> src\f5_gdt.rs:114:61
+    |
+114 |     if gdtr.limit != F5_GDTR_LIMIT || gdtr.base != addr_of!(f5_gdt.entries) as u32 {
+    |                                                             ^^^^^^ use of mutable static
+    |
+    = note: mutable statics can be mutated by multiple threads: aliasing violations or data races will cause undefined behavior
+
+warning: unused variable: `owned`
+   --> src\fs\mounted.rs:194:21
+    |
+194 |         let (point, owned) = match self.ram.lookup(NodeId::ROOT, "/system") {
+    |                     ^^^^^ help: if this is intentional, prefix it with an underscore: `_owned`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unnecessary `unsafe` block
+   --> src\interrupt.rs:381:5
+    |
+381 |     unsafe {
+    |     ^^^^^^ unnecessary `unsafe` block
+    |
+    = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+For more information about this error, try `rustc --explain E0133`.
+warning: `kernel` (bin "kernel") generated 5 warnings
+error: could not compile `kernel` (bin "kernel") due to 1 previous error; 5 warnings emitted

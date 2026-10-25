@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "qemu_status": "PASS",
+  "evidence": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\b13_qemu\\report.json",
+  "error": null
+}

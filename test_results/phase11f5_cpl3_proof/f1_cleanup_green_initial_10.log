@@ -1,0 +1,24 @@
+test_invalid_prefix_refused (__main__.StageSafety.test_invalid_prefix_refused) ... ok
+test_junction_escape_refused (__main__.StageSafety.test_junction_escape_refused) ... ok
+test_not_owned_stage_refused (__main__.StageSafety.test_not_owned_stage_refused) ... ok
+test_outside_root_refused (__main__.StageSafety.test_outside_root_refused) ... ok
+test_owned_stage_removed (__main__.StageSafety.test_owned_stage_removed) ... ok
+test_removal_failure_refused (__main__.StageSafety.test_removal_failure_refused) ... ok
+test_reparse_attribute_refused (__main__.StageSafety.test_reparse_attribute_refused) ... ok
+test_still_present_after_claimed_removal_refused (__main__.StageSafety.test_still_present_after_claimed_removal_refused) ... ok
+test_successful_producer_actually_removes_owned_stage (__main__.WorkflowCleanup.test_successful_producer_actually_removes_owned_stage) ... FAIL
+
+======================================================================
+FAIL: test_successful_producer_actually_removes_owned_stage (__main__.WorkflowCleanup.test_successful_producer_actually_removes_owned_stage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\test_results\phase11f5_cpl3_proof\test_f1_cleanup_10.py", line 47, in test_successful_producer_actually_removes_owned_stage
+    self.assertEqual(status, 0, report)
+AssertionError: 1 != 0 : {'overall': 'FAIL', 'run': 'C:\\Users\\iamsv\\AppData\\Local\\Temp\\tmp13a0tyq5\\evidence\\f1_retained_vtv4d0q5', 'scenarios': [], 'checks': [], 'stage_removed': False, 'source_snapshot': {}, 'default_elf_sha256': 'b37f23cd4ddcaf9b0438c1274496b6144b98121fa1f2e62a6fcb4bc0a9fc19ec', 'owned_stage': 'C:\\Users\\iamsv\\AppData\\Local\\Temp\\tmp13a0tyq5\\dist\\phase11f1_guest_qde1lual', 'error': "FileExistsError(17, 'File exists')", 'source_unchanged': True, 'default_elf_unchanged': True, 'cleanup_error': "RuntimeError('F1 failed matrix/preservation must retain stage')", 'stage_retained': 'C:\\Users\\iamsv\\AppData\\Local\\Temp\\tmp13a0tyq5\\dist\\phase11f1_guest_qde1lual', 'elapsed_s': 0.030999999959021807}
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.127s
+
+FAILED (failures=1)
+FAIL: F1 retained guest C:\Users\iamsv\AppData\Local\Temp\tmp13a0tyq5\evidence\f1_retained_vtv4d0q5
+FileExistsError(17, 'File exists')

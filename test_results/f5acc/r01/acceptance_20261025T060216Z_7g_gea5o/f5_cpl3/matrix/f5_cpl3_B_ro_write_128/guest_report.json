@@ -1,0 +1,1162 @@
+{
+  "overall": "PASS",
+  "scenario": "f5_cpl3_B_ro_write",
+  "scenario_integer": 2,
+  "ram_mib": 128,
+  "kernel_sha256": "901de83b9505c47d1619a3b8449f2d15adfd53395560d4416b0018652b8bbb88",
+  "hardware_cpl3": true,
+  "capture_complete": true,
+  "owned_qemu_exited": true,
+  "checks": [
+    {
+      "name": "installed_GDTR55_TR18",
+      "pass": true
+    },
+    {
+      "name": "original_five_descriptors_preserved",
+      "pass": true
+    },
+    {
+      "name": "exact_new_USER_descriptors",
+      "pass": true
+    },
+    {
+      "name": "normal_ESP0_SS0_iomap",
+      "pass": true
+    },
+    {
+      "name": "code_image_before_USER_exact",
+      "pass": true
+    },
+    {
+      "name": "stack_before_USER_zero",
+      "pass": true
+    },
+    {
+      "name": "sealed_before_USER",
+      "pass": true
+    },
+    {
+      "name": "IRET_five_words",
+      "pass": true
+    },
+    {
+      "name": "hardware_CPL3_entry",
+      "pass": true
+    },
+    {
+      "name": "USER_segments",
+      "pass": true
+    },
+    {
+      "name": "retained_CR3_USER",
+      "pass": true
+    },
+    {
+      "name": "actual_prefault_sentinels",
+      "pass": true
+    },
+    {
+      "name": "one_matching_PASS_record",
+      "pass": true
+    },
+    {
+      "name": "exact_frame_geometry",
+      "pass": true
+    },
+    {
+      "name": "exact_exception_oracle",
+      "pass": true
+    },
+    {
+      "name": "saved_origin_tail_flags",
+      "pass": true
+    },
+    {
+      "name": "kernel_context_restored",
+      "pass": true
+    },
+    {
+      "name": "same_CR3_every_checkpoint",
+      "pass": true
+    },
+    {
+      "name": "retained_owner_allocator_TSS",
+      "pass": true
+    },
+    {
+      "name": "code_RO_preserved",
+      "pass": true
+    },
+    {
+      "name": "stack_cookie_only",
+      "pass": true
+    },
+    {
+      "name": "terminal_owner_state",
+      "pass": true
+    },
+    {
+      "name": "page_table_inventory_preserved",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_directory",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_0",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_1",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_2",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_3",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_4",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_5",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_6",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_7",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_8",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_9",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_10",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_11",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_12",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_13",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_14",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_15",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_16",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_17",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_18",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_19",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_20",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_21",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_22",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_23",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_24",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_25",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_26",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_27",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_28",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_29",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_30",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_31",
+      "pass": true
+    },
+    {
+      "name": "only_hardware_AD_table_256",
+      "pass": true
+    },
+    {
+      "name": "unique_exact_terminal_marker",
+      "pass": true
+    },
+    {
+      "name": "stable_actual_HLT_IF0",
+      "pass": true
+    },
+    {
+      "name": "no_resume_or_duplicate_output",
+      "pass": true
+    },
+    {
+      "name": "read_only_debugger",
+      "pass": true
+    }
+  ],
+  "failure_class": null,
+  "debugger_mutations": [],
+  "snapshots": {
+    "initial": {
+      "controls": {
+        "EIP": 2218302,
+        "EFL": 70,
+        "CR0": 2147549201,
+        "CR2": 0,
+        "CR3": 4096,
+        "CR4": 0,
+        "GDT": [
+          2430064,
+          23
+        ],
+        "IDT": [
+          3903640,
+          2047
+        ],
+        "TR": 0,
+        "CPL": 0,
+        "HLT": 0
+      },
+      "decoded_owner": {
+        "slots": {
+          "payload": null,
+          "sentinel": null,
+          "transition0": null,
+          "transition1": null,
+          "transition2": null,
+          "transition3": null,
+          "emergency0": null,
+          "emergency1": null,
+          "emergency2": null,
+          "emergency3": null,
+          "user_stack": null,
+          "arena_table": null
+        },
+        "capture": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "arena_capture": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "domain": 0,
+        "capacity_before": [
+          0,
+          0,
+          0
+        ],
+        "capacity_after": [
+          0,
+          0,
+          0
+        ]
+      },
+      "symbols": {
+        "owner": {
+          "address": 3907020,
+          "size": 472
+        },
+        "state": {
+          "address": 3907492,
+          "size": 1
+        },
+        "allocator": {
+          "address": 2446504,
+          "size": 311532
+        },
+        "f3_context": {
+          "address": 2763296,
+          "size": 272
+        },
+        "f5_gdt": {
+          "address": 3903576,
+          "size": 64
+        },
+        "f5_record": {
+          "address": 3906764,
+          "size": 256
+        },
+        "f5_expect": {
+          "address": 3906732,
+          "size": 28
+        },
+        "f5_latch": {
+          "address": 3906760,
+          "size": 4
+        }
+      },
+      "table_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "capture_stable": true
+    },
+    "before_iret": {
+      "controls": {
+        "EIP": 2286875,
+        "EFL": 70,
+        "CR0": 2147549201,
+        "CR2": 0,
+        "CR3": 4096,
+        "CR4": 0,
+        "GDT": [
+          3903576,
+          55
+        ],
+        "IDT": [
+          3903640,
+          2047
+        ],
+        "TR": 24,
+        "CPL": 0,
+        "HLT": 0
+      },
+      "decoded_owner": {
+        "slots": {
+          "payload": {
+            "addr": 147456,
+            "id": 34,
+            "domain": 1
+          },
+          "sentinel": {
+            "addr": 151552,
+            "id": 35,
+            "domain": 1
+          },
+          "transition0": {
+            "addr": 155648,
+            "id": 36,
+            "domain": 1
+          },
+          "transition1": {
+            "addr": 159744,
+            "id": 37,
+            "domain": 1
+          },
+          "transition2": {
+            "addr": 163840,
+            "id": 38,
+            "domain": 1
+          },
+          "transition3": {
+            "addr": 167936,
+            "id": 39,
+            "domain": 1
+          },
+          "emergency0": {
+            "addr": 172032,
+            "id": 40,
+            "domain": 1
+          },
+          "emergency1": {
+            "addr": 176128,
+            "id": 41,
+            "domain": 1
+          },
+          "emergency2": {
+            "addr": 180224,
+            "id": 42,
+            "domain": 1
+          },
+          "emergency3": {
+            "addr": 184320,
+            "id": 43,
+            "domain": 1
+          },
+          "user_stack": {
+            "addr": 188416,
+            "id": 44,
+            "domain": 1
+          },
+          "arena_table": {
+            "addr": 192512,
+            "id": 45,
+            "domain": 1
+          }
+        },
+        "capture": [
+          0,
+          12,
+          4096,
+          1,
+          2147549201,
+          4096,
+          0,
+          8,
+          147456,
+          151552,
+          30624,
+          33,
+          30614,
+          43,
+          12,
+          1
+        ],
+        "arena_capture": [
+          0,
+          12,
+          147456,
+          188416,
+          192512,
+          192519,
+          147973,
+          188935,
+          4096,
+          0,
+          18,
+          30614,
+          30612,
+          45,
+          1,
+          2
+        ],
+        "domain": 1,
+        "capacity_before": [
+          30624,
+          33,
+          2031
+        ],
+        "capacity_after": [
+          30612,
+          45,
+          2031
+        ]
+      },
+      "symbols": {
+        "owner": {
+          "address": 3907020,
+          "size": 472
+        },
+        "state": {
+          "address": 3907492,
+          "size": 1
+        },
+        "allocator": {
+          "address": 2446504,
+          "size": 311532
+        },
+        "f3_context": {
+          "address": 2763296,
+          "size": 272
+        },
+        "f5_gdt": {
+          "address": 3903576,
+          "size": 64
+        },
+        "f5_record": {
+          "address": 3906764,
+          "size": 256
+        },
+        "f5_expect": {
+          "address": 3906732,
+          "size": 28
+        },
+        "f5_latch": {
+          "address": 3906760,
+          "size": 4
+        }
+      },
+      "table_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        256
+      ],
+      "capture_stable": true
+    },
+    "terminal": {
+      "controls": {
+        "EIP": 2286793,
+        "EFL": 70,
+        "CR0": 2147549201,
+        "CR2": 1073743872,
+        "CR3": 4096,
+        "CR4": 0,
+        "GDT": [
+          3903576,
+          55
+        ],
+        "IDT": [
+          3903640,
+          2047
+        ],
+        "TR": 24,
+        "CPL": 0,
+        "HLT": 0
+      },
+      "decoded_owner": {
+        "slots": {
+          "payload": {
+            "addr": 147456,
+            "id": 34,
+            "domain": 1
+          },
+          "sentinel": {
+            "addr": 151552,
+            "id": 35,
+            "domain": 1
+          },
+          "transition0": {
+            "addr": 155648,
+            "id": 36,
+            "domain": 1
+          },
+          "transition1": {
+            "addr": 159744,
+            "id": 37,
+            "domain": 1
+          },
+          "transition2": {
+            "addr": 163840,
+            "id": 38,
+            "domain": 1
+          },
+          "transition3": {
+            "addr": 167936,
+            "id": 39,
+            "domain": 1
+          },
+          "emergency0": {
+            "addr": 172032,
+            "id": 40,
+            "domain": 1
+          },
+          "emergency1": {
+            "addr": 176128,
+            "id": 41,
+            "domain": 1
+          },
+          "emergency2": {
+            "addr": 180224,
+            "id": 42,
+            "domain": 1
+          },
+          "emergency3": {
+            "addr": 184320,
+            "id": 43,
+            "domain": 1
+          },
+          "user_stack": {
+            "addr": 188416,
+            "id": 44,
+            "domain": 1
+          },
+          "arena_table": {
+            "addr": 192512,
+            "id": 45,
+            "domain": 1
+          }
+        },
+        "capture": [
+          0,
+          12,
+          4096,
+          1,
+          2147549201,
+          4096,
+          0,
+          8,
+          147456,
+          151552,
+          30624,
+          33,
+          30614,
+          43,
+          12,
+          1
+        ],
+        "arena_capture": [
+          0,
+          12,
+          147456,
+          188416,
+          192512,
+          192519,
+          147973,
+          188935,
+          4096,
+          0,
+          18,
+          30614,
+          30612,
+          45,
+          1,
+          2
+        ],
+        "domain": 1,
+        "capacity_before": [
+          30624,
+          33,
+          2031
+        ],
+        "capacity_after": [
+          30612,
+          45,
+          2031
+        ]
+      },
+      "symbols": {
+        "owner": {
+          "address": 3907020,
+          "size": 472
+        },
+        "state": {
+          "address": 3907492,
+          "size": 1
+        },
+        "allocator": {
+          "address": 2446504,
+          "size": 311532
+        },
+        "f3_context": {
+          "address": 2763296,
+          "size": 272
+        },
+        "f5_gdt": {
+          "address": 3903576,
+          "size": 64
+        },
+        "f5_record": {
+          "address": 3906764,
+          "size": 256
+        },
+        "f5_expect": {
+          "address": 3906732,
+          "size": 28
+        },
+        "f5_latch": {
+          "address": 3906760,
+          "size": 4
+        }
+      },
+      "table_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        256
+      ],
+      "capture_stable": true
+    }
+  },
+  "command": [
+    "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+    "-bios",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\f5_cpl3\\matrix\\firmware\\bios-256k.bin",
+    "-kernel",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\f5_cpl3\\matrix\\builds\\B\\kernel.elf",
+    "-cpu",
+    "qemu32",
+    "-m",
+    "128",
+    "-smp",
+    "1",
+    "-machine",
+    "pc",
+    "-display",
+    "none",
+    "-nic",
+    "none",
+    "-monitor",
+    "none",
+    "-no-reboot",
+    "-serial",
+    "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\f5_cpl3\\matrix\\f5_cpl3_B_ro_write_128\\serial.txt",
+    "-d",
+    "int,guest_errors",
+    "-D",
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\f5_cpl3\\matrix\\f5_cpl3_B_ro_write_128\\qemu.log",
+    "-S",
+    "-gdb",
+    "tcp:127.0.0.1:55975",
+    "-qmp",
+    "tcp:127.0.0.1:55976,server=on,wait=off"
+  ],
+  "owned_pid": 46244,
+  "qemu_version": {
+    "qemu": {
+      "micro": 0,
+      "minor": 2,
+      "major": 10
+    },
+    "package": "v10.2.0-12105-g0f12d445bd"
+  },
+  "stable_interval_seconds": 0.2,
+  "qemu_exit_before_cleanup": null,
+  "qemu_exit": 1,
+  "cleanup_errors": [],
+  "frozen_bytes": {
+    "before_fault_hardware.txt": "bd6b1697964f15c3604eb087639f412f7ada451210726a20b5f7579c5003d372",
+    "before_fault_register_packet.txt": "9e8444d8e746bba46dffb8793188f98928875f2b248439a66f9a79ba72f17da7",
+    "before_iret_allocator.bin": "075485e79f35b0add0186cf050c367dbc2ae2ac748110e6fb1a5b96c65ab086a",
+    "before_iret_allocator_repeat.bin": "075485e79f35b0add0186cf050c367dbc2ae2ac748110e6fb1a5b96c65ab086a",
+    "before_iret_capture.json": "1694cd5d984826f4fabf084c387bbfffc183fd2406572fb1cd013b4f84ed9681",
+    "before_iret_code.bin": "6c6b9ed0faf5f49bbb2f84fa9b9e9599983669467d2f659732aaeeec08c6d59d",
+    "before_iret_code_repeat.bin": "6c6b9ed0faf5f49bbb2f84fa9b9e9599983669467d2f659732aaeeec08c6d59d",
+    "before_iret_directory.bin": "144feb214f44f92877d1c6fe3ff54ab4ea2ada9e5c2e3aa04574a0e36f1ad8e3",
+    "before_iret_directory_repeat.bin": "144feb214f44f92877d1c6fe3ff54ab4ea2ada9e5c2e3aa04574a0e36f1ad8e3",
+    "before_iret_emergency_tss.bin": "e1df384a671aa96bd51645816811cf05253618a1dc8c2e76043c8efd066a6701",
+    "before_iret_f3_context.bin": "bbed18895affb43709d1b6ea275c968c247c75522a07d622130838752b970568",
+    "before_iret_f3_context_repeat.bin": "bbed18895affb43709d1b6ea275c968c247c75522a07d622130838752b970568",
+    "before_iret_f5_expect.bin": "73cf5de0f6b1e3304aabcf254181b77c78ea16e8fe834cbf5ad7c20f177e5182",
+    "before_iret_f5_expect_repeat.bin": "73cf5de0f6b1e3304aabcf254181b77c78ea16e8fe834cbf5ad7c20f177e5182",
+    "before_iret_f5_gdt.bin": "53f1662bc654bdc6b0d4e2fd289a992e0b6dcf48c11692089e3e1cadbea35eac",
+    "before_iret_f5_gdt_repeat.bin": "53f1662bc654bdc6b0d4e2fd289a992e0b6dcf48c11692089e3e1cadbea35eac",
+    "before_iret_f5_latch.bin": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+    "before_iret_f5_latch_repeat.bin": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+    "before_iret_f5_record.bin": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+    "before_iret_f5_record_repeat.bin": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+    "before_iret_gdt.bin": "de748f39c07999bd12b6f673471315781c4e3c83277a24ce166b8ed391ad6867",
+    "before_iret_hardware.txt": "6913a394cfdde5c08b9089d233ad9ede799c73ce9a529567842234b9c3dc82ba",
+    "before_iret_idt.bin": "fc6932bc1188a978007cbddc7d5c53577a812a6343963e8b58ad33392f038436",
+    "before_iret_normal_tss.bin": "d2fcba2e44c38ddf3246dffe6fa02bb027e258afd088b5abb4a17589fd4e1192",
+    "before_iret_owner.bin": "97694a1c9b94cebc84119ba7a50a4d0f82cad35cfe5dcd7653cb4a59dc3997a6",
+    "before_iret_owner_repeat.bin": "97694a1c9b94cebc84119ba7a50a4d0f82cad35cfe5dcd7653cb4a59dc3997a6",
+    "before_iret_register_packet.txt": "aca72c1b812754cdc678253c1b72ba5d5329f7c8c31cf3ba0cd01d795b5392c0",
+    "before_iret_stack.bin": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+    "before_iret_stack_repeat.bin": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+    "before_iret_state.bin": "dbc1b4c900ffe48d575b5da5c638040125f65db0fe3e24494b76ea986457d986",
+    "before_iret_state_repeat.bin": "dbc1b4c900ffe48d575b5da5c638040125f65db0fe3e24494b76ea986457d986",
+    "before_iret_table_000.bin": "1dc24ec062a7c7db63cc334d4f2c98fb93f22a497e54cf6ac6c7e51d1dd9ce0c",
+    "before_iret_table_000_repeat.bin": "1dc24ec062a7c7db63cc334d4f2c98fb93f22a497e54cf6ac6c7e51d1dd9ce0c",
+    "before_iret_table_001.bin": "fb24161be40e1a25c600d2bf0a3159d9b2de9bb062c29b7adf7cdae4bb7c3c52",
+    "before_iret_table_001_repeat.bin": "fb24161be40e1a25c600d2bf0a3159d9b2de9bb062c29b7adf7cdae4bb7c3c52",
+    "before_iret_table_002.bin": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+    "before_iret_table_002_repeat.bin": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+    "before_iret_table_003.bin": "5e095c8327423630baf8b51e39a3f994fe913a8b0dc20c5f6698b41b84d7bdac",
+    "before_iret_table_003_repeat.bin": "5e095c8327423630baf8b51e39a3f994fe913a8b0dc20c5f6698b41b84d7bdac",
+    "before_iret_table_004.bin": "a6d82cf039934d9ad71035f6cc5c404c172d4ffae39a18413727407910cfb551",
+    "before_iret_table_004_repeat.bin": "a6d82cf039934d9ad71035f6cc5c404c172d4ffae39a18413727407910cfb551",
+    "before_iret_table_005.bin": "ac60e4d77e7fcafc40c60aa95f45683e33c1c20423c806826d81a5369d109840",
+    "before_iret_table_005_repeat.bin": "ac60e4d77e7fcafc40c60aa95f45683e33c1c20423c806826d81a5369d109840",
+    "before_iret_table_006.bin": "ae51b48537d3091aacf3340b3f040140bf851d1526e49b24cb8dc26384d87f21",
+    "before_iret_table_006_repeat.bin": "ae51b48537d3091aacf3340b3f040140bf851d1526e49b24cb8dc26384d87f21",
+    "before_iret_table_007.bin": "d22f5fa098ee709810fb6591d57a5c5e75b4e930213aeae6551dbc0a92f2f373",
+    "before_iret_table_007_repeat.bin": "d22f5fa098ee709810fb6591d57a5c5e75b4e930213aeae6551dbc0a92f2f373",
+    "before_iret_table_008.bin": "a7c6fa336ad11a58b8add7a8561cb5d5137519e0bb0b3d0aac689e73e07aab50",
+    "before_iret_table_008_repeat.bin": "a7c6fa336ad11a58b8add7a8561cb5d5137519e0bb0b3d0aac689e73e07aab50",
+    "before_iret_table_009.bin": "467af900c1c0bb7197c5e4ac569cf30aa86a9de3501e2900da69742168ef44f7",
+    "before_iret_table_009_repeat.bin": "467af900c1c0bb7197c5e4ac569cf30aa86a9de3501e2900da69742168ef44f7",
+    "before_iret_table_010.bin": "0b2c06be412ab397d946637872f05e7fab256a9ee5a4162a0fdc45cefa7b2dce",
+    "before_iret_table_010_repeat.bin": "0b2c06be412ab397d946637872f05e7fab256a9ee5a4162a0fdc45cefa7b2dce",
+    "before_iret_table_011.bin": "b54855e1012611c1d2320793488c6c4f7297c7aae69ba45c918168001caf4cbe",
+    "before_iret_table_011_repeat.bin": "b54855e1012611c1d2320793488c6c4f7297c7aae69ba45c918168001caf4cbe",
+    "before_iret_table_012.bin": "41887587081e942210230477aad5d9cfde4088655df3615dd9c5f664a261b90a",
+    "before_iret_table_012_repeat.bin": "41887587081e942210230477aad5d9cfde4088655df3615dd9c5f664a261b90a",
+    "before_iret_table_013.bin": "b5c2c822200ce47985b20380913699167a28dbbf3eb994b6490218e4d5c590d7",
+    "before_iret_table_013_repeat.bin": "b5c2c822200ce47985b20380913699167a28dbbf3eb994b6490218e4d5c590d7",
+    "before_iret_table_014.bin": "3d600a6967a547941c4eb16f5ea89131d96383132c24e17ed7fb9526c852a8b6",
+    "before_iret_table_014_repeat.bin": "3d600a6967a547941c4eb16f5ea89131d96383132c24e17ed7fb9526c852a8b6",
+    "before_iret_table_015.bin": "5c522f4e24d9516ca0557f2350cdd0466952eb4aaf4c28c6249ad6c733d611b1",
+    "before_iret_table_015_repeat.bin": "5c522f4e24d9516ca0557f2350cdd0466952eb4aaf4c28c6249ad6c733d611b1",
+    "before_iret_table_016.bin": "319c47fa3c7c396122e92248dd0671fdc7f2e4943d591c824905ab62edaf9aa8",
+    "before_iret_table_016_repeat.bin": "319c47fa3c7c396122e92248dd0671fdc7f2e4943d591c824905ab62edaf9aa8",
+    "before_iret_table_017.bin": "fa7ad86f64bc98cf5155297d4b1783cc52ca155dec41a7af1302bfd3f73812f9",
+    "before_iret_table_017_repeat.bin": "fa7ad86f64bc98cf5155297d4b1783cc52ca155dec41a7af1302bfd3f73812f9",
+    "before_iret_table_018.bin": "899fd77040e65af963dfefe57fac12b1239d68232601185045c32e413f9f1047",
+    "before_iret_table_018_repeat.bin": "899fd77040e65af963dfefe57fac12b1239d68232601185045c32e413f9f1047",
+    "before_iret_table_019.bin": "9178349af3da0fef68349020b49dd26ff25d2380efd827cf5a958bac7f421de7",
+    "before_iret_table_019_repeat.bin": "9178349af3da0fef68349020b49dd26ff25d2380efd827cf5a958bac7f421de7",
+    "before_iret_table_020.bin": "0f7af82ba190b0cf7a757e76e8114ea60445c92b93e24f9eae0b23d9ad619516",
+    "before_iret_table_020_repeat.bin": "0f7af82ba190b0cf7a757e76e8114ea60445c92b93e24f9eae0b23d9ad619516",
+    "before_iret_table_021.bin": "88ccf46349d671f3f04d9eaaf157987250b7137645674976c42ae6bc603e215a",
+    "before_iret_table_021_repeat.bin": "88ccf46349d671f3f04d9eaaf157987250b7137645674976c42ae6bc603e215a",
+    "before_iret_table_022.bin": "891241d3b0b8c9200541d404521dc711a61c0a2dc76eb8d0b06013b646d6dff8",
+    "before_iret_table_022_repeat.bin": "891241d3b0b8c9200541d404521dc711a61c0a2dc76eb8d0b06013b646d6dff8",
+    "before_iret_table_023.bin": "d0598801fffb64ed37a0f2908d5e50ce1bda9f5df37c306693de0100c33f62c2",
+    "before_iret_table_023_repeat.bin": "d0598801fffb64ed37a0f2908d5e50ce1bda9f5df37c306693de0100c33f62c2",
+    "before_iret_table_024.bin": "1dccac3d33fe7174b1ecf9dbe12768da078e17d9880cb2675e0ff7c19b44c5b4",
+    "before_iret_table_024_repeat.bin": "1dccac3d33fe7174b1ecf9dbe12768da078e17d9880cb2675e0ff7c19b44c5b4",
+    "before_iret_table_025.bin": "b2f55c6e406e9c57e0fa623f5fae1872090f8f51af81c77e70af587b4dbd2ca5",
+    "before_iret_table_025_repeat.bin": "b2f55c6e406e9c57e0fa623f5fae1872090f8f51af81c77e70af587b4dbd2ca5",
+    "before_iret_table_026.bin": "216d49196023de80c54807cc1cf80e7cea46e8ad39184202d01aacbea6b0840e",
+    "before_iret_table_026_repeat.bin": "216d49196023de80c54807cc1cf80e7cea46e8ad39184202d01aacbea6b0840e",
+    "before_iret_table_027.bin": "aacff912fbb271b970de150254e41148cb574de05edda26bcebab16cc454bceb",
+    "before_iret_table_027_repeat.bin": "aacff912fbb271b970de150254e41148cb574de05edda26bcebab16cc454bceb",
+    "before_iret_table_028.bin": "aa0a4fd3b2e847d2522d86df6752bf44c85313059a3428b527913fbb9c78489d",
+    "before_iret_table_028_repeat.bin": "aa0a4fd3b2e847d2522d86df6752bf44c85313059a3428b527913fbb9c78489d",
+    "before_iret_table_029.bin": "3a5ab6dd3bd03bdd70e2563c40d58db1c3d57242ac382cc4e9bcc3b13ce8c2d3",
+    "before_iret_table_029_repeat.bin": "3a5ab6dd3bd03bdd70e2563c40d58db1c3d57242ac382cc4e9bcc3b13ce8c2d3",
+    "before_iret_table_030.bin": "bcd1287e317a652f52ad018dd60a602ffc018668be82452f5b254c8da90f7738",
+    "before_iret_table_030_repeat.bin": "bcd1287e317a652f52ad018dd60a602ffc018668be82452f5b254c8da90f7738",
+    "before_iret_table_031.bin": "ba83949d59bcfdb0966b0c535eb2753807d2a9a3977871a1e153091f60a82e38",
+    "before_iret_table_031_repeat.bin": "ba83949d59bcfdb0966b0c535eb2753807d2a9a3977871a1e153091f60a82e38",
+    "before_iret_table_256.bin": "d9993537ccabac5854bb026425b40a0ec1a76c2206e4fc77b9fcc2c5c00077ae",
+    "before_iret_table_256_repeat.bin": "d9993537ccabac5854bb026425b40a0ec1a76c2206e4fc77b9fcc2c5c00077ae",
+    "bridge_call.bin": "ac751fd6f066a5cb1737345b2778edecabad27eef77b1b26a1f71780984e42cb",
+    "bridge_hardware.txt": "0d2590186a90b3b187cb92dace842415af59221a59ce151067a0b4ad2fa2b4e1",
+    "bridge_register_packet.txt": "ddde39dab356395fd28af80d2ea4092ba241f6a90abdd46c90b38b5f32d92f84",
+    "fault_instruction.bin": "bf1cf3b3c0d72cb4eabefa7503effedcb426b0d3ff22a0d599ef2008bfd9b432",
+    "gdb.jsonl": "3d701a4f3d70f172b93f05b5f2a8f923fc6d2e2bd3cba8ac585860cc060e646c",
+    "initial_allocator.bin": "742dc8471db8a7db67d025e5736b412c4cb3c743d264b42902cf56ded241dbbf",
+    "initial_allocator_repeat.bin": "742dc8471db8a7db67d025e5736b412c4cb3c743d264b42902cf56ded241dbbf",
+    "initial_capture.json": "bc8d4a01435439aee0a8b4ef2d2010e3fd1689a6dc5b52ea16c15189ac16f6af",
+    "initial_directory.bin": "301950b875d86672a08861d94e300db6e244d025f26e4ae485ac8d24ae2e359a",
+    "initial_directory_repeat.bin": "301950b875d86672a08861d94e300db6e244d025f26e4ae485ac8d24ae2e359a",
+    "initial_f3_context.bin": "44d4d5c5a60d164fe744d647b841aa28b5bcf257b2729620db8b2fe0aefb6551",
+    "initial_f3_context_repeat.bin": "44d4d5c5a60d164fe744d647b841aa28b5bcf257b2729620db8b2fe0aefb6551",
+    "initial_f5_expect.bin": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8",
+    "initial_f5_expect_repeat.bin": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8",
+    "initial_f5_gdt.bin": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+    "initial_f5_gdt_repeat.bin": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+    "initial_f5_latch.bin": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+    "initial_f5_latch_repeat.bin": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+    "initial_f5_record.bin": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+    "initial_f5_record_repeat.bin": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+    "initial_gdt.bin": "3cfedb28605cf0f76d2020706239dc19334d8c94b25293aa4e30a0f428da90fc",
+    "initial_hardware.txt": "b00d5f306832f9f3b3ec2dee9d20560d8405156191b060285f0fddc6b0085710",
+    "initial_idt.bin": "ed0abf5e6caf797e962400b9c1c4c80c60097c21ab39d4e8a6d9c34083b3b14a",
+    "initial_owner.bin": "22fec3bc784546d70e79696b405d950aff355b6f429f266ceacffe0cc2e5ba02",
+    "initial_owner_repeat.bin": "22fec3bc784546d70e79696b405d950aff355b6f429f266ceacffe0cc2e5ba02",
+    "initial_register_packet.txt": "3493252fb1c81604a01f38e9c8679312a71fd5d52d5bb6a36a30bb7588cb026c",
+    "initial_state.bin": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+    "initial_state_repeat.bin": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+    "initial_table_000.bin": "04d6799b25e1057a67b80d5a515bfc03f91a18b7856aa7f4220f93a6daef8e9a",
+    "initial_table_000_repeat.bin": "04d6799b25e1057a67b80d5a515bfc03f91a18b7856aa7f4220f93a6daef8e9a",
+    "initial_table_001.bin": "fb24161be40e1a25c600d2bf0a3159d9b2de9bb062c29b7adf7cdae4bb7c3c52",
+    "initial_table_001_repeat.bin": "fb24161be40e1a25c600d2bf0a3159d9b2de9bb062c29b7adf7cdae4bb7c3c52",
+    "initial_table_002.bin": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+    "initial_table_002_repeat.bin": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+    "initial_table_003.bin": "5e095c8327423630baf8b51e39a3f994fe913a8b0dc20c5f6698b41b84d7bdac",
+    "initial_table_003_repeat.bin": "5e095c8327423630baf8b51e39a3f994fe913a8b0dc20c5f6698b41b84d7bdac",
+    "initial_table_004.bin": "a6d82cf039934d9ad71035f6cc5c404c172d4ffae39a18413727407910cfb551",
+    "initial_table_004_repeat.bin": "a6d82cf039934d9ad71035f6cc5c404c172d4ffae39a18413727407910cfb551",
+    "initial_table_005.bin": "ac60e4d77e7fcafc40c60aa95f45683e33c1c20423c806826d81a5369d109840",
+    "initial_table_005_repeat.bin": "ac60e4d77e7fcafc40c60aa95f45683e33c1c20423c806826d81a5369d109840",
+    "initial_table_006.bin": "ae51b48537d3091aacf3340b3f040140bf851d1526e49b24cb8dc26384d87f21",
+    "initial_table_006_repeat.bin": "ae51b48537d3091aacf3340b3f040140bf851d1526e49b24cb8dc26384d87f21",
+    "initial_table_007.bin": "d22f5fa098ee709810fb6591d57a5c5e75b4e930213aeae6551dbc0a92f2f373",
+    "initial_table_007_repeat.bin": "d22f5fa098ee709810fb6591d57a5c5e75b4e930213aeae6551dbc0a92f2f373",
+    "initial_table_008.bin": "a7c6fa336ad11a58b8add7a8561cb5d5137519e0bb0b3d0aac689e73e07aab50",
+    "initial_table_008_repeat.bin": "a7c6fa336ad11a58b8add7a8561cb5d5137519e0bb0b3d0aac689e73e07aab50",
+    "initial_table_009.bin": "467af900c1c0bb7197c5e4ac569cf30aa86a9de3501e2900da69742168ef44f7",
+    "initial_table_009_repeat.bin": "467af900c1c0bb7197c5e4ac569cf30aa86a9de3501e2900da69742168ef44f7",
+    "initial_table_010.bin": "0b2c06be412ab397d946637872f05e7fab256a9ee5a4162a0fdc45cefa7b2dce",
+    "initial_table_010_repeat.bin": "0b2c06be412ab397d946637872f05e7fab256a9ee5a4162a0fdc45cefa7b2dce",
+    "initial_table_011.bin": "b54855e1012611c1d2320793488c6c4f7297c7aae69ba45c918168001caf4cbe",
+    "initial_table_011_repeat.bin": "b54855e1012611c1d2320793488c6c4f7297c7aae69ba45c918168001caf4cbe",
+    "initial_table_012.bin": "41887587081e942210230477aad5d9cfde4088655df3615dd9c5f664a261b90a",
+    "initial_table_012_repeat.bin": "41887587081e942210230477aad5d9cfde4088655df3615dd9c5f664a261b90a",
+    "initial_table_013.bin": "b5c2c822200ce47985b20380913699167a28dbbf3eb994b6490218e4d5c590d7",
+    "initial_table_013_repeat.bin": "b5c2c822200ce47985b20380913699167a28dbbf3eb994b6490218e4d5c590d7",
+    "initial_table_014.bin": "3d600a6967a547941c4eb16f5ea89131d96383132c24e17ed7fb9526c852a8b6",
+    "initial_table_014_repeat.bin": "3d600a6967a547941c4eb16f5ea89131d96383132c24e17ed7fb9526c852a8b6",
+    "initial_table_015.bin": "5c522f4e24d9516ca0557f2350cdd0466952eb4aaf4c28c6249ad6c733d611b1",
+    "initial_table_015_repeat.bin": "5c522f4e24d9516ca0557f2350cdd0466952eb4aaf4c28c6249ad6c733d611b1",
+    "initial_table_016.bin": "319c47fa3c7c396122e92248dd0671fdc7f2e4943d591c824905ab62edaf9aa8",
+    "initial_table_016_repeat.bin": "319c47fa3c7c396122e92248dd0671fdc7f2e4943d591c824905ab62edaf9aa8",
+    "initial_table_017.bin": "fa7ad86f64bc98cf5155297d4b1783cc52ca155dec41a7af1302bfd3f73812f9",
+    "initial_table_017_repeat.bin": "fa7ad86f64bc98cf5155297d4b1783cc52ca155dec41a7af1302bfd3f73812f9",
+    "initial_table_018.bin": "899fd77040e65af963dfefe57fac12b1239d68232601185045c32e413f9f1047",
+    "initial_table_018_repeat.bin": "899fd77040e65af963dfefe57fac12b1239d68232601185045c32e413f9f1047",
+    "initial_table_019.bin": "9178349af3da0fef68349020b49dd26ff25d2380efd827cf5a958bac7f421de7",
+    "initial_table_019_repeat.bin": "9178349af3da0fef68349020b49dd26ff25d2380efd827cf5a958bac7f421de7",
+    "initial_table_020.bin": "0f7af82ba190b0cf7a757e76e8114ea60445c92b93e24f9eae0b23d9ad619516",
+    "initial_table_020_repeat.bin": "0f7af82ba190b0cf7a757e76e8114ea60445c92b93e24f9eae0b23d9ad619516",
+    "initial_table_021.bin": "88ccf46349d671f3f04d9eaaf157987250b7137645674976c42ae6bc603e215a",
+    "initial_table_021_repeat.bin": "88ccf46349d671f3f04d9eaaf157987250b7137645674976c42ae6bc603e215a",
+    "initial_table_022.bin": "891241d3b0b8c9200541d404521dc711a61c0a2dc76eb8d0b06013b646d6dff8",
+    "initial_table_022_repeat.bin": "891241d3b0b8c9200541d404521dc711a61c0a2dc76eb8d0b06013b646d6dff8",
+    "initial_table_023.bin": "d0598801fffb64ed37a0f2908d5e50ce1bda9f5df37c306693de0100c33f62c2",
+    "initial_table_023_repeat.bin": "d0598801fffb64ed37a0f2908d5e50ce1bda9f5df37c306693de0100c33f62c2",
+    "initial_table_024.bin": "1dccac3d33fe7174b1ecf9dbe12768da078e17d9880cb2675e0ff7c19b44c5b4",
+    "initial_table_024_repeat.bin": "1dccac3d33fe7174b1ecf9dbe12768da078e17d9880cb2675e0ff7c19b44c5b4",
+    "initial_table_025.bin": "b2f55c6e406e9c57e0fa623f5fae1872090f8f51af81c77e70af587b4dbd2ca5",
+    "initial_table_025_repeat.bin": "b2f55c6e406e9c57e0fa623f5fae1872090f8f51af81c77e70af587b4dbd2ca5",
+    "initial_table_026.bin": "216d49196023de80c54807cc1cf80e7cea46e8ad39184202d01aacbea6b0840e",
+    "initial_table_026_repeat.bin": "216d49196023de80c54807cc1cf80e7cea46e8ad39184202d01aacbea6b0840e",
+    "initial_table_027.bin": "aacff912fbb271b970de150254e41148cb574de05edda26bcebab16cc454bceb",
+    "initial_table_027_repeat.bin": "aacff912fbb271b970de150254e41148cb574de05edda26bcebab16cc454bceb",
+    "initial_table_028.bin": "aa0a4fd3b2e847d2522d86df6752bf44c85313059a3428b527913fbb9c78489d",
+    "initial_table_028_repeat.bin": "aa0a4fd3b2e847d2522d86df6752bf44c85313059a3428b527913fbb9c78489d",
+    "initial_table_029.bin": "3a5ab6dd3bd03bdd70e2563c40d58db1c3d57242ac382cc4e9bcc3b13ce8c2d3",
+    "initial_table_029_repeat.bin": "3a5ab6dd3bd03bdd70e2563c40d58db1c3d57242ac382cc4e9bcc3b13ce8c2d3",
+    "initial_table_030.bin": "bcd1287e317a652f52ad018dd60a602ffc018668be82452f5b254c8da90f7738",
+    "initial_table_030_repeat.bin": "bcd1287e317a652f52ad018dd60a602ffc018668be82452f5b254c8da90f7738",
+    "initial_table_031.bin": "459b0c2c9cd5af5c3fec06cbca8dfa95f32023c5cf3be7631fe728ba6e17859c",
+    "initial_table_031_repeat.bin": "459b0c2c9cd5af5c3fec06cbca8dfa95f32023c5cf3be7631fe728ba6e17859c",
+    "iret_words.bin": "2d6ae2164fce1f6cf10ca2bbb83697634810f2135b2f92e0d2b91cd045c46635",
+    "mandatory_frame.bin": "997c9cefe828be298a7558c43b4ec14720eee1aca50a8393ec217fb42a4689e4",
+    "qemu.log": "7e1cc9073d765570bcd6c78dd4b6512ab98b5adf2a88f424544ad40a4817182a",
+    "qmp.jsonl": "34c94d1f586dfe6e9ab6fa9603a49c429a1faad6c8a1f9ea75617f412eaf8934",
+    "serial.txt": "b7eed666f9ef1e98e40c010c709009a5278b7625962aa00992b0132704330c48",
+    "serial_before_stable.bin": "b7eed666f9ef1e98e40c010c709009a5278b7625962aa00992b0132704330c48",
+    "stable_halt.bin": "af6f85f9739bc6c1d4e36531b0e13906511f0b1f4c234f391524a69c054e1222",
+    "stable_record.bin": "bc3d35ccc0a647be5ee60778e8d671da5c64e4885e47e085a6fc8042b0056ca8",
+    "stable_terminal_hardware.txt": "65166d2a71bf8f8a3a711be8e2eb4c3b9ca1d7abc8ae703250db11a07bd67d0e",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "terminal_allocator.bin": "075485e79f35b0add0186cf050c367dbc2ae2ac748110e6fb1a5b96c65ab086a",
+    "terminal_allocator_repeat.bin": "075485e79f35b0add0186cf050c367dbc2ae2ac748110e6fb1a5b96c65ab086a",
+    "terminal_capture.json": "ce12a65ea970fd12fd68dffce2d0e89774d0a4a2860c6c8c398ee3f5e69b3b0f",
+    "terminal_code.bin": "6c6b9ed0faf5f49bbb2f84fa9b9e9599983669467d2f659732aaeeec08c6d59d",
+    "terminal_code_repeat.bin": "6c6b9ed0faf5f49bbb2f84fa9b9e9599983669467d2f659732aaeeec08c6d59d",
+    "terminal_directory.bin": "7a3e08a1896ffe43f0f2c2ba7e7fc09ab267be6d65bb94c4c69a432e28aa1490",
+    "terminal_directory_repeat.bin": "7a3e08a1896ffe43f0f2c2ba7e7fc09ab267be6d65bb94c4c69a432e28aa1490",
+    "terminal_emergency_tss.bin": "e1df384a671aa96bd51645816811cf05253618a1dc8c2e76043c8efd066a6701",
+    "terminal_f3_context.bin": "bbed18895affb43709d1b6ea275c968c247c75522a07d622130838752b970568",
+    "terminal_f3_context_repeat.bin": "bbed18895affb43709d1b6ea275c968c247c75522a07d622130838752b970568",
+    "terminal_f5_expect.bin": "73cf5de0f6b1e3304aabcf254181b77c78ea16e8fe834cbf5ad7c20f177e5182",
+    "terminal_f5_expect_repeat.bin": "73cf5de0f6b1e3304aabcf254181b77c78ea16e8fe834cbf5ad7c20f177e5182",
+    "terminal_f5_gdt.bin": "53f1662bc654bdc6b0d4e2fd289a992e0b6dcf48c11692089e3e1cadbea35eac",
+    "terminal_f5_gdt_repeat.bin": "53f1662bc654bdc6b0d4e2fd289a992e0b6dcf48c11692089e3e1cadbea35eac",
+    "terminal_f5_latch.bin": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+    "terminal_f5_latch_repeat.bin": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+    "terminal_f5_record.bin": "bc3d35ccc0a647be5ee60778e8d671da5c64e4885e47e085a6fc8042b0056ca8",
+    "terminal_f5_record_repeat.bin": "bc3d35ccc0a647be5ee60778e8d671da5c64e4885e47e085a6fc8042b0056ca8",
+    "terminal_gdt.bin": "de748f39c07999bd12b6f673471315781c4e3c83277a24ce166b8ed391ad6867",
+    "terminal_hardware.txt": "20293dd3de455b0afe51d76200e58f670943eab9de793f6ceebb67171a804b1d",
+    "terminal_idt.bin": "fc6932bc1188a978007cbddc7d5c53577a812a6343963e8b58ad33392f038436",
+    "terminal_normal_tss.bin": "d2fcba2e44c38ddf3246dffe6fa02bb027e258afd088b5abb4a17589fd4e1192",
+    "terminal_owner.bin": "97694a1c9b94cebc84119ba7a50a4d0f82cad35cfe5dcd7653cb4a59dc3997a6",
+    "terminal_owner_repeat.bin": "97694a1c9b94cebc84119ba7a50a4d0f82cad35cfe5dcd7653cb4a59dc3997a6",
+    "terminal_register_packet.txt": "59158d7aeb61dcd22e6ed0e9dbfbbae4ccbfd16ec7ffd4e5d01230e3e5b30394",
+    "terminal_stack.bin": "421b1fcc65a4df7c928dc1d60d35ce73ab52b9f5fd6ffca52c4f86d8429be3cf",
+    "terminal_stack_repeat.bin": "421b1fcc65a4df7c928dc1d60d35ce73ab52b9f5fd6ffca52c4f86d8429be3cf",
+    "terminal_state.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+    "terminal_state_repeat.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+    "terminal_table_000.bin": "1dc24ec062a7c7db63cc334d4f2c98fb93f22a497e54cf6ac6c7e51d1dd9ce0c",
+    "terminal_table_000_repeat.bin": "1dc24ec062a7c7db63cc334d4f2c98fb93f22a497e54cf6ac6c7e51d1dd9ce0c",
+    "terminal_table_001.bin": "fb24161be40e1a25c600d2bf0a3159d9b2de9bb062c29b7adf7cdae4bb7c3c52",
+    "terminal_table_001_repeat.bin": "fb24161be40e1a25c600d2bf0a3159d9b2de9bb062c29b7adf7cdae4bb7c3c52",
+    "terminal_table_002.bin": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+    "terminal_table_002_repeat.bin": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+    "terminal_table_003.bin": "5e095c8327423630baf8b51e39a3f994fe913a8b0dc20c5f6698b41b84d7bdac",
+    "terminal_table_003_repeat.bin": "5e095c8327423630baf8b51e39a3f994fe913a8b0dc20c5f6698b41b84d7bdac",
+    "terminal_table_004.bin": "a6d82cf039934d9ad71035f6cc5c404c172d4ffae39a18413727407910cfb551",
+    "terminal_table_004_repeat.bin": "a6d82cf039934d9ad71035f6cc5c404c172d4ffae39a18413727407910cfb551",
+    "terminal_table_005.bin": "ac60e4d77e7fcafc40c60aa95f45683e33c1c20423c806826d81a5369d109840",
+    "terminal_table_005_repeat.bin": "ac60e4d77e7fcafc40c60aa95f45683e33c1c20423c806826d81a5369d109840",
+    "terminal_table_006.bin": "ae51b48537d3091aacf3340b3f040140bf851d1526e49b24cb8dc26384d87f21",
+    "terminal_table_006_repeat.bin": "ae51b48537d3091aacf3340b3f040140bf851d1526e49b24cb8dc26384d87f21",
+    "terminal_table_007.bin": "d22f5fa098ee709810fb6591d57a5c5e75b4e930213aeae6551dbc0a92f2f373",
+    "terminal_table_007_repeat.bin": "d22f5fa098ee709810fb6591d57a5c5e75b4e930213aeae6551dbc0a92f2f373",
+    "terminal_table_008.bin": "a7c6fa336ad11a58b8add7a8561cb5d5137519e0bb0b3d0aac689e73e07aab50",
+    "terminal_table_008_repeat.bin": "a7c6fa336ad11a58b8add7a8561cb5d5137519e0bb0b3d0aac689e73e07aab50",
+    "terminal_table_009.bin": "467af900c1c0bb7197c5e4ac569cf30aa86a9de3501e2900da69742168ef44f7",
+    "terminal_table_009_repeat.bin": "467af900c1c0bb7197c5e4ac569cf30aa86a9de3501e2900da69742168ef44f7",
+    "terminal_table_010.bin": "0b2c06be412ab397d946637872f05e7fab256a9ee5a4162a0fdc45cefa7b2dce",
+    "terminal_table_010_repeat.bin": "0b2c06be412ab397d946637872f05e7fab256a9ee5a4162a0fdc45cefa7b2dce",
+    "terminal_table_011.bin": "b54855e1012611c1d2320793488c6c4f7297c7aae69ba45c918168001caf4cbe",
+    "terminal_table_011_repeat.bin": "b54855e1012611c1d2320793488c6c4f7297c7aae69ba45c918168001caf4cbe",
+    "terminal_table_012.bin": "41887587081e942210230477aad5d9cfde4088655df3615dd9c5f664a261b90a",
+    "terminal_table_012_repeat.bin": "41887587081e942210230477aad5d9cfde4088655df3615dd9c5f664a261b90a",
+    "terminal_table_013.bin": "b5c2c822200ce47985b20380913699167a28dbbf3eb994b6490218e4d5c590d7",
+    "terminal_table_013_repeat.bin": "b5c2c822200ce47985b20380913699167a28dbbf3eb994b6490218e4d5c590d7",
+    "terminal_table_014.bin": "3d600a6967a547941c4eb16f5ea89131d96383132c24e17ed7fb9526c852a8b6",
+    "terminal_table_014_repeat.bin": "3d600a6967a547941c4eb16f5ea89131d96383132c24e17ed7fb9526c852a8b6",
+    "terminal_table_015.bin": "5c522f4e24d9516ca0557f2350cdd0466952eb4aaf4c28c6249ad6c733d611b1",
+    "terminal_table_015_repeat.bin": "5c522f4e24d9516ca0557f2350cdd0466952eb4aaf4c28c6249ad6c733d611b1",
+    "terminal_table_016.bin": "319c47fa3c7c396122e92248dd0671fdc7f2e4943d591c824905ab62edaf9aa8",
+    "terminal_table_016_repeat.bin": "319c47fa3c7c396122e92248dd0671fdc7f2e4943d591c824905ab62edaf9aa8",
+    "terminal_table_017.bin": "fa7ad86f64bc98cf5155297d4b1783cc52ca155dec41a7af1302bfd3f73812f9",
+    "terminal_table_017_repeat.bin": "fa7ad86f64bc98cf5155297d4b1783cc52ca155dec41a7af1302bfd3f73812f9",
+    "terminal_table_018.bin": "899fd77040e65af963dfefe57fac12b1239d68232601185045c32e413f9f1047",
+    "terminal_table_018_repeat.bin": "899fd77040e65af963dfefe57fac12b1239d68232601185045c32e413f9f1047",
+    "terminal_table_019.bin": "9178349af3da0fef68349020b49dd26ff25d2380efd827cf5a958bac7f421de7",
+    "terminal_table_019_repeat.bin": "9178349af3da0fef68349020b49dd26ff25d2380efd827cf5a958bac7f421de7",
+    "terminal_table_020.bin": "0f7af82ba190b0cf7a757e76e8114ea60445c92b93e24f9eae0b23d9ad619516",
+    "terminal_table_020_repeat.bin": "0f7af82ba190b0cf7a757e76e8114ea60445c92b93e24f9eae0b23d9ad619516",
+    "terminal_table_021.bin": "88ccf46349d671f3f04d9eaaf157987250b7137645674976c42ae6bc603e215a",
+    "terminal_table_021_repeat.bin": "88ccf46349d671f3f04d9eaaf157987250b7137645674976c42ae6bc603e215a",
+    "terminal_table_022.bin": "891241d3b0b8c9200541d404521dc711a61c0a2dc76eb8d0b06013b646d6dff8",
+    "terminal_table_022_repeat.bin": "891241d3b0b8c9200541d404521dc711a61c0a2dc76eb8d0b06013b646d6dff8",
+    "terminal_table_023.bin": "d0598801fffb64ed37a0f2908d5e50ce1bda9f5df37c306693de0100c33f62c2",
+    "terminal_table_023_repeat.bin": "d0598801fffb64ed37a0f2908d5e50ce1bda9f5df37c306693de0100c33f62c2",
+    "terminal_table_024.bin": "1dccac3d33fe7174b1ecf9dbe12768da078e17d9880cb2675e0ff7c19b44c5b4",
+    "terminal_table_024_repeat.bin": "1dccac3d33fe7174b1ecf9dbe12768da078e17d9880cb2675e0ff7c19b44c5b4",
+    "terminal_table_025.bin": "b2f55c6e406e9c57e0fa623f5fae1872090f8f51af81c77e70af587b4dbd2ca5",
+    "terminal_table_025_repeat.bin": "b2f55c6e406e9c57e0fa623f5fae1872090f8f51af81c77e70af587b4dbd2ca5",
+    "terminal_table_026.bin": "216d49196023de80c54807cc1cf80e7cea46e8ad39184202d01aacbea6b0840e",
+    "terminal_table_026_repeat.bin": "216d49196023de80c54807cc1cf80e7cea46e8ad39184202d01aacbea6b0840e",
+    "terminal_table_027.bin": "aacff912fbb271b970de150254e41148cb574de05edda26bcebab16cc454bceb",
+    "terminal_table_027_repeat.bin": "aacff912fbb271b970de150254e41148cb574de05edda26bcebab16cc454bceb",
+    "terminal_table_028.bin": "aa0a4fd3b2e847d2522d86df6752bf44c85313059a3428b527913fbb9c78489d",
+    "terminal_table_028_repeat.bin": "aa0a4fd3b2e847d2522d86df6752bf44c85313059a3428b527913fbb9c78489d",
+    "terminal_table_029.bin": "3a5ab6dd3bd03bdd70e2563c40d58db1c3d57242ac382cc4e9bcc3b13ce8c2d3",
+    "terminal_table_029_repeat.bin": "3a5ab6dd3bd03bdd70e2563c40d58db1c3d57242ac382cc4e9bcc3b13ce8c2d3",
+    "terminal_table_030.bin": "bcd1287e317a652f52ad018dd60a602ffc018668be82452f5b254c8da90f7738",
+    "terminal_table_030_repeat.bin": "bcd1287e317a652f52ad018dd60a602ffc018668be82452f5b254c8da90f7738",
+    "terminal_table_031.bin": "6f2a39ec29ca8ccd69f339174bef6ab71ba66b69b84f453efcb8206be69754e2",
+    "terminal_table_031_repeat.bin": "6f2a39ec29ca8ccd69f339174bef6ab71ba66b69b84f453efcb8206be69754e2",
+    "terminal_table_256.bin": "9509e0c2d4bc57e09d7775659e41d73c5c71b614e18f445acba593088887e134",
+    "terminal_table_256_repeat.bin": "9509e0c2d4bc57e09d7775659e41d73c5c71b614e18f445acba593088887e134",
+    "trace_before_stable.bin": "7e1cc9073d765570bcd6c78dd4b6512ab98b5adf2a88f424544ad40a4817182a",
+    "user_entry_hardware.txt": "f96bcf831334541f4d306a171b02f6d8eea278641c92d9ce593f3dc6e566c635",
+    "user_entry_register_packet.txt": "a0ab0d4f844524e52d9329684dfe6a023f2a6dbca359a1d9a59232bbf07d0a83"
+  }
+}

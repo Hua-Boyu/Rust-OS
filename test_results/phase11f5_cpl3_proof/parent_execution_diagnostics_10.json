@@ -1,0 +1,39 @@
+{
+  "schema": "rosti.f5-parent-execution-diagnostics.v1",
+  "scope": "parent offline readback/transport only; no source, validator or production-test behavior changed",
+  "current_execution_kernel_cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "entries": [
+    {
+      "tool": "execute_code",
+      "execution_count": 4,
+      "command_or_expression": "Path(s[\"log\"]).read_text(errors=\"replace\") in raw host-log summary extraction",
+      "cwd_at_failure": "NOT_RECORDED by tool; failed relative operand host_serial.log",
+      "actual_exit": 1,
+      "elapsed_seconds": 0.03,
+      "classification": "offline report-path authoring error, not hardware/kernel/test failure",
+      "failure": "FileNotFoundError: host_serial.log",
+      "resolution": "Resolved relative log operand against exact invocation-owned v10/host; corrected raw-log extraction passed and was saved in verification_readback_summary_10.json",
+      "original_failure": "verification_summary_error_10.json"
+    },
+    {
+      "tool": "execute_code",
+      "execution_count": 7,
+      "command_or_expression": "assert sha(p)==digest,(key,str(p)) for original review reviewed_inputs and raw_artifact_pins",
+      "cwd_at_failure": "NOT_RECORDED by tool; all reviewed paths resolved absolutely",
+      "actual_exit": 1,
+      "elapsed_seconds": 0.02,
+      "classification": "real documentation provenance mismatch; canonical admission blocked, no source drift",
+      "failure": "reviewed_inputs STATE.md old rawdd26050837fdf7739694802a977133dfce8630cb92a50001a3ce8a62a1f551e5 versus currentrawd9b54015af397e7266e03642aac79948a5eb855d178ad32e48563a5ad90ab2b3",
+      "resolution": "Both exact raw snapshots preserved; original review02 immutable; separate independent explicit document disposition required, not parent waiver",
+      "original_failure": "candidate_review_parent_pin_refusal_10.json"
+    },
+    {
+      "tool": "terminal",
+      "command": "powershell.exe -NoProfile -Command Wait-Process -Id 44696 (foreground OS-handle wait only)",
+      "requested_tool_timeout_seconds": 600,
+      "observed_transport_timeout_seconds": 420.0,
+      "classification": "foreground transport deadline, not background verification result",
+      "actual_verification_result": "Separate background proc_06ff014bb6f8 subsequently observed actualexit0/PASS; no verification child killed or restarted for this waiter timeout"
+    }
+  ]
+}

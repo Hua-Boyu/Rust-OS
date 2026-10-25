@@ -1,0 +1,13 @@
+test_actual_optimized_subprocess_refuses (__main__.DerivationTests.test_actual_optimized_subprocess_refuses) ... ok
+test_comments_only_allowed (__main__.DerivationTests.test_comments_only_allowed) ... ok
+test_complete_approved_expansion (__main__.DerivationTests.test_complete_approved_expansion) ... ok
+test_dictionary_closed (__main__.DerivationTests.test_dictionary_closed) ... ok
+test_invalid_dictionary_and_duplicate_input_paths (__main__.DerivationTests.test_invalid_dictionary_and_duplicate_input_paths) ... ok
+test_required_mutations_rejected (__main__.DerivationTests.test_required_mutations_rejected) ... ok
+test_source_path_and_hash_controls (__main__.DerivationTests.test_source_path_and_hash_controls) ... ok
+test_wrong_raw_f2_before_parsing (__main__.DerivationTests.test_wrong_raw_f2_before_parsing) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.362s
+
+OK

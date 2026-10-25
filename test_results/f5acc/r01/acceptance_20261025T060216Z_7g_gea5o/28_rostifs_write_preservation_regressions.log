@@ -1,0 +1,11 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running tests\write_preservation.rs (Documents\Rust-OS\crates\rostifs\target\debug\build\rostifs/b1a871339a6af811\out\write_preservation-b1a871339a6af811.exe)
+
+running 4 tests
+test measured_preservation_workloads ... ignored
+test truncate_preserves_prefix_and_zeroes_reextended_tail ... ok
+test fully_supplied_old_bytes_need_no_preservation_read ... ok
+test every_required_preservation_read_failure_keeps_old_tree ... ok
+
+test result: ok. 3 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.17s
+

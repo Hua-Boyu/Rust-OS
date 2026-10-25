@@ -1,0 +1,24 @@
+{
+  "scope": "supported reset of finished parent manifest/readback execution kernel; not a service/cache/foreign-process operation",
+  "prior_task_kernel_pid": 57380,
+  "prior_task_kernel_rss": 38227968,
+  "available_before_safe_recovery": 702185472,
+  "current_task_kernel_pid": 53516,
+  "current_task_kernel_memory": {
+    "rss": 20430848,
+    "vms": 11837440,
+    "num_page_faults": 5245,
+    "peak_wset": 20832256,
+    "wset": 20430848,
+    "peak_paged_pool": 188688,
+    "paged_pool": 188512,
+    "peak_nonpaged_pool": 13584,
+    "nonpaged_pool": 13456,
+    "pagefile": 11837440,
+    "peak_pagefile": 12374016,
+    "private": 11837440
+  },
+  "available_after_reset": 810913792,
+  "pagefile_free_after_reset": 126710743040,
+  "no_foreign_process_stopped": true
+}

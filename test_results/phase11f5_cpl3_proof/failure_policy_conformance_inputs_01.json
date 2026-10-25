@@ -1,0 +1,107 @@
+{
+  "pins": {
+    "src/gdt_tss.rs": {
+      "sha256": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+      "bytes": 11217
+    },
+    "src/f5_runtime.rs": {
+      "sha256": "0dab20c2b2516dd55bbc0ae2fff2e9d24323f0084afe0cd35cb6eeca71a55b9b",
+      "bytes": 7357
+    },
+    "src/f5_bridge.s": {
+      "sha256": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5",
+      "bytes": 4513
+    },
+    "src/f5_gdt.rs": {
+      "sha256": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+      "bytes": 5473
+    },
+    "src/f5_exception_entry.s": {
+      "sha256": "c2bc0ff1248fdbf64a17fe0e7a26064a54279a2fad6fb99eda150fee7d95f5d1",
+      "bytes": 2355
+    },
+    "src/exception_entry.s": {
+      "sha256": "e375278f78c458a6ebed3e4fd2256f45d6c1b5e50a6e09654ba730fb8fe887e6",
+      "bytes": 2227
+    },
+    "src/exception_abi.rs": {
+      "sha256": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "bytes": 3937
+    },
+    "src/f3_entry.s": {
+      "sha256": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+      "bytes": 1804
+    },
+    "src/interrupt.rs": {
+      "sha256": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "bytes": 13552
+    },
+    "src/memory/retained_owner.rs": {
+      "sha256": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+      "bytes": 23269
+    },
+    "src/memory/privileged.rs": {
+      "sha256": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "bytes": 8886
+    },
+    "src/memory/user_arena.rs": {
+      "sha256": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+      "bytes": 13581
+    },
+    "test_results/phase11f5_cpl3_proof/design.md": {
+      "sha256": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c",
+      "bytes": 36134
+    },
+    "test_results/phase11f5_cpl3_proof/design_inputs_03.json": {
+      "sha256": "adea88bcf78b78ebe182c79c82563d88707de3075435c24a675e1ab22f69d42f",
+      "bytes": 25394
+    },
+    "test_results/phase11f5_cpl3_proof/reviews/design_review_03.json": {
+      "sha256": "3c73bf80b6c504e6f6c982a90d928f3e66ba8fac18f1174ce000c528289cfd83",
+      "bytes": 135282
+    },
+    "test_results/phase11f5_cpl3_proof/reviews/runtime_preflight_01.json": {
+      "sha256": "c93331be473d7e16b232efc79d562a1357ec3dccbf0ae9ddb0f3c663dd3f5fc3",
+      "bytes": 16612
+    }
+  },
+  "f2_git_blob_sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+  "f2_raw_equal_git_blob": false,
+  "f2_equal_after_crlf_diagnosis_only": true,
+  "f4_acceptance_sha256": "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4",
+  "f4_keys": [
+    "phase",
+    "phase11_release_ready",
+    "timestamp_utc",
+    "overall",
+    "gates",
+    "counts",
+    "source_base",
+    "source_sha256",
+    "f3_predecessor",
+    "phase10_fixture_kernel",
+    "f2_evidence_sha256",
+    "f3_evidence_sha256",
+    "f4_production_kernel_sha256",
+    "f4_driver_log_sha256",
+    "f4_evidence_sha256",
+    "rollback_iso",
+    "iso",
+    "gates_passed",
+    "gates_total"
+  ],
+  "f4_status": null,
+  "f4_gate_count": 72,
+  "schema": "rosti.f5-failure-policy-conformance-inputs.v1",
+  "classification_proposed": "A: implements existing section4 bounded F5 FAIL requirement; independent determination required",
+  "changed_functions": [
+    "src/gdt_tss.rs:install delegates install_policy::<false>",
+    "src/gdt_tss.rs:install_f5 delegates install_policy::<true>",
+    "src/gdt_tss.rs:install_policy returns false after post-publication discrepancy only when F5=true",
+    "src/f5_runtime.rs:run calls install_f5 and immediately diverges through f5_unsupported on false"
+  ],
+  "error_path": "run -> install_f5 -> install_policy::<true> post-LGDT discrepancy -> false -> f5_unsupported -> latch -> f5_fail_report -> record status2 -> f5_report -> STATE3 -> bounded UART -> terminal",
+  "inherited_paths": "install_policy::<false> retains fail() -> f3_install_terminal; accepted F3/F4 callers still call install, not install_f5",
+  "outstanding_caveat": "nested latch refusal may halt before outer STATE publication; reviewer must interpret explicit nested and DF exemptions, not silently waive them",
+  "source_edits_this_session": false
+}

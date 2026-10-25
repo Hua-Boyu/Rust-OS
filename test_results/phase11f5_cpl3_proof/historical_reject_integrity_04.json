@@ -1,0 +1,28 @@
+{
+  "schema": "rosti.f5-history-integrity.v1",
+  "scope": "IMMUTABLE_HISTORICAL_DESIGN_AND_REJECT_IDENTITY_ONLY",
+  "pins": [
+    {
+      "path": "test_results/phase11f5_cpl3_proof/reviews/design_review_01.json",
+      "expected": "d9d8c719492656d41a73867e0f24806288d76124b051db1408bb4fa638f52161",
+      "actual": "d9d8c719492656d41a73867e0f24806288d76124b051db1408bb4fa638f52161"
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/reviews/design_review_02.json",
+      "expected": "43cf36aeced0f76d91055b3cd2f18de3810b7b804b67b0d8890adf0605d000bc",
+      "actual": "43cf36aeced0f76d91055b3cd2f18de3810b7b804b67b0d8890adf0605d000bc"
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/design_proposal_01.md",
+      "expected": "6d4eabbbe45349804a994d24016e81fe31ba4e3d6d0a20956ddca5cc9d6346bf",
+      "actual": "6d4eabbbe45349804a994d24016e81fe31ba4e3d6d0a20956ddca5cc9d6346bf"
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/design_proposal_02.md",
+      "expected": "44325607eb36e0a16a3692c212509acdfe3c8303999a2297a60ed82d772597a9",
+      "actual": "44325607eb36e0a16a3692c212509acdfe3c8303999a2297a60ed82d772597a9"
+    }
+  ],
+  "all_match": true,
+  "historical_rejects_not_superseded_by_narrow_correction": true
+}

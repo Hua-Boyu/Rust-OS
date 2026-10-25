@@ -1,0 +1,30 @@
+{
+  "kind": "SOURCE_DECLARATIONS_ONLY_NOT_LIBTEST_LIST_OR_EXECUTION",
+  "declarations": [
+    "f5_cpl3_tests::descriptor_extension_preserves_tss_slots",
+    "f5_cpl3_tests::user_selectors_have_dpl3_rpl3",
+    "f5_cpl3_tests::payload_bytes_and_fault_offsets",
+    "f5_cpl3_tests::fixed_payload_fits_owned_page",
+    "f5_cpl3_tests::iret_flags_and_stack_contract",
+    "f5_cpl3_tests::mandatory_prefix_and_conditional_tail",
+    "f5_cpl3_tests::exact_exception_oracles",
+    "f5_cpl3_tests::supervisor_presence_is_not_assumed",
+    "f5_cpl3_tests::terminal_latch_refuses_resume",
+    "f5_cpl3_tests::wrong_origin_or_reserved_error_bits_fail",
+    "memory::paging::f5_cpl3_owner_tests::before_publication_payload_copy_exact",
+    "memory::paging::f5_cpl3_owner_tests::default_f4_image_bytes_unchanged",
+    "memory::paging::f5_cpl3_owner_tests::twelve_frame_state_preservation",
+    "memory::paging::f5_cpl3_owner_tests::invalid_scenario_preflight_refusal"
+  ],
+  "count": 14,
+  "equals_approved_identity_set": true,
+  "f5_assembly_includes_f2_source": false,
+  "f2_assembly_has_parameterized_prefix": false,
+  "source_sharing_observation": "Separate F2_STUB/F5_STUB source bodies and separate normalizer instructions. Current comments assert algorithm equality; no literal shared macro body observed.",
+  "pins": {
+    "src/exception_entry.s": "e375278f78c458a6ebed3e4fd2256f45d6c1b5e50a6e09654ba730fb8fe887e6",
+    "src/f5_exception_entry.s": "c2bc0ff1248fdbf64a17fe0e7a26064a54279a2fad6fb99eda150fee7d95f5d1",
+    "tests_kernel/src/f5_cpl3_tests.rs": "64688a6cfe19828630ef2b036993f2634c9db83417b9a8961655e9bfab924fd5",
+    "src/memory/f5_cpl3_owner_tests.rs": "eea225f4657c1d42ee8f3c7c9f2300d9ec42f8a7a222f6698dc8e2a0b40547e3"
+  }
+}

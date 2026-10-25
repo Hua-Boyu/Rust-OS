@@ -1,0 +1,703 @@
+{
+  "schema": "rosti.f5-complete-design-review.v1",
+  "review_id": "design_review_01",
+  "verdict": "REJECT",
+  "complete_scope": true,
+  "design_complete": false,
+  "implementation_authorized": false,
+  "summary": "Full fourteen-area independent source-grounded review completed. Proposal 01 cannot be implemented as approved: its saved RF oracle contradicts fault semantics; CPU-pushed selector padding is not given a safe comparison contract; exact F5 owner/publication test identities remain deferred. No hardware evidence was generated.",
+  "blockers": [
+    {
+      "id": "F5-D01-RF",
+      "severity": "blocking",
+      "finding": "design.md:54 explicitly requires saved RF=0 and excludes RF from the allowed saved EFLAGS mask. All six intended events are fault-class #UD/#PF/#GP, which push RF=1 (except the unrelated instruction-breakpoint #DB case). Entry EFLAGS=2 does not make the fault-saved RF zero. Correct hardware would therefore fail every proposed success oracle. This already contradicts inherited F2 and F4 evidence code.",
+      "source_refs": [
+        "test_results/phase11f5_cpl3_proof/design.md:33-42,54",
+        "scripts/f2_exception_guest.py:130-133",
+        "scripts/f4_evidence.py:456-459"
+      ],
+      "required_revision": "Keep entry RF=0 distinct from saved fault RF=1. Specify the exact saved EFLAGS comparison including DF, fixed XOR status bits, RF and masked undefined AF; add explicit negative controls for the opposite RF value. Obtain a fresh design review; do not silently alter the frozen proposal."
+    },
+    {
+      "id": "F5-D01-SELECTOR-PADDING",
+      "severity": "blocking",
+      "finding": "The bridge contract says frame CS must be exactly 0x2b before tail access and old SS exactly 0x33, without specifying low-16-bit comparison for CPU-pushed padded 32-bit selector slots. The ABI stores CS as u32; CPU selector-slot padding is not an architectural selector value to constrain. Unlike the software-saved DS/ES/FS/GS slots, the F2 macro does not zero-normalize the CPU CS/SS slots. The inherited F2 hardware oracle masks CS and the existing transition-tail helper masks SS. Full raw captures are appropriate, but raw padding must not decide origin or success.",
+      "source_refs": [
+        "test_results/phase11f5_cpl3_proof/design.md:52-58",
+        "src/exception_abi.rs:40,68-94",
+        "src/exception_entry.s:64-88",
+        "scripts/f2_exception_guest.py:133"
+      ],
+      "required_revision": "Explicitly validate (saved_CS & 0xffff)==0x2b before tail access, retain exact bound/shape checks, and validate (old_SS & 0xffff)==0x33. Record but do not interpret CPU padding. Preserve full equality for software-normalized segment slots. Exercise nonzero high-half synthetic cases without presenting them as guest evidence."
+    },
+    {
+      "id": "F5-D01-TEST-IDENTITIES",
+      "severity": "blocking",
+      "finding": "design.md:80 names ten pure tests but explicitly defers exact owner/publication-specific test names until candidate review. Complete design review was required to cover exact scenario/test identities now. Before-publication copy, unchanged F4 image, twelve-frame/state preservation and invalid-scenario preflight currently have prose descriptions, not a closed exact membership contract. The scenario_F decision also needs incorporation into that contract.",
+      "source_refs": [
+        "test_results/phase11f5_cpl3_proof/design.md:72,80,94-96",
+        "scripts/phase6_verify.py:143-154",
+        "scripts/f4_evidence.py:23-25,478-480"
+      ],
+      "required_revision": "Freeze fully qualified identities and module/filter placement for every new host test family, including the F5 owner/publication family; specify required/ignored membership and which gate verifies it. Incorporate required F and preserve inherited exact identity families. Do this in the next design revision, not by unreviewed additions at candidate time."
+    }
+  ],
+  "findings": [
+    {
+      "area": 1,
+      "title": "Actual descriptors, DPL/RPL and selectors",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL_ON_IMPLEMENTATION",
+      "source_refs": [
+        "src/gdt_tss.rs:14-38,204-228,247-298",
+        "src/memory/privileged.rs:5-12,82-106",
+        "src/interrupt.rs:157-185",
+        "test_results/phase11f5_cpl3_proof/authorization_01.md:5-11",
+        "test_results/phase11f5_cpl3_proof/design.md:21-25"
+      ],
+      "assessment": "Actual source has exactly five entries and GDTR limit39, not an existing user GDT. The explicitly authorized F5-only seven-slot copy preserves slots0-4, busy normal TSS0x18 and available emergency0x20. Appended fb/f3 descriptors decode to present DPL3 flat accessed 32-bit code/data; CS0x2b and data/SS0x33 have RPL3 and TI0. Limit55 is correct. Copying descriptors rather than moving TSS storage preserves cached TR semantics and IDT8 resolution. No LTR reissue or emergency-slot reuse is acceptable. Require live descriptor/cache readback and writable supervisor identity backing before use. Existing F3 verify must not be called as if its limit39 contract were true after the switch."
+    },
+    {
+      "area": 2,
+      "title": "IRETD frame and launcher",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL_ON_IMPLEMENTATION",
+      "source_refs": [
+        "test_results/phase11f5_cpl3_proof/design.md:23-27,58-60",
+        "src/gdt_tss.rs:163-184",
+        "src/memory/user_arena.rs:7-12,226-247"
+      ],
+      "assessment": "The stated five 32-bit pushes in SS,ESP,EFLAGS,CS,EIP push order yield the correct outer-ring return frame. EFLAGS2 with IF/IOPL/NT/VM/TF/DF/RF clear is correct for entry, independently of saved fault RF. ESP0x40400000 is the exclusive upper boundary of the mapped stack; PUSH first writes0x403ffffc and POP restores the boundary. Scenario selection must be kernel scalar validation before loading user data selectors, with no recoverable continuation. Audit actual operand sizes, fixed destination set and no hidden Rust prologue. PIC masking and one-vCPU IF0 policy are consistent with the bounded mission."
+    },
+    {
+      "area": 3,
+      "title": "Payload bytes, placement and mappings",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL_ON_IMPLEMENTATION",
+      "source_refs": [
+        "src/memory/user_arena.rs:7-12,166-251,254-307",
+        "src/memory/retained_owner.rs:303-392",
+        "test_results/phase11f5_cpl3_proof/design.md:29-44"
+      ],
+      "assessment": "Independently parsed all six hex strings. Each has the same 12-byte XOR/MOV-CS/PUSH/POP/STD prologue, a fault exactly entry+12, an in-slot UD2 fallback, and fits its 64-byte slot. Six slots occupy offset0x100..0x27f, disjoint from PREFIX0..3 and DATA at2048. B encodes byte store to0x40000800; C read0x07c01000; D HLT; E OUT imm8 0x80; F read0x403fe000. EAX high bits are zeroed before MOV AX,CS; EBX sentinel and stack access have architectural meaning. Existing F4 PDE-last/pin ownership sequencing supports a private fixed image variant, but default F4 initialization and pattern checks must remain unchanged. Full page SHA computed here is only a reviewer-derived expected image, not a capture."
+    },
+    {
+      "area": 4,
+      "title": "TSS ESP0, SS0 and I/O-map denial",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL_ON_IMPLEMENTATION",
+      "source_refs": [
+        "src/memory/privileged.rs:7-12,18-86",
+        "src/gdt_tss.rs:40-69,163-184,204-228",
+        "test_results/phase11f5_cpl3_proof/design.md:25,44,54"
+      ],
+      "assessment": "The actual 104-byte TSS initializes iomap104, with descriptor limit103; normal state sets ESP0=0x07c05000 and SS0=0x10. With CPL3 and IOPL0, port0x80 permission cannot be granted by a bitmap outside the TSS limit. The exact #GP opcode capture plus actual TSS/IOPL readback is a legitimate architectural denied-transfer proof, not a claimed external-device measurement. Existing supervisor transition stack mapping must be checked as present and retained. SGDT/STR alone do not expose every hidden cache field; host hardware captures are needed for the claimed actual cache evidence."
+    },
+    {
+      "area": 5,
+      "title": "Shared F2 normalization and conditional tail safety",
+      "status": "BLOCKED_BY_SELECTOR_PADDING_CONTRACT",
+      "source_refs": [
+        "src/exception_entry.s:3-27,50-59,64-110",
+        "src/exception_abi.rs:12-18,23-94",
+        "test_results/phase11f5_cpl3_proof/design.md:13-19,52-60"
+      ],
+      "assessment": "The actual normalizer pushes PUSHAD then zero-extended software segment words, producing the asserted 68-byte prefix. Cross-ring frame begins ESP0-76=0x07c04fb4; PUSHAD input ESP is0x07c04fe4=prefix+48. With the given alignment sequence bridge entry ESP is0x07c04f9c, modulo16=12. The extra oldESP/SS words at68/72 must not be added to ExceptionFrame. Exact range and shape validation before loads plus selector-origin validation before tail reads is sound once selector padding is specified safely. Unsupported21/29/30 must remain frame-independent; #DF remains a task gate. Source-shared macro factoring is explicitly judged compatible with the provided fixed68-byte F2 ENTRY CONTRACT, not proof of an unchanged common address or an already-tested original cross-ring path. This decision is limited to unchanged default expansion/bridge and actual modulo-relocation comparison plus fresh F5 hardware evidence; independent duplicate normalizer code would not meet it."
+    },
+    {
+      "area": 6,
+      "title": "Exact full page-fault error codes",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL_ON_IMPLEMENTATION",
+      "source_refs": [
+        "src/memory/user_arena.rs:226-247,282-299",
+        "src/memory/privileged.rs:118-160",
+        "test_results/phase11f5_cpl3_proof/design.md:38-44,50,76"
+      ],
+      "assessment": "B expected7 is present user write protection, C expected5 is present supervisor-page user read protection, and F expected4 is nonpresent user read. Their CR2 addresses are fixed and distinct. Equality over all32 bits, not low3 masking, correctly rejects RSVD/I-D/PK/SS and unsupported/reserved bits. C must be refused before launch unless actual effective presence and supervisor flags are established; guard absence must be verified independently. No NX/fetch-protection claim follows from the non-PAE arena."
+    },
+    {
+      "area": 7,
+      "title": "General-protection behavior",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL_ON_IMPLEMENTATION",
+      "source_refs": [
+        "test_results/phase11f5_cpl3_proof/design.md:40-44,76",
+        "src/memory/privileged.rs:77,82-86"
+      ],
+      "assessment": "HLT at CPL3 must raise #GP(0), not halt as a successful user instruction. OUT0x80,AL at CPL3 with IOPL0 and the actual out-of-limit bitmap must raise #GP(0) before transfer. EIP at the exact fault opcode and full zero error are necessary; a subsequent UD2, earlier #GP in IRET/selector setup, wrong EIP or merely absent serial is not success. A intentionally uses #UD(0). All are faults and therefore subject to the blocking saved RF correction."
+    },
+    {
+      "area": 8,
+      "title": "Kernel-owned expectations, pass oracle and undefined state",
+      "status": "BLOCKED",
+      "source_refs": [
+        "test_results/phase11f5_cpl3_proof/design.md:48-58",
+        "src/exception_entry.s:67-88",
+        "src/exception_abi.rs:68-94",
+        "scripts/f2_exception_guest.py:128-139",
+        "scripts/f4_evidence.py:456-463"
+      ],
+      "assessment": "Supervisor-owned scenario/vector/error/EIP/CR2 expectations, exact frame bounds, fixed image validation and no user pointers in the bridge are appropriate. RF=0 in the saved fault frame is wrong and fatal to the proposed oracle. AF handling is already correct: XOR leaves AF undefined and PUSH/POP/STD do not define it, so AF must remain masked. Fixed XOR bits are ZF/PF1 and CF/OF/SF0. Expected saved flags after revision are0x10446 or0x10456 depending only on AF, not entry0x2. Software-saved GS/FS/ES/DS can be compared as full0x33 because the macro first clears EAX and uses16-bit MOVs. CPU-pushed CS/oldSS require explicit low16 selector comparisons and raw high-half retention without a success constraint."
+    },
+    {
+      "area": 9,
+      "title": "Finite terminal output and full emitted CFG closure",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL_ON_IMPLEMENTATION",
+      "source_refs": [
+        "src/memory/retained_owner.rs:448-521",
+        "src/f3_entry.s:19-47",
+        "test_results/phase11f4_user_arena/correction_cycle_01.py:32-112",
+        "test_results/phase11f4_user_arena/terminal_contract_02.py:20-74",
+        "test_results/phase11f5_cpl3_proof/design.md:62-68"
+      ],
+      "assessment": "Inherited F4 auditing is a conservative symbol-block walk rooted at f4_terminal, not by itself a reusable proof of all F5 entries and instruction fallthrough. The proposed multiple-root instruction-level audit is a necessary extension; include normalized entry, bridge, pass/fail, nested refusal, unsupported stubs and #DF emergency root/architectural edge, plus launcher and all payload destinations. Conditional branches and fallthrough must not stop at symbol labels. Every helper/indirect/return edge must be resolved or rejected. Fixed pass/fail literals are24/22 bytes respectively; bounded100000 UART polls per byte with drop-on-timeout and terminal HLT is finite. Host must fail missing output even if the raw record says success. No emitted closure or stack proof exists yet and none is claimed here."
+    },
+    {
+      "area": 10,
+      "title": "One-shot execution and no USER resumption",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL_ON_IMPLEMENTATION",
+      "source_refs": [
+        "src/memory/retained_owner.rs:395-481",
+        "src/f3_entry.s:39-69",
+        "test_results/phase11f5_cpl3_proof/design.md:48-54,64-68,72-76"
+      ],
+      "assessment": "Preparing->Sealed->Terminal, an assembly-only once latch and no IRET/RET continuation to user are suitable for the disposable terminal proof. First-entry success is impossible before a real exception. Nested entries must halt without a second report or tail read; unsupported/foreign-origin entries fail closed. One process per selected scenario/RAM and stable IF0 HLT observation prevent combining events or treating resumed payload as terminal. No resource release, boot retry, shell, scheduler, recovery or teardown may be inferred."
+    },
+    {
+      "area": 11,
+      "title": "F1-F4 compatibility and F2 scope decision",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL_ON_IMPLEMENTATION",
+      "source_refs": [
+        "src/gdt_tss.rs:204-298",
+        "src/memory/retained_owner.rs:303-445",
+        "src/memory/user_arena.rs:166-307",
+        "scripts/f1_evidence.py:17-26,29-65",
+        "scripts/f2_evidence.py:6-7,26-57",
+        "scripts/f3_full_evidence.py:11-18,33-75",
+        "scripts/f4_evidence.py:23-33,391-475",
+        "test_results/phase11f5_cpl3_proof/design.md:7-19,80-96"
+      ],
+      "assessment": "The authorization covers the narrow missing GDT extension, not arbitrary predecessor changes. Separate F5 descriptors, F5-only IDT installation, private image variant, unchanged inherited fixture entry paths and unchanged default F2 generated semantics are a legitimate preservation boundary. I explicitly do not require the new path to have the same f2_exception_common address: the supplied mission fixes the ABI/entry contract rather than an absolute address, and source-sharing avoids drift. This is not a waiver for dispatching through inherited panic/shared serial code. Fresh exact matrices remain F1 ten total across two RAMs, F2 eight, F3 eighteen and F4 twelve, bound to the same candidate; historical runs cannot be substituted. Existing F1 final-readback limitation remains historical and unresolved."
+    },
+    {
+      "area": 12,
+      "title": "Resource ceilings and stack-bound verification",
+      "status": "ACCEPTABLE_BUDGET_NOT_MEASURED",
+      "source_refs": [
+        "src/memory/user_arena.rs:112-129,303-307",
+        "src/memory/privileged.rs:89-106",
+        "linker.ld:19-22,40-53",
+        "test_results/phase11f5_cpl3_proof/design.md:31,52,66-68,82-96"
+      ],
+      "assessment": "The arena retains exactly twelve frames and F5 adds no owned frame. Fixed384-byte payload,56-byte extension GDT and at-most256-byte record are bounded additions in existing image storage, subject to actual ELF region fit. The512-byte transition-stack ceiling leaves15872 bytes of the16384-byte mapped stack. It is only a proposed bound, not a measurement. An emitted-instruction stack ledger must include76-byte initial frame, alignment, argument/return words, all scratch/call paths, and the nested same-ring68-byte NMI frame plus alignment until latch refusal. Excluding arbitrary pre-latch storms is explicit. Preserve inherited emergency2578/16384 conditional bound separately. This review does not accept inherited F3 high-water reasoning as new F5 proof."
+    },
+    {
+      "area": 13,
+      "title": "Exact scenarios, host identities and sequential RED/GREEN",
+      "status": "BLOCKED_BY_UNFINISHED_TEST_IDENTITY_SET",
+      "source_refs": [
+        "test_results/phase11f5_cpl3_proof/design.md:35-44,70-82",
+        "scripts/f4_ready_guest.py:20-34,104-118",
+        "scripts/f4_evidence.py:114-135,391-411",
+        "scripts/phase6_verify.py:143-154"
+      ],
+      "assessment": "A-E identities and exact bytes are closed; this review REQUIRES F as a distinct nonpresent USER guard proof, so six scenarios times two RAM sizes is the required F5 hardware matrix. Dedicated fixture assembly selection without the inherited F4 debugger EIP mutation is correct. Proposed A RED is explicitly sufficient as a missing-property baseline: a successful source-pinned fresh F4-ready boot with actual CS8/GDTR39 must fail an explicit hardware-CPL3 assertion, not timeout/build/filter infrastructure. It is not a RED execution of the future A payload and must be labelled accordingly; it provides no RED for B-F. Fresh characterization for already-enforced B-F protections avoids intentionally weakening security. Each later case still requires its own one-shot GREEN. The ten named pure tests are present in prose, but the additional owner/publication family has no exact names, preventing complete identity approval."
+    },
+    {
+      "area": 14,
+      "title": "Exact proposed acceptance gates, predecessor comparison and freezes",
+      "status": "GATE_MULTISET_VERIFIED_PROPOSAL_NOT_APPROVED",
+      "source_refs": [
+        "scripts/phase6_verify.py:69-142,322-352,444-449,743-777,840-873,985-1002",
+        "scripts/test_acceptance_harness.py:578-579",
+        "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json",
+        "test_results/phase11f5_cpl3_proof/design.md:84-96"
+      ],
+      "assessment": "Independently hashed and parsed the actual F4 predecessor. Its72 rows are72 unique names, multiplicity1, and exactly equal AST-literal F3_PREDECESSOR_GATES(70)+F4_GATES(2) from the current runner: no missing or extra identity. Four distinct proposed F5 names are disjoint; their union would be76, not an accepted result. Gate responsibilities (host/fixture, production+fixture closure, six-scenario hardware, fresh F1 preservation) cover distinct gaps while inherited F2/F3/F4 gates stay canonical. The900-second acceptance-runner-regression timeout is actual; inherited F3/F4 hardware timeouts are2100 and must not be shortened or increased under this proposal. New heavy gates have a900-second design maximum and need isolated calibration, which has not been done. Existing source inventory is broad but excludes task-local authority; explicit design/review and new transitive dependencies must be appended and checked before freezing. Negative controls, raw nested pins, nonzero exact host membership, unchanged ignored identities, one frozen canonical run and independent final readback remain mandatory. Overall design rejection means these gate names are reviewed proposals only, not approved integration or permission to launch canonical."
+    }
+  ],
+  "f2_entry_contract_decision": {
+    "decision": "SOURCE_SHARED_MACRO_EXTENSION_COMPATIBLE_WITH_PROVIDED_ENTRY_CONTRACT",
+    "exact_common_symbol_address_required": false,
+    "waiver": false,
+    "conditions": [
+      "Default F2 symbols, expansion instructions, bridge target and68-byte ABI remain unchanged modulo documented placement relocations.",
+      "F5 uses the same macro algorithm, not an independently maintained decoder.",
+      "F5-only gates preserve DPL0 and IDT8 taskgate; inherited boot/fixture gate paths stay unchanged.",
+      "Compare emitted normalizer sequences and perform fresh cross-ring hardware tests; inherited F2 hardware is explicitly Ring0-only."
+    ],
+    "scope_resolved_for_this_review": true,
+    "not_approved_for_implementation_because_other_blockers": true
+  },
+  "scenario_F": {
+    "disposition": "REQUIRED",
+    "identity": "f5_cpl3_F_guard_read",
+    "rationale": "An absent leaf under a USER PDE has full PF error4 and is a distinct boundary from present RO error7 and present supervisor error5. Ring0 F4 guard proof does not replace actual CPL3 USER guard denial. The fixed six-slot page already includes this bounded read with no new retained frame.",
+    "requires_revision_incorporation": true
+  },
+  "A_prebaseline_RED": {
+    "decision": "SUFFICIENT_FOR_EXPLICIT_MISSING_CPL3_PROPERTY_ONLY",
+    "requirements": [
+      "Successful fresh build and one actual source-pinned F4-ready QEMU boot for each RAM128/512.",
+      "Actual terminal CS8 and GDTRlimit39; an explicit hardware-CPL3-entry assertion must fail with property-classification, not infrastructure failure.",
+      "No F1-F4 source corruption or debugger state mutation; preserve historical bytes in isolated fixture staging.",
+      "Record that this is not an attempted CPL3 entry or execution of the future A payload.",
+      "A GREEN must subsequently execute the exact new payload and terminal cross-ring exception path; B-F receive dedicated characterization/GREEN."
+    ],
+    "runtime_verified_in_this_review": false
+  },
+  "architectural_references": [
+    {
+      "url": "https://xem.github.io/minix86/manual/intel-x86-and-64-manual-vol3/o_fe12b1e2a880e0ce-582.html",
+      "retrieval": "Read actual page with urllib after search; decoded with replacement for malformed link bytes.",
+      "section": "Intel SDM Vol3B17.3.1.1 in this mirror",
+      "relevant_quote": "For any fault-class exception except a debug exception generated in response to an instruction breakpoint, the value pushed for RF is 1."
+    },
+    {
+      "url": "https://www.felixcloutier.com/x86/intn:into:int3:int1",
+      "retrieval": "Read actual instruction-reference page with urllib; inspected protected-mode stack pseudocode.",
+      "relevant_quote": "Old SS and ESP, 3 words padded to 4; Old CS and EIP, 3 words padded to 4.",
+      "limitation": "Mirror pseudocode does not establish a portable zero value for the padding. Use selector low16 semantics rather than manufacturing a padding requirement."
+    }
+  ],
+  "limitations": {
+    "review_only": true,
+    "builds_run": false,
+    "host_tests_run": false,
+    "qemu_run": false,
+    "disassembler_run": false,
+    "canonical_run": false,
+    "production_modified": false,
+    "predecessor_evidence_modified": false,
+    "source_grounding": "Read actual current production Rust/assembly, inherited fixture/validator code, retained F4 audit code and parsed pinned acceptance JSON and current runner AST. This is a design review, not an implementation, emitted-code or hardware approval.",
+    "working_tree": "Pre-existing modifications to .gitignore, README.md and F4 FINAL_REPORT.md and unrelated untracked paths were observed and left untouched. HEAD matched requested c8b73654dd5f7f64c3c7872254b2b730ad2151f4.",
+    "tool_issues": [
+      "Initial guessed src/arch/x86/exception_entry.s path did not exist; read actual src/exception_entry.s instead.",
+      "web_extract is unsupported by configured search-only backend; actual reference pages fetched read-only with urllib instead.",
+      "One UTF8 decode failed on malformed Intel-mirror link bytes; retried with replacement and extracted the actual relevant text.",
+      "An overly broad git ls-files output was truncated; subsequent reads and machine parsing used exact targets.",
+      "Initial attempt to pass the full verdict through python -c exceeded the Windows command-line limit (WinError206); no file was written by that failed call. Retried using the native persistent Python kernel with exclusive-create output."
+    ],
+    "no_synthetic_evidence": "Pure descriptor/payload/frame/flag computations in this review are explicitly design derivations, not hardware observations. No PASS/RED/GREEN execution report was synthesized.",
+    "skill_memory": "No skills or other files were changed because the task permits only the new review JSON.",
+    "parent_parallel_evidence": "Parent reported new host/listing and snippet-disassembly evidence after review drafting. Those optional new artifacts were not inspected or used to decide this verdict; their reported successes are not this reviewer's verification and do not change the frozen RF=0 blocker."
+  },
+  "design_raw_sha256": "6d4eabbbe45349804a994d24016e81fe31ba4e3d6d0a20956ddca5cc9d6346bf",
+  "approved_design_raw_sha256": null,
+  "approval_pin_note": "No approved design exists under this REJECT verdict; design_raw_sha256 pins the exact reviewed proposal.",
+  "head": "c8b73654dd5f7f64c3c7872254b2b730ad2151f4",
+  "utc": "2026-10-23T08:45:19.502777+00:00",
+  "source_hashes": {
+    "src/gdt_tss.rs": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+    "src/memory/privileged.rs": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+    "src/interrupt.rs": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+    "src/exception_entry.s": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+    "src/exception_abi.rs": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+    "src/memory/user_arena.rs": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+    "src/memory/retained_owner.rs": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+    "src/f3_entry.s": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+    "linker.ld": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+    "scripts/f1_evidence.py": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+    "scripts/f2_evidence.py": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+    "scripts/f2_exception_guest.py": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+    "scripts/f3_full_evidence.py": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+    "scripts/f4_evidence.py": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+    "scripts/f4_ready_guest.py": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+    "scripts/f4_arena_guest.py": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+    "scripts/phase6_verify.py": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+    "scripts/test_acceptance_harness.py": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+    "test_results/phase11f4_user_arena/correction_cycle_01.py": "2f94466631e1a0ad3cab4d98a7abbed3e0784ecd01d1e5873d1196526228fe6a",
+    "test_results/phase11f4_user_arena/terminal_contract_02.py": "81c95081bd1df76df0b5847f24bbc95bf7ea430bcddf3e3f56399dc432c8c20c",
+    "test_results/phase11f5_cpl3_proof/design.md": "6d4eabbbe45349804a994d24016e81fe31ba4e3d6d0a20956ddca5cc9d6346bf",
+    "test_results/phase11f5_cpl3_proof/authorization_01.md": "fc88c9d39a131f64af8837be32ae7b30a997d0e4f6e1501fcd7348ee55eec0ac",
+    "test_results/phase11f5_cpl3_proof/reviews/prerequisite_review_01.json": "398f3bbd0f61d4be256c0e8ac51ef25bcca012a73922b2eeb8d171d8207345a1",
+    "test_results/phase11f5_cpl3_proof/recovery_snapshot_01.json": "516cfa04642d4f43db7e60f1bd836603195d245861d5f5749b0eb606c2751313"
+  },
+  "recovery_source_pins_match": {
+    "src/memory/privileged.rs": true,
+    "src/exception_entry.s": true,
+    "src/memory/user_arena.rs": true,
+    "src/memory/retained_owner.rs": true,
+    "src/gdt_tss.rs": true,
+    "src/exception_abi.rs": true
+  },
+  "gate_multiset": {
+    "predecessor_path": "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json",
+    "predecessor_raw_sha256": "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4",
+    "predecessor_declared_total": 72,
+    "predecessor_actual_total": 72,
+    "predecessor_unique": 72,
+    "source_AST_expected_multiset": {
+      "kernel formatting": 1,
+      "host formatting": 1,
+      "host tests": 1,
+      "Phase 9.6 B11 host safety regressions": 1,
+      "Phase 9.6 B18 host safety regressions": 1,
+      "Phase 9.6 B26 host safety regressions": 1,
+      "Phase 11A effective permission prerequisite": 1,
+      "Phase 11A phase11_registry_reservation prerequisite": 1,
+      "Phase 11A phase11_exception_abi prerequisite": 1,
+      "Phase 11A phase11_runtime_pins prerequisite": 1,
+      "Phase 11A phase11_structure_lifetime prerequisite": 1,
+      "Phase 11A phase11_numeric_map prerequisite": 1,
+      "Phase 11A phase11_unmap_authority prerequisite": 1,
+      "Phase 11A phase11_generation_ownership prerequisite": 1,
+      "Phase 11A phase11_generation_ledger prerequisite": 1,
+      "Phase 11A phase11_generation_boundaries prerequisite": 1,
+      "Phase 11A phase11_snapshot prerequisite": 1,
+      "Phase 11A phase11_gdt prerequisite": 1,
+      "Phase 11F1 retained-owner exact identity family": 1,
+      "Phase 11F2 exception ABI exact identity family": 1,
+      "Phase 11F3 minimal Ring0 exact identity family": 1,
+      "RostiFS formatting": 1,
+      "RostiFS host and crash recovery tests": 1,
+      "RostiFS host tool safety and integration": 1,
+      "RostiFS read boundary and transfer regressions": 1,
+      "RostiFS write preservation regressions": 1,
+      "Python media reader regressions": 1,
+      "acceptance runner regressions": 1,
+      "RostiFS harness regressions": 1,
+      "Phase 9.5 benchmark contracts": 1,
+      "Phase 9.6 boot metadata harness contracts": 1,
+      "system image policy contracts": 1,
+      "Phase 10B initramfs builder contracts": 1,
+      "Phase 10B initramfs harness contracts": 1,
+      "Phase 9.6 B13 boot entry host contracts": 1,
+      "build read fault fixture": 1,
+      "CPU read faults 128 and 512": 1,
+      "build write fault fixture": 1,
+      "CPU write faults 128 and 512": 1,
+      "build initramfs failure fixture": 1,
+      "production build": 1,
+      "production fixture policy contracts": 1,
+      "production feature and fault exclusion": 1,
+      "Phase 9.6 B13 privileged boot entry and production handoff": 1,
+      "Phase 9.6 B13 injection transport contracts": 1,
+      "Phase 11F2 exception ABI hardware matrix": 1,
+      "Phase 11F3 minimal Ring0 hardware matrix": 1,
+      "Phase 9.6 integrated boot metadata ELF and GRUB safety": 1,
+      "ELF validation": 1,
+      "ten ELF boots 128 MiB": 1,
+      "ten ELF boots 512 MiB": 1,
+      "paging stability twenty ELF boots": 1,
+      "keyboard integration": 1,
+      "VGA backspace ELF": 1,
+      "filesystem growth OOM ELF 128 MiB": 1,
+      "block persistence ELF 128 MiB": 1,
+      "RostiFS persistence ELF 128 MiB": 1,
+      "filesystem growth OOM ELF 512 MiB": 1,
+      "block persistence ELF 512 MiB": 1,
+      "RostiFS persistence ELF 512 MiB": 1,
+      "GRUB ISO build and boot": 1,
+      "ISO paging 128 and 512": 1,
+      "VGA backspace ISO": 1,
+      "filesystem growth OOM ISO 128 MiB": 1,
+      "block persistence ISO 128 MiB": 1,
+      "RostiFS persistence ISO 128 MiB": 1,
+      "filesystem growth OOM ISO 512 MiB": 1,
+      "block persistence ISO 512 MiB": 1,
+      "RostiFS persistence ISO 512 MiB": 1,
+      "Phase 10B trusted initramfs guest matrix": 1,
+      "Phase 11 F4 owned USER arena host contract": 1,
+      "Phase 11 F4 owned USER arena Ring0 hardware matrix": 1
+    },
+    "actual_predecessor_multiset": {
+      "kernel formatting": 1,
+      "host formatting": 1,
+      "host tests": 1,
+      "Phase 9.6 B11 host safety regressions": 1,
+      "Phase 9.6 B18 host safety regressions": 1,
+      "Phase 9.6 B26 host safety regressions": 1,
+      "Phase 11A effective permission prerequisite": 1,
+      "Phase 11A phase11_registry_reservation prerequisite": 1,
+      "Phase 11A phase11_exception_abi prerequisite": 1,
+      "Phase 11A phase11_runtime_pins prerequisite": 1,
+      "Phase 11A phase11_structure_lifetime prerequisite": 1,
+      "Phase 11A phase11_numeric_map prerequisite": 1,
+      "Phase 11A phase11_unmap_authority prerequisite": 1,
+      "Phase 11A phase11_generation_ownership prerequisite": 1,
+      "Phase 11A phase11_generation_ledger prerequisite": 1,
+      "Phase 11A phase11_generation_boundaries prerequisite": 1,
+      "Phase 11A phase11_snapshot prerequisite": 1,
+      "Phase 11A phase11_gdt prerequisite": 1,
+      "Phase 11F1 retained-owner exact identity family": 1,
+      "Phase 11F2 exception ABI exact identity family": 1,
+      "Phase 11F3 minimal Ring0 exact identity family": 1,
+      "Phase 11 F4 owned USER arena host contract": 1,
+      "RostiFS formatting": 1,
+      "RostiFS host and crash recovery tests": 1,
+      "RostiFS host tool safety and integration": 1,
+      "RostiFS read boundary and transfer regressions": 1,
+      "RostiFS write preservation regressions": 1,
+      "Python media reader regressions": 1,
+      "acceptance runner regressions": 1,
+      "RostiFS harness regressions": 1,
+      "Phase 9.5 benchmark contracts": 1,
+      "Phase 9.6 boot metadata harness contracts": 1,
+      "system image policy contracts": 1,
+      "Phase 10B initramfs builder contracts": 1,
+      "Phase 10B initramfs harness contracts": 1,
+      "Phase 9.6 B13 boot entry host contracts": 1,
+      "build read fault fixture": 1,
+      "CPU read faults 128 and 512": 1,
+      "build write fault fixture": 1,
+      "CPU write faults 128 and 512": 1,
+      "build initramfs failure fixture": 1,
+      "production build": 1,
+      "production fixture policy contracts": 1,
+      "production feature and fault exclusion": 1,
+      "Phase 9.6 B13 privileged boot entry and production handoff": 1,
+      "Phase 9.6 B13 injection transport contracts": 1,
+      "Phase 11F2 exception ABI hardware matrix": 1,
+      "Phase 11F3 minimal Ring0 hardware matrix": 1,
+      "Phase 11 F4 owned USER arena Ring0 hardware matrix": 1,
+      "Phase 9.6 integrated boot metadata ELF and GRUB safety": 1,
+      "ELF validation": 1,
+      "ten ELF boots 128 MiB": 1,
+      "ten ELF boots 512 MiB": 1,
+      "paging stability twenty ELF boots": 1,
+      "keyboard integration": 1,
+      "VGA backspace ELF": 1,
+      "filesystem growth OOM ELF 128 MiB": 1,
+      "block persistence ELF 128 MiB": 1,
+      "RostiFS persistence ELF 128 MiB": 1,
+      "filesystem growth OOM ELF 512 MiB": 1,
+      "block persistence ELF 512 MiB": 1,
+      "RostiFS persistence ELF 512 MiB": 1,
+      "GRUB ISO build and boot": 1,
+      "ISO paging 128 and 512": 1,
+      "VGA backspace ISO": 1,
+      "filesystem growth OOM ISO 128 MiB": 1,
+      "block persistence ISO 128 MiB": 1,
+      "RostiFS persistence ISO 128 MiB": 1,
+      "filesystem growth OOM ISO 512 MiB": 1,
+      "block persistence ISO 512 MiB": 1,
+      "RostiFS persistence ISO 512 MiB": 1,
+      "Phase 10B trusted initramfs guest matrix": 1
+    },
+    "exact_predecessor_comparison": true,
+    "missing": {},
+    "extra": {},
+    "proposed_added_multiset": {
+      "Phase 11 F5 CPL3 host and fixture contracts": 1,
+      "Phase 11 F5 CPL3 exact ELF terminal closure": 1,
+      "Phase 11 F5 CPL3 one-shot hardware matrix": 1,
+      "Phase 11 F5 retained prerequisite hardware preservation": 1
+    },
+    "proposed_full_multiset": {
+      "kernel formatting": 1,
+      "host formatting": 1,
+      "host tests": 1,
+      "Phase 9.6 B11 host safety regressions": 1,
+      "Phase 9.6 B18 host safety regressions": 1,
+      "Phase 9.6 B26 host safety regressions": 1,
+      "Phase 11A effective permission prerequisite": 1,
+      "Phase 11A phase11_registry_reservation prerequisite": 1,
+      "Phase 11A phase11_exception_abi prerequisite": 1,
+      "Phase 11A phase11_runtime_pins prerequisite": 1,
+      "Phase 11A phase11_structure_lifetime prerequisite": 1,
+      "Phase 11A phase11_numeric_map prerequisite": 1,
+      "Phase 11A phase11_unmap_authority prerequisite": 1,
+      "Phase 11A phase11_generation_ownership prerequisite": 1,
+      "Phase 11A phase11_generation_ledger prerequisite": 1,
+      "Phase 11A phase11_generation_boundaries prerequisite": 1,
+      "Phase 11A phase11_snapshot prerequisite": 1,
+      "Phase 11A phase11_gdt prerequisite": 1,
+      "Phase 11F1 retained-owner exact identity family": 1,
+      "Phase 11F2 exception ABI exact identity family": 1,
+      "Phase 11F3 minimal Ring0 exact identity family": 1,
+      "Phase 11 F4 owned USER arena host contract": 1,
+      "RostiFS formatting": 1,
+      "RostiFS host and crash recovery tests": 1,
+      "RostiFS host tool safety and integration": 1,
+      "RostiFS read boundary and transfer regressions": 1,
+      "RostiFS write preservation regressions": 1,
+      "Python media reader regressions": 1,
+      "acceptance runner regressions": 1,
+      "RostiFS harness regressions": 1,
+      "Phase 9.5 benchmark contracts": 1,
+      "Phase 9.6 boot metadata harness contracts": 1,
+      "system image policy contracts": 1,
+      "Phase 10B initramfs builder contracts": 1,
+      "Phase 10B initramfs harness contracts": 1,
+      "Phase 9.6 B13 boot entry host contracts": 1,
+      "build read fault fixture": 1,
+      "CPU read faults 128 and 512": 1,
+      "build write fault fixture": 1,
+      "CPU write faults 128 and 512": 1,
+      "build initramfs failure fixture": 1,
+      "production build": 1,
+      "production fixture policy contracts": 1,
+      "production feature and fault exclusion": 1,
+      "Phase 9.6 B13 privileged boot entry and production handoff": 1,
+      "Phase 9.6 B13 injection transport contracts": 1,
+      "Phase 11F2 exception ABI hardware matrix": 1,
+      "Phase 11F3 minimal Ring0 hardware matrix": 1,
+      "Phase 11 F4 owned USER arena Ring0 hardware matrix": 1,
+      "Phase 9.6 integrated boot metadata ELF and GRUB safety": 1,
+      "ELF validation": 1,
+      "ten ELF boots 128 MiB": 1,
+      "ten ELF boots 512 MiB": 1,
+      "paging stability twenty ELF boots": 1,
+      "keyboard integration": 1,
+      "VGA backspace ELF": 1,
+      "filesystem growth OOM ELF 128 MiB": 1,
+      "block persistence ELF 128 MiB": 1,
+      "RostiFS persistence ELF 128 MiB": 1,
+      "filesystem growth OOM ELF 512 MiB": 1,
+      "block persistence ELF 512 MiB": 1,
+      "RostiFS persistence ELF 512 MiB": 1,
+      "GRUB ISO build and boot": 1,
+      "ISO paging 128 and 512": 1,
+      "VGA backspace ISO": 1,
+      "filesystem growth OOM ISO 128 MiB": 1,
+      "block persistence ISO 128 MiB": 1,
+      "RostiFS persistence ISO 128 MiB": 1,
+      "filesystem growth OOM ISO 512 MiB": 1,
+      "block persistence ISO 512 MiB": 1,
+      "RostiFS persistence ISO 512 MiB": 1,
+      "Phase 10B trusted initramfs guest matrix": 1,
+      "Phase 11 F5 CPL3 host and fixture contracts": 1,
+      "Phase 11 F5 CPL3 exact ELF terminal closure": 1,
+      "Phase 11 F5 CPL3 one-shot hardware matrix": 1,
+      "Phase 11 F5 retained prerequisite hardware preservation": 1
+    },
+    "proposed_total": 76,
+    "approved_new_gate_multiset": {},
+    "approved_total": null,
+    "disposition": "All four names reviewed as reasonable distinct responsibilities; integration approval withheld with the rejected design.76 is independently computed proposed total, never accepted total.",
+    "timeouts": {
+      "inherited_acceptance_runner_regressions": 900,
+      "inherited_F3_hardware": 2100,
+      "inherited_F4_hardware": 2100,
+      "new_gate_maximum": 900,
+      "new_gate_calibration_verified": false
+    }
+  },
+  "scenario_contract": [
+    {
+      "identity": "f5_cpl3_A_entry",
+      "entry": "0x40000100",
+      "fault_eip": "0x4000010c",
+      "bytes_hex": "31c0668cc868dec0175a5bfd0f0b0f0b",
+      "bytes_before_padding": 16,
+      "vector": 6,
+      "full_error": 0,
+      "CR2": null,
+      "ram_mib": [
+        128,
+        512
+      ]
+    },
+    {
+      "identity": "f5_cpl3_B_ro_write",
+      "entry": "0x40000140",
+      "fault_eip": "0x4000014c",
+      "bytes_hex": "31c0668cc868dec0175a5bfdc605000800407e0f0b",
+      "bytes_before_padding": 21,
+      "vector": 14,
+      "full_error": 7,
+      "CR2": "0x40000800",
+      "ram_mib": [
+        128,
+        512
+      ]
+    },
+    {
+      "identity": "f5_cpl3_C_supervisor_read",
+      "entry": "0x40000180",
+      "fault_eip": "0x4000018c",
+      "bytes_hex": "31c0668cc868dec0175a5bfd8b0d0010c0070f0b",
+      "bytes_before_padding": 20,
+      "vector": 14,
+      "full_error": 5,
+      "CR2": "0x7c01000",
+      "ram_mib": [
+        128,
+        512
+      ]
+    },
+    {
+      "identity": "f5_cpl3_D_hlt",
+      "entry": "0x400001c0",
+      "fault_eip": "0x400001cc",
+      "bytes_hex": "31c0668cc868dec0175a5bfdf40f0b",
+      "bytes_before_padding": 15,
+      "vector": 13,
+      "full_error": 0,
+      "CR2": null,
+      "ram_mib": [
+        128,
+        512
+      ]
+    },
+    {
+      "identity": "f5_cpl3_E_io_denied",
+      "entry": "0x40000200",
+      "fault_eip": "0x4000020c",
+      "bytes_hex": "31c0668cc868dec0175a5bfde6800f0b",
+      "bytes_before_padding": 16,
+      "vector": 13,
+      "full_error": 0,
+      "CR2": null,
+      "ram_mib": [
+        128,
+        512
+      ]
+    },
+    {
+      "identity": "f5_cpl3_F_guard_read",
+      "entry": "0x40000240",
+      "fault_eip": "0x4000024c",
+      "bytes_hex": "31c0668cc868dec0175a5bfd8b0d00e03f400f0b",
+      "bytes_before_padding": 20,
+      "vector": 14,
+      "full_error": 4,
+      "CR2": "0x403fe000",
+      "ram_mib": [
+        128,
+        512
+      ]
+    }
+  ],
+  "reviewer_derivations_not_execution": {
+    "expected_page_sha256": "6c6b9ed0faf5f49bbb2f84fa9b9e9599983669467d2f659732aaeeec08c6d59d",
+    "page_bytes": 4096,
+    "payload_slot_count": 6,
+    "payload_block_bytes": 384,
+    "frame_pointer": "0x7c04fb4",
+    "pushad_input_esp": "0x7c04fe4",
+    "bridge_entry_esp": "0x7c04f9c",
+    "saved_fault_eflags_AF_masked_values": [
+      "0x10446",
+      "0x10456"
+    ],
+    "stack_budget": 512,
+    "transition_stack_bytes": 16384,
+    "headroom_if_budget_verified": 15872,
+    "hardware_matrix_rows_with_required_F": 12,
+    "pass_literal_bytes": 24,
+    "fail_literal_bytes": 22
+  },
+  "host_identity_contract": {
+    "proposed_pure_test_module": "f5_cpl3_tests::",
+    "named_pure_tests": [
+      "descriptor_extension_preserves_tss_slots",
+      "user_selectors_have_dpl3_rpl3",
+      "payload_bytes_and_fault_offsets",
+      "fixed_payload_fits_owned_page",
+      "iret_flags_and_stack_contract",
+      "mandatory_prefix_and_conditional_tail",
+      "exact_exception_oracles",
+      "supervisor_presence_is_not_assumed",
+      "terminal_latch_refuses_resume",
+      "wrong_origin_or_reserved_error_bits_fail"
+    ],
+    "unnamed_required_owner_publication_behaviors": [
+      "before-publication copy",
+      "unchanged F4 image",
+      "twelve-frame/state preservation",
+      "invalid scenario preflight"
+    ],
+    "complete": false,
+    "not_inferred_from_test_count": true
+  },
+  "blocker_count": 3,
+  "saved_review_path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\reviews\\design_review_01.json",
+  "review_file_number": 1
+}

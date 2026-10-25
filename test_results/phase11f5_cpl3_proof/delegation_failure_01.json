@@ -1,0 +1,17 @@
+{
+  "schema": "rosti.f5.delegation-failure.v1",
+  "delegation_id": "deleg_d023351d",
+  "subagent_id": "sa-0-5061d970",
+  "task": "Draft complete F5 design from actual source under scope supplement",
+  "status": "FAILED_INFRASTRUCTURE",
+  "elapsed_seconds_reported": 1201.53,
+  "api_calls_reported": 1,
+  "http_status": 429,
+  "error_class": "organization daily token limit",
+  "provider_message_summary": "API call failed after 3 retries; organization TPD rate limit reached",
+  "delivered_design": false,
+  "is_design_review_reject": false,
+  "full_design_review_attempted": false,
+  "production_changes_authorized_by_failure": false,
+  "disposition": "PARTIAL; no retry loop; complete design and independent full review still required"
+}

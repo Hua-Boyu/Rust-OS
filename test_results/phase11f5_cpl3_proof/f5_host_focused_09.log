@@ -1,0 +1,168 @@
+   Compiling tests_kernel v0.1.0 (C:\Users\iamsv\Documents\Rust-OS\tests_kernel)
+warning: unused import: `crate::println`
+  --> src\..\..\src\multiboot.rs:10:5
+   |
+10 | use crate::println;
+   |     ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::utils::bits::CanManipulateBits`
+  --> src\..\..\src\memory\paging.rs:25:5
+   |
+25 | use crate::utils::bits::CanManipulateBits;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1036:41
+     |
+1036 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+     = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1049:41
+     |
+1049 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:72:28
+   |
+72 | pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:85:28
+   |
+85 | pub unsafe fn lockfree_inw(port_in: u16) -> u16 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:110:29
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:110:44
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:119:29
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:119:44
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: variable does not need to be mutable
+   --> src\..\..\src\memory\retained_owner_policy_tests.rs:157:18
+    |
+157 |     let (mut fa, mut pm) = fixture();
+    |                  ----^^
+    |                  |
+    |                  help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `frame`
+   --> src\..\..\src\allocator.rs:272:33
+    |
+272 |                     if let Some(frame) = crate::memory::heap_grow_frame(slot) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_frame`
+
+warning: unused variable: `t0`
+   --> src\lib.rs:270:18
+    |
+270 |     let (b0, l0, t0) = (e0.base_addr, e0.length, e0.type_);
+    |                  ^^ help: if this is intentional, prefix it with an underscore: `_t0`
+
+warning: function `ownership_locks_held` is never used
+  --> src\..\..\src\memory\mod.rs:19:15
+   |
+19 | pub(crate) fn ownership_locks_held() -> bool {
+   |               ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `pinned_identity_span` is never used
+   --> src\..\..\src\memory\mod.rs:308:15
+    |
+308 | pub(crate) fn pinned_identity_span(start: u64, end: u64) -> bool {
+    |               ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `replace_growth_with_test_conflict` is never used
+   --> src\..\..\src\memory\mod.rs:351:15
+    |
+351 | pub(crate) fn replace_growth_with_test_conflict(slot: usize) -> Option<u64> {
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: static `KERNEL_START` is never used
+  --> src\..\..\src\memory\frame.rs:72:8
+   |
+72 | static KERNEL_START: u32 = 0;
+   |        ^^^^^^^^^^^^
+
+warning: static `KERNEL_END` is never used
+  --> src\..\..\src\memory\frame.rs:74:8
+   |
+74 | static KERNEL_END: u32 = 0;
+   |        ^^^^^^^^^^
+
+warning: function `owner_locked` is never used
+  --> src\..\..\src\memory\retained_owner.rs:73:26
+   |
+73 | pub(in crate::memory) fn owner_locked() -> bool {
+   |                          ^^^^^^^^^^^^
+
+warning: constant `EARLY_GDT_BYTES` is never used
+   --> src\..\..\src\gdt.rs:159:18
+    |
+159 | pub(crate) const EARLY_GDT_BYTES: usize = core::mem::size_of::<EarlyGdt>();
+    |                  ^^^^^^^^^^^^^^^
+
+warning: feature `abi_x86_interrupt` is declared but not used
+ --> src\lib.rs:7:12
+  |
+7 | #![feature(abi_x86_interrupt)]
+  |            ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_features)]` (part of `#[warn(unused)]`) on by default
+
+warning: `tests_kernel` (lib test) generated 21 warnings (run `cargo fix --lib -p tests_kernel --tests` to apply 11 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.61s
+     Running unittests src\lib.rs (Documents\Rust-OS\tests_kernel\target\debug\build\tests_kernel/656dee6e00f2926c\out\tests_kernel-656dee6e00f2926c.exe)
+
+running 14 tests
+test f5_cpl3_tests::descriptor_extension_preserves_tss_slots ... ok
+test f5_cpl3_tests::exact_exception_oracles ... ok
+test f5_cpl3_tests::fixed_payload_fits_owned_page ... ok
+test f5_cpl3_tests::iret_flags_and_stack_contract ... ok
+test f5_cpl3_tests::mandatory_prefix_and_conditional_tail ... ok
+test f5_cpl3_tests::payload_bytes_and_fault_offsets ... ok
+test f5_cpl3_tests::supervisor_presence_is_not_assumed ... ok
+test f5_cpl3_tests::terminal_latch_refuses_resume ... ok
+test f5_cpl3_tests::user_selectors_have_dpl3_rpl3 ... ok
+test f5_cpl3_tests::wrong_origin_or_reserved_error_bits_fail ... ok
+test memory::paging::f5_cpl3_owner_tests::before_publication_payload_copy_exact ... ok
+test memory::paging::f5_cpl3_owner_tests::default_f4_image_bytes_unchanged ... ok
+test memory::paging::f5_cpl3_owner_tests::invalid_scenario_preflight_refusal ... ok
+test memory::paging::f5_cpl3_owner_tests::twelve_frame_state_preservation ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 380 filtered out; finished in 0.41s
+

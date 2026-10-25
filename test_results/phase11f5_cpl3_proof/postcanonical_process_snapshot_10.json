@@ -1,0 +1,90 @@
+{
+  "exit_code": 0,
+  "processes": [
+    {
+      "ProcessId": 27940,
+      "ParentProcessId": 34636,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe\" -m hermes_cli.main gateway run"
+    },
+    {
+      "ProcessId": 25460,
+      "ParentProcessId": 27940,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  -m hermes_cli.main gateway run"
+    },
+    {
+      "ProcessId": 29116,
+      "ParentProcessId": 29156,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe\" \"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\bin\\hermes.exe\" dashboard --host 127.0.0.1 --port 9119 --no-open"
+    },
+    {
+      "ProcessId": 37116,
+      "ParentProcessId": 29116,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  \"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\bin\\hermes.exe\" dashboard --host 127.0.0.1 --port 9119 --no-open"
+    },
+    {
+      "ProcessId": 47852,
+      "ParentProcessId": 25460,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_rj2ij8_e\\hermes_kernel_runner.py"
+    },
+    {
+      "ProcessId": 45808,
+      "ParentProcessId": 47852,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_rj2ij8_e\\hermes_kernel_runner.py"
+    },
+    {
+      "ProcessId": 47440,
+      "ParentProcessId": 39572,
+      "Name": "python.exe",
+      "CommandLine": "\"D:\\Strata\\.venv\\Scripts\\python.exe\" .\\serve\\server.py --engine strata --config .\\strata-coder-iq1_m.json --port 8080 --open --api-monitor"
+    },
+    {
+      "ProcessId": 50212,
+      "ParentProcessId": 47440,
+      "Name": "python.exe",
+      "CommandLine": "\"D:\\Strata\\.venv\\Scripts\\python.exe\" .\\serve\\server.py --engine strata --config .\\strata-coder-iq1_m.json --port 8080 --open --api-monitor"
+    },
+    {
+      "ProcessId": 59856,
+      "ParentProcessId": 51196,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -m hermes_cli.main serve --host 127.0.0.1 --port 0"
+    },
+    {
+      "ProcessId": 57004,
+      "ParentProcessId": 59856,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  -m hermes_cli.main serve --host 127.0.0.1 --port 0"
+    },
+    {
+      "ProcessId": 59656,
+      "ParentProcessId": 59188,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe hub.py"
+    },
+    {
+      "ProcessId": 36576,
+      "ParentProcessId": 59656,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  hub.py"
+    },
+    {
+      "ProcessId": 29764,
+      "ParentProcessId": 57004,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_obp19hs3\\hermes_kernel_runner.py"
+    },
+    {
+      "ProcessId": 18388,
+      "ParentProcessId": 29764,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_obp19hs3\\hermes_kernel_runner.py"
+    }
+  ],
+  "classification": "Hermes/Strata are infrastructure; hub and unrelated task kernels UNKNOWN; no cargo/rustc/link/QEMU observed; no process terminated."
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "rosti.f5-parent-canonical-readback.v1",
+  "overall": "PASS",
+  "acceptance": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\acceptance.json",
+  "acceptance_sha256": "21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074",
+  "actual_runner_exit": 0,
+  "exact_gate_count": 76,
+  "all_gate_exit_zero": true,
+  "frozen_pins": 262,
+  "source_pins": 234,
+  "source_before_equals_after": true,
+  "f1_path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\f5_retained_prerequisite\\f1_retained_1j60gf42\\report.json",
+  "f1_sha256": "34edd88fd277fcf4bf4b20063d49bfb9ab196efe47c424922bdcd298ffa945a6",
+  "f1_scenarios": 10,
+  "stage_removed": true,
+  "stage_absent": true,
+  "stage_creation": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_5817wu15",
+    "root": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist",
+    "device": 1516109900,
+    "inode": 4222124655746629,
+    "creator_pid": 48068,
+    "tracking": "current-process mkdtemp creation, never adopted"
+  },
+  "f1_reader_sha256": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+  "protected_pins": {
+    ".gitignore": "738ec129c381316b2c3ea4ff26bf502a072c4cc7eb7a3d7b074debdf58bc6bda",
+    "README.md": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+    "test_results/phase11f4_user_arena/FINAL_REPORT.md": "65071f5a56f7900246ec649a03e9f1acad01347557089efdef54a42b5c5582f0",
+    "d1/f": "98ea6e4f216f2fb4b69fff9b3a44842c38686ca685f3f55dc48c5d3fb1107be4",
+    "docs/ROSTI_INIT_ARCHITECTURE.md": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+    "reviews/candidate_review_02.json": "1bc18068b077d641ef598899f513b9c5b6cbe5ea516d67c720ed83e536dbe49a",
+    "scripts/b13_boot_fixture.py.backup": "3e86d2dd9061e42c1b79d5ad0d94efa513a407c19faa37fc2680a7ab5526a181"
+  },
+  "limitations": "Full remaining canonical artifact/CPU/closure readback delegated independently; no acceptance until that APPROVE and reports/commits."
+}

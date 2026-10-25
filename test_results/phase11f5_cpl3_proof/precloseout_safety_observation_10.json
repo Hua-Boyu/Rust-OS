@@ -1,0 +1,13 @@
+{
+  "schema": "rosti.f5-parent-final-safety-observation.v1",
+  "observed_utc": "2026-10-25T08:08:25.735957+00:00",
+  "active_build_test_qemu_names": [],
+  "available_memory_bytes": 665792512,
+  "frozen_raw_pin_count": 262,
+  "frozen_raw_pins_still_match": true,
+  "protected_raw_pins_still_match": true,
+  "branch": "maintenance/phase10",
+  "head": "c8b73654dd5f7f64c3c7872254b2b730ad2151f4",
+  "staged_index_empty": true,
+  "limitations": "Bounded name snapshot, not proof of exclusive safe writers; unknown/infrastructure processes untouched. No frozen source write or new heavy job."
+}

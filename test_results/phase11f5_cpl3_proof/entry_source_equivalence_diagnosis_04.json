@@ -1,0 +1,16 @@
+{
+  "scope": "READ_ONLY_SOURCE_ALGORITHM_COMPARISON_NOT_SHARED_SOURCE_OR_ELF_PROOF",
+  "macro_body_matches_after_symbol_substitution": true,
+  "normalizer_matches_after_symbol_substitution": true,
+  "mapping": [
+    "f5_bridge->f2_fatal",
+    "f5_entry_terminal->f2_terminal",
+    "f5_->f2_",
+    "F5_->F2_"
+  ],
+  "source_hashes": {
+    "src/exception_entry.s": "e375278f78c458a6ebed3e4fd2256f45d6c1b5e50a6e09654ba730fb8fe887e6",
+    "src/f5_exception_entry.s": "c2bc0ff1248fdbf64a17fe0e7a26064a54279a2fad6fb99eda150fee7d95f5d1"
+  },
+  "unmet_structure": "Current normalizers remain separate source bodies rather than one parameterized source body as design section1 specifies. Equivalence observation is not architectural amendment or acceptance waiver."
+}

@@ -1,0 +1,23 @@
+{
+  "head": "c8b73654dd5f7f64c3c7872254b2b730ad2151f4",
+  "all_recovery_pins_unchanged": true,
+  "checks": {
+    "src/gdt_tss.rs": true,
+    "src/gdt.rs": true,
+    "src/memory/privileged.rs": true,
+    "src/exception_entry.s": true,
+    "src/exception_abi.rs": true,
+    "src/memory/user_arena.rs": true,
+    "src/memory/retained_owner.rs": true,
+    "README.md": true,
+    ".gitignore": true,
+    "test_results/phase11f4_user_arena/FINAL_REPORT.md": true,
+    "docs/ROSTI_INIT_ARCHITECTURE.md": true,
+    "scripts/b13_boot_fixture.py.backup": true,
+    "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json": true,
+    "test_results/phase11f4_user_arena/reviews/candidate_review_05.json": true,
+    "test_results/phase11f4_user_arena/reviews/final_canonical_readback_01.json": true
+  },
+  "status": " M .gitignore\n M README.md\n M test_results/phase11f4_user_arena/FINAL_REPORT.md\n?? d1/\n?? docs/ROSTI_INIT_ARCHITECTURE.md\n?? reviews/\n?? scripts/b13_boot_fixture.py.backup\n",
+  "git_diff_check_exit": 0
+}

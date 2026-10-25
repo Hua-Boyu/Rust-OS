@@ -1,0 +1,20 @@
+{
+  "schema": "rosti.f5-raw-preservation-diagnostic.v1",
+  "scope": "EXACT_RAW_BASELINE_CHECK_NOT_HARNESS_RED_NOT_GUEST_RESULT",
+  "utc": "2026-10-24T04:30:05.998911+00:00",
+  "command": [
+    "C:/Users/iamsv/AppData/Local/hermes/hermes-agent/venv/Scripts/python.exe",
+    "-B",
+    "-c",
+    "import pathlib,hashlib,sys; p=pathlib.Path(\"src/exception_entry.s\"); actual=hashlib.sha256(p.read_bytes()).hexdigest(); expected=\"a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60\"; print(\"RAW_F2_PRESERVATION=\"+(\"PASS\" if actual==expected else \"FAIL\")); print(\"expected=\"+expected); print(\"actual=\"+actual); sys.exit(0 if actual==expected else 1)"
+  ],
+  "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+  "exit_code": 1,
+  "elapsed_seconds": 0.125,
+  "stdout": "RAW_F2_PRESERVATION=FAIL\nexpected=a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60\nactual=e375278f78c458a6ebed3e4fd2256f45d6c1b5e50a6e09654ba730fb8fe887e6\n",
+  "stderr": "",
+  "classification": "RAW_ACCEPTED_SOURCE_MISMATCH",
+  "source_restored": false,
+  "source_normalized": false,
+  "candidate_accepted": false
+}

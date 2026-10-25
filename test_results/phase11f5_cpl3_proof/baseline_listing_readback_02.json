@@ -1,0 +1,29 @@
+{
+  "listing_report_sha256": "d56d0b581cd28f8c1cb65354aa29a5f73450f63444eac26eaff5bb787cd0a2a4",
+  "source_stable": true,
+  "records": [
+    {
+      "family": "host",
+      "listed": 380,
+      "canonical_identities": 380,
+      "same_exact_identities": true,
+      "inherited_ignored": [
+        "maintenance_measurements::measured_frame_scan_states",
+        "maintenance_measurements::measured_heap_capacity_loss"
+      ],
+      "child_cwd": "C:/Users/iamsv",
+      "actual_listing_exit": 0,
+      "tests_executed": false
+    },
+    {
+      "family": "b26",
+      "listed": 149,
+      "canonical_identities": 149,
+      "same_exact_identities": true,
+      "inherited_ignored": [],
+      "child_cwd": "C:/Users/iamsv",
+      "actual_listing_exit": 0,
+      "tests_executed": false
+    }
+  ]
+}

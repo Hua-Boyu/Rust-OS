@@ -1,0 +1,112 @@
+{
+  "schema": "rosti.f5-runtime-preflight.v1",
+  "review_id": "runtime_preflight_01",
+  "verdict": "NOT_FULL_CANDIDATE_REVIEW",
+  "scope": "Read-only source pre-hardware safety audit of four frozen runtime/entry files against approved proposal03, with narrowly necessary dependency inspection. Not candidate approval, hardware authorization, emitted-ELF audit or gate completion.",
+  "utc": "2026-10-23T16:08:01.928049+00:00",
+  "repository": "C:/Users/iamsv/Documents/Rust-OS",
+  "branch": "maintenance/phase10",
+  "head": "c8b73654dd5f7f64c3c7872254b2b730ad2151f4",
+  "approved_design_sha256": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c",
+  "design_approval_context": "Read design_review_03.json identity/header: APPROVE, complete_scope=true, implementation_authorized=true, pinned proposal03. design.md retains its historical PROPOSED header; neither that header nor implementation comments substitute for the separate approval or execution evidence.",
+  "source_hashes": {
+    "src/f5_runtime.rs": {"sha256": "86cfee6f1235bcb32933ff518e7edf635b70a369be43102c3b5a5c0543f1f09b", "bytes": 7002},
+    "src/f5_bridge.s": {"sha256": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5", "bytes": 4513},
+    "src/f5_gdt.rs": {"sha256": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65", "bytes": 5473},
+    "src/exception_entry.s": {"sha256": "b0480ef5c85fc00cfd3f7290f175d204fa35dfcdaca0df363b6f6b4b715ffc1a", "bytes": 3918},
+    "test_results/phase11f5_cpl3_proof/design.md": {"sha256": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c", "bytes": 36134},
+    "test_results/phase11f5_cpl3_proof/reviews/design_review_03.json": {"sha256": "3c73bf80b6c504e6f6c982a90d928f3e66ba8fac18f1174ce000c528289cfd83", "bytes": 135282},
+    "src/gdt_tss.rs": {"sha256": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca", "bytes": 10729},
+    "src/f5_cpl3.rs": {"sha256": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21", "bytes": 3261},
+    "src/f5_contract.rs": {"sha256": "ae22ee18638f6726f0bd607f1bfcddc208408fb817bf8e93c58061a4ca6c1ee6", "bytes": 5428},
+    "src/memory/privileged.rs": {"sha256": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed", "bytes": 8886},
+    "src/memory/retained_owner.rs": {"sha256": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9", "bytes": 23269},
+    "src/interrupt.rs": {"sha256": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d", "bytes": 13552},
+    "src/f3_entry.s": {"sha256": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15", "bytes": 1804}
+  },
+  "hash_method": "Python hashlib.sha256(Path.read_bytes()), raw on-disk bytes without newline normalization. The four primary files and design were hashed twice during inspection and matched.",
+  "findings": [
+    {
+      "id": "F5-PREFLIGHT-01-F3-INSTALLER-NONRETURNING-FAILURE",
+      "classification": "CONCRETE_SCOPE_AND_FAILURE_STATE_BLOCKER",
+      "severity": "high",
+      "locations": ["src/f5_runtime.rs:106-111", "src/gdt_tss.rs:287-292,306-308", "src/f3_entry.s:50-58"],
+      "design_requirements": ["section4: preparation failures use bounded F5 FAIL terminal", "section4: retained terminal state", "section6: audit all terminal and failure edges"],
+      "evidence": "run expects a false result from gdt_tss::install to reach f5_unsupported. However, the unchanged installer calls fail() nonreturningly when its post-LGDT cpu_readback, task-gate installation or verify fails. fail jumps to f3_install_terminal, whose body is only CLI/CLD/HLT/JMP. It does not return false, emit F5 FAIL, claim the F5 latch or store retained STATE=TERMINAL.",
+      "consequence": "A real F5 preparation discrepancy after original GDT publication silently terminates in an inherited F3 installer root while retained STATE can remain PREPARING. The F5 wrapper's apparent catch-all failure branch does not cover this transitive edge. This is not the expressly retained #DF task-gate exception. No unsafe retry or user continuation follows, but the approved F5 failure/evidence contract is not met and a closure audit rooted only in F5 bridge/reporting would miss it.",
+      "required_disposition": "Resolve the F5-specific installer-failure integration under the existing preservation constraints, or obtain an explicit scope decision for this inherited silent failure. Do not casually change the inherited F3 failure behavior. Include the actual transitive failure root in emitted closure and retained-state validation. Source correction is outside this read-only audit.",
+      "confidence": "high; direct source control-flow evidence, not an observed hardware event"
+    },
+    {
+      "id": "F5-PREFLIGHT-02-EXACT-ELF-AND-STACK-EVIDENCE",
+      "classification": "PRE_HARDWARE_EVIDENCE_BLOCKER_NOT_DEMONSTRATED_CODE_DEFECT",
+      "severity": "high",
+      "locations": ["src/exception_entry.s:3-27,62-98,109-141", "src/f5_runtime.rs:159-218", "src/f5_bridge.s:1-206"],
+      "design_requirements": ["sections1,5,6: emitted shared-normalizer preservation, instruction CFG and stack bound before hardware GREEN"],
+      "evidence": "This audit inspected source, not exact production/fixture ELF instruction bytes, relocation-resolved edges, section retention, generated Rust preparation helpers or linker image bounds. The parent's build-success statement is not an emitted all-branches closure or stack proof. No Cargo/QEMU was run by this reviewer.",
+      "consequence": "No emitted F2/F5 byte equivalence, zero forbidden/unresolved closure edge claim, finite IRET destination claim or measured 512-byte incremental transition-stack guarantee is supplied by this report. Successful compilation alone does not discharge those obligations.",
+      "required_disposition": "Before hardware GREEN, provide exact production and fixture ELF hashes, complete instruction/fallthrough graph, F2 baseline and F2/F5 normalizer comparison modulo relocations, all success/failure/unsupported/nested roots including the transitive installer failure, payload byte pins, stack accounting and image-fit evidence. This is an outstanding evidence obligation, not a claim that an unseen audit file is necessarily absent.",
+      "confidence": "high about limits of this review"
+    }
+  ],
+  "detailed_checks": [
+    {
+      "topic": "GDT busy and accessed semantics",
+      "result": "SOURCE_CONSISTENT_WITH_APPROVED_DESIGN",
+      "evidence": "f5_gdt::install first calls original gdt_tss::verify and cpu_matches, copies slots0..4 by raw volatile reads/writes, appends exact 0x00cffb000000ffff/0x00cff3000000ffff, LGDT limit55, then uses extension verify rather than the original limit39 predicate. It does not execute LTR, clear the busy bit or reset TSS storage. verify requires normal descriptor access0x8b and emergency0x89 with original bases/limits. Original kernel descriptors are already accessed (KERNEL_CODE access0x99, KERNEL_DATA0x93); appended user descriptors are also accessed (0xfb/0xf3), so expected descriptor values do not depend on a later hardware accessed-bit update. Kernel code is intentionally execute-only; no new requirement to make it readable was found.",
+      "limits": "STR/SGDT and descriptor memory checks are not direct reads of hidden cached TR/segment base and limit state. Hardware captures still must corroborate the caches and unchanged task gate. No cache validation is claimed here. #DF changes busy/task state in the new live table and never returns; comparing the original table after such a switch would not be a valid normal-success test."
+    },
+    {
+      "topic": "Cross-ring frame arithmetic and argument ABI",
+      "result": "SOURCE_DERIVATION_MATCHES",
+      "evidence": "For #UD/#GP/#PF, CPU cross-ring words plus normalized error/vector total28 bytes below ESP0. PUSHAD adds32 and selector saves16, hence frame=0x07c05000-76=0x07c04fb4. Common EAX=frame; align16 yields0x07c04fb0, subtract12 and push argument yield call-site ESP0x07c04fa0, CALL yields naked bridge ESP0x07c04f9c (12 modulo16). [ESP+4] is therefore the frame argument. PUSHAD saved input ESP is frame+48. Bridge checks both exact addresses before reading frame bytes. Calculations were exercised with Python, not inferred from draft comments.",
+      "offsets": {"GS":0,"FS":4,"ES":8,"DS":12,"EDI":16,"ESI":20,"EBP":24,"PUSHAD_ESP":28,"EBX":32,"EDX":36,"ECX":40,"EAX":44,"vector":48,"error":52,"EIP":56,"CS":60,"EFLAGS":64,"oldESP":68,"oldSS":72},
+      "limits": "Hard-coded exact-address comparisons are a stronger singleton range/alignment check for this fixed ESP0, not a generic decoder. Emitted stack operands and operand widths remain to be checked."
+    },
+    {
+      "topic": "Frame-read ordering and no USER dereference",
+      "result": "SOURCE_CONSISTENT",
+      "evidence": "Bridge claims latch first, validates scenario and exact live ESP, reads only its fixed kernel stack argument, checks exact frame address, then checks CS low16 at+60 and supported vector at+48 before REP MOVSD19 words. Only after these guards can offsets68/72 be read. Software selectors compare full0x33; CPU CS/SS use word comparisons, preserving acceptance of arbitrary padded high halves. Record frame copying dereferences only the fixed supervisor transition-stack address; payload EIP, oldESP, CR2 and saved general registers are scalar comparisons, never pointer bases. Reporter pointers are fixed kernel literals. Unsupported21/29/30 branches normalize segments and call f5_unsupported without decoding a frame."
+    },
+    {
+      "topic": "Latch, nested entries and retained terminal state",
+      "result": "FIRST_REPORT_AND_NESTED_DECODE_RULE_MATCH; STATE_CAVEAT",
+      "evidence": "Dedicated raw u32 f5_latch starts zero; aligned memory XCHG supplies atomic once-claim on admitted one-vCPU execution. Both main bridge and unsupported path halt immediately on a previous nonzero latch, without another record decode or report. Normal reporter publishes STATE byte3 before serial. Main successful flow uses admit_f5 DORMANT->PREPARING, seal_f5_locked PREPARING->SEALED, then reporter->TERMINAL. Guards are dropped before GDT/gate publication and IRET; no reset/free/reopen is visible.",
+      "caveat": "Nested refusal branches jump directly to f5_terminal. A nested event after the first latch claim but before f5_report's STATE store can halt with retained state still SEALED (or PREPARING during a failure report). The design explicitly requires nested halt without another report; this is not classified as an independent contradiction without clarification of whether all nested terminal paths must publish TERMINAL. Host evidence must not accept a partial PASS record or terminal HLT alone as completed success. A pre-latch NMI can win the first claim and fail/terminate; no promise of arbitrary NMI-storm survivability is warranted. The normal F5 state path does not cure the concrete F3-installer bypass finding."
+    },
+    {
+      "topic": "Naked assembly ABI and incremental stack",
+      "result": "SOURCE_CONSISTENT; EMITTED_PROOF_PENDING",
+      "evidence": "f5_iret, f5_unsupported and f5_bridge are #[unsafe(naked)] extern C nonreturning functions whose bodies are naked_asm. No Rust bridge prologue, Rust calls, indirect edges, RET or exception return is present in bridge/reporting source. Callee-saved register destruction is harmless because these paths never return. Bridge's only extra stack operation is PUSHFD/POP EBX (4-byte transient). First entry reaches100 bytes below ESP0,104 at PUSHFD peak. Conservative one-same-ring-normalized-nested-event source accounting is100+68+15 alignment slack+12+4 argument+4 call+4 PUSHFD=207 bytes below ESP0; the first PUSHFD cannot remain outstanding while that outer bridge has already claimed the latch. This is a source upper-bound exercise, not an emitted measured bound, and is below planned512.",
+      "limits": "No claim is made for arbitrary recursion, pre-latch NMI storms, compiler-generated preparation stack, emergency-task stack or a measured resource bound. F3 emergency bound remains inherited and separate."
+    },
+    {
+      "topic": "Selectors, flags and exception oracles",
+      "result": "SOURCE_MATCHES_CLOSED_SIX_SCENARIO_CONTRACT",
+      "evidence": "Launcher validates scenario1..6 and entry=0x40000100+64*(scenario-1), saves entry in EDX, loads user selectors0x33, and pushes SS0x33/ESP0x40400000/EFLAGS2/CS0x2b/EIP before IRETD. No explicit kernel-DS-relative memory operation follows user segment loads; stack pushes still use kernel SS. Bridge requires exact EAX0x2b/EBX0x5a17c0de, full vector/error equality, exact fault EIP, RF1/DF1/bit1/ZF/PF via masked equality to0x10446 with only AF masked. RF0 is rejected. OldESP and low16 oldSS match. CR2 is checked only for PF, CR3 exactly, CR0 PE/PG/WP, CR4 mask0x00a00030, live kernel selectors and live IF/DF0. Contract rows match A6/0, B14/7 CR2=0x40000800, C14/5 CR2=0x07c01000, D13/0, E13/0, F14/4 CR2=0x403fe000. No permissive low-three-bit-only PF oracle was found.",
+      "limits": "Real opcode execution, fallback rejection, I/O denied before transfer, C present-supervisor provenance, unchanged B DATA byte, payload and stack physical bytes, paging/TSS/cache captures and actual saved fault RF are hardware/evidence obligations, not demonstrated by these scalar checks alone."
+    },
+    {
+      "topic": "Shared F2 preservation and gate scope",
+      "result": "SOURCE_SCOPE_NARROW; EMITTED_AND_HARDWARE_PRESERVATION_PENDING",
+      "evidence": "Compared git HEAD:src/exception_entry.s to live source. Original F2 stub/common instruction sequences and vector/error selections are retained through parameterized default expansion; F5 adds alternate names/bridge rather than a dispatcher to inherited serial/panic. F5 gates cover0..31 excluding8; access0x8e implies present32-bit interrupt gates DPL0, selector8. IDT8 remains exact0x0000850000200000 through inherited readback. Unsupported21/29/30 remain frame-independent. f5_gdt is separate storage and original GDT/TSS definitions were not changed in the inspected source.",
+      "limits": "Macro source equivalence is not emitted-byte identity. Actual F2 preservation and full F1-F4 matrix cannot be certified by this audit. New F5 globals may affect placement and must be bound to the exact ELF, not assumed harmless because source bodies look unchanged."
+    },
+    {
+      "topic": "Reporting and terminal closure",
+      "result": "BOUNDED_SOURCE_REPORTER_WITH_INSTALLER_EXCEPTION",
+      "evidence": "PASS pointers are scalar branches selecting fixed24-byte literals; FAIL is fixed22 bytes. Each byte gets at most100000 COM1 LSR polls; timeout drops that byte. Finite literal byte loop then CLI/HLT/JMP terminal. Terminal source contains no allocations, formatting, mutex, USER string, indirect call or resume. Reporter output can be incomplete on timeout; host must require complete unique serial plus matching record rather than infer success from status1. The transitive inherited installer failure is the concrete exception identified above."
+    }
+  ],
+  "verification_performed": [
+    "Read all four primary source files and full approved design.md with line numbers.",
+    "Read relevant original GDT installer/verification, retained owner admission/seal, scalar F5 contracts, IDT8 readback and F3 terminal assembly dependencies.",
+    "Confirmed live git HEAD and branch using read-only git commands; compared baseline exception assembly using git show.",
+    "Computed raw file hashes and sizes programmatically; rechecked primary hashes during audit.",
+    "Used Python to exercise exact frame/bridge address arithmetic, mask and source-only stack budget arithmetic."
+  ],
+  "not_performed": ["Cargo or any build", "QEMU or hardware run", "Source/build/config/skill/git mutation", "Exact ELF disassembly/CFG/section-size verification", "Full host-test, harness, canonical-gate or complete candidate review", "Full independent design re-review"],
+  "conclusion": "No concrete frame-offset, user-dereference, GDT busy/accessed-bit or saved-selector-padding defect was found in the inspected primary source. One concrete transitive F3-installer failure integration blocker remains; exact emitted closure/resource/preservation evidence also remains outside this source-only audit. This is NOT_FULL_CANDIDATE_REVIEW and cannot be used as APPROVE0, hardware GREEN or authorization to bypass required complete review.",
+  "artifacts_written": ["test_results/phase11f5_cpl3_proof/reviews/runtime_preflight_01.json"],
+  "source_changes": false
+}

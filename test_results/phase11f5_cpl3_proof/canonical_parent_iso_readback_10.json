@@ -1,0 +1,12 @@
+{
+  "schema": "rosti.f5-parent-iso-readback.v1",
+  "overall": "PASS",
+  "iso_path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti_phase11a_prerequisite_20261025T060216Z.iso",
+  "iso_sha256": "5a671de6494ee541dcbfda9bf57adcd4754c45b395d01c7b7d8767bcf82de6fb",
+  "namespace": "Rock Ridge",
+  "payload_path": "/boot/rosti.bin",
+  "payload_bytes": 6657072,
+  "payload_sha256": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4",
+  "exact_current_production_kernel_sha256": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4",
+  "acceptance_sha256": "21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074"
+}

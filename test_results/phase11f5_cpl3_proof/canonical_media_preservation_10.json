@@ -1,0 +1,28 @@
+{
+  "schema": "rosti.f5-canonical-media-preservation.v1",
+  "overall": "PASS",
+  "accepted_F4_acceptance_sha256": "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4",
+  "accepted_F4_iso": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti_phase11a_prerequisite_20261023T032857Z.iso",
+    "sha256": "2ceb19010a4cb52c224600db755e666de87d3c67aea7db41575a1d3c324f7c84",
+    "unchanged": true
+  },
+  "canonical_previous_iso": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti_preserved_eb97312fbcffde04.iso",
+    "sha256": "eb97312fbcffde04d1cc5982ec2bb2a698fbc47a1c7181ef065edaec589c52ea",
+    "unchanged": true
+  },
+  "new_iso": {
+    "schema": "rosti.f5-parent-iso-readback.v1",
+    "overall": "PASS",
+    "iso_path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\rosti_phase11a_prerequisite_20261025T060216Z.iso",
+    "iso_sha256": "5a671de6494ee541dcbfda9bf57adcd4754c45b395d01c7b7d8767bcf82de6fb",
+    "namespace": "Rock Ridge",
+    "payload_path": "/boot/rosti.bin",
+    "payload_bytes": 6657072,
+    "payload_sha256": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4",
+    "exact_current_production_kernel_sha256": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4",
+    "acceptance_sha256": "21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074"
+  },
+  "no_iso_committed_or_modified_by_closeout": true
+}

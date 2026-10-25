@@ -1,0 +1,306 @@
+{
+  "schema": "rosti.f5.partial-manifest.v1",
+  "status": "PARTIAL / failure correction and entry amendment design independently approved; review-only authority complete; F5 NOT ACCEPTED",
+  "utc": "2026-10-24T04:34:55.786206+00:00",
+  "artifacts": [
+    {
+      "path": "test_results/phase11f5_cpl3_proof/failure_policy_conformance_inputs_01.json",
+      "sha256": "30f71353e0bc7318dea430e804ade41c6153e5af09bf1c7fe4ff692e90c59390",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/reviews/failure_policy_conformance_01.json",
+      "sha256": "efc9c0c77c344bb50c8abc2fcda7826833808692178c2af179ef765a7e14bf97",
+      "role": "independent review",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/failure_policy_conformance_01_readback.json",
+      "sha256": "223b93b0bd8cdcafc9b2449c201359d8271ac370f3117b485bd1f158add5b71a",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/harness_contract_01.json",
+      "sha256": "91984e72662a74558e34e7a158a045984762ed7534fd68ad8be3f3fa005d3df7",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/continuation04_source_before_01.json",
+      "sha256": "b4d2d7631c0f9f4c280dd461d8ab57042cdc12696f93d6644dbb09efc4d04b65",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/f4_provenance_readback_04.json",
+      "sha256": "6c908023856bd51a0a3362d2d30fcce544fd0bdcf4c1cf129e85da6424350061",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/identity_source_readback_04.json",
+      "sha256": "1b35dcf2420f2bb118889c966ee5346bc6e2e8435fb8813e942bbbf11519a63b",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/process_observation_04.json",
+      "sha256": "55ac79326be8da6ffe8e2ebfe5a576217e81d9546e91ca68e2e97023351de0b7",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/entry_source_equivalence_diagnosis_04.json",
+      "sha256": "145e639fce893cdd54ceb730cf28a0a1214d2fc07a17437f1a57501087963dd1",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/installer_delta_diagnosis_04.json",
+      "sha256": "b512caa41d108079771d499dad64cb9a45ff532e05d29225489193c9d4d05b5a",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/f4_to_current_source_delta_04.json",
+      "sha256": "a15fa846e44b9c8388cedca0e5987f1bef8c9c2667f4abed2c02accab8edb0c8",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/CONTINUATION04_RECOVERY.md",
+      "sha256": "bba83b3e1f7b10b197fcb1af95cc48ca5ce9ad36590b5d2f3c5f06e277c673bc",
+      "role": "status/report",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/ENTRY_CONFORMANCE_ISSUE_04.md",
+      "sha256": "0794253c92f5ccf61938c6d638c40474df6894f2f21bb0024690eef35265f910",
+      "role": "status/report",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/lnk1104_historical_diagnosis_04.json",
+      "sha256": "30f16bea78f3cff8b596a2da8fbb768ce782fa6ee6bea8e5adf8c2e5a43aada4",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/entry_design_amendment_01.md",
+      "sha256": "9071c193419cd08f225f663bfeadebf10cefcd5b344ce2f2fae1b30a563c69c2",
+      "role": "status/report",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/entry_design_amendment_inputs_01.json",
+      "sha256": "829e7d41a60ce27a9c3a482831eae19c33226fd3a0bdee55a1a6c19b7f0ff65c",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/entry_derivation_feasibility_01.json",
+      "sha256": "7ddd0bb16c5b9e06d4fbb5b1abf6617993c1e06f9b4bbe1f5b8259d4a88d7922",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/entry_derivation_diagnostic_controls_01.json",
+      "sha256": "d90d0bb38cb93eadbfc966004dc6a9e61ddbdb3df7b22f2cca307589c3d88c80",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/raw_f2_preservation_check_04.json",
+      "sha256": "02b007a5c2f8fe9642b4077ffa37e89a304060129d24c1f09c02bfb5ede30f76",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/historical_reject_integrity_04.json",
+      "sha256": "1bece141b715b0ad284897fba878c6fc65febf5ee617a754896d297d614dd259",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/continuation04_source_stability_01.json",
+      "sha256": "8f236170516aef143408e6d1349de85b1fda681cdde44bab8f8d1a1d60808941",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/reviews/entry_design_amendment_review_01.json",
+      "sha256": "4ceb888d1bdbaa72c84b11fec654f9bce2aea0c6883ff9b32f371487941a3ec7",
+      "role": "independent review",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/entry_design_amendment_review_01_readback.json",
+      "sha256": "39bb2acd96e648cb25b50daaaa2103b931e8263b66538510973b4990b15cdc76",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/CONTINUATION04_CHECKPOINT.md",
+      "sha256": "5d4e3a5a67147467d6d0ddc0dc5f98ae9029afdc58dc5dd44f4d7f7fc1457f2d",
+      "role": "status/report",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/STATE.md",
+      "sha256": "cba2f02a0d2f770d88dc3e34283297b98ab92615ad0960d4c23f7f3bc6ca1dad",
+      "role": "status/report",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/decisions.md",
+      "sha256": "5f2a1b3c147edbf54580d7d47ada5a3d01e524849d77a1e49b72a7f42e667294",
+      "role": "status/report",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "current_review_only_checkpoint",
+      "immutable_historical": false
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/design.md",
+      "sha256": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c",
+      "role": "status/report",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "historical_immutable_authority_or_reject",
+      "immutable_historical": true
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/design_inputs_03.json",
+      "sha256": "adea88bcf78b78ebe182c79c82563d88707de3075435c24a675e1ab22f69d42f",
+      "role": "task evidence or input manifest",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "historical_immutable_authority_or_reject",
+      "immutable_historical": true
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/reviews/design_review_03.json",
+      "sha256": "3c73bf80b6c504e6f6c982a90d928f3e66ba8fac18f1174ce000c528289cfd83",
+      "role": "independent review",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "historical_immutable_authority_or_reject",
+      "immutable_historical": true
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/reviews/design_review_01.json",
+      "sha256": "d9d8c719492656d41a73867e0f24806288d76124b051db1408bb4fa638f52161",
+      "role": "independent review",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "historical_immutable_authority_or_reject",
+      "immutable_historical": true
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/reviews/design_review_02.json",
+      "sha256": "43cf36aeced0f76d91055b3cd2f18de3810b7b804b67b0d8890adf0605d000bc",
+      "role": "independent review",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "historical_immutable_authority_or_reject",
+      "immutable_historical": true
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/design_proposal_01.md",
+      "sha256": "6d4eabbbe45349804a994d24016e81fe31ba4e3d6d0a20956ddca5cc9d6346bf",
+      "role": "status/report",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "historical_immutable_authority_or_reject",
+      "immutable_historical": true
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/design_proposal_02.md",
+      "sha256": "44325607eb36e0a16a3692c212509acdfe3c8303999a2297a60ed82d772597a9",
+      "role": "status/report",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "historical_immutable_authority_or_reject",
+      "immutable_historical": true
+    },
+    {
+      "path": "test_results/phase11f5_cpl3_proof/reviews/runtime_preflight_01.json",
+      "sha256": "c93331be473d7e16b232efc79d562a1357ec3dccbf0ae9ddb0f3c663dd3f5fc3",
+      "role": "independent review",
+      "phase": "F5 continuation04 failure conformance and authorized entry-amendment review",
+      "status": "historical_immutable_authority_or_reject",
+      "immutable_historical": true
+    }
+  ],
+  "artifact_count": 34,
+  "previous_manifest": {
+    "path": "test_results/phase11f5_cpl3_proof/evidence_manifest_prior_cont04_01.json",
+    "sha256": "b53a1e5fb9c7f696f918b1471be7a0845befa616b085f7eca1c16af93105f84f",
+    "status": "historical_prior_manifest_preserved_raw"
+  },
+  "review_verdicts": {
+    "failure_policy": "APPROVE / 0 blockers / 9 areas / source supplement only",
+    "entry_amendment": "APPROVE / 0 blockers / 14 areas / design supplement only"
+  },
+  "implementation_present_in_inherited_worktree": true,
+  "implementation_edited_this_continuation": false,
+  "f5_tests_executed_this_continuation": false,
+  "hardware_executed_this_continuation": false,
+  "canonical_acceptance_executed": false,
+  "f5_accepted": false,
+  "implementation_resumption_authorized_by_amendment_review": false,
+  "raw_F2_preservation": "FAIL / no restoration or normalization performed",
+  "next_safe_command": {
+    "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+    "argv": [
+      "git",
+      "status",
+      "--short"
+    ]
+  },
+  "note": "No circular self-hash. Current artifacts have actual raw hashes; prior stale status/report hashes remain solely in preserved historical manifest. Recovery snapshots and in-memory design probes are not final freezes, harness GREEN or acceptance."
+}

@@ -1,0 +1,193 @@
+{
+  "schema": "rosti.f5.design-review-readback.v1",
+  "overall": "PASS",
+  "scope": "Parent validation of complete independent REJECT, not independent approval",
+  "review_path": "test_results/phase11f5_cpl3_proof/reviews/design_review_02.json",
+  "review_sha256": "43cf36aeced0f76d91055b3cd2f18de3810b7b804b67b0d8890adf0605d000bc",
+  "review_verdict": "REJECT",
+  "blockers": [
+    {
+      "id": "F5-D02-OWNER-TEST-PRODUCTION",
+      "severity": "blocking",
+      "checklist_point": 22,
+      "finding": "Closed names do not close behavior: the explicitly pure-constants-only owner module cannot verify production copy/publication order, real F4 image output, actual twelve-frame ledger/state or pre-acquisition refusal.",
+      "required_revision": "Keep the frozen four owner names, but specify actual shared F5 preparation/install and page initializer calls, isolated real FrameAllocator/PageMap/RetainedOwner host fixtures, byte backing observing the same production initializer, snapshots/order hooks before final PDE USER publication, full default F4 page comparison and ledger/state assertions. Only substitute hardware transport/backing, not independent owner models. Preserve inherited paths/signatures; no tests run by this reviewer.",
+      "source_refs": [
+        "test_results/phase11f5_cpl3_proof/design.md:31,80",
+        "src/memory/user_arena.rs:200-247",
+        "src/memory/f4_user_arena_tests.rs:101-166,185-218"
+      ]
+    },
+    {
+      "id": "F5-D02-NONINTEGER-BOUNDARY",
+      "severity": "blocking",
+      "checklist_point": 23,
+      "finding": "Frozen Rust owner identity claims noninteger input refusal, but its real scalar kernel boundary admits only integers and no raw parser boundary/grammar or production-linked test is specified.",
+      "required_revision": "Define typed kernel scenario admissibility and invalid integer pre-acquisition contract separately from real raw host --scenario boundary. Freeze host accepted syntax/types and refusal timing before build/stage/acquisition/QEMU, and map malformed/noninteger tests to the actual parser used by the production fixture driver. Retain exact14 Rust identities by assigning valid integer kernel refusal to its existing owner test; cover raw host cases within harness contracts without silently changing Rust membership. Alternatively explicitly revise the contract with independently reviewed names if necessary. Do not claim that compiling a typed API or testing a stand-alone constant parser proves noninteger runtime rejection.",
+      "source_refs": [
+        "test_results/phase11f5_cpl3_proof/design.md:27,48,80,92",
+        "src/memory/retained_owner.rs:77-80,303-317"
+      ]
+    }
+  ],
+  "checklist_count": 26,
+  "source_hashes_checked": {
+    "src/gdt_tss.rs": {
+      "expected": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+      "actual": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+      "current_read_path": "src/gdt_tss.rs"
+    },
+    "src/memory/privileged.rs": {
+      "expected": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "actual": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "current_read_path": "src/memory/privileged.rs"
+    },
+    "src/interrupt.rs": {
+      "expected": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "actual": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "current_read_path": "src/interrupt.rs"
+    },
+    "src/exception_entry.s": {
+      "expected": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "actual": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "current_read_path": "src/exception_entry.s"
+    },
+    "src/exception_abi.rs": {
+      "expected": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "actual": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "current_read_path": "src/exception_abi.rs"
+    },
+    "src/memory/user_arena.rs": {
+      "expected": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+      "actual": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+      "current_read_path": "src/memory/user_arena.rs"
+    },
+    "src/memory/retained_owner.rs": {
+      "expected": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+      "actual": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+      "current_read_path": "src/memory/retained_owner.rs"
+    },
+    "src/f3_entry.s": {
+      "expected": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+      "actual": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+      "current_read_path": "src/f3_entry.s"
+    },
+    "linker.ld": {
+      "expected": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+      "actual": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+      "current_read_path": "linker.ld"
+    },
+    "scripts/f1_evidence.py": {
+      "expected": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+      "actual": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+      "current_read_path": "scripts/f1_evidence.py"
+    },
+    "scripts/f2_evidence.py": {
+      "expected": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+      "actual": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+      "current_read_path": "scripts/f2_evidence.py"
+    },
+    "scripts/f2_exception_guest.py": {
+      "expected": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+      "actual": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+      "current_read_path": "scripts/f2_exception_guest.py"
+    },
+    "scripts/f3_full_evidence.py": {
+      "expected": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+      "actual": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+      "current_read_path": "scripts/f3_full_evidence.py"
+    },
+    "scripts/f4_evidence.py": {
+      "expected": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+      "actual": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+      "current_read_path": "scripts/f4_evidence.py"
+    },
+    "scripts/f4_ready_guest.py": {
+      "expected": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+      "actual": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+      "current_read_path": "scripts/f4_ready_guest.py"
+    },
+    "scripts/f4_arena_guest.py": {
+      "expected": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+      "actual": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+      "current_read_path": "scripts/f4_arena_guest.py"
+    },
+    "scripts/phase6_verify.py": {
+      "expected": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+      "actual": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+      "current_read_path": "scripts/phase6_verify.py"
+    },
+    "scripts/test_acceptance_harness.py": {
+      "expected": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+      "actual": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+      "current_read_path": "scripts/test_acceptance_harness.py"
+    },
+    "test_results/phase11f4_user_arena/correction_cycle_01.py": {
+      "expected": "2f94466631e1a0ad3cab4d98a7abbed3e0784ecd01d1e5873d1196526228fe6a",
+      "actual": "2f94466631e1a0ad3cab4d98a7abbed3e0784ecd01d1e5873d1196526228fe6a",
+      "current_read_path": "test_results/phase11f4_user_arena/correction_cycle_01.py"
+    },
+    "test_results/phase11f4_user_arena/terminal_contract_02.py": {
+      "expected": "81c95081bd1df76df0b5847f24bbc95bf7ea430bcddf3e3f56399dc432c8c20c",
+      "actual": "81c95081bd1df76df0b5847f24bbc95bf7ea430bcddf3e3f56399dc432c8c20c",
+      "current_read_path": "test_results/phase11f4_user_arena/terminal_contract_02.py"
+    },
+    "test_results/phase11f5_cpl3_proof/authorization_01.md": {
+      "expected": "fc88c9d39a131f64af8837be32ae7b30a997d0e4f6e1501fcd7348ee55eec0ac",
+      "actual": "fc88c9d39a131f64af8837be32ae7b30a997d0e4f6e1501fcd7348ee55eec0ac",
+      "current_read_path": "test_results/phase11f5_cpl3_proof/authorization_01.md"
+    },
+    "test_results/phase11f5_cpl3_proof/reviews/prerequisite_review_01.json": {
+      "expected": "398f3bbd0f61d4be256c0e8ac51ef25bcca012a73922b2eeb8d171d8207345a1",
+      "actual": "398f3bbd0f61d4be256c0e8ac51ef25bcca012a73922b2eeb8d171d8207345a1",
+      "current_read_path": "test_results/phase11f5_cpl3_proof/reviews/prerequisite_review_01.json"
+    },
+    "test_results/phase11f5_cpl3_proof/recovery_snapshot_01.json": {
+      "expected": "516cfa04642d4f43db7e60f1bd836603195d245861d5f5749b0eb606c2751313",
+      "actual": "516cfa04642d4f43db7e60f1bd836603195d245861d5f5749b0eb606c2751313",
+      "current_read_path": "test_results/phase11f5_cpl3_proof/recovery_snapshot_01.json"
+    },
+    "test_results/phase11f5_cpl3_proof/design.md": {
+      "expected": "44325607eb36e0a16a3692c212509acdfe3c8303999a2297a60ed82d772597a9",
+      "actual": "44325607eb36e0a16a3692c212509acdfe3c8303999a2297a60ed82d772597a9",
+      "current_read_path": "test_results/phase11f5_cpl3_proof/design_proposal_02.md"
+    },
+    "test_results/phase11f5_cpl3_proof/design_proposal_01.md": {
+      "expected": "6d4eabbbe45349804a994d24016e81fe31ba4e3d6d0a20956ddca5cc9d6346bf",
+      "actual": "6d4eabbbe45349804a994d24016e81fe31ba4e3d6d0a20956ddca5cc9d6346bf",
+      "current_read_path": "test_results/phase11f5_cpl3_proof/design_proposal_01.md"
+    },
+    "test_results/phase11f5_cpl3_proof/reviews/design_review_01.json": {
+      "expected": "d9d8c719492656d41a73867e0f24806288d76124b051db1408bb4fa638f52161",
+      "actual": "d9d8c719492656d41a73867e0f24806288d76124b051db1408bb4fa638f52161",
+      "current_read_path": "test_results/phase11f5_cpl3_proof/reviews/design_review_01.json"
+    },
+    "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json": {
+      "expected": "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4",
+      "actual": "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4",
+      "current_read_path": "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json"
+    },
+    "test_results/phase11f4_user_arena/correction_green_02/closure.json": {
+      "expected": "23e2e213eac242a5b8f113755e045ba8e3639df73ab426d3fc2c539355ed6517",
+      "actual": "23e2e213eac242a5b8f113755e045ba8e3639df73ab426d3fc2c539355ed6517",
+      "current_read_path": "test_results/phase11f4_user_arena/correction_green_02/closure.json"
+    },
+    "tests_kernel/src/lib.rs": {
+      "expected": "17838391617df1833149e84631b33feff6077f7a52696111a375db7eea94a34c",
+      "actual": "17838391617df1833149e84631b33feff6077f7a52696111a375db7eea94a34c",
+      "current_read_path": "tests_kernel/src/lib.rs"
+    },
+    "src/memory/f4_user_arena_tests.rs": {
+      "expected": "4fe8da1bb4ac93e4884b8d270fce08e34de15bee1d1d4e595778e260a5c80509",
+      "actual": "4fe8da1bb4ac93e4884b8d270fce08e34de15bee1d1d4e595778e260a5c80509",
+      "current_read_path": "src/memory/f4_user_arena_tests.rs"
+    }
+  },
+  "historical_design_relocation": {
+    "reviewed_original_path": "test_results/phase11f5_cpl3_proof/design.md",
+    "preserved_byte_identical_path": "test_results/phase11f5_cpl3_proof/design_proposal_02.md"
+  },
+  "all23_input_membership_verified": true,
+  "all30_reviewed_hashes_match": true,
+  "implementation_authorized": false
+}

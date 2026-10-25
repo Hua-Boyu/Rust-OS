@@ -1,0 +1,199 @@
+warning: unused import: `crate::println`
+  --> src\..\..\src\multiboot.rs:10:5
+   |
+10 | use crate::println;
+   |     ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::utils::bits::CanManipulateBits`
+  --> src\..\..\src\memory\paging.rs:25:5
+   |
+25 | use crate::utils::bits::CanManipulateBits;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1036:41
+     |
+1036 |             core::arch::asm!("mov %cr0, {out}", out = out(reg) cr0, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+     = note: `#[warn(asm_sub_register)]` on by default
+
+warning: formatting may not be suitable for sub-register argument
+    --> src\..\..\src\memory\paging.rs:1049:41
+     |
+1049 |             core::arch::asm!("mov %cr2, {out}", out = out(reg) cr2, options(att_syntax));
+     |                                         ^^^^^                  --- for this argument
+     |
+     = help: use `{0:e}` to have the register formatted as `eax` (for 4-byte values)
+     = help: or use `{0:r}` to keep the default formatting of `rax` (for 8-byte values)
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:72:28
+   |
+72 | pub unsafe fn lockfree_inb(port_in: u16) -> u8 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `port_in`
+  --> src\io\..\..\..\src\io\ports.rs:85:28
+   |
+85 | pub unsafe fn lockfree_inw(port_in: u16) -> u16 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_in`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:110:29
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:110:44
+    |
+110 | pub unsafe fn lockfree_outb(port_out: u16, val: u8) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `port_out`
+   --> src\io\..\..\..\src\io\ports.rs:119:29
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_port_out`
+
+warning: unused variable: `val`
+   --> src\io\..\..\..\src\io\ports.rs:119:44
+    |
+119 | pub unsafe fn lockfree_outw(port_out: u16, val: u16) {
+    |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: variable does not need to be mutable
+   --> src\..\..\src\memory\retained_owner_policy_tests.rs:157:18
+    |
+157 |     let (mut fa, mut pm) = fixture();
+    |                  ----^^
+    |                  |
+    |                  help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `frame`
+   --> src\..\..\src\allocator.rs:272:33
+    |
+272 |                     if let Some(frame) = crate::memory::heap_grow_frame(slot) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_frame`
+
+warning: unused variable: `t0`
+   --> src\lib.rs:270:18
+    |
+270 |     let (b0, l0, t0) = (e0.base_addr, e0.length, e0.type_);
+    |                  ^^ help: if this is intentional, prefix it with an underscore: `_t0`
+
+warning: function `ownership_locks_held` is never used
+  --> src\..\..\src\memory\mod.rs:19:15
+   |
+19 | pub(crate) fn ownership_locks_held() -> bool {
+   |               ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `pinned_identity_span` is never used
+   --> src\..\..\src\memory\mod.rs:308:15
+    |
+308 | pub(crate) fn pinned_identity_span(start: u64, end: u64) -> bool {
+    |               ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `replace_growth_with_test_conflict` is never used
+   --> src\..\..\src\memory\mod.rs:351:15
+    |
+351 | pub(crate) fn replace_growth_with_test_conflict(slot: usize) -> Option<u64> {
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: static `KERNEL_START` is never used
+  --> src\..\..\src\memory\frame.rs:72:8
+   |
+72 | static KERNEL_START: u32 = 0;
+   |        ^^^^^^^^^^^^
+
+warning: static `KERNEL_END` is never used
+  --> src\..\..\src\memory\frame.rs:74:8
+   |
+74 | static KERNEL_END: u32 = 0;
+   |        ^^^^^^^^^^
+
+warning: function `owner_locked` is never used
+  --> src\..\..\src\memory\retained_owner.rs:73:26
+   |
+73 | pub(in crate::memory) fn owner_locked() -> bool {
+   |                          ^^^^^^^^^^^^
+
+warning: constant `EARLY_GDT_BYTES` is never used
+   --> src\..\..\src\gdt.rs:159:18
+    |
+159 | pub(crate) const EARLY_GDT_BYTES: usize = core::mem::size_of::<EarlyGdt>();
+    |                  ^^^^^^^^^^^^^^^
+
+warning: feature `abi_x86_interrupt` is declared but not used
+ --> src\lib.rs:7:12
+  |
+7 | #![feature(abi_x86_interrupt)]
+  |            ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_features)]` (part of `#[warn(unused)]`) on by default
+
+warning: `tests_kernel` (lib test) generated 21 warnings (run `cargo fix --lib -p tests_kernel --tests` to apply 11 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src\lib.rs (Documents\Rust-OS\tests_kernel\target\debug\build\tests_kernel/656dee6e00f2926c\out\tests_kernel-656dee6e00f2926c.exe)
+
+running 46 tests
+test b18_inventory_tests::absent_flags_do_not_follow_garbage_optional_pointers ... ok
+test b18_inventory_tests::accepted_inventory_pins_every_partial_frame_after_source_dropped ... ok
+test b18_inventory_tests::adjacent_modules_are_not_overlaps ... ok
+test b18_inventory_tests::aout_final_size_word_intersections_and_reserved_field_are_rejected ... ok
+test b18_inventory_tests::aout_leading_size_word_and_final_partial_page_are_reserved ... ok
+test b18_inventory_tests::aout_symbol_sizes_are_summed_in_full_width ... ok
+test b18_inventory_tests::bootstrap_map_and_header_can_be_firmware_reserved ... ok
+test b18_inventory_tests::bootstrap_upper_boundary_is_exclusive_not_last_byte ... ok
+test b18_inventory_tests::command_and_loader_strings_reserve_terminators ... ok
+test b18_inventory_tests::final_permitted_string_byte_can_be_terminator ... ok
+test b18_inventory_tests::grub_vga_text_framebuffer_is_bounded_and_pinned ... ok
+test b18_inventory_tests::initramfs_absent_and_nonexact_labels_are_ignored ... ok
+test b18_inventory_tests::initramfs_duplicate_exact_labels_rejected_in_either_order ... ok
+test b18_inventory_tests::initramfs_mixed_modules_select_exact_match_in_any_position ... ok
+test b18_inventory_tests::initramfs_name_bounds_never_select_a_truncated_prefix ... ok
+test b18_inventory_tests::initramfs_oversized_name_still_validates_every_metadata_byte ... ok
+test b18_inventory_tests::initramfs_owned_label_and_span_survive_source_drop ... ok
+test b18_inventory_tests::initramfs_required_label_metadata_keeps_validation_fail_closed ... ok
+test b18_inventory_tests::magic_rejection_never_calls_source ... ok
+test b18_inventory_tests::malformed_and_unsupported_flags_rejected ... ok
+test b18_inventory_tests::maximum_modules_accepted_without_reading_payloads ... ok
+test b18_inventory_tests::missing_header_is_truncated ... ok
+test b18_inventory_tests::missing_mmap_backing_is_not_implicitly_zero ... ok
+test b18_inventory_tests::mmap_length_limits_precede_callback ... ok
+test b18_inventory_tests::mmap_pointer_bounds_precede_callback ... ok
+test b18_inventory_tests::mmap_record_count_boundary ... ok
+test b18_inventory_tests::mmap_rejects_malformed_sizes_trailing_fragments_and_overflow ... ok
+test b18_inventory_tests::mmap_requires_nonempty_usable_record ... ok
+test b18_inventory_tests::mmap_variable_records_keep_full_width_fields ... ok
+test b18_inventory_tests::module_cannot_bridge_a_gap_between_usable_records ... ok
+test b18_inventory_tests::module_count_limit_precedes_table_access ... ok
+test b18_inventory_tests::module_denied_for_kernel_growth_and_unknown_ram ... ok
+test b18_inventory_tests::module_invalid_end_and_null_rejected ... ok
+test b18_inventory_tests::module_overlap_with_own_name_or_later_metadata_rejected ... ok
+test b18_inventory_tests::module_overlaps_previous_module_or_boot_metadata_rejected ... ok
+test b18_inventory_tests::module_reserved_word_is_ignored_without_changing_owned_metadata_or_pins ... ok
+test b18_inventory_tests::module_table_must_be_backed_and_inside_validated_ram ... ok
+test b18_inventory_tests::null_required_strings_rejected_but_null_module_name_optional ... ok
+test b18_inventory_tests::optional_metadata_spans_reserved_and_overflow_rejected ... ok
+test b18_inventory_tests::reserved_map_record_wins_for_module_table_payload_and_string ... ok
+test b18_inventory_tests::root_bounds_rejected_before_read ... ok
+test b18_inventory_tests::string_missing_backing_and_unterminated_bound ... ok
+test b18_inventory_tests::string_stops_before_kernel_growth_or_reserved_byte ... ok
+test b18_inventory_tests::vbe_interface_is_pinned_or_entire_feature_rejected ... ok
+test b18_inventory_tests::zero_length_reserved_records_do_not_deny_metadata_or_module_bytes ... ok
+test b18_inventory_tests::zero_modules_does_not_dereference_null_table ... ok
+
+test result: ok. 46 passed; 0 failed; 0 ignored; 0 measured; 348 filtered out; finished in 0.29s
+

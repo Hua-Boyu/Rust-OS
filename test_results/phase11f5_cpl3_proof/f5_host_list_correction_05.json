@@ -1,0 +1,20 @@
+{
+  "name": "f5_host_list_correction_05",
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml",
+    "--lib",
+    "--",
+    "--list"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "started_utc": "2026-10-23T15:28:58.178836+00:00",
+  "status": "EXPECTED",
+  "exit_code": 0,
+  "ended_utc": "2026-10-23T15:28:58.295684+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\f5_host_list_correction_05.log",
+  "totals": []
+}

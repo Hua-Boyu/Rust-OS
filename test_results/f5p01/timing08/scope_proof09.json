@@ -1,0 +1,15 @@
+{
+  "old_timeout": 900,
+  "new_timeout": 1049,
+  "slowest_complete_wall_seconds": 839.0470000000205,
+  "minimum_seconds": 1048.8087500000256,
+  "rounded_minimum": 1049,
+  "extra_failure_latency_seconds": 149,
+  "canonical_before": "8e6cdcc1d3a60d6645078a51d75e4ee38fcf75bc22dfeac24749d927466e97ee",
+  "canonical_after": "394dfcfa9e5d40ebb56c614ac2356a4c930fbbd80b418c408f46b30daf388b20",
+  "control_after": "910c79e093f3284e736b5bd1e77068a9abbf4ea57a9bb033d95a4cc6cebfedab",
+  "mock_baseline": "f6274eac8eb8ef3075597ed3d946df5a41f19fed14b0e616efe6038404288d2f",
+  "only_canonical_change": "one mock timeout literal900->1049",
+  "all_other_gate_semantics_and_timeouts_raw_preserved": true,
+  "production_source_drift": []
+}

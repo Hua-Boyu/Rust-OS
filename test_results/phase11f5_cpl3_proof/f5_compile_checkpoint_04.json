@@ -1,0 +1,20 @@
+{
+  "name": "f5_compile_checkpoint_04",
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml",
+    "--lib",
+    "f5_cpl3_tests::",
+    "--no-run"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "started_utc": "2026-10-23T12:15:36.263618+00:00",
+  "status": "EXPECTED",
+  "exit_code": 101,
+  "ended_utc": "2026-10-23T12:15:38.898323+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\f5_compile_checkpoint_04.log",
+  "totals": []
+}

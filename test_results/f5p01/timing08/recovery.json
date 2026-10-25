@@ -1,0 +1,206 @@
+{
+  "utc": "2026-10-24T15:58:24.875036+00:00",
+  "head": "c8b73654dd5f7f64c3c7872254b2b730ad2151f4",
+  "ancestor_exit": 0,
+  "diff_check_exit": 2,
+  "diff_check_note": "existing CRLF additions reported as trailing whitespace; not normalized",
+  "restoration": {
+    "path": "scripts\\test_acceptance_harness.py",
+    "authenticated_input": "test_results\\phase11f5_cpl3_proof\\mock_perf_20261024T111033Z_0367d0\\test_acceptance_harness.before.txt",
+    "before": "0bd1916220db382f809a0a07d3c179da65edcbaacf41019865b96b6d2f72e824",
+    "after": "f6274eac8eb8ef3075597ed3d946df5a41f19fed14b0e616efe6038404288d2f",
+    "run07_expected": "f6274eac8eb8ef3075597ed3d946df5a41f19fed14b0e616efe6038404288d2f"
+  },
+  "os_cpu_count": 24,
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+  "memory": {
+    "total": 64014364672,
+    "available": 1358344192,
+    "percent": 97.9,
+    "used": 62656020480,
+    "free": 1358344192
+  },
+  "active_cpu_jobs": [
+    {
+      "pid": 0,
+      "name": "System Idle Process",
+      "cpu_percent": 1966.2,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 4,
+      "name": "System",
+      "cpu_percent": 6.6,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 2388,
+      "name": "dwm.exe",
+      "cpu_percent": 9.1,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 2796,
+      "name": "svchost.exe",
+      "cpu_percent": 6.5,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 3008,
+      "name": "WmiPrvSE.exe",
+      "cpu_percent": 17.0,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 3812,
+      "name": "svchost.exe",
+      "cpu_percent": 2.5,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 3864,
+      "name": "explorer.exe",
+      "cpu_percent": 3.6,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 4028,
+      "name": "MsMpEng.exe",
+      "cpu_percent": 5.4,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 26348,
+      "name": "Lunar Client.exe",
+      "cpu_percent": 3.5,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 26960,
+      "name": "Hermes.exe",
+      "cpu_percent": 20.5,
+      "classification": "INFRASTRUCTURE"
+    },
+    {
+      "pid": 33032,
+      "name": "com.docker.backend.exe",
+      "cpu_percent": 2.8,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 35044,
+      "name": "vmmemWSL",
+      "cpu_percent": 202.8,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 38292,
+      "name": "python.exe",
+      "cpu_percent": 54.6,
+      "classification": "INFRASTRUCTURE"
+    },
+    {
+      "pid": 38980,
+      "name": "HWiNFO64.EXE",
+      "cpu_percent": 6.3,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 44288,
+      "name": "Grammarly.Desktop.exe",
+      "cpu_percent": 4.6,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 44932,
+      "name": "chrome.exe",
+      "cpu_percent": 10.6,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 45972,
+      "name": "bambu-studio.exe",
+      "cpu_percent": 2.8,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 47732,
+      "name": "syncthing.exe",
+      "cpu_percent": 6.7,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 48044,
+      "name": "CurseForge.exe",
+      "cpu_percent": 2.8,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 51380,
+      "name": "Hermes.exe",
+      "cpu_percent": 26.5,
+      "classification": "INFRASTRUCTURE"
+    },
+    {
+      "pid": 52580,
+      "name": "chrome.exe",
+      "cpu_percent": 3.9,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 56316,
+      "name": "chrome.exe",
+      "cpu_percent": 3.5,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 57004,
+      "name": "python.exe",
+      "cpu_percent": 2.5,
+      "classification": "INFRASTRUCTURE"
+    },
+    {
+      "pid": 58348,
+      "name": "wgc_renderer_host.exe",
+      "cpu_percent": 2.1,
+      "classification": "UNKNOWN"
+    },
+    {
+      "pid": 63076,
+      "name": "chrome.exe",
+      "cpu_percent": 2.1,
+      "classification": "UNKNOWN"
+    }
+  ],
+  "r1": "INFEASIBLE_MEMORY_SAFETY",
+  "r1_reason": "Only about 1.4GB free with 97.8 percent physical memory in use; concurrent fixture processes unsafe. No sharding attempt.",
+  "r2": "SELECTED_MEASUREMENT_PENDING",
+  "ceiling_seconds": 1500,
+  "heavy_build_qemu_observed": [],
+  "unknown_processes_not_killed": true
+}

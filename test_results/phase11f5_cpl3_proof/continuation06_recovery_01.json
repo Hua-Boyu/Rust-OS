@@ -1,0 +1,183 @@
+{
+  "schema": "rosti.f5-continuation06-recovery.v1",
+  "overall": "PASS",
+  "authority": "User continuation06 authorizes exact F2 restoration and approved implementation; not acceptance approval.",
+  "git": [
+    {
+      "argv": [
+        "status",
+        "--porcelain=v1",
+        "-uall"
+      ],
+      "exit": 0,
+      "stdout": " M .gitignore\n M README.md\n M src/gdt_tss.rs\n M src/main.rs\n M src/memory/paging.rs\n M src/memory/retained_owner.rs\n M src/memory/user_arena.rs\n M test_results/phase11f4_user_arena/FINAL_REPORT.md\n M tests_kernel/src/lib.rs\n?? d1/f\n?? docs/ROSTI_INIT_ARCHITECTURE.md\n?? reviews/candidate_review_02.json\n?? scripts/b13_boot_fixture.py.backup\n?? src/f5_bridge.s\n?? src/f5_contract.rs\n?? src/f5_cpl3.rs\n?? src/f5_exception_entry.s\n?? src/f5_gdt.rs\n?? src/f5_runtime.rs\n?? src/memory/f5_cpl3_owner_tests.rs\n?? src/memory/f5_page_observation.rs\n?? tests_kernel/src/f5_cpl3_tests.rs\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "branch",
+        "--show-current"
+      ],
+      "exit": 0,
+      "stdout": "maintenance/phase10\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "c8b73654dd5f7f64c3c7872254b2b730ad2151f4\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "merge-base",
+        "--is-ancestor",
+        "c1b28b2",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/gdt_tss.rs', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/main.rs', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/memory/paging.rs', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/memory/retained_owner.rs', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/memory/user_arena.rs', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'test_results/phase11f4_user_arena/FINAL_REPORT.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'tests_kernel/src/lib.rs', LF will be replaced by CRLF the next time Git touches it\n"
+    }
+  ],
+  "authority_pins": {
+    "design.md": {
+      "expected": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c",
+      "actual": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c"
+    },
+    "design_inputs_03.json": {
+      "expected": "adea88bcf78b78ebe182c79c82563d88707de3075435c24a675e1ab22f69d42f",
+      "actual": "adea88bcf78b78ebe182c79c82563d88707de3075435c24a675e1ab22f69d42f"
+    },
+    "entry_design_amendment_01.md": {
+      "expected": "9071c193419cd08f225f663bfeadebf10cefcd5b344ce2f2fae1b30a563c69c2",
+      "actual": "9071c193419cd08f225f663bfeadebf10cefcd5b344ce2f2fae1b30a563c69c2"
+    },
+    "harness_contract_01.json": {
+      "expected": "91984e72662a74558e34e7a158a045984762ed7534fd68ad8be3f3fa005d3df7",
+      "actual": "91984e72662a74558e34e7a158a045984762ed7534fd68ad8be3f3fa005d3df7"
+    },
+    "reviews/design_review_03.json": {
+      "expected": "3c73bf80b6c504e6f6c982a90d928f3e66ba8fac18f1174ce000c528289cfd83",
+      "actual": "3c73bf80b6c504e6f6c982a90d928f3e66ba8fac18f1174ce000c528289cfd83"
+    },
+    "reviews/failure_policy_conformance_01.json": {
+      "expected": "efc9c0c77c344bb50c8abc2fcda7826833808692178c2af179ef765a7e14bf97",
+      "actual": "efc9c0c77c344bb50c8abc2fcda7826833808692178c2af179ef765a7e14bf97"
+    },
+    "reviews/entry_design_amendment_review_01.json": {
+      "expected": "4ceb888d1bdbaa72c84b11fec654f9bce2aea0c6883ff9b32f371487941a3ec7",
+      "actual": "4ceb888d1bdbaa72c84b11fec654f9bce2aea0c6883ff9b32f371487941a3ec7"
+    }
+  },
+  "reviews": {
+    "design_review_03": {
+      "verdict": "APPROVE",
+      "blockers": [],
+      "complete_scope": true
+    },
+    "failure_policy_conformance_01": {
+      "verdict": "APPROVE",
+      "blockers": [],
+      "complete_scope": true
+    },
+    "entry_design_amendment_review_01": {
+      "verdict": "APPROVE",
+      "blockers": [],
+      "complete_scope": true
+    }
+  },
+  "recovery_count": 196,
+  "recovery_drift": {},
+  "classification": {
+    ".gitignore": "PROTECTED_UNRELATED",
+    "README.md": "PROTECTED_UNRELATED",
+    "src/gdt_tss.rs": "F5_OWNED",
+    "src/main.rs": "F5_OWNED",
+    "src/memory/paging.rs": "F5_OWNED",
+    "src/memory/retained_owner.rs": "F5_OWNED",
+    "src/memory/user_arena.rs": "F5_OWNED",
+    "test_results/phase11f4_user_arena/FINAL_REPORT.md": "PROTECTED_UNRELATED",
+    "tests_kernel/src/lib.rs": "F5_OWNED",
+    "d1/f": "PROTECTED_UNRELATED",
+    "docs/ROSTI_INIT_ARCHITECTURE.md": "PROTECTED_UNRELATED",
+    "reviews/candidate_review_02.json": "PROTECTED_UNRELATED",
+    "scripts/b13_boot_fixture.py.backup": "PROTECTED_UNRELATED",
+    "src/f5_bridge.s": "F5_OWNED",
+    "src/f5_contract.rs": "F5_OWNED",
+    "src/f5_cpl3.rs": "F5_OWNED",
+    "src/f5_exception_entry.s": "F5_OWNED",
+    "src/f5_gdt.rs": "F5_OWNED",
+    "src/f5_runtime.rs": "F5_OWNED",
+    "src/memory/f5_cpl3_owner_tests.rs": "F5_OWNED",
+    "src/memory/f5_page_observation.rs": "F5_OWNED",
+    "tests_kernel/src/f5_cpl3_tests.rs": "F5_OWNED"
+  },
+  "protected_pins": {
+    "test_results/phase11f4_user_arena/FINAL_REPORT.md": "65071f5a56f7900246ec649a03e9f1acad01347557089efdef54a42b5c5582f0",
+    "reviews/candidate_review_02.json": "1bc18068b077d641ef598899f513b9c5b6cbe5ea516d67c720ed83e536dbe49a",
+    "README.md": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+    "d1/f": "98ea6e4f216f2fb4b69fff9b3a44842c38686ca685f3f55dc48c5d3fb1107be4",
+    "scripts/b13_boot_fixture.py.backup": "3e86d2dd9061e42c1b79d5ad0d94efa513a407c19faa37fc2680a7ab5526a181",
+    "docs/ROSTI_INIT_ARCHITECTURE.md": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+    ".gitignore": "738ec129c381316b2c3ea4ff26bf502a072c4cc7eb7a3d7b074debdf58bc6bda"
+  },
+  "f2_before": {
+    "sha256": "e375278f78c458a6ebed3e4fd2256f45d6c1b5e50a6e09654ba730fb8fe887e6",
+    "size": 2227,
+    "crlf": 110,
+    "lf": 110
+  },
+  "f2_after": {
+    "sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+    "authenticated_blob": "HEAD:src/exception_entry.s",
+    "backup": "test_results/phase11f5_cpl3_proof/continuation06_f2_before_01.s"
+  },
+  "restoration_git": [
+    {
+      "argv": [
+        "status",
+        "--short",
+        "--",
+        "src/exception_entry.s"
+      ],
+      "exit": 0,
+      "stdout": " M src/exception_entry.s\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "diff",
+        "--ignore-cr-at-eol",
+        "--",
+        "src/exception_entry.s"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "warning: in the working copy of 'src/exception_entry.s', LF will be replaced by CRLF the next time Git touches it\n"
+    },
+    {
+      "argv": [
+        "ls-files",
+        "--eol",
+        "--",
+        "src/exception_entry.s"
+      ],
+      "exit": 0,
+      "stdout": "i/lf    w/lf    attr/                 \tsrc/exception_entry.s\n",
+      "stderr": ""
+    }
+  ]
+}

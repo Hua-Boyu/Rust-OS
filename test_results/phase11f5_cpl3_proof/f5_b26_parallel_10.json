@@ -1,0 +1,24 @@
+{
+  "name": "f5_b26_parallel_10",
+  "command": [
+    "cargo",
+    "+nightly",
+    "test",
+    "--manifest-path",
+    "C:/Users/iamsv/Documents/Rust-OS/tests_b26/Cargo.toml",
+    "--lib"
+  ],
+  "cwd": "C:/Users/iamsv",
+  "started_utc": "2026-10-23T16:07:03.353458+00:00",
+  "status": "EXPECTED",
+  "exit_code": 0,
+  "ended_utc": "2026-10-23T16:07:05.608237+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\f5_b26_parallel_10.log",
+  "totals": [
+    [
+      "149",
+      "0",
+      "0"
+    ]
+  ]
+}

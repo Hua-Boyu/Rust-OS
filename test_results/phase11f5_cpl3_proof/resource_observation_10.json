@@ -1,0 +1,278 @@
+{
+  "utc": "2026-10-25T04:40:09.732463+00:00",
+  "scope": "single read-only owned-predecessor process-tree observation, not measured whole-run high-water",
+  "available": 635236352,
+  "total": 64014364672,
+  "owned_tree": [
+    {
+      "pid": 44696,
+      "name": "bash.exe",
+      "argv": [
+        "C:\\Program Files\\Git\\bin\\bash.exe",
+        "-lic",
+        "set +m; \"$LOCALAPPDATA/hermes/hermes-agent/venv/Scripts/python.exe\" -B test_results/phase11f5_cpl3_proof/freeze_and_verify_06_01.py --output-dir C:/Users/iamsv/Documents/Rust-OS/test_results/f5p01/v10"
+      ],
+      "memory": {
+        "rss": 6348800,
+        "vms": 1527808,
+        "num_page_faults": 1771,
+        "peak_wset": 6823936,
+        "wset": 6348800,
+        "peak_paged_pool": 159680,
+        "paged_pool": 146784,
+        "peak_nonpaged_pool": 24456,
+        "nonpaged_pool": 7216,
+        "pagefile": 1527808,
+        "peak_pagefile": 1638400,
+        "private": 1527808
+      }
+    },
+    {
+      "pid": 60448,
+      "name": "conhost.exe",
+      "argv": [
+        "\\??\\C:\\WINDOWS\\system32\\conhost.exe",
+        "0x4"
+      ],
+      "memory": {
+        "rss": 6950912,
+        "vms": 1265664,
+        "num_page_faults": 1895,
+        "peak_wset": 7372800,
+        "wset": 6950912,
+        "peak_paged_pool": 138888,
+        "paged_pool": 123080,
+        "peak_nonpaged_pool": 9520,
+        "nonpaged_pool": 8160,
+        "pagefile": 1265664,
+        "peak_pagefile": 1302528,
+        "private": 1265664
+      }
+    },
+    {
+      "pid": 57500,
+      "name": "bash.exe",
+      "argv": [
+        "C:\\Program Files\\Git\\bin\\..\\usr\\bin\\bash.exe",
+        "-lic",
+        "set +m; \"$LOCALAPPDATA/hermes/hermes-agent/venv/Scripts/python.exe\" -B test_results/phase11f5_cpl3_proof/freeze_and_verify_06_01.py --output-dir C:/Users/iamsv/Documents/Rust-OS/test_results/f5p01/v10"
+      ],
+      "memory": {
+        "rss": 10076160,
+        "vms": 7286784,
+        "num_page_faults": 3501,
+        "peak_wset": 12443648,
+        "wset": 10076160,
+        "peak_paged_pool": 174704,
+        "paged_pool": 160800,
+        "peak_nonpaged_pool": 35160,
+        "nonpaged_pool": 10496,
+        "pagefile": 7286784,
+        "peak_pagefile": 7393280,
+        "private": 7286784
+      }
+    },
+    {
+      "pid": 58192,
+      "name": "python.exe",
+      "argv": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "test_results/phase11f5_cpl3_proof/freeze_and_verify_06_01.py",
+        "--output-dir",
+        "C:/Users/iamsv/Documents/Rust-OS/test_results/f5p01/v10"
+      ],
+      "memory": {
+        "rss": 5230592,
+        "vms": 909312,
+        "num_page_faults": 1430,
+        "peak_wset": 5455872,
+        "wset": 5230592,
+        "peak_paged_pool": 129688,
+        "paged_pool": 121408,
+        "peak_nonpaged_pool": 30640,
+        "nonpaged_pool": 5720,
+        "pagefile": 909312,
+        "peak_pagefile": 1007616,
+        "private": 909312
+      }
+    },
+    {
+      "pid": 42968,
+      "name": "python.exe",
+      "argv": [
+        "C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
+        "-B",
+        "test_results/phase11f5_cpl3_proof/freeze_and_verify_06_01.py",
+        "--output-dir",
+        "C:/Users/iamsv/Documents/Rust-OS/test_results/f5p01/v10"
+      ],
+      "memory": {
+        "rss": 33292288,
+        "vms": 26107904,
+        "num_page_faults": 300999,
+        "peak_wset": 42405888,
+        "wset": 33292288,
+        "peak_paged_pool": 229776,
+        "paged_pool": 195208,
+        "peak_nonpaged_pool": 39096,
+        "nonpaged_pool": 14544,
+        "pagefile": 26107904,
+        "peak_pagefile": 35258368,
+        "private": 26107904
+      }
+    },
+    {
+      "pid": 27408,
+      "name": "python.exe",
+      "argv": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\run_f4_regression_06_01.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5r\\r03"
+      ],
+      "memory": {
+        "rss": 5414912,
+        "vms": 909312,
+        "num_page_faults": 1423,
+        "peak_wset": 5431296,
+        "wset": 5414912,
+        "peak_paged_pool": 117400,
+        "paged_pool": 109120,
+        "peak_nonpaged_pool": 30544,
+        "nonpaged_pool": 5720,
+        "pagefile": 909312,
+        "peak_pagefile": 1007616,
+        "private": 909312
+      }
+    },
+    {
+      "pid": 50292,
+      "name": "python.exe",
+      "argv": [
+        "C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\run_f4_regression_06_01.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5r\\r03"
+      ],
+      "memory": {
+        "rss": 43982848,
+        "vms": 35151872,
+        "num_page_faults": 599335,
+        "peak_wset": 296730624,
+        "wset": 43982848,
+        "peak_paged_pool": 189624,
+        "paged_pool": 156448,
+        "peak_nonpaged_pool": 56168,
+        "nonpaged_pool": 14272,
+        "pagefile": 35151872,
+        "peak_pagefile": 289398784,
+        "private": 35151872
+      }
+    },
+    {
+      "pid": 39252,
+      "name": "python.exe",
+      "argv": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_metadata_test.py",
+        "--boot",
+        "both",
+        "--ram",
+        "128",
+        "512",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5r\\r03\\a\\acceptance_20261025T041347Z_1ppn9xhr\\boot_metadata"
+      ],
+      "memory": {
+        "rss": 5410816,
+        "vms": 897024,
+        "num_page_faults": 1422,
+        "peak_wset": 5443584,
+        "wset": 5410816,
+        "peak_paged_pool": 96920,
+        "paged_pool": 88640,
+        "peak_nonpaged_pool": 30688,
+        "nonpaged_pool": 5720,
+        "pagefile": 897024,
+        "peak_pagefile": 995328,
+        "private": 897024
+      }
+    },
+    {
+      "pid": 57572,
+      "name": "python.exe",
+      "argv": [
+        "C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\boot_metadata_test.py",
+        "--boot",
+        "both",
+        "--ram",
+        "128",
+        "512",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5r\\r03\\a\\acceptance_20261025T041347Z_1ppn9xhr\\boot_metadata"
+      ],
+      "memory": {
+        "rss": 31997952,
+        "vms": 22724608,
+        "num_page_faults": 67190,
+        "peak_wset": 38629376,
+        "wset": 31997952,
+        "peak_paged_pool": 139024,
+        "paged_pool": 139024,
+        "peak_nonpaged_pool": 38992,
+        "nonpaged_pool": 13800,
+        "pagefile": 22724608,
+        "peak_pagefile": 29519872,
+        "private": 22724608
+      }
+    },
+    {
+      "pid": 56936,
+      "name": "qemu-system-i386.exe",
+      "argv": [
+        "C:\\Program Files\\qemu\\qemu-system-i386.exe",
+        "-kernel",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\boot_metadata_fufwp8db\\512_mmaptruncated\\fixture.elf",
+        "-machine",
+        "pc",
+        "-m",
+        "512",
+        "-display",
+        "none",
+        "-nic",
+        "none",
+        "-no-reboot",
+        "-monitor",
+        "none",
+        "-serial",
+        "file:C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5r\\r03\\a\\acceptance_20261025T041347Z_1ppn9xhr\\boot_metadata\\boot_metadata_z3jyzejm\\elf_512_mmaptruncated\\serial.txt",
+        "-qmp",
+        "tcp:127.0.0.1:46137,server=on,wait=off",
+        "-d",
+        "guest_errors",
+        "-D",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5r\\r03\\a\\acceptance_20261025T041347Z_1ppn9xhr\\boot_metadata\\boot_metadata_z3jyzejm\\elf_512_mmaptruncated\\qemu_log.txt",
+        "-drive",
+        "file=C:/Users/iamsv/Documents/Rust-OS/dist/boot_metadata_fufwp8db/512_mmaptruncated/owned.raw,format=raw,if=ide,index=0,cache=writeback"
+      ],
+      "memory": {
+        "rss": 129425408,
+        "vms": 1697259520,
+        "num_page_faults": 42005,
+        "peak_wset": 129425408,
+        "wset": 129425408,
+        "peak_paged_pool": 547368,
+        "paged_pool": 546376,
+        "peak_nonpaged_pool": 44552,
+        "nonpaged_pool": 40160,
+        "pagefile": 1697259520,
+        "peak_pagefile": 1701871616,
+        "private": 1697259520
+      }
+    }
+  ]
+}

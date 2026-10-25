@@ -1,0 +1,14 @@
+{
+  "schema": "rosti.f5-observed-canonical-completion.v1",
+  "session_id": "proc_3baf9028ef08",
+  "launcher_pid": 13144,
+  "actual_exit_code": 0,
+  "completion_reason": "exited",
+  "observed_via": "process_manage(action=wait), after OS process handle signaled",
+  "final_stdout": "PASS: 76/76 gates; C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\acceptance.json",
+  "acceptance_path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\acceptance.json",
+  "acceptance_sha256": "21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074",
+  "observed_utc": "2026-10-25T07:24:21.928652+00:00",
+  "launch_record": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\canonical_launch_10.json",
+  "launch_record_sha256": "880f9da659e103c0b6d175289be905d253b090d51ed56faa0a8386e7ecf86d7f"
+}

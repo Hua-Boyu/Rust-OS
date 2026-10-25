@@ -1,0 +1,161 @@
+{
+  "schema": "rosti.f1-historical-stage-inventory.v1",
+  "count": 19,
+  "all_original_creation_identities_preserved": true,
+  "traversal": "lstat of recorded directories only, no descendants/junction traversal",
+  "logical_size": "NOT_MEASURED",
+  "directories": [
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_0ii3igel",
+      "device": 1516109900,
+      "inode": 562949957963838,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_5z_b6qt9",
+      "device": 1516109900,
+      "inode": 844424934156290,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_7jlsq2_a",
+      "device": 1516109900,
+      "inode": 1125899911216488,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_8wa35yyl",
+      "device": 1516109900,
+      "inode": 68961369298002128,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_dhm_28tj",
+      "device": 1516109900,
+      "inode": 11258999069107505,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_dj2v09oc",
+      "device": 1516109900,
+      "inode": 108086391061474845,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_e_4yof4e",
+      "device": 1516109900,
+      "inode": 12103424002728331,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_i6hw5r6z",
+      "device": 1516109900,
+      "inode": 844424934746900,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_ppwaospg",
+      "device": 1516109900,
+      "inode": 562949957499242,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_q4wd8vbk",
+      "device": 1516109900,
+      "inode": 562949957143862,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_qovm7y3l",
+      "device": 1516109900,
+      "inode": 10414574141546897,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_qt61xuvk",
+      "device": 1516109900,
+      "inode": 562949957898631,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_r6cilwgm",
+      "device": 1516109900,
+      "inode": 47006321110916509,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_rnrr0obf",
+      "device": 1516109900,
+      "inode": 3377699723218456,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_vaye8vnn",
+      "device": 1516109900,
+      "inode": 562949957251453,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_x6pu20_y",
+      "device": 1516109900,
+      "inode": 141300438309485083,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_xs1015d5",
+      "device": 1516109900,
+      "inode": 562949957847335,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest_z8i763jt",
+      "device": 1516109900,
+      "inode": 1970324840945905,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    },
+    {
+      "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\dist\\phase11f1_guest__zeg0vwd",
+      "device": 1516109900,
+      "inode": 40250921673404075,
+      "reparse": false,
+      "symlink": false,
+      "logical_size": "NOT_MEASURED"
+    }
+  ]
+}

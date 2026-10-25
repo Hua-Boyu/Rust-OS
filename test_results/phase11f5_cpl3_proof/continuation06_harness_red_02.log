@@ -1,0 +1,23 @@
+test_exact_76_gate_contract (__main__.IntegrationTests.test_exact_76_gate_contract) ... FAIL
+test_existing_emitted_mapper_rejects_unapproved_alias (__main__.IntegrationTests.test_existing_emitted_mapper_rejects_unapproved_alias) ... FAIL
+
+======================================================================
+FAIL: test_exact_76_gate_contract (__main__.IntegrationTests.test_exact_76_gate_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\scripts\test_f5_cpl3_harness.py", line 21, in test_exact_76_gate_contract
+    self.assertEqual(actual, expected)
+AssertionError: Count[981 chars] 1, 'RostiFS formatting': 1, 'RostiFS host and[1939 chars]: 1}) != Count[981 chars] 1, 'Phase 11 F4 owned USER arena host contrac[2149 chars]: 1})
+
+======================================================================
+FAIL: test_existing_emitted_mapper_rejects_unapproved_alias (__main__.IntegrationTests.test_existing_emitted_mapper_rejects_unapproved_alias)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\scripts\test_f5_cpl3_harness.py", line 28, in test_existing_emitted_mapper_rejects_unapproved_alias
+    with self.assertRaises(RuntimeError, msg='f5_fatal is explicitly NOT an approved alias of f5_bridge'):
+AssertionError: RuntimeError not raised : f5_fatal is explicitly NOT an approved alias of f5_bridge
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.065s
+
+FAILED (failures=2)

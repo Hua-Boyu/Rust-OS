@@ -1,0 +1,41 @@
+{
+  "review_sha256": "398f3bbd0f61d4be256c0e8ac51ef25bcca012a73922b2eeb8d171d8207345a1",
+  "verdict": "DESIGN-STOP",
+  "scope": "Independent read-only F5 prerequisite blocker review; not full F5 design approval",
+  "blockers": [
+    "F5-GDT-001",
+    "F5-GDT-002",
+    "F5-GDT-003"
+  ],
+  "source_pins": [
+    {
+      "path": "src/gdt_tss.rs",
+      "matches": true
+    },
+    {
+      "path": "src/gdt.rs",
+      "matches": true
+    },
+    {
+      "path": "src/memory/privileged.rs",
+      "matches": true
+    },
+    {
+      "path": "src/f3_entry.s",
+      "matches": true
+    },
+    {
+      "path": "src/interrupt.rs",
+      "matches": true
+    },
+    {
+      "path": "src/memory/retained_owner.rs",
+      "matches": true
+    },
+    {
+      "path": "src/phase11_gdt_tests.rs",
+      "matches": true
+    }
+  ],
+  "all_pins_match": true
+}

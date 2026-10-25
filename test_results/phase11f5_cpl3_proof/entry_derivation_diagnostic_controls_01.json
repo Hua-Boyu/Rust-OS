@@ -1,0 +1,68 @@
+{
+  "schema": "rosti.f5-entry-amendment-diagnostic-controls.v1",
+  "scope": "IN_MEMORY_DESIGN_FEASIBILITY_ONLY_NOT_HARNESS_GREEN_NOT_IMPLEMENTATION",
+  "proposal_sha256": "9071c193419cd08f225f663bfeadebf10cefcd5b344ce2f2fae1b30a563c69c2",
+  "accepted_raw_F2_sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+  "F5_raw_sha256": "c2bc0ff1248fdbf64a17fe0e7a26064a54279a2fad6fb99eda150fee7d95f5d1",
+  "closed_mapping_baseline_matches": true,
+  "comment_only_difference_admitted": true,
+  "live_raw_F2_refused": true,
+  "mutation_cases": [
+    {
+      "case": "opcode",
+      "mutation_changed_bytes": true,
+      "rejected": true
+    },
+    {
+      "case": "immediate",
+      "mutation_changed_bytes": true,
+      "rejected": true
+    },
+    {
+      "case": "error_class",
+      "mutation_changed_bytes": true,
+      "rejected": true
+    },
+    {
+      "case": "abi",
+      "mutation_changed_bytes": true,
+      "rejected": true
+    },
+    {
+      "case": "bridge_alias",
+      "mutation_changed_bytes": true,
+      "rejected": true
+    },
+    {
+      "case": "vector_table_duplicate",
+      "mutation_changed_bytes": true,
+      "rejected": true
+    },
+    {
+      "case": "insert_instruction",
+      "mutation_changed_bytes": true,
+      "rejected": true
+    },
+    {
+      "case": "delete_instruction",
+      "mutation_changed_bytes": true,
+      "rejected": true
+    },
+    {
+      "case": "short_prefix",
+      "mutation_changed_bytes": true,
+      "rejected": true
+    },
+    {
+      "case": "raw_F2_CRLF",
+      "mutation_changed_bytes": true,
+      "rejected": true
+    }
+  ],
+  "all_diagnostic_controls_expected": true,
+  "limitations": [
+    "Not an implemented validator or actual canonical gate. No source/build/harness input mutated.",
+    "No claim of complete required future negative controls, lexer hardening, emitted or hardware equivalence.",
+    "Nonbijective terminal target semantics require independent exact-ELF proof, not this lexical check."
+  ]
+}

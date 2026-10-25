@@ -1,3 +1,27 @@
+## Current — Phase11 F5 canonical PASS76 + final APPROVE; local closeout pending
+
+F5 remains PARTIAL until reports/evidence commit verification; source commit
+`14f40f194c574610cdceef41e972ff814f9e815a` is verified (55 exact raw blobs).
+Candidate02 APPROVE/0/complete; independent final01 APPROVE/0/all20areas
+raw `543db6fabab5eff983bf3711db56c0cb20d894cc50bb92bb2616f2a401e5ebe0`.
+Canonical actual exit0, exact72 inherited +4 F5 identities; acceptance
+`test_results/f5acc/r01/acceptance_20261025T060216Z_7g_gea5o/acceptance.json`
+raw `21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074`.
+F1 producer owns/verifies/removes only its current invocation stage; unchanged
+real F1 reader accepts fresh ten-case aggregate. Historical19stages untouched.
+Freeze10=262rawpins/234canonical; host392/0/2ignored/list394, B26149,
+F1–F5hardware10/8/18/12/12, fresh adapted predecessor72/72/first48,
+full95mock under scoped1049seconds. Source/ELF/ISO identities and limitations
+are in `test_results/phase11f5_cpl3_proof/FINAL_REPORT.md` and evidence_manifest.json.
+No NX/W^X/general hostile-user isolation, resumable tasks, scheduler/syscalls,
+teardown/recovery, deployment or real-hardware claim. F3 emergency-stack bound
+remains conditional; F5 conservative219<=512 is static, not runtime high-water.
+Historical F1 final-readback gap and original REJECTs remain disclosed.
+Phase12 design-only authority activates only after final independent approval,
+complete reports and scoped local commits; no production implementation.
+
+## Preserved prior checkpoint
+
 ## Current — Phase11 F4 owned USER arena ACCEPTED
 
 F4 is accepted: one canonical PASS72/72, actual exit0, exact70 preserved F3 gates

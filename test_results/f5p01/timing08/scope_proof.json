@@ -1,0 +1,10 @@
+{
+  "only_canonical_change": "one mock timeout literal900->1009",
+  "canonical_before": "8e6cdcc1d3a60d6645078a51d75e4ee38fcf75bc22dfeac24749d927466e97ee",
+  "canonical_after": "b82b6c2712105a454ec406ec1f11ee58c9b75021f410f4d606b1b3555e6c1d42",
+  "only_control_change": "one matching expected literal900->1009",
+  "control_before": "620d85bab4dfd5bc4cca51d9fda9aab847ad0d57fdf33d3a53cc3a919e9722f8",
+  "control_after": "36c97d82a4be24583ffe9b0bc2576a6bd24472e991cd356ad085f3ec7b2b89cc",
+  "mock_baseline": "f6274eac8eb8ef3075597ed3d946df5a41f19fed14b0e616efe6038404288d2f",
+  "all_other_gate_semantics_and_timeouts_raw_preserved": true
+}

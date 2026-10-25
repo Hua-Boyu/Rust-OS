@@ -1,0 +1,83 @@
+{
+  "schema": "rosti.f5-continuation04-stability.v1",
+  "scope": "RECOVERY_AND_REVIEW_ONLY_NOT_FINAL_CANDIDATE_FREEZE",
+  "source_before_count": 196,
+  "source_after_count": 196,
+  "exact_membership_and_raw_hashes_stable": true,
+  "drift": {},
+  "git": {
+    "head": {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "exit_code": 0,
+      "stdout": "c8b73654dd5f7f64c3c7872254b2b730ad2151f4\n",
+      "stderr": ""
+    },
+    "branch": {
+      "argv": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "exit_code": 0,
+      "stdout": "maintenance/phase10\n",
+      "stderr": ""
+    },
+    "status": {
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "exit_code": 0,
+      "stdout": " M .gitignore\n M README.md\n M src/gdt_tss.rs\n M src/main.rs\n M src/memory/paging.rs\n M src/memory/retained_owner.rs\n M src/memory/user_arena.rs\n M test_results/phase11f4_user_arena/FINAL_REPORT.md\n M tests_kernel/src/lib.rs\n?? d1/\n?? docs/ROSTI_INIT_ARCHITECTURE.md\n?? reviews/\n?? scripts/b13_boot_fixture.py.backup\n?? src/f5_bridge.s\n?? src/f5_contract.rs\n?? src/f5_cpl3.rs\n?? src/f5_exception_entry.s\n?? src/f5_gdt.rs\n?? src/f5_runtime.rs\n?? src/memory/f5_cpl3_owner_tests.rs\n?? src/memory/f5_page_observation.rs\n?? tests_kernel/src/f5_cpl3_tests.rs\n",
+      "stderr": ""
+    },
+    "staged": {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-only"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "diff_check": {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/gdt_tss.rs', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/main.rs', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/memory/paging.rs', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/memory/retained_owner.rs', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/memory/user_arena.rs', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'test_results/phase11f4_user_arena/FINAL_REPORT.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'tests_kernel/src/lib.rs', LF will be replaced by CRLF the next time Git touches it\n"
+    },
+    "ancestry": {
+      "argv": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "c1b28b2",
+        "HEAD"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "production_or_harness_edits_this_continuation": false,
+  "builds_or_guests_run": false,
+  "canonical_run": false,
+  "committed": false
+}

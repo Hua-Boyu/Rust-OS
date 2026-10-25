@@ -1,0 +1,20 @@
+{
+  "schema": "rosti.f5-parent-artifact-readback.v1",
+  "overall": "PASS",
+  "acceptance_path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\acceptance.json",
+  "acceptance_sha256": "21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074",
+  "distinct_validated_pins": 68013,
+  "all_raw_hashes_match": true,
+  "no_pinned_symlink_or_reparse": true,
+  "source_after_equals_before": true,
+  "artifact_index_fields": [
+    "f2_evidence_sha256",
+    "f3_evidence_sha256",
+    "f4_evidence_sha256",
+    "f5_production_audit_sha256",
+    "f5_evidence_sha256",
+    "f5_f1_preservation_sha256",
+    "f5_runtime_sha256"
+  ],
+  "index_note": "Full exact absolute-path/rawSHA maps in byte-pinned acceptance.json; no circular self hash."
+}

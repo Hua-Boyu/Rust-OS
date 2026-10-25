@@ -1,0 +1,14 @@
+test_driver_exposes_fail_closed_real_readback (__main__.ParentIntegration.test_driver_exposes_fail_closed_real_readback) ... FAIL
+
+======================================================================
+FAIL: test_driver_exposes_fail_closed_real_readback (__main__.ParentIntegration.test_driver_exposes_fail_closed_real_readback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\iamsv\Documents\Rust-OS\test_results\phase11f5_cpl3_proof\test_parent_readback_10.py", line 15, in test_driver_exposes_fail_closed_real_readback
+    self.assertTrue(callable(getattr(driver, 'parent_readback', None)),
+AssertionError: False is not true : component stream must expose mandatory real F1-F5 readback
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

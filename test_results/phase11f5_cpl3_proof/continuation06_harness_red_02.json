@@ -1,0 +1,15 @@
+{
+  "name": "continuation06_harness_red_02",
+  "command": [
+    "C:/Users/iamsv/AppData/Local/hermes/hermes-agent/venv/Scripts/python.exe",
+    "-B",
+    "scripts/test_f5_cpl3_harness.py"
+  ],
+  "cwd": "C:/Users/iamsv/Documents/Rust-OS",
+  "started_utc": "2026-10-24T04:53:12.902837+00:00",
+  "status": "EXPECTED",
+  "exit_code": 1,
+  "ended_utc": "2026-10-24T04:53:13.228268+00:00",
+  "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\continuation06_harness_red_02.log",
+  "totals": []
+}

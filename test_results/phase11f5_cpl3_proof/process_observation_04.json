@@ -1,0 +1,141 @@
+{
+  "schema": "rosti.f5-process-observation.v1",
+  "utc": "2026-10-24T03:34:02.252946+00:00",
+  "command": "powershell.exe -NoProfile -Command 'Get-CimInstance Win32_Process | Where-Object { $_.Name -match \"cargo|rustc|link|qemu|python|clang|lld\" } | Select-Object ProcessId,ParentProcessId,Name,CommandLine | ConvertTo-Json -Depth 3'",
+  "cwd": "C:/Users/iamsv/Documents/Rust-OS",
+  "exit_code": 0,
+  "elapsed_seconds": 2.219000000040978,
+  "managed_list_observed_empty": true,
+  "native_processes": [
+    {
+      "ProcessId": 27940,
+      "ParentProcessId": 34636,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe\" -m hermes_cli.main gateway run",
+      "ownership": "INFRASTRUCTURE",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 25460,
+      "ParentProcessId": 27940,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  -m hermes_cli.main gateway run",
+      "ownership": "INFRASTRUCTURE",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 29116,
+      "ParentProcessId": 29156,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe\" \"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\bin\\hermes.exe\" dashboard --host 127.0.0.1 --port 9119 --no-open",
+      "ownership": "INFRASTRUCTURE",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 37116,
+      "ParentProcessId": 29116,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  \"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\bin\\hermes.exe\" dashboard --host 127.0.0.1 --port 9119 --no-open",
+      "ownership": "INFRASTRUCTURE",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 47852,
+      "ParentProcessId": 25460,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_rj2ij8_e\\hermes_kernel_runner.py",
+      "ownership": "UNKNOWN",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 45808,
+      "ParentProcessId": 47852,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_rj2ij8_e\\hermes_kernel_runner.py",
+      "ownership": "UNKNOWN",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 47440,
+      "ParentProcessId": 39572,
+      "Name": "python.exe",
+      "CommandLine": "\"D:\\Strata\\.venv\\Scripts\\python.exe\" .\\serve\\server.py --engine strata --config .\\strata-coder-iq1_m.json --port 8080 --open --api-monitor",
+      "ownership": "UNKNOWN",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 50212,
+      "ParentProcessId": 47440,
+      "Name": "python.exe",
+      "CommandLine": "\"D:\\Strata\\.venv\\Scripts\\python.exe\" .\\serve\\server.py --engine strata --config .\\strata-coder-iq1_m.json --port 8080 --open --api-monitor",
+      "ownership": "UNKNOWN",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 59856,
+      "ParentProcessId": 51196,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -m hermes_cli.main serve --host 127.0.0.1 --port 0",
+      "ownership": "INFRASTRUCTURE",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 57004,
+      "ParentProcessId": 59856,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  -m hermes_cli.main serve --host 127.0.0.1 --port 0",
+      "ownership": "INFRASTRUCTURE",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 59656,
+      "ParentProcessId": 59188,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe hub.py",
+      "ownership": "UNKNOWN",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 36576,
+      "ParentProcessId": 59656,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  hub.py",
+      "ownership": "UNKNOWN",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 23536,
+      "ParentProcessId": 57004,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_7znxbicb\\hermes_kernel_runner.py",
+      "ownership": "UNKNOWN",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 61704,
+      "ParentProcessId": 23536,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_7znxbicb\\hermes_kernel_runner.py",
+      "ownership": "UNKNOWN",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 43960,
+      "ParentProcessId": 57004,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_mp086pi8\\hermes_kernel_runner.py",
+      "ownership": "UNKNOWN",
+      "conflicting_output_writer_established": false
+    },
+    {
+      "ProcessId": 63072,
+      "ParentProcessId": 43960,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_mp086pi8\\hermes_kernel_runner.py",
+      "ownership": "UNKNOWN",
+      "conflicting_output_writer_established": false
+    }
+  ],
+  "active_cargo_rustc_link_qemu": [],
+  "limitations": "No detected shared-output builder, not proof of exclusive source ownership. Unattributed Python runners remain UNKNOWN; no foreign kills or lock deletion. Independent read-only review is current task-owned delegate sa-0-73368eb4, not a build."
+}

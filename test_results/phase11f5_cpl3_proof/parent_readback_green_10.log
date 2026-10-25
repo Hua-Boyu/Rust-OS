@@ -1,0 +1,12 @@
+test_all_actual_interfaces_receive_exact_paths_and_source (__main__.ParentIntegration.test_all_actual_interfaces_receive_exact_paths_and_source) ... ok
+test_each_reader_refusal_propagates (__main__.ParentIntegration.test_each_reader_refusal_propagates) ... ok
+test_incomplete_matrix_refused (__main__.ParentIntegration.test_incomplete_matrix_refused) ... ok
+test_missing_and_ambiguous_f1_aggregate_refused (__main__.ParentIntegration.test_missing_and_ambiguous_f1_aggregate_refused) ... ok
+test_production_elf_substitution_refused (__main__.ParentIntegration.test_production_elf_substitution_refused) ... ok
+test_snapshot_not_bound_to_freeze_refused (__main__.ParentIntegration.test_snapshot_not_bound_to_freeze_refused) ... ok
+test_validated_pin_drift_refused (__main__.ParentIntegration.test_validated_pin_drift_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.211s
+
+OK

@@ -1,0 +1,82 @@
+{
+  "schema": "rosti.f5-closeout-authoring-diagnostics.v1",
+  "failures": [
+    {
+      "command": "execute_code cell8: set(rec[\"historical_stages\"])",
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "actual_exit": 1,
+      "wall_seconds": 3.28,
+      "error": "TypeError: unhashable type: dict",
+      "classification": "parent inventory convenience-reader schema error, not source/hardware/cleanup failure",
+      "resolution": "Inspected exact list-of-records schema; independently checked each historical path device/inode and exact count19. No deletion or artifact rewrite."
+    },
+    {
+      "command": "execute_code cell51: new_manifest artifacts indexed as mapping",
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "actual_exit": 1,
+      "wall_seconds": 2.36,
+      "error": "TypeError: artifacts generator returns list, not dict",
+      "classification": "INTERNAL_CLOSEOUT_AUTHORING_SCHEMA_ERROR",
+      "source_or_validator_failure": false,
+      "write_attempted": false
+    },
+    {
+      "command": "cell54 counts[\"f5_cpl3\"]",
+      "actual_exit": 1,
+      "wall_seconds": 0.06,
+      "error": "KeyError: actual key f5_cpl3_scenarios; no write or verification conclusion"
+    },
+    {
+      "command": "cell56 predstep[\"elapsed_seconds\"]",
+      "actual_exit": 1,
+      "wall_seconds": 3.08,
+      "error": "KeyError: actual field wall_seconds; only raw diagnostic snapshot written, no STATE patch"
+    },
+    {
+      "command": "cell57 next name full_mocks",
+      "actual_exit": 1,
+      "wall_seconds": 0.0,
+      "error": "StopIteration: discover actual mock step name; no file write"
+    },
+    {
+      "command": "parent pre-staging documentation hash audit",
+      "actual_exit": 0,
+      "classification": "UNCOMMITTED_STATE_TRANSCRIPTION_DEFECT_CORRECTED",
+      "source_or_validator_failure": false,
+      "immutable_inputs_unchanged": true,
+      "corrections": [
+        {
+          "role": "current ELF",
+          "wrong_uncommitted_transcription": "981f373a7a2b94c654178fe2c543cc71bcc68c532886e50263f36a6c68c4cd14",
+          "actual_raw_sha256": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4"
+        },
+        {
+          "role": "canonical ISO",
+          "wrong_uncommitted_transcription": "6bac3c17c09aa7f2092d83b3f319b252808c45eda2c4da5d03f9a46146484f02",
+          "actual_raw_sha256": "5a671de6494ee541dcbfda9bf57adcd4754c45b395d01c7b7d8767bcf82de6fb"
+        },
+        {
+          "role": "canonical acceptance",
+          "wrong_uncommitted_transcription": "212691883f476d41a78d8a2a60d830f971d22f6da2d061ae4f6ecbf8f6eef846",
+          "actual_raw_sha256": "21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074"
+        }
+      ],
+      "original_text_snapshot": "test_results/phase11f5_cpl3_proof/STATE_authoring_transcription_snapshot_10.md",
+      "snapshot_sha256": "9d9fcde5913821d259283e1fbb8b6d6b9400a45af5ccd76eb0bcfcb652f9cc19",
+      "actual_artifacts_crosschecked_against_completion_final_review_and_ISO_readback": true
+    },
+    {
+      "command": "actual95-test-log timing vs live checkpoint audit",
+      "actual_exit": 0,
+      "classification": "UNCOMMITTED_STATE_TIMING_TRANSCRIPTION_CORRECTED",
+      "wrong_checkpoint_v10_suite_seconds": "811.01",
+      "actual_v10_unittest_seconds": "810.776",
+      "actual_v10_parent_wall_seconds": 811.0779999999795,
+      "actual_canonical_unittest_seconds": "818.243",
+      "actual_v10_log_sha256": "fe4b3923755c4c66302a9d28ea614eaa7b322bdead08793d9b277af29da8bcd7",
+      "source_or_validator_failure": false
+    }
+  ],
+  "not_logical_kernel_red": true,
+  "no_source_changed": true
+}

@@ -1,0 +1,2430 @@
+{
+  "schema": "rosti.f5-complete-design-review.v1",
+  "review_id": "design_review_03",
+  "verdict": "APPROVE",
+  "complete_scope": true,
+  "design_complete": true,
+  "implementation_authorized": true,
+  "reviewer": {
+    "role": "fresh independent delegated design reviewer",
+    "model": "gpt-6.1-sol",
+    "provider": "openai-codex",
+    "execution_context": "sa-0-f6844592",
+    "delegation_id": "deleg_cc26d882",
+    "independence": "Independent raw hashing, source inspection and derivation; parent and predecessor conclusions are not approval evidence.",
+    "authority": "Only this review JSON may be written; no build, guest, source or skill modification.",
+    "provenance_source": "Exact live identifiers supplied in authenticated mid-turn dispatch message; not discovered or inferred by reviewer tools."
+  },
+  "utc": "2026-10-23T09:58:45.015695+00:00",
+  "head": "c8b73654dd5f7f64c3c7872254b2b730ad2151f4",
+  "design_raw_sha256": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c",
+  "approved_design_raw_sha256": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c",
+  "source_hashes": {
+    "src/gdt_tss.rs": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+    "src/memory/privileged.rs": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+    "src/interrupt.rs": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+    "src/exception_entry.s": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+    "src/exception_abi.rs": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+    "src/memory/user_arena.rs": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+    "src/memory/retained_owner.rs": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+    "src/f3_entry.s": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+    "linker.ld": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+    "scripts/f1_evidence.py": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+    "scripts/f2_evidence.py": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+    "scripts/f2_exception_guest.py": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+    "scripts/f3_full_evidence.py": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+    "scripts/f4_evidence.py": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+    "scripts/f4_ready_guest.py": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+    "scripts/f4_arena_guest.py": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+    "scripts/phase6_verify.py": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+    "scripts/test_acceptance_harness.py": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+    "test_results/phase11f4_user_arena/correction_cycle_01.py": "2f94466631e1a0ad3cab4d98a7abbed3e0784ecd01d1e5873d1196526228fe6a",
+    "test_results/phase11f4_user_arena/terminal_contract_02.py": "81c95081bd1df76df0b5847f24bbc95bf7ea430bcddf3e3f56399dc432c8c20c",
+    "test_results/phase11f5_cpl3_proof/authorization_01.md": "fc88c9d39a131f64af8837be32ae7b30a997d0e4f6e1501fcd7348ee55eec0ac",
+    "test_results/phase11f5_cpl3_proof/reviews/prerequisite_review_01.json": "398f3bbd0f61d4be256c0e8ac51ef25bcca012a73922b2eeb8d171d8207345a1",
+    "test_results/phase11f5_cpl3_proof/recovery_snapshot_01.json": "516cfa04642d4f43db7e60f1bd836603195d245861d5f5749b0eb606c2751313",
+    ".cargo/config.toml": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+    ".gitattributes": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218",
+    "Cargo.lock": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+    "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+    "crates/rostifs/Cargo.lock": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb",
+    "crates/rostifs/Cargo.toml": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920",
+    "crates/rostifs/src/additional_tests.rs": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df",
+    "crates/rostifs/src/bin/mkrostifs.rs": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252",
+    "crates/rostifs/src/bin/rostifs-inspect.rs": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c",
+    "crates/rostifs/src/bin/rostifsck.rs": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36",
+    "crates/rostifs/src/bin/support/mod.rs": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041",
+    "crates/rostifs/src/block.rs": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06",
+    "crates/rostifs/src/checksum.rs": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e",
+    "crates/rostifs/src/crash_tests.rs": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9",
+    "crates/rostifs/src/engine.rs": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a",
+    "crates/rostifs/src/format.rs": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700",
+    "crates/rostifs/src/lib.rs": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31",
+    "crates/rostifs/src/occupancy_tests.rs": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42",
+    "crates/rostifs/src/vfs.rs": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713",
+    "crates/rostifs/tests/host_tools.rs": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b",
+    "crates/rostifs/tests/read_performance.rs": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29",
+    "crates/rostifs/tests/write_preservation.rs": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9",
+    "rust-toolchain.toml": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95",
+    "scripts/b13_boot_fixture.py": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef",
+    "scripts/b13_entry_inject.py": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+    "scripts/b13_fixture/Cargo.lock": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+    "scripts/b13_fixture/Cargo.toml": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+    "scripts/b13_fixture/linker.ld": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+    "scripts/b13_fixture/main.rs": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a",
+    "scripts/b13_grub_smoke.py": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+    "scripts/b13_stress_replay.py": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e",
+    "scripts/backspace_test.py": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+    "scripts/block_test.py": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+    "scripts/boot_metadata_test.py": "02ac3da0b606504d1f141ad5762adcf12ec581e11b1d102f79b7c95e19924e3f",
+    "scripts/boot_test.py": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+    "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+    "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+    "scripts/deploy-proxmox.py": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+    "scripts/f1_capture.py": "69fbf12be0c4a6472bd7cabb475ed2f46f55182a71b3d14edb12e7207ba08bed",
+    "scripts/f1_guest_fixture.rs": "5d1bcea94ebf55fc1cf7f4937274a1598835689cbd625c0b45980ec7bb92b390",
+    "scripts/f1_retained_guest.py": "0bf5a38f13f1984761a1b80b3f73632b6eb381bf67121e2fb2fe7d9d327eca08",
+    "scripts/f3_evidence.py": "1f61c70d714f121e03a0526c7997d6d1f07f6ccab24ca1e8a29d87335b841ff4",
+    "scripts/f3_full_guest.py": "e06eb05e69d782b14bcdf884d66f824e9fda32fc03b844ab989a55c2793e6374",
+    "scripts/f3_gdt_guest.py": "0dd26fd92007686274d791de9878efbdaf121057cfa15b4209a529fe42fe283e",
+    "scripts/f3_supplemental.py": "c00f9f875f8c3946089f3418c57c36cf84477ac403060b5f6b2395f69c3ce5b5",
+    "scripts/f3_supplemental_evidence.py": "35abc89301f7603f53517a9654fe2eb930d00f9d927f0ff1e8fca255d1dff283",
+    "scripts/f4_dwarf.py": "69f975db576cc6e7d807586671801809d797f258a5542abc5ff6f7fd34909e2f",
+    "scripts/f4_user_guest.py": "e5cdc25555a0da366f3dd45508fff4770d9311f2abaf85eb2e5c1c5ade57b473",
+    "scripts/fs_test.py": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+    "scripts/keyboard_test.py": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+    "scripts/live_phase5_check.py": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+    "scripts/mem_probe.py": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+    "scripts/numeric_map_api_probe.rs": "4dffd562babfdd6c2b1e68626b68081dc934b0a984cb6eeb37900aa043bba929",
+    "scripts/paging_test.py": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+    "scripts/phase10_grub_module_probe.py": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b",
+    "scripts/phase10_initramfs_test.py": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+    "scripts/phase10_module_probe.py": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800",
+    "scripts/phase10_repro_one.py": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d",
+    "scripts/phase9_5_bench.py": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4",
+    "scripts/qemu_boot_test.sh": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699",
+    "scripts/rostifs_test.py": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+    "scripts/run_tests.sh": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8",
+    "scripts/sendkey_probe.py": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+    "scripts/stability_probe.sh": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8",
+    "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+    "scripts/test_b13_boot.py": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+    "scripts/test_b13_entry_inject.py": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2",
+    "scripts/test_boot_metadata_harness.py": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267",
+    "scripts/test_build_initramfs.py": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b",
+    "scripts/test_f1_capture.py": "691a91c475d30c8e5273d978363fda9f0cd8d719c23a224663b6af5c535251aa",
+    "scripts/test_f2_evidence.py": "ba2b68a8d0493b1bb9cc8a644cdf097086aa036a860d7f02b6464f2165f8137b",
+    "scripts/test_f3_evidence.py": "fc068fb808621a81f289e9bcbba4908b614406ba65fe29fd74e36ea337d9e4b9",
+    "scripts/test_f3_full_evidence.py": "8021752e7c37f70a324fe94c8964b48820658600eb303704c7ee640169ac6718",
+    "scripts/test_f3_supplemental.py": "78e5643fac502109091f28ce404d91deffbc53670986265d99017086bf442508",
+    "scripts/test_fs_harness.py": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+    "scripts/test_phase10_initramfs_harness.py": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+    "scripts/test_phase9_5_bench.py": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476",
+    "scripts/test_production_fixture_policy.py": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+    "scripts/test_rostifs_harness.py": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac",
+    "scripts/test_system_image_policy.py": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d",
+    "scripts/unmap_api_probe.rs": "66a64d2f4435fc2db8618ba30618823098547613fc79c33c85652e080f032669",
+    "scripts/validate_elf.py": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+    "scripts/verify_production.py": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+    "scripts/verify_proxmox_backspace.py": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+    "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+    "src/block.rs": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+    "src/boot.s": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+    "src/boot_inventory.rs": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+    "src/cpu.rs": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+    "src/exception_abi_tests.rs": "b8fb3beee2535bf37354c0d5232310b58bc4e929284678df17a2de0a415352f7",
+    "src/exception_fatal.rs": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d",
+    "src/fd.rs": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+    "src/fs/archive.rs": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+    "src/fs/mod.rs": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+    "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+    "src/fs/rosti.rs": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+    "src/fs/vfs.rs": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+    "src/fs_commands.rs": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+    "src/fs_stress.rs": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+    "src/gdt.rs": "02c845d9cd9c579e7f5461f365318a2ad6a88faf9567d9c9ca25b47485267599",
+    "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+    "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+    "src/io/mod.rs": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+    "src/io/ports.rs": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+    "src/io/serial.rs": "cfe78862ad6c368e5c0d124d9fa2655fd5f953ab223bf81adad8de89f0d3161d",
+    "src/io/vga.rs": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+    "src/kbd.rs": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+    "src/main.rs": "3c36ce028b694c8bf31291480d078e8db6f4c9b9741ea813df03dcef338041ec",
+    "src/memory/boot_copy.rs": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+    "src/memory/f4_b26_tests.rs": "2b527dd7764dc709914959b2cd06c7127402cde554078f987eca1aeb8cac72fc",
+    "src/memory/f4_user_arena_tests.rs": "4fe8da1bb4ac93e4884b8d270fce08e34de15bee1d1d4e595778e260a5c80509",
+    "src/memory/frame.rs": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+    "src/memory/generation_boundary_tests.rs": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+    "src/memory/generation_ownership_tests.rs": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+    "src/memory/mapping_pin_tests.rs": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816",
+    "src/memory/mod.rs": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+    "src/memory/module_access_tests.rs": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+    "src/memory/numeric_map_authority_tests.rs": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475",
+    "src/memory/ownership_observation_tests.rs": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+    "src/memory/paging.rs": "749c0aaa4752da2d991014fdc0464826d6d53dc2c97c166a3ca76f165685cbd9",
+    "src/memory/phase11_permission_tests.rs": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+    "src/memory/phase11a2_abi_tests.rs": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+    "src/memory/phase11a2_ownership_tests.rs": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+    "src/memory/privileged_owner_tests.rs": "c13ff318dfcc0ec7c80e5b2e4395784a39c9b1e27f2977855b9d35752541c047",
+    "src/memory/privileged_tests.rs": "eb18b51752e82da382e9dc65941786e96943e642849f61055b859c9035ad7b17",
+    "src/memory/retained_owner_policy_tests.rs": "e8b9d2a03d0a90f73d54322c6cbfd80e2ff93aabb8d6bf914598b2656976387d",
+    "src/memory/retained_owner_tests.rs": "5729867aa1d2e86776a70edb028a10a93de70e43036355f219ef218f8cdbc76b",
+    "src/memory/review_r1_tests.rs": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+    "src/memory/runtime_table_access_tests.rs": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+    "src/memory/structure_lifetime_tests.rs": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+    "src/memory/unmap_authority_tests.rs": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76",
+    "src/memory/virtual_page_zero_tests.rs": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d",
+    "src/multiboot.rs": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+    "src/phase11_gdt_tests.rs": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+    "src/reboot.rs": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+    "src/shell.rs": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+    "src/storage.rs": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+    "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+    "src/timer.rs": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+    "src/utils/bits.rs": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+    "src/utils/mod.rs": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+    "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+    "system/docs/recovery.txt": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+    "system/README.txt": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+    "target.json": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+    "tests_b26/Cargo.lock": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e",
+    "tests_b26/Cargo.toml": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3",
+    "tests_b26/src/growth_tests.rs": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16",
+    "tests_b26/src/lib.rs": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+    "tests_b26/src/refusal_tests.rs": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706",
+    "tests_b26/src/registry_tests.rs": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111",
+    "tests_b26/src/retry_tests.rs": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+    "tests_b26/src/validation_allocation_tests.rs": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70",
+    "tests_b26/src/validation_tests.rs": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+    "tests_kernel/.cargo/config.toml": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53",
+    "tests_kernel/Cargo.lock": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+    "tests_kernel/Cargo.toml": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+    "tests_kernel/src/archive_vfs_tests.rs": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+    "tests_kernel/src/b11_frame_tests.rs": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+    "tests_kernel/src/b11_standalone.rs": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+    "tests_kernel/src/b18_inventory_tests.rs": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b",
+    "tests_kernel/src/b18_outcome_tests.rs": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0",
+    "tests_kernel/src/block_tests.rs": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430",
+    "tests_kernel/src/fs_tests.rs": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+    "tests_kernel/src/initramfs_tests.rs": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+    "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+    "tests_kernel/src/lib.rs": "17838391617df1833149e84631b33feff6077f7a52696111a375db7eea94a34c",
+    "tests_kernel/src/maintenance_measurements.rs": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f",
+    "tests_kernel/src/mount_tests.rs": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd",
+    "test_results/phase11f5_cpl3_proof/design_proposal_01.md": "6d4eabbbe45349804a994d24016e81fe31ba4e3d6d0a20956ddca5cc9d6346bf",
+    "test_results/phase11f5_cpl3_proof/design_proposal_02.md": "44325607eb36e0a16a3692c212509acdfe3c8303999a2297a60ed82d772597a9",
+    "test_results/phase11f5_cpl3_proof/reviews/design_review_01.json": "d9d8c719492656d41a73867e0f24806288d76124b051db1408bb4fa638f52161",
+    "test_results/phase11f5_cpl3_proof/reviews/design_review_02.json": "43cf36aeced0f76d91055b3cd2f18de3810b7b804b67b0d8890adf0605d000bc",
+    "test_results/phase11f5_cpl3_proof/design_review_02_readback_01.json": "d2bfe92d7de8d273e05864ba8e74abd62554236c99fca0fc78c895cf5c366308",
+    "test_results/phase11f5_cpl3_proof/continuation_verification_03.json": "899004fee7fdcdf2ac7a8655b1923861ed71d302d5ab53f718e87949d04cd5a7",
+    "test_results/phase11f5_cpl3_proof/continuation_verification_04.json": "7a1e682432658f255e2f3691f7229caa181a314bdbef5656ad322ae15cc95117",
+    "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json": "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4",
+    "test_results/phase11f4_user_arena/correction_green_02/closure.json": "23e2e213eac242a5b8f113755e045ba8e3639df73ab426d3fc2c539355ed6517",
+    "test_results/phase11f5_cpl3_proof/design.md": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c",
+    "test_results/phase11f4_user_arena/correction_green_02/kernel.elf": "db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892",
+    "test_results/phase11f4_user_arena/correction_green_02/disassembly.txt": "43c8300b34ea48dc9ef5fad0a6717e6433d582e7661a3a983757b1f309680e94"
+  },
+  "manifest_verification": {
+    "path": "test_results/phase11f5_cpl3_proof/design_inputs_03.json",
+    "raw_sha256": "adea88bcf78b78ebe182c79c82563d88707de3075435c24a675e1ab22f69d42f",
+    "checks": {
+      "source_authority_sha256": {
+        "src/gdt_tss.rs": {
+          "expected": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+          "actual": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+          "match": true
+        },
+        "src/memory/privileged.rs": {
+          "expected": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+          "actual": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+          "match": true
+        },
+        "src/interrupt.rs": {
+          "expected": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+          "actual": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+          "match": true
+        },
+        "src/exception_entry.s": {
+          "expected": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+          "actual": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+          "match": true
+        },
+        "src/exception_abi.rs": {
+          "expected": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+          "actual": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+          "match": true
+        },
+        "src/memory/user_arena.rs": {
+          "expected": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+          "actual": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+          "match": true
+        },
+        "src/memory/retained_owner.rs": {
+          "expected": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+          "actual": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+          "match": true
+        },
+        "src/f3_entry.s": {
+          "expected": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+          "actual": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+          "match": true
+        },
+        "linker.ld": {
+          "expected": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+          "actual": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+          "match": true
+        },
+        "scripts/f1_evidence.py": {
+          "expected": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+          "actual": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+          "match": true
+        },
+        "scripts/f2_evidence.py": {
+          "expected": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+          "actual": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+          "match": true
+        },
+        "scripts/f2_exception_guest.py": {
+          "expected": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+          "actual": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+          "match": true
+        },
+        "scripts/f3_full_evidence.py": {
+          "expected": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+          "actual": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+          "match": true
+        },
+        "scripts/f4_evidence.py": {
+          "expected": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+          "actual": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+          "match": true
+        },
+        "scripts/f4_ready_guest.py": {
+          "expected": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+          "actual": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+          "match": true
+        },
+        "scripts/f4_arena_guest.py": {
+          "expected": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+          "actual": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+          "match": true
+        },
+        "scripts/phase6_verify.py": {
+          "expected": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+          "actual": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+          "match": true
+        },
+        "scripts/test_acceptance_harness.py": {
+          "expected": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+          "actual": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+          "match": true
+        },
+        "test_results/phase11f4_user_arena/correction_cycle_01.py": {
+          "expected": "2f94466631e1a0ad3cab4d98a7abbed3e0784ecd01d1e5873d1196526228fe6a",
+          "actual": "2f94466631e1a0ad3cab4d98a7abbed3e0784ecd01d1e5873d1196526228fe6a",
+          "match": true
+        },
+        "test_results/phase11f4_user_arena/terminal_contract_02.py": {
+          "expected": "81c95081bd1df76df0b5847f24bbc95bf7ea430bcddf3e3f56399dc432c8c20c",
+          "actual": "81c95081bd1df76df0b5847f24bbc95bf7ea430bcddf3e3f56399dc432c8c20c",
+          "match": true
+        },
+        "test_results/phase11f5_cpl3_proof/authorization_01.md": {
+          "expected": "fc88c9d39a131f64af8837be32ae7b30a997d0e4f6e1501fcd7348ee55eec0ac",
+          "actual": "fc88c9d39a131f64af8837be32ae7b30a997d0e4f6e1501fcd7348ee55eec0ac",
+          "match": true
+        },
+        "test_results/phase11f5_cpl3_proof/reviews/prerequisite_review_01.json": {
+          "expected": "398f3bbd0f61d4be256c0e8ac51ef25bcca012a73922b2eeb8d171d8207345a1",
+          "actual": "398f3bbd0f61d4be256c0e8ac51ef25bcca012a73922b2eeb8d171d8207345a1",
+          "match": true
+        },
+        "test_results/phase11f5_cpl3_proof/recovery_snapshot_01.json": {
+          "expected": "516cfa04642d4f43db7e60f1bd836603195d245861d5f5749b0eb606c2751313",
+          "actual": "516cfa04642d4f43db7e60f1bd836603195d245861d5f5749b0eb606c2751313",
+          "match": true
+        }
+      },
+      "canonical_source_sha256": {
+        ".cargo/config.toml": {
+          "expected": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+          "actual": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+          "match": true
+        },
+        ".gitattributes": {
+          "expected": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218",
+          "actual": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218",
+          "match": true
+        },
+        "Cargo.lock": {
+          "expected": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+          "actual": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+          "match": true
+        },
+        "Cargo.toml": {
+          "expected": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+          "actual": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+          "match": true
+        },
+        "crates/rostifs/Cargo.lock": {
+          "expected": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb",
+          "actual": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb",
+          "match": true
+        },
+        "crates/rostifs/Cargo.toml": {
+          "expected": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920",
+          "actual": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920",
+          "match": true
+        },
+        "crates/rostifs/src/additional_tests.rs": {
+          "expected": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df",
+          "actual": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df",
+          "match": true
+        },
+        "crates/rostifs/src/bin/mkrostifs.rs": {
+          "expected": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252",
+          "actual": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252",
+          "match": true
+        },
+        "crates/rostifs/src/bin/rostifs-inspect.rs": {
+          "expected": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c",
+          "actual": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c",
+          "match": true
+        },
+        "crates/rostifs/src/bin/rostifsck.rs": {
+          "expected": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36",
+          "actual": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36",
+          "match": true
+        },
+        "crates/rostifs/src/bin/support/mod.rs": {
+          "expected": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041",
+          "actual": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041",
+          "match": true
+        },
+        "crates/rostifs/src/block.rs": {
+          "expected": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06",
+          "actual": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06",
+          "match": true
+        },
+        "crates/rostifs/src/checksum.rs": {
+          "expected": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e",
+          "actual": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e",
+          "match": true
+        },
+        "crates/rostifs/src/crash_tests.rs": {
+          "expected": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9",
+          "actual": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9",
+          "match": true
+        },
+        "crates/rostifs/src/engine.rs": {
+          "expected": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a",
+          "actual": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a",
+          "match": true
+        },
+        "crates/rostifs/src/format.rs": {
+          "expected": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700",
+          "actual": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700",
+          "match": true
+        },
+        "crates/rostifs/src/lib.rs": {
+          "expected": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31",
+          "actual": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31",
+          "match": true
+        },
+        "crates/rostifs/src/occupancy_tests.rs": {
+          "expected": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42",
+          "actual": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42",
+          "match": true
+        },
+        "crates/rostifs/src/vfs.rs": {
+          "expected": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713",
+          "actual": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713",
+          "match": true
+        },
+        "crates/rostifs/tests/host_tools.rs": {
+          "expected": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b",
+          "actual": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b",
+          "match": true
+        },
+        "crates/rostifs/tests/read_performance.rs": {
+          "expected": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29",
+          "actual": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29",
+          "match": true
+        },
+        "crates/rostifs/tests/write_preservation.rs": {
+          "expected": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9",
+          "actual": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9",
+          "match": true
+        },
+        "linker.ld": {
+          "expected": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+          "actual": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+          "match": true
+        },
+        "rust-toolchain.toml": {
+          "expected": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95",
+          "actual": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95",
+          "match": true
+        },
+        "scripts/b13_boot_fixture.py": {
+          "expected": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef",
+          "actual": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef",
+          "match": true
+        },
+        "scripts/b13_entry_inject.py": {
+          "expected": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+          "actual": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+          "match": true
+        },
+        "scripts/b13_fixture/Cargo.lock": {
+          "expected": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+          "actual": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+          "match": true
+        },
+        "scripts/b13_fixture/Cargo.toml": {
+          "expected": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+          "actual": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+          "match": true
+        },
+        "scripts/b13_fixture/linker.ld": {
+          "expected": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+          "actual": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+          "match": true
+        },
+        "scripts/b13_fixture/main.rs": {
+          "expected": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a",
+          "actual": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a",
+          "match": true
+        },
+        "scripts/b13_grub_smoke.py": {
+          "expected": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+          "actual": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+          "match": true
+        },
+        "scripts/b13_stress_replay.py": {
+          "expected": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e",
+          "actual": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e",
+          "match": true
+        },
+        "scripts/backspace_test.py": {
+          "expected": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+          "actual": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+          "match": true
+        },
+        "scripts/block_test.py": {
+          "expected": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+          "actual": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+          "match": true
+        },
+        "scripts/boot_metadata_test.py": {
+          "expected": "02ac3da0b606504d1f141ad5762adcf12ec581e11b1d102f79b7c95e19924e3f",
+          "actual": "02ac3da0b606504d1f141ad5762adcf12ec581e11b1d102f79b7c95e19924e3f",
+          "match": true
+        },
+        "scripts/boot_test.py": {
+          "expected": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+          "actual": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+          "match": true
+        },
+        "scripts/build-proxmox-iso.py": {
+          "expected": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+          "actual": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+          "match": true
+        },
+        "scripts/build_initramfs.py": {
+          "expected": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+          "actual": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+          "match": true
+        },
+        "scripts/deploy-proxmox.py": {
+          "expected": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+          "actual": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+          "match": true
+        },
+        "scripts/f1_capture.py": {
+          "expected": "69fbf12be0c4a6472bd7cabb475ed2f46f55182a71b3d14edb12e7207ba08bed",
+          "actual": "69fbf12be0c4a6472bd7cabb475ed2f46f55182a71b3d14edb12e7207ba08bed",
+          "match": true
+        },
+        "scripts/f1_evidence.py": {
+          "expected": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+          "actual": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+          "match": true
+        },
+        "scripts/f1_guest_fixture.rs": {
+          "expected": "5d1bcea94ebf55fc1cf7f4937274a1598835689cbd625c0b45980ec7bb92b390",
+          "actual": "5d1bcea94ebf55fc1cf7f4937274a1598835689cbd625c0b45980ec7bb92b390",
+          "match": true
+        },
+        "scripts/f1_retained_guest.py": {
+          "expected": "0bf5a38f13f1984761a1b80b3f73632b6eb381bf67121e2fb2fe7d9d327eca08",
+          "actual": "0bf5a38f13f1984761a1b80b3f73632b6eb381bf67121e2fb2fe7d9d327eca08",
+          "match": true
+        },
+        "scripts/f2_evidence.py": {
+          "expected": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+          "actual": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+          "match": true
+        },
+        "scripts/f2_exception_guest.py": {
+          "expected": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+          "actual": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+          "match": true
+        },
+        "scripts/f3_evidence.py": {
+          "expected": "1f61c70d714f121e03a0526c7997d6d1f07f6ccab24ca1e8a29d87335b841ff4",
+          "actual": "1f61c70d714f121e03a0526c7997d6d1f07f6ccab24ca1e8a29d87335b841ff4",
+          "match": true
+        },
+        "scripts/f3_full_evidence.py": {
+          "expected": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+          "actual": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+          "match": true
+        },
+        "scripts/f3_full_guest.py": {
+          "expected": "e06eb05e69d782b14bcdf884d66f824e9fda32fc03b844ab989a55c2793e6374",
+          "actual": "e06eb05e69d782b14bcdf884d66f824e9fda32fc03b844ab989a55c2793e6374",
+          "match": true
+        },
+        "scripts/f3_gdt_guest.py": {
+          "expected": "0dd26fd92007686274d791de9878efbdaf121057cfa15b4209a529fe42fe283e",
+          "actual": "0dd26fd92007686274d791de9878efbdaf121057cfa15b4209a529fe42fe283e",
+          "match": true
+        },
+        "scripts/f3_supplemental.py": {
+          "expected": "c00f9f875f8c3946089f3418c57c36cf84477ac403060b5f6b2395f69c3ce5b5",
+          "actual": "c00f9f875f8c3946089f3418c57c36cf84477ac403060b5f6b2395f69c3ce5b5",
+          "match": true
+        },
+        "scripts/f3_supplemental_evidence.py": {
+          "expected": "35abc89301f7603f53517a9654fe2eb930d00f9d927f0ff1e8fca255d1dff283",
+          "actual": "35abc89301f7603f53517a9654fe2eb930d00f9d927f0ff1e8fca255d1dff283",
+          "match": true
+        },
+        "scripts/f4_arena_guest.py": {
+          "expected": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+          "actual": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+          "match": true
+        },
+        "scripts/f4_dwarf.py": {
+          "expected": "69f975db576cc6e7d807586671801809d797f258a5542abc5ff6f7fd34909e2f",
+          "actual": "69f975db576cc6e7d807586671801809d797f258a5542abc5ff6f7fd34909e2f",
+          "match": true
+        },
+        "scripts/f4_evidence.py": {
+          "expected": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+          "actual": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+          "match": true
+        },
+        "scripts/f4_ready_guest.py": {
+          "expected": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+          "actual": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+          "match": true
+        },
+        "scripts/f4_user_guest.py": {
+          "expected": "e5cdc25555a0da366f3dd45508fff4770d9311f2abaf85eb2e5c1c5ade57b473",
+          "actual": "e5cdc25555a0da366f3dd45508fff4770d9311f2abaf85eb2e5c1c5ade57b473",
+          "match": true
+        },
+        "scripts/fs_test.py": {
+          "expected": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+          "actual": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+          "match": true
+        },
+        "scripts/keyboard_test.py": {
+          "expected": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+          "actual": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+          "match": true
+        },
+        "scripts/live_phase5_check.py": {
+          "expected": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+          "actual": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+          "match": true
+        },
+        "scripts/mem_probe.py": {
+          "expected": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+          "actual": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+          "match": true
+        },
+        "scripts/numeric_map_api_probe.rs": {
+          "expected": "4dffd562babfdd6c2b1e68626b68081dc934b0a984cb6eeb37900aa043bba929",
+          "actual": "4dffd562babfdd6c2b1e68626b68081dc934b0a984cb6eeb37900aa043bba929",
+          "match": true
+        },
+        "scripts/paging_test.py": {
+          "expected": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+          "actual": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+          "match": true
+        },
+        "scripts/phase10_grub_module_probe.py": {
+          "expected": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b",
+          "actual": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b",
+          "match": true
+        },
+        "scripts/phase10_initramfs_test.py": {
+          "expected": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+          "actual": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+          "match": true
+        },
+        "scripts/phase10_module_probe.py": {
+          "expected": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800",
+          "actual": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800",
+          "match": true
+        },
+        "scripts/phase10_repro_one.py": {
+          "expected": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d",
+          "actual": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d",
+          "match": true
+        },
+        "scripts/phase6_verify.py": {
+          "expected": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+          "actual": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+          "match": true
+        },
+        "scripts/phase9_5_bench.py": {
+          "expected": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4",
+          "actual": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4",
+          "match": true
+        },
+        "scripts/qemu_boot_test.sh": {
+          "expected": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699",
+          "actual": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699",
+          "match": true
+        },
+        "scripts/rostifs_test.py": {
+          "expected": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+          "actual": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+          "match": true
+        },
+        "scripts/run_tests.sh": {
+          "expected": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8",
+          "actual": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8",
+          "match": true
+        },
+        "scripts/sendkey_probe.py": {
+          "expected": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+          "actual": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+          "match": true
+        },
+        "scripts/stability_probe.sh": {
+          "expected": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8",
+          "actual": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8",
+          "match": true
+        },
+        "scripts/system_image_policy.py": {
+          "expected": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+          "actual": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+          "match": true
+        },
+        "scripts/test_acceptance_harness.py": {
+          "expected": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+          "actual": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+          "match": true
+        },
+        "scripts/test_b13_boot.py": {
+          "expected": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+          "actual": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+          "match": true
+        },
+        "scripts/test_b13_entry_inject.py": {
+          "expected": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2",
+          "actual": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2",
+          "match": true
+        },
+        "scripts/test_boot_metadata_harness.py": {
+          "expected": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267",
+          "actual": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267",
+          "match": true
+        },
+        "scripts/test_build_initramfs.py": {
+          "expected": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b",
+          "actual": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b",
+          "match": true
+        },
+        "scripts/test_f1_capture.py": {
+          "expected": "691a91c475d30c8e5273d978363fda9f0cd8d719c23a224663b6af5c535251aa",
+          "actual": "691a91c475d30c8e5273d978363fda9f0cd8d719c23a224663b6af5c535251aa",
+          "match": true
+        },
+        "scripts/test_f2_evidence.py": {
+          "expected": "ba2b68a8d0493b1bb9cc8a644cdf097086aa036a860d7f02b6464f2165f8137b",
+          "actual": "ba2b68a8d0493b1bb9cc8a644cdf097086aa036a860d7f02b6464f2165f8137b",
+          "match": true
+        },
+        "scripts/test_f3_evidence.py": {
+          "expected": "fc068fb808621a81f289e9bcbba4908b614406ba65fe29fd74e36ea337d9e4b9",
+          "actual": "fc068fb808621a81f289e9bcbba4908b614406ba65fe29fd74e36ea337d9e4b9",
+          "match": true
+        },
+        "scripts/test_f3_full_evidence.py": {
+          "expected": "8021752e7c37f70a324fe94c8964b48820658600eb303704c7ee640169ac6718",
+          "actual": "8021752e7c37f70a324fe94c8964b48820658600eb303704c7ee640169ac6718",
+          "match": true
+        },
+        "scripts/test_f3_supplemental.py": {
+          "expected": "78e5643fac502109091f28ce404d91deffbc53670986265d99017086bf442508",
+          "actual": "78e5643fac502109091f28ce404d91deffbc53670986265d99017086bf442508",
+          "match": true
+        },
+        "scripts/test_fs_harness.py": {
+          "expected": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+          "actual": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+          "match": true
+        },
+        "scripts/test_phase10_initramfs_harness.py": {
+          "expected": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+          "actual": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+          "match": true
+        },
+        "scripts/test_phase9_5_bench.py": {
+          "expected": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476",
+          "actual": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476",
+          "match": true
+        },
+        "scripts/test_production_fixture_policy.py": {
+          "expected": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+          "actual": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+          "match": true
+        },
+        "scripts/test_rostifs_harness.py": {
+          "expected": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac",
+          "actual": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac",
+          "match": true
+        },
+        "scripts/test_system_image_policy.py": {
+          "expected": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d",
+          "actual": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d",
+          "match": true
+        },
+        "scripts/unmap_api_probe.rs": {
+          "expected": "66a64d2f4435fc2db8618ba30618823098547613fc79c33c85652e080f032669",
+          "actual": "66a64d2f4435fc2db8618ba30618823098547613fc79c33c85652e080f032669",
+          "match": true
+        },
+        "scripts/validate_elf.py": {
+          "expected": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+          "actual": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+          "match": true
+        },
+        "scripts/verify_production.py": {
+          "expected": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+          "actual": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+          "match": true
+        },
+        "scripts/verify_proxmox_backspace.py": {
+          "expected": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+          "actual": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+          "match": true
+        },
+        "src/allocator.rs": {
+          "expected": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+          "actual": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+          "match": true
+        },
+        "src/block.rs": {
+          "expected": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+          "actual": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+          "match": true
+        },
+        "src/boot.s": {
+          "expected": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+          "actual": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+          "match": true
+        },
+        "src/boot_inventory.rs": {
+          "expected": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+          "actual": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+          "match": true
+        },
+        "src/cpu.rs": {
+          "expected": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+          "actual": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+          "match": true
+        },
+        "src/exception_abi.rs": {
+          "expected": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+          "actual": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+          "match": true
+        },
+        "src/exception_abi_tests.rs": {
+          "expected": "b8fb3beee2535bf37354c0d5232310b58bc4e929284678df17a2de0a415352f7",
+          "actual": "b8fb3beee2535bf37354c0d5232310b58bc4e929284678df17a2de0a415352f7",
+          "match": true
+        },
+        "src/exception_entry.s": {
+          "expected": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+          "actual": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+          "match": true
+        },
+        "src/exception_fatal.rs": {
+          "expected": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d",
+          "actual": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d",
+          "match": true
+        },
+        "src/f3_entry.s": {
+          "expected": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+          "actual": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+          "match": true
+        },
+        "src/fd.rs": {
+          "expected": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+          "actual": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+          "match": true
+        },
+        "src/fs/archive.rs": {
+          "expected": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+          "actual": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+          "match": true
+        },
+        "src/fs/mod.rs": {
+          "expected": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+          "actual": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+          "match": true
+        },
+        "src/fs/mounted.rs": {
+          "expected": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+          "actual": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+          "match": true
+        },
+        "src/fs/rosti.rs": {
+          "expected": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+          "actual": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+          "match": true
+        },
+        "src/fs/vfs.rs": {
+          "expected": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+          "actual": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+          "match": true
+        },
+        "src/fs_commands.rs": {
+          "expected": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+          "actual": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+          "match": true
+        },
+        "src/fs_stress.rs": {
+          "expected": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+          "actual": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+          "match": true
+        },
+        "src/gdt.rs": {
+          "expected": "02c845d9cd9c579e7f5461f365318a2ad6a88faf9567d9c9ca25b47485267599",
+          "actual": "02c845d9cd9c579e7f5461f365318a2ad6a88faf9567d9c9ca25b47485267599",
+          "match": true
+        },
+        "src/gdt_tss.rs": {
+          "expected": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+          "actual": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+          "match": true
+        },
+        "src/initramfs.rs": {
+          "expected": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+          "actual": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+          "match": true
+        },
+        "src/initramfs_trust.rs": {
+          "expected": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+          "actual": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+          "match": true
+        },
+        "src/interrupt.rs": {
+          "expected": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+          "actual": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+          "match": true
+        },
+        "src/io/mod.rs": {
+          "expected": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+          "actual": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+          "match": true
+        },
+        "src/io/ports.rs": {
+          "expected": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+          "actual": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+          "match": true
+        },
+        "src/io/serial.rs": {
+          "expected": "cfe78862ad6c368e5c0d124d9fa2655fd5f953ab223bf81adad8de89f0d3161d",
+          "actual": "cfe78862ad6c368e5c0d124d9fa2655fd5f953ab223bf81adad8de89f0d3161d",
+          "match": true
+        },
+        "src/io/vga.rs": {
+          "expected": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+          "actual": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+          "match": true
+        },
+        "src/kbd.rs": {
+          "expected": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+          "actual": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+          "match": true
+        },
+        "src/main.rs": {
+          "expected": "3c36ce028b694c8bf31291480d078e8db6f4c9b9741ea813df03dcef338041ec",
+          "actual": "3c36ce028b694c8bf31291480d078e8db6f4c9b9741ea813df03dcef338041ec",
+          "match": true
+        },
+        "src/memory/boot_copy.rs": {
+          "expected": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+          "actual": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+          "match": true
+        },
+        "src/memory/f4_b26_tests.rs": {
+          "expected": "2b527dd7764dc709914959b2cd06c7127402cde554078f987eca1aeb8cac72fc",
+          "actual": "2b527dd7764dc709914959b2cd06c7127402cde554078f987eca1aeb8cac72fc",
+          "match": true
+        },
+        "src/memory/f4_user_arena_tests.rs": {
+          "expected": "4fe8da1bb4ac93e4884b8d270fce08e34de15bee1d1d4e595778e260a5c80509",
+          "actual": "4fe8da1bb4ac93e4884b8d270fce08e34de15bee1d1d4e595778e260a5c80509",
+          "match": true
+        },
+        "src/memory/frame.rs": {
+          "expected": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+          "actual": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+          "match": true
+        },
+        "src/memory/generation_boundary_tests.rs": {
+          "expected": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+          "actual": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+          "match": true
+        },
+        "src/memory/generation_ownership_tests.rs": {
+          "expected": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+          "actual": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+          "match": true
+        },
+        "src/memory/mapping_pin_tests.rs": {
+          "expected": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816",
+          "actual": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816",
+          "match": true
+        },
+        "src/memory/mod.rs": {
+          "expected": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+          "actual": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+          "match": true
+        },
+        "src/memory/module_access_tests.rs": {
+          "expected": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+          "actual": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+          "match": true
+        },
+        "src/memory/numeric_map_authority_tests.rs": {
+          "expected": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475",
+          "actual": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475",
+          "match": true
+        },
+        "src/memory/ownership_observation_tests.rs": {
+          "expected": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+          "actual": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+          "match": true
+        },
+        "src/memory/paging.rs": {
+          "expected": "749c0aaa4752da2d991014fdc0464826d6d53dc2c97c166a3ca76f165685cbd9",
+          "actual": "749c0aaa4752da2d991014fdc0464826d6d53dc2c97c166a3ca76f165685cbd9",
+          "match": true
+        },
+        "src/memory/phase11_permission_tests.rs": {
+          "expected": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+          "actual": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+          "match": true
+        },
+        "src/memory/phase11a2_abi_tests.rs": {
+          "expected": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+          "actual": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+          "match": true
+        },
+        "src/memory/phase11a2_ownership_tests.rs": {
+          "expected": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+          "actual": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+          "match": true
+        },
+        "src/memory/privileged.rs": {
+          "expected": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+          "actual": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+          "match": true
+        },
+        "src/memory/privileged_owner_tests.rs": {
+          "expected": "c13ff318dfcc0ec7c80e5b2e4395784a39c9b1e27f2977855b9d35752541c047",
+          "actual": "c13ff318dfcc0ec7c80e5b2e4395784a39c9b1e27f2977855b9d35752541c047",
+          "match": true
+        },
+        "src/memory/privileged_tests.rs": {
+          "expected": "eb18b51752e82da382e9dc65941786e96943e642849f61055b859c9035ad7b17",
+          "actual": "eb18b51752e82da382e9dc65941786e96943e642849f61055b859c9035ad7b17",
+          "match": true
+        },
+        "src/memory/retained_owner.rs": {
+          "expected": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+          "actual": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+          "match": true
+        },
+        "src/memory/retained_owner_policy_tests.rs": {
+          "expected": "e8b9d2a03d0a90f73d54322c6cbfd80e2ff93aabb8d6bf914598b2656976387d",
+          "actual": "e8b9d2a03d0a90f73d54322c6cbfd80e2ff93aabb8d6bf914598b2656976387d",
+          "match": true
+        },
+        "src/memory/retained_owner_tests.rs": {
+          "expected": "5729867aa1d2e86776a70edb028a10a93de70e43036355f219ef218f8cdbc76b",
+          "actual": "5729867aa1d2e86776a70edb028a10a93de70e43036355f219ef218f8cdbc76b",
+          "match": true
+        },
+        "src/memory/review_r1_tests.rs": {
+          "expected": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+          "actual": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+          "match": true
+        },
+        "src/memory/runtime_table_access_tests.rs": {
+          "expected": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+          "actual": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+          "match": true
+        },
+        "src/memory/structure_lifetime_tests.rs": {
+          "expected": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+          "actual": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+          "match": true
+        },
+        "src/memory/unmap_authority_tests.rs": {
+          "expected": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76",
+          "actual": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76",
+          "match": true
+        },
+        "src/memory/user_arena.rs": {
+          "expected": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+          "actual": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+          "match": true
+        },
+        "src/memory/virtual_page_zero_tests.rs": {
+          "expected": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d",
+          "actual": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d",
+          "match": true
+        },
+        "src/multiboot.rs": {
+          "expected": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+          "actual": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+          "match": true
+        },
+        "src/phase11_gdt_tests.rs": {
+          "expected": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+          "actual": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+          "match": true
+        },
+        "src/reboot.rs": {
+          "expected": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+          "actual": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+          "match": true
+        },
+        "src/shell.rs": {
+          "expected": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+          "actual": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+          "match": true
+        },
+        "src/storage.rs": {
+          "expected": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+          "actual": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+          "match": true
+        },
+        "src/system_image.rs": {
+          "expected": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+          "actual": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+          "match": true
+        },
+        "src/timer.rs": {
+          "expected": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+          "actual": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+          "match": true
+        },
+        "src/utils/bits.rs": {
+          "expected": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+          "actual": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+          "match": true
+        },
+        "src/utils/mod.rs": {
+          "expected": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+          "actual": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+          "match": true
+        },
+        "src/utils/mutex.rs": {
+          "expected": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+          "actual": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+          "match": true
+        },
+        "system/docs/recovery.txt": {
+          "expected": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+          "actual": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+          "match": true
+        },
+        "system/README.txt": {
+          "expected": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+          "actual": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+          "match": true
+        },
+        "target.json": {
+          "expected": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+          "actual": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+          "match": true
+        },
+        "tests_b26/Cargo.lock": {
+          "expected": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e",
+          "actual": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e",
+          "match": true
+        },
+        "tests_b26/Cargo.toml": {
+          "expected": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3",
+          "actual": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3",
+          "match": true
+        },
+        "tests_b26/src/growth_tests.rs": {
+          "expected": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16",
+          "actual": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16",
+          "match": true
+        },
+        "tests_b26/src/lib.rs": {
+          "expected": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+          "actual": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+          "match": true
+        },
+        "tests_b26/src/refusal_tests.rs": {
+          "expected": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706",
+          "actual": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706",
+          "match": true
+        },
+        "tests_b26/src/registry_tests.rs": {
+          "expected": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111",
+          "actual": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111",
+          "match": true
+        },
+        "tests_b26/src/retry_tests.rs": {
+          "expected": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+          "actual": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+          "match": true
+        },
+        "tests_b26/src/validation_allocation_tests.rs": {
+          "expected": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70",
+          "actual": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70",
+          "match": true
+        },
+        "tests_b26/src/validation_tests.rs": {
+          "expected": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+          "actual": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+          "match": true
+        },
+        "tests_kernel/.cargo/config.toml": {
+          "expected": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53",
+          "actual": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53",
+          "match": true
+        },
+        "tests_kernel/Cargo.lock": {
+          "expected": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+          "actual": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+          "match": true
+        },
+        "tests_kernel/Cargo.toml": {
+          "expected": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+          "actual": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+          "match": true
+        },
+        "tests_kernel/src/archive_vfs_tests.rs": {
+          "expected": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+          "actual": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+          "match": true
+        },
+        "tests_kernel/src/b11_frame_tests.rs": {
+          "expected": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+          "actual": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+          "match": true
+        },
+        "tests_kernel/src/b11_standalone.rs": {
+          "expected": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+          "actual": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+          "match": true
+        },
+        "tests_kernel/src/b18_inventory_tests.rs": {
+          "expected": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b",
+          "actual": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b",
+          "match": true
+        },
+        "tests_kernel/src/b18_outcome_tests.rs": {
+          "expected": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0",
+          "actual": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0",
+          "match": true
+        },
+        "tests_kernel/src/block_tests.rs": {
+          "expected": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430",
+          "actual": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430",
+          "match": true
+        },
+        "tests_kernel/src/fs_tests.rs": {
+          "expected": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+          "actual": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+          "match": true
+        },
+        "tests_kernel/src/initramfs_tests.rs": {
+          "expected": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+          "actual": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+          "match": true
+        },
+        "tests_kernel/src/initramfs_trust_tests.rs": {
+          "expected": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+          "actual": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+          "match": true
+        },
+        "tests_kernel/src/lib.rs": {
+          "expected": "17838391617df1833149e84631b33feff6077f7a52696111a375db7eea94a34c",
+          "actual": "17838391617df1833149e84631b33feff6077f7a52696111a375db7eea94a34c",
+          "match": true
+        },
+        "tests_kernel/src/maintenance_measurements.rs": {
+          "expected": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f",
+          "actual": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f",
+          "match": true
+        },
+        "tests_kernel/src/mount_tests.rs": {
+          "expected": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd",
+          "actual": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd",
+          "match": true
+        }
+      },
+      "additional_review_inputs_sha256": {
+        "test_results/phase11f5_cpl3_proof/design_proposal_01.md": {
+          "expected": "6d4eabbbe45349804a994d24016e81fe31ba4e3d6d0a20956ddca5cc9d6346bf",
+          "actual": "6d4eabbbe45349804a994d24016e81fe31ba4e3d6d0a20956ddca5cc9d6346bf",
+          "match": true
+        },
+        "test_results/phase11f5_cpl3_proof/design_proposal_02.md": {
+          "expected": "44325607eb36e0a16a3692c212509acdfe3c8303999a2297a60ed82d772597a9",
+          "actual": "44325607eb36e0a16a3692c212509acdfe3c8303999a2297a60ed82d772597a9",
+          "match": true
+        },
+        "test_results/phase11f5_cpl3_proof/reviews/design_review_01.json": {
+          "expected": "d9d8c719492656d41a73867e0f24806288d76124b051db1408bb4fa638f52161",
+          "actual": "d9d8c719492656d41a73867e0f24806288d76124b051db1408bb4fa638f52161",
+          "match": true
+        },
+        "test_results/phase11f5_cpl3_proof/reviews/design_review_02.json": {
+          "expected": "43cf36aeced0f76d91055b3cd2f18de3810b7b804b67b0d8890adf0605d000bc",
+          "actual": "43cf36aeced0f76d91055b3cd2f18de3810b7b804b67b0d8890adf0605d000bc",
+          "match": true
+        },
+        "test_results/phase11f5_cpl3_proof/design_review_02_readback_01.json": {
+          "expected": "d2bfe92d7de8d273e05864ba8e74abd62554236c99fca0fc78c895cf5c366308",
+          "actual": "d2bfe92d7de8d273e05864ba8e74abd62554236c99fca0fc78c895cf5c366308",
+          "match": true
+        },
+        "test_results/phase11f5_cpl3_proof/continuation_verification_03.json": {
+          "expected": "899004fee7fdcdf2ac7a8655b1923861ed71d302d5ab53f718e87949d04cd5a7",
+          "actual": "899004fee7fdcdf2ac7a8655b1923861ed71d302d5ab53f718e87949d04cd5a7",
+          "match": true
+        },
+        "test_results/phase11f5_cpl3_proof/continuation_verification_04.json": {
+          "expected": "7a1e682432658f255e2f3691f7229caa181a314bdbef5656ad322ae15cc95117",
+          "actual": "7a1e682432658f255e2f3691f7229caa181a314bdbef5656ad322ae15cc95117",
+          "match": true
+        },
+        "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json": {
+          "expected": "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4",
+          "actual": "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4",
+          "match": true
+        },
+        "test_results/phase11f4_user_arena/correction_green_02/closure.json": {
+          "expected": "23e2e213eac242a5b8f113755e045ba8e3639df73ab426d3fc2c539355ed6517",
+          "actual": "23e2e213eac242a5b8f113755e045ba8e3639df73ab426d3fc2c539355ed6517",
+          "match": true
+        }
+      }
+    },
+    "counts": {
+      "source_authority_sha256": 23,
+      "canonical_source_sha256": 187,
+      "additional_review_inputs_sha256": 9
+    },
+    "all_bytes_match": true,
+    "canonical_rediscovery": {
+      "actual_count": 187,
+      "expected_count": 187,
+      "missing": [],
+      "extra": [],
+      "bytes_equal": true
+    },
+    "source_authority_membership_equals_prior_independent_review": true,
+    "manifest_raw_sha256_matches_dispatch": true,
+    "design_raw_sha256_matches_dispatch": true
+  },
+  "findings": [
+    {
+      "checklist_point": 1,
+      "title": "Narrow F5-only seven-slot GDT",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Read actual F3Context: five entries followed by original normal/emergency TSS objects. Authorization permits a separate extension rather than resizing that structure. Proposal03 follows precisely this narrow route and does not imply current USER descriptors or current CPL3 support.",
+      "source_refs": [
+        "src/gdt_tss.rs:14-38",
+        "test_results/phase11f5_cpl3_proof/authorization_01.md:5-11",
+        "test_results/phase11f5_cpl3_proof/design.md:11,25"
+      ]
+    },
+    {
+      "checklist_point": 2,
+      "title": "Exact preservation of original slots0-4",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Original slots are null, kernel code08, data10, normal TSS18 and emergency20. Actual cpu_readback requires busy normal descriptor8b and available emergency89. Copying actual40 bytes after original successful installation preserves these live states; reconstructing the original available normal descriptor would be incorrect. Pre/post raw comparison is mandatory.",
+      "source_refs": [
+        "src/gdt_tss.rs:204-228,247-285",
+        "test_results/phase11f5_cpl3_proof/design.md:25"
+      ]
+    },
+    {
+      "checklist_point": 3,
+      "title": "Decode appended descriptors",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Independently bit-decoded fb/f3 access bytes: P1,DPL3,S1,accessed1; code executable/readable/nonconforming and data writable. Both base0,effective limitffffffff,G1,DB1,L0. Accessed pre-set avoids CPU mutation of expected bytes. This changes only F5 table, not inherited kernel99/93 descriptors.",
+      "source_refs": [
+        "src/memory/privileged.rs:5-6,82-86",
+        "test_results/phase11f5_cpl3_proof/design.md:25"
+      ]
+    },
+    {
+      "checklist_point": 4,
+      "title": "Selectors derive from slots and RPL",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Computed (5<<3)|3=2b and (6<<3)|3=33, TI0, RPL3. Existing kernel08/10 and TSS18/20 meanings remain. Correct descriptor DPL plus USER paging, not selector RPL by itself, enables entry.",
+      "source_refs": [
+        "src/gdt_tss.rs:216-222,269-281",
+        "test_results/phase11f5_cpl3_proof/design.md:25-29"
+      ]
+    },
+    {
+      "checklist_point": 5,
+      "title": "GDTR backing, length and verification boundary",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Seven u64 slots occupy56 bytes, limit55; original actual verifier insists limit39 and original static address. Proposal uses original verify only before switch and separate F5 readback afterward. New aligned static table must be entirely present supervisor kernel-image backing and retained for hardware lifetime.",
+      "source_refs": [
+        "src/gdt_tss.rs:89-93,204-214,265-268",
+        "test_results/phase11f5_cpl3_proof/design.md:25,52"
+      ]
+    },
+    {
+      "checklist_point": 6,
+      "title": "TSS base, byte limit and busy state",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Actual Tss has104 bytes and descriptor() produces limit103 and full32-bit base. Proposal copies busy normal8b and available emergency89 with original bases, no moves or reset. Current cached TR state remains loaded; actual TR and hidden-cache/descriptor evidence remains a future guest obligation.",
+      "source_refs": [
+        "src/memory/privileged.rs:18-86",
+        "src/gdt_tss.rs:40-69,216-227",
+        "test_results/phase11f5_cpl3_proof/design.md:25,27"
+      ]
+    },
+    {
+      "checklist_point": 7,
+      "title": "LGDT/LTR and segment reload sequencing",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Original installation reloads CS08 by far jump, data/SS10 and then LTR18 exactly once. F5 switches GDTR only after this succeeds and never retries LTR on a busy descriptor. Identical original segment descriptors preserve cached semantics. New user data loads occur only after final kernel-DS-dependent access and before IRETD.",
+      "source_refs": [
+        "src/gdt_tss.rs:247-298",
+        "test_results/phase11f5_cpl3_proof/design.md:25-29"
+      ]
+    },
+    {
+      "checklist_point": 8,
+      "title": "Normal/emergency TSS compatibility",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "normal_state supplies transition ESP0/SS0; emergency_state retains independent CR3, stack, selectors and assembly entry. Actual emergency assembly snapshots task-entry ESP/TR/CR3/error without interpreting an F2 frame. Proposal preserves both objects/stack layouts and treats every #DF as non-F5-PASS.",
+      "source_refs": [
+        "src/gdt_tss.rs:163-184",
+        "src/f3_entry.s:1-48",
+        "test_results/phase11f5_cpl3_proof/design.md:25,62,70"
+      ]
+    },
+    {
+      "checklist_point": 9,
+      "title": "Double-fault task gate and IF discipline",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Read actual IDT8 constant0000850000200000: present DPL0 task gate to20. F5 excludes8 when replacing gates and keeps slot4 target unchanged. It must not invoke InterruptTable::load because that routine executes STI. IF0 gate installation and task-gate raw verification are required by proposal, not proven by this review.",
+      "source_refs": [
+        "src/interrupt.rs:140-145,157-185",
+        "test_results/phase11f5_cpl3_proof/design.md:19,25,52"
+      ]
+    },
+    {
+      "checklist_point": 10,
+      "title": "Inherited F2/F3/F4 compatibility and shared macro decision",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL",
+      "assessment": "Independently accept source-shared parameterized stub/common macros as preserving the fixed F2 entry contract; exact same common address is not an intrinsic ABI requirement. Default F2 symbol identities, instructions, bridge target and68-byte layout must survive modulo relocations, with actual emitted comparison. F5-only gates select the alternate bridge, while default F3/F4 paths and serial remain untouched. This approves a design direction, not a new independent frame decoder or an inherited Ring0 result relabelled CPL3.",
+      "source_refs": [
+        "src/exception_entry.s:3-27,64-101",
+        "src/memory/retained_owner.rs:395-445",
+        "test_results/phase11f5_cpl3_proof/design.md:11-21,33"
+      ]
+    },
+    {
+      "checklist_point": 11,
+      "title": "IRETD outer-privilege frame and flags",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Proposed32-bit pushes SS33,ESP40400000,EFLAGS2,CS2b,EIP yield the required pop order EIP/CS/flags/ESP/SS. Scenario validation precedes selector changes; no return continuation or arbitrary USER input. Entry flags clear IF,DF,IOPL,NT,VM,RF and other nonfixed bits; later fault-saved RF/DF intentionally differ. Page-end ESP is valid because first PUSH touches403ffffc and POP restores it. Require emitted operand-size and finite target audit.",
+      "source_refs": [
+        "src/memory/user_arena.rs:7-12,303-307",
+        "test_results/phase11f5_cpl3_proof/design.md:27-29,68",
+        "https://www.felixcloutier.com/x86/iret:iretd:iretq"
+      ]
+    },
+    {
+      "checklist_point": 12,
+      "title": "ESP0/SS0 and I/O bitmap authority",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Actual normal_state sets ESP0=07c05000,SS0=10; transition base07c01000 leaves16KiB. Actual TSS iomap104 lies beyond limit103; CPL3 IOPL0 OUT is denied rather than granted by absent bitmap. Proposal requires actual TSS/TR/cache and mapping readback before entry, preserving supervisor stack and guard.",
+      "source_refs": [
+        "src/memory/privileged.rs:7-12,77,82-106,118-160",
+        "src/gdt_tss.rs:163-167",
+        "test_results/phase11f5_cpl3_proof/design.md:27,46,52,56"
+      ]
+    },
+    {
+      "checklist_point": 13,
+      "title": "F2 mandatory68-byte ABI and cross-ring geometry",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Read actual pushal, zero-extended selector saves, offsets and alignment. Vector48,error52,EIP56,CS60,flags64 remain unchanged. Calculated cross-ring prefix07c04fb4=ESP0-76 and PUSHAD input/vector07c04fe4=prefix+48. Tail adds8 only to captured bytes, not ExceptionFrame. Align-down/sub12/pusharg/CALL yields C entry07c04f9c modulo16=12. Same-ring geometry and unsupported stubs remain distinct.",
+      "source_refs": [
+        "src/exception_entry.s:20-25,64-101",
+        "src/exception_abi.rs:23-65",
+        "test_results/phase11f5_cpl3_proof/design.md:54-62"
+      ]
+    },
+    {
+      "checklist_point": 14,
+      "title": "Conditional tail origin and pointer gate",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Existing synthetic_transition_tail is explicitly nonproduction and accepts broader nonzero origins. It is not the F5 unsafe decoder. Proposed naked bridge first claims once, bounds/alignment-checks the pointer and exact ESP0-76 frame, then checks low16 CS2b before reading tail68/72. Exact oldESP40400000/low16 SS33 required. Same-ring/unsupported/nested/#DF paths never read an assumed tail; nested latch refusal precedes decoding. Emitted control-flow proof and host refusal tests remain mandatory.",
+      "source_refs": [
+        "src/exception_abi.rs:68-95",
+        "src/exception_entry.s:8-19,50-59",
+        "test_results/phase11f5_cpl3_proof/design.md:54,60-62,103"
+      ]
+    },
+    {
+      "checklist_point": 15,
+      "title": "All six payload encodings and image boundaries",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Parsed each actual proposal hex string and computed offsets independently. Shared12-byte prologue clears EAX, copies CS into AX, pushes/pops5a17c0de, sets DF; PUSH/POP are real USER stack operations. B c605 stores byte7e to40000800; C8b0d reads07c01000; Df4 HLT; Ee680 OUT80,AL; F8b0d reads403fe000. Each intended opcode is at entry+12 with UD2 fallback. Six64-byte slots occupy100..27f without touching PREFIX0/DATA800. Constructed page digests are design derivations only, not actual guest bytes or new artifacts.",
+      "source_refs": [
+        "src/memory/user_arena.rs:7-12,200-206",
+        "test_results/phase11f5_cpl3_proof/design.md:33-46"
+      ]
+    },
+    {
+      "checklist_point": 16,
+      "title": "Both-level USER/PRESENT/RW and ordering",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Read actual supervisor inventory and install: code P/U/runtime RO at0, stack P/RW/U/runtime at1023, intervening leaves absent; final PDE256 P/RW/U after leases/pins and leaves. Validator permits only hardware A/D changes on mapped entries, absent leaves stay0. C needs actual present supervisor translation, not address-based assumption; refuse launch otherwise. F5 preserves CR3, supervisor aliases, guards and non-PAE profile without granting USER elsewhere.",
+      "source_refs": [
+        "src/memory/user_arena.rs:35-93,164-251,254-300",
+        "src/memory/privileged.rs:118-160",
+        "test_results/phase11f5_cpl3_proof/design.md:33,46,52,109-113"
+      ]
+    },
+    {
+      "checklist_point": 17,
+      "title": "Exact fault/error/CR2 predicates",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "Derived A6/0, B14/7 (present write user), C14/5 (present read user denied supervisor), D13/0 HLT, E13/0 I/O privilege denial, F14/4 (absent user read). PF CR2 exact40000800/07c01000/403fe000; GP error exactly0; full32-bit equality rejects every unsupported error flag. Fallback UD2, earlier IRET fault or wrong PC cannot pass. OUT denial is architectural no-permitted-transfer evidence, not external-device trace.",
+      "source_refs": [
+        "src/memory/user_arena.rs:226-247,282-299",
+        "src/memory/privileged.rs:77,82-86",
+        "test_results/phase11f5_cpl3_proof/design.md:39-46,78"
+      ]
+    },
+    {
+      "checklist_point": 18,
+      "title": "Fault-saved RF exactness and negative control",
+      "status": "RESOLVED_PRIOR_BLOCKER",
+      "assessment": "Independently calculated RF10000+DF400+ZF40+PF4+bit1=10446; undefined AF permits10456 only. All tested #UD/#PF/#GP are fault-class and retrieved architecture explicitly requires pushed RF1 except instruction-breakpoint #DB. Actual F2/F4 source also ORs preflags with RF. Proposal03 retains entry flags2 but demands saved10446/10456 and RF0 rejection. AF is the only masked bit, not IF/DF or arbitrary discrepancies.",
+      "source_refs": [
+        "scripts/f2_exception_guest.py:130-138",
+        "scripts/f4_evidence.py:456-463",
+        "test_results/phase11f5_cpl3_proof/design.md:56,103",
+        "https://xem.github.io/minix86/manual/intel-x86-and-64-manual-vol3/o_fe12b1e2a880e0ce-582.html"
+      ]
+    },
+    {
+      "checklist_point": 19,
+      "title": "CPU selector padding versus software saves",
+      "status": "RESOLVED_PRIOR_BLOCKER",
+      "assessment": "CPU CS/oldSS are32-bit slots but low16 defines selector; retrieved architecture describes padded far-pointer pushes. Proposal checks CS low16 before optional reads and oldSS low16, records raw high halves unconstrained. Software saves compare full33 because XOR EAX precedes16-bit MOV. Nonzero-high acceptance/wrong-low rejection controls are frozen.",
+      "source_refs": [
+        "src/exception_entry.s:67-81",
+        "src/exception_abi.rs:40,89-94",
+        "test_results/phase11f5_cpl3_proof/design.md:54-56,103",
+        "https://www.felixcloutier.com/x86/intn:into:int3:int1"
+      ]
+    },
+    {
+      "checklist_point": 20,
+      "title": "Required F, twelve rows and bounded RED claims",
+      "status": "ACCEPTABLE_DESIGN",
+      "assessment": "F is unambiguously required: absent USER guard read differs from present RO/supervisor denial. Manifest A..F times128/512 matches twelve separate one-vCPU boots, exact IDs, records, tables, descriptors, serial, traces, terminal/no-resume and owned wait/cleanup. Existing F4 six-by-two Ring0 matrix is no substitute. A prebaseline Ring0 CS8/GDTR39 is only missing-CPL3-property RED, not attempted A payload; no fabricated B-F RED or weakened protections.",
+      "source_refs": [
+        "scripts/f4_evidence.py:23-25",
+        "test_results/phase11f5_cpl3_proof/design.md:44,46,74-78",
+        "test_results/phase11f5_cpl3_proof/design_inputs_03.json:expected_hardware_matrix"
+      ]
+    },
+    {
+      "checklist_point": 21,
+      "title": "Closed actual-root fourteen Rust identities",
+      "status": "RESOLVED_PRIOR_BLOCKER",
+      "assessment": "Parsed all14 listed paths and compared ordered list with immutable manifest:10 root f5_cpl3_tests and4 memory::paging::f5_cpl3_owner_tests, unique, none ignored. Actual harness includes memory at root and paging declares F4 siblings, so explicit ancestry is source-grounded. Placement avoids inherited retained_owner/exact-family filters; future real --list and execution must prove emitted names and unchanged ignored membership. No silent extra Rust test/gate.",
+      "source_refs": [
+        "tests_kernel/src/lib.rs:28-50",
+        "src/memory/paging.rs:29-34,77-91",
+        "scripts/phase6_verify.py:143-154,743-752",
+        "test_results/phase11f5_cpl3_proof/design.md:82-103"
+      ]
+    },
+    {
+      "checklist_point": 22,
+      "title": "Actual production owner/initializer/publication tests",
+      "status": "RESOLVED_PRIOR_BLOCKER",
+      "assessment": "Proposal03 removes pure-constants-only restriction. Section8B requires factoring actual cfg-not-test zero/PREFIX/DATA initialization into one private fixed-image initializer used by both real installs at the same point. Owner tests run actual typed admission, preparation, FrameAllocator/PageMap/RetainedOwner and final validator/seal, not duplicate models. Preallocated physical backing is keyed to actual lease identities; opt-in fixed-capacity hooks observe real initializer/pin/leaf/final-PDE mutation sites without callbacks, allocation or early publication. Full4096-byte F4/F5 images, zero stack, PDE-zero prefix/order, twelve actual distinct live leases/domain/pins/capacity, no seal acquisition and irreversible freeze are specified. Fresh exact-one children avoid global contamination and reject zero execution. Isolated mutation controls for late/omitted copy or early publication prove sensitivity. This closes D02-OWNER-TEST-PRODUCTION as a design; actual hooks/helpers/calls and RED/GREEN remain unimplemented candidate obligations.",
+      "source_refs": [
+        "src/memory/user_arena.rs:164-247",
+        "src/memory/retained_owner.rs:303-445",
+        "src/memory/f4_user_arena_tests.rs:12-41,101-166,185-218",
+        "test_results/phase11f5_cpl3_proof/design.md:105-116"
+      ]
+    },
+    {
+      "checklist_point": 23,
+      "title": "Real noninteger host boundary versus typed kernel input",
+      "status": "RESOLVED_PRIOR_BLOCKER",
+      "assessment": "Sections8B/8C separate u32 kernel1..6 admission before try_admit/locks/acquisition from raw Python --scenario parser directly used by argparse. Integer invalids0,7,8,255,65535,MAX preserve DORMANT/full snapshots/no attempts; preparation repeats check before resources. Host grammar exactly ASCII one-character1..6, omission full A..F matrix; exact str rejects bool/int/float/None/containers, coercion, whitespace/signs/zeros/float spellings/Unicode and duplicates. Parse before output/staging/build/runner locks/Cargo/QEMU/guest entry; invalid CLI exit2 no PASS. Actual parser controls, real-main instrumented zero-side-effect checks and actual malformed subprocess/duplicate controls belong to gate1 Python contracts. No synthetic Rust noninteger cast/parser or new USER API. This closes D02-NONINTEGER-BOUNDARY at design level without adding Rust identities/gates.",
+      "source_refs": [
+        "src/memory/retained_owner.rs:77-80,303-317,334-352",
+        "test_results/phase11f5_cpl3_proof/design.md:114,118-124"
+      ]
+    },
+    {
+      "checklist_point": 24,
+      "title": "Exact gates, preservation and timeout policy",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL",
+      "assessment": "Raw-hashed pinned F4 acceptance, enumerated72 rows and compared Counter with AST70 predecessor+2 F4 literals: exactly equal, no duplicate or extra. Four manifest additions are distinct/disjoint and yield76 proposed, not accepted hardware gates. Gate1 owns14 Rust plus Python harness contracts, gate2 exact production/fixture closure, gate3 twelve F5 boots, gate4 fresh F1 ten rows; inherited F2/F3/F4 remain8/18/12. No historical substitution. Actual timeouts F2=300,F3/F4=2100 and acceptance regressions=900 stay; new heavy gates capped900 need isolated exact-suite calibration. No timing feasibility/execution claimed.",
+      "source_refs": [
+        "scripts/phase6_verify.py:69-154,743-752,838-873,1002-1005",
+        "test_results/phase11f5_cpl3_proof/design.md:126-140",
+        "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json"
+      ]
+    },
+    {
+      "checklist_point": 25,
+      "title": "Actual inherited strict emitted policy and F5 multi-root closure",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL",
+      "assessment": "Read actual audit/terminal checker and every four-block inherited emitted closure. It follows all conditional arms/direct call/tail/fallthrough and rejects unresolved indirect or panic/unwind/allocator/mutex/VGA paths, not just feasible execution. Matched81 listed instruction bytes against raw historical ELF, ELF/disassembly hashes, four blocks/eleven edges and zero forbidden/unresolved. Actual helper is atomic as_ptr, not ordering-store dispatcher, plus fixed UART and CLI/HLT. Proposal requires stronger instruction-level multi-root F5 entry/bridge/pass/fail/nested/unsupported closure, separate finite IRETD launcher destinations/payloads, production AND fixture exact ELFs. Original symbol-block walker unchanged is insufficient; labels and infeasible bad arms cannot hide edges. #DF remains inherited architectural task-gate terminal, never success; pair helper RET with known callsites, never USER resumption. This is acceptance policy, not F5 emitted proof.",
+      "source_refs": [
+        "test_results/phase11f4_user_arena/correction_cycle_01.py:32-112",
+        "test_results/phase11f4_user_arena/terminal_contract_02.py:20-74",
+        "test_results/phase11f4_user_arena/correction_green_02/closure.json",
+        "src/memory/retained_owner.rs:448-525",
+        "src/f3_entry.s:1-48",
+        "test_results/phase11f5_cpl3_proof/design.md:19,54,64-70"
+      ]
+    },
+    {
+      "checklist_point": 26,
+      "title": "Resource, retained state and scope constraints",
+      "status": "ACCEPTABLE_BUDGET_NOT_MEASURED",
+      "assessment": "Actual owner inventory has12 retained leases and fixed transition/emergency mappings. Proposal keeps12,384 embedded bytes,56-byte GDT, record<=256 in existing image2MiB..6MiB; no linker/profile/target/shared-serial change.512 transition-stack budget includes first76, alignment/argument/CALL, <=64 naked scratch and one nested68-byte NMI until refusal; conditional15872 headroom is not emitted high-water. Preserve inherited emergency2578/16384 conditional bound, not new measurement. Candidate must prove stack/image bounds or fail. Preparing->Sealed->Terminal/no-reset/unseal/free/retry/alternateCR3/ordinary boot remain explicit. Exclude storms/recursion, NX/WX, scheduler/syscall/loader/recovery/process isolation and real hardware. Historical F1 final-readback gap and F3/F4 rejected/narrow approvals survive. Candidate/frozen canonical/final independent review still required. Proposal03 last: unresolved mandatory defect means DESIGN-STOP, no04.",
+      "source_refs": [
+        "src/memory/retained_owner.rs:8-80,303-445",
+        "src/memory/user_arena.rs:112-129,303-307",
+        "src/memory/privileged.rs:89-106",
+        "linker.ld:19-22,40-53",
+        "test_results/phase11f5_cpl3_proof/design.md:5,70,140-146"
+      ]
+    }
+  ],
+  "blockers": [],
+  "concerns": [
+    {
+      "id": "F5-D03-FUTURE-EMITTED",
+      "severity": "candidate_gate_not_design_blocker",
+      "assessment": "Naked bridge/latch, multi-root strict CFG, default F2 relocation equivalence and finite IRETD targets require fresh actual ELF evidence. Existing F4 GREEN does not supply F5 evidence."
+    },
+    {
+      "id": "F5-D03-RESOURCE-TIMING",
+      "severity": "candidate_gate_not_design_blocker",
+      "assessment": "512-byte stack budget, fixed image fit and new900-second gate feasibility are unmeasured now. Exact emitted accounting and isolated calibration may block candidate; never relax scope, suite or timeout."
+    },
+    {
+      "id": "F5-D03-PRODUCTION-TEST-LINK",
+      "severity": "candidate_gate_not_design_blocker",
+      "assessment": "Candidate review must locate shared initializer, actual admission/seal callsites and allocation-free opt-in hooks, require mutation-sensitive owner tests and real raw CLI no-side-effect controls; constants or named stubs do not satisfy approved design."
+    }
+  ],
+  "limitations": [
+    "Design review only; no implementation or host/hardware proof.",
+    "web_extract backend did not support extraction; read-only urllib retrieval used for architectural text.",
+    "No Cargo/build/format/tests/QEMU/acceptance invoked; no F5 implementation exists in reviewed inputs.",
+    "No claim of real hardware, arbitrary malicious-program containment, NX/WX, teardown, scheduling/syscalls or arbitrary nesting survival.",
+    "Historical F1 final-readback gap and predecessor rejected/narrow approval records are not repaired by this design review.",
+    "Shell authoring attempts encountered quote/command-length failures; first13 findings persisted, subsequent authoring moved to persistent Python. A paginated tool read was incomplete, so full own-review file loaded via pathlib before preserving data. These were review infrastructure issues, not technical blockers.",
+    "Manifest generator_sha256 is metadata without a generator path in the immutable input manifest; no assertion of independently reproduced generator execution."
+  ],
+  "saved_review_path": "test_results/phase11f5_cpl3_proof/reviews/design_review_03.json",
+  "gate_multiset": {
+    "f4_acceptance_path": "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json",
+    "f4_acceptance_raw_sha256": "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4",
+    "actual_predecessor": {
+      "kernel formatting": 1,
+      "host formatting": 1,
+      "host tests": 1,
+      "Phase 9.6 B11 host safety regressions": 1,
+      "Phase 9.6 B18 host safety regressions": 1,
+      "Phase 9.6 B26 host safety regressions": 1,
+      "Phase 11A effective permission prerequisite": 1,
+      "Phase 11A phase11_registry_reservation prerequisite": 1,
+      "Phase 11A phase11_exception_abi prerequisite": 1,
+      "Phase 11A phase11_runtime_pins prerequisite": 1,
+      "Phase 11A phase11_structure_lifetime prerequisite": 1,
+      "Phase 11A phase11_numeric_map prerequisite": 1,
+      "Phase 11A phase11_unmap_authority prerequisite": 1,
+      "Phase 11A phase11_generation_ownership prerequisite": 1,
+      "Phase 11A phase11_generation_ledger prerequisite": 1,
+      "Phase 11A phase11_generation_boundaries prerequisite": 1,
+      "Phase 11A phase11_snapshot prerequisite": 1,
+      "Phase 11A phase11_gdt prerequisite": 1,
+      "Phase 11F1 retained-owner exact identity family": 1,
+      "Phase 11F2 exception ABI exact identity family": 1,
+      "Phase 11F3 minimal Ring0 exact identity family": 1,
+      "Phase 11 F4 owned USER arena host contract": 1,
+      "RostiFS formatting": 1,
+      "RostiFS host and crash recovery tests": 1,
+      "RostiFS host tool safety and integration": 1,
+      "RostiFS read boundary and transfer regressions": 1,
+      "RostiFS write preservation regressions": 1,
+      "Python media reader regressions": 1,
+      "acceptance runner regressions": 1,
+      "RostiFS harness regressions": 1,
+      "Phase 9.5 benchmark contracts": 1,
+      "Phase 9.6 boot metadata harness contracts": 1,
+      "system image policy contracts": 1,
+      "Phase 10B initramfs builder contracts": 1,
+      "Phase 10B initramfs harness contracts": 1,
+      "Phase 9.6 B13 boot entry host contracts": 1,
+      "build read fault fixture": 1,
+      "CPU read faults 128 and 512": 1,
+      "build write fault fixture": 1,
+      "CPU write faults 128 and 512": 1,
+      "build initramfs failure fixture": 1,
+      "production build": 1,
+      "production fixture policy contracts": 1,
+      "production feature and fault exclusion": 1,
+      "Phase 9.6 B13 privileged boot entry and production handoff": 1,
+      "Phase 9.6 B13 injection transport contracts": 1,
+      "Phase 11F2 exception ABI hardware matrix": 1,
+      "Phase 11F3 minimal Ring0 hardware matrix": 1,
+      "Phase 11 F4 owned USER arena Ring0 hardware matrix": 1,
+      "Phase 9.6 integrated boot metadata ELF and GRUB safety": 1,
+      "ELF validation": 1,
+      "ten ELF boots 128 MiB": 1,
+      "ten ELF boots 512 MiB": 1,
+      "paging stability twenty ELF boots": 1,
+      "keyboard integration": 1,
+      "VGA backspace ELF": 1,
+      "filesystem growth OOM ELF 128 MiB": 1,
+      "block persistence ELF 128 MiB": 1,
+      "RostiFS persistence ELF 128 MiB": 1,
+      "filesystem growth OOM ELF 512 MiB": 1,
+      "block persistence ELF 512 MiB": 1,
+      "RostiFS persistence ELF 512 MiB": 1,
+      "GRUB ISO build and boot": 1,
+      "ISO paging 128 and 512": 1,
+      "VGA backspace ISO": 1,
+      "filesystem growth OOM ISO 128 MiB": 1,
+      "block persistence ISO 128 MiB": 1,
+      "RostiFS persistence ISO 128 MiB": 1,
+      "filesystem growth OOM ISO 512 MiB": 1,
+      "block persistence ISO 512 MiB": 1,
+      "RostiFS persistence ISO 512 MiB": 1,
+      "Phase 10B trusted initramfs guest matrix": 1
+    },
+    "runner_AST_multiset_matches": true,
+    "inherited_count": 72,
+    "proposed_additions": {
+      "Phase 11 F5 CPL3 host and fixture contracts": 1,
+      "Phase 11 F5 CPL3 exact ELF terminal closure": 1,
+      "Phase 11 F5 CPL3 one-shot hardware matrix": 1,
+      "Phase 11 F5 retained prerequisite hardware preservation": 1
+    },
+    "proposed_total": 76,
+    "accepted_F5_total": null
+  },
+  "reviewer_derivations_not_execution": {
+    "descriptors": {
+      "0xcffb000000ffff": {
+        "base": 0,
+        "limit": 4294967295,
+        "access": "0xfb",
+        "dpl": 3,
+        "G": 1,
+        "DB": 1,
+        "L": 0
+      },
+      "0xcff3000000ffff": {
+        "base": 0,
+        "limit": 4294967295,
+        "access": "0xf3",
+        "dpl": 3,
+        "G": 1,
+        "DB": 1,
+        "L": 0
+      }
+    },
+    "selectors": [
+      43,
+      51
+    ],
+    "gdt_limit": 55,
+    "frame": {
+      "prefix": "0x7c04fb4",
+      "vector": "0x7c04fe4",
+      "pushad_esp": "0x7c04fe4",
+      "C_entry": "0x7c04f9c",
+      "C_entry_mod16": 12,
+      "stack_budget": 512,
+      "conditional_headroom": 15872
+    },
+    "saved_flags": [
+      "0x10446",
+      "0x10456"
+    ],
+    "payloads": [
+      {
+        "scenario": "A",
+        "entry": "40000100",
+        "fault": "4000010c",
+        "length": 16,
+        "opcode_after_prologue": "0f0b0f0b"
+      },
+      {
+        "scenario": "B",
+        "entry": "40000140",
+        "fault": "4000014c",
+        "length": 21,
+        "opcode_after_prologue": "c605000800407e0f0b"
+      },
+      {
+        "scenario": "C",
+        "entry": "40000180",
+        "fault": "4000018c",
+        "length": 20,
+        "opcode_after_prologue": "8b0d0010c0070f0b"
+      },
+      {
+        "scenario": "D",
+        "entry": "400001c0",
+        "fault": "400001cc",
+        "length": 15,
+        "opcode_after_prologue": "f40f0b"
+      },
+      {
+        "scenario": "E",
+        "entry": "40000200",
+        "fault": "4000020c",
+        "length": 16,
+        "opcode_after_prologue": "e6800f0b"
+      },
+      {
+        "scenario": "F",
+        "entry": "40000240",
+        "fault": "4000024c",
+        "length": 20,
+        "opcode_after_prologue": "8b0d00e03f400f0b"
+      }
+    ],
+    "default_F4_image_sha256": "e024e9d78ca95a81eae497194454f405c5305eb6c802d870f77cc7c8ee9767cb",
+    "proposed_F5_image_sha256": "6c6b9ed0faf5f49bbb2f84fa9b9e9599983669467d2f659732aaeeec08c6d59d"
+  },
+  "host_identity_contract": {
+    "expected": [
+      "f5_cpl3_tests::descriptor_extension_preserves_tss_slots",
+      "f5_cpl3_tests::user_selectors_have_dpl3_rpl3",
+      "f5_cpl3_tests::payload_bytes_and_fault_offsets",
+      "f5_cpl3_tests::fixed_payload_fits_owned_page",
+      "f5_cpl3_tests::iret_flags_and_stack_contract",
+      "f5_cpl3_tests::mandatory_prefix_and_conditional_tail",
+      "f5_cpl3_tests::exact_exception_oracles",
+      "f5_cpl3_tests::supervisor_presence_is_not_assumed",
+      "f5_cpl3_tests::terminal_latch_refuses_resume",
+      "f5_cpl3_tests::wrong_origin_or_reserved_error_bits_fail",
+      "memory::paging::f5_cpl3_owner_tests::before_publication_payload_copy_exact",
+      "memory::paging::f5_cpl3_owner_tests::default_f4_image_bytes_unchanged",
+      "memory::paging::f5_cpl3_owner_tests::twelve_frame_state_preservation",
+      "memory::paging::f5_cpl3_owner_tests::invalid_scenario_preflight_refusal"
+    ],
+    "count": 14,
+    "unique": 14,
+    "ignored": [],
+    "manifest_matches_design_list": true
+  },
+  "architectural_references": [
+    {
+      "url": "https://xem.github.io/minix86/manual/intel-x86-and-64-manual-vol3/o_fe12b1e2a880e0ce-582.html",
+      "retrieved": true,
+      "response_sha256": "6df19ad7f2acaad306d53e58122c93f60dc91621aa9dca0d82b26d105e5f27b2",
+      "excerpts": [
+        "For any fault-class exception except a debug exception generated in response to an instruction breakpoint, the value pushed for RF is 1. \u2022 For any interrupt arriving after any iteration of a repeated string instruction but the last iteration, the value pushed for RF is 1. \u2022 For any trap-class exception generated by any iteration of a repeated strin"
+      ],
+      "decoding_note": "Initial strict UTF-8 decode failed on malformed href bytes; re-read response raw hash, replacement decoding only for excerpt. No bytes written outside review."
+    },
+    {
+      "url": "https://www.felixcloutier.com/x86/iret:iretd:iretq",
+      "retrieved": true,
+      "response_sha256": "72d6e90ae09eadcc2e65178a7442e12cee0d1e8486a32a4db1df3d0dc6e3f21e",
+      "excerpts": [
+        "-8086-MODE; ELSE GOTO PROTECTED-MODE; FI; ELSE GOTO IA-32e-MODE; FI; REAL-ADDRESS-MODE; IF OperandSize = 32 THEN EIP := Pop(); CS := Pop(); (* 32-bit pop, high-order 16 bits discarded *) tempEFLAGS := Pop(); EFLAGS := (tempEFLAGS AND 257FD5H) OR (EFLAGS AND 1A0000H); ELSE (* OperandSize = 16 *) EIP := Pop(); (* 16-bit pop; clear upper 16 bits *) CS := Pop(); (* 16-bit pop *) EFLAGS[15:0] := Pop(); FI; END; RETURN-FROM-VIRTUAL-8086-MODE: (* Processor is in virtual-8086 mode when IRET is executed and stays in virtual-8086 mode *) IF IOPL = 3 (* Virtual mode: PE = 1, VM = 1, IOPL = 3 *) THEN IF OperandSize = 32 THEN EIP := Pop(); CS := Pop(); (* 32-bit pop, high-order 16 bits discarded *) EFLAGS := Pop(); (* VM, IOPL,VIP and VIF EFLAG bits not modified by pop *) "
+      ],
+      "authority_caveat": "Public transcription/mirror of architectural reference; implementation requires fresh emitted and CPU evidence."
+    },
+    {
+      "url": "https://www.felixcloutier.com/x86/intn:into:int3:int1",
+      "retrieved": true,
+      "response_sha256": "4224853dbc57fc41210cf9d9d75a7b7e65bb091b22dea8195eb0854cca1bfd80",
+      "excerpts": [
+        "ptor information also loaded *) FI; FI; IF IDT gate is 32-bit THEN Push(far pointer to old stack); (* Old SS and ESP, 3 words padded to 4 *) Push(EFLAGS); Push(far pointer to return instruction); (* Old CS and EIP, 3 words padded to 4 *) Push(ErrorCode); (* If needed, 4 bytes *) ELSE IF IDT gate 16-bit THEN Push(far pointer to old stack); (* Old SS and SP, 2 words *) Push(EFLAGS(15:0]); Push(far pointer to return instruction); (* Old CS and IP, 2 words *) Push(ErrorCode); (* If needed, 2 bytes *) ELSE (* 64-bit IDT gate *) Push(far pointer to old stack); (* Old SS and SP, each an 8-byte push *) Push(RFLAGS); (* 8-byte push *) Push(far pointer to return instruction); (* Old CS and RIP, each an 8-byte push *) Push(ErrorCode); (* If needed, 8-bytes *) FI; FI; IF ",
+        "IDT gate *) CS:RIP := Gate(CS:RIP); (* Segment descriptor information also loaded *) FI; FI; IF IDT gate is 32-bit THEN Push(far pointer to old stack); (* Old SS and ESP, 3 words padded to 4 *) Push(EFLAGS); Push(far pointer to return instruction); (* Old CS and EIP, 3 words padded to 4 *) Push(ErrorCode); (* If needed, 4 bytes *) ELSE IF IDT gate 16-bit THEN Push(far pointer to old stack); (* Old SS and SP, 2 words *) Push(EFLAGS(15:0]); Push(far pointer to return instruction); (* Old CS and IP, 2 words *) Push(ErrorCode); (* If needed, 2 bytes *) ELSE (* 64-bit IDT gate *) Push(far pointer to old stack); (* Old SS and SP, each an 8-byte push *) Push(RFLAGS); (* 8-byte push *) Push(far pointer to return instruction); (* Old CS and RIP, each an 8-byte push *) "
+      ],
+      "authority_caveat": "Public transcription/mirror of architectural reference; implementation requires fresh emitted and CPU evidence."
+    }
+  ],
+  "inherited_closure_evidence": {
+    "path": "test_results/phase11f4_user_arena/correction_green_02/closure.json",
+    "raw_sha256": "23e2e213eac242a5b8f113755e045ba8e3639df73ab426d3fc2c539355ed6517",
+    "result": "GREEN",
+    "blocks": 4,
+    "edges": 11,
+    "forbidden": [],
+    "unresolved": [],
+    "elf_sha256": "db361522ac20f8d46bd033958aac5747b1fe0e61aaad13350247e50b3f3ba892",
+    "elf_pin_matches": true,
+    "disassembly_pin_matches": true,
+    "raw_ELF_instruction_checks": 81,
+    "raw_ELF_instruction_mismatches": [],
+    "scope": "Read existing strict audit implementation and all four existing emitted closure blocks; match their instruction bytes to authenticated historical ELF. No fresh disassembly or F5 evidence."
+  },
+  "checklist_coverage_mapping": {
+    "1": {
+      "finding_title": "Narrow F5-only seven-slot GDT",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/gdt_tss.rs:14-38",
+        "test_results/phase11f5_cpl3_proof/authorization_01.md:5-11",
+        "test_results/phase11f5_cpl3_proof/design.md:11,25"
+      ]
+    },
+    "2": {
+      "finding_title": "Exact preservation of original slots0-4",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/gdt_tss.rs:204-228,247-285",
+        "test_results/phase11f5_cpl3_proof/design.md:25"
+      ]
+    },
+    "3": {
+      "finding_title": "Decode appended descriptors",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/memory/privileged.rs:5-6,82-86",
+        "test_results/phase11f5_cpl3_proof/design.md:25"
+      ]
+    },
+    "4": {
+      "finding_title": "Selectors derive from slots and RPL",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/gdt_tss.rs:216-222,269-281",
+        "test_results/phase11f5_cpl3_proof/design.md:25-29"
+      ]
+    },
+    "5": {
+      "finding_title": "GDTR backing, length and verification boundary",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/gdt_tss.rs:89-93,204-214,265-268",
+        "test_results/phase11f5_cpl3_proof/design.md:25,52"
+      ]
+    },
+    "6": {
+      "finding_title": "TSS base, byte limit and busy state",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/memory/privileged.rs:18-86",
+        "src/gdt_tss.rs:40-69,216-227",
+        "test_results/phase11f5_cpl3_proof/design.md:25,27"
+      ]
+    },
+    "7": {
+      "finding_title": "LGDT/LTR and segment reload sequencing",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/gdt_tss.rs:247-298",
+        "test_results/phase11f5_cpl3_proof/design.md:25-29"
+      ]
+    },
+    "8": {
+      "finding_title": "Normal/emergency TSS compatibility",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/gdt_tss.rs:163-184",
+        "src/f3_entry.s:1-48",
+        "test_results/phase11f5_cpl3_proof/design.md:25,62,70"
+      ]
+    },
+    "9": {
+      "finding_title": "Double-fault task gate and IF discipline",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/interrupt.rs:140-145,157-185",
+        "test_results/phase11f5_cpl3_proof/design.md:19,25,52"
+      ]
+    },
+    "10": {
+      "finding_title": "Inherited F2/F3/F4 compatibility and shared macro decision",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL",
+      "source_refs": [
+        "src/exception_entry.s:3-27,64-101",
+        "src/memory/retained_owner.rs:395-445",
+        "test_results/phase11f5_cpl3_proof/design.md:11-21,33"
+      ]
+    },
+    "11": {
+      "finding_title": "IRETD outer-privilege frame and flags",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/memory/user_arena.rs:7-12,303-307",
+        "test_results/phase11f5_cpl3_proof/design.md:27-29,68",
+        "https://www.felixcloutier.com/x86/iret:iretd:iretq"
+      ]
+    },
+    "12": {
+      "finding_title": "ESP0/SS0 and I/O bitmap authority",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/memory/privileged.rs:7-12,77,82-106,118-160",
+        "src/gdt_tss.rs:163-167",
+        "test_results/phase11f5_cpl3_proof/design.md:27,46,52,56"
+      ]
+    },
+    "13": {
+      "finding_title": "F2 mandatory68-byte ABI and cross-ring geometry",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/exception_entry.s:20-25,64-101",
+        "src/exception_abi.rs:23-65",
+        "test_results/phase11f5_cpl3_proof/design.md:54-62"
+      ]
+    },
+    "14": {
+      "finding_title": "Conditional tail origin and pointer gate",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/exception_abi.rs:68-95",
+        "src/exception_entry.s:8-19,50-59",
+        "test_results/phase11f5_cpl3_proof/design.md:54,60-62,103"
+      ]
+    },
+    "15": {
+      "finding_title": "All six payload encodings and image boundaries",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/memory/user_arena.rs:7-12,200-206",
+        "test_results/phase11f5_cpl3_proof/design.md:33-46"
+      ]
+    },
+    "16": {
+      "finding_title": "Both-level USER/PRESENT/RW and ordering",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/memory/user_arena.rs:35-93,164-251,254-300",
+        "src/memory/privileged.rs:118-160",
+        "test_results/phase11f5_cpl3_proof/design.md:33,46,52,109-113"
+      ]
+    },
+    "17": {
+      "finding_title": "Exact fault/error/CR2 predicates",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "src/memory/user_arena.rs:226-247,282-299",
+        "src/memory/privileged.rs:77,82-86",
+        "test_results/phase11f5_cpl3_proof/design.md:39-46,78"
+      ]
+    },
+    "18": {
+      "finding_title": "Fault-saved RF exactness and negative control",
+      "status": "RESOLVED_PRIOR_BLOCKER",
+      "source_refs": [
+        "scripts/f2_exception_guest.py:130-138",
+        "scripts/f4_evidence.py:456-463",
+        "test_results/phase11f5_cpl3_proof/design.md:56,103",
+        "https://xem.github.io/minix86/manual/intel-x86-and-64-manual-vol3/o_fe12b1e2a880e0ce-582.html"
+      ]
+    },
+    "19": {
+      "finding_title": "CPU selector padding versus software saves",
+      "status": "RESOLVED_PRIOR_BLOCKER",
+      "source_refs": [
+        "src/exception_entry.s:67-81",
+        "src/exception_abi.rs:40,89-94",
+        "test_results/phase11f5_cpl3_proof/design.md:54-56,103",
+        "https://www.felixcloutier.com/x86/intn:into:int3:int1"
+      ]
+    },
+    "20": {
+      "finding_title": "Required F, twelve rows and bounded RED claims",
+      "status": "ACCEPTABLE_DESIGN",
+      "source_refs": [
+        "scripts/f4_evidence.py:23-25",
+        "test_results/phase11f5_cpl3_proof/design.md:44,46,74-78",
+        "test_results/phase11f5_cpl3_proof/design_inputs_03.json:expected_hardware_matrix"
+      ]
+    },
+    "21": {
+      "finding_title": "Closed actual-root fourteen Rust identities",
+      "status": "RESOLVED_PRIOR_BLOCKER",
+      "source_refs": [
+        "tests_kernel/src/lib.rs:28-50",
+        "src/memory/paging.rs:29-34,77-91",
+        "scripts/phase6_verify.py:143-154,743-752",
+        "test_results/phase11f5_cpl3_proof/design.md:82-103"
+      ]
+    },
+    "22": {
+      "finding_title": "Actual production owner/initializer/publication tests",
+      "status": "RESOLVED_PRIOR_BLOCKER",
+      "source_refs": [
+        "src/memory/user_arena.rs:164-247",
+        "src/memory/retained_owner.rs:303-445",
+        "src/memory/f4_user_arena_tests.rs:12-41,101-166,185-218",
+        "test_results/phase11f5_cpl3_proof/design.md:105-116"
+      ]
+    },
+    "23": {
+      "finding_title": "Real noninteger host boundary versus typed kernel input",
+      "status": "RESOLVED_PRIOR_BLOCKER",
+      "source_refs": [
+        "src/memory/retained_owner.rs:77-80,303-317,334-352",
+        "test_results/phase11f5_cpl3_proof/design.md:114,118-124"
+      ]
+    },
+    "24": {
+      "finding_title": "Exact gates, preservation and timeout policy",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL",
+      "source_refs": [
+        "scripts/phase6_verify.py:69-154,743-752,838-873,1002-1005",
+        "test_results/phase11f5_cpl3_proof/design.md:126-140",
+        "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json"
+      ]
+    },
+    "25": {
+      "finding_title": "Actual inherited strict emitted policy and F5 multi-root closure",
+      "status": "ACCEPTABLE_DESIGN_CONDITIONAL",
+      "source_refs": [
+        "test_results/phase11f4_user_arena/correction_cycle_01.py:32-112",
+        "test_results/phase11f4_user_arena/terminal_contract_02.py:20-74",
+        "test_results/phase11f4_user_arena/correction_green_02/closure.json",
+        "src/memory/retained_owner.rs:448-525",
+        "src/f3_entry.s:1-48",
+        "test_results/phase11f5_cpl3_proof/design.md:19,54,64-70"
+      ]
+    },
+    "26": {
+      "finding_title": "Resource, retained state and scope constraints",
+      "status": "ACCEPTABLE_BUDGET_NOT_MEASURED",
+      "source_refs": [
+        "src/memory/retained_owner.rs:8-80,303-445",
+        "src/memory/user_arena.rs:112-129,303-307",
+        "src/memory/privileged.rs:89-106",
+        "linker.ld:19-22,40-53",
+        "test_results/phase11f5_cpl3_proof/design.md:5,70,140-146"
+      ]
+    }
+  },
+  "completion": {
+    "completed_points": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "remaining_points": [],
+    "state": "COMPLETE",
+    "full_scope_independent": true,
+    "last_authorized_proposal": 3,
+    "revision_budget_remaining": 0,
+    "unresolved_mandatory_blockers": 0,
+    "design_stop_required": false,
+    "no_implementation_or_CPU_result_claimed": true
+  },
+  "f2_entry_contract_decision": {
+    "decision": "SOURCE_SHARED_MACRO_EXTENSION_COMPATIBLE_WITH_FIXED68_ENTRY_CONTRACT",
+    "exact_common_symbol_address_required": false,
+    "waiver": false,
+    "conditions": [
+      "Unchanged default F2 symbols, instructions and f2_fatal target modulo placement relocations.",
+      "Both expansions share one normalizer source algorithm and fixed68 assertions.",
+      "F5-only gates preserve IDT8 task gate and all inherited F3/F4/default paths.",
+      "Fresh emitted comparison and cross-ring CPU evidence remain mandatory."
+    ]
+  },
+  "prior_blocker_dispositions": [
+    {
+      "id": "F5-D01-RF",
+      "disposition": "RESOLVED_RETAINED_IN_PROPOSAL03",
+      "checklist_point": 18,
+      "basis": "Exact10446/10456, entry RF0 distinct, saved RF1 and RF0 rejection; source and independently retrieved architecture agree."
+    },
+    {
+      "id": "F5-D01-SELECTOR-PADDING",
+      "disposition": "RESOLVED_RETAINED_IN_PROPOSAL03",
+      "checklist_point": 19,
+      "basis": "Low16 CPU CS/SS, raw high halves recorded unconstrained; software full33; explicit high-half controls."
+    },
+    {
+      "id": "F5-D01-TEST-IDENTITIES",
+      "disposition": "RESOLVED_IN_PROPOSAL03",
+      "checklist_point": 21,
+      "basis": "Exact unique14 paths, actual module ancestry, gate membership and substantive real-owner tests specified."
+    },
+    {
+      "id": "F5-D02-OWNER-TEST-PRODUCTION",
+      "disposition": "RESOLVED_IN_PROPOSAL03_DESIGN",
+      "checklist_point": 22,
+      "basis": "Sections105-116 require same actual production initializer/preparation/install, real leases/map, preallocated transport/observation at mutation sites, full byte/order/ledger/seal checks and isolated sensitivity controls. Not implementation proof."
+    },
+    {
+      "id": "F5-D02-NONINTEGER-BOUNDARY",
+      "disposition": "RESOLVED_IN_PROPOSAL03_DESIGN",
+      "checklist_point": 23,
+      "basis": "Sections114,118-124 define typed u32 pre-resource refusal separately from actual raw ASCII CLI parser, real-main and subprocess controls before any side effects. Not invented noninteger kernel API."
+    }
+  ],
+  "scenario_F": {
+    "disposition": "REQUIRED",
+    "basis": "Distinct actual CPL3 absent-leaf USER read, full PF error4/CR2=403fe000; no new retained frame.",
+    "matrix_rows": 2
+  },
+  "A_prebaseline_RED": {
+    "disposition": "SUFFICIENT_ONLY_FOR_MISSING_CPL3_PROPERTY",
+    "required": "Real source-pinned pre-F5 F4-ready boots at128/512, observed CS8/GDTR39 and explicit property assertion failure.",
+    "not_claimed": [
+      "Attempted CPL3 transition",
+      "Execution of A payload",
+      "B-F runtime RED",
+      "Infrastructure failure as RED"
+    ]
+  },
+  "scenario_contract": {
+    "required_scenarios": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+    ],
+    "required_rows": [
+      {
+        "scenario": "A",
+        "ram_mib": 128
+      },
+      {
+        "scenario": "A",
+        "ram_mib": 512
+      },
+      {
+        "scenario": "B",
+        "ram_mib": 128
+      },
+      {
+        "scenario": "B",
+        "ram_mib": 512
+      },
+      {
+        "scenario": "C",
+        "ram_mib": 128
+      },
+      {
+        "scenario": "C",
+        "ram_mib": 512
+      },
+      {
+        "scenario": "D",
+        "ram_mib": 128
+      },
+      {
+        "scenario": "D",
+        "ram_mib": 512
+      },
+      {
+        "scenario": "E",
+        "ram_mib": 128
+      },
+      {
+        "scenario": "E",
+        "ram_mib": 512
+      },
+      {
+        "scenario": "F",
+        "ram_mib": 128
+      },
+      {
+        "scenario": "F",
+        "ram_mib": 512
+      }
+    ],
+    "row_count": 12,
+    "family_identities": [
+      "f5_cpl3_A_entry",
+      "f5_cpl3_B_ro_write",
+      "f5_cpl3_C_supervisor_read",
+      "f5_cpl3_D_hlt",
+      "f5_cpl3_E_io_denied",
+      "f5_cpl3_F_guard_read"
+    ],
+    "hardware_executed_by_reviewer": false,
+    "full_error_oracles": {
+      "A": [
+        6,
+        0
+      ],
+      "B": [
+        14,
+        7
+      ],
+      "C": [
+        14,
+        5
+      ],
+      "D": [
+        13,
+        0
+      ],
+      "E": [
+        13,
+        0
+      ],
+      "F": [
+        14,
+        4
+      ]
+    },
+    "retained_prerequisite_rows": {
+      "F1": 10,
+      "F2": 8,
+      "F3": 18,
+      "F4": 12
+    },
+    "kernel_input": "u32 exactly1..6; check before try_admit/owner-map-frame locks/acquire",
+    "host_input": "actual argparse --scenario canonical ASCII str1..6 only; omitted full matrix; no coercion/duplicates; refusal before any side effect"
+  },
+  "historical_relocation": {
+    "review02_original_design_pin": "44325607eb36e0a16a3692c212509acdfe3c8303999a2297a60ed82d772597a9",
+    "current_path": "test_results/phase11f5_cpl3_proof/design_proposal_02.md",
+    "actual_sha256": "44325607eb36e0a16a3692c212509acdfe3c8303999a2297a60ed82d772597a9",
+    "review02_and_readback_preserved": true,
+    "note": "Original reviewer pin retained unchanged; relocated raw bytes verified rather than repinning historical design.md to proposal03."
+  },
+  "parent_metadata_not_adopted_as_independent_evidence": [
+    "continuation_verification_03.json",
+    "continuation_verification_04.json",
+    "design_review_02_readback_01.json",
+    "Parent integrity-only observations; independently recomputed source membership/bytes, descriptor/frame/image arithmetic, exact gate Counter and inherited closure bytes.",
+    "Prior reviews used for schema, preserved history and mandatory dispositions, not current approval."
+  ],
+  "review_file_number": 3,
+  "approval_pin_note": "APPROVE only proposal03 raw SHA256 6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c and immutable manifest SHA256 adea88bcf78b78ebe182c79c82563d88707de3075435c24a675e1ab22f69d42f. No future candidate, result, canonical run or release approved. No proposal04 authorized.",
+  "verification": {
+    "checks": {
+      "all_reviewed_pins_stable": true,
+      "canonical_membership_and_bytes_equal": true,
+      "manifest_pin_matches": true,
+      "design_pin_matches": true,
+      "all23_authority_and9_additional_and187_canonical_bytes_match": true,
+      "source_authority_membership_independently_matches": true,
+      "exact26_points": true,
+      "coverage_mapping_exact26": true,
+      "no_blocking_finding": true,
+      "historical72_gates_equals_runner": true,
+      "identities_exact14": true,
+      "matrix_exact12": true,
+      "head_matches": true,
+      "branch_matches": true,
+      "protected_git_status_unchanged": true,
+      "inherited_closure_raw_bytes_verified": true
+    },
+    "changed_pins": [],
+    "reviewed_pin_count_including_manifest": 205,
+    "source_hash_count": 204,
+    "canonical_source_count": 187,
+    "source_authority_count": 23,
+    "additional_review_input_count": 9,
+    "checklist_membership": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "checklist_count": 26,
+    "all23_manifest_membership_and_hashes_verified": true,
+    "all_reviewed_pins_stable_at_final_read": true,
+    "only_authorized_write": "test_results/phase11f5_cpl3_proof/reviews/design_review_03.json",
+    "tests_not_run": true,
+    "builds_not_run": true,
+    "QEMU_not_run": true,
+    "source_or_skill_modifications": false,
+    "blocker_count": 0,
+    "git_branch": "maintenance/phase10",
+    "git_status_preserved": " M .gitignore\n M README.md\n M test_results/phase11f4_user_arena/FINAL_REPORT.md\n?? d1/\n?? docs/ROSTI_INIT_ARCHITECTURE.md\n?? reviews/\n?? scripts/b13_boot_fixture.py.backup\n"
+  },
+  "blocker_count": 0,
+  "summary": "Independent full26-area proposal03 design review APPROVE/zero blockers. Both D02 mandatory blockers are closed by production-linked owner/publication tests and explicit real CLI versus typed integer admission boundaries. RF/padding and closed14 identities remain resolved. Source-shared F2 macro extension is compatible under unchanged default68-byte contract and fresh emitted/cross-ring proof. Approval is design-only; no candidate, tests, hardware, canonical acceptance or release approved.",
+  "implementation_authorization_scope": "Design prerequisite is satisfied for only the bounded F5 implementation stage under existing user authorization. Reviewer has no permission to perform implementation in this read-only task. All specified RED/GREEN, emitted/resource/timing gates, independent candidate APPROVE, frozen canonical execution and independent final readback are still required; no generic userland or proposal04."
+}

@@ -1,0 +1,66 @@
+{
+  "scope": "initial pure host checkpoint only; NOT full F5 gate completion",
+  "inherited_count": 380,
+  "current_count": 390,
+  "inherited_preserved": true,
+  "new_present": [
+    "f5_cpl3_tests::descriptor_extension_preserves_tss_slots",
+    "f5_cpl3_tests::exact_exception_oracles",
+    "f5_cpl3_tests::fixed_payload_fits_owned_page",
+    "f5_cpl3_tests::iret_flags_and_stack_contract",
+    "f5_cpl3_tests::mandatory_prefix_and_conditional_tail",
+    "f5_cpl3_tests::payload_bytes_and_fault_offsets",
+    "f5_cpl3_tests::supervisor_presence_is_not_assumed",
+    "f5_cpl3_tests::terminal_latch_refuses_resume",
+    "f5_cpl3_tests::user_selectors_have_dpl3_rpl3",
+    "f5_cpl3_tests::wrong_origin_or_reserved_error_bits_fail"
+  ],
+  "missing_required_f5": [
+    "memory::paging::f5_cpl3_owner_tests::before_publication_payload_copy_exact",
+    "memory::paging::f5_cpl3_owner_tests::default_f4_image_bytes_unchanged",
+    "memory::paging::f5_cpl3_owner_tests::invalid_scenario_preflight_refusal",
+    "memory::paging::f5_cpl3_owner_tests::twelve_frame_state_preservation"
+  ],
+  "complete_f5_contract": false,
+  "runs": {
+    "f5_host_serial_06": {
+      "exit_code": 0,
+      "membership_equals_listing": true,
+      "identities": 390,
+      "ignored": [
+        "maintenance_measurements::measured_frame_scan_states",
+        "maintenance_measurements::measured_heap_capacity_loss"
+      ],
+      "totals": [
+        [
+          "388",
+          "0",
+          "2"
+        ]
+      ]
+    },
+    "f5_host_parallel_06": {
+      "exit_code": 0,
+      "membership_equals_listing": true,
+      "identities": 390,
+      "ignored": [
+        "maintenance_measurements::measured_frame_scan_states",
+        "maintenance_measurements::measured_heap_capacity_loss"
+      ],
+      "totals": [
+        [
+          "388",
+          "0",
+          "2"
+        ]
+      ]
+    }
+  },
+  "source_sha256": {
+    "src\\f5_cpl3.rs": "c0184081867294bd67d95de23dd4bb194d18f2a2621726e3593149ecda8fd232",
+    "src\\f5_gdt.rs": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+    "src\\main.rs": "732f92cc854b63e48e3b586cda099164abd42ceb68c5d14000cee360bac1d7ff",
+    "tests_kernel\\src\\lib.rs": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189",
+    "tests_kernel\\src\\f5_cpl3_tests.rs": "64688a6cfe19828630ef2b036993f2634c9db83417b9a8961655e9bfab924fd5"
+  }
+}

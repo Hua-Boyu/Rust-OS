@@ -1,0 +1,130 @@
+{
+  "schema": "rosti.f5.continuation03.readonly-pin-check.v1",
+  "utc": "2026-10-23T09:18:10.730838+00:00",
+  "head": "c8b73654dd5f7f64c3c7872254b2b730ad2151f4",
+  "status": " M .gitignore\n M README.md\n M test_results/phase11f4_user_arena/FINAL_REPORT.md\n?? d1/\n?? docs/ROSTI_INIT_ARCHITECTURE.md\n?? reviews/\n?? scripts/b13_boot_fixture.py.backup\n",
+  "review01_sha256": "d9d8c719492656d41a73867e0f24806288d76124b051db1408bb4fa638f52161",
+  "unchanged_review01_inputs": {
+    "src/gdt_tss.rs": {
+      "expected": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+      "actual": "2520d88c4ac8cffa1749ec66d6881e5e6481af393a977cdaf338799fc3f2e0ca",
+      "match": true
+    },
+    "src/memory/privileged.rs": {
+      "expected": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "actual": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "match": true
+    },
+    "src/interrupt.rs": {
+      "expected": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "actual": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "match": true
+    },
+    "src/exception_entry.s": {
+      "expected": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "actual": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "match": true
+    },
+    "src/exception_abi.rs": {
+      "expected": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "actual": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "match": true
+    },
+    "src/memory/user_arena.rs": {
+      "expected": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+      "actual": "50629c9a13feeaa4552b077d969297846d98f0b809cef764c234024f4fb03b1d",
+      "match": true
+    },
+    "src/memory/retained_owner.rs": {
+      "expected": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+      "actual": "53d5f46e9d977d86f3e180aefd6c3d4385bfa5875e77cf48f9fe508917cc9fe8",
+      "match": true
+    },
+    "src/f3_entry.s": {
+      "expected": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+      "actual": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+      "match": true
+    },
+    "linker.ld": {
+      "expected": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+      "actual": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+      "match": true
+    },
+    "scripts/f1_evidence.py": {
+      "expected": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+      "actual": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+      "match": true
+    },
+    "scripts/f2_evidence.py": {
+      "expected": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+      "actual": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+      "match": true
+    },
+    "scripts/f2_exception_guest.py": {
+      "expected": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+      "actual": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+      "match": true
+    },
+    "scripts/f3_full_evidence.py": {
+      "expected": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+      "actual": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+      "match": true
+    },
+    "scripts/f4_evidence.py": {
+      "expected": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+      "actual": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+      "match": true
+    },
+    "scripts/f4_ready_guest.py": {
+      "expected": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+      "actual": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+      "match": true
+    },
+    "scripts/f4_arena_guest.py": {
+      "expected": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+      "actual": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+      "match": true
+    },
+    "scripts/phase6_verify.py": {
+      "expected": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+      "actual": "5f7a8800aa387ad2c4bb406ebd5051621923b1267f3827060a839daf36687f4d",
+      "match": true
+    },
+    "scripts/test_acceptance_harness.py": {
+      "expected": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+      "actual": "26a9a1d0939cf2e911b050f1b9aa490c5112fa8eb87c374af2f3b92c2b22842b",
+      "match": true
+    },
+    "test_results/phase11f4_user_arena/correction_cycle_01.py": {
+      "expected": "2f94466631e1a0ad3cab4d98a7abbed3e0784ecd01d1e5873d1196526228fe6a",
+      "actual": "2f94466631e1a0ad3cab4d98a7abbed3e0784ecd01d1e5873d1196526228fe6a",
+      "match": true
+    },
+    "test_results/phase11f4_user_arena/terminal_contract_02.py": {
+      "expected": "81c95081bd1df76df0b5847f24bbc95bf7ea430bcddf3e3f56399dc432c8c20c",
+      "actual": "81c95081bd1df76df0b5847f24bbc95bf7ea430bcddf3e3f56399dc432c8c20c",
+      "match": true
+    },
+    "test_results/phase11f5_cpl3_proof/authorization_01.md": {
+      "expected": "fc88c9d39a131f64af8837be32ae7b30a997d0e4f6e1501fcd7348ee55eec0ac",
+      "actual": "fc88c9d39a131f64af8837be32ae7b30a997d0e4f6e1501fcd7348ee55eec0ac",
+      "match": true
+    },
+    "test_results/phase11f5_cpl3_proof/reviews/prerequisite_review_01.json": {
+      "expected": "398f3bbd0f61d4be256c0e8ac51ef25bcca012a73922b2eeb8d171d8207345a1",
+      "actual": "398f3bbd0f61d4be256c0e8ac51ef25bcca012a73922b2eeb8d171d8207345a1",
+      "match": true
+    },
+    "test_results/phase11f5_cpl3_proof/recovery_snapshot_01.json": {
+      "expected": "516cfa04642d4f43db7e60f1bd836603195d245861d5f5749b0eb606c2751313",
+      "actual": "516cfa04642d4f43db7e60f1bd836603195d245861d5f5749b0eb606c2751313",
+      "match": true
+    }
+  },
+  "all_checked_inputs_match": true,
+  "design02_sha256": "44325607eb36e0a16a3692c212509acdfe3c8303999a2297a60ed82d772597a9",
+  "design02_still_matches_dispatched_pin": true,
+  "implementation_authorized": false,
+  "hardware_executed_this_continuation": false,
+  "note": "Review02 still required; this parent integrity check is not independent design approval."
+}

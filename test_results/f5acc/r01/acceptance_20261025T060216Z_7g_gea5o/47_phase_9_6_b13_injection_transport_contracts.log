@@ -1,0 +1,15 @@
+test_actual_isolated_fixture_symbols (__main__.FixtureSymbols.test_actual_isolated_fixture_symbols) ... ok
+test_checksum_eof_is_rejected_without_retrying_closed_socket (__main__.MemoryReadback.test_checksum_eof_is_rejected_without_retrying_closed_socket) ... ok
+test_connection_close_failure_still_reaps_owned_guest_and_writes_failure (__main__.MemoryReadback.test_connection_close_failure_still_reaps_owned_guest_and_writes_failure) ... ok
+test_readback_confirmed_mutation_is_recorded (__main__.MemoryReadback.test_readback_confirmed_mutation_is_recorded) ... ok
+test_short_memory_read_rejected (__main__.MemoryReadback.test_short_memory_read_rejected) ... ok
+test_write_requires_exact_readback (__main__.MemoryReadback.test_write_requires_exact_readback) ... ok
+test_patch_preserves_every_unrequested_byte (__main__.RegisterPacket.test_patch_preserves_every_unrequested_byte) ... ok
+test_register_overflow_is_not_truncated (__main__.RegisterPacket.test_register_overflow_is_not_truncated) ... ok
+test_short_register_packet_rejected (__main__.RegisterPacket.test_short_register_packet_rejected) ... ok
+test_unknown_register_rejected (__main__.RegisterPacket.test_unknown_register_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.031s
+
+OK

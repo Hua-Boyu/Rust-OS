@@ -1,0 +1,13 @@
+{
+  "scope": "optional parent offline summary only; frozen real verification remains PASS",
+  "tool": "execute_code",
+  "execution_count": 4,
+  "exit": 1,
+  "elapsed_seconds": 0.03,
+  "failure": "FileNotFoundError: host_serial.log",
+  "cause": "host report log fields are relative to v10/host, not process CWD",
+  "failed_expression": "text=Path(s[\"log\"]).read_text(errors=\"replace\")",
+  "correction": "resolve logpath=out/\"host\"/s[\"log\"] before raw read/hash; no source, validator or artifact edited",
+  "source_change": false,
+  "hardware_or_test_failure": false
+}

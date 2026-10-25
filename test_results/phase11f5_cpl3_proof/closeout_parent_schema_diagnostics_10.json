@@ -1,0 +1,9 @@
+{
+  "schema": "rosti.f5-parent-schema-diagnostics.v1",
+  "classification": "Convenience extraction error, not source/test failure",
+  "invalid_observations_discarded": [
+    "cell31 absent source_before/source_after None-equality is not evidence",
+    "cell32 mistakenly compared source_after_sha256 string with pin dictionary and asserted exit1"
+  ],
+  "correction": "Read driver lines212\u2013215; hash exact v10/source_after.json against report.source_after_sha256, parse and require equality to262freeze.pins plus real boolean source_before_equals_after. All three pass. Original report unchanged."
+}

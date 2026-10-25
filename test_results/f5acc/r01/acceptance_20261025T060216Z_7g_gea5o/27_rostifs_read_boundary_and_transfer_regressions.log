@@ -1,0 +1,13 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running tests\read_performance.rs (Documents\Rust-OS\crates\rostifs\target\debug\build\rostifs/ee963375b1eb8b5e\out\read_performance-ee963375b1eb8b5e.exe)
+
+running 6 tests
+test measured_mount_info_workloads ... ignored, explicit serial host diagnostic benchmark, not guest boot timing
+test measured_read_workloads ... ignored, explicit serial host microbenchmark, not a correctness gate
+test changed_geometry_is_rejected_before_read_io ... ok
+test every_mixed_read_sector_failure_releases_borrows_and_recovers ... ok
+test read_transfers_only_intersecting_sectors ... ok
+test read_boundaries_eof_and_device_errors ... ok
+
+test result: ok. 4 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

@@ -1,0 +1,13 @@
+{
+  "schema": "rosti.f5-proposed-derivation-feasibility.v1",
+  "scope": "READ_ONLY_PROPOSAL_FEASIBILITY_NOT_IMPLEMENTED_GATE",
+  "accepted_F2_git_sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+  "current_F2_raw_sha256": "e375278f78c458a6ebed3e4fd2256f45d6c1b5e50a6e09654ba730fb8fe887e6",
+  "F5_raw_sha256": "c2bc0ff1248fdbf64a17fe0e7a26064a54279a2fad6fb99eda150fee7d95f5d1",
+  "complete_noncomment_sequence_equal": true,
+  "accepted_line_count": 106,
+  "derived_line_count": 106,
+  "live_raw_F2_admissible": false,
+  "complete_negative_controls_executed": false,
+  "candidate_approval": false
+}

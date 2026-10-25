@@ -1,0 +1,15 @@
+test_all_inherited_fault_and_host_features_remain_rejected (__main__.ProductionFixturePolicyTests.test_all_inherited_fault_and_host_features_remain_rejected) ... ok
+test_clean_iso_stages_the_same_bytes_that_were_checked (__main__.ProductionFixturePolicyTests.test_clean_iso_stages_the_same_bytes_that_were_checked) ... ok
+test_direct_iso_build_refuses_fixture_before_staging (__main__.ProductionFixturePolicyTests.test_direct_iso_build_refuses_fixture_before_staging) ... ok
+test_fixture_symbol_is_rejected_even_with_production_metadata (__main__.ProductionFixturePolicyTests.test_fixture_symbol_is_rejected_even_with_production_metadata) ... ok
+test_inherited_fatal_marker_remains_rejected (__main__.ProductionFixturePolicyTests.test_inherited_fatal_marker_remains_rejected) ... ok
+test_initramfs_failure_feature_is_not_production (__main__.ProductionFixturePolicyTests.test_initramfs_failure_feature_is_not_production) ... ok
+test_iso_entrypoint_rejects_fixture_before_validation_or_build (__main__.ProductionFixturePolicyTests.test_iso_entrypoint_rejects_fixture_before_validation_or_build) ... ok
+test_missing_required_resolved_package_is_rejected (__main__.ProductionFixturePolicyTests.test_missing_required_resolved_package_is_rejected) ... ok
+test_production_features_and_bytes_are_allowed (__main__.ProductionFixturePolicyTests.test_production_features_and_bytes_are_allowed) ... ok
+test_shared_byte_policy_scans_entire_payload (__main__.ProductionFixturePolicyTests.test_shared_byte_policy_scans_entire_payload) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.182s
+
+OK

@@ -1,0 +1,348 @@
+{
+  "schema": "rosti.f5-full-component-verification.v1",
+  "overall": "PASS",
+  "canonical_acceptance": false,
+  "source_freeze": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\full_source_freeze_10.json",
+  "source_freeze_sha256": "56d4e87dc235c52218e80d6a4f0c9d0380cf10d8f98e271d3b3f83c90917bb25",
+  "steps": [
+    {
+      "name": "kernel_format",
+      "command": [
+        "cargo",
+        "+nightly",
+        "fmt",
+        "--check"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\kernel_format.log",
+      "wall_seconds": 3.437999999965541,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "host_format",
+      "command": [
+        "cargo",
+        "+nightly",
+        "fmt",
+        "--manifest-path",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+        "--check"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\host_format.log",
+      "wall_seconds": 0.5,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "production_build",
+      "command": [
+        "cargo",
+        "+nightly",
+        "build"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\production_build.log",
+      "wall_seconds": 1.5,
+      "log_sha256": "317f6143b677a05e6907f03bd712074d4f18d9a5e802fc4f6ce1d52a7ae9c1f0"
+    },
+    {
+      "name": "elf_contract",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\validate_elf.py",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\elf_contract.log",
+      "wall_seconds": 0.15600000007543713,
+      "log_sha256": "af61faf0b1918bdcd6c41f32e1668895f9e577f6e8d2fe56cdf6c90a129b8ce1"
+    },
+    {
+      "name": "entry_negative_controls",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_f5_entry_derivation.py"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\entry_negative_controls.log",
+      "wall_seconds": 1.047000000020489,
+      "log_sha256": "f4bc3394f650eb5cb168e376d47cc1ab562a88351d3e13ef5a3f67c2e03b2bda"
+    },
+    {
+      "name": "entry_derivation",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\f5_entry_derivation.py",
+        "--root",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS",
+        "--manifest",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\full_source_freeze_10.json",
+        "--output",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\entry_derivation.json"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\entry_derivation.log",
+      "wall_seconds": 0.15700000000651926,
+      "log_sha256": "a7cf43c9f79c7773f3df55c3601fbd5ab4fcba0970407a70e99bd92943b0dfaf"
+    },
+    {
+      "name": "terminal_negative_controls",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_f5_terminal_audit.py"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\terminal_negative_controls.log",
+      "wall_seconds": 13.172000000020489,
+      "log_sha256": "61fa044ffe03d76d1a2e6a5e9f0f3d2191745d9857815c7b51c0d1dc3f4a119b"
+    },
+    {
+      "name": "terminal_audit",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\f5_terminal_audit.py",
+        "--elf",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+        "--before",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\f2_before_macro_01.elf",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\audit"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\terminal_audit.log",
+      "wall_seconds": 3.062999999965541,
+      "log_sha256": "1e139805c5e4ec1e6f23dc3f02eb9bd37d5d9eebd86d60634c5ed929316f366c"
+    },
+    {
+      "name": "harness_controls",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_f5_cpl3_harness.py"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\harness_controls.log",
+      "wall_seconds": 3.9530000000959262,
+      "log_sha256": "f0d73c677245fba0a3c4cb6b9382091f9ae5a30752312ef9c01698435ec73328"
+    },
+    {
+      "name": "predecessor_adapter_controls",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\test_f4_regression_adapter_09.py"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\predecessor_adapter_controls.log",
+      "wall_seconds": 0.8429999999934807,
+      "log_sha256": "53b99b42c75494c6b166c14995e8a60a183951d3692b70800dd5d6b9e2fce658"
+    },
+    {
+      "name": "f1_cleanup_controls",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\test_f1_cleanup_10.py"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\f1_cleanup_controls.log",
+      "wall_seconds": 1.0780000000959262,
+      "log_sha256": "00aeadb2c9d6886a5350b24c1f3ab88e0099f1770842a79a8ee6f689c3fca6ad"
+    },
+    {
+      "name": "parent_readback_controls",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\test_parent_readback_10.py"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\parent_readback_controls.log",
+      "wall_seconds": 0.35999999998603016,
+      "log_sha256": "a6bfb2c168c6f305ad482e23d040ce2361e1dafe3c07c3f710c4b2a719db2c06"
+    },
+    {
+      "name": "host_b26",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\host_matrix_06_01.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\host"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\host_b26.log",
+      "wall_seconds": 16.483999999938533,
+      "log_sha256": "08dd8f1401a59b69389b278300b167b346364d0aac40315d203f7a2ae42eb080"
+    },
+    {
+      "name": "f1_preservation",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\f1_composition_10.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\f1"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\f1_preservation.log",
+      "wall_seconds": 388.795999999973,
+      "log_sha256": "3348591693daebf2fdd2e5551b871227baad357d13b9b3b46a68732b969dc086"
+    },
+    {
+      "name": "f2_preservation",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\f2_exception_guest.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\f2"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\f2_preservation.log",
+      "wall_seconds": 33.40599999995902,
+      "log_sha256": "9bbb9b6ff929d7809da5feac80c926d27329ad1470a89b6f013ada9ea70e8e2a"
+    },
+    {
+      "name": "f3_preservation_isolated_short_path",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\f3_full_guest.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\f3"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 2100,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\f3_preservation_isolated_short_path.log",
+      "wall_seconds": 95.31200000003446,
+      "log_sha256": "88ee8ec1f608b63a2e930ad26042eab454f88b07788f956221e2aad9a7a0d353"
+    },
+    {
+      "name": "f4_preservation",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\f4_arena_guest.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\f4"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 2100,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\f4_preservation.log",
+      "wall_seconds": 231.89099999994505,
+      "log_sha256": "6b0facd50508f4e8c16da5097fd4f73f6846990f604aa330226a81bdb93b7d9e"
+    },
+    {
+      "name": "f5_matrix",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\f5_cpl3_guest.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\f5"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\f5_matrix.log",
+      "wall_seconds": 318.6719999999041,
+      "log_sha256": "4c85785a5f70d991f2127cdad37c7ad4e03e73dcffa40f91e079601744a0a406"
+    },
+    {
+      "name": "mock_timing",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\test_acceptance_harness.py",
+        "-v"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 1049,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\mock_timing.log",
+      "wall_seconds": 811.0779999999795,
+      "log_sha256": "fe4b3923755c4c66302a9d28ea614eaa7b322bdead08793d9b277af29da8bcd7"
+    },
+    {
+      "name": "full_f4_regression",
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase11f5_cpl3_proof\\run_f4_regression_06_01.py",
+        "--output-dir",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5r\\r03"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "timeout_seconds": 14400,
+      "exit_code": 0,
+      "log": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\full_f4_regression.log",
+      "wall_seconds": 3720.4220000000205,
+      "log_sha256": "19d1fb11a27fe48a9152a6d1a0971f39e847cb6a670f22b40cc596a10900bcb4"
+    }
+  ],
+  "prelaunch_busy_processes": [],
+  "production_elf": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\target\\target\\debug\\kernel",
+    "sha256": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4"
+  },
+  "mock_timing": {
+    "test_count": 95,
+    "suite_seconds": 810.776,
+    "wall_seconds": 811.0779999999795,
+    "limit_seconds": 1049
+  },
+  "predecessor_regression_root": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5r\\r03",
+  "parent_readback": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5p01\\v10\\parent_readback.json",
+    "sha256": "2b9aee3730333e2683813d7b9f710df6647e5ebbd9ee970339f80d9de120ce59",
+    "components": [
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5"
+    ],
+    "artifact_count": 68882
+  },
+  "source_before_equals_after": true,
+  "source_after_sha256": "5e3c16435175f0c23357d43958928e8022b873001bf76cabb321e6d9194232d9",
+  "remaining_qemu_observed": []
+}
