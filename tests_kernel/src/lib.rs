@@ -49,6 +49,12 @@ pub mod cpu;
 #[path = "../../src/exception_abi.rs"]
 pub mod exception_abi;
 
+#[path = "../../src/f5_cpl3.rs"]
+pub mod f5_cpl3;
+
+#[path = "f5_cpl3_tests.rs"]
+pub mod f5_cpl3_tests;
+
 #[path = "../../src/fs_commands.rs"]
 pub mod fs_commands;
 

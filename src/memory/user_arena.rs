@@ -11,6 +11,94 @@ pub(crate) const STACK: u64 = 0x403f_f000;
 pub(crate) const PREFIX: [u8; 4] = [0x0f, 0x0b, 0xeb, 0xfc];
 pub(crate) const DATA: &[u8] = b"F4-RO-DATA\0";
 
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub(super) enum Image {
+    F4,
+    F5,
+}
+
+#[cfg(test)]
+#[path = "f5_page_observation.rs"]
+pub(super) mod observation;
+
+// Private exact-one-page transport, not an arbitrary payload loading API.
+// The caller has validated the two distinct writable supervisor aliases.
+unsafe fn initialize_pages(code: *mut u8, stack: *mut u8, image: Image) {
+    unsafe {
+        core::ptr::write_bytes(code, 0, PAGE_SIZE);
+        core::ptr::copy_nonoverlapping(PREFIX.as_ptr(), code, PREFIX.len());
+        core::ptr::copy_nonoverlapping(DATA.as_ptr(), code.add(2048), DATA.len());
+        if image == Image::F5 {
+            for (i, row) in f5_contract::F5_ROWS.iter().enumerate() {
+                core::ptr::copy_nonoverlapping(
+                    row.bytes.as_ptr(),
+                    code.add(
+                        f5_contract::F5_PAYLOAD_OFFSET as usize + i * f5_contract::F5_SLOT_BYTES,
+                    ),
+                    row.bytes.len(),
+                );
+            }
+        }
+        core::ptr::write_bytes(stack, 0, PAGE_SIZE);
+    }
+}
+
+fn image_byte(offset: usize, image: Image) -> u8 {
+    if offset < PREFIX.len() {
+        return PREFIX[offset];
+    }
+    if (2048..2048 + DATA.len()).contains(&offset) {
+        return DATA[offset - 2048];
+    }
+    if image == Image::F5 && (256..640).contains(&offset) {
+        let slot = (offset - 256) / 64;
+        let within = (offset - 256) % 64;
+        if within < f5_contract::F5_ROWS[slot].bytes.len() {
+            return f5_contract::F5_ROWS[slot].bytes[within];
+        }
+    }
+    0
+}
+
+unsafe fn image_matches(code: *const u8, stack: *const u8, image: Image) -> bool {
+    for offset in 0..PAGE_SIZE {
+        unsafe {
+            if core::ptr::read_volatile(code.add(offset)) != image_byte(offset, image)
+                || core::ptr::read_volatile(stack.add(offset)) != 0
+            {
+                return false;
+            }
+        }
+    }
+    true
+}
+
+pub(super) fn valid_f5_image(owner: &RetainedOwner) -> bool {
+    let (Some(code), Some(stack)) = (owner.payload.as_ref(), owner.user_stack.as_ref()) else {
+        return false;
+    };
+    #[cfg(not(test))]
+    unsafe {
+        image_matches(
+            code.frame_addr() as *const u8,
+            stack.frame_addr() as *const u8,
+            Image::F5,
+        )
+    }
+    #[cfg(test)]
+    observation::valid_image(code.frame_addr(), stack.frame_addr())
+}
+
+fn initialize_owned_pages(code: u64, stack: u64, image: Image) -> bool {
+    #[cfg(not(test))]
+    unsafe {
+        initialize_pages(code as *mut u8, stack as *mut u8, image);
+        true
+    }
+    #[cfg(test)]
+    observation::initialize(code, stack, image)
+}
+
 #[derive(Clone, Copy)]
 pub(super) struct Layout {
     pub(super) start: u64,
@@ -169,6 +257,25 @@ pub(super) fn install(
     owner: &RetainedOwner,
     layout: Layout,
 ) -> bool {
+    install_image(pm, fa, owner, layout, Image::F4)
+}
+
+pub(super) fn install_f5(
+    pm: &mut PageMap,
+    fa: &mut FrameAllocator,
+    owner: &RetainedOwner,
+    layout: Layout,
+) -> bool {
+    install_image(pm, fa, owner, layout, Image::F5)
+}
+
+fn install_image(
+    pm: &mut PageMap,
+    fa: &mut FrameAllocator,
+    owner: &RetainedOwner,
+    layout: Layout,
+    image: Image,
+) -> bool {
     if STATE.load(Ordering::Acquire) != PREPARING
         || !preflight_map(pm, fa, layout)
         || !pm.privileged_stacks_valid(fa, &owner.transition, &owner.emergency)
@@ -197,13 +304,11 @@ pub(super) fn install(
     ) else {
         return false;
     };
-    #[cfg(not(test))]
-    unsafe {
-        core::ptr::write_bytes(code as *mut u8, 0, PAGE_SIZE);
-        core::ptr::copy_nonoverlapping(PREFIX.as_ptr(), code as *mut u8, PREFIX.len());
-        core::ptr::copy_nonoverlapping(DATA.as_ptr(), (code as *mut u8).add(2048), DATA.len());
-        core::ptr::write_bytes(stack as *mut u8, 0, PAGE_SIZE);
+    if !initialize_owned_pages(code, stack, image) {
+        return false;
     }
+    #[cfg(test)]
+    observation::event(1, owner, pm, fa, code, stack, table);
     initialize_table(table);
     // F4_PREPUBLICATION: raw PDE256 is still zero here. Any unexpected pin
     // refusal closes the admitted wrapper terminally, retaining this prefix.
@@ -215,24 +320,39 @@ pub(super) fn install(
             options(nostack)
         );
     }
-    if !fa.set_runtime_pin(code, true)
-        || !fa.set_runtime_pin(stack, true)
-        || !fa.set_structure_pin(table, true)
-    {
+    if !fa.set_runtime_pin(code, true) {
         return false;
     }
+    #[cfg(test)]
+    observation::event(2, owner, pm, fa, code, stack, table);
+    if !fa.set_runtime_pin(stack, true) {
+        return false;
+    }
+    #[cfg(test)]
+    observation::event(3, owner, pm, fa, code, stack, table);
+    if !fa.set_structure_pin(table, true) {
+        return false;
+    }
+    #[cfg(test)]
+    observation::event(4, owner, pm, fa, code, stack, table);
     payload_set_bit(&mut pm.payload_bitmap, code, true);
     payload_set_bit(&mut pm.payload_bitmap, stack, true);
+    #[cfg(test)]
+    observation::event(5, owner, pm, fa, code, stack, table);
     store(
         table,
         0,
         code as u32 | ENTRY_PRESENT | ENTRY_USER | ENTRY_RUNTIME_PAYLOAD,
     );
+    #[cfg(test)]
+    observation::event(6, owner, pm, fa, code, stack, table);
     store(
         table,
         1023,
         stack as u32 | ENTRY_PRESENT | ENTRY_WRITABLE | ENTRY_USER | ENTRY_RUNTIME_PAYLOAD,
     );
+    #[cfg(test)]
+    observation::event(7, owner, pm, fa, code, stack, table);
     pm.tables[256] = table;
     pm.user_arena_reserved = true;
     pm.stats.page_tables = page_tables;
@@ -240,6 +360,8 @@ pub(super) fn install(
     pm.stats.maps = maps;
     compiler_fence(Ordering::Release);
     // Last hardware publication; all owning authority and both leaves exist.
+    #[cfg(test)]
+    observation::event(8, owner, pm, fa, code, stack, table);
     store(
         pm.directory,
         256,

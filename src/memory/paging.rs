@@ -26,6 +26,11 @@ use crate::utils::bits::CanManipulateBits;
 extern crate alloc;
 use alloc::vec::Vec;
 
+#[path = "../f5_contract.rs"]
+pub(crate) mod f5_contract;
+#[cfg(all(not(test), target_os = "none"))]
+#[path = "../f5_runtime.rs"]
+pub(in crate::memory) mod f5_runtime;
 #[path = "privileged.rs"]
 pub(crate) mod privileged;
 #[path = "retained_owner.rs"]
@@ -85,6 +90,12 @@ mod privileged_owner_tests;
 #[cfg(test)]
 #[path = "f4_user_arena_tests.rs"]
 mod f4_user_arena_tests;
+
+// F5 adds four host identities without changing the independently rooted
+// B26 inherited identity contract; B26 still exercises the shared F4 path.
+#[cfg(all(test, not(feature = "b26-observation")))]
+#[path = "f5_cpl3_owner_tests.rs"]
+mod f5_cpl3_owner_tests;
 
 #[cfg(all(test, feature = "b26-observation"))]
 #[path = "f4_b26_tests.rs"]

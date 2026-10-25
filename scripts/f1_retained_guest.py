@@ -5,6 +5,7 @@ import os
 import re
 import shutil
 import socket
+import stat
 import struct
 import subprocess
 import sys
@@ -89,6 +90,7 @@ def build_case(root, stage, source_hashes, case, folder, deadline):
         built = subprocess.run(argv, cwd=source, stdout=log, stderr=subprocess.STDOUT, timeout=max(1, deadline - time.monotonic()))
     manifest = {'case': case, 'name': CASES[case], 'command': argv, 'cwd': str(source), 'exit': built.returncode,
                 'stage': str(stage), 'copied': copied, 'injections': changes, 'added_guest_sha256': sha(guest),
+                'kernel_sha256': sha((stage / 'build/target/debug/kernel').read_bytes()) if built.returncode == 0 else None,
                 'source_snapshot': source_hashes,
                 'staged_snapshot': {p.relative_to(source).as_posix(): sha(p.read_bytes()) for p in source.rglob('*') if p.is_file()}}
     save(folder / 'build.json', manifest)
@@ -185,6 +187,88 @@ def run_guest(kernel, symbol_kernel, ram, case, folder, identities, timeout):
     return report
 
 
+def no_reparse(path):
+    info = path.lstat()
+    require(not stat.S_ISLNK(info.st_mode) and not getattr(info, 'st_file_attributes', 0) & 0x400,
+            'F1 cleanup symlink/junction/reparse point refused')
+    return info
+
+
+class OwnedStage:
+    """Current-process creation record; never adopt a caller-supplied stage."""
+    def __init__(self, dist):
+        dist = Path(dist).absolute()
+        for ancestor in reversed((dist, *dist.parents)):
+            no_reparse(ancestor)
+        require(dist.resolve() == dist and dist.is_dir(), 'F1 cleanup root identity')
+        self.path = Path(tempfile.mkdtemp(prefix='phase11f1_guest_', dir=dist))
+        info = no_reparse(self.path)
+        self._created = (self.path, dist, info.st_dev, info.st_ino, os.getpid())
+
+    def remove(self):
+        created, dist, device, inode, pid = self._created
+        require(self.path == created and pid == os.getpid(), 'F1 stage not owned by invocation')
+        require(created.parent == dist and created.name.startswith('phase11f1_guest_')
+                and created.resolve().parent == dist, 'F1 stage outside approved root/prefix')
+        for ancestor in reversed((dist, *dist.parents)):
+            no_reparse(ancestor)
+        info = no_reparse(created)
+        require((info.st_dev, info.st_ino) == (device, inode) and stat.S_ISDIR(info.st_mode),
+                'F1 stage creation identity changed')
+        # Refuse ALL reparse entries before deletion, including nested junctions.
+        # shutil.rmtree on supported Python also refuses directory-symlink roots
+        # and does not recurse through Windows directory junctions.
+        pending = [created]
+        while pending:
+            here = pending.pop()
+            no_reparse(here)
+            with os.scandir(here) as entries:
+                for entry in entries:
+                    child = Path(entry.path)
+                    child_info = no_reparse(child)
+                    require(child.resolve().is_relative_to(created), 'F1 cleanup path escape')
+                    if stat.S_ISDIR(child_info.st_mode):
+                        pending.append(child)
+        require((no_reparse(created).st_dev, no_reparse(created).st_ino) == (device, inode),
+                'F1 stage identity changed before removal')
+        shutil.rmtree(created)
+        require(not os.path.lexists(created), 'F1 stage still present after removal')
+
+
+def retained_complete(report, run, before, default_hash):
+    """Check durable reader inputs before discarding disposable compiler output."""
+    require(report['overall'] == 'PASS' and report['source_unchanged'] is True
+            and report['default_elf_unchanged'] is True
+            and report['source_snapshot'] == before and report['default_elf_sha256'] == default_hash,
+            'F1 failed matrix/preservation must retain stage')
+    expected = {(case, ram) for case in range(5) for ram in (128, 512)}
+    require(len(report['scenarios']) == 10
+            and {(r['case'], r['ram_mib']) for r in report['scenarios']} == expected,
+            'F1 cleanup requires ten exact scenarios')
+    require(report['checks'] and all(r.get('pass') is True for r in report['checks']),
+            'F1 failed/empty checks must retain stage')
+    for row in report['scenarios']:
+        case, ram = row['case'], row['ram_mib']
+        child_path = run / f'{case}_{ram}' / 'report.json'
+        require(Path(row['report']).resolve() == child_path.resolve()
+                and row['overall'] == 'PASS' and row['name'] == CASES[case], 'F1 child path/state')
+        child = json.loads(child_path.read_bytes())
+        require(child['overall'] == 'PASS' and child['owned_qemu_exited'] is True
+                and child['actual_qemu_exit'] == 1
+                and (child['case'], child['ram_mib'], child['name']) == (case, ram, CASES[case]),
+                'F1 missing/failed/unexited child must retain stage')
+        build_root = run / f'build_{case}'
+        build_path = build_root / 'build.json'
+        build = json.loads(build_path.read_bytes())
+        require(build['exit'] == 0 and build['case'] == case, 'F1 failed build must retain stage')
+        identity = child['identities']
+        require(sha((build_root / 'kernel.elf').read_bytes()) == build['kernel_sha256'] == identity['kernel_sha256']
+                and sha((build_root / f'fixture_{ram}.elf').read_bytes()) == identity['boot_fixture_sha256']
+                and sha(build_path.read_bytes()) == identity['build_manifest_sha256']
+                and identity['source_snapshot_sha256'] == sha(json.dumps(before, sort_keys=True).encode()),
+                'F1 retained source/build/ELF identity')
+
+
 def workflow(args):
     from boot_metadata_test import PROJECT, build_fixture, parse_elf
     from phase6_verify import source_snapshot
@@ -198,11 +282,17 @@ def workflow(args):
     before = source_snapshot()
     default_elf = args.kernel.resolve()
     default_hash = sha(default_elf.read_bytes())
-    stage = Path(tempfile.mkdtemp(prefix='phase11f1_guest_', dir=PROJECT / 'dist'))
+    owned = OwnedStage(PROJECT / 'dist')
+    stage = owned.path
+    report['stage_removed'] = False
     try:
         report['source_snapshot'] = before
         report['default_elf_sha256'] = default_hash
         report['owned_stage'] = str(stage)
+        created, dist, device, inode, pid = owned._created
+        report['stage_creation'] = {'path':str(created), 'root':str(dist),
+                                    'device':device, 'inode':inode, 'creator_pid':pid,
+                                    'tracking':'current-process mkdtemp creation, never adopted'}
         for case in range(5):
             build_folder = run / f'build_{case}'
             build_folder.mkdir()
@@ -211,12 +301,20 @@ def workflow(args):
             kernel = build_case(PROJECT, case_stage, before, case, build_folder, deadline)
             original = kernel.read_bytes()
             parse_elf(original)
+            retained_kernel = build_folder / 'kernel.elf'
+            shutil.copyfile(kernel, retained_kernel)
+            require(sha(retained_kernel.read_bytes()) == sha(original), 'retained F1 kernel copy')
+            build_report = json.loads((build_folder / 'build.json').read_bytes())
+            require(build_report['kernel_sha256'] == sha(original), 'F1 build kernel identity')
             for ram in list(dict.fromkeys(args.ram)):
                 artifact = case_stage / f'ram{ram}'
                 artifact.mkdir()
                 data, metadata = build_fixture(original, 'nomodule', ram)
                 boot = artifact / 'fixture.elf'
                 boot.write_bytes(data)
+                retained_boot = build_folder / f'fixture_{ram}.elf'
+                shutil.copyfile(boot, retained_boot)
+                require(sha(retained_boot.read_bytes()) == sha(data), 'retained F1 fixture copy')
                 identities = {'source_snapshot_sha256': sha(json.dumps(before, sort_keys=True).encode()),
                               'build_manifest_sha256': sha((build_folder / 'build.json').read_bytes()),
                               'kernel_sha256': sha(original), 'boot_fixture_sha256': sha(data),
@@ -232,12 +330,21 @@ def workflow(args):
     except BaseException as error:
         report['error'] = repr(error)
     finally:
-        report['source_unchanged'] = source_snapshot() == before
-        report['default_elf_unchanged'] = sha(default_elf.read_bytes()) == default_hash
-        report['stage_retained'] = str(stage)
-        report['elapsed_s'] = time.monotonic() - started
-        if not report['source_unchanged'] or not report['default_elf_unchanged']:
+        try:
+            report['source_unchanged'] = source_snapshot() == before
+            report['default_elf_unchanged'] = sha(default_elf.read_bytes()) == default_hash
+            retained_complete(report, run, before, default_hash)
+            # Persist the completed matrix before removing disposable build data.
+            save(run / 'matrix_complete.json', report)
+            owned.remove()
+            report['stage_removed'] = not os.path.lexists(stage)
+            require(report['stage_removed'], 'F1 cleanup did not complete')
+        except BaseException as error:
             report['overall'] = 'FAIL'
+            report['cleanup_error'] = repr(error)
+        if not report['stage_removed']:
+            report['stage_retained'] = str(stage)
+        report['elapsed_s'] = time.monotonic() - started
         save(run / 'report.json', report)
     print(f"{report['overall']}: F1 retained guest {run}")
     if report['overall'] != 'PASS':

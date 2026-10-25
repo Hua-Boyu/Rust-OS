@@ -83,7 +83,20 @@ def prepare(out):
     out = bounded_output(out)
     out.mkdir(parents=True, exist_ok=False)
     before = green_snapshot()
-    require(not any(n.startswith('test_results/') for n in before), 'tasklocal files entered source_snapshot')
+    # The approved F5 entry amendment deliberately extends source_snapshot with
+    # named authority inputs under test_results/phase11f5_cpl3_proof (design,
+    # reviews, contract, pinned baseline ELF, and direct .py modules). Mirror
+    # that exact enumeration; any other tasklocal file still fails closed.
+    authority = 'test_results/phase11f5_cpl3_proof/'
+    allowed = {authority + name for name in (
+        'design.md', 'harness_contract_01.json', 'entry_design_amendment_01.md',
+        'design_inputs_03.json', 'entry_design_amendment_inputs_01.json',
+        'reviews/design_review_03.json', 'reviews/entry_design_amendment_01.json',
+        'f2_before_macro_01.elf')}
+    for name in before:
+        if name.startswith('test_results/'):
+            require(name in allowed or (name.startswith(authority) and name.endswith('.py')),
+                    'unapproved tasklocal file entered source_snapshot: ' + name)
     review = ROOT/'test_results/phase11f3_gdt_tss/reviews/design_review_01.json'
     approval = json.loads(review.read_text())
     require(approval['verdict'] == 'APPROVE' and approval['blocker_count'] == 0, 'design approval')

@@ -305,6 +305,134 @@ B26_REQUIRED = ('b26_borrowed_builder_retains_failure_backing_and_transfers_on_s
  'validation_allocation_tests::b26_r3_prepare_validation_needs_only_three_fallible_backing_allocations')
 
 
+F5_ROOT = "test_results/phase11f5_cpl3_proof"
+F5_CONTRACT_SHA256 = "91984e72662a74558e34e7a158a045984762ed7534fd68ad8be3f3fa005d3df7"
+F4_PREDECESSOR_PATH = "test_results/f4acc/c03/acceptance_20261023T032857Z_we8akw8p/acceptance.json"
+F4_PREDECESSOR_SHA256 = "3f9661a9446829288616ea32b1b7b3b0ff41207431edd3d22923b8a25b6452e4"
+F5_GATES = (
+    "Phase 11 F5 CPL3 host and fixture contracts",
+    "Phase 11 F5 CPL3 exact ELF terminal closure",
+    "Phase 11 F5 CPL3 one-shot hardware matrix",
+    "Phase 11 F5 retained prerequisite hardware preservation",
+)
+F5_HOST_REQUIRED = (
+    "f5_cpl3_tests::descriptor_extension_preserves_tss_slots",
+    "f5_cpl3_tests::user_selectors_have_dpl3_rpl3",
+    "f5_cpl3_tests::payload_bytes_and_fault_offsets",
+    "f5_cpl3_tests::fixed_payload_fits_owned_page",
+    "f5_cpl3_tests::iret_flags_and_stack_contract",
+    "f5_cpl3_tests::mandatory_prefix_and_conditional_tail",
+    "f5_cpl3_tests::exact_exception_oracles",
+    "f5_cpl3_tests::supervisor_presence_is_not_assumed",
+    "f5_cpl3_tests::terminal_latch_refuses_resume",
+    "f5_cpl3_tests::wrong_origin_or_reserved_error_bits_fail",
+    "memory::paging::f5_cpl3_owner_tests::before_publication_payload_copy_exact",
+    "memory::paging::f5_cpl3_owner_tests::default_f4_image_bytes_unchanged",
+    "memory::paging::f5_cpl3_owner_tests::twelve_frame_state_preservation",
+    "memory::paging::f5_cpl3_owner_tests::invalid_scenario_preflight_refusal",
+)
+F5_PYTHON_TESTS = ("test_f5_cpl3_harness", "test_f5_entry_derivation",
+                   "test_f5_terminal_audit", "test_f5_cpl3_evidence")
+F5_REVIEW_AREAS = (
+    "authority_and_freeze", "production_owner_publication", "exception_abi_and_tail",
+    "entry_derivation", "gdt_tss_privilege", "one_shot_failure_policy",
+    "unsafe_assembly_memory", "full_emitted_closure", "stack_and_resources",
+    "host_identities_and_refusals", "raw_guest_evidence_and_cleanup",
+    "canonical_gate_preservation", "limitations_and_blockers",
+)
+
+
+def f5_contract():
+    if sys.flags.optimize:
+        raise RuntimeError("optimized acceptance execution refused")
+    path = PROJECT / F5_ROOT / "harness_contract_01.json"
+    if sha256(path) != F5_CONTRACT_SHA256:
+        raise RuntimeError("F5 harness authority digest mismatch")
+    contract = json.loads(path.read_bytes())
+    if (Counter(contract.get("predecessor_identities", [])) != Counter(F3_PREDECESSOR_GATES) + Counter(F4_GATES)
+            or contract.get("f5_gates") != list(F5_GATES)
+            or Counter(contract.get("host_identities", [])) != Counter(F5_HOST_REQUIRED)
+            or contract.get("predecessor_sha256") != F4_PREDECESSOR_SHA256):
+        raise RuntimeError("F5 authenticated identity contract mismatch")
+    return contract
+
+
+def f4_predecessor_contract():
+    path = PROJECT / F4_PREDECESSOR_PATH
+    if sha256(path) != F4_PREDECESSOR_SHA256:
+        raise RuntimeError("F4 predecessor acceptance digest mismatch")
+    evidence = json.loads(path.read_bytes())
+    rows = evidence.get("gates", [])
+    if (evidence.get("overall") != "PASS" or evidence.get("gates_total") != 72
+            or evidence.get("gates_passed") != 72 or len(rows) != 72
+            or any(row.get("status") != "PASS" or type(row.get("exit_code")) is not int
+                   or row["exit_code"] != 0 for row in rows)
+            or Counter(row.get("gate") for row in rows) != Counter(F3_PREDECESSOR_GATES) + Counter(F4_GATES)):
+        raise RuntimeError("F4 predecessor gate identity multiset mismatch")
+    return path
+
+
+def validate_f5_gates(rows):
+    expected = Counter(F3_PREDECESSOR_GATES) + Counter(F4_GATES) + Counter(F5_GATES)
+    if (sum(expected.values()) != 76 or Counter(row.get("gate") for row in rows) != expected
+            or any(row.get("status") != "PASS" or type(row.get("exit_code")) is not int
+                   or row["exit_code"] != 0 for row in rows)):
+        raise RuntimeError("canonical gate identity multiset mismatch")
+
+
+def validate_f5_host(text, listing=False):
+    if sys.flags.optimize:
+        raise RuntimeError("optimized acceptance execution refused")
+    if listing:
+        names = re.findall(r"^(\S+): test\s*$", text, re.M)
+        totals = re.findall(r"^(\d+) tests?, 0 benchmarks?\s*$", text, re.M)
+        valid = totals == ["14"]
+    else:
+        names = re.findall(r"^test (\S+) \.\.\. ok\s*$", text, re.M)
+        totals = re.findall(r"test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored", text)
+        valid = totals == [("14", "0", "0")] and not re.search(r"^test \S+ \.\.\. ignored", text, re.M)
+    if not valid or Counter(names) != Counter(F5_HOST_REQUIRED):
+        raise RuntimeError("F5 exact fourteen host identities/totals mismatch")
+
+
+def validate_f5_review(path, digest, frozen):
+    """Admission only: structured findings do not manufacture independent approval."""
+    if not path or not re.fullmatch(r"[0-9a-f]{64}", digest or ""):
+        raise RuntimeError("F5 requires a byte-pinned complete independent candidate review")
+    path = Path(path).resolve()
+    if sha256(path) != digest:
+        raise RuntimeError("F5 candidate review digest mismatch")
+    review = json.loads(path.read_bytes())
+    reviewer = review.get("reviewer", {})
+    findings = review.get("findings", [])
+    if (review.get("schema") != "rosti.f5-candidate-review.v1"
+            or review.get("verdict") != "APPROVE" or review.get("complete_scope") is not True
+            or review.get("blockers") != [] or review.get("source_sha256") != frozen
+            or not isinstance(reviewer, dict) or reviewer.get("independent") is not True
+            or not reviewer.get("identity") or not isinstance(findings, list)
+            or Counter(row.get("area") for row in findings) != Counter(F5_REVIEW_AREAS)
+            or any(row.get("verdict") != "APPROVE" or not isinstance(row.get("evidence"), list)
+                   or not row["evidence"] or any(not isinstance(item, str) or not item.strip()
+                                               for item in row["evidence"]) for row in findings)):
+        raise RuntimeError("F5 stale/incomplete/narrow candidate review refused")
+    return {str(path): digest}
+
+
+def validate_owned_pins(pins, root, mandatory):
+    root = Path(root).resolve()
+    if not isinstance(pins, dict) or not pins or not set(map(str, mandatory)).issubset(map(str, pins)):
+        raise RuntimeError("missing invocation-owned evidence pins")
+    normalized = {}
+    for name, digest in pins.items():
+        path = Path(name)
+        if (not path.is_absolute() or not path.resolve().is_relative_to(root)
+                or path.is_symlink() or not re.fullmatch(r"[0-9a-f]{64}", digest)
+                or sha256(path) != digest or str(path.resolve()) in normalized):
+            raise RuntimeError("invalid/stale invocation-owned evidence pin")
+        normalized[str(path.resolve())] = digest
+    return normalized
+
+
 def predecessor_contract():
     path = PROJECT / F3_PREDECESSOR_PATH
     if sha256(path) != F3_PREDECESSOR_SHA256:
@@ -349,6 +477,17 @@ def source_snapshot():
             path = crate / name
             if path.is_file():
                 paths.add(path)
+    # Explicit authority and task-local imported modules are source dependencies,
+    # not a blanket test_results exemption. Enumerate only named authority inputs
+    # and direct Python modules; generated evidence/reviews never enter by glob.
+    authority = PROJECT / "test_results/phase11f5_cpl3_proof"
+    for name in ("design.md", "harness_contract_01.json", "entry_design_amendment_01.md",
+                 "design_inputs_03.json", "entry_design_amendment_inputs_01.json",
+                 "reviews/design_review_03.json", "reviews/entry_design_amendment_01.json",
+                 "f2_before_macro_01.elf"):
+        if (authority / name).is_file():
+            paths.add(authority / name)
+    paths.update(p for p in authority.glob("*.py") if p.is_file())
     return {p.relative_to(PROJECT).as_posix(): sha256(p) for p in sorted(paths)}
 
 
@@ -432,6 +571,8 @@ def phase10_evidence(evidence, path, *, required_cases=PHASE10_CASES):
 def _run_acceptance():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path)
+    parser.add_argument("--f5-review", type=Path)
+    parser.add_argument("--f5-review-sha256")
     args = parser.parse_args()
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     parent = (args.output_dir or PROJECT / "test_results" / "phase11").resolve()
@@ -470,6 +611,11 @@ def _run_acceptance():
         report["source_sha256"] = source_snapshot()
         predecessor_path = predecessor_contract()
         report["f3_predecessor"] = {"path": F3_PREDECESSOR_PATH, "sha256": F3_PREDECESSOR_SHA256}
+        f5_contract()
+        f4_predecessor_path = f4_predecessor_contract()
+        report["f4_predecessor"] = {"path": F4_PREDECESSOR_PATH, "sha256": F4_PREDECESSOR_SHA256}
+        review_pins = validate_f5_review(args.f5_review, args.f5_review_sha256, report["source_sha256"])
+        report["f5_candidate_review_sha256"] = review_pins
         gate("kernel formatting", ["cargo", "fmt", "--check"])
         gate("host formatting", ["cargo", "+nightly", "fmt", "--manifest-path", str(PROJECT / "tests_kernel/Cargo.toml"), "--check"])
         text = gate("host tests", ["cargo", "+nightly", "test", "--manifest-path", str(PROJECT / "tests_kernel/Cargo.toml")], cwd=Path.home())
@@ -750,6 +896,43 @@ def _run_acceptance():
                 or Counter(observed) != Counter(F4_HOST_REQUIRED)):
             raise RuntimeError("F4 owned USER arena host identities missing or inconsistent")
         report["counts"]["f4_owned_user_arena_host"] = {"pass": len(observed), "fail": 0}
+        # One OS-bounded gate, not four extra canonical identities. Every child
+        # runs to completion and its original output is retained in this gate log.
+        host_command = ["cargo", "+nightly", "test", "--target", "x86_64-pc-windows-msvc",
+                        "--manifest-path", str(PROJECT / "tests_kernel/Cargo.toml"),
+                        "--lib", "f5_cpl3"]
+        f5_source_manifest = run / "f5_source_manifest.json"
+        f5_source_manifest.write_text(json.dumps(report["source_sha256"], sort_keys=True) + "\n")
+        batches = [("serial", host_command + ["--", "--test-threads=1"], str(Path.home())),
+                   ("parallel", host_command, str(Path.home())),
+                   ("list", host_command + ["--", "--list"], str(Path.home())),
+                   ("ignored", host_command + ["--", "--ignored", "--list"], str(Path.home())),
+                   ("python", [py, "-B", "-m", "unittest", "-v", *F5_PYTHON_TESTS], str(PROJECT / "scripts")),
+                   ("derivation", script("f5_entry_derivation.py", "--root", PROJECT,
+                                         "--manifest", f5_source_manifest,
+                                         "--output", run / "f5_derivation.json"), str(PROJECT))]
+        report["f5_contract_commands"] = batches
+        batch_code = ("import json,subprocess,sys\n"
+                      "for name,command,cwd in json.loads(sys.argv[1]):\n"
+                      " print('F5_CONTRACT_SECTION='+name,flush=True)\n"
+                      " result=subprocess.run(command,cwd=cwd)\n"
+                      " if result.returncode: sys.exit(result.returncode)\n")
+        text = gate(F5_GATES[0], [py, "-B", "-c", batch_code, json.dumps(batches)], timeout=900)
+        sections = re.split(r"(?m)^F5_CONTRACT_SECTION=(\w+)\s*$", text)
+        if sections[1::2] != [name for name, _, _ in batches]:
+            raise RuntimeError("F5 host/validator batch missing or duplicate output")
+        outputs = dict(zip(sections[1::2], sections[2::2]))
+        validate_f5_host(outputs["serial"])
+        validate_f5_host(outputs["parallel"])
+        validate_f5_host(outputs["list"], listing=True)
+        if (re.findall(r"^(\S+): test\s*$", outputs["ignored"], re.M)
+                or re.findall(r"^(\d+) tests?, 0 benchmarks?\s*$", outputs["ignored"], re.M) != ["0"]):
+            raise RuntimeError("F5 unexpected ignored identities")
+        if (not re.search(r"Ran [1-9]\d* tests? in", outputs["python"])
+                or not re.search(r"(?m)^OK\s*$", outputs["python"])
+                or re.search(r"(?i)skipped=|expected failures=|unexpected successes=", outputs["python"])):
+            raise RuntimeError("F5 validator tests missing/failed/skipped")
+        report["counts"]["f5_cpl3_host"] = {"pass": 14, "fail": 0}
 
         manifest = str(PROJECT / "crates/rostifs/Cargo.toml")
         gate("RostiFS formatting", ["cargo", "+nightly", "fmt", "--manifest-path", manifest, "--check"])
@@ -774,7 +957,7 @@ def _run_acceptance():
             raise RuntimeError("RostiFS write regression totals missing or incomplete")
         report["counts"]["rostifs_write"] = {"pass": int(match[1]), "fail": int(match[2])}
         gate("Python media reader regressions", script("test_fs_harness.py"))
-        gate("acceptance runner regressions", script("test_acceptance_harness.py"), timeout=900)
+        gate("acceptance runner regressions", script("test_acceptance_harness.py"), timeout=1049)
         gate("RostiFS harness regressions", script("test_rostifs_harness.py"))
         gate("Phase 9.5 benchmark contracts", script("test_phase9_5_bench.py"))
         gate("Phase 9.6 boot metadata harness contracts", script("test_boot_metadata_harness.py"))
@@ -904,6 +1087,69 @@ def _run_acceptance():
         report["f4_evidence_sha256"] = pins
         report["counts"]["f4_owned_user_arena_scenarios"] = {"pass": 12, "fail": 0}
         f4_reports = {Path(path) for path in pins if Path(path).name in {"report.json", "guest_report.json"}}
+        import f5_cpl3_evidence
+        production_kernel = PROJECT / "target/target/debug/kernel"
+        production_digest = sha256(production_kernel)
+        audit_output = run / "f5_production_audit"
+        audit_before = PROJECT / F5_ROOT / "f2_before_macro_01.elf"
+        gate(F5_GATES[1], script("f5_terminal_audit.py", "--elf", production_kernel,
+                               "--before", audit_before,
+                               "--output-dir", audit_output), timeout=900)
+        f5_cpl3_evidence.validate_audit(audit_output, production_kernel, audit_before)
+        audit_pins = validate_owned_pins(
+            {str(audit_output / name): digest for name, digest in f5_cpl3_evidence.tree_pins(audit_output).items()},
+            audit_output, [audit_output / "report.json"])
+        report["f5_production_audit_sha256"] = audit_pins
+        f5_output = run / "f5_cpl3" / "matrix"
+        text = gate(F5_GATES[2], script("f5_cpl3_guest.py", "--output-dir", f5_output), timeout=900)
+        f5_paths = list(f5_output.parent.glob("*/report.json"))
+        if f5_paths != [f5_output / "report.json"]:
+            raise RuntimeError("missing or ambiguous invocation-owned F5 aggregate")
+        drivers = []
+        for line in text.splitlines():
+            try:
+                row = json.loads(line)
+            except ValueError:
+                continue
+            if isinstance(row, dict) and "driver_exit" in row:
+                drivers.append(row)
+        if (len(drivers) != 1 or drivers[0].get("overall") != "PASS"
+                or type(drivers[0].get("driver_exit")) is not int or drivers[0]["driver_exit"] != 0
+                or Path(drivers[0].get("report", "")).resolve() != f5_paths[0].resolve()):
+            raise RuntimeError("F5 driver completion/report ownership mismatch")
+        f5_validated = f5_cpl3_evidence.validate_aggregate(f5_paths[0], report["source_sha256"])
+        if f5_validated.get("overall") != "PASS" or f5_validated.get("scenario_count") != 12:
+            raise RuntimeError("F5 full hardware matrix validator refused")
+        f5_pins = validate_owned_pins(f5_validated.get("pins"), f5_output, [f5_paths[0]])
+        if sha256(f5_output / "production/kernel.elf") != production_digest:
+            raise RuntimeError("F5 guest audited production ELF substitution")
+        report["f5_evidence_sha256"] = f5_pins
+        report["f5_production_kernel_sha256"] = production_digest
+        report["counts"]["f5_cpl3_scenarios"] = {"pass": 12, "fail": 0}
+        f5_log = PROJECT / report["gates"][-1]["log"]
+        f5_log_digest = sha256(f5_log)
+        # Fresh F1 preservation; inherited F2/F3/F4 gates/timeouts are unchanged.
+        f1_output = run / "f5_retained_prerequisite"
+        gate(F5_GATES[3], script("boot_metadata_test.py", "--f1", "--boot", "elf",
+                               "--output-dir", f1_output, "--ram", "128", "512",
+                               "--timeout", "890"), timeout=900)
+        f1_paths = list(f1_output.glob("*/report.json"))
+        if len(f1_paths) != 1:
+            raise RuntimeError("missing or ambiguous fresh F1 preservation aggregate")
+        import f1_evidence
+        f1_validated = f1_evidence.f1_evidence(f1_paths[0], report["source_sha256"])
+        if f1_validated.get("scenarios") != 10:
+            raise RuntimeError("incomplete fresh F1 preservation matrix")
+        f1_pins = validate_owned_pins(f1_validated.get("pins"), f1_paths[0].parent, [f1_paths[0]])
+        report["f5_f1_preservation_sha256"] = f1_pins
+        report["counts"]["f5_f1_preservation_scenarios"] = {"pass": 10, "fail": 0}
+        f5_special_reports = {Path(name) for name in (*audit_pins, *f5_pins, *f1_pins)
+                              if Path(name).name in {"report.json", "guest_report.json"}}
+        f5_runtime_pins = {**audit_pins, **f5_pins, **f1_pins, **review_pins,
+                           str(f5_log): f5_log_digest, str(production_kernel): production_digest,
+                           str(f5_source_manifest): sha256(f5_source_manifest),
+                           str(run / "f5_derivation.json"): sha256(run / "f5_derivation.json")}
+        report["f5_runtime_sha256"] = f5_runtime_pins
         metadata_output = run / "boot_metadata"
         gate("Phase 9.6 integrated boot metadata ELF and GRUB safety",
              script("boot_metadata_test.py", "--boot", "both", "--ram", 128, 512,
@@ -999,10 +1245,11 @@ def _run_acceptance():
             raise RuntimeError("F4 validated hardware evidence changed during acceptance")
         if sha256(predecessor_path) != F3_PREDECESSOR_SHA256:
             raise RuntimeError("F3 predecessor acceptance changed during acceptance")
-        expected_gates = Counter(F3_PREDECESSOR_GATES) + Counter(F4_GATES)
-        if (sum(expected_gates.values()) != 72
-                or Counter(g["gate"] for g in report["gates"]) != expected_gates):
-            raise RuntimeError("canonical gate identity multiset mismatch")
+        if sha256(f4_predecessor_path) != F4_PREDECESSOR_SHA256:
+            raise RuntimeError("F4 predecessor acceptance changed during acceptance")
+        if any(sha256(Path(path)) != digest for path, digest in f5_runtime_pins.items()):
+            raise RuntimeError("F5 validated evidence/review changed during acceptance")
+        validate_f5_gates(report["gates"])
         if sha256(metadata_path) != metadata_digest:
             raise RuntimeError("boot metadata validated matrix changed during acceptance")
         phase10_scenarios = phase10_evidence(json.loads(phase10_path.read_text()), phase10_path)
@@ -1026,10 +1273,9 @@ def _run_acceptance():
             if len(rows) != expected:
                 raise RuntimeError(f"incomplete mandatory checks: {directory}: {len(rows)}/{expected}")
         for p in run.rglob("report.json"):
-            # Only exact B13/F2/F3/F4 specialized reports validated above are exempt;
-            # every F2/F3/F4 validator-returned pin was rechecked before publication.
-            # Never exempt any other discovered report.
-            if p in b13_reports or p in f2_reports or p in f3_reports or p in f4_reports:
+            # Only exact specialized reports with validator-returned rehashed
+            # pins are exempt; never an entire fixture/evidence directory.
+            if p in b13_reports or p in f2_reports or p in f3_reports or p in f4_reports or p in f5_special_reports:
                 continue
             evidence = json.loads(p.read_text())
             key = str(p.relative_to(run))
@@ -1069,6 +1315,9 @@ def _run_acceptance():
 
 
 def main():
+    if sys.flags.optimize:
+        print("HARNESS_FAIL: optimized acceptance execution refused", flush=True)
+        return 2
     try:
         with acceptance_lock(PROJECT):
             # Includes failure-fixture production restoration and final evidence.

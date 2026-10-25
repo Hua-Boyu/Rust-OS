@@ -14,6 +14,8 @@ use block::BlockDevice;
 mod cpu;
 mod exception_abi;
 mod exception_fatal;
+mod f5_cpl3;
+mod f5_gdt;
 mod fd;
 mod fs;
 mod fs_commands;

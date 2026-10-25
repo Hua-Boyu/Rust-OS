@@ -15,6 +15,8 @@ import unittest
 from unittest.mock import patch
 
 import f4_evidence
+import f5_cpl3_evidence
+import f1_evidence
 import f2_evidence
 import f3_evidence
 import test_f3_evidence as f3_models
@@ -247,7 +249,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertTrue(any(str(c).replace("\\", "/").endswith("tests_kernel/Cargo.toml")
                             for c in commands[0]))
         self.assertEqual(self.last_report["counts"]["f2_exception_abi"], {"pass": 7, "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 72)
+        self.assertEqual(self.last_report["gates_total"], 76)
         gates = [g["gate"] for g in self.last_report["gates"]]
         self.assertEqual(gates.count("Phase 11F2 exception ABI exact identity family"), 1)
 
@@ -314,8 +316,8 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(validate.call_args.args[1], self.last_report["source_sha256"])
         self.assertEqual(self.last_report["counts"]["f2_exception_scenarios"], {"pass": 8, "fail": 0})
         self.assertEqual(len(self.last_report["f2_evidence_sha256"]), 10)
-        self.assertEqual(self.last_report["gates_total"], 72)
-        self.assertEqual(self.last_report["gates_passed"], 72)
+        self.assertEqual(self.last_report["gates_total"], 76)
+        self.assertEqual(self.last_report["gates_passed"], 76)
         self.assertEqual(sum(g["gate"] == "Phase 11F2 exception ABI hardware matrix"
                              for g in self.last_report["gates"]), 1)
 
@@ -429,7 +431,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(self.last_report["counts"]["f3_minimal_ring0_scenarios"],
                          {"pass": len(f3_full_evidence.REQUIRED), "fail": 0})
         self.assertGreater(len(self.last_report["f3_evidence_sha256"]), len(f3_full_evidence.REQUIRED))
-        self.assertEqual(self.last_report["gates_passed"], 72)
+        self.assertEqual(self.last_report["gates_passed"], 76)
         self.assertEqual(Counter(g["gate"] for g in self.last_report["gates"])[
             "Phase 11F3 minimal Ring0 hardware matrix"], 1)
 
@@ -563,6 +565,92 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(len(set(names)), 12)
         return ["memory::paging::f4_user_arena_tests::" + name for name in names]
 
+    def test_f5_exact_delta_owned_outputs_and_four_timeouts(self):
+        self.assertEqual(self.simulate(lambda root: None), 0, self.last_report.get("error"))
+        actual = Counter(row["gate"] for row in self.last_report["gates"])
+        predecessor = Counter(acceptance.F3_PREDECESSOR_GATES) + Counter(acceptance.F4_GATES)
+        self.assertFalse(predecessor - actual)
+        self.assertEqual(actual - predecessor, Counter(acceptance.F5_GATES))
+        self.assertEqual(self.last_report["gates_total"], 76)
+        self.assertEqual(self.last_report["gates_passed"], 76)
+        for name in acceptance.F5_GATES:
+            index = next(i for i,row in enumerate(self.last_report["gates"]) if row["gate"] == name)
+            self.assertEqual(self.last_timeouts[index], 900)
+        batches = self.last_report["f5_contract_commands"]
+        self.assertEqual([row[0] for row in batches], ["serial","parallel","list","ignored","python","derivation"])
+        self.assertEqual(batches[4][1][-4:], list(acceptance.F5_PYTHON_TESTS))
+        self.assertEqual(self.last_report["counts"]["f5_cpl3_host"], {"pass":14,"fail":0})
+        self.assertEqual(self.last_report["counts"]["f5_cpl3_scenarios"], {"pass":12,"fail":0})
+        self.assertEqual(self.last_report["counts"]["f5_f1_preservation_scenarios"], {"pass":10,"fail":0})
+        f1 = [c for c in self.last_commands if "--f1" in c]
+        self.assertEqual(len(f1),1)
+        self.assertTrue(any(str(a).endswith("boot_metadata_test.py") for a in f1[0]))
+        self.assertIn("elf",f1[0])
+        self.assertTrue(self.last_report["f5_runtime_sha256"])
+        audit_command = next(c for c in self.last_commands
+                             if any(str(a).endswith("f5_terminal_audit.py") for a in c))
+        self.assertEqual(len(self.last_f5_audit_calls), 1)
+        self.assertEqual(self.last_f5_audit_calls[0].args, tuple(
+            Path(audit_command[audit_command.index(flag) + 1])
+            for flag in ("--output-dir", "--elf", "--before")))
+        self.assertEqual(self.last_f5_audit_calls[0].kwargs, {})
+
+    def test_f5_audit_readback_refusal_cannot_launch_matrix_or_publish(self):
+        def refuse(directory, elf, before):
+            raise ValueError("F5 production audit readback refusal control")
+        self.assertEqual(self.simulate(lambda root: None, f5_audit_validator=refuse), 1)
+        self.assertEqual(self.last_report["error"], "F5 production audit readback refusal control")
+        self.assertEqual(self.last_versioned_count, 0)
+        self.assertFalse(any(any(str(a).endswith("f5_cpl3_guest.py") for a in c)
+                             for c in self.last_commands))
+
+    def test_f5_nonzero_host_and_ignored_membership_cannot_publish(self):
+        controls = [{"f5_serial":"test result: ok. 0 passed; 0 failed; 0 ignored\n"},
+                    {"f5_ignored":"f5_cpl3_tests::impostor: test\n1 test, 0 benchmarks\n"},
+                    {"f5_python":"Ran 0 tests in 0.1s\nOK\n"}]
+        for output in controls:
+            with self.subTest(output=output):
+                self.assertEqual(self.simulate(lambda root: None, safety_output=output),1)
+                self.assertEqual(self.last_versioned_count,0)
+                self.assertNotIn("f5_cpl3_host",self.last_report["counts"])
+
+    def test_f5_driver_report_and_missing_validator_refusals(self):
+        options = [{"f5_report":None},{"f5_report":"ambiguous"},
+                   {"f5_driver":"duplicate"},{"failed_script":"f5_cpl3_guest.py"},
+                   {"missing_script":"f5_terminal_audit.py"}]
+        for kwargs in options:
+            with self.subTest(kwargs=kwargs):
+                self.assertEqual(self.simulate(lambda root: None, **kwargs),1)
+                self.assertEqual(self.last_versioned_count,0)
+                self.assertNotIn("f5_cpl3_scenarios",self.last_report["counts"])
+        def refuse(*unused):
+            raise ValueError("F5 exact validator refusal control")
+        self.assertEqual(self.simulate(lambda root: None, f5_validator=refuse),1)
+        self.assertEqual(self.last_report["error"],"F5 exact validator refusal control")
+
+    def test_f5_full_matrix_cleanup_and_f1_preservation_refusals(self):
+        for kwargs in ({"f5_report":lambda r:r["guests"].pop()},
+                       {"f5_report":lambda r:r["guests"][0].update(cleanup=False)},
+                       {"f1_report":None}, {"f1_report":lambda r:r.update(cleanup=False)}):
+            with self.subTest(kwargs=kwargs):
+                self.assertEqual(self.simulate(lambda root:None,**kwargs),1)
+                self.assertEqual(self.last_versioned_count,0)
+
+    def test_f5_late_pin_mutation_and_unvalidated_report_do_not_publish(self):
+        def mutate(root):
+            path = next((root/"test_results").glob("phase*/acceptance_*/f5_cpl3/matrix/1_128/guest_report.json"))
+            path.write_text(path.read_text()+"\n")
+        self.assertEqual(self.simulate(mutate),1)
+        self.assertEqual(self.last_report["error"],"F5 validated evidence/review changed during acceptance")
+        self.assertEqual(self.last_versioned_count,0)
+        def unlisted(root):
+            folder = next((root/"test_results").glob("phase*/acceptance_*/f5_cpl3/matrix"))/"unvalidated"
+            folder.mkdir()
+            (folder/"report.json").write_text(json.dumps({"overall":"PASS","schema":"UNIT_MODEL_ONLY_F5"}))
+        self.assertEqual(self.simulate(unlisted),1)
+        self.assertIn("empty harness rows",self.last_report["error"])
+        self.assertEqual(self.last_versioned_count,0)
+
     def test_f4_exact_contract_and_only_two_gate_delta(self):
         self.assertEqual(Counter(acceptance.F4_HOST_REQUIRED), Counter(self.declared_f4_names()))
         self.assertEqual(acceptance.F3_PREDECESSOR_PATH,
@@ -574,10 +662,10 @@ class SourceFreezeTests(unittest.TestCase):
         predecessor = Counter(acceptance.F3_PREDECESSOR_GATES)
         self.assertEqual(sum(predecessor.values()), 70)
         self.assertFalse(predecessor - actual)
-        self.assertEqual(actual - predecessor, Counter({
+        self.assertEqual(actual - predecessor - Counter(acceptance.F5_GATES), Counter({
             "Phase 11 F4 owned USER arena host contract": 1,
             "Phase 11 F4 owned USER arena Ring0 hardware matrix": 1}))
-        self.assertEqual(self.last_report["gates_passed"], 72)
+        self.assertEqual(self.last_report["gates_passed"], 76)
         host_index = next(i for i,c in enumerate(self.last_commands) if "f4_user_arena_tests::" in c)
         host = self.last_commands[host_index]
         self.assertEqual(host[host.index("--target")+1], "x86_64-pc-windows-msvc")
@@ -738,7 +826,9 @@ class SourceFreezeTests(unittest.TestCase):
                  safety_output=None, metadata_report="valid", b13_report="valid",
                  phase10_report="valid", failed_script=None, fs_checks=103,
                  f2_report="valid", missing_script=None, f3_report="valid", f3_complete=True,
-                 f4_report="valid", f4_driver="valid", f4_validator=None, predecessor_mutation=None):
+                 f4_report="valid", f4_driver="valid", f4_validator=None, predecessor_mutation=None,
+                 f5_report="valid", f5_driver="valid", f5_validator=None,
+                 f1_report="valid", f4_predecessor_mutation=None, f5_audit_validator=None):
         self.last_commands = []
         self.last_timeouts = []
         self.last_cwds = []
@@ -772,6 +862,26 @@ class SourceFreezeTests(unittest.TestCase):
             predecessor_path.parent.mkdir(parents=True)
             predecessor_path.write_text(json.dumps(predecessor))
             predecessor_digest = acceptance.sha256(predecessor_path)
+            f4_predecessor = {"UNIT_MODEL_ONLY": True, "overall": "PASS", "gates_total": 72,
+                              "gates_passed": 72, "gates": [
+                                  {"gate": name, "status": "PASS", "exit_code": 0}
+                                  for name in (*acceptance.F3_PREDECESSOR_GATES, *acceptance.F4_GATES)]}
+            if f4_predecessor_mutation:
+                f4_predecessor_mutation(f4_predecessor)
+            f4_predecessor_path = root / acceptance.F4_PREDECESSOR_PATH
+            f4_predecessor_path.parent.mkdir(parents=True)
+            f4_predecessor_path.write_text(json.dumps(f4_predecessor))
+            f4_predecessor_digest = acceptance.sha256(f4_predecessor_path)
+            authority = root / acceptance.F5_ROOT / "harness_contract_01.json"
+            authority.parent.mkdir(parents=True)
+            authority.write_bytes((Path(__file__).resolve().parents[1] / acceptance.F5_ROOT /
+                                   "harness_contract_01.json").read_bytes())
+            model_review = root / "UNIT_MODEL_ONLY_NOT_AN_APPROVAL.txt"
+            model_review.write_text("Mock transport pin only; never independent review approval.")
+            for name in ("scripts/f5_cpl3_guest.py", "scripts/f5_cpl3_evidence.py", "scripts/f5_terminal_audit.py"):
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("UNIT MODEL ONLY " + name + "\n")
             for name in ("scripts/f4_arena_guest.py", "scripts/f4_evidence.py", "src/memory/user_arena.rs"):
                 path = root / name
                 path.parent.mkdir(parents=True, exist_ok=True)
@@ -789,6 +899,19 @@ class SourceFreezeTests(unittest.TestCase):
                     raise FileNotFoundError(script_name)
                 # Simulate successful gates solely to reach the real final source-freeze check.
                 output = kwargs["stdout"]
+                if "-c" in command and "F5_CONTRACT_SECTION=" in command[command.index("-c") + 1]:
+                    names = acceptance.F5_HOST_REQUIRED
+                    success = "".join(f"test {name} ... ok\n" for name in names) + "test result: ok. 14 passed; 0 failed; 0 ignored\n"
+                    listing = "".join(f"{name}: test\n" for name in names) + "14 tests, 0 benchmarks\n"
+                    defaults = {"serial": success, "parallel": success, "list": listing,
+                                "ignored": "0 tests, 0 benchmarks\n", "python": "Ran 12 tests in 0.1s\n\nOK\n",
+                                "derivation": "MOCK ONLY lexical transport\n"}
+                    text = "".join("F5_CONTRACT_SECTION=" + name + "\n" + (safety_output or {}).get("f5_" + name, value)
+                                   for name, value in defaults.items())
+                    run_dir = Path(output.name).parent
+                    (run_dir / "f5_derivation.json").write_text(json.dumps({"UNIT_MODEL_ONLY": True}))
+                    output.write(text.encode())
+                    return type("Result", (), {"returncode": 1 if failed_script == "f5_contract_batch" else 0})()
                 prerequisite = next((c for c in command if c in (
                     "heap_growth_maps_one_page_on_demand", "phase11_gdt_tests::", "phase11a2_ownership_tests::", "phase11a2_abi_tests::", "mapping_pin_tests::", "structure_lifetime_tests::", "numeric_map_authority_tests::", "unmap_authority_tests::", "generation_ownership_tests::", "generation_ledger_tests::", "generation_boundary_tests::", "retained_owner", "exception_abi::tests::", "::f3_", "f4_user_arena_tests::")), None)
                 if prerequisite:
@@ -876,7 +999,6 @@ class SourceFreezeTests(unittest.TestCase):
                     output.write(f"test result: ok. {passed} passed; 0 failed\n".encode())
                 if command == ["cargo", "build"]:
                     # A real production build replaces the feature-fixture kernel.
-                    kernel = root / "target/target/debug/kernel"
                     if kernel.exists():
                         kernel.write_bytes(b"fixture kernel production")
                 if any(str(c).endswith("boot_test.py") for c in command):
@@ -983,6 +1105,48 @@ class SourceFreezeTests(unittest.TestCase):
                     if f4_driver == "malformed": text = "{malformed\n"
                     if f4_driver == "duplicate": text += text
                     output.write(text.encode())
+                if script_name == "f5_terminal_audit.py":
+                    folder = Path(command[command.index("--output-dir") + 1])
+                    folder.mkdir(parents=True)
+                    (folder / "report.json").write_text(json.dumps({"UNIT_MODEL_ONLY_F5_AUDIT": True}))
+                if script_name == "f5_cpl3_guest.py" and f5_report is not None:
+                    folder = Path(command[command.index("--output-dir") + 1])
+                    folder.mkdir(parents=True)
+                    (folder / "production").mkdir()
+                    (folder / "production/kernel.elf").write_bytes(kernel.read_bytes())
+                    evidence = {"schema": "UNIT_MODEL_ONLY_F5", "overall": "PASS",
+                                "source_sha256": acceptance.source_snapshot(), "guests": []}
+                    for scenario in range(1, 7):
+                        for ram in (128, 512):
+                            child = folder / f"{scenario}_{ram}" / "guest_report.json"
+                            child.parent.mkdir()
+                            row = {"scenario": scenario, "ram_mib": ram, "overall": "PASS", "cleanup": True}
+                            child.write_text(json.dumps(row))
+                            evidence["guests"].append({**row, "report": str(child)})
+                    if callable(f5_report):
+                        f5_report(evidence)
+                    elif f5_report not in ("valid", "ambiguous", "malformed"):
+                        evidence = f5_report
+                    path = folder / "report.json"
+                    path.write_text("{malformed" if f5_report == "malformed" else json.dumps(evidence))
+                    if f5_report == "ambiguous":
+                        other = folder.with_name("impostor_UNIT_MODEL")
+                        other.mkdir()
+                        (other / "report.json").write_text(json.dumps(evidence))
+                    driver = {"overall": "PASS", "driver_exit": 0, "report": str(path)}
+                    if isinstance(f5_driver, dict): driver.update(f5_driver)
+                    text = json.dumps(driver) + "\n"
+                    if f5_driver == "missing": text = ""
+                    if f5_driver == "duplicate": text += text
+                    output.write(text.encode())
+                if script_name == "boot_metadata_test.py" and "--f1" in command and f1_report is not None:
+                    folder = Path(command[command.index("--output-dir") + 1]) / "f1_UNIT_MODEL"
+                    folder.mkdir(parents=True)
+                    evidence = {"schema": "UNIT_MODEL_ONLY_F1", "overall": "PASS", "scenario_count": 10,
+                                "cleanup": True, "source_sha256": acceptance.source_snapshot()}
+                    if callable(f1_report): f1_report(evidence)
+                    elif f1_report != "valid": evidence = f1_report
+                    (folder / "report.json").write_text(json.dumps(evidence))
                 if script_name == "phase10_initramfs_test.py" and phase10_report is not None:
                     folder = Path(command[command.index("--output-dir") + 1]) / "fixture"
                     folder.mkdir(parents=True, exist_ok=True)
@@ -1008,7 +1172,7 @@ class SourceFreezeTests(unittest.TestCase):
                     if b13_report != "valid":
                         evidence.update(b13_report)
                     (folder / "report.json").write_text(json.dumps(evidence))
-                if script_name == "boot_metadata_test.py" and metadata_report is not None:
+                if script_name == "boot_metadata_test.py" and "--f1" not in command and metadata_report is not None:
                     folder = Path(command[command.index("--output-dir") + 1]) / "fixture"
                     folder.mkdir(parents=True, exist_ok=True)
                     scenarios = []
@@ -1078,8 +1242,41 @@ class SourceFreezeTests(unittest.TestCase):
                         raise ValueError("F4 unit validator refused frozen bytes")
                     pins[str(target)] = digest
                 return {"overall": "PASS", "scenario_count": len(rows), "pins": pins}
-            with patch.object(acceptance, "F3_PREDECESSOR_SHA256", predecessor_digest), patch.object(f4_evidence, "validate_aggregate", side_effect=unit_f4_validator), patch.object(acceptance, "PROJECT", root), patch.object(sys, "argv", ["phase6_verify.py"]), patch.object(acceptance.subprocess, "run", side_effect=run), patch.object(acceptance.subprocess, "check_output", return_value="fixture-head\n"), f3_full_models.model_environment(root), patch.object(f3_full_evidence,"validate",side_effect=unit_full_validator), contextlib.redirect_stdout(io.StringIO()):
+            def unit_f5_validator(path, expected_source):
+                if f5_validator is not None:
+                    return f5_validator(path, expected_source)
+                path = Path(path)
+                data = json.loads(path.read_text())
+                if (data.get("schema") != "UNIT_MODEL_ONLY_F5" or data.get("overall") != "PASS"
+                        or data.get("source_sha256") != expected_source
+                        or Counter((r["scenario"], r["ram_mib"]) for r in data["guests"])
+                        != Counter((s, r) for s in range(1, 7) for r in (128, 512))):
+                    raise ValueError("F5 unit validator refused source/status/matrix")
+                for row in data["guests"]:
+                    child = Path(row["report"])
+                    if (not child.resolve().is_relative_to(path.parent) or row.get("cleanup") is not True
+                            or row.get("overall") != "PASS"
+                            or json.loads(child.read_text()) != {k:v for k,v in row.items() if k != "report"}):
+                        raise ValueError("F5 unit validator refused child/cleanup")
+                pins = {str(path.parent / name): digest for name, digest in f5_cpl3_evidence.tree_pins(path.parent).items()}
+                return {"overall": "PASS", "scenario_count": 12, "pins": pins}
+            def unit_f1_validator(path, expected_source):
+                data = json.loads(Path(path).read_text())
+                if (data.get("schema") != "UNIT_MODEL_ONLY_F1" or data.get("overall") != "PASS"
+                        or data.get("source_sha256") != expected_source or data.get("scenario_count") != 10
+                        or data.get("cleanup") is not True):
+                    raise ValueError("F1 unit validator refused matrix/source/cleanup")
+                return {"scenarios": 10, "pins": {str(path): acceptance.sha256(path)}}
+            with patch.object(acceptance, "f5_contract", return_value={"UNIT_MODEL_ONLY": True}), \
+                    patch.object(acceptance, "F4_PREDECESSOR_SHA256", f4_predecessor_digest), \
+                    patch.object(acceptance, "validate_f5_review", return_value={str(model_review): acceptance.sha256(model_review)}), \
+                    patch.object(f5_cpl3_evidence, "validate_aggregate", side_effect=unit_f5_validator), \
+                    patch.object(f5_cpl3_evidence, "validate_audit", autospec=True, side_effect=f5_audit_validator,
+                                 return_value={"UNIT_MODEL_ONLY": True}) as audit_validator, \
+                    patch.object(f1_evidence, "f1_evidence", side_effect=unit_f1_validator), \
+                    patch.object(acceptance, "F3_PREDECESSOR_SHA256", predecessor_digest), patch.object(f4_evidence, "validate_aggregate", side_effect=unit_f4_validator), patch.object(acceptance, "PROJECT", root), patch.object(sys, "argv", ["phase6_verify.py"]), patch.object(acceptance.subprocess, "run", side_effect=run), patch.object(acceptance.subprocess, "check_output", return_value="fixture-head\n"), f3_full_models.model_environment(root), patch.object(f3_full_evidence,"validate",side_effect=unit_full_validator), contextlib.redirect_stdout(io.StringIO()):
                 code = acceptance.main()
+            self.last_f5_audit_calls = list(audit_validator.call_args_list)
             self.last_versioned_count = len(list((root / "dist").glob("rosti_phase*.iso")))
             reports = list((root / "test_results").glob("phase*/acceptance_*/acceptance.json"))
             self.last_report = json.loads(reports[0].read_text())
@@ -1118,7 +1315,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(len(commands), 1)
         self.assertIn("--test-threads=1", commands[0])
         self.assertEqual(self.last_report["counts"]["f1_retained_owner"], {"pass": 9, "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 72)
+        self.assertEqual(self.last_report["gates_total"], 76)
 
     def test_phase11_missing_or_wrong_f1_identities_cannot_publish(self):
         declared = self.declared_f1_retained_owner_names()
@@ -1172,7 +1369,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertEqual(self.last_report["counts"]["phase10_scenarios"],
                          {"pass": 4 * len(acceptance.PHASE10_CASES), "fail": 0})
         # Preserve all 70 predecessor gates; add only the two approved F4 gates.
-        self.assertEqual(self.last_report["gates_total"], 72)
+        self.assertEqual(self.last_report["gates_total"], 76)
         for name in scripts:
             with self.subTest(failed=name):
                 self.assertEqual(self.simulate(lambda root: None, failed_script=name), 1)
@@ -1237,8 +1434,13 @@ class SourceFreezeTests(unittest.TestCase):
     def test_integrated_boot_metadata_guests_are_mandatory_and_sequential(self):
         self.assertEqual(self.simulate(lambda root: None), 0)
         commands = self.last_commands
-        guests = [i for i, c in enumerate(commands) if any(str(a).endswith("boot_metadata_test.py") for a in c)]
+        metadata_calls = [i for i, c in enumerate(commands)
+                          if any(str(a).endswith("boot_metadata_test.py") for a in c)]
+        guests = [i for i in metadata_calls if "--f1" not in commands[i]]
+        preservation = [i for i in metadata_calls if "--f1" in commands[i]]
         contracts = [c for c in commands if any(str(a).endswith("test_boot_metadata_harness.py") for a in c)]
+        self.assertEqual(len(metadata_calls), 2)
+        self.assertEqual(len(preservation), 1)
         self.assertEqual(len(guests), 1)
         self.assertEqual(len(contracts), 1)
         production = next(i for i, c in enumerate(commands) if c == ["cargo", "build"])
@@ -1454,7 +1656,7 @@ class SourceFreezeTests(unittest.TestCase):
         self.assertTrue(any(str(c).replace("\\", "/").endswith("tests_kernel/Cargo.toml")
                             for c in commands[0]))
         self.assertEqual(self.last_report["counts"]["phase11_structure_lifetime"], {"pass": 5, "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 72)
+        self.assertEqual(self.last_report["gates_total"], 76)
 
     def test_phase11_structure_lifetime_bad_identities_cannot_publish(self):
         names = self.declared_structure_lifetime_names()
@@ -1505,7 +1707,7 @@ class SourceFreezeTests(unittest.TestCase):
             self.assertIn("--lib", commands[0])
             self.assertIn("--test-threads=1", commands[0])
             self.assertEqual(self.last_report["counts"][key], {"pass": len(names), "fail": 0})
-        self.assertEqual(self.last_report["gates_total"], 72)
+        self.assertEqual(self.last_report["gates_total"], 76)
 
     def test_phase11_generation_bad_identities_cannot_publish(self):
         for key, (filter_name, names) in self.declared_generation_families().items():

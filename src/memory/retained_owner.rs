@@ -322,6 +322,59 @@ pub(super) fn prepare_arena_locked(
     pm: &mut PageMap,
     fa: &mut FrameAllocator,
 ) -> bool {
+    prepare_arena_image_locked(owner, pm, fa, user_arena::Image::F4)
+}
+
+pub(super) fn admit_f5(scenario: u32) -> bool {
+    f5_contract::f5_admissible(scenario) && try_admit()
+}
+
+pub(super) fn prepare_f5_locked(
+    owner: &mut RetainedOwner,
+    pm: &mut PageMap,
+    fa: &mut FrameAllocator,
+    scenario: u32,
+) -> bool {
+    // Defense-in-depth refusal before the first owner/map/frame mutation.
+    if !f5_contract::f5_admissible(scenario) {
+        return false;
+    }
+    if STATE.load(Ordering::Acquire) != PREPARING
+        || !f4_profile(pm, fa)
+        || !user_arena::preflight_map(pm, fa, user_arena::LAYOUT)
+    {
+        return close_failure(owner, fa, 20);
+    }
+    if !prepare_f3_locked(owner, pm, fa) {
+        return false;
+    }
+    prepare_arena_image_locked(owner, pm, fa, user_arena::Image::F5)
+}
+
+/// Memory/ownership half only: GDT/TSS CPU validation remains separate.
+/// No host success here purports to execute LGDT, LTR or IRETD.
+pub(super) fn seal_f5_locked(owner: &mut RetainedOwner, pm: &PageMap, fa: &FrameAllocator) -> bool {
+    user_arena::valid_f5_image(owner) && seal_arena_locked(owner, pm, fa)
+}
+
+fn seal_arena_locked(owner: &mut RetainedOwner, pm: &PageMap, fa: &FrameAllocator) -> bool {
+    if STATE.load(Ordering::Acquire) != PREPARING
+        || !f4_profile(pm, fa)
+        || !user_arena::valid(pm, fa, owner)
+    {
+        return false;
+    }
+    owner.arena_capture[15] = SEALED as u32;
+    STATE.store(SEALED, Ordering::Release);
+    true
+}
+
+fn prepare_arena_image_locked(
+    owner: &mut RetainedOwner,
+    pm: &mut PageMap,
+    fa: &mut FrameAllocator,
+    image: user_arena::Image,
+) -> bool {
     if STATE.load(Ordering::Acquire) != PREPARING
         || owner.capture[1] != 10
         || owner.user_stack.is_some()
@@ -360,7 +413,12 @@ pub(super) fn prepare_arena_locked(
     ) else {
         return close_failure(owner, fa, 15);
     };
-    if !f4_profile(pm, fa) || !user_arena::install(pm, fa, owner, user_arena::LAYOUT) {
+    let installed = f4_profile(pm, fa)
+        && match image {
+            user_arena::Image::F4 => user_arena::install(pm, fa, owner, user_arena::LAYOUT),
+            user_arena::Image::F5 => user_arena::install_f5(pm, fa, owner, user_arena::LAYOUT),
+        };
+    if !installed {
         return close_failure(owner, fa, 15);
     }
     owner.future_ranges[0] = [
@@ -430,11 +488,8 @@ pub(in crate::memory) fn run_user_arena() -> ! {
         let frames = crate::memory::FRAME_ALLOC.lock();
         let valid = map
             .as_ref()
-            .is_some_and(|pm| f4_profile(pm, &frames) && user_arena::valid(pm, &frames, &retained));
-        if valid {
-            retained.arena_capture[15] = SEALED as u32;
-            STATE.store(SEALED, Ordering::Release);
-        } else {
+            .is_some_and(|pm| seal_arena_locked(&mut retained, pm, &frames));
+        if !valid {
             close_failure(&mut retained, &frames, 17);
         }
         valid

@@ -232,6 +232,17 @@ fn cpu_readback(directory: u32) -> bool {
 /// False is a pre-publication refusal only. Any post-LGDT discrepancy diverges
 /// through the bounded assembly terminal; no rollback, retry or busy clearing.
 pub(crate) fn install(directory: u32) -> bool {
+    install_policy::<false>(directory)
+}
+
+/// F5-only failure transport. The one-shot descriptor/TSS operation is shared
+/// unchanged, but a post-publication discrepancy returns only to F5's divergent
+/// FAIL terminal. Attempt remains consumed: no rollback, retry or busy clearing.
+pub(crate) fn install_f5(directory: u32) -> bool {
+    install_policy::<true>(directory)
+}
+
+fn install_policy<const F5: bool>(directory: u32) -> bool {
     if !cpu_profile(directory) || !selectors_valid() || !context_valid() {
         return false;
     }
@@ -288,6 +299,9 @@ pub(crate) fn install(directory: u32) -> bool {
         || !crate::interrupt::install_double_fault_task_gate()
         || !verify(directory)
     {
+        if F5 {
+            return false;
+        }
         fail();
     }
     true

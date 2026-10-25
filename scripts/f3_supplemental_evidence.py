@@ -31,7 +31,15 @@ def validate_prepared(folder):
     pin_tree(folder,plan['prepared_pins'])
     before = strict_json(folder/'source_freeze_before.json')
     require(before == plan['source_sha256'] and before,'nonempty source freeze')
-    require(not any(n.startswith('test_results/') for n in before),'supplement entered canonical source freeze')
+    authority = 'test_results/phase11f5_cpl3_proof/'
+    allowed = {authority + name for name in (
+        'design.md', 'harness_contract_01.json', 'entry_design_amendment_01.md',
+        'design_inputs_03.json', 'entry_design_amendment_inputs_01.json',
+        'reviews/design_review_03.json', 'reviews/entry_design_amendment_01.json',
+        'f2_before_macro_01.elf')}
+    require(all(not n.startswith('test_results/') or n in allowed
+                or (n.startswith(authority) and n.endswith('.py')) for n in before),
+            'unapproved supplement entered canonical source freeze')
     require({'src/main.rs','src/gdt_tss.rs','src/f3_entry.s','src/exception_entry.s','scripts/f3_gdt_guest.py','scripts/f3_evidence.py'} <= before.keys(),'source coverage')
     from f3_supplemental import ASM
     from f3_full_evidence import CANONICAL_SOURCES
