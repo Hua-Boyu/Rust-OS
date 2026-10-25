@@ -55,6 +55,12 @@ pub mod f5_cpl3;
 #[path = "f5_cpl3_tests.rs"]
 pub mod f5_cpl3_tests;
 
+#[path = "../../src/p12a_policy.rs"]
+pub mod p12a_policy;
+
+#[path = "p12a_policy_tests.rs"]
+pub mod p12a_policy_tests;
+
 #[path = "../../src/fs_commands.rs"]
 pub mod fs_commands;
 

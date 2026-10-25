@@ -1,0 +1,42 @@
+{
+  "schema": "rosti.phase12-parent-discovery-delivery-checks.v1",
+  "phase": "DESIGN_ONLY",
+  "at_review_stage": "ACTIVE_NOT_APPROVAL",
+  "F5_status": "ACCEPTED",
+  "F5_HEAD": "d9cebe28eb5139b6b614b7000688857361e2afc4",
+  "required_outputs": {
+    "STATE.md": {
+      "path": "test_results/phase12_design/STATE.md",
+      "raw_sha256": "dce071e756ce3fe23b76697b5829e1cb65b9ce5a707258802c8aad1ab2532e14",
+      "bytes": 2537
+    },
+    "design.md": {
+      "path": "test_results/phase12_design/design.md",
+      "raw_sha256": "fe57e4a8ae8c3af541d545319946494c499e06c92cfec572610154aa95f0a880",
+      "bytes": 18206
+    },
+    "decisions.md": {
+      "path": "test_results/phase12_design/decisions.md",
+      "raw_sha256": "ad6bf4dc58d1b1b5c996e040ca405c336935e6526fe6d986c89250dea54aad83",
+      "bytes": 3117
+    },
+    "risks.md": {
+      "path": "test_results/phase12_design/risks.md",
+      "raw_sha256": "931ef124c1707cc555c9877712f6d7a58d58ab7b166e5f5bea3dc8f417c868db",
+      "bytes": 5053
+    },
+    "source_inventory.json": {
+      "path": "test_results/phase12_design/source_inventory.json",
+      "raw_sha256": "3a8ebc323b6171537135b380a3bac2fe0e109acc034c18c8d391146c9778bdef",
+      "bytes": 75518
+    }
+  },
+  "immutable_review_inputs_count": 39,
+  "immutable_review_inputs_raw_match": true,
+  "all_F5_562_manifest_rows_and262_inputs_still_match": true,
+  "protected_seven_unchanged": true,
+  "no_production_source_change": true,
+  "no_new_build_test_QEMU_canonical_run": true,
+  "no_git_stage_commit_push_for_Phase12": true,
+  "implementation_authorized": false
+}

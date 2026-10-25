@@ -1,0 +1,91 @@
+{
+  "schema": "rosti.phase12-design-artifact-manifest.v1",
+  "status": "INITIAL_DESIGN_REVIEW_APPROVE_ZERO_BLOCKERS",
+  "phase12_runtime_complete": false,
+  "implementation_authorized": false,
+  "F5_status": "ACCEPTED",
+  "F5_HEAD": "d9cebe28eb5139b6b614b7000688857361e2afc4",
+  "F5_closeout_receipt_raw_sha256": "588d36513a9b503360cbb991adc635911fb4338379677ab3aafc001f5d53bfc2",
+  "review_inputs_raw_sha256": "33a9e1412efe8248bf522f03b8d8a28590f0e23511fa155f6c2796dafc06230a",
+  "immutable_review_pin_count": 39,
+  "review_verdict_raw_sha256": "b08b9da47a18a7d6626fa34a4f7eb03758c1aa98cf1fddf4be385db1bf6dc125",
+  "complete_scope_areas": 16,
+  "artifacts": {
+    "test_results/phase12_design/authoring_diagnostics_01.json": {
+      "raw_sha256": "011266f9c6058d52b52935d9fc1680c6a7e27112216235a1f1778e3d8ba9d44d",
+      "bytes": 607,
+      "role": "reviewed_proposal_or_supporting_record",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    },
+    "test_results/phase12_design/decisions.md": {
+      "raw_sha256": "ad6bf4dc58d1b1b5c996e040ca405c336935e6526fe6d986c89250dea54aad83",
+      "bytes": 3117,
+      "role": "reviewed_proposal_or_supporting_record",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    },
+    "test_results/phase12_design/design.md": {
+      "raw_sha256": "fe57e4a8ae8c3af541d545319946494c499e06c92cfec572610154aa95f0a880",
+      "bytes": 18206,
+      "role": "reviewed_proposal_or_supporting_record",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    },
+    "test_results/phase12_design/discovery_delivery_checks_01.json": {
+      "raw_sha256": "98d67a6a7992dc072695ea3e5b5edbf892cb2086b66d34dad9254d4a8fa9fb48",
+      "bytes": 1579,
+      "role": "historical_pending_review_delivery_check",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    },
+    "test_results/phase12_design/KICKOFF_REPORT.md": {
+      "raw_sha256": "40629528a50b6560ba1f8ba39039f4e301e5b1d9d96c3af058e935b270890b0f",
+      "bytes": 2785,
+      "role": "reviewed_proposal_or_supporting_record",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    },
+    "test_results/phase12_design/parent_review_readback_01.json": {
+      "raw_sha256": "48c99735308c69be220a09c493f245c2d0e8584ccc111166a3ffd16b25507bc4",
+      "bytes": 6228,
+      "role": "reviewed_proposal_or_supporting_record",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    },
+    "test_results/phase12_design/review_inputs_01.json": {
+      "raw_sha256": "33a9e1412efe8248bf522f03b8d8a28590f0e23511fa155f6c2796dafc06230a",
+      "bytes": 4853,
+      "role": "reviewed_proposal_or_supporting_record",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    },
+    "test_results/phase12_design/risks.md": {
+      "raw_sha256": "931ef124c1707cc555c9877712f6d7a58d58ab7b166e5f5bea3dc8f417c868db",
+      "bytes": 5053,
+      "role": "reviewed_proposal_or_supporting_record",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    },
+    "test_results/phase12_design/source_inventory.json": {
+      "raw_sha256": "3a8ebc323b6171537135b380a3bac2fe0e109acc034c18c8d391146c9778bdef",
+      "bytes": 75518,
+      "role": "reviewed_proposal_or_supporting_record",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    },
+    "test_results/phase12_design/STATE.md": {
+      "raw_sha256": "2cb3989f8fa563511f663cc9178803905265b00a920cea08ff573e219132b132",
+      "bytes": 3133,
+      "role": "live_status_not_frozen_review_source",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    },
+    "test_results/phase12_design/STATE_review_snapshot_01.md": {
+      "raw_sha256": "c91eef736fb813eb1078fbd8c2dc0a815896f353544bbcc99a218526bb105cd8",
+      "bytes": 2390,
+      "role": "immutable_review_context",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    },
+    "test_results/phase12_design/reviews/design_review_01.json": {
+      "raw_sha256": "b08b9da47a18a7d6626fa34a4f7eb03758c1aa98cf1fddf4be385db1bf6dc125",
+      "bytes": 24672,
+      "role": "independent_complete_design_verdict",
+      "F5_source_binding": "d9cebe28eb5139b6b614b7000688857361e2afc4"
+    }
+  },
+  "artifact_count": 12,
+  "self_hash": "EXCLUDED",
+  "context_policy": "Live STATE is progress; review binds exact immutable STATE_review_snapshot_01.md. No source/authority pin waived.",
+  "next_authorization": "Host-only P12-A policy/tests only after explicit maintainer confirmation/permission; no runtime changes."
+}

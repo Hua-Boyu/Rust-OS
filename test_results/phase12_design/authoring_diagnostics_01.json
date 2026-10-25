@@ -1,0 +1,12 @@
+{
+  "schema": "rosti.phase12-authoring-diagnostics.v1",
+  "failure": {
+    "command": "execute_code cell82 constructing progress-field replacements",
+    "actual_exit": 1,
+    "elapsed_seconds": 0.09,
+    "error": "StopIteration: guessed ACTIVE_OWNED_PROCESS/NEXT_BOUNDARY fields absent from actual STATE",
+    "writes_before_error": 0,
+    "classification": "authoring schema lookup; no source/test/driver/reviewer failure; not logical RED",
+    "resolution": "read full actual STATE; use existing NEXT_AUTHORIZATION_BOUNDARY and explicitly append process status.39 immutable review pins unchanged."
+  }
+}

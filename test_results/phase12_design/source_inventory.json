@@ -1,0 +1,706 @@
+{
+  "schema": "rosti.phase12-design-source-inventory.v1",
+  "status": "DESIGN_DISCOVERY_NOT_IMPLEMENTATION",
+  "f5_accepted_HEAD": "d9cebe28eb5139b6b614b7000688857361e2afc4",
+  "branch": "maintenance/phase10",
+  "f5_closeout_receipt": {
+    "path": "test_results/phase11f5_cpl3_proof/closeout_commit_receipt_10.json",
+    "sha256": "588d36513a9b503360cbb991adc635911fb4338379677ab3aafc001f5d53bfc2"
+  },
+  "f5_source_freeze": {
+    "path": "test_results/f5p01/full_source_freeze_10.json",
+    "sha256": "56d4e87dc235c52218e80d6a4f0c9d0380cf10d8f98e271d3b3f83c90917bb25"
+  },
+  "canonical_acceptance": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\f5acc\\r01\\acceptance_20261025T060216Z_7g_gea5o\\acceptance.json",
+    "sha256": "21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074",
+    "actual_exit": 0,
+    "gates": 76
+  },
+  "source_files": {
+    "README.md": {
+      "path": "README.md",
+      "sha256": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+      "line_count": 643,
+      "role": "current protected MODIFIED planning roadmap, not committed policy",
+      "regions": [
+        {
+          "start": 282,
+          "end": 302,
+          "text": "# Rosti OS — Development Roadmap\n\nRosti OS is a lightweight, 32-bit-first operating system written in Rust, targeting legacy x86 hardware and resource-constrained computers.\n\nThe project is being developed incrementally, with an emphasis on memory safety, predictable operation, reliability, filesystem integrity and eventually isolated user-space applications.\n\nEach development phase is verified through automated tests, local QEMU execution and independent review where appropriate.\n\n## Project Status\n\n**Current development phase: Phase 11 — Memory Ownership, Privilege Isolation and User Mode**\n\n| Milestone | Status |\n|---|---|\n| Phases 1–5: Kernel foundation and memory management | ✅ Complete |\n| Phases 6–10: Filesystems, persistence, reliability and trusted system | ✅ Complete |\n| Phase 11: User-mode foundations and memory ownership | 🚧 In progress |\n| Phase 12: Preemptive multitasking | ⏳ Planned |\n| Phase 13+: Userland, init, drivers and networking | 📋 Proposed |\n\n**Latest documented verification:** 63/63 canonical acceptance gates passed at the Phase 11 B19 virtual-page-zero checkpoint. This is a prerequisite checkpoint, not complete Phase 11 acceptance."
+        },
+        {
+          "start": 463,
+          "end": 479,
+          "text": "## Proposed Future Development\n\n*The milestones below are planning targets. Their numbering, order and scope should be confirmed before implementation.*\n\n### Phase 12 — Processes and Preemptive Multitasking\n\n- [ ] Define process and thread structures.\n- [ ] Implement task context save and restoration.\n- [ ] Introduce a ready queue.\n- [ ] Implement basic round-robin scheduling.\n- [ ] Support timer-driven preemption.\n- [ ] Implement blocked, sleeping and terminated states.\n- [ ] Provide an idle task.\n- [ ] Update TSS kernel-stack state during context switches.\n- [ ] Implement safe process termination and resource cleanup.\n- [ ] Verify scheduling with multiple isolated processes.\n- [ ] Test resource exhaustion and repeated task creation."
+        }
+      ],
+      "git_head_blob_sha256": "60df31b5cf6577ea8cdb70c046818cf47105593c30004d373960d2f1b07a8e83",
+      "working_matches_HEAD_raw": false
+    },
+    "ARCHITECTURE.md": {
+      "path": "ARCHITECTURE.md",
+      "sha256": "b9b28d1c1c869a61dcb3d0eb649a54445aa1a6384c9a4f11aead3040428359dd",
+      "line_count": 541,
+      "role": "tracked historical architecture context; superseded for F5 status",
+      "regions": [
+        {
+          "start": 26,
+          "end": 31,
+          "text": "Publication and both internal CR3 writers irreversibly retain boot structures;\nno dynamic teardown exists. Global role bits are not per-map reference counts.\nThe source-derived inventory is `docs/PHASE11_MEMORY_AUTHORITY.md`; current evidence\nis in `docs/PHASE11_HANDOVER.md`. Raw numeric ABA, general teardown and complete CPU\ncontext lifetime remain blockers. No USER/TSS/CPL3/Phase12. Sections below retain\nhistorical checkpoint claims and are superseded for current status."
+        },
+        {
+          "start": 360,
+          "end": 371,
+          "text": "  gaps or overlap bootloader payloads; dealloc resets when no live allocations remain.\n- `src/gdt.rs` — null/code/data descriptors, correct access-byte OR semantics,\n  lgdt limit = wire size − 1, segment reload.\n- `src/interrupt.rs` — 256-entry IDT, PIC remap to 0x20/0x28, IRQ1 unmasked;\n  keyboard ISR; hardware-IRQ dummy handlers send EOI. **ISRs must use the\n  lockfree serial writer only** — the VGA writer is behind a non-reentrant\n  SpinMutex and deadlocks if the interrupted context holds it.\n- `src/io/ports.rs` — 64 KiB port allocator, `Port` with RAII release;\n  lockfree in/out for interrupt-context-safe access.\n- `src/io/serial.rs` — COM1 16550 polled writer (debug channel; per-byte\n  observable through QEMU `-serial file:`).\n- `src/io/vga.rs` — 80x25 text writer behind a SpinMutex (main-path only)."
+        }
+      ],
+      "git_head_blob_sha256": "cc83f7703611e1cd7cfd5e2926d24c5c482f41b3a553206a58ea0b25bb5a90c5",
+      "working_matches_HEAD_raw": false
+    },
+    "docs/PHASE11_HANDOVER.md": {
+      "path": "docs/PHASE11_HANDOVER.md",
+      "sha256": "763844f918d8ae128a987536d6648f3b2abd6ca8d8722dc9e149af067e09af1e",
+      "line_count": 706,
+      "role": "current accepted F5 handover, committed at final F5 HEAD",
+      "regions": [
+        {
+          "start": 1,
+          "end": 24,
+          "text": "## Current — Phase11 F5 ACCEPTED — canonical76, independent approvals, scoped local commits\n\nF5 ACCEPTED: source commit `14f40f194c574610cdceef41e972ff814f9e815a` (55exact raw blobs)\nand reports/evidence commit `234114459d77b9cb70ea919e8ef9456a84c0a559` (328changed paths,\n329raw candidates) exited0 and are independently read back. Exact final closeout\nHEAD is in task-local closeout_commit_receipt_10.json (postcommit, no self-reference).\nCandidate02 APPROVE/0/complete; independent final01 APPROVE/0/all20areas\nraw `543db6fabab5eff983bf3711db56c0cb20d894cc50bb92bb2616f2a401e5ebe0`.\nCanonical actual exit0, exact72 inherited +4 F5 identities; acceptance\n`test_results/f5acc/r01/acceptance_20261025T060216Z_7g_gea5o/acceptance.json`\nraw `21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074`.\nF1 producer owns/verifies/removes only its current invocation stage; unchanged\nreal F1 reader accepts fresh ten-case aggregate. Historical19stages untouched.\nFreeze10=262rawpins/234canonical; host392/0/2ignored/list394, B26149,\nF1–F5hardware10/8/18/12/12, fresh adapted predecessor72/72/first48,\nfull95mock under scoped1049seconds. Source/ELF/ISO identities and limitations\nare in `test_results/phase11f5_cpl3_proof/FINAL_REPORT.md` and evidence_manifest.json.\nNo NX/W^X/general hostile-user isolation, resumable tasks, scheduler/syscalls,\nteardown/recovery, deployment or real-hardware claim. F3 emergency-stack bound\nremains conditional; F5 conservative219<=512 is static, not runtime high-water.\nHistorical F1 final-readback gap and original REJECTs remain disclosed.\nPhase12 DESIGN ONLY authority is active after final accepted-marker readback;\nsee test_results/phase12_design for subsequent design status. No production\nimplementation, scheduler/syscalls/recovery/deployment/hardware/Proxmox changes."
+        }
+      ],
+      "git_head_blob_sha256": "763844f918d8ae128a987536d6648f3b2abd6ca8d8722dc9e149af067e09af1e",
+      "working_matches_HEAD_raw": true
+    },
+    "docs/PHASE11_MEMORY_AUTHORITY.md": {
+      "path": "docs/PHASE11_MEMORY_AUTHORITY.md",
+      "sha256": "50fcb78fc0317613a7927ff64727560157dad58b32e78b7a4ed39863c6bcac77",
+      "line_count": 650,
+      "role": "current accepted F5 limits and historical ownership ledger",
+      "regions": [
+        {
+          "start": 1,
+          "end": 24,
+          "text": "## Current — Phase11 F5 ACCEPTED — canonical76, independent approvals, scoped local commits\n\nF5 ACCEPTED: source commit `14f40f194c574610cdceef41e972ff814f9e815a` (55exact raw blobs)\nand reports/evidence commit `234114459d77b9cb70ea919e8ef9456a84c0a559` (328changed paths,\n329raw candidates) exited0 and are independently read back. Exact final closeout\nHEAD is in task-local closeout_commit_receipt_10.json (postcommit, no self-reference).\nCandidate02 APPROVE/0/complete; independent final01 APPROVE/0/all20areas\nraw `543db6fabab5eff983bf3711db56c0cb20d894cc50bb92bb2616f2a401e5ebe0`.\nCanonical actual exit0, exact72 inherited +4 F5 identities; acceptance\n`test_results/f5acc/r01/acceptance_20261025T060216Z_7g_gea5o/acceptance.json`\nraw `21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074`.\nF1 producer owns/verifies/removes only its current invocation stage; unchanged\nreal F1 reader accepts fresh ten-case aggregate. Historical19stages untouched.\nFreeze10=262rawpins/234canonical; host392/0/2ignored/list394, B26149,\nF1–F5hardware10/8/18/12/12, fresh adapted predecessor72/72/first48,\nfull95mock under scoped1049seconds. Source/ELF/ISO identities and limitations\nare in `test_results/phase11f5_cpl3_proof/FINAL_REPORT.md` and evidence_manifest.json.\nNo NX/W^X/general hostile-user isolation, resumable tasks, scheduler/syscalls,\nteardown/recovery, deployment or real-hardware claim. F3 emergency-stack bound\nremains conditional; F5 conservative219<=512 is static, not runtime high-water.\nHistorical F1 final-readback gap and original REJECTs remain disclosed.\nPhase12 DESIGN ONLY authority is active after final accepted-marker readback;\nsee test_results/phase12_design for subsequent design status. No production\nimplementation, scheduler/syscalls/recovery/deployment/hardware/Proxmox changes."
+        }
+      ],
+      "git_head_blob_sha256": "50fcb78fc0317613a7927ff64727560157dad58b32e78b7a4ed39863c6bcac77",
+      "working_matches_HEAD_raw": true
+    },
+    "docs/PHASE11_DESIGN.md": {
+      "path": "docs/PHASE11_DESIGN.md",
+      "sha256": "49c32c17f934f0f77ee24525a7a9390c6ac43f667ce0e25c945b1e6688b41810",
+      "line_count": 414,
+      "role": "historical broader Phase11 plan; not full Phase11 completion",
+      "regions": [
+        {
+          "start": 305,
+          "end": 325,
+          "text": "before/after, including repeated launches, fault/reboot, OOM and partial rollback.\n\nAdd each real milestone's mandatory gates to `scripts/phase6_verify.py` with\nRED/GREEN harness regressions. Preserve its nonblocking OS lock and all inherited\nrows. A host permission model is not a CPU denial oracle. Required final guests:\nnormal entry/exit/repeat, invalid/oversize ELF, supervisor read/write/fetch,\nprivileged instruction, invalid syscall/pointer, stale rights, stack overrun,\nallocation failure, rollback, reboot after fault, RAMFS recovery, readonly system,\npersistence; sequential 128/512 MiB and inherited ELF/GRUB paths. Keep independent\npositive and negative outcomes, exact matrices, cleanup assertions, frozen-source\nmembership+hashes and independently extracted artifacts. Preserve failed evidence.\n\n## Resource and release boundaries\n\nCompare loaded/initialized/static bytes against accepted Phase 10B sections;\nrecord GDT/TSS/stacks/frame budgets and actual timings separately. No claimed\npeak stack/heap without measurements; PIT granularity is 10 ms. No optimization\nbefore correctness. No automatic Phase12, push, branch, deploy or VM mutation.\nRemote protection status is unknown; local policy shows this maintenance branch\ntracks origin, and no isolation requirement justifies another branch. Existing\ncommits and immutable accepted media provide rollback without rewriting history."
+        },
+        {
+          "start": 344,
+          "end": 354,
+          "text": "Other explicit pre-CPL3 obligations from the complete audits:\n- Define FPU/x87/SIMD state initialization, denial or save/restore. Soft-float\n  compiler flags constrain kernel-generated code, not hostile user instructions.\n- Bound a nonterminating foreground context through a reviewed user-origin\n  cancellation/timeout contract; never abandon kernel VFS/allocator ownership.\n- Console descriptors currently have zero rights and no open-file record;\n  add reviewed endpoint support rather than routing them through file-only writes.\n- Separate FdTables embed separate open-record arrays: do not claim shared\n  cross-context offsets without a shared registry or explicit independent opens.\n- Directory delegation needs absolute-path/parent confinement, and any future\n  unmount check must account for every context's descriptors/cwd, not just shell."
+        }
+      ],
+      "git_head_blob_sha256": "49c32c17f934f0f77ee24525a7a9390c6ac43f667ce0e25c945b1e6688b41810",
+      "working_matches_HEAD_raw": true
+    },
+    "docs/ROSTI_INIT_ARCHITECTURE.md": {
+      "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+      "sha256": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+      "line_count": 610,
+      "role": "PROTECTED UNTRACKED historical contextual proposal, not roadmap authority",
+      "regions": [
+        {
+          "start": 531,
+          "end": 557,
+          "text": "## 13. Dependencies on Phases 11 and 12\n\n**CURRENT-SOURCE/PLAN:** `docs/PHASE11_DESIGN.md:166-199` orders ownership and\nguarded user arena -> GDT/TSS/entry convention -> CPL3 fault tests -> synthetic\none-context entry -> syscall ABI -> ELF32 publication -> lifecycle -> mandatory\nacceptance. Historical subphase labels there overlap the later generation-safe\nlease checkpoint name: “11A.3” does not prove the planned TSS step complete.\nUse actual source and criteria, not label arithmetic.\n\nCurrent lease/pin improvements do not complete B19, shared ownership, general\nteardown or CPU lifetime (`docs/PHASE11_MEMORY_AUTHORITY.md:26-44,80-95`).\nException error-code conventions have host evidence, not recovered-user-fault\nacceptance (`docs/PHASE11_HANDOVER.md:3-14,67-71`). Multi-runnable scheduling and\nblocking lifecycle events remain additional prerequisites beyond the plan's\none-context execution. A timer interrupt is not a scheduler.\n\nRequired ordering: complete frame/map/CPU lifetime -> exception/privilege safety\n-> isolated user execution -> stable minimal process/syscall ABI -> transactional\nloader and repeated lifecycle -> scheduler plus wait/stop/quota/recovery-domain\ncontracts -> minimal init. Some pure designs/host models can overlap later, but\nno service starts before every runtime safety gate.\n\nNo Phase 12 implementation is authorized. Current inspected Phase 11 plan forbids\nautomatic Phase12 progression (`docs/PHASE11_DESIGN.md:317-322`); it does not assign\na complete scheduler/init subphase. Treat Phase 12 scheduling/process maturity as\na dependency discussion for the maintainer, not an established phase assignment.\nDo not renumber existing milestones or claim Phase 11 completion here."
+        },
+        {
+          "start": 559,
+          "end": 568,
+          "text": "## 14. Recommended implementation milestone\n\n**PROPOSAL milestone: “post-isolation, post-scheduler minimal userspace services”**,\nunassigned phase number. Entry checklist: B19/CPU lifetime accepted; real CPL3\nexception/continuation tests; versioned copy-safe ABI; bounded authenticated loader;\nper-process caps and identity; repeated cleanup; scheduler wake/stop; quotas and\nOOM recovery reserve; kernel-owned init-death domain recovery; concurrent VFS\nownership plan accepted; extended CPU-state isolation and actual per-binary/\ncomplete trusted-image packaging fit demonstrated within current limits.\nHistorical PASS63/63 is not this checklist."
+        }
+      ],
+      "git_head_blob_sha256": null,
+      "working_matches_HEAD_raw": false
+    },
+    "src/main.rs": {
+      "path": "src/main.rs",
+      "sha256": "732f92cc854b63e48e3b586cda099164abd42ceb68c5d14000cee360bac1d7ff",
+      "line_count": 491,
+      "role": "single boot/main-loop ownership; no runnable scheduler",
+      "regions": [
+        {
+          "start": 11,
+          "end": 38,
+          "text": "mod allocator;\nmod block;\nuse block::BlockDevice;\nmod cpu;\nmod exception_abi;\nmod exception_fatal;\nmod f5_cpl3;\nmod f5_gdt;\nmod fd;\nmod fs;\nmod fs_commands;\nmod fs_stress;\nmod gdt;\n#[cfg(not(test))]\nmod gdt_tss;\nmod initramfs;\nmod initramfs_trust;\nmod interrupt;\nmod io;\nmod kbd;\nmod memory;\nmod multiboot;\nmod reboot;\nmod shell;\nmod storage;\nmod system_image;\nmod timer;\nmod utils;"
+        },
+        {
+          "start": 207,
+          "end": 234,
+          "text": "    gdt::init_gdt();\n    interrupt::init_idt(&mut PORT_MANAGER.lock());\n\n    // Enable paging only after the IDT is loaded (page faults must be\n    // handled) and the mapping was validated above.\n    if memory::page_directory().is_some() {\n        memory::enable_paging();\n        io::serial::puts(\"ROSTI: paging enabled (CR0.PG, identity map)\\n\");\n    }\n\n    // stub: enable ps2 & interrupts\n    {\n        let pm = &mut PORT_MANAGER.lock();\n        let mut ps2_status = pm.allocate(0x64).expect(\"ps2 status\");\n        let _ps2_data = pm.allocate(0x60).expect(\"ps2 data\");\n        // read the status register from port 0x64 (not the data port 0x60),\n        // set bit 0 (enable reception of keyboard scancodes) and write it back\n        // to the command port 0x64.\n        ps2_status.outb(0xAE);\n        ps2_status.outb(0x20);\n        let s = ps2_status.inb() | 0x01;\n        ps2_status.outb(s);\n        core::mem::forget(ps2_status);\n        core::mem::forget(_ps2_data);\n    } // release allocator guard before ATA allocation or formatting\n\n    println!(\"ps2 init enable\");\n    timer::init();"
+        },
+        {
+          "start": 267,
+          "end": 284,
+          "text": "    // Filesystem metadata lives in static storage, not the 16 KiB boot stack.\n    // Exactly one main-loop owner; IRQ handlers never access this instance.\n    static mut FILESYSTEM: fs::MountedFs = fs::MountedFs::new();\n    static mut FS_DISK: storage::FsDisk = storage::FsDisk;\n    // SAFETY: const initialization gives the backend the sole mutable view of\n    // FS_DISK for the entire kernel lifetime. Diagnostics use a different view\n    // serialized through storage::DISK; neither view aliases the ATA driver.\n    static mut BACKEND: fs::RostiBackend<'static> =\n        unsafe { fs::RostiBackend::new(&mut *(&raw mut FS_DISK)) };\n    static mut DESCRIPTORS: fd::FdTable = fd::FdTable::new();\n    // SAFETY: the boot entry executes once and never returns. These references\n    // are the only FILESYSTEM/DESCRIPTORS borrows, retained by the single main\n    // loop; no ISR, callback or secondary CPU accesses these static objects.\n    // Keep them static to avoid placing their tables on the 16 KiB boot stack.\n    let filesystem = unsafe { &mut *(&raw mut FILESYSTEM) };\n    let descriptors = unsafe { &mut *(&raw mut DESCRIPTORS) };\n    descriptors.init_console();\n    let mut cwd = fs::NodeId::ROOT;"
+        },
+        {
+          "start": 480,
+          "end": 491,
+          "text": "    // Idle properly: hlt parks the CPU until the next interrupt instead of\n    // burning power in an uncontrolled busy loop. Interrupts stay enabled, so\n    // keyboard/timer events wake the loop; hlt itself cannot be executed with\n    // interrupts disabled (it would halt forever), so we never cli here.\n    loop {\n        if !shell::poll(filesystem, descriptors, &mut cwd, &mut disk) {\n            unsafe {\n                core::arch::asm!(\"hlt\");\n            }\n        }\n    }\n}"
+        }
+      ],
+      "git_head_blob_sha256": "732f92cc854b63e48e3b586cda099164abd42ceb68c5d14000cee360bac1d7ff",
+      "working_matches_HEAD_raw": true
+    },
+    "src/boot.s": {
+      "path": "src/boot.s",
+      "sha256": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+      "line_count": 59,
+      "role": "boot CLI/CLD,16KiB stack, entry alignment",
+      "regions": [
+        {
+          "start": 18,
+          "end": 50,
+          "text": "// Allocate 16kb stack with 16-byte alignment\n.section .bss\n.align 16\nstack_bottom:\n    .skip 16384 // 16kb stack\nstack_top:\n\n// Entry point to the kernel\n.section .text\n.global _start\n.type _start, @function\n_start:\n    // multiboot specifies that we boot into 32-bit protected mode\n    // Keep IRQs masked until Rust has installed the descriptor tables and PIC.\n    cli\n    // Multiboot leaves DF undefined; the i686 Rust/C ABI requires it clear.\n    cld\n\n    // setup the stack\n    mov $stack_top, %esp\n\n    // Provide 16-byte pre-CALL alignment (target data-layout S128), even though\n    // the current soft-float i686-none compiler may use only 4-byte alignment.\n    // Reserve 8 bytes before the two 4-byte args; callee entry ESP is 12 mod 16.\n    sub $8, %esp\n\n    // push multiboot info as args to kernel_main\n    // reversed calling order: last argument first\n    push %ebx // addr of multiboot info struct\n    push %eax // multiboot magic number\n\n    // enter the kernel\n    call kernel_main"
+        }
+      ],
+      "git_head_blob_sha256": "8930803a021f0a64109dc2f580e5599b81ccac88cef6d21f9eb994c4a67ff0e0",
+      "working_matches_HEAD_raw": false
+    },
+    "src/timer.rs": {
+      "path": "src/timer.rs",
+      "sha256": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+      "line_count": 48,
+      "role": "PIT control/divisor and relaxed wrapping AtomicU32 ticks",
+      "regions": [
+        {
+          "start": 1,
+          "end": 48,
+          "text": "//! PIT channel 0 system timer. Mode 1 (rate generator), 100 Hz from the\n//! 1193182 Hz base clock. Pure divisor math is host-testable; port I/O is\n//! gated out under test builds.\n\nuse crate::io::ports::lockfree_outb;\n\npub const PIT_BASE_HZ: u32 = 1_193_182;\npub const TIMER_HZ: u32 = 100;\n\n/// PIT divisor for a target frequency. Returns None if the divisor does not\n/// fit the 16-bit counter (PIT max divisor is 65535).\npub fn pit_divisor(hz: u32) -> Option<u16> {\n    if hz == 0 {\n        return None;\n    }\n    let d = PIT_BASE_HZ / hz;\n    if d == 0 || d > 65535 {\n        return None;\n    }\n    Some(d as u16)\n}\n\npub fn init() {\n    #[cfg(test)]\n    return;\n    #[allow(unreachable_code)]\n    unsafe {\n        let div = pit_divisor(TIMER_HZ).expect(\"valid PIT divisor\");\n        lockfree_outb(0x43, 0x36); // cmd: channel 0, lolo, mode 1, binary\n        lockfree_outb(0x40, div as u8);\n        lockfree_outb(0x40, (div >> 8) as u8);\n    }\n}\n\n/// Monotonic tick counter, incremented by the timer ISR (IRQ0 / vector 0x20).\nstatic TICKS: core::sync::atomic::AtomicU32 = core::sync::atomic::AtomicU32::new(0);\n\npub fn isr_timer() {\n    TICKS.fetch_add(1, core::sync::atomic::Ordering::Relaxed);\n}\n\npub fn ticks() -> u32 {\n    TICKS.load(core::sync::atomic::Ordering::Relaxed)\n}\n\npub fn uptime_secs() -> u32 {\n    ticks() / TIMER_HZ\n}"
+        }
+      ],
+      "git_head_blob_sha256": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+      "working_matches_HEAD_raw": true
+    },
+    "src/interrupt.rs": {
+      "path": "src/interrupt.rs",
+      "sha256": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "line_count": 398,
+      "role": "early STI, opaque48byte compiler IRQ frame, timer count/EOI, F2 CPU-vector installation",
+      "regions": [
+        {
+          "start": 140,
+          "end": 158,
+          "text": "        #[cfg(not(test))]\n        unsafe {\n            asm!(r#\"\n                lidt ({idtr})\n                sti\n            \"#, idtr = in (reg) &idtr, options(att_syntax));\n        }\n    }\n}\n\n#[derive(Debug)]\n#[repr(C, packed)]\nstruct Idtr {\n    limit: u16,\n    base: u32,\n}\n\n// F3 only: the caller has retained/validated both TSSes and loaded TR18.\n// Do not reuse InterruptTable::load: it enables interrupts and rewrites gates."
+        },
+        {
+          "start": 206,
+          "end": 217,
+          "text": "#[derive(Debug, Clone, Copy)]\n#[repr(C, packed)]\npub struct InterruptStackFrame {\n    _unimplemented: [u8; 48],\n    // pub instruction_ptr: _,\n    // pub code_segment: _,\n    // _reserved: [u8; 6],\n    // pub cpu_flags: _,\n    // pub stack_ptr: _,\n    // pub stack_segment: _,\n    // _reserved2: [u8; 6],\n}"
+        },
+        {
+          "start": 276,
+          "end": 295,
+          "text": "pub fn init_idt(palloc: &mut PortAllocator) {\n    println!(\"old idtr: {:?}\", get_idtr());\n\n    remap_pic(palloc);\n\n    // load IDT\n    unsafe {\n        let t = (&raw mut INTERRUPT_TABLE)\n            .as_mut()\n            .expect(\"interrupt table is free\");\n\n        // All CPU vectors use the explicit fatal-only F2 assembly ABI.\n        // This table includes frame-independent unsupported-vector stubs.\n        for vector in 0..32 {\n            t.set_interrupt_offset(vector, crate::exception_fatal::f2_exception_entries[vector]);\n        }\n        t.set_interrupt(0x20, isr_timer_handler);\n        t.set_interrupt(0x21, isr_keyboard_handler);\n        t.load();\n    }"
+        },
+        {
+          "start": 321,
+          "end": 337,
+          "text": "extern \"x86-interrupt\" fn isr_keyboard_handler(_isf: InterruptStackFrame) {\n    unsafe {\n        // Short ISR: read the scancode, enqueue a compact event, acknowledge.\n        // Decoding/console logic happens in the main loop (src/shell.rs).\n        // No println!, no allocation, no mutex-backed writer here.\n        let sc = lockfree_inb(0x60);\n        crate::kbd::RING.push(sc);\n        pic_send_eoi(0x21);\n    }\n}\n\nextern \"x86-interrupt\" fn isr_timer_handler(_isf: InterruptStackFrame) {\n    unsafe {\n        crate::timer::isr_timer(); // atomic increment only, never prints\n        pic_send_eoi(0x20);\n    }\n}"
+        }
+      ],
+      "git_head_blob_sha256": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "working_matches_HEAD_raw": true
+    },
+    "src/utils/mutex.rs": {
+      "path": "src/utils/mutex.rs",
+      "sha256": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+      "line_count": 67,
+      "role": "SpinMutex has no IRQ/preemption guard",
+      "regions": [
+        {
+          "start": 9,
+          "end": 16,
+          "text": "pub struct SpinMutex<T> {\n    inner: UnsafeCell<T>,\n    lock: AtomicBool,\n}\n\npub struct SpinMutexGuard<'a, T> {\n    mutex: &'a SpinMutex<T>,\n}"
+        },
+        {
+          "start": 30,
+          "end": 46,
+          "text": "    #[inline(always)]\n    pub fn is_locked(&self) -> bool {\n        self.lock.load(Ordering::Relaxed)\n    }\n\n    pub fn lock(&self) -> SpinMutexGuard<'_, T> {\n        while self\n            .lock\n            .compare_exchange(false, true, Ordering::Acquire, Ordering::Relaxed)\n            .is_err()\n        {\n            while self.is_locked() {\n                spin_loop();\n            }\n        }\n\n        SpinMutexGuard { mutex: self }"
+        },
+        {
+          "start": 63,
+          "end": 66,
+          "text": "impl<T> Drop for SpinMutexGuard<'_, T> {\n    fn drop(&mut self) {\n        self.mutex.lock.store(false, Ordering::Release);\n    }"
+        }
+      ],
+      "git_head_blob_sha256": "3bfd28591f13205a339e67bc6551078add5869fcee9c6d6910089add0fd2b0bd",
+      "working_matches_HEAD_raw": false
+    },
+    "src/memory/mod.rs": {
+      "path": "src/memory/mod.rs",
+      "sha256": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+      "line_count": 365,
+      "role": "private map/frame owners and heap->map->frame lock order; opt-in terminal entrypoints",
+      "regions": [
+        {
+          "start": 45,
+          "end": 62,
+          "text": "#[cfg(not(test))]\nstatic FRAME_ALLOC: SpinMutex<frame::FrameAllocator> = SpinMutex::new(frame::FrameAllocator::new());\n// Independently rooted lock-order fixtures need the owner; production does not.\n#[cfg(test)]\npub(crate) static FRAME_ALLOC: SpinMutex<frame::FrameAllocator> =\n    SpinMutex::new(frame::FrameAllocator::new());\n\n/// Copy diagnostics and release the owner before callers can format/allocate.\npub fn frame_stats() -> Option<frame::FrameStats> {\n    let fa = FRAME_ALLOC.lock();\n    fa.is_initialized().then(|| *fa.stats())\n}\n\n// Private owner: no reference or guard is exported. Queries return owned scalars.\n// Production critical sections never allocate/drop backing or invoke callbacks.\n// Lock order is heap -> PAGE_MAP -> FRAME_ALLOC; IRQs must not acquire either.\nstatic PAGE_MAP: SpinMutex<Option<paging::PageMap>> = SpinMutex::new(None);\nstatic PAGING_ENABLED: AtomicBool = AtomicBool::new(false);"
+        },
+        {
+          "start": 264,
+          "end": 283,
+          "text": "/// Explicit opt-in terminal Ring-0 preparation. Not called by ordinary boot.\n#[cfg(not(test))]\npub(crate) fn run_retained_owner() -> ! {\n    paging::retained_owner::run()\n}\n\n#[cfg(all(not(test), target_os = \"none\"))]\n#[unsafe(export_name = \"f3_run_gdt_tss\")]\n#[unsafe(link_section = \".text.f3_contract\")]\npub(crate) extern \"C\" fn run_gdt_tss() -> ! {\n    paging::retained_owner::run_gdt_tss()\n}\n\n/// F4 opt-in, one-shot terminal Ring0 path; ordinary boot does not call it.\n#[cfg(all(not(test), target_os = \"none\"))]\n#[unsafe(export_name = \"f4_run_user_arena\")]\n#[unsafe(link_section = \".text.f4_contract\")]\npub(crate) extern \"C\" fn run_user_arena() -> ! {\n    paging::retained_owner::run_user_arena()\n}"
+        }
+      ],
+      "git_head_blob_sha256": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+      "working_matches_HEAD_raw": true
+    },
+    "src/memory/frame.rs": {
+      "path": "src/memory/frame.rs",
+      "sha256": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+      "line_count": 906,
+      "role": "stamped frame leases and lifetime/refusal core",
+      "regions": [
+        {
+          "start": 90,
+          "end": 103,
+          "text": "/// constructs it, so a copied numeric address cannot impersonate an owner.\n/// `frame_addr()` is the accessor; the id/domain pair is the release proof.\npub struct FrameLease {\n    addr: u64,\n    id: u32,\n    domain: u32,\n}\n\nimpl FrameLease {\n    pub fn frame_addr(&self) -> u64 {\n        self.addr\n    }\n\n    /// Only negative host probes may duplicate authority; absent in production."
+        },
+        {
+          "start": 421,
+          "end": 451,
+          "text": "    /// Safe public allocation: returns a move-only lease carrying the live\n    /// ownership identity for the frame. None on exhaustion or before init.\n    pub fn allocate_owned(&mut self) -> Option<FrameLease> {\n        let Some((addr, id)) = self.allocate_stamped() else {\n            return None;\n        };\n        Some(FrameLease {\n            addr,\n            id,\n            domain: self.domain,\n        })\n    }\n\n    /// Authenticate borrowed ordinary ownership against the live ledger.\n    /// A retained Rust value alone is insufficient after audited raw release.\n    /// Allocation-free and diagnostic-free; payload role/pins are checked by\n    /// the mapping core under the same exclusive allocator borrow.\n    pub(super) fn owns_live_lease(&self, lease: &FrameLease) -> bool {\n        if !self.initialized\n            || lease.domain != self.domain\n            || lease.id == 0\n            || paging::in_growth_window(lease.addr)\n            || !self.is_live_allocation(lease.addr)\n        {\n            return false;\n        }\n        let Some(frame) = Self::frame_of(lease.addr) else {\n            return false;\n        };\n        self.alloc_id[frame] == lease.id\n    }"
+        },
+        {
+          "start": 453,
+          "end": 480,
+          "text": "    /// Shared release core: validate availability, restore accounting, and\n    /// clear the ledger identity. Growth claims return to the growth-only\n    /// reservation, never the general free pool. Returns false (and counts\n    /// the event) for double frees and frees of frames this allocator never\n    /// handed out. A refused release mutates only diagnostics.\n    fn release_by_address(&mut self, addr: u64) -> bool {\n        if !mutation_allowed() {\n            return false;\n        }\n        if !self.initialized {\n            return false;\n        }\n        if addr % FRAME_SIZE as u64 != 0 {\n            self.stats.invalid_frees += 1;\n            return false;\n        }\n        let Some(frame) = Self::frame_of(addr) else {\n            self.stats.invalid_frees += 1;\n            return false;\n        };\n        if bit(&self.runtime_pins, frame) {\n            self.stats.invalid_frees += 1;\n            return false;\n        }\n        if bit(&self.structure_pins, frame) {\n            self.stats.invalid_frees += 1;\n            return false;\n        }"
+        }
+      ],
+      "git_head_blob_sha256": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+      "working_matches_HEAD_raw": true
+    },
+    "src/memory/retained_owner.rs": {
+      "path": "src/memory/retained_owner.rs",
+      "sha256": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+      "line_count": 718,
+      "role": "single-vCPU one-shot sealed12frame maximum, no generic task owner",
+      "regions": [
+        {
+          "start": 1,
+          "end": 34,
+          "text": "//! Finite, cooperative single-vCPU Ring-0 terminal authority.\n//! No reset, shared ownership, teardown or CPL3 entry. F4 alone publishes its\n//! finite owned USER arena during fresh Preparing, before the joint seal.\nuse super::*;\nuse crate::utils::mutex::SpinMutex;\nuse core::sync::atomic::{AtomicU8, Ordering};\n\nconst DORMANT: u8 = 0;\npub(super) const PREPARING: u8 = 1;\npub(super) const SEALED: u8 = 2;\npub(super) const TERMINAL: u8 = 3;\npub(super) static STATE: AtomicU8 = AtomicU8::new(DORMANT);\n// (entire future policy maximum, maximum acquired in this F1 version).\nconst MANIFEST: [(u8, u8); 6] = [(1, 1), (1, 1), (1, 0), (4, 0), (4, 0), (1, 0)];\n\npub(super) struct RetainedOwner {\n    pub(super) payload: Option<frame::FrameLease>,\n    pub(super) sentinel: Option<frame::FrameLease>,\n    pub(super) transition: [Option<frame::FrameLease>; 4],\n    pub(super) emergency: [Option<frame::FrameLease>; 4],\n    pub(super) user_stack: Option<frame::FrameLease>,\n    pub(super) arena_table: Option<frame::FrameLease>,\n    // outcome, acquired, code, stack, table, PDE, codePTE, stackPTE,\n    // CR3, CR4, EFLAGS, free-before-F4, free-after, allocated-after, ready, seal.\n    pub(super) arena_capture: [u32; 16],\n    directory: u64,\n    allocator_domain: u32,\n    window_end: u64,\n    table_count: usize,\n    mapped_count: usize,\n    capacity_before: [usize; 3],\n    capacity_after: [usize; 3],\n    pub(super) future_ranges: [[u32; 4]; 3],\n    pub(super) capture: [u32; 16],"
+        },
+        {
+          "start": 60,
+          "end": 80,
+          "text": "pub(super) static OWNER: SpinMutex<RetainedOwner> = SpinMutex::new(RetainedOwner::new());\nconst _: () = assert!(\n    core::mem::size_of::<SpinMutex<RetainedOwner>>()\n        + core::mem::size_of::<AtomicU8>()\n        + core::mem::size_of_val(&MANIFEST)\n        <= 4096\n);\nconst _: () = assert!(1 + 1 + 1 + 4 + 4 + 1 == 12);\n\npub(in crate::memory) fn mutation_allowed() -> bool {\n    STATE.load(Ordering::Acquire) < SEALED\n}\n\npub(in crate::memory) fn owner_locked() -> bool {\n    OWNER.is_locked()\n}\n\npub(super) fn try_admit() -> bool {\n    STATE\n        .compare_exchange(DORMANT, PREPARING, Ordering::AcqRel, Ordering::Acquire)\n        .is_ok()"
+        },
+        {
+          "start": 328,
+          "end": 369,
+          "text": "pub(super) fn admit_f5(scenario: u32) -> bool {\n    f5_contract::f5_admissible(scenario) && try_admit()\n}\n\npub(super) fn prepare_f5_locked(\n    owner: &mut RetainedOwner,\n    pm: &mut PageMap,\n    fa: &mut FrameAllocator,\n    scenario: u32,\n) -> bool {\n    // Defense-in-depth refusal before the first owner/map/frame mutation.\n    if !f5_contract::f5_admissible(scenario) {\n        return false;\n    }\n    if STATE.load(Ordering::Acquire) != PREPARING\n        || !f4_profile(pm, fa)\n        || !user_arena::preflight_map(pm, fa, user_arena::LAYOUT)\n    {\n        return close_failure(owner, fa, 20);\n    }\n    if !prepare_f3_locked(owner, pm, fa) {\n        return false;\n    }\n    prepare_arena_image_locked(owner, pm, fa, user_arena::Image::F5)\n}\n\n/// Memory/ownership half only: GDT/TSS CPU validation remains separate.\n/// No host success here purports to execute LGDT, LTR or IRETD.\npub(super) fn seal_f5_locked(owner: &mut RetainedOwner, pm: &PageMap, fa: &FrameAllocator) -> bool {\n    user_arena::valid_f5_image(owner) && seal_arena_locked(owner, pm, fa)\n}\n\nfn seal_arena_locked(owner: &mut RetainedOwner, pm: &PageMap, fa: &FrameAllocator) -> bool {\n    if STATE.load(Ordering::Acquire) != PREPARING\n        || !f4_profile(pm, fa)\n        || !user_arena::valid(pm, fa, owner)\n    {\n        return false;\n    }\n    owner.arena_capture[15] = SEALED as u32;\n    STATE.store(SEALED, Ordering::Release);\n    true"
+        }
+      ],
+      "git_head_blob_sha256": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+      "working_matches_HEAD_raw": true
+    },
+    "src/memory/privileged.rs": {
+      "path": "src/memory/privileged.rs",
+      "sha256": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "line_count": 257,
+      "role": "fixed retained F3 stack slots and104byte TSS",
+      "regions": [
+        {
+          "start": 1,
+          "end": 46,
+          "text": "//! Fixed F3 supervisor-only stacks and classic 32-bit task-state wire model.\n//! Authority stays in the existing retained owner; this is not a mapper API.\nuse super::*;\n\npub(crate) const KERNEL_CODE: u64 = 0x00cf_9900_0000_ffff;\npub(crate) const KERNEL_DATA: u64 = 0x00cf_9300_0000_ffff;\npub(crate) const TRANSITION_GUARD: u32 = 0x07c0_0000;\npub(crate) const TRANSITION_BASE: u32 = 0x07c0_1000;\npub(crate) const TRANSITION_TOP: u32 = 0x07c0_5000;\npub(crate) const EMERGENCY_GUARD: u32 = 0x07c0_5000;\npub(crate) const EMERGENCY_BASE: u32 = 0x07c0_6000;\npub(crate) const EMERGENCY_TOP: u32 = 0x07c0_a000;\n\n/// High half of selector slots is reserved and always initialized to zero.\n/// Hardware may update dynamic slots on a task switch; no shared reference to\n/// installed storage may survive CPU publication.\n#[repr(C)]\npub(crate) struct Tss {\n    pub backlink: u32,\n    pub esp0: u32,\n    pub ss0: u32,\n    pub esp1: u32,\n    pub ss1: u32,\n    pub esp2: u32,\n    pub ss2: u32,\n    pub cr3: u32,\n    pub eip: u32,\n    pub eflags: u32,\n    pub eax: u32,\n    pub ecx: u32,\n    pub edx: u32,\n    pub ebx: u32,\n    pub esp: u32,\n    pub ebp: u32,\n    pub esi: u32,\n    pub edi: u32,\n    pub es: u32,\n    pub cs: u32,\n    pub ss: u32,\n    pub ds: u32,\n    pub fs: u32,\n    pub gs: u32,\n    pub ldt: u32,\n    pub trap: u16,\n    pub iomap: u16,\n}"
+        },
+        {
+          "start": 89,
+          "end": 106,
+          "text": "const _: () = {\n    assert!(core::mem::size_of::<Tss>() == 104);\n    assert!(core::mem::align_of::<Tss>() == 4);\n    assert!(core::mem::offset_of!(Tss, esp0) == 4);\n    assert!(core::mem::offset_of!(Tss, ss0) == 8);\n    assert!(core::mem::offset_of!(Tss, cr3) == 28);\n    assert!(core::mem::offset_of!(Tss, eip) == 32);\n    assert!(core::mem::offset_of!(Tss, eflags) == 36);\n    assert!(core::mem::offset_of!(Tss, eax) == 40);\n    assert!(core::mem::offset_of!(Tss, esp) == 56);\n    assert!(core::mem::offset_of!(Tss, es) == 72);\n    assert!(core::mem::offset_of!(Tss, cs) == 76);\n    assert!(core::mem::offset_of!(Tss, ss) == 80);\n    assert!(core::mem::offset_of!(Tss, ldt) == 96);\n    assert!(core::mem::offset_of!(Tss, trap) == 100);\n    assert!(core::mem::offset_of!(Tss, iomap) == 102);\n    assert!(TRANSITION_TOP - TRANSITION_BASE == 16384);\n    assert!(EMERGENCY_TOP - EMERGENCY_BASE == 16384);"
+        },
+        {
+          "start": 116,
+          "end": 130,
+          "text": "    /// One finite transaction, called only by retained-owner Preparing. The\n    /// complete preflight dominates zeroing, pinning and every PTE write.\n    pub(in crate::memory) fn install_privileged_stacks(\n        &mut self,\n        fa: &mut FrameAllocator,\n        transition: &[Option<frame::FrameLease>; 4],\n        emergency: &[Option<frame::FrameLease>; 4],\n    ) -> bool {\n        if !mutation_allowed()\n            || self.privileged_reserved\n            || !self.retained\n            || !self.stats.enabled\n            || fa.domain() != Some(self.domain)\n            || self.window_end < EMERGENCY_TOP as u64\n        {"
+        }
+      ],
+      "git_head_blob_sha256": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "working_matches_HEAD_raw": true
+    },
+    "src/memory/user_arena.rs": {
+      "path": "src/memory/user_arena.rs",
+      "sha256": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+      "line_count": 430,
+      "role": "single finite USER arena/shared CR3 and fixed code/stack image",
+      "regions": [
+        {
+          "start": 1,
+          "end": 42,
+          "text": "//! Finite F4 USER arena; only the admitted retained owner can publish it.\n//! Shared CR3, no NX, no CPL3, no teardown or returning production entry.\nuse super::retained_owner::{PREPARING, RetainedOwner, STATE};\nuse super::*;\nuse core::sync::atomic::{Ordering, compiler_fence};\n\npub(crate) const START: u64 = 0x4000_0000;\npub(crate) const END: u64 = 0x4040_0000;\npub(crate) const GUARD: u64 = 0x403f_e000;\npub(crate) const STACK: u64 = 0x403f_f000;\npub(crate) const PREFIX: [u8; 4] = [0x0f, 0x0b, 0xeb, 0xfc];\npub(crate) const DATA: &[u8] = b\"F4-RO-DATA\\0\";\n\n#[derive(Clone, Copy, PartialEq, Eq)]\npub(super) enum Image {\n    F4,\n    F5,\n}\n\n#[cfg(test)]\n#[path = \"f5_page_observation.rs\"]\npub(super) mod observation;\n\n// Private exact-one-page transport, not an arbitrary payload loading API.\n// The caller has validated the two distinct writable supervisor aliases.\nunsafe fn initialize_pages(code: *mut u8, stack: *mut u8, image: Image) {\n    unsafe {\n        core::ptr::write_bytes(code, 0, PAGE_SIZE);\n        core::ptr::copy_nonoverlapping(PREFIX.as_ptr(), code, PREFIX.len());\n        core::ptr::copy_nonoverlapping(DATA.as_ptr(), code.add(2048), DATA.len());\n        if image == Image::F5 {\n            for (i, row) in f5_contract::F5_ROWS.iter().enumerate() {\n                core::ptr::copy_nonoverlapping(\n                    row.bytes.as_ptr(),\n                    code.add(\n                        f5_contract::F5_PAYLOAD_OFFSET as usize + i * f5_contract::F5_SLOT_BYTES,\n                    ),\n                    row.bytes.len(),\n                );\n            }\n        }\n        core::ptr::write_bytes(stack, 0, PAGE_SIZE);"
+        }
+      ],
+      "git_head_blob_sha256": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+      "working_matches_HEAD_raw": true
+    },
+    "src/gdt_tss.rs": {
+      "path": "src/gdt_tss.rs",
+      "sha256": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+      "line_count": 323,
+      "role": "one-shot fixed normal ESP0/SS0 and DF TSS installation",
+      "regions": [
+        {
+          "start": 1,
+          "end": 4,
+          "text": "//! One-shot, terminal-only classic i386 task-state installation.\n//! Caller: CLI, retained stack mappings validated, all memory guards released.\n//! No retry/rollback and no continuation to ordinary boot after publication.\n#![cfg(not(test))]"
+        },
+        {
+          "start": 163,
+          "end": 184,
+          "text": "fn normal_state() -> Tss {\n    let mut tss = Tss::new();\n    tss.esp0 = TRANSITION_TOP;\n    tss.ss0 = 0x10;\n    tss\n}\n\nfn emergency_state(directory: u32) -> Tss {\n    let mut tss = Tss::new();\n    tss.esp0 = EMERGENCY_TOP;\n    tss.ss0 = 0x10;\n    tss.cr3 = directory;\n    tss.eip = f3_emergency_entry as *const () as u32;\n    tss.eflags = 2;\n    tss.esp = EMERGENCY_TOP;\n    tss.es = 0x10;\n    tss.cs = 0x08;\n    tss.ss = 0x10;\n    tss.ds = 0x10;\n    tss.fs = 0x10;\n    tss.gs = 0x10;\n    tss"
+        },
+        {
+          "start": 231,
+          "end": 307,
+          "text": "/// Called once with CLI after stack ownership/mapping preparation and unlock.\n/// False is a pre-publication refusal only. Any post-LGDT discrepancy diverges\n/// through the bounded assembly terminal; no rollback, retry or busy clearing.\npub(crate) fn install(directory: u32) -> bool {\n    install_policy::<false>(directory)\n}\n\n/// F5-only failure transport. The one-shot descriptor/TSS operation is shared\n/// unchanged, but a post-publication discrepancy returns only to F5's divergent\n/// FAIL terminal. Attempt remains consumed: no rollback, retry or busy clearing.\npub(crate) fn install_f5(directory: u32) -> bool {\n    install_policy::<true>(directory)\n}\n\nfn install_policy<const F5: bool>(directory: u32) -> bool {\n    if !cpu_profile(directory) || !selectors_valid() || !context_valid() {\n        return false;\n    }\n    unsafe {\n        if read_volatile(addr_of!(f3_context.attempt)) != 0 {\n            return false;\n        }\n        write_volatile(addr_of_mut!(f3_context.attempt), 1);\n    }\n    if task_register() != 0 {\n        return false;\n    }\n    unsafe {\n        write_volatile(addr_of_mut!(f3_context.normal), normal_state());\n        write_volatile(\n            addr_of_mut!(f3_context.emergency),\n            emergency_state(directory),\n        );\n        let entries = addr_of_mut!(f3_context.entries).cast::<u64>();\n        write_volatile(entries, 0);\n        write_volatile(entries.add(1), KERNEL_CODE);\n        write_volatile(entries.add(2), KERNEL_DATA);\n        write_volatile(\n            entries.add(3),\n            descriptor(addr_of!(f3_context.normal) as u32, 0x89),\n        );\n        write_volatile(\n            entries.add(4),\n            descriptor(addr_of!(f3_context.emergency) as u32, 0x89),\n        );\n        let gdtr = Gdtr {\n            limit: 39,\n            base: entries as u32,\n        };\n        asm!(\n            \"cli\",\n            \"lgdt ({gdt})\",\n            \"jmp $0x08, $2f\",\n            \"2:\",\n            \"mov $0x10, %ax\",\n            \"mov %ax, %ds\",\n            \"mov %ax, %es\",\n            \"mov %ax, %fs\",\n            \"mov %ax, %gs\",\n            \"mov %ax, %ss\",\n            \"mov $0x18, %ax\",\n            \"ltr %ax\",\n            gdt = in(reg) addr_of!(gdtr),\n            out(\"eax\") _,\n            options(att_syntax)\n        );\n    }\n    if !cpu_readback(directory)\n        || !crate::interrupt::install_double_fault_task_gate()\n        || !verify(directory)\n    {\n        if F5 {\n            return false;\n        }\n        fail();\n    }\n    true"
+        }
+      ],
+      "git_head_blob_sha256": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+      "working_matches_HEAD_raw": true
+    },
+    "src/exception_abi.rs": {
+      "path": "src/exception_abi.rs",
+      "sha256": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "line_count": 119,
+      "role": "mandatory68byte fatal-only prefix, NOT resumable context",
+      "regions": [
+        {
+          "start": 1,
+          "end": 2,
+          "text": "//! Fixed mandatory prefix for fatal 32-bit exception entry. Never a return ABI.\n//! Optional privilege-transition words are deliberately absent from this type."
+        },
+        {
+          "start": 21,
+          "end": 65,
+          "text": "#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]\n#[repr(C)]\npub struct ExceptionFrame {\n    pub gs: u32,\n    pub fs: u32,\n    pub es: u32,\n    pub ds: u32,\n    pub edi: u32,\n    pub esi: u32,\n    pub ebp: u32,\n    /// PUSHAD input ESP: address of the normalized vector, not interrupted ESP.\n    pub pushad_esp: u32,\n    pub ebx: u32,\n    pub edx: u32,\n    pub ecx: u32,\n    pub eax: u32,\n    pub vector: u32,\n    pub error: u32,\n    pub eip: u32,\n    pub cs: u32,\n    pub eflags: u32,\n}\n\npub const FRAME_SIZE: usize = 68;\npub const VECTOR_OFFSET: usize = 48;\nconst _: () = {\n    assert!(core::mem::size_of::<ExceptionFrame>() == FRAME_SIZE);\n    assert!(core::mem::align_of::<ExceptionFrame>() == 4);\n    assert!(core::mem::offset_of!(ExceptionFrame, gs) == 0);\n    assert!(core::mem::offset_of!(ExceptionFrame, fs) == 4);\n    assert!(core::mem::offset_of!(ExceptionFrame, es) == 8);\n    assert!(core::mem::offset_of!(ExceptionFrame, ds) == 12);\n    assert!(core::mem::offset_of!(ExceptionFrame, edi) == 16);\n    assert!(core::mem::offset_of!(ExceptionFrame, esi) == 20);\n    assert!(core::mem::offset_of!(ExceptionFrame, ebp) == 24);\n    assert!(core::mem::offset_of!(ExceptionFrame, pushad_esp) == 28);\n    assert!(core::mem::offset_of!(ExceptionFrame, ebx) == 32);\n    assert!(core::mem::offset_of!(ExceptionFrame, edx) == 36);\n    assert!(core::mem::offset_of!(ExceptionFrame, ecx) == 40);\n    assert!(core::mem::offset_of!(ExceptionFrame, eax) == 44);\n    assert!(core::mem::offset_of!(ExceptionFrame, vector) == VECTOR_OFFSET);\n    assert!(core::mem::offset_of!(ExceptionFrame, error) == 52);\n    assert!(core::mem::offset_of!(ExceptionFrame, eip) == 56);\n    assert!(core::mem::offset_of!(ExceptionFrame, cs) == 60);\n    assert!(core::mem::offset_of!(ExceptionFrame, eflags) == 64);"
+        },
+        {
+          "start": 68,
+          "end": 95,
+          "text": "impl ExceptionFrame {\n    /// #DF saved CS/EIP are architecturally undefined. Never report its origin.\n    pub fn origin(&self) -> Option<u32> {\n        if self.vector == 8 || frame_kind(self.vector) == FrameKind::Unsupported {\n            None\n        } else {\n            Some(self.cs & 3)\n        }\n    }\n\n    /// Scalar address arithmetic only; never dereference nonexistent SS/ESP.\n    pub fn same_ring_esp(&self, prefix_address: u32) -> Option<u32> {\n        if self.origin() == Some(0) {\n            prefix_address.checked_add(FRAME_SIZE as u32)\n        } else {\n            None\n        }\n    }\n\n    /// Synthetic decoder ONLY. Production fatal entry never calls this API.\n    #[allow(dead_code)]\n    pub fn synthetic_transition_tail(&self, words: &[u32]) -> Option<(u32, u32)> {\n        if self.origin()? != 0 && words.len() == 2 {\n            Some((words[0], words[1] & 0xffff))\n        } else {\n            None\n        }\n    }"
+        }
+      ],
+      "git_head_blob_sha256": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "working_matches_HEAD_raw": true
+    },
+    "src/exception_entry.s": {
+      "path": "src/exception_entry.s",
+      "sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "line_count": 110,
+      "role": "byte-pinned accepted F2 entry source, read only",
+      "regions": [],
+      "git_head_blob_sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "working_matches_HEAD_raw": true
+    },
+    "src/f5_cpl3.rs": {
+      "path": "src/f5_cpl3.rs",
+      "sha256": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21",
+      "line_count": 77,
+      "role": "bounded terminal CPL3 contract, no general user context",
+      "regions": [
+        {
+          "start": 1,
+          "end": 16,
+          "text": "//! F5 terminal CPL3 isolation proof: pure contract definitions.\n//! One-shot Ring-3 entry followed by a kernel-owned exception report and halt.\n//! No scheduler, syscalls, recovery, PAE/NX or general userland.\n//! Target-only launcher/bridge/reporting must be verified separately from these\n//! shared scalar contracts; passing host tests is not CPL3 hardware evidence.\n\npub use crate::memory::paging::f5_contract::*;\n\npub fn f5_saved_eflags_ok(observed: u32) -> bool {\n    (observed & !F5_EFLAGS_AF_MASK) == (F5_SAVED_EFLAGS_AF0 & !F5_EFLAGS_AF_MASK)\n}\n\npub fn f5_saved_selector_ok(raw: u32, expected: u16) -> bool {\n    // CPU selector-slot padding (high 16 bits of the 32-bit pushed slot) is\n    // recorded raw but never constrained; only the architectural low16 compares.\n    (raw & 0xffff) == u32::from(expected)"
+        }
+      ],
+      "git_head_blob_sha256": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21",
+      "working_matches_HEAD_raw": true
+    },
+    "src/f5_runtime.rs": {
+      "path": "src/f5_runtime.rs",
+      "sha256": "fd94be9b68bbaacb9277342213cd82bfb051cfe3a275b8f25cc77938851a4122",
+      "line_count": 224,
+      "role": "one-shot CLI launcher, PIC masking, fixed IF0 IRETD, no continuation",
+      "regions": [
+        {
+          "start": 83,
+          "end": 117,
+          "text": "#[unsafe(export_name = \"f5_run_cpl3\")]\n#[unsafe(link_section = \".text.f4_contract\")]\npub(crate) extern \"C\" fn run(scenario: u32) -> ! {\n    unsafe {\n        asm!(\"cli\", \"cld\", options(nostack));\n    }\n    if !admit_f5(scenario) {\n        f5_unsupported();\n    }\n    let directory = {\n        let mut owner = OWNER.lock();\n        let mut map = crate::memory::PAGE_MAP.lock();\n        let mut fa = crate::memory::FRAME_ALLOC.lock();\n        match map.as_mut() {\n            Some(pm) => {\n                if crate::memory::PAGING_ENABLED.load(Ordering::Acquire)\n                    && prepare_f5_locked(&mut owner, pm, &mut fa, scenario)\n                {\n                    Some(pm.directory as u32)\n                } else {\n                    None\n                }\n            }\n            _ => None,\n        }\n    };\n    let Some(directory) = directory else {\n        f5_unsupported();\n    };\n    if !crate::gdt_tss::install_f5(directory)\n        || !crate::gdt_tss::verify(directory)\n        || !crate::f5_gdt::install(directory)\n        || !install_gates()\n    {\n        f5_unsupported();"
+        },
+        {
+          "start": 128,
+          "end": 162,
+          "text": "    let valid = {\n        let mut owner = OWNER.lock();\n        let map = crate::memory::PAGE_MAP.lock();\n        let fa = crate::memory::FRAME_ALLOC.lock();\n        map.as_ref()\n            .is_some_and(|pm| seal_f5_locked(&mut owner, pm, &fa))\n    };\n    if !valid || !crate::f5_gdt::verify(directory) {\n        f5_unsupported();\n    }\n    let Some(row) = f5_row(scenario) else {\n        f5_unsupported();\n    };\n    unsafe {\n        let expect = addr_of_mut!(f5_expect).cast::<u32>();\n        for (i, value) in [\n            scenario,\n            row.vector,\n            row.error,\n            row.fault_eip,\n            row.cr2,\n            directory,\n            row.entry,\n        ]\n        .iter()\n        .enumerate()\n        {\n            write_volatile(expect.add(i), *value);\n        }\n        // Same PIC mask protocol as existing IRQ controller setup, no allocation\n        // or port ownership change. IF remains0 and every fixture is one vCPU.\n        crate::io::ports::lockfree_outb(0x21, 0xff);\n        crate::io::ports::lockfree_outb(0xa1, 0xff);\n    }\n    f5_iret()"
+        },
+        {
+          "start": 165,
+          "end": 195,
+          "text": "#[unsafe(naked)]\n#[unsafe(no_mangle)]\nextern \"C\" fn f5_iret() -> ! {\n    naked_asm!(\n        \"cli\",\n        \"mov eax, dword ptr [f5_expect]\",\n        \"cmp eax, 1\",\n        \"jb f5_unsupported\",\n        \"cmp eax, 6\",\n        \"ja f5_unsupported\",\n        \"dec eax\",\n        \"shl eax, 6\",\n        \"add eax, 0x40000100\",\n        \"cmp eax, dword ptr [f5_expect + 24]\",\n        \"jne f5_unsupported\",\n        // No kernel DS memory access after the USER segment loads.\n        \"mov edx, eax\",\n        \"mov ax, 0x33\",\n        \"mov ds, ax\",\n        \"mov es, ax\",\n        \"mov fs, ax\",\n        \"mov gs, ax\",\n        \"push 0x33\",\n        \"push 0x40400000\",\n        \"push 2\",\n        \"push 0x2b\",\n        \"push edx\",\n        \".global f5_before_iret\",\n        \"f5_before_iret:\",\n        \"iretd\",\n    );"
+        }
+      ],
+      "git_head_blob_sha256": "fd94be9b68bbaacb9277342213cd82bfb051cfe3a275b8f25cc77938851a4122",
+      "working_matches_HEAD_raw": true
+    },
+    "src/f5_bridge.s": {
+      "path": "src/f5_bridge.s",
+      "sha256": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5",
+      "line_count": 206,
+      "role": "exact76byte copy and fixed ESP0/oracles ending CLI/HLT",
+      "regions": [
+        {
+          "start": 1,
+          "end": 45,
+          "text": "# Naked F5 bridge. No Rust prologue, calls, indirect edges or USER dereferences.\n# record: 0 magic,4 scenario,8 status,12 frame,16 bridgeESP,20 CR0,24 CR2,\n# 28 CR3,32 CR4,36 liveflags,40..60 CS/SS/DS/ES/FS/GS,\n# 64..139 exact76 frame bytes,140 GDTR6,148 TR,152..160 ESP0/SS0/iomap.\nmov edi, esp\npushfd\npop ebx\ncli\nmov eax, 1\nxchg dword ptr [f5_latch], eax\ntest eax, eax\njnz f5_terminal\nmov dword ptr [f5_record], 0x46354350\nmov eax, dword ptr [f5_expect]\nmov dword ptr [f5_record + 4], eax\ncmp eax, 1\njb f5_fail_report\ncmp eax, 6\nja f5_fail_report\nmov dword ptr [f5_record + 16], edi\nmov dword ptr [f5_record + 36], ebx\ntest ebx, 0x600\njnz f5_fail_report\ncmp edi, 0x07c04f9c\njne f5_fail_report\nmov esi, dword ptr [esp + 4]\nmov dword ptr [f5_record + 12], esi\ncmp esi, 0x07c04fb4\njne f5_fail_report\n# Address/alignment exact before any frame read; CS low16 before tail read.\ncmp word ptr [esi + 60], 0x2b\njne f5_fail_report\nmov eax, dword ptr [esi + 48]\ncmp eax, 6\nje 2f\ncmp eax, 13\nje 2f\ncmp eax, 14\njne f5_fail_report\n2:\n# Fixed19-word copy only after cross-ring origin and supported-vector checks.\ncld\nlea edi, [f5_record + 64]\nmov ecx, 19\nrep movsd"
+        },
+        {
+          "start": 135,
+          "end": 146,
+          "text": "mov eax, dword ptr [f3_context + {normal_esp0}]\nmov dword ptr [f5_record + 152], eax\ncmp eax, 0x07c05000\njne f5_fail_report\nmov eax, dword ptr [f3_context + {normal_ss0}]\nmov dword ptr [f5_record + 156], eax\ncmp eax, 16\njne f5_fail_report\nmovzx eax, word ptr [f3_context + {normal_iomap}]\nmov dword ptr [f5_record + 160], eax\ncmp eax, 104\njne f5_fail_report"
+        },
+        {
+          "start": 177,
+          "end": 206,
+          "text": ".global f5_report\nf5_report:\n# Release-ordered x86 atomic byte MOV through AtomicU8::as_ptr's storage;\n# inherited Acquire readers remain atomic. Same ordering argument as F4.\nmov byte ptr [{state}], 3\n# Fixed22/24-byte literals,100000 polls per byte; drop-on-timeout like F4.\n9:\nmov ecx, 100000\nmov dx, 0x3fd\n10:\nin al, dx\ntest al, 0x20\njnz 11f\ndec ecx\njnz 10b\njmp 12f\n11:\nmov al, byte ptr [esi]\nmov dx, 0x3f8\nout dx, al\n12:\ninc esi\ndec ebp\njnz 9b\n.global f5_terminal\nf5_terminal:\ncli\n13:\nhlt\njmp 13b"
+        }
+      ],
+      "git_head_blob_sha256": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5",
+      "working_matches_HEAD_raw": true
+    },
+    "src/f5_gdt.rs": {
+      "path": "src/f5_gdt.rs",
+      "sha256": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+      "line_count": 138,
+      "role": "F5-only GDT extension preserves cached normal TSS",
+      "regions": [
+        {
+          "start": 1,
+          "end": 7,
+          "text": "//! F5-only GDT extension. Never selected by inherited F3/F4 entry paths.\n//! CLI, valid retained CR3/stacks, and released owner guards are prerequisites.\n//! No second LTR: copy the live busy normal descriptor and available emergency\n//! descriptor verbatim, preserving the CPU's cached normal TSS and task gate.\n#![cfg(all(not(test), target_os = \"none\"))]\n\nuse crate::f5_cpl3::{F5_GDTR_LIMIT, F5_TR, F5_USER_CODE, F5_USER_DATA};"
+        }
+      ],
+      "git_head_blob_sha256": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+      "working_matches_HEAD_raw": true
+    },
+    "src/cpu.rs": {
+      "path": "src/cpu.rs",
+      "sha256": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+      "line_count": 44,
+      "role": "vendor-only CPUID helper; not extended-state scheduling admission",
+      "regions": [
+        {
+          "start": 1,
+          "end": 5,
+          "text": "//! CPUID vendor identification. The string assembly is pure and host-testable;\n//! the cpuid instruction itself is gated out under test builds.\n\n/// CPUID leaf 0 vendor string: bytes come from EBX, EDX, ECX in that order,\n/// four bytes each, little-endian within each register."
+        },
+        {
+          "start": 20,
+          "end": 40,
+          "text": "pub fn vendor() -> Option<::alloc::string::String> {\n    // The cpuid instruction itself only compiles for the 32-bit kernel target;\n    // host test builds (x86_64) cannot use rbx as an asm operand, so the asm\n    // block is cfg-gated out and only the pure string assembly is tested.\n    #[cfg(all(not(test), target_arch = \"x86\"))]\n    unsafe {\n        let ebx: u32;\n        let edx: u32;\n        let ecx: u32;\n        core::arch::asm!(\n            \"cpuid\",\n            inout(\"eax\") 0 => _,\n            out(\"ebx\") ebx,\n            out(\"ecx\") ecx,\n            out(\"edx\") edx,\n            options(att_syntax, nomem, preserves_flags)\n        );\n        if ebx == 0 && edx == 0 && ecx == 0 {\n            return None; // CPUID unsupported / zeroed\n        }\n        return Some(vendor_string(ebx, edx, ecx));"
+        }
+      ],
+      "git_head_blob_sha256": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+      "working_matches_HEAD_raw": true
+    },
+    "target.json": {
+      "path": "target.json",
+      "sha256": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+      "line_count": 22,
+      "role": "unchanged soft-float/non-SSE i686 target",
+      "regions": [
+        {
+          "start": 1,
+          "end": 22,
+          "text": "{\n    \"llvm-target\": \"i686-unknown-none\",\n    \"data-layout\": \"e-m:e-p:32:32-p270:32:32-p271:32:32-p272:64:64-i128:128-f64:32:64-f80:32-n8:16:32-S128\",\n    \"arch\": \"x86\",\n    \"target-endian\": \"little\",\n    \"target-pointer-width\": 32,\n    \"target-c-int-width\": 32,\n    \"os\": \"none\",\n    \"executables\": true,\n    \"linker-flavor\": \"ld.lld\",\n    \"linker\": \"rust-lld\",\n    \"panic-strategy\": \"abort\",\n    \"disable-redzone\": true,\n    \"features\": \"-sse,-sse2,-mmx,+soft-float\",\n    \"pre-link-args\": {\n        \"ld.lld\": [\n            \"-T\",\n            \"linker.ld\"\n        ]\n    },\n    \"rustc-abi\": \"softfloat\"\n}"
+        }
+      ],
+      "git_head_blob_sha256": "b104a3063275a7ed79338d75919751eb2ca14b95644a720db04a2690b10e36a8",
+      "working_matches_HEAD_raw": false
+    },
+    "Cargo.toml": {
+      "path": "Cargo.toml",
+      "sha256": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+      "line_count": 24,
+      "role": "current production manifest, no scheduler dependency assumed",
+      "regions": [],
+      "git_head_blob_sha256": "1e1f4a01411ae5163123511074e0b9f7301ac1f8d8852f32ff5e5341a67bbc25",
+      "working_matches_HEAD_raw": false
+    },
+    ".cargo/config.toml": {
+      "path": ".cargo/config.toml",
+      "sha256": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+      "line_count": 10,
+      "role": "bare-metal target scope; host child CWD must stay outside repo",
+      "regions": [],
+      "git_head_blob_sha256": "1bb7d373f2e005a68a87343e04bb04b3e48618333d2b3ab6428c03217b0cacf0",
+      "working_matches_HEAD_raw": false
+    },
+    "tests_kernel/Cargo.toml": {
+      "path": "tests_kernel/Cargo.toml",
+      "sha256": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+      "line_count": 23,
+      "role": "existing host harness manifest",
+      "regions": [],
+      "git_head_blob_sha256": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+      "working_matches_HEAD_raw": true
+    },
+    "tests_kernel/src/lib.rs": {
+      "path": "tests_kernel/src/lib.rs",
+      "sha256": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189",
+      "line_count": 1132,
+      "role": "existing host import/test pattern; PIT divisor tests only not scheduler hardware proof",
+      "regions": [
+        {
+          "start": 43,
+          "end": 44,
+          "text": "#[path = \"../../src/timer.rs\"]\npub mod timer;"
+        },
+        {
+          "start": 435,
+          "end": 445,
+          "text": "\n#[test]\nfn pit_divisor_100hz() {\n    assert_eq!(timer::pit_divisor(100), Some(11931));\n    assert_eq!(timer::pit_divisor(19), Some(62799)); // within 16-bit range\n    assert_eq!(timer::pit_divisor(18), None); // 66287 > 65535 max divisor\n    assert_eq!(timer::pit_divisor(0), None);\n    assert_eq!(timer::pit_divisor(2_000_000), None); // divisor would be 0\n    assert_eq!(timer::pit_divisor(1_000_000), Some(1)); // int div: 1193182/1e6 = 1\n    assert_eq!(timer::pit_divisor(1_193_182), Some(1));\n}"
+        }
+      ],
+      "git_head_blob_sha256": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189",
+      "working_matches_HEAD_raw": true
+    },
+    "scripts/phase6_verify.py": {
+      "path": "scripts/phase6_verify.py",
+      "sha256": "394dfcfa9e5d40ebb56c614ac2356a4c930fbbd80b418c408f46b30daf388b20",
+      "line_count": 1331,
+      "role": "immutable accepted76-gate infrastructure; no proposed change made",
+      "regions": [],
+      "git_head_blob_sha256": "394dfcfa9e5d40ebb56c614ac2356a4c930fbbd80b418c408f46b30daf388b20",
+      "working_matches_HEAD_raw": true
+    }
+  },
+  "bounded_scheduler_definition_search": {
+    "scope": "all src/**/*.rs; main module list and literal timer IRQ body also inspected; NOT an absolute proof over arbitrary dynamic code",
+    "patterns": [
+      "struct/enum Task|Thread|Process|Scheduler",
+      "fn schedule|context_switch|switch_context|yield_now"
+    ],
+    "scanned_files_sha256": {
+      "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+      "src/block.rs": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+      "src/boot_inventory.rs": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+      "src/cpu.rs": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+      "src/exception_abi.rs": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+      "src/exception_abi_tests.rs": "b8fb3beee2535bf37354c0d5232310b58bc4e929284678df17a2de0a415352f7",
+      "src/exception_fatal.rs": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d",
+      "src/f5_contract.rs": "f6e72c12b195f54eed876e582d982cd59711f8058a764ae685fd7cc174efeac3",
+      "src/f5_cpl3.rs": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21",
+      "src/f5_gdt.rs": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+      "src/f5_runtime.rs": "fd94be9b68bbaacb9277342213cd82bfb051cfe3a275b8f25cc77938851a4122",
+      "src/fd.rs": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+      "src/fs_commands.rs": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+      "src/fs_stress.rs": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+      "src/gdt.rs": "02c845d9cd9c579e7f5461f365318a2ad6a88faf9567d9c9ca25b47485267599",
+      "src/gdt_tss.rs": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+      "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+      "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+      "src/interrupt.rs": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+      "src/kbd.rs": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+      "src/main.rs": "732f92cc854b63e48e3b586cda099164abd42ceb68c5d14000cee360bac1d7ff",
+      "src/multiboot.rs": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+      "src/phase11_gdt_tests.rs": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+      "src/reboot.rs": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+      "src/shell.rs": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+      "src/storage.rs": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+      "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+      "src/timer.rs": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+      "src/fs/archive.rs": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+      "src/fs/mod.rs": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+      "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+      "src/fs/rosti.rs": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+      "src/fs/vfs.rs": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+      "src/io/mod.rs": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+      "src/io/ports.rs": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+      "src/io/serial.rs": "cfe78862ad6c368e5c0d124d9fa2655fd5f953ab223bf81adad8de89f0d3161d",
+      "src/io/vga.rs": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+      "src/memory/boot_copy.rs": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+      "src/memory/f4_b26_tests.rs": "2b527dd7764dc709914959b2cd06c7127402cde554078f987eca1aeb8cac72fc",
+      "src/memory/f4_user_arena_tests.rs": "4fe8da1bb4ac93e4884b8d270fce08e34de15bee1d1d4e595778e260a5c80509",
+      "src/memory/f5_cpl3_owner_tests.rs": "eea225f4657c1d42ee8f3c7c9f2300d9ec42f8a7a222f6698dc8e2a0b40547e3",
+      "src/memory/f5_page_observation.rs": "ce40808303be5e6847b9b66d1ad2befe9992862937de3d7a802685cc358dae9d",
+      "src/memory/frame.rs": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+      "src/memory/generation_boundary_tests.rs": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+      "src/memory/generation_ownership_tests.rs": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+      "src/memory/mapping_pin_tests.rs": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816",
+      "src/memory/mod.rs": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+      "src/memory/module_access_tests.rs": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+      "src/memory/numeric_map_authority_tests.rs": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475",
+      "src/memory/ownership_observation_tests.rs": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+      "src/memory/paging.rs": "0f14b2663faa883cdf0629b772350d42bca6e6bcfaba10280e7277482cc1d4b6",
+      "src/memory/phase11a2_abi_tests.rs": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+      "src/memory/phase11a2_ownership_tests.rs": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+      "src/memory/phase11_permission_tests.rs": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+      "src/memory/privileged.rs": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+      "src/memory/privileged_owner_tests.rs": "c13ff318dfcc0ec7c80e5b2e4395784a39c9b1e27f2977855b9d35752541c047",
+      "src/memory/privileged_tests.rs": "eb18b51752e82da382e9dc65941786e96943e642849f61055b859c9035ad7b17",
+      "src/memory/retained_owner.rs": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+      "src/memory/retained_owner_policy_tests.rs": "e8b9d2a03d0a90f73d54322c6cbfd80e2ff93aabb8d6bf914598b2656976387d",
+      "src/memory/retained_owner_tests.rs": "5729867aa1d2e86776a70edb028a10a93de70e43036355f219ef218f8cdbc76b",
+      "src/memory/review_r1_tests.rs": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+      "src/memory/runtime_table_access_tests.rs": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+      "src/memory/structure_lifetime_tests.rs": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+      "src/memory/unmap_authority_tests.rs": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76",
+      "src/memory/user_arena.rs": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+      "src/memory/virtual_page_zero_tests.rs": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d",
+      "src/utils/bits.rs": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+      "src/utils/mod.rs": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+      "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586"
+    },
+    "scanned_count": 69,
+    "matches": [],
+    "distinction": "F3 hardware DF task switch and F5 IRETD are existing exception/privilege mechanisms, NOT runnable-task scheduling"
+  },
+  "roadmap_scope": {
+    "current_working_doc": "README.md:467-479",
+    "heading": "Phase 12 — Processes and Preemptive Multitasking",
+    "status": "PROTECTED_UNRELATED_MODIFIED_PLANNING_TARGET_SUBJECT_TO_CONFIRMATION",
+    "committed_HEAD_has_this_phase12_assignment": false,
+    "required_followup": "Maintainer scope/numbering confirmation before runtime implementation; current user authorized design only. Do not edit/stage README or untracked init proposal."
+  },
+  "observed_hazards": [
+    "IRQ InterruptStackFrame is opaque _unimplemented:[u8;48], not a save/restore ABI",
+    "InterruptTable::load enables STI before timer::init and before future scheduler publication",
+    "SpinMutex lacks preemption/IRQ suppression",
+    "kernel_main retains unique FS/descriptor borrows",
+    "PIT comment mode1 differs from control-word mode bits3; architectural qualification pending",
+    "F3 fixed ESP0/SS0 and one-shot publication cannot be silently generalized",
+    "F4 one arena/shared CR3/retained leases; F5 PIC masks all and IF0 terminal proof"
+  ],
+  "discovery_diagnostics": [
+    {
+      "kind": "missing guessed file lookup",
+      "path": "src/memory/paging/privileged.rs",
+      "resolution": "read actual #[path=\"privileged.rs\"] at paging.rs:34-35; resolved src/memory/privileged.rs; no source write or test conclusion"
+    },
+    {
+      "kind": "search regex transport escaping rejected pattern",
+      "resolution": "bounded Python literal/definition search; no empty-result absence claim from failed regex"
+    }
+  ],
+  "no_production_source_changes": true,
+  "proposed_B_stack_budget": {
+    "new_worker_stacks": 2,
+    "bytes_each": 16384,
+    "frames_each": 4,
+    "physical_bytes": 32768,
+    "owned_frames": 8,
+    "unmapped_guard_pages": 2,
+    "virtual_bytes": 40960,
+    "status": "PROPOSED_ONLY; excludes page-table/owner metadata, existing boot/privileged stacks; NO allocations or stack-high-water claim"
+  }
+}

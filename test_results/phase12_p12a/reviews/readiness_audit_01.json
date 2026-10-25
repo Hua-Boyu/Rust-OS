@@ -1,0 +1,1991 @@
+{
+  "schema": "rosti.p12a-readiness-audit.v1",
+  "scope": "Independent readiness audit only; NOT candidate approval",
+  "status": "NOT_READY_FOR_CANDIDATE_REVIEW",
+  "started_utc": "2026-10-25T12:23:06.364150+00:00",
+  "findings": [
+    {
+      "id": "SOURCE-01",
+      "severity": "BLOCKER",
+      "finding": "Required Eq is absent on all six exported value types (State, Context, TaskKind, Error, Slot, Snapshot); only PartialEq is derived.",
+      "authority": "contract:43; source:18-60"
+    },
+    {
+      "id": "SOURCE-02",
+      "severity": "BLOCKER",
+      "finding": "Policy::new is not const; approved API requires const construction.",
+      "authority": "contract:46; source:74"
+    },
+    {
+      "id": "TEST-01",
+      "severity": "BLOCKER",
+      "finding": "Test24 replays only six operations and compares final snapshots, not a long fixed legal sequence with snapshot comparison throughout and sustained literal alternating fairness.",
+      "authority": "contract:160-162; tests:432-451"
+    },
+    {
+      "id": "TEST-02",
+      "severity": "BLOCKER",
+      "finding": "assert_invariants proves queued=>Ready but not Ready=>queued; exhaustive test therefore omits the every-Ready-exactly-once obligation.",
+      "authority": "contract:88-90,157-160; tests:336-393"
+    },
+    {
+      "id": "FMT-01",
+      "severity": "BLOCKER",
+      "finding": "Fresh read-only kernel cargo fmt passes, but host cargo fmt --manifest-path tests_kernel/Cargo.toml --check and direct policy rustfmt --check both exit1. Earlier fmt_all ran root manifest only and did not establish host/policy formatting.",
+      "authority": "contract:204-207; checks.formatting_fresh_readonly",
+      "required_resolution": "Authorize and account for minimal corrections separately; freeze corrected bytes and obtain actual required GREEN checks."
+    },
+    {
+      "id": "FREEZE-01",
+      "severity": "BLOCKER",
+      "finding": "Existing freeze has16 matching pins but omits227 of236 actual canonical inputs (only9 canonical paths included), plus local harness/provenance/review-wrapper dependencies. Timestamp 2026-10-25T19:5xZ is invalid. No complete before/after frozen verification exists.",
+      "authority": "contract:208-212; original v4 §10.1; checks.canonical_membership",
+      "required_resolution": "Preserve source_freeze_01.json; create a new numbered complete raw-byte manifest, immutable review context, explicit baseline/RED/build/wrapper/evidence dependency closure, before/after membership and byte readbacks."
+    },
+    {
+      "id": "READER-01",
+      "severity": "BLOCKER",
+      "finding": "parent_readback_01.py can exit0 despite F5 artifact mismatches (lines59-63 never propagate), accepts absent/empty P12-A evidence, has no review self-digest verification or actual process check, and parses arbitrary JSON-looking lines from live STATE rather than the initial protected list. It neither re-enumerates canonical membership nor verifies a real before/after freeze.",
+      "authority": "contract:209-212,221-229; original v4 §16.9",
+      "required_resolution": "Preserve old reader/log; a new numbered fail-closed read-only reader must explicitly validate required schema/artifact set, complete current freeze, immutable reviewer pins, original protected list, F5 bindings/dispositions and native process observation."
+    },
+    {
+      "id": "EVIDENCE-01",
+      "severity": "BLOCKER",
+      "finding": "P12-A evidence_manifest.json is PREIMPLEMENTATION with artifacts:[], FINAL_REPORT.md is a179-byte placeholder, and no frozen candidate-review input manifest/context exists. Fresh verification logs sit in Temp, unpinned in P12-A evidence. Saved step command/CWD/actual exit/source identity bindings must be assembled; transcript outputs are recoverable but not a frozen manifest.",
+      "authority": "contract:208-212,221-233; original v4 §10/11/16.9",
+      "required_resolution": "Populate a new task-owned pinned evidence/readback set without rewriting old evidence; include real commands/exits, all raw logs and provenance, immutable context and reviewer input pins before candidate dispatch."
+    },
+    {
+      "id": "RED-01",
+      "severity": "BLOCKER",
+      "finding": "Genuine logical RED is preserved in p12a_red_02.log:24 execute,3pass/21fail, actual cargo exit101 recovered from history. But exact executed scaffold/raw source is not retained as a task-local pinned artifact, and tests were changed after RED: UnknownId oracle corrected and four inhibition assertions removed from replay. Initial import and Result type repairs precede logical RED; the later removal/correction are not unchanged-tests GREEN.",
+      "authority": "contract:164-171; history95924/95926/95944/95946/96006/96008; checks.test_creation_delta",
+      "required_resolution": "Preserve and authenticate original runtime RED source/test bytes if recoverable, explicitly document post-RED oracle corrections/removal and corrected test-first provenance. Do not fabricate raw identity from initial creation payload alone or call compiler failures RED."
+    },
+    {
+      "id": "BUDGET-01",
+      "severity": "UNRESOLVED",
+      "finding": "Five preserved implementation logs green_01..05 are compiler failures (not logical RED); green_06 executes and passes24. History shows repeated syntax/receiver/trait repairs; STATE/decisions do not classify per-defect attempts or source fix cycles. Counts of filenames alone do not prove the three-failed-approaches/two-fix-cycle limits were or were not exceeded.",
+      "authority": "original v4 §16.1/16.3; contract:234-235; checks.preserved_implementation_attempt_logs",
+      "required_resolution": "Reconcile actual unique commands/deltas and outcomes by defect; stop PARTIAL if any authority stop condition was crossed. Do not reset counters or count duplicate replayed history records as new attempts."
+    },
+    {
+      "id": "MOCK-01",
+      "severity": "UNRESOLVED",
+      "finding": "Full mock95 exact declared=observed identities, no skips, raw log/script pins match; actual exit0 is recorded. Suite951.156s is genuine, but elapsed wall time and enforced1049s runner bound are not evidenced. Launch shown in history uses no bounded subprocess wrapper.",
+      "authority": "contract:198-202; original v4 §4.7; checks.mock_gate_independent",
+      "required_resolution": "Preserve the successful run. Establish elapsed/enforced-bound evidence from authenticated launch/completion records if possible; do not relabel suite time as wall time. Any authorized new measured run belongs to the parent, not this audit."
+    },
+    {
+      "id": "STATE-01",
+      "severity": "BLOCKER",
+      "finding": "Live STATE is contradictory: allowlist NOT_CREATED/contract not approved, contract review pending, freeze NOT_CREATED despite existing16-pin file; final readback not applicable wording conflates no canonical readback with mandatory parent readback. p12a_allowlist.json lists test identities, not authorized file paths required by original v4 §16.8.",
+      "authority": "STATE:18-22,33-41; original v4 §16.8",
+      "required_resolution": "Record exact authorized file-path allowlist and justified extensions; preserve old context snapshot before updating live checkpoint. Retain truthful PARTIAL and exclude live STATE from reviewer pins."
+    },
+    {
+      "id": "REVIEW-01",
+      "severity": "BLOCKER",
+      "finding": "No comprehensive independent candidate review exists (expected at this stage), and its prerequisites are not GREEN. Old independent contract review has stable9 pins and externally raw-pinned JSON but no self_sha256 field; existing parent reader does not enforce any documented self-hash convention.",
+      "authority": "contract:221-235",
+      "required_resolution": "Do not dispatch approval review as if prerequisites passed. Preserve original contract review; specify an honest self-digest/externally pinned convention or supplemental independent disposition without modifying old reviewer pins. Obtain complete fresh independent candidate review only after resolved frozen checks."
+    },
+    {
+      "id": "F5-01",
+      "severity": "DISPOSITION_REQUIRED",
+      "finding": "F5 manifest has exactly one current-byte mismatch: tests_kernel/src/lib.rs. Removing exactly the six authorized host-wiring lines reproduces historical raw SHA256 d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189. This is intentional candidate delta, not inherited source corruption, but must be expressly reconciled rather than ignored. F5 top-level report/manifest/acceptance pins and exact76 gates are stable.",
+      "authority": "contract:106-112,221-229; checks.f5_lib_wiring_disposition",
+      "required_resolution": "Retain the F5 historical pin; bind current lib bytes in P12-A freeze and explicitly disposition the sole authorized delta. Do not repin or modify F5 evidence."
+    }
+  ],
+  "checks": {
+    "initial_raw_pins": {
+      "freeze_count": 16,
+      "freeze_matches": true,
+      "protected": [
+        {
+          "path": ".gitignore",
+          "git_status": " M",
+          "classification": "PREEXISTING_USER_WORK",
+          "sha256": "738ec129c381316b2c3ea4ff26bf502a072c4cc7eb7a3d7b074debdf58bc6bda",
+          "match": true
+        },
+        {
+          "path": "README.md",
+          "git_status": " M",
+          "classification": "PREEXISTING_USER_WORK",
+          "sha256": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+          "match": true
+        },
+        {
+          "path": "src/exception_entry.s",
+          "git_status": " M",
+          "classification": "ACCEPTED_HISTORICAL",
+          "sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+          "match": true
+        },
+        {
+          "path": "test_results/phase11f4_user_arena/FINAL_REPORT.md",
+          "git_status": " M",
+          "classification": "ACCEPTED_HISTORICAL",
+          "sha256": "65071f5a56f7900246ec649a03e9f1acad01347557089efdef54a42b5c5582f0",
+          "match": true
+        },
+        {
+          "path": "d1/f",
+          "git_status": "??",
+          "classification": "PREEXISTING_USER_WORK",
+          "sha256": "98ea6e4f216f2fb4b69fff9b3a44842c38686ca685f3f55dc48c5d3fb1107be4",
+          "match": true
+        },
+        {
+          "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+          "git_status": "??",
+          "classification": "PREEXISTING_USER_WORK",
+          "sha256": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+          "match": true
+        },
+        {
+          "path": "reviews/candidate_review_02.json",
+          "git_status": "??",
+          "classification": "PREEXISTING_USER_WORK",
+          "sha256": "1bc18068b077d641ef598899f513b9c5b6cbe5ea516d67c720ed83e536dbe49a",
+          "match": true
+        },
+        {
+          "path": "scripts/b13_boot_fixture.py.backup",
+          "git_status": "??",
+          "classification": "PREEXISTING_USER_WORK",
+          "sha256": "3e86d2dd9061e42c1b79d5ad0d94efa513a407c19faa37fc2680a7ab5526a181",
+          "match": true
+        }
+      ],
+      "contract_review_manifest_and_9_pins_match": true
+    },
+    "canonical_membership": {
+      "before_count": 234,
+      "now_count": 236,
+      "added": [
+        "src/p12a_policy.rs",
+        "tests_kernel/src/p12a_policy_tests.rs"
+      ],
+      "removed": [],
+      "changed": [
+        "tests_kernel/src/lib.rs"
+      ],
+      "current_snapshot": {
+        ".cargo/config.toml": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+        ".gitattributes": "d820d90c6806d084adcc416a0d71c37294c76dbbce084fbb9a8452b95f941218",
+        "Cargo.lock": "0cf225c12a6012dce22efc86576ed5aa4c5280b3646ec5de2d0cc5385ede1188",
+        "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+        "crates/rostifs/Cargo.lock": "77fe980348b69e076e82d2c8f8f0af96b3f9d35b583ed9322ba6f64703ac91bb",
+        "crates/rostifs/Cargo.toml": "2c2f1f55a50c86f7192c4e3ebccc6e9c6d7680c6af42455bd0675e737f129920",
+        "crates/rostifs/src/additional_tests.rs": "7f5a6c2957b27c4639c10a0160e12deea16f1b807d4a52008e702594e09d13df",
+        "crates/rostifs/src/bin/mkrostifs.rs": "e5966832d320f1d463d08099316c8c2070dc261262255038ac846eebc6300252",
+        "crates/rostifs/src/bin/rostifs-inspect.rs": "800ac0cc90ee2adc984535363a0a69423e887b5d75b44bd4e5ab71bcced7ee2c",
+        "crates/rostifs/src/bin/rostifsck.rs": "27687db10227412a86d1f0fccd8df981878859fcc7b08eec2a711331d4c95b36",
+        "crates/rostifs/src/bin/support/mod.rs": "dddbe9984143cf047fd5f4a2a7f2ea16934c5872d092076c6e6622e1ee72f041",
+        "crates/rostifs/src/block.rs": "8f9f00afcc6e72e60d31823b25134923caaff446cab98d2081e5a00af818db06",
+        "crates/rostifs/src/checksum.rs": "ddafdf1d570e54799a73c0be61bb3261d23565a578d1e31e4eaa52e1f78b851e",
+        "crates/rostifs/src/crash_tests.rs": "0dd5b140eb3c667c9046d1d3b2c91a21ec1657a46f651371a498b95e55a31ec9",
+        "crates/rostifs/src/engine.rs": "445d245b050bcb63ff054164b5ae4df317bf1a3850b44b4298a6c5d73c92610a",
+        "crates/rostifs/src/format.rs": "71c255f3d6f54d35329a320014d5fd611bd61c6658c5a05a3ea6df3e753af700",
+        "crates/rostifs/src/lib.rs": "ed215913cdda1c961cd554f5f021e70bb2a93860eb1023a3e4770ae3cd41fe31",
+        "crates/rostifs/src/occupancy_tests.rs": "5434bf031656f784907ed0f7aefbd84e4be7f8729783c2379265b518fcd1df42",
+        "crates/rostifs/src/vfs.rs": "a1de396fd4edb87f9d603dae253c76a28a72a2660f67df87a9718c654a0aa713",
+        "crates/rostifs/tests/host_tools.rs": "926880ffd4cb5814b85be39b891e441aed5fd7269d2bc8cb6d793e6386e61d1b",
+        "crates/rostifs/tests/read_performance.rs": "3c16b654a6354ebfbc266bd64eba92ea36a3848cb76dd0f8d278a5d37743ae29",
+        "crates/rostifs/tests/write_preservation.rs": "8a3f8789d5a1abb1fa9b32d344e2a51b370b4413eb186dfccb97b5b352e47de9",
+        "linker.ld": "f6cc38ab108a9214fa4d506f688d715af9364713ff40fca79dd92849d40bfc61",
+        "rust-toolchain.toml": "f657a2eed810e752df8dc3db2aa7dc0efae71b56e9de36be6b1364f9dad9ee95",
+        "scripts/b13_boot_fixture.py": "46670886322492f8f3eae8800921bbe620a1fc4c6d2f1c93f6fac9d2dee3b3ef",
+        "scripts/b13_entry_inject.py": "786668a82f4be2e56f6a3e557cb3c4debd3dcd8cd3ff3adcf7d4887cd11c3a9b",
+        "scripts/b13_fixture/Cargo.lock": "a0403c408cfc8c94cfad84c3227056af418f5b41372705f2f8443d5cd6a7fb24",
+        "scripts/b13_fixture/Cargo.toml": "2a29696e0fd06782f9a567a67dc244786c941bfea065655634226bd86d3a6efa",
+        "scripts/b13_fixture/linker.ld": "e7fd7f343aeb7935f4b1e4de90905c3ba1d215e623f7fbe14c7e8c05ec265df8",
+        "scripts/b13_fixture/main.rs": "ed2964b1a6d1ee915c85c71f699bc04775078c2f34553e5073c30d155dd2359a",
+        "scripts/b13_grub_smoke.py": "1cee098ba43b26a0e05fe5c0bfc57a2adfb56b52e2ac840c664c89cac84d8f85",
+        "scripts/b13_stress_replay.py": "50355245c09643b68d466c2c72851a28f8bb6c24263d7dfb1194ab9dc0b3ff1e",
+        "scripts/backspace_test.py": "7d4c97a22fca06014ad39db568a9974d22a459fc62da9991e46f3886b7e51dae",
+        "scripts/block_test.py": "733f725e188e26f9beb4e010824d5724c038523557b9b8976cc5638cb7cdafeb",
+        "scripts/boot_metadata_test.py": "02ac3da0b606504d1f141ad5762adcf12ec581e11b1d102f79b7c95e19924e3f",
+        "scripts/boot_test.py": "85ebf37153517c0a98e59e4e3305f6dfe8a701dd206883f32b3080becac086f1",
+        "scripts/build-proxmox-iso.py": "2c141780b7d716deb6d0cd90442f29c0cc111e301ac595e57912b0f7f565941e",
+        "scripts/build_initramfs.py": "daa7dbb979d41af2c6d72af71e5f23cd74d30bba71fc02d1f77fe26c03c0b228",
+        "scripts/deploy-proxmox.py": "127cfc9c6dbd991312a9efe6802095995988713ee9ef855a25ab4b64a3ae7d3c",
+        "scripts/f1_capture.py": "69fbf12be0c4a6472bd7cabb475ed2f46f55182a71b3d14edb12e7207ba08bed",
+        "scripts/f1_evidence.py": "71a1e79caee9b437b04ee86ece31f319601453d39b1170f364eb79816d104d4c",
+        "scripts/f1_guest_fixture.rs": "5d1bcea94ebf55fc1cf7f4937274a1598835689cbd625c0b45980ec7bb92b390",
+        "scripts/f1_retained_guest.py": "83f72d9d0d3fad6365fed1411e3376e86f0b81bb59e65bba8b8af57536f7796d",
+        "scripts/f2_evidence.py": "413765504497e913e2406342f90a9b0a5531a6e1a76e3c99fa8c64b0def9e72c",
+        "scripts/f2_exception_guest.py": "3a22cf33da8ac326a61bab386bd201312c5a4f6405b9f937857c295c881df873",
+        "scripts/f3_evidence.py": "1f61c70d714f121e03a0526c7997d6d1f07f6ccab24ca1e8a29d87335b841ff4",
+        "scripts/f3_full_evidence.py": "c809d248bf883a05e9040e8d9fe3c65b4af714b79224960513a57bf7e92363c1",
+        "scripts/f3_full_guest.py": "e06eb05e69d782b14bcdf884d66f824e9fda32fc03b844ab989a55c2793e6374",
+        "scripts/f3_gdt_guest.py": "0dd26fd92007686274d791de9878efbdaf121057cfa15b4209a529fe42fe283e",
+        "scripts/f3_supplemental.py": "217c2f075b54d9826c6fb84b240c9999b2261d305392384eb347c93ce0e0bac0",
+        "scripts/f3_supplemental_evidence.py": "bfd220b6af3cbacdb26dbf68e450c4f8f8569d17a9b463c2f966203d7bb517a5",
+        "scripts/f4_arena_guest.py": "999ede906e9e193b5af006831cbf275b5f2452a9bb73d224982c7629c27003ac",
+        "scripts/f4_dwarf.py": "69f975db576cc6e7d807586671801809d797f258a5542abc5ff6f7fd34909e2f",
+        "scripts/f4_evidence.py": "256539e8df9dacb8c1a6c7f038647228fe6f05fc5b5288a6d29453e76fa2d1ef",
+        "scripts/f4_ready_guest.py": "310c67f76b183d9c0e3673ff1b0037c54cc032d416b940bb01f4fbe5f7111aa8",
+        "scripts/f4_user_guest.py": "e5cdc25555a0da366f3dd45508fff4770d9311f2abaf85eb2e5c1c5ade57b473",
+        "scripts/f5_cpl3_evidence.py": "eaaf44806cecc9aa52c1cb45585764c5157e9384ca546cb7c402da5eb497c33e",
+        "scripts/f5_cpl3_guest.py": "f39f9dae9165d65d7850fe01f22959b3a02f92cf6c81c4aa5e316c02ad115a7c",
+        "scripts/f5_entry_derivation.py": "58b6398028101df8093dd58bc7c5c4dd676775d01ee0e7a91858835eaf7de588",
+        "scripts/f5_terminal_audit.py": "5c9b0c787fe9fddcdb33ab030252563dcdc66bba77b79cd5732648592463a1e4",
+        "scripts/fs_test.py": "bb15298b049b93be5b9284a73b15cc4971566f43917ea0ce9b71701531ace67b",
+        "scripts/keyboard_test.py": "a797a8bd0bf403cf686f9c0aca7dfc1f3d75ef72643b43eea495d8fc054a3dce",
+        "scripts/live_phase5_check.py": "1822ae91afce3be17e6d2706d3654b7052efa2ce978ebd611ef3489f3be7cec4",
+        "scripts/mem_probe.py": "32575767be7257f5cfc3bbd041ec7b176adf4f83f14070d5dc91c5912ac341a4",
+        "scripts/numeric_map_api_probe.rs": "4dffd562babfdd6c2b1e68626b68081dc934b0a984cb6eeb37900aa043bba929",
+        "scripts/paging_test.py": "8f0a5a5dd2a0ab51f951295da054473a1a690e4c75d5d92c660a2c115a3fddfb",
+        "scripts/phase10_grub_module_probe.py": "7b89bf32d50d2ebe18091a735fcd3b13a198301009ff236b13f510f2706d7a9b",
+        "scripts/phase10_initramfs_test.py": "ebf9f6d2c6a324a5d28a8f2e5961282b461cdbc226e617a28d6b2e11328838fe",
+        "scripts/phase10_module_probe.py": "5d03da16bda4e804ec738e090cf16dcd6804e19c751ea753e6b468e5d47f8800",
+        "scripts/phase10_repro_one.py": "65600e20fabddffe720d9df788f610b056a3334da894a2dc8951ec881f43333d",
+        "scripts/phase6_verify.py": "394dfcfa9e5d40ebb56c614ac2356a4c930fbbd80b418c408f46b30daf388b20",
+        "scripts/phase9_5_bench.py": "ebbf31b7513bffffca70e869261d9799639e36ae5e68c946e4614cadf71449d4",
+        "scripts/qemu_boot_test.sh": "9a8046a4aef852df4f15d5c5b5f9db21497b09547b8ec14ecebdca25b60a7699",
+        "scripts/rostifs_test.py": "6fa350d9eb81c4315bdaad161289cc5cdeb784092746dc8dc94ed3efb5d76091",
+        "scripts/run_tests.sh": "81ae42a61d7e2c50045ac0049ab11b19d0ac18cf4982415ac08fae246b85b5a8",
+        "scripts/sendkey_probe.py": "10c19d82412f2993a613a76aea3c7d2d952033ef6dbbf0f926652d30e210a2a9",
+        "scripts/stability_probe.sh": "ac70d4899c6a213cde5d3ee4bc940ee8437fa220e5f521cfd182a1a09bff2bb8",
+        "scripts/system_image_policy.py": "e468cbe7539be3afffd17db9db46201fedaf3888d120c001842ea8e170074c4b",
+        "scripts/test_acceptance_harness.py": "f6274eac8eb8ef3075597ed3d946df5a41f19fed14b0e616efe6038404288d2f",
+        "scripts/test_b13_boot.py": "61625100daa383814346695c0bb9d07acf4c87ad0ad58de63c82a3b1e366181f",
+        "scripts/test_b13_entry_inject.py": "9b84000f9943df0bfa5c2cecb36dfbbd7c769029547c4b47bab1c7b9da8546c2",
+        "scripts/test_boot_metadata_harness.py": "bdc530eb92d395caf8efe737c7e00d4bfa0f5f631729eec5025bd50388dc0267",
+        "scripts/test_build_initramfs.py": "1f83446b49a9403986f4e22469c10e3ded59c07bf8f85e82ccccc97a6d233d6b",
+        "scripts/test_f1_capture.py": "691a91c475d30c8e5273d978363fda9f0cd8d719c23a224663b6af5c535251aa",
+        "scripts/test_f2_evidence.py": "ba2b68a8d0493b1bb9cc8a644cdf097086aa036a860d7f02b6464f2165f8137b",
+        "scripts/test_f3_evidence.py": "fc068fb808621a81f289e9bcbba4908b614406ba65fe29fd74e36ea337d9e4b9",
+        "scripts/test_f3_full_evidence.py": "8021752e7c37f70a324fe94c8964b48820658600eb303704c7ee640169ac6718",
+        "scripts/test_f3_supplemental.py": "78e5643fac502109091f28ce404d91deffbc53670986265d99017086bf442508",
+        "scripts/test_f5_cpl3_evidence.py": "90e6a1974e7bc36eb319f878f966b6e44d96f54310a36b41d611838020ce734e",
+        "scripts/test_f5_cpl3_harness.py": "910c79e093f3284e736b5bd1e77068a9abbf4ea57a9bb033d95a4cc6cebfedab",
+        "scripts/test_f5_entry_derivation.py": "1b9ea2ebcbaa257a627447820df8d6cc5f03a69b8ddbce55a0e25d31800e0e20",
+        "scripts/test_f5_terminal_audit.py": "7587050544c3ad724944d763e9d5dd4a4c1a5b69ff39df3917a2609c34c8eac3",
+        "scripts/test_fs_harness.py": "9b7503801d7f6033cc36212ce5868a3a787fa59e5df801f7bb868f0012f68664",
+        "scripts/test_phase10_initramfs_harness.py": "8072d48f858c1436711c1fe636baa214768a0c89a25bfab2b9187413e03e8627",
+        "scripts/test_phase9_5_bench.py": "84a6811bd35672e26cb2c6a9fd1f3bff3923c835a0b33520448e3b273cb0d476",
+        "scripts/test_production_fixture_policy.py": "00e766779deea229f2c7833876202282177983d91a6d1cafa7a9ba226952e0b2",
+        "scripts/test_rostifs_harness.py": "7560a2670c01186d37112330fe17e057da40972617c3d6cc60ceafbe4bb668ac",
+        "scripts/test_system_image_policy.py": "2f8272291da9f863aae0df46e9ab3ffaa73fd3c0884799362089c54de72a9b3d",
+        "scripts/unmap_api_probe.rs": "66a64d2f4435fc2db8618ba30618823098547613fc79c33c85652e080f032669",
+        "scripts/validate_elf.py": "5a4621d30e9fadb765307653de043c7a13df16c2ea2534ee13c9ca0b58a07e56",
+        "scripts/verify_production.py": "a9483ef79d1e5bbfe799fc161d9590237009cf225307bf9184572eaf0b37f7eb",
+        "scripts/verify_proxmox_backspace.py": "cb9c60212ce62bd3ef202637a045982180f0414ca12b63ddb2c1d658cda8d80f",
+        "src/allocator.rs": "0306608d6de917c50dff1772574d9b9556c39ca7e2e643fcbb39e6212918eb8d",
+        "src/block.rs": "baa9ebdc14c6d1e0789dd015b32bd9db54f0dbdfbb29d2250ee548eaa56de928",
+        "src/boot.s": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+        "src/boot_inventory.rs": "f3094f2dd407e7d7409ca4d9a1ff58de812eec7935415297f0c05d2f1afc43e6",
+        "src/cpu.rs": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+        "src/exception_abi.rs": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+        "src/exception_abi_tests.rs": "b8fb3beee2535bf37354c0d5232310b58bc4e929284678df17a2de0a415352f7",
+        "src/exception_entry.s": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+        "src/exception_fatal.rs": "30a1c3f0cec9937e6d17e1e4194493e3c3d7257d165c1458cc77a07a7eaddf0d",
+        "src/f3_entry.s": "c00e3939e393d704a9c0630c5fbe4f7ab1a8327edc025edc194676db3a67bf15",
+        "src/f5_bridge.s": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5",
+        "src/f5_contract.rs": "f6e72c12b195f54eed876e582d982cd59711f8058a764ae685fd7cc174efeac3",
+        "src/f5_cpl3.rs": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21",
+        "src/f5_exception_entry.s": "2c76369aead02bb1b7fad54b89b996154f683705032ff4f18373c1deb1e3f2db",
+        "src/f5_gdt.rs": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+        "src/f5_runtime.rs": "fd94be9b68bbaacb9277342213cd82bfb051cfe3a275b8f25cc77938851a4122",
+        "src/fd.rs": "74fa35d8084a73791458771be4b4ba8234f5ca6522d4f7e2eba622bd74e56483",
+        "src/fs/archive.rs": "9d4bdd499a8e3be3190c2bc0ebc08b73b73c95b79e9733cd5f1a86b44b632e56",
+        "src/fs/mod.rs": "71c7ab26bd4de18c3fc727357e1656bb9ae46b9fb1f056eb3ec1e592b76a1a2f",
+        "src/fs/mounted.rs": "a920d88112e158fb713a1cbeba2a9dfdc5166c8b1d8907902d582144ab25258c",
+        "src/fs/rosti.rs": "e7da5eeebccdd73ba244d27cf68e267c31ace1cd48b2148bb86842303b92e7b8",
+        "src/fs/vfs.rs": "a386ce86e1d27c2076e088fa191189bb2cc6de94f2fcd36466fc5bf7fbecd5cf",
+        "src/fs_commands.rs": "0e47e7cda80c4ffdce98910e5e61868f8cbe59e98078eab706b0ba899f373a39",
+        "src/fs_stress.rs": "fe51370045f8134963e388ad4cf18de70c2e44ed8e6ef54135958f2d09b32202",
+        "src/gdt.rs": "02c845d9cd9c579e7f5461f365318a2ad6a88faf9567d9c9ca25b47485267599",
+        "src/gdt_tss.rs": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+        "src/initramfs.rs": "e1f80334cd6d1c55c74824861e155aff8ec0585e52292aecb98d8f171fd66dfb",
+        "src/initramfs_trust.rs": "1b2a5b394d8c376fbb6ed07196b4a41c8e7ac970b68c4774920868b759aa02f6",
+        "src/interrupt.rs": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+        "src/io/mod.rs": "47bed17a10d53a0bc2e9075211b6793bd71fb04348274d7e3f218ebb10fc2c51",
+        "src/io/ports.rs": "b6534ef4a7d70d9fd14da9e953eb47ba7bb177651d82f8868b0e518534141855",
+        "src/io/serial.rs": "cfe78862ad6c368e5c0d124d9fa2655fd5f953ab223bf81adad8de89f0d3161d",
+        "src/io/vga.rs": "5c0d1b9b38f44c2b0324a7e70536df5a457f3b472b46621f26b21c82ecdbc8b9",
+        "src/kbd.rs": "6f8bfe159678b0c8999e4a801df415195cdfb43c961522e46af0968f9450db9b",
+        "src/main.rs": "732f92cc854b63e48e3b586cda099164abd42ceb68c5d14000cee360bac1d7ff",
+        "src/memory/boot_copy.rs": "abc50f5d9a53708e65073da31bbb1224e06d7742c2bddad42bb4ed86025192b2",
+        "src/memory/f4_b26_tests.rs": "2b527dd7764dc709914959b2cd06c7127402cde554078f987eca1aeb8cac72fc",
+        "src/memory/f4_user_arena_tests.rs": "4fe8da1bb4ac93e4884b8d270fce08e34de15bee1d1d4e595778e260a5c80509",
+        "src/memory/f5_cpl3_owner_tests.rs": "eea225f4657c1d42ee8f3c7c9f2300d9ec42f8a7a222f6698dc8e2a0b40547e3",
+        "src/memory/f5_page_observation.rs": "ce40808303be5e6847b9b66d1ad2befe9992862937de3d7a802685cc358dae9d",
+        "src/memory/frame.rs": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+        "src/memory/generation_boundary_tests.rs": "47de52a23dbbc8d926eb565939a1f01af11bce0da2b63fcf771ae5bee7fc9801",
+        "src/memory/generation_ownership_tests.rs": "1ac5b786687077b1a9ebaff8f8b5a68e12188ceacb035fca2c8a5b294d7d1da7",
+        "src/memory/mapping_pin_tests.rs": "50363b0127f857df5cddd0318a8280062011e9925dd10cc6170c898848ed6816",
+        "src/memory/mod.rs": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+        "src/memory/module_access_tests.rs": "52f892a9d907752219d3cd9e6499ba73d0cebf4074d664fec27ae2c2b87fa71e",
+        "src/memory/numeric_map_authority_tests.rs": "182582f6f6ac6f2bbebcc6bc1f8ea154220ac68487fd8f27271b961bce8db475",
+        "src/memory/ownership_observation_tests.rs": "e4f3725012550a22732f8c69f347d2f745790450da71073bfa83af6e50a8e12a",
+        "src/memory/paging.rs": "0f14b2663faa883cdf0629b772350d42bca6e6bcfaba10280e7277482cc1d4b6",
+        "src/memory/phase11_permission_tests.rs": "1015203de032e8d00a557967c1643d5616462cab538d19f9328d454eac0f8d75",
+        "src/memory/phase11a2_abi_tests.rs": "719efc526076977f6442741ae3ac6be95506f6cb366512e8f4ef05da2c639143",
+        "src/memory/phase11a2_ownership_tests.rs": "e0386226efc3d093deea02a681655151ba0a9a90e13162dc1e3d68149d948037",
+        "src/memory/privileged.rs": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+        "src/memory/privileged_owner_tests.rs": "c13ff318dfcc0ec7c80e5b2e4395784a39c9b1e27f2977855b9d35752541c047",
+        "src/memory/privileged_tests.rs": "eb18b51752e82da382e9dc65941786e96943e642849f61055b859c9035ad7b17",
+        "src/memory/retained_owner.rs": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+        "src/memory/retained_owner_policy_tests.rs": "e8b9d2a03d0a90f73d54322c6cbfd80e2ff93aabb8d6bf914598b2656976387d",
+        "src/memory/retained_owner_tests.rs": "5729867aa1d2e86776a70edb028a10a93de70e43036355f219ef218f8cdbc76b",
+        "src/memory/review_r1_tests.rs": "7e752e123084da63e1d2d6f11a6982a5642ba92b02fedcbb2f0dc746338c810e",
+        "src/memory/runtime_table_access_tests.rs": "7b5bc7b65cd0f1f03afcda7c3e6416f959016e475fc7ba5c6d21f3bace9f7dd2",
+        "src/memory/structure_lifetime_tests.rs": "261db706452d9f2423aea4af34a2734c54b88219b1e2c5f81f2413f4bb2f0f9b",
+        "src/memory/unmap_authority_tests.rs": "54391c4ffe27e34255daddf70aa30b79c5ff77069a31ad7a9f89ac6451fd7a76",
+        "src/memory/user_arena.rs": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+        "src/memory/virtual_page_zero_tests.rs": "22d84687ac23e3a4b6f278528f26ec887c4a83d004bd5abd184aa23221087c4d",
+        "src/multiboot.rs": "bf2561e87651dbc714d24c2d758000fb124d71a744fd0b2425469413a1b89674",
+        "src/p12a_policy.rs": "c2360876c33ef6a49487b99a3a7c65708e41055bfe6b5186d2737b670027003f",
+        "src/phase11_gdt_tests.rs": "d9466ba393a3dafd19139e31b561352b3970ebbbcf617c9e1398c4e666c1133b",
+        "src/reboot.rs": "32af3ab4ee38b526bf4788b39f12d1b736fdb96a55486c04fece165ffc2487c6",
+        "src/shell.rs": "134f6f9758b77b29abfc8977504a7e07178ad3e9fb677a01103d43ffb2a4923b",
+        "src/storage.rs": "4d7f0df8c9b7cca023aa71a8ab7a033a05c61ba003cb5dc73c7258fabd19e2b1",
+        "src/system_image.rs": "6618f3b6ac2c3fb7c7a7a490b290573247bc6adc66c21085b45efac51a9c35ce",
+        "src/timer.rs": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+        "src/utils/bits.rs": "35272e60fab48ad805461df614ee747286cfa31b1669f507e0edea270c6c7363",
+        "src/utils/mod.rs": "fe1df79058dba15f58948e5b8b9e046a8fa5a85990717e8288ec76b3d70cd93c",
+        "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+        "system/docs/recovery.txt": "5894e4cd687216b59d7d80fd86fa2b44cf0a74584da023101dbd30e4ddc28df5",
+        "system/README.txt": "061ba64633d53baa79ced86a54df7fa8d5dca281dd86670eb0508908ef393967",
+        "target.json": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+        "test_results/phase11f5_cpl3_proof/audit_emitted_01.py": "a47f26ac823827d0c91fa80eda2eafd0c49ed2747802098a1f0c5060a9934b21",
+        "test_results/phase11f5_cpl3_proof/capture_baseline_02.py": "773e526c1f3ef6e6b61c5c81b23bae639f5ce6aec520093d9e90c56d1bd1324d",
+        "test_results/phase11f5_cpl3_proof/design.md": "6b0b3a9324576b0fa148fa415fcaea23fe33a8e5f655da608e8ea56794a1791c",
+        "test_results/phase11f5_cpl3_proof/design_inputs_03.json": "adea88bcf78b78ebe182c79c82563d88707de3075435c24a675e1ab22f69d42f",
+        "test_results/phase11f5_cpl3_proof/entry_design_amendment_01.md": "9071c193419cd08f225f663bfeadebf10cefcd5b344ce2f2fae1b30a563c69c2",
+        "test_results/phase11f5_cpl3_proof/entry_design_amendment_inputs_01.json": "829e7d41a60ce27a9c3a482831eae19c33226fd3a0bdee55a1a6c19b7f0ff65c",
+        "test_results/phase11f5_cpl3_proof/f1_composition_10.py": "9f0bc3df091d862a3c7741f54068d2d5d560535c4ca201afc707bdd86b9e93b1",
+        "test_results/phase11f5_cpl3_proof/f2_before_macro_01.elf": "770f18590e186465fcb301f8d09c044d1055707027f0fa9ba596d0e2a1f33fcc",
+        "test_results/phase11f5_cpl3_proof/freeze_and_verify_06_01.py": "4fed7fc3b20d9611adac6de5241757fafb1a1c64f68d50c0821d91c2e5bef9b0",
+        "test_results/phase11f5_cpl3_proof/freeze_design_inputs_03.py": "4c3be67caf532abb60b5b37a4ceca36b06d6c573b3b4936b069b94a81e450d4b",
+        "test_results/phase11f5_cpl3_proof/harness_contract_01.json": "91984e72662a74558e34e7a158a045984762ed7534fd68ad8be3f3fa005d3df7",
+        "test_results/phase11f5_cpl3_proof/host_matrix_06_01.py": "9fde63921f0efc15ca45b324ccdf14b2550aa4d8cce3691c1e67d273c1bb97a4",
+        "test_results/phase11f5_cpl3_proof/recover_cleanup_10.py": "5e9d36a400e2c29f4608cc19e7a80658772ea84c3d19df1924bd0584a7999101",
+        "test_results/phase11f5_cpl3_proof/recover_continuation06_01.py": "bd32a87335746b3abe504643e2fd4b7d7ba1ff1b049463133d060d25805c540f",
+        "test_results/phase11f5_cpl3_proof/refresh_manifest_04.py": "511bc5769d275f0f05b996c934b8ca3d3cb5e0bddaeb93eef00584d9cb0252f7",
+        "test_results/phase11f5_cpl3_proof/reproduce_lnk1104_06_01.py": "82dc5e2f48bfa9f56dc3c49da854b06cf879ff3b91e13a7732eff87801008e28",
+        "test_results/phase11f5_cpl3_proof/reviews/design_review_03.json": "3c73bf80b6c504e6f6c982a90d928f3e66ba8fac18f1174ce000c528289cfd83",
+        "test_results/phase11f5_cpl3_proof/run_cpl3_probe_01.py": "5ab9e820e77ab7c29b7b55fac88e07fc9f07edc792d1b00b700b4954e9bd7cd4",
+        "test_results/phase11f5_cpl3_proof/run_f4_regression_06_01.py": "e4571654a5c8fc3d266e1a92727c06b372c8bff81d456b6863de7990007125a6",
+        "test_results/phase11f5_cpl3_proof/run_hardware_red_01.py": "5e1d34d7aeea117c1c64258053bf3eb127b29f7d8b50780ea2bc0aee2e4fb5bd",
+        "test_results/phase11f5_cpl3_proof/run_owner_mutation_controls_01.py": "8fb7a42dd7d69f97c37c248d58fb57ac0312a6b184e779a9fad505cc71dca60e",
+        "test_results/phase11f5_cpl3_proof/run_step_f5.py": "3536862b4853dd4b4f179363383b9b827bd7c558586e5704def09977f512f3d0",
+        "test_results/phase11f5_cpl3_proof/short_build_remedy_06_01.py": "cd2accc8a0ea26ad8ec4bdf5fa73d6fea74519bfb02b64c501c51f5b6f10b3b9",
+        "test_results/phase11f5_cpl3_proof/test_f1_cleanup_10.py": "e7b7acc8f438a8d0b6c3ab8f028a6cc7456f04cd56d7c43008513675d79801fe",
+        "test_results/phase11f5_cpl3_proof/test_f4_regression_adapter_09.py": "5af1814b536ef38775d1367377a10412e6d746ef746dd348615b1c24d4904ffe",
+        "test_results/phase11f5_cpl3_proof/test_parent_readback_10.py": "c7adb95e3d281d7b541f570ff271d74cb56d388829df5220eb22114acc34ac67",
+        "test_results/phase11f5_cpl3_proof/validate_design_review_03.py": "18a221478ee8bde789cbe8266970bff2bc7176e9dac52fad75e193122f654e9c",
+        "test_results/phase11f5_cpl3_proof/verify_continuation_04.py": "cf3b4e52a2a3a5538977b0964bdbeda86795453b7026540cf2de009aacdf61ac",
+        "test_results/phase11f5_cpl3_proof/verify_design_bytes_02.py": "dd3f4a8ce06ccacacc57545a680b8ca515041ac510da9d789bb4524b4af12506",
+        "test_results/phase11f5_cpl3_proof/verify_design_entries_03.py": "262131e46f3f7c762354f6c9a6704849e28b180c9a2e4ff308303c396d42431c",
+        "tests_b26/Cargo.lock": "2f6498c138ba97a59e22c83bccf457e11a012595447abcbf19f372a21a13da2e",
+        "tests_b26/Cargo.toml": "11743b7e9ed47547f3df4dfcd2b13aa8b755f7e2cd6ef3806f0a0a08ef2df5d3",
+        "tests_b26/src/growth_tests.rs": "a9d6939fd53bc3fdbac9190e75c9c63d0a6ab8ce87511805f163b346d65a4b16",
+        "tests_b26/src/lib.rs": "dda9b1b145079b14a32d6e463684711d8739d9817c2f96861a0b7773c49291ce",
+        "tests_b26/src/refusal_tests.rs": "6d3d1f20a020e931537546cb9eed4ed25221d80e6ac0888720bc5659ec7b8706",
+        "tests_b26/src/registry_tests.rs": "bbfcd1a29ad3ea39d25c7366a148ab53734df45b81416545580a68b557f89111",
+        "tests_b26/src/retry_tests.rs": "ef3e7e50da6bec4b3fa9a741e43a05ee9810d191532bc6ec4e5543fefb5524b4",
+        "tests_b26/src/validation_allocation_tests.rs": "c4caef711f6c788ef50d855786a26743c61a0f22fa5f7d5e2cc10e55eae37a70",
+        "tests_b26/src/validation_tests.rs": "e5852e6658a5790a7eeb7a81205bb54bd35e098a5391822fe8d1ebd489ef877d",
+        "tests_kernel/.cargo/config.toml": "cfe90f70759d1fbac33284e3c5ddffd8ff32d8bfb3bc0ed42095dfd0ee1afa53",
+        "tests_kernel/Cargo.lock": "e106beb0d77c1e2918bab814dd6af758d5fa3ac592837765708dfd45da3c1737",
+        "tests_kernel/Cargo.toml": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+        "tests_kernel/src/archive_vfs_tests.rs": "32bfd4086e82d421ec9107f0cfcb40f87339ec4bbf47bedb5b99197927ff9df3",
+        "tests_kernel/src/b11_frame_tests.rs": "42d74779924e887a6515f71ed90eb02368d6ddc0ddcb81a7580dacb0352a4b4d",
+        "tests_kernel/src/b11_standalone.rs": "6595cc942e8d9a172aa95edb2d9a0391e06282180766b4cfa6594a0ab19b9e11",
+        "tests_kernel/src/b18_inventory_tests.rs": "7b958b2d7487a37832eb2154046b8453bf3215a539e017cc9d8954d8a0d4225b",
+        "tests_kernel/src/b18_outcome_tests.rs": "9a0d09362277893635bcdfc145c5387bccd2d54456a5a42def351f083284cac0",
+        "tests_kernel/src/block_tests.rs": "9f5b825c3b702008e3cb27de03e8058faec2ebf7deb241efc9cf5bc27ad0a430",
+        "tests_kernel/src/f5_cpl3_tests.rs": "64688a6cfe19828630ef2b036993f2634c9db83417b9a8961655e9bfab924fd5",
+        "tests_kernel/src/fs_tests.rs": "aa9958e4a6be04ad26180605ff284bf86fa37f111da64749af46dcfe65185a96",
+        "tests_kernel/src/initramfs_tests.rs": "2295e3b1798ea01bfa19c0415dcbf909f6688dbe7bcea0d28833d3c4161bfc1e",
+        "tests_kernel/src/initramfs_trust_tests.rs": "9cdc401f0d338ceacf01367a2653ae895fe2e6a56cb4bf02fc1d0b6fc052e38e",
+        "tests_kernel/src/lib.rs": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed",
+        "tests_kernel/src/maintenance_measurements.rs": "b55ce5d9001e843b1f2f77befaa2ee9166bf33c5dc4401eaa04ce872b7f1170f",
+        "tests_kernel/src/mount_tests.rs": "cf46410d48d4a4e135938d833fc2ee252aaac7e346e2b2e954dea68fc74f75dd",
+        "tests_kernel/src/p12a_policy_tests.rs": "fb025cdd10f22a0214bac196656aac398ac7f07e2f2a23064bcd875d61fae95f"
+      },
+      "omitted_from_freeze": [
+        ".gitattributes",
+        "Cargo.lock",
+        "crates/rostifs/Cargo.lock",
+        "crates/rostifs/Cargo.toml",
+        "crates/rostifs/src/additional_tests.rs",
+        "crates/rostifs/src/bin/mkrostifs.rs",
+        "crates/rostifs/src/bin/rostifs-inspect.rs",
+        "crates/rostifs/src/bin/rostifsck.rs",
+        "crates/rostifs/src/bin/support/mod.rs",
+        "crates/rostifs/src/block.rs",
+        "crates/rostifs/src/checksum.rs",
+        "crates/rostifs/src/crash_tests.rs",
+        "crates/rostifs/src/engine.rs",
+        "crates/rostifs/src/format.rs",
+        "crates/rostifs/src/lib.rs",
+        "crates/rostifs/src/occupancy_tests.rs",
+        "crates/rostifs/src/vfs.rs",
+        "crates/rostifs/tests/host_tools.rs",
+        "crates/rostifs/tests/read_performance.rs",
+        "crates/rostifs/tests/write_preservation.rs",
+        "linker.ld",
+        "rust-toolchain.toml",
+        "scripts/b13_boot_fixture.py",
+        "scripts/b13_entry_inject.py",
+        "scripts/b13_fixture/Cargo.lock",
+        "scripts/b13_fixture/Cargo.toml",
+        "scripts/b13_fixture/linker.ld",
+        "scripts/b13_fixture/main.rs",
+        "scripts/b13_grub_smoke.py",
+        "scripts/b13_stress_replay.py",
+        "scripts/backspace_test.py",
+        "scripts/block_test.py",
+        "scripts/boot_metadata_test.py",
+        "scripts/boot_test.py",
+        "scripts/build-proxmox-iso.py",
+        "scripts/build_initramfs.py",
+        "scripts/deploy-proxmox.py",
+        "scripts/f1_capture.py",
+        "scripts/f1_evidence.py",
+        "scripts/f1_guest_fixture.rs",
+        "scripts/f1_retained_guest.py",
+        "scripts/f2_evidence.py",
+        "scripts/f2_exception_guest.py",
+        "scripts/f3_evidence.py",
+        "scripts/f3_full_evidence.py",
+        "scripts/f3_full_guest.py",
+        "scripts/f3_gdt_guest.py",
+        "scripts/f3_supplemental.py",
+        "scripts/f3_supplemental_evidence.py",
+        "scripts/f4_arena_guest.py",
+        "scripts/f4_dwarf.py",
+        "scripts/f4_evidence.py",
+        "scripts/f4_ready_guest.py",
+        "scripts/f4_user_guest.py",
+        "scripts/f5_cpl3_evidence.py",
+        "scripts/f5_cpl3_guest.py",
+        "scripts/f5_entry_derivation.py",
+        "scripts/f5_terminal_audit.py",
+        "scripts/fs_test.py",
+        "scripts/keyboard_test.py",
+        "scripts/live_phase5_check.py",
+        "scripts/mem_probe.py",
+        "scripts/numeric_map_api_probe.rs",
+        "scripts/paging_test.py",
+        "scripts/phase10_grub_module_probe.py",
+        "scripts/phase10_initramfs_test.py",
+        "scripts/phase10_module_probe.py",
+        "scripts/phase10_repro_one.py",
+        "scripts/phase9_5_bench.py",
+        "scripts/qemu_boot_test.sh",
+        "scripts/rostifs_test.py",
+        "scripts/run_tests.sh",
+        "scripts/sendkey_probe.py",
+        "scripts/stability_probe.sh",
+        "scripts/system_image_policy.py",
+        "scripts/test_b13_boot.py",
+        "scripts/test_b13_entry_inject.py",
+        "scripts/test_boot_metadata_harness.py",
+        "scripts/test_build_initramfs.py",
+        "scripts/test_f1_capture.py",
+        "scripts/test_f2_evidence.py",
+        "scripts/test_f3_evidence.py",
+        "scripts/test_f3_full_evidence.py",
+        "scripts/test_f3_supplemental.py",
+        "scripts/test_f5_cpl3_evidence.py",
+        "scripts/test_f5_cpl3_harness.py",
+        "scripts/test_f5_entry_derivation.py",
+        "scripts/test_f5_terminal_audit.py",
+        "scripts/test_fs_harness.py",
+        "scripts/test_phase10_initramfs_harness.py",
+        "scripts/test_phase9_5_bench.py",
+        "scripts/test_production_fixture_policy.py",
+        "scripts/test_rostifs_harness.py",
+        "scripts/test_system_image_policy.py",
+        "scripts/unmap_api_probe.rs",
+        "scripts/validate_elf.py",
+        "scripts/verify_production.py",
+        "scripts/verify_proxmox_backspace.py",
+        "src/allocator.rs",
+        "src/block.rs",
+        "src/boot.s",
+        "src/boot_inventory.rs",
+        "src/cpu.rs",
+        "src/exception_abi.rs",
+        "src/exception_abi_tests.rs",
+        "src/exception_entry.s",
+        "src/exception_fatal.rs",
+        "src/f3_entry.s",
+        "src/f5_bridge.s",
+        "src/f5_contract.rs",
+        "src/f5_cpl3.rs",
+        "src/f5_exception_entry.s",
+        "src/f5_gdt.rs",
+        "src/f5_runtime.rs",
+        "src/fd.rs",
+        "src/fs/archive.rs",
+        "src/fs/mod.rs",
+        "src/fs/mounted.rs",
+        "src/fs/rosti.rs",
+        "src/fs/vfs.rs",
+        "src/fs_commands.rs",
+        "src/fs_stress.rs",
+        "src/gdt.rs",
+        "src/gdt_tss.rs",
+        "src/initramfs.rs",
+        "src/initramfs_trust.rs",
+        "src/interrupt.rs",
+        "src/io/mod.rs",
+        "src/io/ports.rs",
+        "src/io/serial.rs",
+        "src/io/vga.rs",
+        "src/kbd.rs",
+        "src/main.rs",
+        "src/memory/boot_copy.rs",
+        "src/memory/f4_b26_tests.rs",
+        "src/memory/f4_user_arena_tests.rs",
+        "src/memory/f5_cpl3_owner_tests.rs",
+        "src/memory/f5_page_observation.rs",
+        "src/memory/frame.rs",
+        "src/memory/generation_boundary_tests.rs",
+        "src/memory/generation_ownership_tests.rs",
+        "src/memory/mapping_pin_tests.rs",
+        "src/memory/mod.rs",
+        "src/memory/module_access_tests.rs",
+        "src/memory/numeric_map_authority_tests.rs",
+        "src/memory/ownership_observation_tests.rs",
+        "src/memory/paging.rs",
+        "src/memory/phase11_permission_tests.rs",
+        "src/memory/phase11a2_abi_tests.rs",
+        "src/memory/phase11a2_ownership_tests.rs",
+        "src/memory/privileged.rs",
+        "src/memory/privileged_owner_tests.rs",
+        "src/memory/privileged_tests.rs",
+        "src/memory/retained_owner.rs",
+        "src/memory/retained_owner_policy_tests.rs",
+        "src/memory/retained_owner_tests.rs",
+        "src/memory/review_r1_tests.rs",
+        "src/memory/runtime_table_access_tests.rs",
+        "src/memory/structure_lifetime_tests.rs",
+        "src/memory/unmap_authority_tests.rs",
+        "src/memory/user_arena.rs",
+        "src/memory/virtual_page_zero_tests.rs",
+        "src/multiboot.rs",
+        "src/phase11_gdt_tests.rs",
+        "src/reboot.rs",
+        "src/shell.rs",
+        "src/storage.rs",
+        "src/system_image.rs",
+        "src/timer.rs",
+        "src/utils/bits.rs",
+        "src/utils/mod.rs",
+        "src/utils/mutex.rs",
+        "system/README.txt",
+        "system/docs/recovery.txt",
+        "test_results/phase11f5_cpl3_proof/audit_emitted_01.py",
+        "test_results/phase11f5_cpl3_proof/capture_baseline_02.py",
+        "test_results/phase11f5_cpl3_proof/design.md",
+        "test_results/phase11f5_cpl3_proof/design_inputs_03.json",
+        "test_results/phase11f5_cpl3_proof/entry_design_amendment_01.md",
+        "test_results/phase11f5_cpl3_proof/entry_design_amendment_inputs_01.json",
+        "test_results/phase11f5_cpl3_proof/f1_composition_10.py",
+        "test_results/phase11f5_cpl3_proof/f2_before_macro_01.elf",
+        "test_results/phase11f5_cpl3_proof/freeze_and_verify_06_01.py",
+        "test_results/phase11f5_cpl3_proof/freeze_design_inputs_03.py",
+        "test_results/phase11f5_cpl3_proof/harness_contract_01.json",
+        "test_results/phase11f5_cpl3_proof/host_matrix_06_01.py",
+        "test_results/phase11f5_cpl3_proof/recover_cleanup_10.py",
+        "test_results/phase11f5_cpl3_proof/recover_continuation06_01.py",
+        "test_results/phase11f5_cpl3_proof/refresh_manifest_04.py",
+        "test_results/phase11f5_cpl3_proof/reproduce_lnk1104_06_01.py",
+        "test_results/phase11f5_cpl3_proof/reviews/design_review_03.json",
+        "test_results/phase11f5_cpl3_proof/run_cpl3_probe_01.py",
+        "test_results/phase11f5_cpl3_proof/run_f4_regression_06_01.py",
+        "test_results/phase11f5_cpl3_proof/run_hardware_red_01.py",
+        "test_results/phase11f5_cpl3_proof/run_owner_mutation_controls_01.py",
+        "test_results/phase11f5_cpl3_proof/run_step_f5.py",
+        "test_results/phase11f5_cpl3_proof/short_build_remedy_06_01.py",
+        "test_results/phase11f5_cpl3_proof/test_f1_cleanup_10.py",
+        "test_results/phase11f5_cpl3_proof/test_f4_regression_adapter_09.py",
+        "test_results/phase11f5_cpl3_proof/test_parent_readback_10.py",
+        "test_results/phase11f5_cpl3_proof/validate_design_review_03.py",
+        "test_results/phase11f5_cpl3_proof/verify_continuation_04.py",
+        "test_results/phase11f5_cpl3_proof/verify_design_bytes_02.py",
+        "test_results/phase11f5_cpl3_proof/verify_design_entries_03.py",
+        "tests_b26/Cargo.lock",
+        "tests_b26/Cargo.toml",
+        "tests_b26/src/growth_tests.rs",
+        "tests_b26/src/lib.rs",
+        "tests_b26/src/refusal_tests.rs",
+        "tests_b26/src/registry_tests.rs",
+        "tests_b26/src/retry_tests.rs",
+        "tests_b26/src/validation_allocation_tests.rs",
+        "tests_b26/src/validation_tests.rs",
+        "tests_kernel/.cargo/config.toml",
+        "tests_kernel/Cargo.lock",
+        "tests_kernel/src/archive_vfs_tests.rs",
+        "tests_kernel/src/b11_frame_tests.rs",
+        "tests_kernel/src/b11_standalone.rs",
+        "tests_kernel/src/b18_inventory_tests.rs",
+        "tests_kernel/src/b18_outcome_tests.rs",
+        "tests_kernel/src/block_tests.rs",
+        "tests_kernel/src/f5_cpl3_tests.rs",
+        "tests_kernel/src/fs_tests.rs",
+        "tests_kernel/src/initramfs_tests.rs",
+        "tests_kernel/src/initramfs_trust_tests.rs",
+        "tests_kernel/src/maintenance_measurements.rs",
+        "tests_kernel/src/mount_tests.rs"
+      ]
+    },
+    "original_v4_authority": {
+      "recovered": true,
+      "source": "read-only Hermes state.db message95774 session20261025_175559_d0f32b",
+      "characters": 45169,
+      "utf8_sha256": "3009c6cbb5c530578c7580a025b640988149158c79b3ba2025bb164756fdd912",
+      "clauses": [
+        "16.1 Attempt. An attempt is one distinct approach to fixing a specific defect, recorded in STATE.md or decisions.md with the command(s) used and the outcome. Rerunning the same command unchanged, or fixing an unrelated typo, is not a new attempt. Three failed attempts at the same defect = PARTIAL.",
+        "16.8 P12-A allowlist. After contract approval, create P12A_ALLOWLIST in STATE.md: the exact paths P12-A will create or modify (source, tests, harness changes if any, test_results/phase12_p12a/**, test_results/p12a/**, test_results/p12acc/**, the Phase 12 design status/risk ledger and the top blocks of NEXT_SESSION_PROMPT.md/HANDOVER.md). Extend it only with a justification in decisions.md before touching the new path. Commits are checked against it (§13).",
+        "16.9 Parent artifact integrity readback. A read-only parent script (saved as test_results/p12a/parent_readback_NN.py with JSON output) that: (a) re-hashes every input in the current freeze and shows source-before = source-after; (b) re-hashes every artifact cited in the P12-A evidence_manifest.json and checks each review JSON's recorded self-hash and the pinned inputs it names; (c) re-hashes the F5 predecessor files (FINAL_REPORT.md, evidence_manifest.json, the acceptance JSON) against the F5 manifest; (d) re-hashes every initially protected path and shows it equals the initial snapshot; (e) confirms no owned processes remain. It never edits anything. Save the output and cite it in the report."
+      ]
+    },
+    "formatting_fresh_readonly": [
+      {
+        "command": [
+          "cargo",
+          "+nightly",
+          "fmt",
+          "--check"
+        ],
+        "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "cargo",
+          "+nightly",
+          "fmt",
+          "--manifest-path",
+          "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+          "--check"
+        ],
+        "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+        "exit_code": 1,
+        "stdout": "Diff in \\\\?\\C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\p12a_policy.rs:75:\n         return Policy {\n             snap: Snapshot {\n                 slots: [\n\u001b[31m-                    Slot { id: 0, state: State::Unused },\n\u001b[0m\u001b[31m-                    Slot { id: 0, state: State::Unused },\n\u001b[0m\u001b[32m+                    Slot {\n\u001b[0m\u001b[32m+                        id: 0,\n\u001b[0m\u001b[32m+                        state: State::Unused,\n\u001b[0m\u001b[32m+                    },\n\u001b[0m\u001b[32m+                    Slot {\n\u001b[0m\u001b[32m+                        id: 0,\n\u001b[0m\u001b[32m+                        state: State::Unused,\n\u001b[0m\u001b[32m+                    },\n\u001b[0m                 ],\n                 queue: [0, 0],\n                 queue_len: 0,\nDiff in \\\\?\\C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\p12a_policy.rs:123:\n         if free == 2 {\n             return Err(Error::Capacity);\n         }\n\u001b[31m-        self.snap.slots[free] = Slot { id: id, state: State::Ready };\n\u001b[0m\u001b[32m+        self.snap.slots[free] = Slot {\n\u001b[0m\u001b[32m+            id: id,\n\u001b[0m\u001b[32m+            state: State::Ready,\n\u001b[0m\u001b[32m+        };\n\u001b[0m         self.snap.queue[self.snap.queue_len as usize] = id;\n         self.snap.queue_len = self.snap.queue_len + 1;\n         return Ok(());\nDiff in \\\\?\\C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\src\\p12a_policy_tests.rs:366:\n         Context::Idle => assert_eq!(running_count, 0),\n         Context::Worker(id) => {\n             assert_eq!(running_count, 1);\n\u001b[31m-            assert!(s.slots.iter().any(|slot| slot.id == id && slot.state == State::Running));\n\u001b[0m\u001b[32m+            assert!(\n\u001b[0m\u001b[32m+                s.slots\n\u001b[0m\u001b[32m+                    .iter()\n\u001b[0m\u001b[32m+                    .any(|slot| slot.id == id && slot.state == State::Running)\n\u001b[0m\u001b[32m+            );\n\u001b[0m         }\n     }\n     // occupied slots have distinct non-zero ids; Unused slots have id 0\nDiff in \\\\?\\C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\src\\p12a_policy_tests.rs:415:\n                         let after = p.snapshot();\n                         assert_invariants(after);\n                         if r.is_err() {\n\u001b[31m-                            assert_eq!(\n\u001b[0m\u001b[31m-                                before, after,\n\u001b[0m\u001b[31m-                                \"error op {:?} mutated the snapshot\",\n\u001b[0m\u001b[31m-                                op\n\u001b[0m\u001b[31m-                            );\n\u001b[0m\u001b[32m+                            assert_eq!(before, after, \"error op {:?} mutated the snapshot\", op);\n\u001b[0m                         }\n                     }\n                 }\nDiff in \\\\?\\C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\src\\p12a_policy_tests.rs:446:\n     assert_eq!(a, b);\n     assert_eq!(a.current, Context::Worker(4));\n     assert_eq!(a.slots[0], retired(3));\n\u001b[31m-    assert!(a.slots.iter().any(|slot| slot.id == 4 && slot.state == State::Running));\n\u001b[0m\u001b[32m+    assert!(\n\u001b[0m\u001b[32m+        a.slots\n\u001b[0m\u001b[32m+            .iter()\n\u001b[0m\u001b[32m+            .any(|slot| slot.id == 4 && slot.state == State::Running)\n\u001b[0m\u001b[32m+    );\n\u001b[0m     assert!(!a.pending);\n     assert_eq!(a.inhibit_depth, 0);\n }\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "rustfmt",
+          "+nightly",
+          "--check",
+          "C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\p12a_policy.rs"
+        ],
+        "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+        "exit_code": 1,
+        "stdout": "Diff in \\\\?\\C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\p12a_policy.rs:75:\n         return Policy {\n             snap: Snapshot {\n                 slots: [\n\u001b[31m-                    Slot { id: 0, state: State::Unused },\n\u001b[0m\u001b[31m-                    Slot { id: 0, state: State::Unused },\n\u001b[0m\u001b[32m+                    Slot {\n\u001b[0m\u001b[32m+                        id: 0,\n\u001b[0m\u001b[32m+                        state: State::Unused,\n\u001b[0m\u001b[32m+                    },\n\u001b[0m\u001b[32m+                    Slot {\n\u001b[0m\u001b[32m+                        id: 0,\n\u001b[0m\u001b[32m+                        state: State::Unused,\n\u001b[0m\u001b[32m+                    },\n\u001b[0m                 ],\n                 queue: [0, 0],\n                 queue_len: 0,\nDiff in \\\\?\\C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\p12a_policy.rs:123:\n         if free == 2 {\n             return Err(Error::Capacity);\n         }\n\u001b[31m-        self.snap.slots[free] = Slot { id: id, state: State::Ready };\n\u001b[0m\u001b[32m+        self.snap.slots[free] = Slot {\n\u001b[0m\u001b[32m+            id: id,\n\u001b[0m\u001b[32m+            state: State::Ready,\n\u001b[0m\u001b[32m+        };\n\u001b[0m         self.snap.queue[self.snap.queue_len as usize] = id;\n         self.snap.queue_len = self.snap.queue_len + 1;\n         return Ok(());\n",
+        "stderr": ""
+      }
+    ],
+    "no_std_fresh_compile": {
+      "command": [
+        "rustc",
+        "+nightly",
+        "--crate-type",
+        "lib",
+        "--emit",
+        "metadata",
+        "-o",
+        "NUL",
+        "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12awrap\\p12a_standalone.rs"
+      ],
+      "cwd": "C:\\Users\\iamsv",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "error: failed to write NUL: The system cannot move the file to a different disk drive. (os error 17)\n\nerror: aborting due to 1 previous error\n\n"
+    },
+    "Eq_compile_probe": {
+      "command": [
+        "rustc",
+        "+nightly",
+        "--crate-name",
+        "p12a_audit_probe",
+        "--crate-type",
+        "lib",
+        "--emit",
+        "metadata",
+        "-o",
+        "NUL",
+        "-"
+      ],
+      "cwd": "C:\\Users\\iamsv",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "error[E0277]: the trait bound `State: Eq` is not satisfied\n  --> <anon>:4:17\n   |\n 4 | fn proof(){eq::<p::State>();eq::<p::Context>();eq::<p::TaskKind>();eq::<p::Error>();eq::<p::Slot>();eq::<p::Snapshot>();}\n   |                 ^^^^^^^^ the trait `Eq` is not implemented for `State`\n   |\nnote: required by a bound in `eq`\n  --> <anon>:3:10\n   |\n 3 | fn eq<T: Eq>() {}\n   |          ^^ required by this bound in `eq`\nhelp: consider annotating `State` with `#[derive(Eq)]`\n  --> C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\p12a_policy.rs:19:1\n   |\n19 + #[derive(Eq)]\n20 | pub enum State {\n   |\n\nerror[E0277]: the trait bound `p::Context: Eq` is not satisfied\n  --> <anon>:4:34\n   |\n 4 | fn proof(){eq::<p::State>();eq::<p::Context>();eq::<p::TaskKind>();eq::<p::Error>();eq::<p::Slot>();eq::<p::Snapshot>();}\n   |                                  ^^^^^^^^^^ the trait `Eq` is not implemented for `p::Context`\n   |\nnote: required by a bound in `eq`\n  --> <anon>:3:10\n   |\n 3 | fn eq<T: Eq>() {}\n   |          ^^ required by this bound in `eq`\nhelp: consider annotating `p::Context` with `#[derive(Eq)]`\n  --> C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\p12a_policy.rs:27:1\n   |\n27 + #[derive(Eq)]\n28 | pub enum Context {\n   |\n\nerror[E0277]: the trait bound `TaskKind: Eq` is not satisfied\n  --> <anon>:4:53\n   |\n 4 | fn proof(){eq::<p::State>();eq::<p::Context>();eq::<p::TaskKind>();eq::<p::Error>();eq::<p::Slot>();eq::<p::Snapshot>();}\n   |                                                     ^^^^^^^^^^^ the trait `Eq` is not implemented for `TaskKind`\n   |\nnote: required by a bound in `eq`\n  --> <anon>:3:10\n   |\n 3 | fn eq<T: Eq>() {}\n   |          ^^ required by this bound in `eq`\nhelp: consider annotating `TaskKind` with `#[derive(Eq)]`\n  --> C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\p12a_policy.rs:33:1\n   |\n33 + #[derive(Eq)]\n34 | pub enum TaskKind {\n   |\n\nerror[E0277]: the trait bound `p::Error: Eq` is not satisfied\n  --> <anon>:4:73\n   |\n 4 | fn proof(){eq::<p::State>();eq::<p::Context>();eq::<p::TaskKind>();eq::<p::Error>();eq::<p::Slot>();eq::<p::Snapshot>();}\n   |                                                                         ^^^^^^^^ the trait `Eq` is not implemented for `p::Error`\n   |\nnote: required by a bound in `eq`\n  --> <anon>:3:10\n   |\n 3 | fn eq<T: Eq>() {}\n   |          ^^ required by this bound in `eq`\nhelp: consider annotating `p::Error` with `#[derive(Eq)]`\n  --> C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\p12a_policy.rs:40:1\n   |\n40 + #[derive(Eq)]\n41 | pub enum Error {\n   |\n\nerror[E0277]: the trait bound `Slot: Eq` is not satisfied\n  --> <anon>:4:90\n   |\n 4 | fn proof(){eq::<p::State>();eq::<p::Context>();eq::<p::TaskKind>();eq::<p::Error>();eq::<p::Slot>();eq::<p::Snapshot>();}\n   |                                                                                          ^^^^^^^ unsatisfied trait bound\n   |\nhelp: the trait `Eq` is not implemented for `Slot`\n  --> C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\p12a_policy.rs:54:1\n   |\n54 | pub struct Slot {\n   | ^^^^^^^^^^^^^^^\nnote: required by a bound in `eq`\n  --> <anon>:3:10\n   |\n 3 | fn eq<T: Eq>() {}\n   |          ^^ required by this bound in `eq`\n\nerror[E0277]: the trait bound `Snapshot: Eq` is not satisfied\n  --> <anon>:4:106\n   |\n 4 | fn proof(){eq::<p::State>();eq::<p::Context>();eq::<p::TaskKind>();eq::<p::Error>();eq::<p::Slot>();eq::<p::Snapshot>();}\n   |                                                                                                          ^^^^^^^^^^^ unsatisfied trait bound\n   |\nhelp: the trait `Eq` is not implemented for `Snapshot`\n  --> C:\\Users\\iamsv\\Documents\\Rust-OS\\src\\p12a_policy.rs:60:1\n   |\n60 | pub struct Snapshot {\n   | ^^^^^^^^^^^^^^^^^^^\nnote: required by a bound in `eq`\n  --> <anon>:3:10\n   |\n 3 | fn eq<T: Eq>() {}\n   |          ^^ required by this bound in `eq`\n\nerror: aborting due to 6 previous errors\n\nFor more information about this error, try `rustc --explain E0277`.\n"
+    },
+    "const_new_compile_probe": {
+      "command": [
+        "rustc",
+        "+nightly",
+        "--crate-name",
+        "p12a_audit_probe",
+        "--crate-type",
+        "lib",
+        "--emit",
+        "metadata",
+        "-o",
+        "NUL",
+        "-"
+      ],
+      "cwd": "C:\\Users\\iamsv",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "error[E0015]: cannot call non-const associated function `Policy::new` in constants\n --> <anon>:3:21\n  |\n3 | const P:p::Policy = p::Policy::new();\n  |                     ^^^^^^^^^^^^^^^^\n  |\n  = note: calls in constants are limited to constant functions, tuple structs and tuple variants\n\nerror: aborting due to 1 previous error\n\nFor more information about this error, try `rustc --explain E0015`.\n"
+    },
+    "test_membership": {
+      "declarations": [
+        "p12a_policy_tests::empty_policy_selects_idle",
+        "p12a_policy_tests::admission_does_not_switch_idle",
+        "p12a_policy_tests::single_worker_repeated_yield",
+        "p12a_policy_tests::two_workers_fifo_round_robin",
+        "p12a_policy_tests::admission_order_breaks_ties",
+        "p12a_policy_tests::last_worker_completion_returns_idle",
+        "p12a_policy_tests::completion_selects_next_ready",
+        "p12a_policy_tests::retired_identity_never_reused",
+        "p12a_policy_tests::capacity_exhaustion_is_nonmutating",
+        "p12a_policy_tests::invalid_identifiers_are_nonmutating",
+        "p12a_policy_tests::unknown_identifiers_are_nonmutating",
+        "p12a_policy_tests::duplicate_admission_is_nonmutating",
+        "p12a_policy_tests::invalid_completion_is_nonmutating",
+        "p12a_policy_tests::unsupported_kinds_are_nonmutating",
+        "p12a_policy_tests::inhibit_latches_without_switching",
+        "p12a_policy_tests::nested_inhibit_drains_only_at_zero",
+        "p12a_policy_tests::inhibit_overflow_is_nonmutating",
+        "p12a_policy_tests::inhibit_underflow_is_nonmutating",
+        "p12a_policy_tests::inhibited_completion_and_admission_refuse",
+        "p12a_policy_tests::pending_requests_coalesce_once",
+        "p12a_policy_tests::fresh_instances_are_isolated",
+        "p12a_policy_tests::metadata_budget_and_bounded_trace",
+        "p12a_policy_tests::exhaustive_short_traces_preserve_invariants",
+        "p12a_policy_tests::deterministic_replay_and_no_starvation"
+      ],
+      "exact24": true,
+      "new_ignored": false,
+      "logs": {
+        "host_list": {
+          "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12av01\\host_list.log",
+          "sha256": "c3e40fca4672a2ccfffdb498f43290312e86030304df73a90eca3bcbbe5210fe",
+          "count": 418,
+          "exact_membership": true,
+          "missing": [],
+          "extra": [],
+          "summary": [],
+          "ignored": []
+        },
+        "host_serial": {
+          "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12av01\\host_serial.log",
+          "sha256": "264c61247742cf83bc5356261358cbae3b85c7206a7c3197f215561dd0eeb2d3",
+          "count": 418,
+          "exact_membership": true,
+          "missing": [],
+          "extra": [],
+          "summary": [
+            "test result: ok. 416 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 5.49s"
+          ],
+          "ignored": [
+            "maintenance_measurements::measured_frame_scan_states",
+            "maintenance_measurements::measured_heap_capacity_loss"
+          ]
+        },
+        "host_parallel": {
+          "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12av01\\host_parallel.log",
+          "sha256": "ccafc9f323b26c13cb93b7958b2e9b0284f6c0b44babdc2f5fd7f1160d590ace",
+          "count": 418,
+          "exact_membership": true,
+          "missing": [],
+          "extra": [],
+          "summary": [
+            "test result: ok. 416 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 1.92s"
+          ],
+          "ignored": [
+            "maintenance_measurements::measured_frame_scan_states",
+            "maintenance_measurements::measured_heap_capacity_loss"
+          ]
+        },
+        "b26_list": {
+          "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12av01\\b26_list.log",
+          "sha256": "73ae78532f3ddb5cff960dd590c395a9cb82609357c3b7a095c08e31113cebdc",
+          "count": 149,
+          "exact_membership": true,
+          "missing": [],
+          "extra": [],
+          "summary": [],
+          "ignored": []
+        },
+        "b26_serial": {
+          "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12av01\\b26_serial.log",
+          "sha256": "cbe8a472907013ccc6fadc06a04896ea887bbb18117df0d5f3604e17c84cd04f",
+          "count": 149,
+          "exact_membership": true,
+          "missing": [],
+          "extra": [],
+          "summary": [
+            "test result: ok. 149 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.13s"
+          ],
+          "ignored": []
+        },
+        "b26_parallel": {
+          "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12av01\\b26_parallel.log",
+          "sha256": "f5411f0873f1dc27a7c3e097a4df75d1ae2f0483d3d5ec0b3225d36bb5172f7d",
+          "count": 149,
+          "exact_membership": true,
+          "missing": [],
+          "extra": [],
+          "summary": [
+            "test result: ok. 149 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.58s"
+          ],
+          "ignored": []
+        }
+      }
+    },
+    "f5_manifest_mismatches": [
+      {
+        "path": "tests_kernel/src/lib.rs",
+        "expected": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189",
+        "actual": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed",
+        "metadata": {
+          "role": "raw source/build/authority verification input",
+          "status": "current_frozen_input",
+          "source_binding": "full_source_freeze_10.json / canonical234 input map"
+        }
+      }
+    ],
+    "no_std_fresh_compile_retry": {
+      "command": [
+        "rustc",
+        "+nightly",
+        "--crate-type",
+        "lib",
+        "--emit",
+        "llvm-ir",
+        "-o",
+        "-",
+        "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12awrap\\p12a_standalone.rs"
+      ],
+      "cwd": "C:\\Users\\iamsv",
+      "exit_code": 0,
+      "stderr": "",
+      "emitted_ir_characters": 56785,
+      "emitted_ir_utf8_sha256": "018ca347f286ff8ff7397eb586552e0aa7ec1b479a6eff9eef5d17b473c289b3",
+      "wrapper_path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12awrap\\p12a_standalone.rs",
+      "wrapper_raw_sha256": "6eba02733a6f402880062231029a4e34e1dcff4279d823d4c7c7c16b96e300a7",
+      "policy_raw_sha256": "c2360876c33ef6a49487b99a3a7c65708e41055bfe6b5186d2737b670027003f"
+    },
+    "production_symbols": {
+      "tool": "C:\\Users\\iamsv\\.rustup\\toolchains\\nightly-2025-02-17-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\bin\\llvm-objdump.exe",
+      "tool_sha256": "a15727773139ca815e1781a093cd9290246a84eef1caea943d7be7e34e3ae9a2",
+      "command": [
+        "C:\\Users\\iamsv\\.rustup\\toolchains\\nightly-2025-02-17-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\bin\\llvm-objdump.exe",
+        "--syms",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\p12a\\p01\\production_AFTER.elf"
+      ],
+      "exit_code": 0,
+      "symbol_rows": 4345,
+      "stdout_utf8_sha256": "8a79fea2fdb528ed62044c032e1c92353b427db4b803a144c7c23ea50de0ccbb",
+      "p12a_rows": [],
+      "stderr": ""
+    },
+    "production_elf_identity": {
+      "test_results/p12a/b01/production_A.elf": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4",
+      "test_results/p12a/b01/production_B.elf": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4",
+      "test_results/p12a/p01/production_AFTER.elf": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4"
+    },
+    "test_creation_delta": [
+      {
+        "message": 95926,
+        "path": "tests_kernel/src/p12a_policy_tests.rs",
+        "sha256_utf8": "e5d420d36a78af300f4cbc6b571d21faf7ef42318771cdf1aa29dcf01e6313cd",
+        "chars": 13994,
+        "delta": "--- historical_creation\n+++ current\n@@ -1,4 +1,4 @@\n-use p12a_policy::{Context, Error, Policy, Slot, Snapshot, State, TaskKind};\n+use crate::p12a_policy::{Context, Error, Policy, Slot, Snapshot, State, TaskKind};\n \n fn fresh() -> Policy {\n     Policy::new()\n@@ -170,7 +170,7 @@\n fn invalid_completion_is_nonmutating() {\n     let mut p = fresh();\n     let before = p.snapshot();\n-    assert_eq!(p.complete(7), Err(Error::InvalidTransition));\n+    assert_eq!(p.complete(7), Err(Error::UnknownId));\n     assert_eq!(p.snapshot(), before);\n     assert_eq!(p.admit(7, TaskKind::KernelProbe), Ok(()));\n     let before = p.snapshot();\n@@ -317,8 +317,14 @@\n             p.request_reschedule();\n             Ok(())\n         }\n-        Op::Complete1 => p.complete(1),\n-        Op::Complete2 => p.complete(2),\n+        Op::Complete1 => {\n+            p.complete(1)?;\n+            Ok(())\n+        }\n+        Op::Complete2 => {\n+            p.complete(2)?;\n+            Ok(())\n+        }\n         Op::EnterInhibit => p.enter_inhibit(),\n         Op::LeaveInhibit => {\n             p.leave_inhibit()?;\n@@ -432,10 +438,6 @@\n         assert_eq!(p.request_reschedule(), Context::Worker(4));\n         assert_eq!(p.request_reschedule(), Context::Worker(3));\n         assert_eq!(p.admit(9, TaskKind::KernelProbe), Err(Error::Capacity));\n-        assert_eq!(p.enter_inhibit(), Ok(()));\n-        assert_eq!(p.request_reschedule(), Context::Worker(4));\n-        assert_eq!(p.request_reschedule(), Context::Worker(4));\n-        assert_eq!(p.leave_inhibit(), Ok(Context::Worker(3)));\n         assert_eq!(p.complete(3), Ok(Context::Worker(4)));\n         p.snapshot()\n     }\n"
+      }
+    ],
+    "preserved_implementation_attempt_logs": [
+      {
+        "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_01.log",
+        "sha256": "1d41f7a831ffd3fa3971bef2f674d733420fc0c8dfd2b652eab8324079bc68d6",
+        "error_lines": [
+          "error: `self` parameter is only allowed in associated functions",
+          "error: `self` parameter is only allowed in associated functions",
+          "error: `self` parameter is only allowed in associated functions",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope"
+        ],
+        "error_count": 160,
+        "summary": []
+      },
+      {
+        "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_02.log",
+        "sha256": "54dc9474c68713730da4fe926b7b8e52b6dd2e556c2630d73c46bce776d63d67",
+        "error_lines": [
+          "error: `self` parameter is only allowed in associated functions",
+          "error: `self` parameter is only allowed in associated functions",
+          "error: `self` parameter is only allowed in associated functions",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope",
+          "error[E0423]: cannot find value `Error` in this scope"
+        ],
+        "error_count": 155,
+        "summary": []
+      },
+      {
+        "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_03.log",
+        "sha256": "5c945c492b743452e321f0b84acc3fd186e6d5884b5c8f4ba9b0c408dea37b63",
+        "error_lines": [
+          "error[E0424]: cannot find value `self` in this scope",
+          "error[E0424]: cannot find value `self` in this scope",
+          "error[E0277]: can't compare `State` with `State`",
+          "error[E0277]: can't compare `p12a_policy::Context` with `p12a_policy::Context`",
+          "error[E0277]: can't compare `TaskKind` with `TaskKind`",
+          "error[E0277]: can't compare `p12a_policy::Error` with `p12a_policy::Error`",
+          "error[E0277]: can't compare `p12a_policy::Slot` with `p12a_policy::Slot`",
+          "error[E0277]: can't compare `Snapshot` with `Snapshot`",
+          "error[E0369]: binary operation `!=` cannot be applied to type `TaskKind`",
+          "error[E0369]: binary operation `==` cannot be applied to type `State`",
+          "error[E0277]: the type `[u8]` cannot be indexed by `u8`",
+          "error[E0369]: binary operation `==` cannot be applied to type `State`"
+        ],
+        "error_count": 141,
+        "summary": []
+      },
+      {
+        "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_04.log",
+        "sha256": "fa6c0d0cae173f36207f4e7ecf8f9dbf71bab2a55d8d169b9ea94219a41fc2e1",
+        "error_lines": [
+          "error[E0277]: can't compare `State` with `State`",
+          "error[E0277]: can't compare `p12a_policy::Context` with `p12a_policy::Context`",
+          "error[E0277]: can't compare `TaskKind` with `TaskKind`",
+          "error[E0277]: can't compare `p12a_policy::Error` with `p12a_policy::Error`",
+          "error[E0277]: can't compare `p12a_policy::Slot` with `p12a_policy::Slot`",
+          "error[E0277]: can't compare `Snapshot` with `Snapshot`",
+          "error[E0369]: binary operation `!=` cannot be applied to type `TaskKind`",
+          "error[E0369]: binary operation `==` cannot be applied to type `State`",
+          "error[E0369]: binary operation `==` cannot be applied to type `State`",
+          "error[E0369]: binary operation `!=` cannot be applied to type `State`",
+          "error[E0369]: binary operation `!=` cannot be applied to type `State`",
+          "error[E0369]: binary operation `==` cannot be applied to type `State`"
+        ],
+        "error_count": 138,
+        "summary": []
+      },
+      {
+        "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_05.log",
+        "sha256": "8d5c1efcbfc3b0bbef44f1fd365f89987eafd9e8062e3fd6442376d283418310",
+        "error_lines": [
+          "error[E0277]: the type `[u8]` cannot be indexed by `u8`",
+          "error[E0594]: cannot assign to `self.snap.slots[_]`, which is behind a `&` reference",
+          "error[E0594]: cannot assign to `self.snap.queue[_]`, which is behind a `&` reference",
+          "error[E0594]: cannot assign to `self.snap.queue_len`, which is behind a `&` reference",
+          "error[E0594]: cannot assign to `self.snap.pending`, which is behind a `&` reference",
+          "error[E0594]: cannot assign to `self.snap.slots[_].state`, which is behind a `&` reference",
+          "error[E0594]: cannot assign to `self.snap.inhibit_depth`, which is behind a `&` reference",
+          "error[E0594]: cannot assign to `self.snap.inhibit_depth`, which is behind a `&` reference",
+          "error[E0594]: cannot assign to `self.snap.pending`, which is behind a `&` reference",
+          "error[E0594]: cannot assign to `p.snap.current`, which is behind a `&` reference",
+          "error[E0594]: cannot assign to `p.snap.queue[_]`, which is behind a `&` reference",
+          "error[E0594]: cannot assign to `p.snap.queue[_]`, which is behind a `&` reference"
+        ],
+        "error_count": 16,
+        "summary": []
+      },
+      {
+        "path": "C:\\Users\\iamsv\\AppData\\Local\\Temp\\p12a_green_06.log",
+        "sha256": "b9f6669312a2b51f71800bdcf683d54baa2af146bba66a828b2b54cdff8f0c45",
+        "error_lines": [],
+        "error_count": 0,
+        "summary": [
+          "test result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 394 filtered out; finished in 0.01s"
+        ]
+      }
+    ],
+    "f5_lib_wiring_disposition": {
+      "only_git_delta": "exact six added lines for two host-only module includes",
+      "current_raw_sha256": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed",
+      "historical_raw_sha256": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189",
+      "stripped_raw_sha256": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189",
+      "raw_removal_matches_historical": true,
+      "head_git_blob_sha256": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189",
+      "requires_explicit_readback_disposition": true
+    },
+    "mock_gate_independent": {
+      "script_sha256": "f6274eac8eb8ef3075597ed3d946df5a41f19fed14b0e616efe6038404288d2f",
+      "log_sha256": "0dcd99fca99a605b9f4d7326122490a828ce982f2f935db47c0053e762cc4902",
+      "declared_count": 95,
+      "observed_count": 95,
+      "source_log_exact": true,
+      "readback_identity_exact": true,
+      "script_pin_match": true,
+      "log_pin_match": true,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 95 tests in 951.156s",
+        "",
+        "OK"
+      ],
+      "wall_seconds": null,
+      "wall_limit_compliance": "not established; do not infer wall duration from unittest suite_seconds"
+    },
+    "f5_predecessor": {
+      "raw_sha256_matches": true,
+      "overall": "PASS",
+      "gates_passed": 76,
+      "gate_count": 76,
+      "all_rows_PASS_exit0": true,
+      "exact_preflight_gate_multiset": true,
+      "historical_actual_exit": 0,
+      "top_level_files_match": true,
+      "historical_self_bound_FINAL_REPORT_limitation": "Preserved; do not compare current report to old historical_self_bound digest."
+    },
+    "baseline_provenance": {
+      "report_sha256": "030b6bd2a9f2c2414f65265c5808b0f69327a828d86a5d2fb59ab22ed93ccec7",
+      "overall": "PASS",
+      "reproducible": true,
+      "environment": {},
+      "git_status_before_after_equal": true,
+      "all_steps_exit0": true,
+      "all_step_logs_match": true,
+      "steps": [
+        {
+          "name": "host_list",
+          "command": [
+            "cargo",
+            "+nightly",
+            "test",
+            "--manifest-path",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+            "--lib",
+            "--",
+            "--list"
+          ],
+          "cwd": "C:\\Users\\iamsv",
+          "exit_code": 0,
+          "elapsed_seconds": 1.0939999999245629,
+          "log": "test_results\\p12a\\b01\\host_list.log",
+          "sha256": "17bad47c466b46990e95225f5fc4a196225d68cb3e697db2ddbf2bdc9ed7073d"
+        },
+        {
+          "name": "host_serial",
+          "command": [
+            "cargo",
+            "+nightly",
+            "test",
+            "--manifest-path",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_kernel\\Cargo.toml",
+            "--lib",
+            "--",
+            "--test-threads=1"
+          ],
+          "cwd": "C:\\Users\\iamsv",
+          "exit_code": 0,
+          "elapsed_seconds": 11.155999999959022,
+          "log": "test_results\\p12a\\b01\\host_serial.log",
+          "sha256": "cb912c6b3dbee5041751cb489b70a03ca48480ffda35bb611584b5414be1722f"
+        },
+        {
+          "name": "b26_list",
+          "command": [
+            "cargo",
+            "+nightly",
+            "test",
+            "--manifest-path",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_b26\\Cargo.toml",
+            "--lib",
+            "--",
+            "--list"
+          ],
+          "cwd": "C:\\Users\\iamsv",
+          "exit_code": 0,
+          "elapsed_seconds": 0.1720000000204891,
+          "log": "test_results\\p12a\\b01\\b26_list.log",
+          "sha256": "3a2faef665285ffae0974b84f060167c678f58e87ab4df9fad79ce1a82af8b81"
+        },
+        {
+          "name": "b26_serial",
+          "command": [
+            "cargo",
+            "+nightly",
+            "test",
+            "--manifest-path",
+            "C:\\Users\\iamsv\\Documents\\Rust-OS\\tests_b26\\Cargo.toml",
+            "--lib",
+            "--",
+            "--test-threads=1"
+          ],
+          "cwd": "C:\\Users\\iamsv",
+          "exit_code": 0,
+          "elapsed_seconds": 5.827999999979511,
+          "log": "test_results\\p12a\\b01\\b26_serial.log",
+          "sha256": "78023406473af7d1fd970069fea6421f9b9c9fe6ca915540ecbcbee8cc10e9fd"
+        },
+        {
+          "name": "toolchain",
+          "command": [
+            "rustc",
+            "+nightly",
+            "-vV"
+          ],
+          "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+          "exit_code": 0,
+          "elapsed_seconds": 0.062000000034458935,
+          "log": "test_results\\p12a\\b01\\toolchain.log",
+          "sha256": "39a22e48184d520ea2ac97f4e081d19c603119d6ec27402e87d747315bd82bc7"
+        },
+        {
+          "name": "clean_kernel_A",
+          "command": [
+            "cargo",
+            "+nightly",
+            "clean",
+            "-p",
+            "kernel"
+          ],
+          "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+          "exit_code": 0,
+          "elapsed_seconds": 0.9220000000204891,
+          "log": "test_results\\p12a\\b01\\clean_kernel_A.log",
+          "sha256": "68714d23633bd376edc723e7b1d20ea65e88b0b8b20a4a195f8ddbf3b6ff72dd"
+        },
+        {
+          "name": "production_A",
+          "command": [
+            "cargo",
+            "+nightly",
+            "build"
+          ],
+          "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+          "exit_code": 0,
+          "elapsed_seconds": 6.733999999938533,
+          "log": "test_results\\p12a\\b01\\production_A.log",
+          "sha256": "79fe82a396c1d6efaa7626c64c51a2ad85a1a0f8264f6af737a9a8c7d270e298"
+        },
+        {
+          "name": "clean_kernel_B",
+          "command": [
+            "cargo",
+            "+nightly",
+            "clean",
+            "-p",
+            "kernel"
+          ],
+          "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+          "exit_code": 0,
+          "elapsed_seconds": 0.28100000007543713,
+          "log": "test_results\\p12a\\b01\\clean_kernel_B.log",
+          "sha256": "a2414f137a389a2553561ac78df4f9c3d4719174c086a07b05d9798754868a51"
+        },
+        {
+          "name": "production_B",
+          "command": [
+            "cargo",
+            "+nightly",
+            "build"
+          ],
+          "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+          "exit_code": 0,
+          "elapsed_seconds": 4.217999999993481,
+          "log": "test_results\\p12a\\b01\\production_B.log",
+          "sha256": "ed561d73c65d31592ed0ac8e1eebe52e171446ace4dba592295dd1b0bd07515e"
+        }
+      ]
+    },
+    "source_isolation": {
+      "refs": [
+        {
+          "path": "src/p12a_policy.rs",
+          "line": 9,
+          "text": "// Contract: test_results/phase12_p12a/p12a_contract.md (v01, approved)."
+        },
+        {
+          "path": "tests_kernel/src/lib.rs",
+          "line": 58,
+          "text": "#[path = \"../../src/p12a_policy.rs\"]"
+        },
+        {
+          "path": "tests_kernel/src/lib.rs",
+          "line": 59,
+          "text": "pub mod p12a_policy;"
+        },
+        {
+          "path": "tests_kernel/src/lib.rs",
+          "line": 61,
+          "text": "#[path = \"p12a_policy_tests.rs\"]"
+        },
+        {
+          "path": "tests_kernel/src/lib.rs",
+          "line": 62,
+          "text": "pub mod p12a_policy_tests;"
+        },
+        {
+          "path": "tests_kernel/src/p12a_policy_tests.rs",
+          "line": 1,
+          "text": "use crate::p12a_policy::{Context, Error, Policy, Slot, Snapshot, State, TaskKind};"
+        }
+      ],
+      "production_main_modules": [
+        "mod allocator;",
+        "mod block;",
+        "mod cpu;",
+        "mod exception_abi;",
+        "mod exception_fatal;",
+        "mod f5_cpl3;",
+        "mod f5_gdt;",
+        "mod fd;",
+        "mod fs;",
+        "mod fs_commands;",
+        "mod fs_stress;",
+        "mod gdt;",
+        "mod gdt_tss;",
+        "mod initramfs;",
+        "mod initramfs_trust;",
+        "mod interrupt;",
+        "mod io;",
+        "mod kbd;",
+        "mod memory;",
+        "mod multiboot;",
+        "mod reboot;",
+        "mod shell;",
+        "mod storage;",
+        "mod system_image;",
+        "mod timer;",
+        "mod utils;"
+      ],
+      "production_Cargo_toml": "[package]\nname = \"kernel\"\nversion = \"0.1.0\"\nedition = \"2024\"\nresolver = \"2\"\n\n[dependencies]\nrostifs = { path = \"crates/rostifs\" }\nsha2 = { version = \"=0.10.9\", default-features = false, features = [\"force-soft\"] }\nsubtle = { version = \"=2.6.1\", default-features = false }\n\n[features]\ndefault = []\n# Local refusal/collision probes only; never package this kernel.\ninitramfs-failure-test = []\n# Deliberate fatal fault for local QEMU verification only; never deploy this build.\npaging-fault-test = []\npaging-write-fault-test = [\"paging-fault-test\"]\n\n[[bin]]\nname = \"kernel\"\ntest = false\ndoctest = false\nbench = false\n",
+      "only_policy_test_and_host_wiring_refs": true,
+      "assembly_scanned": [
+        "src/boot.s",
+        "src/exception_entry.s",
+        "src/f3_entry.s",
+        "src/f5_bridge.s",
+        "src/f5_exception_entry.s"
+      ]
+    },
+    "historical_exit_records": [
+      {
+        "message": 95946,
+        "call_id": "call_ac1e1cba5d094f2aa0b34ef0",
+        "command_arguments": "{\"command\":\"cd C:/Users/iamsv && cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml --lib p12a_policy_tests:: -- --test-threads=1 > C:/Users/iamsv/AppData/Local/Temp/p12a_red_02.log 2>&1; echo \\\"EXIT=$?\\\"; grep -n \\\"^error\\\" -A 25 C:/Users/iamsv/AppData/Local/Temp/p12a_red_02.log | head -80\",\"timeout\":300}",
+        "results": [
+          {
+            "message": 95947,
+            "content": "{\"output\": \"EXIT=101\\n353:error: test failed, to rerun pass `--lib`\", \"exit_code\": 0, \"error\": null}"
+          },
+          {
+            "message": 95994,
+            "content": "{\"output\": \"EXIT=101\\n353:error: test failed, to rerun pass `--lib`\", \"exit_code\": 0, \"error\": null}"
+          }
+        ]
+      },
+      {
+        "message": 95995,
+        "call_id": "call_5de1c73f14d444848a0338cc",
+        "command_arguments": "{\"command\":\"grep -nE \\\"^\\\\s+(FAIL|test .* \\\\(.*\\\\) )|failures:|FAILED|panicked|assert\\\" C:/Users/iamsv/AppData/Local/Temp/p12a_red_02.log | head -60; echo ---; grep -n \\\"passed\\\" C:/Users/iamsv/AppData/Local/Temp/p12a_red_02.log\",\"timeout\":30}",
+        "results": [
+          {
+            "message": 95996,
+            "content": "{\"output\": \"152:test p12a_policy_tests::admission_does_not_switch_idle ... FAILED\\n153:test p12a_policy_tests::admission_order_breaks_ties ... FAILED\\n154:test p12a_policy_tests::capacity_exhaustion_is_nonmutating ... FAILED\\n155:test p12a_policy_tests::completion_selects_next_ready ... FAILED\\n156:test p12a_policy_tests::deterministic_replay_and_no_starvation ... FAILED\\n157:test p12a_policy_tests::duplicate_admission_is_nonmutating ... FAILED\\n160:test p12a_policy_tests::fresh_instances_are_isolated ... FAILED\\n161:test p12a_policy_tests::inhibit_latches_without_switching ... FAILED\\n162:test p12a_policy_tests::inhibit_overflow_is_nonmutating ... FAILED\\n163:test p12a_policy_tests::inhibit_underflow_is_nonmutating ... FAILED\\n164:test p12a_policy_tests::inhibited_completion_and_admission_refuse ... FAILED\\n165:test p12a_policy_tests::invalid_completion_is_nonmutating ... FAILED\\n166:test p12a_policy_tests::invalid_identifiers_are_nonmutating ... FAILED\\n167:test p12a_policy_tests::last_worker_completion_returns_idle ... FAILED\\n169:test p12a_policy_tests::nested_inhibit_drains_only_at_zero ... FAILED\\n170:test p12a_policy_tests::pending_requests_coalesce_once ... FAILED\\n171:test p12a_policy_tests::retired_identity_never_reused ... FAILED\\n172:test p12a_policy_tests::single_worker_repeated_yield ... FAILED\\n173:test p12a_policy_tests::two_workers_fifo_round_robin ... FAILED\\n174:test p12a_policy_tests::unknown_identifiers_are_nonmutating ... FAILED\\n175:test p12a_policy_tests::unsupported_kinds_are_nonmutating ... FAILED\\n177:failures:\\n181:thread 'p12a_policy_tests::admission_does_not_switch_idle' (34184) panicked at src\\\\p12a_policy_tests.rs:52:5:\\n182:assertion `left == right` failed\\n189:thread 'p12a_policy_tests::admission_order_breaks_ties' (24168) panicked at src\\\\p12a_policy_tests.rs:90:5:\\n190:assertion `left == right` failed\\n196:thread 'p12a_policy_tests::capacity_exhaustion_is_nonmutating' (59780) panicked at src\\\\p12a_policy_tests.rs:136:5:\\n197:assertion `left == right` failed\\n203:thread 'p12a_policy_tests::completion_selects_next_ready' (41648) panicked at src\\\\p12a_policy_tests.rs:111:5:\\n204:assertion `left == right` failed\\n210:thread 'p12a_policy_tests::deterministic_replay_and_no_starvation' (59844) panicked at src\\\\p12a_policy_tests.rs:"
+          }
+        ]
+      },
+      {
+        "message": 96053,
+        "call_id": "call_1607426697a14ba3a95b5472",
+        "command_arguments": "{\"command\":\"cd C:/Users/iamsv && cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml --lib p12a_policy_tests:: -- --test-threads=1 > C:/Users/iamsv/AppData/Local/Temp/p12a_green_06.log 2>&1; echo \\\"EXIT=$?\\\"; grep -E \\\"test result|FAILED|^failures\\\" C:/Users/iamsv/AppData/Local/Temp/p12a_green_06.log; grep -nE \\\"^error|error\\\\[\\\" C:/Users/iamsv/AppData/Local/Temp/p12a_green_06.log | head -10\",\"timeout\":300}",
+        "results": [
+          {
+            "message": 96054,
+            "content": "{\"output\": \"EXIT=0\\ntest result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 394 filtered out; finished in 0.01s\", \"exit_code\": 0, \"error\": null}"
+          },
+          {
+            "message": 96160,
+            "content": "{\"output\": \"EXIT=0\\ntest result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 394 filtered out; finished in 0.01s\", \"exit_code\": 0, \"error\": null}"
+          }
+        ]
+      },
+      {
+        "message": 96059,
+        "call_id": "call_c5ff03ebc2b14be99fe3ff9c",
+        "command_arguments": "{\"command\":\"cd C:/Users/iamsv/Documents/Rust-OS && cargo +nightly clean -p kernel && cargo +nightly build > C:/Users/iamsv/AppData/Local/Temp/p12a_prod_after.log 2>&1; echo \\\"EXIT=$?\\\"; sha256sum target/x86_64-ros-elf/kernel.ros 2>/dev/null || find target -name \\\"*.elf\\\" -o -name \\\"*.ros\\\" | head -5\",\"timeout\":600}",
+        "results": [
+          {
+            "message": 96060,
+            "content": "{\"output\": \"Removed 191 files, 35.0MiB total\\nEXIT=0\", \"exit_code\": 0, \"error\": null, \"cwd\": \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\"}"
+          },
+          {
+            "message": 96166,
+            "content": "{\"output\": \"Removed 191 files, 35.0MiB total\\nEXIT=0\", \"exit_code\": 0, \"error\": null, \"cwd\": \"C:\\\\Users\\\\iamsv\\\\Documents\\\\Rust-OS\"}"
+          }
+        ]
+      },
+      {
+        "message": 96075,
+        "call_id": "call_10b40d25077846a08f5a6d51",
+        "command_arguments": "{\"command\":\"cd C:/Users/iamsv && mkdir -p C:/Users/iamsv/AppData/Local/Temp/p12av01; cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml --lib -- --list > C:/Users/iamsv/AppData/Local/Temp/p12av01/host_list.log 2>&1; echo \\\"LIST_EXIT=$?\\\"; cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml --lib -- --test-threads=1 > C:/Users/iamsv/AppData/Local/Temp/p12av01/host_serial.log 2>&1; echo \\\"SER_EXIT=$?\\\"; grep -E \\\"test result\\\" C:/Users/iamsv/AppData/Local/Temp/p12av01/host_serial.log; grep -c \\\":\\\" C:/Users/iamsv/AppData/Local/Temp/p12av01/host_list.log\",\"timeout\":600}",
+        "results": [
+          {
+            "message": 96076,
+            "content": "{\"output\": \"LIST_EXIT=0\\nSER_EXIT=0\\ntest result: ok. 416 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 5.49s\\n497\", \"exit_code\": 0, \"error\": null, \"cwd\": \"C:\\\\Users\\\\iamsv\"}"
+          },
+          {
+            "message": 96182,
+            "content": "{\"output\": \"LIST_EXIT=0\\nSER_EXIT=0\\ntest result: ok. 416 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 5.49s\\n497\", \"exit_code\": 0, \"error\": null, \"cwd\": \"C:\\\\Users\\\\iamsv\"}"
+          }
+        ]
+      },
+      {
+        "message": 96085,
+        "call_id": "call_5c31d9572d41451b88311ec6",
+        "command_arguments": "{\"command\":\"cd C:/Users/iamsv && cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_kernel/Cargo.toml --lib > C:/Users/iamsv/AppData/Local/Temp/p12av01/host_parallel.log 2>&1; echo \\\"PAR_EXIT=$?\\\"; grep \\\"test result\\\" C:/Users/iamsv/AppData/Local/Temp/p12av01/host_parallel.log; cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_b26/Cargo.toml --lib -- --list > C:/Users/iamsv/AppData/Local/Temp/p12av01/b26_list.log 2>&1; echo \\\"B26L=$?\\\"; cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_b26/Cargo.toml --lib -- --test-threads=1 > C:/Users/iamsv/AppData/Local/Temp/p12av01/b26_serial.log 2>&1; echo \\\"B26S=$?\\\"; grep \\\"test result\\\" C:/Users/iamsv/AppData/Local/Temp/p12av01/b26_serial.log; cargo +nightly test --manifest-path C:/Users/iamsv/Documents/Rust-OS/tests_b26/Cargo.toml --lib > C:/Users/iamsv/AppData/Local/Temp/p12av01/b26_parallel.log 2>&1; echo \\\"B26P=$?\\\"; grep \\\"test result\\\" C:/Users/iamsv/AppData/Local/Temp/p12av01/b26_parallel.log\",\"timeout\":600}",
+        "results": [
+          {
+            "message": 96086,
+            "content": "{\"output\": \"PAR_EXIT=0\\ntest result: ok. 416 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 1.92s\\nB26L=0\\nB26S=0\\ntest result: ok. 149 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.13s\\nB26P=0\\ntest result: ok. 149 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.58s\", \"exit_code\": 0, \"error\": null}"
+          },
+          {
+            "message": 96192,
+            "content": "{\"output\": \"PAR_EXIT=0\\ntest result: ok. 416 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 1.92s\\nB26L=0\\nB26S=0\\ntest result: ok. 149 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.13s\\nB26P=0\\ntest result: ok. 149 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.58s\", \"exit_code\": 0, \"error\": null}"
+          }
+        ]
+      },
+      {
+        "message": 96093,
+        "call_id": "call_daf7629327164215917751e9",
+        "command_arguments": "{\"command\":\"mkdir -p C:/Users/iamsv/AppData/Local/Temp/p12awrap && printf '#![no_std]\\\\n#[path = \\\"C:/Users/iamsv/Documents/Rust-OS/src/p12a_policy.rs\\\"]\\\\npub mod p12a_policy;\\\\n' > C:/Users/iamsv/AppData/Local/Temp/p12awrap/p12a_standalone.rs && rustc +nightly --crate-type lib -o C:/Users/iamsv/AppData/Local/Temp/p12awrap/p12a_standalone.lib C:/Users/iamsv/AppData/Local/Temp/p12awrap/p12a_standalone.rs 2> C:/Users/iamsv/AppData/Local/Temp/p12awrap/rustc.log; echo \\\"NOSTD=$?\\\"; cat C:/Users/iamsv/AppData/Local/Temp/p12awrap/rustc.log | head -5\",\"timeout\":120}",
+        "results": [
+          {
+            "message": 96094,
+            "content": "{\"output\": \"NOSTD=0\", \"exit_code\": 0, \"error\": null}"
+          },
+          {
+            "message": 96200,
+            "content": "{\"output\": \"NOSTD=0\", \"exit_code\": 0, \"error\": null}"
+          }
+        ]
+      }
+    ],
+    "production_ELF_contract_fresh_readonly": {
+      "command": [
+        "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\scripts\\validate_elf.py",
+        "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\p12a\\p01\\production_AFTER.elf"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "exit_code": 0,
+      "stdout": "PASS: ELF32 little-endian\nPASS: ET_EXEC (got 2)\nPASS: EM_386 (got 3)\nPASS: multiboot magic 0x1BADB002 within first 8192 bytes, aligned, valid checksum (['0x1000'])\nPASS: has PT_LOAD program header(s) (1)\nPASS: PT_LOAD paddr >= 0x100000 (multiboot load address)\nPASS: entry 0x252b9c inside a PT_LOAD segment\nPASS: BSS section at 0x322000 size 1138517 covered by PT_LOAD memsz\n",
+      "stderr": ""
+    },
+    "historical_test_patches": [
+      {
+        "message": 95828,
+        "tool": "execute_code",
+        "arguments": "{\"code\":\"from hermes_tools import write_file\\ncontract=r'''# P12-A executable contract v01 — proposed, NOT implementation approval\\n\\n## Authority and exact baseline\\n\\nUser's P12-A continuation v4 authorizes only this host policy milestone. Approved\\nPhase12 design `test_results/phase12_design/design.md` raw SHA256\\nfe57e4a8ae8c3af541d545319946494c499e06c92cfec572610154aa95f0a880:\\nsections4/8 (lines41–49/83–85) supply two workers+separate idle, ready FIFO cap2,\\nUNUSED→READY→RUNNING→READY/RETIRED, no reuse/reclaim, checked inhibition,\\ncoalesced pending reschedule and nonmutating refusals. Section3:28 prohibits\\nproduction module/assembly/IRQ/TSS/allocator/runner changes. Section9:95 leaves\\nA's exact acceptance contract for separately approved choice, not mandatory gates.\\nAll39 review manifest pins and30 inventory inputs verified (preflight_01.json).\\nDesign approval: APPROVE/zero blockers/complete16. Kickoff exists locally ignored,\\nnot committed; no fabricated committed design claim.\\n\\nF5 HEAD d9cebe28eb5139b6b614b7000688857361e2afc4 equals current HEAD/ancestor.\\nF5 canonical `test_results/f5acc/r01/acceptance_20261025T060216Z_7g_gea5o/acceptance.json`\\nraw21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074,\\nactual exit0, PASS76; full76 gate multiset stored in preflight_01.json.\\nFresh initial host/B26 lists and serial executions are in test_results/p12a/b01/report.json.\\nBaseline production A and B built BEFORE source/tests, with cargo +nightly build,\\nrepository CWD/default features/debug/target.json, no CARGO/RUST environment\\nvariables; kernel-only cargo clean before each. Both raw ELF hashes are\\n981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4,\\nalso identical to accepted F5. Git status unchanged. Compiler -vV retained.\\n\\n## Proposed smallest safe choices requiring reviewer approval\\n\\nThese resolve options the design does not fix; none authorizes runtime use.\\n\\n* Identifiers: u8 worker IDs1..=254;0 reserved idle/unused,255 reserved invalid.\\n  Any valid not-yet-admitted ID is UnknownId for lookup/completion. Two permanently\\n  consumed slots per Policy, not two possible numeric identities. Admission order\\n  fixes FIFO tie-breaking; no priority, quantum, ticks, deadlines or accounting counter.\\n* Public `State { Unused, Ready, Running, Retired }`, `Context { Idle, Worker(u8) }`,\\n  `TaskKind { KernelProbe, Cpl3, F5 }`. Only KernelProbe admission is supported;\\n  Cpl3/F5 refuse UnsupportedKind. These are labels, never execution capabilities.\\n* `Error { InvalidId, UnknownId, DuplicateId, RetiredId, Capacity, InvalidTransition,\\n  UnsupportedKind, Inhibited, InhibitOverflow, InhibitUnderflow }`.\\n* `Slot { pub id: u8, pub state: State }`; `Snapshot { pub slots: [Slot;2],\\n  pub queue: [u8;2], pub queue_len: u8, pub current: Context,\\n  pub inhibit_depth: u8, pub pending: bool }`. Snapshot/Slot/enums are Copy/Eq;\\n  returning them transfers no resources. Policy contains private Snapshot only;\\n  no externally mutable state, references, globals or callbacks.\\n* Public API `Policy::new() -> Self` (const), `snapshot(&self)->Snapshot`,\\n  `state(&self,id:u8)->Result<State,Error>`,\\n  `admit(&mut self,id:u8,kind:TaskKind)->Result<(),Error>`,\\n  `request_reschedule(&mut self)->Context`,\\n  `complete(&mut self,id:u8)->Result<Context,Error>`,\\n  `enter_inhibit(&mut self)->Result<(),Error>`,\\n  `leave_inhibit(&mut self)->Result<Context,Error>`.\\n  No public enqueue, reset, remove, release, resume or reuse API.\\n* New: both slots Unused/id0; queue=[0,0],len0;current Idle;depth0;pending false.\\n  Admission consumes first Unused slot, sets Ready, appends once, does NOT switch\\n  idle immediately. Current Idle with ready workers before an explicit request is\\n  intentional, not CPU-idle execution. No duplicates; unused queue tail always0.\\n* Reschedule at depth0: if a worker is current, mark it Ready and append once to\\n  FIFO tail; dequeue head if nonempty, mark it Running/current; otherwise Idle.\\n  One-worker yield selects itself. Idle is never queued or a worker Slot. Return\\n  only an abstract selection. No runnable worker starvation under repeated requests\\n  at depth0 (each selected at least once per2 decisions); no fairness claim while\\n  inhibited, without requests or for arbitrary future runtime behavior.\\n* Reschedule while inhibited: only pending=true; return unchanged current; no slot\\n  or queue mutation. Repeated pending requests coalesce. Depth is checked u8,\\n  max255. "
+      },
+      {
+        "message": 95928,
+        "tool": "patch",
+        "arguments": "{\"path\":\"tests_kernel/src/lib.rs\",\"old_string\":\"#[path = \\\"../../src/f5_cpl3.rs\\\"]\\npub mod f5_cpl3;\\n\\n#[path = \\\"f5_cpl3_tests.rs\\\"]\\npub mod f5_cpl3_tests;\\n\\n#[path = \\\"../../src/fs_commands.rs\\\"]\",\"new_string\":\"#[path = \\\"../../src/f5_cpl3.rs\\\"]\\npub mod f5_cpl3;\\n\\n#[path = \\\"f5_cpl3_tests.rs\\\"]\\npub mod f5_cpl3_tests;\\n\\n#[path = \\\"../../src/p12a_policy.rs\\\"]\\npub mod p12a_policy;\\n\\n#[path = \\\"p12a_policy_tests.rs\\\"]\\npub mod p12a_policy_tests;\\n\\n#[path = \\\"../../src/fs_commands.rs\\\"]\"}"
+      },
+      {
+        "message": 95936,
+        "tool": "patch",
+        "arguments": "{\"new_string\":\"use crate::p12a_policy::{Context, Error, Policy, Slot, Snapshot, State, TaskKind};\",\"old_string\":\"use p12a_policy::{Context, Error, Policy, Slot, Snapshot, State, TaskKind};\",\"path\":\"tests_kernel/src/p12a_policy_tests.rs\"}"
+      },
+      {
+        "message": 95938,
+        "tool": "patch",
+        "arguments": "{\"new_string\":\"use crate::p12a_policy::{Context, Error, Policy, Slot, Snapshot, State, TaskKind};\",\"old_string\":\"use p12a_policy::{Context, Error, Policy, Slot, Snapshot, State, TaskKind};\",\"path\":\"C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src/p12a_policy_tests.rs\"}"
+      },
+      {
+        "message": 95944,
+        "tool": "patch",
+        "arguments": "{\"new_string\":\"        Op::Complete1 => {\\n            p.complete(1)?;\\n            Ok(())\\n        }\\n        Op::Complete2 => {\\n            p.complete(2)?;\\n            Ok(())\\n        }\",\"old_string\":\"        Op::Complete1 => p.complete(1),\\n        Op::Complete2 => p.complete(2),\",\"path\":\"C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src/p12a_policy_tests.rs\"}"
+      },
+      {
+        "message": 96006,
+        "tool": "patch",
+        "arguments": "{\"path\":\"C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src/p12a_policy_tests.rs\",\"old_string\":\"    let mut p = fresh();\\n    let before = p.snapshot();\\n    assert_eq!(p.complete(7), Err(Error::InvalidTransition));\\n    assert_eq!(p.snapshot(), before);\\n    assert_eq!(p.admit(7, TaskKind::KernelProbe), Ok(()));\",\"new_string\":\"    let mut p = fresh();\\n    let before = p.snapshot();\\n    assert_eq!(p.complete(7), Err(Error::UnknownId));\\n    assert_eq!(p.snapshot(), before);\\n    assert_eq!(p.admit(7, TaskKind::KernelProbe), Ok(()));\"}"
+      },
+      {
+        "message": 96008,
+        "tool": "patch",
+        "arguments": "{\"path\":\"C:/Users/iamsv/Documents/Rust-OS/tests_kernel/src/p12a_policy_tests.rs\",\"old_string\":\"        assert_eq!(p.admit(9, TaskKind::KernelProbe), Err(Error::Capacity));\\n        assert_eq!(p.enter_inhibit(), Ok(()));\\n        assert_eq!(p.request_reschedule(), Context::Worker(4));\\n        assert_eq!(p.request_reschedule(), Context::Worker(4));\\n        assert_eq!(p.leave_inhibit(), Ok(Context::Worker(3)));\\n        assert_eq!(p.complete(3), Ok(Context::Worker(4)));\",\"new_string\":\"        assert_eq!(p.admit(9, TaskKind::KernelProbe), Err(Error::Capacity));\\n        assert_eq!(p.complete(3), Ok(Context::Worker(4)));\"}"
+      },
+      {
+        "message": 96105,
+        "tool": "execute_code",
+        "arguments": "{\"code\":\"import json, hashlib, pathlib\\nroot = pathlib.Path('C:/Users/iamsv/Documents/Rust-OS')\\npaths = [\\n 'src/p12a_policy.rs',\\n 'tests_kernel/src/p12a_policy_tests.rs',\\n 'tests_kernel/src/lib.rs',\\n 'tests_kernel/Cargo.toml',\\n 'Cargo.toml',\\n '.cargo/config.toml',\\n 'target.json',\\n 'scripts/test_acceptance_harness.py',\\n 'scripts/phase6_verify.py',\\n 'test_results/phase12_p12a/p12a_contract.md',\\n 'test_results/phase12_p12a/reviews/design_review_01.json',\\n 'test_results/phase12_design/design.md',\\n 'test_results/phase12_design/source_inventory.json',\\n 'test_results/phase11f5_cpl3_proof/FINAL_REPORT.md',\\n 'test_results/phase11f5_cpl3_proof/evidence_manifest.json',\\n 'test_results/f5acc/r01/acceptance_20261025T060216Z_7g_gea5o/acceptance.json',\\n]\\nmanifest = {}\\nmissing = []\\nfor rel in paths:\\n    fp = root / rel\\n    if fp.exists():\\n        manifest[rel] = hashlib.sha256(fp.read_bytes()).hexdigest()\\n    else:\\n        missing.append(rel)\\nout = pathlib.Path('C:/Users/iamsv/Documents/Rust-OS/test_results/p12a/f01/source_freeze_01.json')\\nout.parent.mkdir(parents=True, exist_ok=True)\\nout.write_bytes(json.dumps({'created_utc': '2026-10-25T19:5xZ', 'inputs': manifest, 'missing': missing}, indent=1).encode())\\nprint(len(manifest), 'pinned;', missing)\\n\"}"
+      }
+    ],
+    "source_safety_review": {
+      "result": "No additional functional transition bug found by complete source inspection; not candidate approval",
+      "private_state": "Policy holds private Snapshot only; all exported snapshots are copies, no mutation backdoor. Fixed arrays only; no allocation, unsafe, asm, hardware, atomics, locks, globals, callbacks, recursion or unbounded loops.",
+      "determinism": "No environmental/time inputs; two-slot scans select deterministic first unused slot and FIFO order.",
+      "bounds": "find_slot and first_unused return0/1/2 and callers guard2 before slot indexing. Admit has an unused slot, so at most1 consumed slot and queue_len<=1; append index0/1 and increment<=2. Running worker is not queued, so reschedule append sees queue_len<=1; its <2 guard is invariant-redundant. Dequeue checks nonzero, shifts two fixed cells, zeroes tail, subtracts bounded length and selects the valid Ready head. Enter255 and leave0 refuse before arithmetic; remaining u8 updates cannot overflow/underflow.",
+      "semantics": "ID/kind/duplicate/retired/inhibited/capacity and completion precedence match contract. Every refusal occurs before mutation; final leave clears pending then selects exactly once. Completion retires without requeue; consumed slots never reuse. Fairness follows two-entry FIFO under uninhibited repeated requests, not runtime/CPU scheduling.",
+      "deviations": [
+        "SOURCE-01",
+        "SOURCE-02"
+      ],
+      "limits": "Static source reasoning and lightweight compiler checks; did not run new test suites, new production builds, guest workflows or candidate admission."
+    },
+    "test_quality": {
+      "exact_identities": 24,
+      "finite_trace_operations": 8,
+      "trace_length": 4,
+      "trace_count": 4096,
+      "step_count": 16384,
+      "literal_oracles": "Tests1-8 exercise literal idle/admit/yield/FIFO/completion/retirement traces. Tests9-20 exercise explicit errors, nesting255, underflow0, pending coalescing and inhibited refusals. Test23 walks every declared length4 trace and compares complete snapshots on Err.",
+      "contract_gaps": [
+        "TEST-01",
+        "TEST-02",
+        "RED-01"
+      ],
+      "additional_weaknesses_not_separate_definite_blockers": [
+        "Several invalid-ID/unsupported-kind tests compare full snapshot only after multiple errors, not immediately after each call.",
+        "metadata_budget_and_bounded_trace checks only size bounds; trace coverage is in test23.",
+        "state(id) Ready/Running/Retired success values and cross-case error precedence are not exhaustively asserted.",
+        "Invariant checker does not establish temporal Retired monotonicity; source and dedicated retired admission check support it."
+      ],
+      "no_zero_allocation_instrumentation_claim": "No allocator-counting test exists, but allocation-free source is directly auditable; contract does not mandate a counting allocator."
+    },
+    "process_cleanup_observation": {
+      "observed_utc": "2026-10-25T12:29:53.711841+00:00",
+      "command": [
+        "powershell.exe",
+        "-NoProfile",
+        "-Command",
+        "$p=@(Get-CimInstance Win32_Process | Where-Object { $_.Name -match \"^(cargo|rustc|rustfmt|link|qemu-system.*|python.*)\\.exe$\" } | Select-Object ProcessId,ParentProcessId,Name,CommandLine); ConvertTo-Json -InputObject $p -Depth 3"
+      ],
+      "exit_code": 0,
+      "processes": [
+        {
+          "ProcessId": 27940,
+          "ParentProcessId": 34636,
+          "Name": "python.exe",
+          "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe\" -m hermes_cli.main gateway run",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 25460,
+          "ParentProcessId": 27940,
+          "Name": "python.exe",
+          "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  -m hermes_cli.main gateway run",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 29116,
+          "ParentProcessId": 29156,
+          "Name": "python.exe",
+          "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe\" \"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\bin\\hermes.exe\" dashboard --host 127.0.0.1 --port 9119 --no-open",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 37116,
+          "ParentProcessId": 29116,
+          "Name": "python.exe",
+          "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  \"C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\bin\\hermes.exe\" dashboard --host 127.0.0.1 --port 9119 --no-open",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 47852,
+          "ParentProcessId": 25460,
+          "Name": "python.exe",
+          "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_rj2ij8_e\\hermes_kernel_runner.py",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 45808,
+          "ParentProcessId": 47852,
+          "Name": "python.exe",
+          "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_rj2ij8_e\\hermes_kernel_runner.py",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 47440,
+          "ParentProcessId": 39572,
+          "Name": "python.exe",
+          "CommandLine": "\"D:\\Strata\\.venv\\Scripts\\python.exe\" .\\serve\\server.py --engine strata --config .\\strata-coder-iq1_m.json --port 8080 --open --api-monitor",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 50212,
+          "ParentProcessId": 47440,
+          "Name": "python.exe",
+          "CommandLine": "\"D:\\Strata\\.venv\\Scripts\\python.exe\" .\\serve\\server.py --engine strata --config .\\strata-coder-iq1_m.json --port 8080 --open --api-monitor",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 59856,
+          "ParentProcessId": 51196,
+          "Name": "python.exe",
+          "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -m hermes_cli.main serve --host 127.0.0.1 --port 0",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 57004,
+          "ParentProcessId": 59856,
+          "Name": "python.exe",
+          "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  -m hermes_cli.main serve --host 127.0.0.1 --port 0",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 59656,
+          "ParentProcessId": 59188,
+          "Name": "python.exe",
+          "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe hub.py",
+          "classification": "UNKNOWN"
+        },
+        {
+          "ProcessId": 36576,
+          "ParentProcessId": 59656,
+          "Name": "python.exe",
+          "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  hub.py",
+          "classification": "UNKNOWN"
+        },
+        {
+          "ProcessId": 28920,
+          "ParentProcessId": 57004,
+          "Name": "python.exe",
+          "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_ka78218f\\hermes_kernel_runner.py",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 53396,
+          "ParentProcessId": 28920,
+          "Name": "python.exe",
+          "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_ka78218f\\hermes_kernel_runner.py",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 30480,
+          "ParentProcessId": 57004,
+          "Name": "python.exe",
+          "CommandLine": "C:\\Users\\iamsv\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_2g0xrfct\\hermes_kernel_runner.py",
+          "classification": "INFRASTRUCTURE"
+        },
+        {
+          "ProcessId": 66040,
+          "ParentProcessId": 30480,
+          "Name": "python.exe",
+          "CommandLine": "\"C:\\Users\\iamsv\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  C:\\Users\\iamsv\\AppData\\Local\\Temp\\hermes_kernel_2g0xrfct\\hermes_kernel_runner.py",
+          "classification": "INFRASTRUCTURE"
+        }
+      ],
+      "cargo_rustc_link_qemu_present": false,
+      "no_processes_stopped": true,
+      "limit": "Bounded current process snapshot, not full historical process-exit accounting. hub.py processes remain UNKNOWN and untouched; no observed active P12-A worker."
+    },
+    "phase12_design_original_pins_current": {
+      "review_pins": [
+        {
+          "path": ".cargo/config.toml",
+          "match": true
+        },
+        {
+          "path": "ARCHITECTURE.md",
+          "match": true
+        },
+        {
+          "path": "Cargo.toml",
+          "match": true
+        },
+        {
+          "path": "README.md",
+          "match": true
+        },
+        {
+          "path": "docs/PHASE11_DESIGN.md",
+          "match": true
+        },
+        {
+          "path": "docs/PHASE11_HANDOVER.md",
+          "match": true
+        },
+        {
+          "path": "docs/PHASE11_MEMORY_AUTHORITY.md",
+          "match": true
+        },
+        {
+          "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+          "match": true
+        },
+        {
+          "path": "scripts/phase6_verify.py",
+          "match": true
+        },
+        {
+          "path": "src/boot.s",
+          "match": true
+        },
+        {
+          "path": "src/cpu.rs",
+          "match": true
+        },
+        {
+          "path": "src/exception_abi.rs",
+          "match": true
+        },
+        {
+          "path": "src/exception_entry.s",
+          "match": true
+        },
+        {
+          "path": "src/f5_bridge.s",
+          "match": true
+        },
+        {
+          "path": "src/f5_cpl3.rs",
+          "match": true
+        },
+        {
+          "path": "src/f5_gdt.rs",
+          "match": true
+        },
+        {
+          "path": "src/f5_runtime.rs",
+          "match": true
+        },
+        {
+          "path": "src/gdt_tss.rs",
+          "match": true
+        },
+        {
+          "path": "src/interrupt.rs",
+          "match": true
+        },
+        {
+          "path": "src/main.rs",
+          "match": true
+        },
+        {
+          "path": "src/memory/frame.rs",
+          "match": true
+        },
+        {
+          "path": "src/memory/mod.rs",
+          "match": true
+        },
+        {
+          "path": "src/memory/privileged.rs",
+          "match": true
+        },
+        {
+          "path": "src/memory/retained_owner.rs",
+          "match": true
+        },
+        {
+          "path": "src/memory/user_arena.rs",
+          "match": true
+        },
+        {
+          "path": "src/timer.rs",
+          "match": true
+        },
+        {
+          "path": "src/utils/mutex.rs",
+          "match": true
+        },
+        {
+          "path": "target.json",
+          "match": true
+        },
+        {
+          "path": "test_results/f5p01/full_source_freeze_10.json",
+          "match": true
+        },
+        {
+          "path": "test_results/phase11f5_cpl3_proof/closeout_commit_receipt_10.json",
+          "match": true
+        },
+        {
+          "path": "test_results/phase11f5_cpl3_proof/final_review_parent_readback_10.json",
+          "match": true
+        },
+        {
+          "path": "test_results/phase11f5_cpl3_proof/reviews/final_canonical_readback_01.json",
+          "match": true
+        },
+        {
+          "path": "test_results/phase12_design/STATE_review_snapshot_01.md",
+          "match": true
+        },
+        {
+          "path": "test_results/phase12_design/decisions.md",
+          "match": true
+        },
+        {
+          "path": "test_results/phase12_design/design.md",
+          "match": true
+        },
+        {
+          "path": "test_results/phase12_design/risks.md",
+          "match": true
+        },
+        {
+          "path": "test_results/phase12_design/source_inventory.json",
+          "match": true
+        },
+        {
+          "path": "tests_kernel/Cargo.toml",
+          "match": true
+        },
+        {
+          "path": "tests_kernel/src/lib.rs",
+          "match": false
+        }
+      ],
+      "inventory_inputs": [
+        {
+          "name": "README.md",
+          "path": "README.md",
+          "match": true
+        },
+        {
+          "name": "ARCHITECTURE.md",
+          "path": "ARCHITECTURE.md",
+          "match": true
+        },
+        {
+          "name": "docs/PHASE11_HANDOVER.md",
+          "path": "docs/PHASE11_HANDOVER.md",
+          "match": true
+        },
+        {
+          "name": "docs/PHASE11_MEMORY_AUTHORITY.md",
+          "path": "docs/PHASE11_MEMORY_AUTHORITY.md",
+          "match": true
+        },
+        {
+          "name": "docs/PHASE11_DESIGN.md",
+          "path": "docs/PHASE11_DESIGN.md",
+          "match": true
+        },
+        {
+          "name": "docs/ROSTI_INIT_ARCHITECTURE.md",
+          "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+          "match": true
+        },
+        {
+          "name": "src/main.rs",
+          "path": "src/main.rs",
+          "match": true
+        },
+        {
+          "name": "src/boot.s",
+          "path": "src/boot.s",
+          "match": true
+        },
+        {
+          "name": "src/timer.rs",
+          "path": "src/timer.rs",
+          "match": true
+        },
+        {
+          "name": "src/interrupt.rs",
+          "path": "src/interrupt.rs",
+          "match": true
+        },
+        {
+          "name": "src/utils/mutex.rs",
+          "path": "src/utils/mutex.rs",
+          "match": true
+        },
+        {
+          "name": "src/memory/mod.rs",
+          "path": "src/memory/mod.rs",
+          "match": true
+        },
+        {
+          "name": "src/memory/frame.rs",
+          "path": "src/memory/frame.rs",
+          "match": true
+        },
+        {
+          "name": "src/memory/retained_owner.rs",
+          "path": "src/memory/retained_owner.rs",
+          "match": true
+        },
+        {
+          "name": "src/memory/privileged.rs",
+          "path": "src/memory/privileged.rs",
+          "match": true
+        },
+        {
+          "name": "src/memory/user_arena.rs",
+          "path": "src/memory/user_arena.rs",
+          "match": true
+        },
+        {
+          "name": "src/gdt_tss.rs",
+          "path": "src/gdt_tss.rs",
+          "match": true
+        },
+        {
+          "name": "src/exception_abi.rs",
+          "path": "src/exception_abi.rs",
+          "match": true
+        },
+        {
+          "name": "src/exception_entry.s",
+          "path": "src/exception_entry.s",
+          "match": true
+        },
+        {
+          "name": "src/f5_cpl3.rs",
+          "path": "src/f5_cpl3.rs",
+          "match": true
+        },
+        {
+          "name": "src/f5_runtime.rs",
+          "path": "src/f5_runtime.rs",
+          "match": true
+        },
+        {
+          "name": "src/f5_bridge.s",
+          "path": "src/f5_bridge.s",
+          "match": true
+        },
+        {
+          "name": "src/f5_gdt.rs",
+          "path": "src/f5_gdt.rs",
+          "match": true
+        },
+        {
+          "name": "src/cpu.rs",
+          "path": "src/cpu.rs",
+          "match": true
+        },
+        {
+          "name": "target.json",
+          "path": "target.json",
+          "match": true
+        },
+        {
+          "name": "Cargo.toml",
+          "path": "Cargo.toml",
+          "match": true
+        },
+        {
+          "name": ".cargo/config.toml",
+          "path": ".cargo/config.toml",
+          "match": true
+        },
+        {
+          "name": "tests_kernel/Cargo.toml",
+          "path": "tests_kernel/Cargo.toml",
+          "match": true
+        },
+        {
+          "name": "tests_kernel/src/lib.rs",
+          "path": "tests_kernel/src/lib.rs",
+          "match": false
+        },
+        {
+          "name": "scripts/phase6_verify.py",
+          "path": "scripts/phase6_verify.py",
+          "match": true
+        }
+      ],
+      "note": "Current design inventory source mismatches, if any, must be explicitly dispositioned for authorized P12-A edits; original authority JSON bytes remain immutable.",
+      "disposition": "Exactly one of39 review pins and one of30 inventory inputs differ: the same tests_kernel/src/lib.rs six-line authorized host-wiring delta. Raw block removal reproduces the historical digest; no other source or authority pin drift observed. This must be explicit in downstream readback, not a claim that all original pins currently match."
+    },
+    "source_before_after_this_audit": {
+      "current_canonical_membership_equals_start": true,
+      "old_freeze_16_pins_still_match": true,
+      "protected8_still_match": true,
+      "meaning": "Proves no source drift during this audit only; does NOT retroactively establish a complete freeze around earlier test runs."
+    },
+    "git_final": {
+      "command": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "exit_code": 0,
+      "stdout": " M .gitignore\n M README.md\n M src/exception_entry.s\n M test_results/phase11f4_user_arena/FINAL_REPORT.md\n M tests_kernel/src/lib.rs\n?? d1/\n?? docs/ROSTI_INIT_ARCHITECTURE.md\n?? reviews/\n?? scripts/b13_boot_fixture.py.backup\n?? src/p12a_policy.rs\n?? tests_kernel/src/p12a_policy_tests.rs\n",
+      "stderr": ""
+    },
+    "HEAD": {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+      "exit_code": 0,
+      "stdout": "d9cebe28eb5139b6b614b7000688857361e2afc4\n",
+      "stderr": ""
+    },
+    "F5_ancestry_exit": 0,
+    "readiness_scope_separation": {
+      "readiness_verdict": "NOT_READY_FOR_CANDIDATE_REVIEW",
+      "candidate_approval": false,
+      "accepted_functional_evidence": "Existing24 focused /418 listed host /149 B26 and95 mocks have exact preserved membership. Current no_std compile and existing ELF validator pass; A=B=AFTER.",
+      "genuine_source_contract_deviations": [
+        "Missing Eq on six public value types",
+        "Policy::new not const"
+      ],
+      "genuine_test_contract_deviations": [
+        "Test24 lacks the required long legal replay with repeated snapshot comparison/literal alternating selection",
+        "Test23 invariant oracle omits Ready=>exactly-once-queued",
+        "Post-RED assertion changes contradict unchanged-tests provenance plan"
+      ],
+      "additional_obligations_missing": "Required host/policy formatting; complete frozen input/artifact manifest and before/after tests; fail-closed parent readback; explicit pin-delta and reviewer digest handling; path allowlist/checkpoint; RED/source and per-defect budget reconciliation; mock wall/enforced-bound evidence."
+    }
+  },
+  "required_work_before_candidate_review": [
+    "Resolve Eq and const API deviations without changing approved contract silently.",
+    "Restore full mandatory test24 intent and complete Ready/queue bidirectional invariant oracle; reconcile tests-after-RED provenance and attempt budget.",
+    "Obtain host and policy formatting GREEN; kernel formatting and no_std/ELF checks already independently corroborated on current bytes.",
+    "Replace incomplete freeze only with a new numbered complete manifest and before/after verification; pin all canonical236 plus P12-A authority/provenance/helper/wrapper inputs.",
+    "Persist pinned raw logs and actual command/CWD/exits/source identities, complete evidence index and immutable review context; reconcile actual mock wall/enforcement evidence.",
+    "Create path allowlist and truthful checkpoint; preserve protected8 and historical evidence unchanged.",
+    "Use a new fail-closed parent reader with explicit F5 lib wiring disposition and immutable reviewer pin/digest handling; recheck processes and all input/artifact pins.",
+    "Only after all required checks are genuinely GREEN dispatch full independent candidate review; this audit grants no approval."
+  ],
+  "not_missing_under_Option_A": [
+    "No fresh canonical acceptance or final canonical readback; F5 PASS76 is historical only.",
+    "No new canonical gates, runner/validator changes, QEMU, ISO or F1-F5 hardware/emitted closure reruns while complete ClassT proof remains valid; list skipped10/8/18/12/12 matrices at128/512 explicitly.",
+    "No P12-B/runtime scheduler authorization.",
+    "Local commits/report closeout are later milestones, not prerequisites to this readiness audit."
+  ],
+  "candidate_approval_granted": false,
+  "completed_utc": "2026-10-25T12:29:54.572362+00:00",
+  "files_created_or_modified": [
+    "C:\\Users\\iamsv\\Documents\\Rust-OS\\test_results\\phase12_p12a\\reviews\\readiness_audit_01.json"
+  ],
+  "suites_launched": [],
+  "tools_and_scope": "Read-only source/history/evidence inspection, native process observation, rustfmt/cargo fmt --check, LLVM symbol extraction, existing ELF validator and isolated Rust compiler probes only; no source/test/contract/evidence repair or expensive suites.",
+  "procedural_memory_update": "Recorded reusable read-only host-policy audit checks in rosti-kernel-development skill; no repository source/test/contract/frozen evidence modified.",
+  "self_sha256": "beb099b201becc2947a9327430d424afd4b7b47cb80eb6fbf12459bc256a9276"
+}

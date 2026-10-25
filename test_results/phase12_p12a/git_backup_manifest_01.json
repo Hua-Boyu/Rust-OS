@@ -1,0 +1,478 @@
+{
+  "schema": "rosti.p12a-git-backup-manifest.v1",
+  "created_utc": "2026-10-25T12:55:10.451704+00:00",
+  "status": "WIP_BACKUP_ONLY_NOT_ACCEPTANCE",
+  "original_branch": "maintenance/phase10",
+  "original_head": "d9cebe28eb5139b6b614b7000688857361e2afc4",
+  "checkpoint_branch": "wip/phase12-p12a-checkpoint",
+  "remote": "origin",
+  "remote_url": "https://github.com/Hua-Boyu/Rust-OS.git",
+  "remote_selection": "Original branch tracks origin/maintenance/phase10; rosti-source is separate local source remote and is not selected",
+  "included": [
+    {
+      "path": "src/p12a_policy.rs",
+      "raw_sha256": "c2360876c33ef6a49487b99a3a7c65708e41055bfe6b5186d2737b670027003f",
+      "git_blob": "6315a1f0bd43bc34ba3269ad8024a677d09b5668",
+      "bytes": 7950,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "tests_kernel/src/p12a_policy_tests.rs",
+      "raw_sha256": "fb025cdd10f22a0214bac196656aac398ac7f07e2f2a23064bcd875d61fae95f",
+      "git_blob": "12889ef3e52806f3ad548262db145b9c35741861",
+      "bytes": 13843,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "tests_kernel/src/lib.rs",
+      "raw_sha256": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed",
+      "git_blob": "69b230a033d5a663ae0431af78a658a3ba85fbb6",
+      "bytes": 39505,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Only six added P12-A module registration lines; no unrelated hunks",
+      "included_diff": "diff --git a/tests_kernel/src/lib.rs b/tests_kernel/src/lib.rs\nindex cdea125..69b230a 100644\n--- a/tests_kernel/src/lib.rs\n+++ b/tests_kernel/src/lib.rs\n@@ -55,6 +55,12 @@ pub mod f5_cpl3;\n #[path = \"f5_cpl3_tests.rs\"]\n pub mod f5_cpl3_tests;\n \n+#[path = \"../../src/p12a_policy.rs\"]\n+pub mod p12a_policy;\n+\n+#[path = \"p12a_policy_tests.rs\"]\n+pub mod p12a_policy_tests;\n+\n #[path = \"../../src/fs_commands.rs\"]\n pub mod fs_commands;\n \n"
+    },
+    {
+      "path": "test_results/phase12_design/artifact_manifest_01.json",
+      "raw_sha256": "906b66cb72c8b99fdc6fcb223ec560b25d692982091bc2bfc00c3fa54b641054",
+      "git_blob": "3cbbc965380085c80cf609da6a66797c7ac2c35f",
+      "bytes": 4575,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/authoring_diagnostics_01.json",
+      "raw_sha256": "011266f9c6058d52b52935d9fc1680c6a7e27112216235a1f1778e3d8ba9d44d",
+      "git_blob": "24d77ccf0c2dde468eb286c5aa42086b8dbb29c1",
+      "bytes": 607,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/decisions.md",
+      "raw_sha256": "ad6bf4dc58d1b1b5c996e040ca405c336935e6526fe6d986c89250dea54aad83",
+      "git_blob": "cb58c896decfc01ebf4c0f5364509b6e2bdebcde",
+      "bytes": 3117,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/design.md",
+      "raw_sha256": "fe57e4a8ae8c3af541d545319946494c499e06c92cfec572610154aa95f0a880",
+      "git_blob": "dfceebae6bbad484566621db26f028db46606cb1",
+      "bytes": 18206,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/discovery_delivery_checks_01.json",
+      "raw_sha256": "98d67a6a7992dc072695ea3e5b5edbf892cb2086b66d34dad9254d4a8fa9fb48",
+      "git_blob": "a5b266e3854d4b6b98f77bf18bb65ced827e3c28",
+      "bytes": 1579,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/KICKOFF_REPORT.md",
+      "raw_sha256": "40629528a50b6560ba1f8ba39039f4e301e5b1d9d96c3af058e935b270890b0f",
+      "git_blob": "86ea3f737cf28f88b1ae990060843d596e6683c2",
+      "bytes": 2785,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/parent_review_readback_01.json",
+      "raw_sha256": "48c99735308c69be220a09c493f245c2d0e8584ccc111166a3ffd16b25507bc4",
+      "git_blob": "0bb0d435e4b481274906a4b743d128d6cfd581ec",
+      "bytes": 6228,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/review_inputs_01.json",
+      "raw_sha256": "33a9e1412efe8248bf522f03b8d8a28590f0e23511fa155f6c2796dafc06230a",
+      "git_blob": "3d8de83306a72b94873cc5e4ac97492eb9780d97",
+      "bytes": 4853,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/reviews/design_review_01.json",
+      "raw_sha256": "b08b9da47a18a7d6626fa34a4f7eb03758c1aa98cf1fddf4be385db1bf6dc125",
+      "git_blob": "3dd967ad4f2a80ed1aa770e522c9ae64f694c892",
+      "bytes": 24672,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/risks.md",
+      "raw_sha256": "931ef124c1707cc555c9877712f6d7a58d58ab7b166e5f5bea3dc8f417c868db",
+      "git_blob": "70f3c4c41878f6ba149334eedf466ed933ebf691",
+      "bytes": 5053,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/source_inventory.json",
+      "raw_sha256": "3a8ebc323b6171537135b380a3bac2fe0e109acc034c18c8d391146c9778bdef",
+      "git_blob": "768636e9dea586e080a000dac2b286027f246507",
+      "bytes": 75518,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/STATE.md",
+      "raw_sha256": "2cb3989f8fa563511f663cc9178803905265b00a920cea08ff573e219132b132",
+      "git_blob": "b7594a640deb15ff41833cbecc529da81a8f290e",
+      "bytes": 3133,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_design/STATE_review_snapshot_01.md",
+      "raw_sha256": "c91eef736fb813eb1078fbd8c2dc0a815896f353544bbcc99a218526bb105cd8",
+      "git_blob": "0d224177fbbbcc729270802a5f9913fe0e7783f0",
+      "bytes": 2390,
+      "classification": "APPROVED_DESIGN_AUTHORITY",
+      "completion": "COMPLETED_DESIGN_ONLY",
+      "reason": "Approved authority and immutable review provenance required by P12-A contract"
+    },
+    {
+      "path": "test_results/phase12_p12a/baseline_01.py",
+      "raw_sha256": "cc3f1c6edcac437b4b1b1a5b10707e1413b90165770647a9273a11e6056cf392",
+      "git_blob": "f50c36d90319a03aeaf10d6773bf5e4d0b879910",
+      "bytes": 4145,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/decisions.md",
+      "raw_sha256": "c627260b4b90f3bc68a542e4745bab7e5379a71de2a10d896bfb5f17b8b2232c",
+      "git_blob": "fc1de01a9b89b9054b9a0da81dcacbf6731a91ed",
+      "bytes": 4684,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/evidence_manifest.json",
+      "raw_sha256": "5c6a5c1ce0c88eaabc73210d06fd0436b30b663b613d459a4464f41be8ddf7d7",
+      "git_blob": "69615b9326ae9e9d53e44fb54e3af3c23e441162",
+      "bytes": 93,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/filter_audit_01.json",
+      "raw_sha256": "f5e00975e176497b81fa0926561d0268fc98c23ac3a50e60e384e7dd9584d9ca",
+      "git_blob": "ed97d6d6f6f3e059a77c1894fe7f4116c13e1394",
+      "bytes": 4238,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/FINAL_REPORT.md",
+      "raw_sha256": "167b996f0618f1bd71f6368d95ecb9ffb4319e490a60cf51fadff49117a7c224",
+      "git_blob": "a7df6edd5530d67b7436207ba44b3d2404313c07",
+      "bytes": 179,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/p12a_allowlist.json",
+      "raw_sha256": "5427bdbed2da21d82ef40ad75bd60610b5cdd61dc7a2a7c81786272b26e4913e",
+      "git_blob": "b7e8a64d6ca83a8dd554c00bc9aaa6be0102d660",
+      "bytes": 1483,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/p12a_contract.md",
+      "raw_sha256": "614cdce234e403d10ce9bbf473c01fbe311b0013d53ae829d182c4a7f521b55b",
+      "git_blob": "46ded61fac5a4224249a2125a46cf018f40ee116",
+      "bytes": 16508,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/preflight_01.json",
+      "raw_sha256": "bf29c886c3761943bdd1ccedf124cd6c5a83996d0ef6bd78e1c0b5f499e193d1",
+      "git_blob": "95c3145ce88cf7fa2db1067dabe8df54bda2dabb",
+      "bytes": 55696,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/preflight_01.py",
+      "raw_sha256": "917405d0fdf74cdc76e3e5e3b20d7c024b334c5702c6bd025ac51600c8e59c14",
+      "git_blob": "dc6597c06548b7fcf1b4cf5a9b0e1982a8be834c",
+      "bytes": 4612,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/review_inputs_01.json",
+      "raw_sha256": "7f0c86f924b01025a15f0fcbfb16111acf2e922b05746b137af80614d933113e",
+      "git_blob": "8443fc42e5931ce7888b90c0d85c991a11dbac24",
+      "bytes": 1751,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/reviews/design_review_01.json",
+      "raw_sha256": "5cbdc5401e80d0c883f12a69398f0a69ac9d9a7bb2f0dfbae6975d45686156f8",
+      "git_blob": "879e066a88715b74241cdf10f132d9c4408a3ccc",
+      "bytes": 16008,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/reviews/readiness_audit_01.json",
+      "raw_sha256": "2c0f242facc97c99967d0fb44da9e419ef8ecc3e7969ce6410347a050fa94e71",
+      "git_blob": "ddb3f3c8d6dcdc351bc7870489c9d564b142b164",
+      "bytes": 130043,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/phase12_p12a/STATE.md",
+      "raw_sha256": "603af56063743d41faec8839408740f01fa77c26ff7722d2b03fab72ba9be4b6",
+      "git_blob": "a8910b41e4de76cb05336637f72dc52b0552c8b3",
+      "bytes": 9674,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/p12a/b01/report.json",
+      "raw_sha256": "030b6bd2a9f2c2414f65265c5808b0f69327a828d86a5d2fb59ab22ed93ccec7",
+      "git_blob": "7665ab4523e6fc524e5c50673c5761eed58cdead",
+      "bytes": 99158,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/p12a/f01/source_freeze_01.json",
+      "raw_sha256": "9969986d81aa34b2be5c867b9c429e70290a0012c87b19d769a3a83d7ae37add",
+      "git_blob": "815e9588081af6ffc9877647bd26d59293a58909",
+      "bytes": 1816,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/p12a/parent_readback_01.py",
+      "raw_sha256": "14aa53b8c412a8710c69d06aa9459a7835168b94d82bbf68f02a49a510e1e9ad",
+      "git_blob": "ca142ee976cc5bd62f1df55d176332985e986889",
+      "bytes": 3795,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    },
+    {
+      "path": "test_results/p12a/v01/mock_gate_readback.json",
+      "raw_sha256": "834704bdfbc6c3dd59f6bfb101fc50cede7d11065ed1c42d115bf95b181b7d9c",
+      "git_blob": "00f673e11a90999f064c817069dc65f690d20fb7",
+      "bytes": 8163,
+      "classification": "P12A_WIP",
+      "completion": "INCOMPLETE_OR_FAILED",
+      "reason": "Preserve actual partial policy/tests, audit findings, baseline provenance and incomplete evidence"
+    }
+  ],
+  "protected": [
+    {
+      "path": "README.md",
+      "raw_sha256": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+      "git_blob": "a1b84ef79b443245662e1c5e87ccd3116c685567",
+      "bytes": 32524
+    },
+    {
+      "path": ".gitignore",
+      "raw_sha256": "738ec129c381316b2c3ea4ff26bf502a072c4cc7eb7a3d7b074debdf58bc6bda",
+      "git_blob": "fdff773ce8f8e8a78b16c7fddd58844c79673b25",
+      "bytes": 472
+    },
+    {
+      "path": "src/exception_entry.s",
+      "raw_sha256": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+      "git_blob": "d946c5f84b3360af38e4e529a9db8a568fdc3610",
+      "bytes": 2117
+    },
+    {
+      "path": "test_results/phase11f4_user_arena/FINAL_REPORT.md",
+      "raw_sha256": "65071f5a56f7900246ec649a03e9f1acad01347557089efdef54a42b5c5582f0",
+      "git_blob": "7a08cf505f6b5f5d05324f2a93288c2e18c4bb4f",
+      "bytes": 57879
+    },
+    {
+      "path": "d1/f",
+      "raw_sha256": "98ea6e4f216f2fb4b69fff9b3a44842c38686ca685f3f55dc48c5d3fb1107be4",
+      "git_blob": "45b983be36b73c0788dc9cbcb76cbb80fc7bb057",
+      "bytes": 3
+    },
+    {
+      "path": "docs/ROSTI_INIT_ARCHITECTURE.md",
+      "raw_sha256": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+      "git_blob": "5b1f5d9945dc6d36c039efd64885e65fb82557af",
+      "bytes": 44940
+    },
+    {
+      "path": "reviews/candidate_review_02.json",
+      "raw_sha256": "1bc18068b077d641ef598899f513b9c5b6cbe5ea516d67c720ed83e536dbe49a",
+      "git_blob": "dacc222e3f3c9defd6288257515f5ef2d428f2ce",
+      "bytes": 3393
+    },
+    {
+      "path": "scripts/b13_boot_fixture.py.backup",
+      "raw_sha256": "3e86d2dd9061e42c1b79d5ad0d94efa513a407c19faa37fc2680a7ab5526a181",
+      "git_blob": "f72be4f0eaa836c486e539392089527fa845c1b4",
+      "bytes": 6074
+    }
+  ],
+  "omitted_artifacts": [
+    {
+      "path": "test_results/p12a/b01/b26_list.log",
+      "raw_sha256": "3a2faef665285ffae0974b84f060167c678f58e87ab4df9fad79ce1a82af8b81",
+      "git_blob": "08bff568a95d9bc77eb227d396bd14a979037939",
+      "bytes": 16600,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/b01/b26_serial.log",
+      "raw_sha256": "78023406473af7d1fd970069fea6421f9b9c9fe6ca915540ecbcbee8cc10e9fd",
+      "git_blob": "ee05b26d2002e58bab5e10d9e80ab4bd7613e301",
+      "bytes": 17586,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/b01/clean_kernel_A.log",
+      "raw_sha256": "68714d23633bd376edc723e7b1d20ea65e88b0b8b20a4a195f8ddbf3b6ff72dd",
+      "git_blob": "ae39f03313499db09bc4164b1dea940d7ce11117",
+      "bytes": 40,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/b01/clean_kernel_B.log",
+      "raw_sha256": "a2414f137a389a2553561ac78df4f9c3d4719174c086a07b05d9798754868a51",
+      "git_blob": "665644c41d94435182df39a2316b97ff20de69b2",
+      "bytes": 38,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/b01/host_list.log",
+      "raw_sha256": "17bad47c466b46990e95225f5fc4a196225d68cb3e697db2ddbf2bdc9ed7073d",
+      "git_blob": "215b4773c7d67071e0747d5fc3b82b59a3f32773",
+      "bytes": 35830,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/b01/host_serial.log",
+      "raw_sha256": "cb912c6b3dbee5041751cb489b70a03ca48480ffda35bb611584b5414be1722f",
+      "git_blob": "5fb5de7900c205512eac8e8442b456bd7e5abce8",
+      "bytes": 38297,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/b01/production_A.elf",
+      "raw_sha256": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4",
+      "git_blob": "fb61fa1c9a41ff59bd545d8e1d7552e320ebc8e1",
+      "bytes": 6657072,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/b01/production_A.log",
+      "raw_sha256": "79fe82a396c1d6efaa7626c64c51a2ad85a1a0f8264f6af737a9a8c7d270e298",
+      "git_blob": "c939c3d7c6f8ee781335349b16c44496e59c2db4",
+      "bytes": 21191,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/b01/production_B.elf",
+      "raw_sha256": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4",
+      "git_blob": "fb61fa1c9a41ff59bd545d8e1d7552e320ebc8e1",
+      "bytes": 6657072,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/b01/production_B.log",
+      "raw_sha256": "ed561d73c65d31592ed0ac8e1eebe52e171446ace4dba592295dd1b0bd07515e",
+      "git_blob": "46bdea2c5fb7ad52c4183a6214663d0166072b2e",
+      "bytes": 21191,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/b01/toolchain.log",
+      "raw_sha256": "39a22e48184d520ea2ac97f4e081d19c603119d6ec27402e87d747315bd82bc7",
+      "git_blob": "f6ecd7c196126020756b36af8cd02a731a76b196",
+      "bytes": 212,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/p01/production_AFTER.elf",
+      "raw_sha256": "981f373a7a6530cbcc861261947b9aaa71f69661cb4e2a100b73901c4a1854e4",
+      "git_blob": "fb61fa1c9a41ff59bd545d8e1d7552e320ebc8e1",
+      "bytes": 6657072,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    },
+    {
+      "path": "test_results/p12a/v01/mock_gate.log",
+      "raw_sha256": "0dcd99fca99a605b9f4d7326122490a828ce982f2f935db47c0053e762cc4902",
+      "git_blob": "b23d808bfb01161aed70502e5c7ba9757edbcf3f",
+      "bytes": 13940,
+      "reason": "Local raw historical log or binary; hash-reference only; unchanged"
+    }
+  ],
+  "other_omissions": [
+    "HANDOVER.md and NEXT_SESSION_PROMPT.md unchanged from accepted F5",
+    "credentials, .env, scratch, root reviews, accepted kernel/ISO artifacts, Hermes configuration: not staged"
+  ],
+  "staging_policy": "Raw-byte git hash-object --no-filters / update-index; preserve immutable raw review hashes, no newline normalization",
+  "manifest_self_identity": "Manifest path is explicitly included; own identity recorded by staged blob, no impossible recursive raw self-hash",
+  "security_review": {
+    "pending_history_range": "origin/maintenance/phase10..d9cebe28eb5139b6b614b7000688857361e2afc4",
+    "pending_history_patch_bytes": 208862733,
+    "bounded_credential_pattern_matches": 0,
+    "task_text_matches": 0,
+    "credential_values_logged": false,
+    "limitations": "Bounded textual review is not a guarantee against all possible secrets; paths are project source and accepted scoped evidence"
+  },
+  "preflight": {
+    "git_operation_markers_present": false,
+    "staged_paths_initially": [],
+    "accepted_f5_ancestry_exit": 0,
+    "remote_lookup_exit": 0,
+    "remote_checkpoint_absent": true,
+    "local_checkpoint_absent": true,
+    "git_writing_process_observed": false,
+    "source_modifications_before_backup": false
+  }
+}

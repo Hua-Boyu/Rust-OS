@@ -1,0 +1,22 @@
+{
+ "created_utc": "2026-10-25T19:5xZ",
+ "inputs": {
+  "src/p12a_policy.rs": "c2360876c33ef6a49487b99a3a7c65708e41055bfe6b5186d2737b670027003f",
+  "tests_kernel/src/p12a_policy_tests.rs": "fb025cdd10f22a0214bac196656aac398ac7f07e2f2a23064bcd875d61fae95f",
+  "tests_kernel/src/lib.rs": "9a347fc8986973ef348aeac4d675564a185d85903e14192f91d2e9b6bbb9eeed",
+  "tests_kernel/Cargo.toml": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+  "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+  ".cargo/config.toml": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+  "target.json": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+  "scripts/test_acceptance_harness.py": "f6274eac8eb8ef3075597ed3d946df5a41f19fed14b0e616efe6038404288d2f",
+  "scripts/phase6_verify.py": "394dfcfa9e5d40ebb56c614ac2356a4c930fbbd80b418c408f46b30daf388b20",
+  "test_results/phase12_p12a/p12a_contract.md": "614cdce234e403d10ce9bbf473c01fbe311b0013d53ae829d182c4a7f521b55b",
+  "test_results/phase12_p12a/reviews/design_review_01.json": "5cbdc5401e80d0c883f12a69398f0a69ac9d9a7bb2f0dfbae6975d45686156f8",
+  "test_results/phase12_design/design.md": "fe57e4a8ae8c3af541d545319946494c499e06c92cfec572610154aa95f0a880",
+  "test_results/phase12_design/source_inventory.json": "3a8ebc323b6171537135b380a3bac2fe0e109acc034c18c8d391146c9778bdef",
+  "test_results/phase11f5_cpl3_proof/FINAL_REPORT.md": "7c0d6ffff9e42d1b11199f6be1cd4a30cf01dfd02f7cdd9844fadd4d468a48d8",
+  "test_results/phase11f5_cpl3_proof/evidence_manifest.json": "eef97dd06b6b429e32315e73fdbf598f4c51bbb4723f17426f70f5efad91a387",
+  "test_results/f5acc/r01/acceptance_20261025T060216Z_7g_gea5o/acceptance.json": "21247dcb786d68afaf588971561858488f108d12414e89c6b1dfadb5d3a06074"
+ },
+ "missing": []
+}

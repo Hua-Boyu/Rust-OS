@@ -1,0 +1,431 @@
+{
+  "schema": "rosti.phase12-independent-design-review.v1",
+  "reviewer": {
+    "identity": "Hermes Agent independent Phase12 design-review subagent / gpt-6.1-sol / openai-codex",
+    "review_id": "92fb2d7f-749b-4b84-a04f-3d6591b7b7f3",
+    "separate_context": true,
+    "independent": true,
+    "parent_self_approval": false,
+    "role": "Design reviewer, not implementation author or prior F5 reviewer",
+    "observed_utc": "2026-10-25T09:03:01.972675+00:00"
+  },
+  "verdict": "APPROVE",
+  "complete_scope": true,
+  "blockers": [],
+  "blocker_count": 0,
+  "approval_scope": "Complete new Phase12 design-only direction, specifically recommendation of bounded host-only P12-A as next separately authorized milestone; not runtime design closure or implementation approval.",
+  "implementation_authorized": false,
+  "phase12_complete": false,
+  "runtime_ready": false,
+  "reviewed_input_manifest": {
+    "path": "test_results/phase12_design/review_inputs_01.json",
+    "raw_sha256": "33a9e1412efe8248bf522f03b8d8a28590f0e23511fa155f6c2796dafc06230a",
+    "sha256": "33a9e1412efe8248bf522f03b8d8a28590f0e23511fa155f6c2796dafc06230a",
+    "pin_count": 39,
+    "all_pins_match_before_and_at_completion": true
+  },
+  "repository": {
+    "path": "C:\\Users\\iamsv\\Documents\\Rust-OS",
+    "branch": "maintenance/phase10",
+    "head": "d9cebe28eb5139b6b614b7000688857361e2afc4",
+    "dirty_tree_preserved": true,
+    "live_STATE_used_as_authority": false,
+    "immutable_context": "test_results/phase12_design/STATE_review_snapshot_01.md"
+  },
+  "verification": {
+    "manifest_hash_matches_requested": true,
+    "raw_pins_checked": 39,
+    "selected_source_doc_inventory_count": 30,
+    "actual_quoted_source_regions_checked": 54,
+    "all_inventory_regions_exact": true,
+    "selected_hashes_line_counts_and_HEAD_metadata_match": true,
+    "rust_search_file_count": 69,
+    "rust_search_membership_and_all_hashes_match": true,
+    "bounded_named_definitions_found": 0,
+    "README_HEAD_raw_sha256": "60df31b5cf6577ea8cdb70c046818cf47105593c30004d373960d2f1b07a8e83",
+    "README_HEAD_contains_new_phase12_heading": false,
+    "full_F5_review": "stream-hashed for prerequisite binding only; not substantively rereviewed",
+    "source_inspection": "Read actual critical definitions/bodies and line-numbered call-site regions; independently compared all inventory excerpts to actual files, not metadata-only review. No builds or tests."
+  },
+  "complete_scope_areas": [
+    {
+      "id": "D01",
+      "area": "Roadmap provenance",
+      "complete": true
+    },
+    {
+      "id": "D02",
+      "area": "Source inventory and bounded absence",
+      "complete": true
+    },
+    {
+      "id": "D03",
+      "area": "Smallest milestone and scope",
+      "complete": true
+    },
+    {
+      "id": "D04",
+      "area": "Lifecycle, identity and queue",
+      "complete": true
+    },
+    {
+      "id": "D05",
+      "area": "PIT/ticks qualification",
+      "complete": true
+    },
+    {
+      "id": "D06",
+      "area": "IRQ context, early publication and EOI",
+      "complete": true
+    },
+    {
+      "id": "D07",
+      "area": "Lock, borrow and reentrancy hazards",
+      "complete": true
+    },
+    {
+      "id": "D08",
+      "area": "Distinct F2/cooperative/IRQ ABIs",
+      "complete": true
+    },
+    {
+      "id": "D09",
+      "area": "Real stack/CPU lifetime and F1 preservation",
+      "complete": true
+    },
+    {
+      "id": "D10",
+      "area": "F3 fixed TSS and double fault",
+      "complete": true
+    },
+    {
+      "id": "D11",
+      "area": "F4 and F5 terminal preservation",
+      "complete": true
+    },
+    {
+      "id": "D12",
+      "area": "Recoverable userspace boundary",
+      "complete": true
+    },
+    {
+      "id": "D13",
+      "area": "Resource and extended-state bounds",
+      "complete": true
+    },
+    {
+      "id": "D14",
+      "area": "Future host RED/GREEN and policy evidence",
+      "complete": true
+    },
+    {
+      "id": "D15",
+      "area": "Meaningful future hardware RED/GREEN",
+      "complete": true
+    },
+    {
+      "id": "D16",
+      "area": "Acceptance inheritance and exact counts",
+      "complete": true
+    }
+  ],
+  "findings": [
+    {
+      "id": "D01",
+      "area": "Roadmap provenance",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "README.md:463-479",
+        "docs/ROSTI_INIT_ARCHITECTURE.md:531-568",
+        "test_results/phase12_design/design.md:7-11"
+      ],
+      "reason": "Actual working README proposes processes/preemptive multitasking but explicitly subjects numbering/order/scope to confirmation. Independently checked protected MODIFIED status, HEAD README raw hash and absence of this heading in HEAD; init proposal is untracked older context, not new authority. Proposal preserves both and does not infer broad Phase11 completion."
+    },
+    {
+      "id": "D02",
+      "area": "Source inventory and bounded absence",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "src/main.rs:11-38,480-491",
+        "test_results/phase12_design/source_inventory.json",
+        "test_results/phase12_design/design.md:13-24"
+      ],
+      "reason": "Independently hashed all 30 selected inputs, checked their line counts and all 54 quoted regions against actual files, and compared every recorded HEAD blob hash. Rediscovered 69 Rust paths and matching raw hashes; a broader definition search including type/trait as well as struct/enum found no named Task/Thread/Process/Scheduler or schedule/context_switch/switch_context/yield_now functions. This is bounded literal-definition evidence, not a macro/assembly impossibility proof."
+    },
+    {
+      "id": "D03",
+      "area": "Smallest milestone and scope",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "test_results/phase12_design/design.md:26-49,99-101",
+        "tests_kernel/Cargo.toml:1-23",
+        "tests_kernel/src/lib.rs:1-7,69-70",
+        "Cargo.toml:20-24",
+        ".cargo/config.toml:1-10"
+      ],
+      "reason": "Host-only finite policy model is a defensible smallest scheduler-oriented foundation without unsafe runtime integration. Existing independently rooted cfg(test) harness supports pure host work; kernel binary has no host test target. No concrete files or new crate are prematurely prescribed. A is not a running scheduler and neither approval nor phase numbering authorizes implementation."
+    },
+    {
+      "id": "D04",
+      "area": "Lifecycle, identity and queue",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "test_results/phase12_design/design.md:41-49,83-85"
+      ],
+      "reason": "Two worker slots plus nonqueued idle and queue capacity two are coherent: with one running worker at most one other worker is ready, leaving capacity for yielding at tail. FIFO selection and idle fallback define bounded round-robin under explicit yields, not real-time fairness. UNUSED/READY/RUNNING/RETIRED, nonmutating refusals and no reuse/reclaim avoid within-instance identity ABA; fresh-test reset cannot be generalized to runtime. Logical retirement does not prove stopped CPU references. Inhibit requests and checked nesting are policy only."
+    },
+    {
+      "id": "D05",
+      "area": "PIT/ticks qualification",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "src/timer.rs:7-47",
+        "test_results/phase12_design/design.md:61-69"
+      ],
+      "reason": "Actual source has relaxed AtomicU32 increment/load, finite divisor math and control word 0x36. Independently computed mode bits as 3; source mode1/rate-generator comments are not device authority. Wrap, publication ordering, cadence, deadlines and storms remain explicitly deferred before C, not falsely resolved by host A."
+    },
+    {
+      "id": "D06",
+      "area": "IRQ context, early publication and EOI",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "src/interrupt.rs:140-145,206-217,276-295,332-337",
+        "src/main.rs:207-234",
+        "test_results/phase12_design/design.md:61-65"
+      ],
+      "reason": "Verified opaque 48-byte frame and tick+one EOI ISR, with STI in IDT load before PIT initialization. Proposal correctly refuses schedule-in-ISR and compiler-frame casts, requires unarmed count+EOI until context/stack/queue publication, explicit save/restore/IRET, same-ring/cross-ring distinctions and nested/NMI/DF handling before C."
+    },
+    {
+      "id": "D07",
+      "area": "Lock, borrow and reentrancy hazards",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "src/utils/mutex.rs:9-16,30-46,50-66",
+        "src/memory/mod.rs:45-62",
+        "src/main.rs:267-284",
+        "test_results/phase12_design/design.md:55-65"
+      ],
+      "reason": "SpinMutex owns only a boolean/UnsafeCell, not IRQ/preempt suppression. Switching a holder to a waiter can deadlock one CPU; is_locked is not an admission protocol. Retained unique filesystem/descriptor borrows exclude extra VFS callers. Heap->map->frame order, no scheduler ownership over allocation/I/O/task invocation, and no shared services in initial probes are appropriate explicit restrictions."
+    },
+    {
+      "id": "D08",
+      "area": "Distinct F2/cooperative/IRQ ABIs",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "src/exception_abi.rs:1-2,21-95",
+        "src/exception_entry.s:64-101",
+        "src/boot.s:29-50",
+        "test_results/phase12_design/design.md:51-53,63,75-79"
+      ],
+      "reason": "Read actual 68-byte F2 prefix, synthetic-only tail decoder and nonreturning normalized assembly closure. No old SS/ESP tail can be assumed for same-ring entry. Cooperative call preservation/alignment/DF/bootstrap/retirement and full IRQ restoration need separate future reviewed contracts; F2 fatal-only layout is explicitly preserved."
+    },
+    {
+      "id": "D09",
+      "area": "Real stack/CPU lifetime and F1 preservation",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "src/memory/frame.rs:421-451",
+        "src/memory/retained_owner.rs:8-34,60-80",
+        "test_results/phase12_design/design.md:49,55-59,75"
+      ],
+      "reason": "Frame lease authentication establishes address/id/domain/live allocation, not executing or suspended stack reference ownership. Existing retained owner is global one-shot with fixed 12-frame ceiling and no reset. B cannot silently add worker stacks to this manifest. Dedicated owner/domain/amendment, guarded supervisor stacks and retention until terminal halt are explicit prerequisites, not presently solved capabilities."
+    },
+    {
+      "id": "D10",
+      "area": "F3 fixed TSS and double fault",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "src/memory/privileged.rs:7-12,18-46,89-106",
+        "src/gdt_tss.rs:163-201,231-312",
+        "src/f5_gdt.rs:1-4",
+        "test_results/phase12_design/design.md:21,55,77"
+      ],
+      "reason": "Actual normal ESP0/SS0 is fixed, emergency task has its own CR3/stack/entry, byte comparison covers 104 bytes, installation consumes attempt and refuses existing TR, and DF task gate remains terminal. Per-user-task ESP0 updates are a separate future architecture change. No F3 transition/DF stack borrowing, busy clearing, validator weakening or second LTR is authorized."
+    },
+    {
+      "id": "D11",
+      "area": "F4 and F5 terminal preservation",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "src/memory/user_arena.rs:1-42",
+        "src/memory/retained_owner.rs:328-369",
+        "src/f5_runtime.rs:83-117,128-195",
+        "src/f5_bridge.s:135-146,177-206",
+        "src/f5_cpl3.rs:1-5",
+        "test_results/phase12_design/design.md:71-81"
+      ],
+      "reason": "Single finite arena/shared CR3, retained leases and one-shot seal do not become isolated processes. F5 divergent entry CLI, PIC masks, IRETD flags2/IF0, fixed stack oracles, latch and CLI/HLT terminal stay untouched. No resuming F5, reclaim, teardown or retry is inferred from A or kernel-only probe directions."
+    },
+    {
+      "id": "D12",
+      "area": "Recoverable userspace boundary",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "docs/PHASE11_DESIGN.md:305-325,344-354",
+        "docs/PHASE11_HANDOVER.md:18-24",
+        "test_results/phase12_design/design.md:34-39,69,79-81",
+        "test_results/phase12_design/decisions.md:11-13"
+      ],
+      "reason": "A and closed kernel-only B/C need not implement recoverable userspace first. Full isolated user multitasking/repeated termination and continuation do require separately reviewed user return/fault/IRQ/CPU ownership and broader lifecycle prerequisites. Proposal does not conflate accepted terminal CPL3 with those capabilities, syscalls, ELF loader or init."
+    },
+    {
+      "id": "D13",
+      "area": "Resource and extended-state bounds",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "src/boot.s:18-23",
+        "src/memory/privileged.rs:105-106",
+        "target.json:14,21",
+        "src/cpu.rs:20-40",
+        "test_results/phase12_design/design.md:43,57,69,95-97"
+      ],
+      "reason": "Independently computed two 16KiB stacks=32768 physical bytes/eight frames; two unbacked guards produce 40960 virtual bytes. This excludes tables, owner/context metadata, boot/F3 stacks and high-water. <=1024 metadata is an unimplemented future assertion, not a measurement. Vendor-only CPUID and soft-float codegen do not enforce arbitrary user FP denial; explicit extended-state lifecycle remains open. No universal RAM threshold or performance claim is made."
+    },
+    {
+      "id": "D14",
+      "area": "Future host RED/GREEN and policy evidence",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "test_results/phase12_design/design.md:83-85,99-101"
+      ],
+      "reason": "Planned host categories cover idle/current uniqueness, FIFO, capacity, invalid IDs/lifecycle, retirement/no reuse, checked inhibit and nonmutating refusal, zero allocation/fixed work and F5/user rejection. Actual identities must come from future declarations/list and serial/parallel execution plus controls. No tests exist or passed by virtue of this proposal; implementation authorization must pin exact transition API/oracles."
+    },
+    {
+      "id": "D15",
+      "area": "Meaningful future hardware RED/GREEN",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "test_results/phase12_design/design.md:87-91",
+        "test_results/phase12_design/decisions.md:15"
+      ],
+      "reason": "B plan requires real switched guarded stacks, registers/flags/sentinels, counters/event order and retirement/idle at both RAM sizes, linked closure and CPU captures rather than serial PASS. Logical RED must execute valid baseline/wrong-preservation fixture and trigger strict-reader rejection, not missing code/build/transport. Negative controls cover source/ELF/case identity, bounds/guards, origins/flags, captures/fault/cleanup. C separately requires timer/EOI/restore and inhibited-preemption evidence; cooperative results cannot substitute. Exact CLI/fixtures must be frozen/reviewed later, not invented now."
+    },
+    {
+      "id": "D16",
+      "area": "Acceptance inheritance and exact counts",
+      "disposition": "SATISFIED_DESIGN_ONLY",
+      "blocking": false,
+      "source_references": [
+        "scripts/phase6_verify.py:308-380,960",
+        "test_results/phase12_design/design.md:93-101",
+        "test_results/phase11f5_cpl3_proof/closeout_commit_receipt_10.json",
+        "test_results/phase11f5_cpl3_proof/final_review_parent_readback_10.json"
+      ],
+      "reason": "Read actual runner authenticated predecessor and gate Counter checks: inherited72 plus four F5 gates produce required76, with no runner edits here. 1049 seconds applies specifically to mocked acceptance-runner regressions, not blanket guest timeouts. Future identities/gates require authorized reviewed extension preserving readers, freeze, real exits, inherited hardware and independent review. Accepted F5 prerequisite is bound through small readback/receipt and streamed full-review hash only; not replayed."
+    }
+  ],
+  "open_runtime_research_blockers_not_design_rejection": [
+    {
+      "stage": "Before implementation of A",
+      "requirement": "Separate maintainer implementation authorization and confirmation of roadmap/cap/no-reuse choice; pin actual model transition API and test identities. No runtime permission follows from this APPROVE."
+    },
+    {
+      "stage": "Before B",
+      "requirement": "Explicit cooperative ABI/bootstrap/retirement, complete emitted closure and stack budget, separate stack/CPU lifetime authority and owned guarded backing; no F1 manifest expansion without amendment."
+    },
+    {
+      "stage": "Before C",
+      "requirement": "Explicit IRQ save/restore/IRET contract, early-IRQ publication/EOI safety, complete shared-lock/unique-borrow inhibit policy, nesting/failure proof and qualified PIT/profile/cadence."
+    },
+    {
+      "stage": "Before isolated user multitasking",
+      "requirement": "Recoverable user execution, address-space and per-task TSS/CPU lifetimes, extended-state isolation, bounded generation/reuse/termination/reclaim protocol; no F4/F5 reset/retry reinterpretation."
+    }
+  ],
+  "nonblocking_followups": [
+    "At authorized A implementation, make initial admission while idle, last-worker completion, pending-drain ordering and reset isolation explicit in the API/oracles; current stated invariants are sufficient for a design direction, not a claim of executable completeness.",
+    "At any future resource admission, retain separate target metadata/layout, page-table/owner costs, existing stacks and emitted/runtime high-water disclosures; proposed subtotals are not budgets proving readiness."
+  ],
+  "accepted_prerequisite": {
+    "source": "Pinned receipt and small final-review parent readback; no new F5 validation",
+    "head": "d9cebe28eb5139b6b614b7000688857361e2afc4",
+    "source_commit": "14f40f194c574610cdceef41e972ff814f9e815a",
+    "reports_commit": "234114459d77b9cb70ea919e8ef9456a84c0a559",
+    "reported_canonical_actual_exit": 0,
+    "reported_canonical_gates": 76,
+    "final_independent_review_raw_sha256": "543db6fabab5eff983bf3711db56c0cb20d894cc50bb92bb2616f2a401e5ebe0",
+    "prior_verdict": "APPROVE / complete / zero blockers"
+  },
+  "disclosed_limits": [
+    "Design review only. No Phase12 implementation, host/model tests, hardware RED/GREEN, builds, QEMU, canonical acceptance or F5 revalidation was performed.",
+    "No new instruction-level/runtime ABI proof, architecture-reference qualification, timer waveform, stack/heap high-water or performance measurement. These are explicitly future gated obligations, not waived findings.",
+    "Bounded absence search cannot exclude differently named, macro-generated, dynamic or assembly behavior. Existing DF hardware task switch is not evidence of runnable scheduling.",
+    "Historical F5 acceptance is consumed as accepted pinned prerequisite through its existing readback; full large prior review was stream-hashed, not re-audited.",
+    "Host-memory pressure values in risks are historical observations, not newly measured current system state. No heavy workload admission occurred.",
+    "Protected unrelated dirty/untracked files were not repaired, normalized, staged or changed. Raw pin equality, not Git presentation M, binds accepted exception_entry.s."
+  ],
+  "actions": {
+    "created_files": [
+      "test_results/phase12_design/reviews/design_review_01.json"
+    ],
+    "modified_existing_files": [],
+    "builds": 0,
+    "tests": 0,
+    "qemu_runs": 0,
+    "f5_revalidations": 0,
+    "git_stage_commit_push": false,
+    "source_design_or_STATE_edits": false,
+    "only_write": "One exclusively created review artifact; no skill/configuration or other repository write."
+  },
+  "input_preservation_at_end": {
+    "manifest_raw_sha256": "33a9e1412efe8248bf522f03b8d8a28590f0e23511fa155f6c2796dafc06230a",
+    "all_39_raw_pins_preserved": true,
+    "mismatches": []
+  },
+  "reviewed_pins": {
+    ".cargo/config.toml": "ee2def4ec0a8c5d5bc2a2016cb16731a3ccf29aa550dc3fa52205ea54ac1d120",
+    "ARCHITECTURE.md": "b9b28d1c1c869a61dcb3d0eb649a54445aa1a6384c9a4f11aead3040428359dd",
+    "Cargo.toml": "1baffe21d563e5e80f257cbbdc6acea190a4c86e726e8b88c77293d41ea09fd1",
+    "README.md": "65d1545f727735c69aa78ce9de97a455c6316e2b83c4fc8067825d52acd4de80",
+    "docs/PHASE11_DESIGN.md": "49c32c17f934f0f77ee24525a7a9390c6ac43f667ce0e25c945b1e6688b41810",
+    "docs/PHASE11_HANDOVER.md": "763844f918d8ae128a987536d6648f3b2abd6ca8d8722dc9e149af067e09af1e",
+    "docs/PHASE11_MEMORY_AUTHORITY.md": "50fcb78fc0317613a7927ff64727560157dad58b32e78b7a4ed39863c6bcac77",
+    "docs/ROSTI_INIT_ARCHITECTURE.md": "59be4d3015f3e037b579e0e036365f8d3348316a629ae1967dc9e477cac1a57f",
+    "scripts/phase6_verify.py": "394dfcfa9e5d40ebb56c614ac2356a4c930fbbd80b418c408f46b30daf388b20",
+    "src/boot.s": "162de1ea1c0caa3776842fefe33da6c986db0d7aeaee30eb6c6519b1b75434c6",
+    "src/cpu.rs": "f237e9b666ae2605950eea291bb5c8a3c910657872138e05d7c306717d3d046f",
+    "src/exception_abi.rs": "96875f93bf34de80b82f70584a0f2419ce9bd6bb298f2a5b69a10e98865dfe10",
+    "src/exception_entry.s": "a43dd7a8bb0db3bce288237d89705b2be4ef95723fa28de78fb1e87708423c60",
+    "src/f5_bridge.s": "b7b7b2231eeae9f0c74a4ffc0ac9ac31f35e441e1c0bf6120db1a1374f5d3ad5",
+    "src/f5_cpl3.rs": "2877c479c64e78032d6e86042dc38be8375ea4dcd8b143d7fd0bac0a2368eb21",
+    "src/f5_gdt.rs": "087ba0b23bdcfdde71102094adeb91c46f733e50fd801f878f4131649a559b65",
+    "src/f5_runtime.rs": "fd94be9b68bbaacb9277342213cd82bfb051cfe3a275b8f25cc77938851a4122",
+    "src/gdt_tss.rs": "91532fec2d580f891cd3713f0f8f75eb6de85b04a87fbf36e459f79391c4cc74",
+    "src/interrupt.rs": "c5155d59abb960fe4d717096f0cf8ac33580613b51361dffcacbc7015c0ad77d",
+    "src/main.rs": "732f92cc854b63e48e3b586cda099164abd42ceb68c5d14000cee360bac1d7ff",
+    "src/memory/frame.rs": "d7dd64de20404103cded90dd455618c4e34156f4444c2ebdc57c089ccd28e3d0",
+    "src/memory/mod.rs": "815f08a895ff155b1f9261d47a464518abb906b8f89885b9bdf66a0f62e8a1ab",
+    "src/memory/privileged.rs": "69e3f25296f6aa2de5dda4ae1ca434b5aa5eb7d070af3888c29a2cea32a39aed",
+    "src/memory/retained_owner.rs": "46ebfb6cdff9135e8e179b74b4e3807967345751100423c542a39de26f6f62c9",
+    "src/memory/user_arena.rs": "41c15b067caeee4e998b85d048add5c5baeb0959f89d699cf5e73a28226455a0",
+    "src/timer.rs": "f1a0aab64279c001dcaf154ffbefc08e83b092a7964f22bf33df7b51c2fcee46",
+    "src/utils/mutex.rs": "592a9c55cdd37176b5d945485f17f6e46fa7e9f6fb4af672b8b1174931e06586",
+    "target.json": "bcc626b14ac5b78cd8a009b1c7024b4c4820c45ba6581a3aea740f06ac9a8c80",
+    "test_results/f5p01/full_source_freeze_10.json": "56d4e87dc235c52218e80d6a4f0c9d0380cf10d8f98e271d3b3f83c90917bb25",
+    "test_results/phase11f5_cpl3_proof/closeout_commit_receipt_10.json": "588d36513a9b503360cbb991adc635911fb4338379677ab3aafc001f5d53bfc2",
+    "test_results/phase11f5_cpl3_proof/final_review_parent_readback_10.json": "6cf9baf4596d3b5557064c85e988e05350f98236db885d149fb099acc7a9d8dc",
+    "test_results/phase11f5_cpl3_proof/reviews/final_canonical_readback_01.json": "543db6fabab5eff983bf3711db56c0cb20d894cc50bb92bb2616f2a401e5ebe0",
+    "test_results/phase12_design/STATE_review_snapshot_01.md": "c91eef736fb813eb1078fbd8c2dc0a815896f353544bbcc99a218526bb105cd8",
+    "test_results/phase12_design/decisions.md": "ad6bf4dc58d1b1b5c996e040ca405c336935e6526fe6d986c89250dea54aad83",
+    "test_results/phase12_design/design.md": "fe57e4a8ae8c3af541d545319946494c499e06c92cfec572610154aa95f0a880",
+    "test_results/phase12_design/risks.md": "931ef124c1707cc555c9877712f6d7a58d58ab7b166e5f5bea3dc8f417c868db",
+    "test_results/phase12_design/source_inventory.json": "3a8ebc323b6171537135b380a3bac2fe0e109acc034c18c8d391146c9778bdef",
+    "tests_kernel/Cargo.toml": "bdfe8f6e23fad8da77f0d88c422b10de57c05a7ea6810fd7c8316d3b9a7d1c5d",
+    "tests_kernel/src/lib.rs": "d975e34b3e9ae7201c82d177e7ca5c153c6eb32c8a0e05596e06a1aa94979189"
+  }
+}
